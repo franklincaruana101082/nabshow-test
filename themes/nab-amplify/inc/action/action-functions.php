@@ -3827,7 +3827,7 @@ function nab_generate_users_export_csv_file() {
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
                 $dynamic_fields[] = $current_user->user_email;
-                $dynamic_fields[] = $current_user->login;
+                $dynamic_fields[] = $current_user->user_login;
                 $dynamic_fields[] = $title;
                 $dynamic_fields[] = $company;
                 $dynamic_fields[] = $registered_date;
