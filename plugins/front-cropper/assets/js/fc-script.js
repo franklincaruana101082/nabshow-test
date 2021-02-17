@@ -65,13 +65,9 @@
                 bmCropZoomAdjust.append(bmZoomIn);
 
                 let bmZoomOut = document.createElement('a');
-                bmZoomOut.setAttribute('class', 'bm-zoom-in fa fa-plus');
+                bmZoomOut.setAttribute('class', 'bm-zoom-out fa fa-minus');
                 bmZoomOut.setAttribute('href', 'javascript:void(0)');
                 bmCropZoomOutAdjust.append(bmZoomOut);
-
-                alert('added');
-                console.log(nabModalContentWrap);
-
             }
 
             // Display the selected image.
