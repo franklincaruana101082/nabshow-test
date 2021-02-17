@@ -229,6 +229,8 @@ add_action( 'widgets_init', 'nab_amplify_widgets_init' );
  * Enqueue scripts and styles.
  */
 function nab_amplify_scripts() {
+	wp_enqueue_style( 'roboto-mono', 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&display=swap', array(), '1.0');
+	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/iig3loy.css', array(), '1.0');
 	wp_enqueue_style( 'nab-amplify-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'nab-amplify-style', 'rtl', 'replace' );
 
