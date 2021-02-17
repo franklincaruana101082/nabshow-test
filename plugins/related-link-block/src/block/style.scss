@@ -1,0 +1,56 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+ // Scss variables (colours etc...)
+
+
+
+.relatedlink {
+	display: block;
+	text-decoration: none;
+	margin-bottom: rem(30);
+	border-top: 2px solid $color__purple;
+	border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
+	&._sponsored {
+		border-top: 8px solid $color__purple;
+		border-image: linear-gradient(90deg, $color__purple, $color__pink) 8;
+	}
+
+	&__image {
+		position: relative;
+		text-align: center;
+		background-size: cover;
+		background-color: $color__gray-dark;
+		background-blend-mode: multiply;
+
+		img, .relatedlink__img {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 100%;
+		}
+	}
+	&__category {
+		margin: rem(30) 0 rem(20);
+		font-family: $font__primary;
+		font-weight: 700;
+		font-size: rem(12);
+		line-height: rem(17);
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: $color__yellow;
+		._sponsored & {
+			color: $color__white;
+		}
+	}
+	&__title {
+		font-family: $font__secondary;
+		font-size: rem(16);
+		font-weight: 400;
+		line-height: rem(24);
+		letter-spacing: -0.01em;
+		color: $color__gray-lightest;
+	}
+}

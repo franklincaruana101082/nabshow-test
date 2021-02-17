@@ -1,0 +1,30 @@
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+.relatedlink__category textarea.block-editor-plain-text {
+  background-color: transparent;
+  color: #FDD80F;
+  font-family: proxima-nova, sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 1.0625rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase; }
+
+.relatedlink__title textarea.block-editor-plain-text {
+  background-color: transparent;
+  font-family: "Roboto Mono", serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  letter-spacing: -0.01em;
+  color: #adadad; }

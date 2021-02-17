@@ -1,0 +1,57 @@
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.relatedlink {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 1.875rem;
+  border-top: 2px solid #6A5FAA;
+  -webkit-border-image: -webkit-gradient(linear, left top, right top, from(#6A5FAA), to(#E3048A)) 2;
+  -webkit-border-image: -webkit-linear-gradient(left, #6A5FAA, #E3048A) 2;
+       -o-border-image: -o-linear-gradient(left, #6A5FAA, #E3048A) 2;
+          border-image: -webkit-gradient(linear, left top, right top, from(#6A5FAA), to(#E3048A)) 2;
+          border-image: linear-gradient(90deg, #6A5FAA, #E3048A) 2; }
+  .relatedlink._sponsored {
+    border-top: 8px solid #6A5FAA;
+    -webkit-border-image: -webkit-gradient(linear, left top, right top, from(#6A5FAA), to(#E3048A)) 8;
+    -webkit-border-image: -webkit-linear-gradient(left, #6A5FAA, #E3048A) 8;
+         -o-border-image: -o-linear-gradient(left, #6A5FAA, #E3048A) 8;
+            border-image: -webkit-gradient(linear, left top, right top, from(#6A5FAA), to(#E3048A)) 8;
+            border-image: linear-gradient(90deg, #6A5FAA, #E3048A) 8; }
+  .relatedlink__image {
+    position: relative;
+    text-align: center;
+    background-size: cover;
+    background-color: #282828;
+    background-blend-mode: multiply; }
+    .relatedlink__image img, .relatedlink__image .relatedlink__img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%; }
+  .relatedlink__category {
+    margin: 1.875rem 0 1.25rem;
+    font-family: proxima-nova, sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1.0625rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FDD80F; }
+    ._sponsored .relatedlink__category {
+      color: #ffffff; }
+  .relatedlink__title {
+    font-family: "Roboto Mono", serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    letter-spacing: -0.01em;
+    color: #adadad; }
