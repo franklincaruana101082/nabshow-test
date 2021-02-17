@@ -25,7 +25,6 @@
 
                 // Get added popup's inner div to add extra content.
                 let nabModalContentWrap = $('#cropper-board .modal-content-wrap');
-                let CropBg = $('#cropper-board .cropper-bg');
 
                 // Default image.
                 let cropperImage = document.createElement( 'img');
@@ -50,7 +49,7 @@
 
                 let bmAdjustCropAction = document.createElement('div');
                 bmAdjustCropAction.setAttribute('class', 'bm-adjust-crop-actions');
-                CropBg.append(bmAdjustCropAction);
+                nabModalContentWrap.append(bmAdjustCropAction);
 
                 let bmCropZoomAdjust = document.createElement('div');
                 bmCropZoomAdjust.setAttribute('class', 'bm-crop-adjust bm-zoom-ad');
