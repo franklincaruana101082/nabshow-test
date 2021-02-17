@@ -104,9 +104,7 @@ require get_template_directory() . '/inc/blocks-browse-filter-html.php';
  * @todo can't upload to VIP server it's use for internal server only.
  */
 
-if ( function_exists( 'gutenberg_ramp_load_gutenberg' ) ) {
-    gutenberg_ramp_load_gutenberg();
-}
+add_filter( 'use_block_editor_for_post', '__return_true' );
 
 /**
  *
