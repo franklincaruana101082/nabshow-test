@@ -66,7 +66,7 @@
 		script.async = true;
 		script.src   = ('https:' === document.location.protocol
 			? 'https://' : 'http://')
-			+ 'cdn.segment.com/analytics.js/v1/'
+			+ 'evs.analytics.nabshow.com/analytics.js/v1/'
 			+ key + '/analytics.min.js';
 
 		// Insert our script next to the first script element.
