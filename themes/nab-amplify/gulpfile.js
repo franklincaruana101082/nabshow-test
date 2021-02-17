@@ -34,10 +34,6 @@ const paths = {
   images: {
     src: './src/images/**/*',
     dest: './assets/images'
-  },
-  favicon: {
-    src: './src/favicon.ico',
-    dest: './build'
   }
 };
 
@@ -118,13 +114,6 @@ const images = () =>
     .pipe(imagemin())
     .pipe(gulp.dest(paths.images.dest));
 
-// Copy the favicon
-const favicon = () =>
-  gulp
-    .src(paths.favicon.src)
-    .pipe(plumber())
-    .pipe(gulp.dest(paths.favicon.dest));
-
 // Watches all .scss, .js and .html changes and executes the corresponding task
 function watchFiles() {
   browserSync.init({
@@ -137,7 +126,6 @@ function watchFiles() {
 
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.vendors.src, vendors).on('change', browserSync.reload);
-  gulp.watch(paths.favicon.src, favicon).on('change', browserSync.reload);
   gulp.watch(paths.scripts.src, scripts).on('change', browserSync.reload);
   gulp.watch(paths.images.src, images).on('change', browserSync.reload);
   gulp.watch('./*.php').on('change', browserSync.reload);
@@ -145,7 +133,7 @@ function watchFiles() {
 
 const build = gulp.series(
   clean,
-  gulp.parallel(styles, vendors, scripts, images, favicon),
+  gulp.parallel(styles, vendors, scripts, images),
   cacheBust
 );
 
@@ -156,7 +144,6 @@ exports.styles = styles;
 exports.scripts = scripts;
 exports.vendors = vendors;
 exports.images = images;
-exports.favicon = favicon;
 exports.watch = watch;
 exports.build = build;
 exports.default = build;
