@@ -1,0 +1,91 @@
+.footer {
+	background-color: $color__black;
+	background-image: url('/wp-content/themes/nab-amplify/assets/images/nab-brand.png');
+	background-repeat: no-repeat;
+	background-position: center calc(100% + 110px);
+	background-size: rem(167) rem(167);
+	@include bp-1024 {
+		background-position: rem(-290) calc(100% + 290px);
+		background-size: rem(580) rem(580);
+	
+		& > .container {
+			display: flex;
+		}
+	}
+	&__logo {
+		text-align: center;
+		padding: rem(30) 0 rem(25);
+		@include bp-1024 {
+			padding: rem(60) rem(54) 0 0;
+		}
+	}
+
+	&__nav {
+		display: flex;
+		flex-flow: row wrap;
+		@include bp-1024 {
+			padding-top: rem(68);
+		}
+	}
+	&__menu {
+		flex: 0 1 50%;
+		list-style: none;
+		margin: 0 0 rem(26);
+		@include bp-768 {
+			flex: 0 1 25%;
+		}
+	}
+	&__signup {
+		flex: 0 1 50%;
+		font-family: $font__secondary;
+		color: $color__gray-lighter;
+		@include bp-768 {
+			flex: 0 1 25%;
+		}
+		p {
+			font-size: rem(12);
+			margin-bottom: rem(18);
+		}
+		.button {
+			margin-top: rem(6);
+		}
+		input[type="text"], input[type="email"] {
+			font-size: rem(10);
+  			line-height: rem(30);
+			margin: rem(4) 0;
+			color: $color__gray;
+			&::placeholder {
+				color: $color__gray-lighter;
+			}
+		}
+	}
+
+	&__end {
+		margin-top: rem(32);
+		border-top: 2px solid $color__gray-dark;
+		padding-top: rem(26);
+		@include bp-1024 {
+			border-top: 0;
+			& > .container {
+				display: flex;
+				justify-content: space-between;
+			}
+		}
+	}
+	&__copyright {
+		font-family: $font__secondary;
+		font-size: rem(12);
+		color: $color__gray-lighter;
+		text-align: center;
+		@include bp-1024 {
+			margin-left: rem(290);
+		}
+	}
+	&__help {
+		padding: rem(15) 0;
+		text-align: right;
+		@include bp-1024 {
+			padding: 0 0 rem(15) 0;
+		}
+	}
+}

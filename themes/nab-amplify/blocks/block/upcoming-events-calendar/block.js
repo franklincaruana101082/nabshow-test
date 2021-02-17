@@ -223,6 +223,7 @@
               </div>
             </PanelBody>
           </InspectorControls>
+          
           <div className='upcoming-events-calendar'>
             <div className='upcoming-events-header'>
               <RichText

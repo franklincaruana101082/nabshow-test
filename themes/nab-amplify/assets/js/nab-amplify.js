@@ -9,7 +9,7 @@
   var addedAttendee = 0
 
   // Ready.
-  $(document).ready(function () {    
+  $(document).ready(function () {
 
     $('.section-professional-details .user-job-role-select').select2({
       width: '100%'
@@ -35,7 +35,7 @@
         $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').removeAttr('disabled');
       } else {
         $(this).parents('.nab-normal-signup').find('.woocommerce-form-register__submit').attr('disabled', 'disabled');
-      }      
+      }
     });
 
     if ( 0 < $('#user-country-select').length ) {
@@ -53,7 +53,7 @@
           })
 
           $('.section-professional-details .user-state-select').val('').change();
-      });  
+      });
     }
 
     $(document).on('click', '.notification-wrapper', function () {
@@ -488,7 +488,7 @@
           )
 
           setTimeout(function () {
-           
+
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -511,7 +511,7 @@
               '#character-count-specs',
               2000
             )
-            
+
           }, 1000)
         } else {
           jQuery('#addProductModal').remove()
@@ -533,7 +533,7 @@
             '#character-count-specs'
           )
           setTimeout(function () {
-            
+
             if (jQuery('#nab_product_specs').length > 0) {
               var prod_specs_content_length = tinyMCE
                 .get('nab_product_specs')
@@ -556,7 +556,7 @@
               '#character-count-specs',
               2000
             )
-            
+
           }, 1000)
         }
         $('.poduct-point-of-contact').select2({
@@ -602,6 +602,16 @@
   $(document).on('click', '.nab-remove-attachment', function (e) {
     if (confirm('Are you sure want to remove?')) {
       remove_attachment_arr.push($(this).data('attach-id'))
+      $(this)
+        .parent()
+        .remove()
+    }
+  })
+
+  var remove_featured_attachment_arr = []
+  $(document).on('click', '.nab-remove-featured-attachment', function (e) {
+    if (confirm('Are you sure want to remove?')) {
+      remove_featured_attachment_arr.push($(this).data('action'))
       $(this)
         .parent()
         .remove()
@@ -754,7 +764,7 @@
     ).val()
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
-    
+
 
     var nab_product_specsLength = tinyMCE
       .get('nab_product_specs')
@@ -828,8 +838,8 @@
           if ( nab_product_id !== '0' ) {
             addSuccessMsg( '.add-product-content-popup', json.content );
           } else {
-            addSuccessMsg( '.add-product-content-popup', json.content );           
-          }          
+            addSuccessMsg( '.add-product-content-popup', json.content );
+          }
           if ( json.post_id ) {
             $('#nab-edit-product-form #nab_product_id').val( json.post_id );
           }
@@ -1032,7 +1042,8 @@
         return false;
       }else{
         fd.append('company_website', jQuery('#company_website').val())
-      }l())
+      }
+      
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
@@ -1096,7 +1107,7 @@
         fd.append('company_youtube', jQuery('#company_youtube').val())
       }
       
-    }
+    }   
 
     jQuery.ajax({
       type: 'POST',
@@ -1308,28 +1319,32 @@
 
   // Upload user images using ajax.
   $('#profile_picture_file, #banner_image_file').on('change', function (e) {
-    e.preventDefault()
+    // If the front cropper plugin is not active
+    // Upload the image in native way.
+    if ('undefined' === typeof Cropper) {
+      e.preventDefault()
 
-    $('body').addClass('is-loading')
+      $('body').addClass('is-loading')
 
-    var fd = new FormData()
-    var file = $(this)
-    var file_name = $(this).attr('name')
-    var individual_file = file[0].files[0]
-    fd.append(file_name, individual_file)
-    fd.append('action', 'nab_amplify_upload_images')
-    fd.append('company_id', amplifyJS.postID)
+      var fd = new FormData()
+      var file = $(this)
+      var file_name = $(this).attr('name')
+      var individual_file = file[0].files[0]
+      fd.append(file_name, individual_file)
+      fd.append('action', 'nab_amplify_upload_images')
+      fd.append('company_id', amplifyJS.postID)
 
-    jQuery.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: fd,
-      contentType: false,
-      processData: false,
-      success: function () {
-        location.reload()
-      }
-    })
+      jQuery.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function () {
+          location.reload()
+        }
+      })
+    }
   })
 
   // Remove user images using ajax.
@@ -2429,7 +2444,7 @@
         .parents('.attendee-edit-wrap')
         .removeAttr('data-pid data-oid data-uid data-orderid data-action')
     }
-  )  
+  )
 
   /* User Search Filters*/
   $(document).on('click', '#load-more-user a', function () {
@@ -2442,10 +2457,10 @@
   });
 
   $(document).on('change', '.other-search-filter #search-country-select', function(){
-    
+
     $(this).parents('.other-search-filter').find('#search-state-select').empty();
     $(this).parents('.other-search-filter').find('#search-city-select').empty();
-    
+
     let default_option_state = $('<option></option>').prop('value', '').text('Select a state');
     $('.other-search-filter .search-state-select').append(default_option_state);
 
@@ -2453,7 +2468,7 @@
     $('.other-search-filter .search-city-select').append(default_option_city);
 
     let country = 0 === $(this)[0].selectedIndex ? '' : $(this).val();
-    
+
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       type: 'POST',
@@ -2462,7 +2477,7 @@
         nabNonce: amplifyJS.nabNonce,
         country: country
       },
-      success: function (response) {        
+      success: function (response) {
         let stateObj = jQuery.parseJSON(response);
         if ( stateObj.states ) {
           $.each(stateObj.states, function (index) {
@@ -2470,15 +2485,15 @@
             $('.other-search-filter .search-state-select').append($option);
           })
           //$('.other-search-filter .search-state-select').val('').change();
-        }                
+        }
       }
     });
     nabSearchUserAjax(false, 1);
   });
 
   $(document).on('change', '.other-search-filter #search-state-select', function(){
-    
-    $(this).parents('.other-search-filter').find('#search-city-select').empty();      
+
+    $(this).parents('.other-search-filter').find('#search-city-select').empty();
     let default_option_city = $('<option></option>').prop('value', '').text('Select a city');
     $('.other-search-filter .search-city-select').append(default_option_city);
 
@@ -2521,7 +2536,7 @@
       },
       minimumInputLength: 2
     })
-  });    
+  });
 
   $(document).on(
     'keypress',
@@ -3330,11 +3345,7 @@
           $('body').addClass('feature-block-popup-added')
           $('.popup-opened').removeClass('popup-opened')
           $(this).addClass('popup-opened')
-          defaultCharCount(
-            '#nab_featured_block_headline',
-            '#character-count-featured-headline',
-            200
-          )
+
           defaultCharCount(
             '#nab_featured_block_posted_by',
             '#character-count-featured-posyby',
@@ -3350,13 +3361,6 @@
             '#character-count-featured-btnlabel',
             60
           )
-          jQuery('.color-picker').iris({
-            // or in the data-default-color attribute on the input
-            defaultColor: true,
-            hide: true,
-            palettes: true
-            });
-          
         } else {
           $('body').append(data)
           $('#addProductModal').show()
@@ -3383,33 +3387,11 @@
             '#character-count-featured-btnlabel',
             60
           )
-          jQuery('.color-picker').iris({
-            // or in the data-default-color attribute on the input
-            defaultColor: true,
-            hide: true,
-            palettes: true
-            });
-          
         }
       }
     })
   })
 
-  $(document).click(function (e) {
-    if (
-      !$(e.target).is(
-        '.color-picker, .iris-picker, .iris-picker-inner'
-      )
-    ) {
-      $('.color-picker').iris('hide')
-      //return false
-    }
-  })
-  $(document).on('click', '.color-picker',function (event) {
-    $('.color-picker').iris('hide')
-    $(this).iris('show')
-    //return false
-  })
   $(document).on('click', '#nab-edit-featured-block-submit', function (e) {
     e.preventDefault()
 
@@ -3426,43 +3408,7 @@
     var nab_featured_block_button_link = $(
       '#nab_featured_block_button_link'
     ).val()
-    var nab_featured_block_bgcolor = $(
-      '#nab_featured_block_bgcolor'
-    ).val()
-    var nab_featured_block_statuscolor = $(
-      '#nab_featured_block_statuscolor'
-    ).val()
-    var nab_featured_block_titlecolor = $(
-      '#nab_featured_block_titlecolor'
-    ).val()
-    var nab_featured_block_authorcolor = $(
-      '#nab_featured_block_authorcolor'
-    ).val()
-    var nab_featured_block_desccolor = $(
-      '#nab_featured_block_desccolor'
-    ).val()
-    var nab_featured_block_play_link = $(
-      '#nab_featured_block_play_link'
-    ).val()
-    var nab_feature_block_reaction = jQuery(
-      '#nab_feature_block_reaction'
-    ).prop('checked')
-      ? 1
-      : 0
-    var nab_feature_block_button = jQuery(
-        '#nab_feature_block_button'
-      ).prop('checked')
-        ? 1
-        : 0
-    var nab_feature_block_link_target = jQuery(
-          '#nab_feature_block_link_target'
-        ).prop('checked')
-          ? 1
-          : 0
-  
-    if (!checkContentlength('#nab_featured_block_headline', 'Headline', 200)) {
-      return false
-    }
+
     if (!checkContentlength('#nab_featured_block_posted_by', 'Posted By', 60)) {
       return false
     }
@@ -3501,53 +3447,16 @@
       'nab_featured_block_button_link',
       nab_featured_block_button_link
     )
-    form_data.append(
-      'nab_featured_block_bgcolor',
-      nab_featured_block_bgcolor
-    )
-    form_data.append(
-      'nab_featured_block_statuscolor',
-      nab_featured_block_statuscolor
-    )
-    form_data.append(
-      'nab_featured_block_titlecolor',
-      nab_featured_block_titlecolor
-    )
-    form_data.append(
-      'nab_featured_block_authorcolor',
-      nab_featured_block_authorcolor
-    )
-    form_data.append(
-      'nab_featured_block_desccolor',
-      nab_featured_block_desccolor
-    )
-    form_data.append(
-      'nab_featured_block_play_link',
-      nab_featured_block_play_link
-    )
-    form_data.append(
-      'nab_feature_block_reaction',
-      nab_feature_block_reaction
-    )
-    form_data.append(
-      'nab_feature_block_button',
-      nab_feature_block_button
-    )
-    form_data.append(
-      'nab_feature_block_link_target',
-      nab_feature_block_link_target
-    )
 
     if (jQuery('#product_featured_image')[0].files.length > 0) {
       $.each($('#product_featured_image')[0].files, function (key, file) {
         form_data.append('nab_feature_block_bg_image', file)
       })
     }
-    if (jQuery('#nab_product_play_image')[0].files.length > 0) {
-      $.each($('#nab_product_play_image')[0].files, function (key, file) {
-        form_data.append('nab_product_play_image', file)
-      })
-    }
+    form_data.append(
+      'nab_featured_block_remove_attachment',
+      remove_featured_attachment_arr
+    )
     jQuery.ajax({
       url: amplifyJS.ajaxurl,
       processData: false,
@@ -3570,6 +3479,23 @@
       }
     })
   })
+
+  $(document).click(function (e) {
+    if (
+      !$(e.target).is(
+        '.color-picker, .iris-picker, .iris-picker-inner'
+      )
+    ) {
+      $('.color-picker').iris('hide')
+      //return false
+    }
+  })
+  $(document).on('click', '.color-picker',function (event) {
+    $('.color-picker').iris('hide')
+    $(this).iris('show')
+    //return false
+  })
+
   $(document).on('click', '#addProductModal .nab-modal-close', function (e) {
     if (
       ($('body').hasClass('single-company') &&
@@ -3910,7 +3836,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
             companyProfile.setAttribute('class', 'no-image-avtar');
             companyProfile.innerText = value.no_pic;
           }
-
+          
           avatarLink.appendChild(companyProfile)
           searchItemProfile.appendChild(avatarLink)
           searchItemInfo.appendChild(searchItemProfile)
@@ -4430,7 +4356,7 @@ function nabSearchContentAjax (loadMore, pageNumber) {
     0 < jQuery('.other-search-filter .sort-content a.active').length
       ? jQuery('.other-search-filter .sort-content a.active').attr('data-order')
       : 'date';
-    
+
   if ( 0 < jQuery('.other-search-filter #content-community').length ) {
     community = 0 === jQuery('.other-search-filter #content-community')[0].selectedIndex ? '' : jQuery('.other-search-filter #content-community').val();
   }

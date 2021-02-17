@@ -1,0 +1,67 @@
+.author {
+	display: flex;
+	align-items: center;
+	padding: rem(40) 0;
+	&.weekly__author {
+		padding: 0;
+	}
+	._profile & {
+		padding: 0;
+		justify-content: center;
+		@include bp-768 {
+			justify-content: flex-start;
+		}
+	}
+
+	&__photo {
+		display: inline-block;
+		border-radius: 50%;
+		background: linear-gradient(90deg, $color__purple, $color__pink);
+		padding: 2px;
+		img, .author__noimg {
+		  border-radius: 50%;
+		  border: 3px solid $color__gray-dark;
+		  display: block;
+		  .weekly__author & {
+			  width: rem(52);
+			  border: 3px solid $color__gray-darker;
+		  }
+		  ._profile & {
+			  width: rem(40);
+		  }
+		}
+	  }
+
+	&__noimg {
+		background-image: url('//www.gravatar.com/avatar/8aeaac1d99ace56a09f452202fb058c3?s=150&r=g&d=mystery');
+		background-position: center center;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	&__name {
+		margin-left: rem(20);
+		font-family: $font__secondary;
+		font-size: rem(20);
+		line-height: 1;
+		letter-spacing: -0.03em;
+		color: $color__white;
+		.weekly__author & {
+			text-transform: uppercase;
+			color: $color__gray-lightest;
+			font-family: $font__primary;
+			font-size: rem(12);
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			line-height: 123%;
+		}
+	}
+	&__company {
+		margin-left: rem(50);
+		padding-top: rem(14);
+		font-family: $font__secondary;
+		font-size: rem(16);
+		line-height: rem(22);
+		color: $color__gray-lighter;
+	}
+}

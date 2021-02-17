@@ -3435,7 +3435,6 @@ function nab_update_company_profile_callback()
     if (isset($twitter_profile)) {
         update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
     }
-    
 
     // Update Company 
     if ($company_about) {
@@ -3464,15 +3463,16 @@ function nab_update_company_profile_callback()
     if (isset($company_website)) {
         update_field('field_5fa3e87a3fa47', $company_website, $company_id);
     }
-    
 
     // Update point of contact
-    if ($company_point_of_contact !=='') {
-        update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
-    }else{
-        update_field('field_5fb4f4bcbe04a', 0, $company_id);
+    if ( isset( $company_point_of_contact ) ) {
+        
+        if ( $company_point_of_contact !== '') {
+            update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
+        } else {
+            update_field('field_5fb4f4bcbe04a', 0, $company_id);
+        }
     }
-
 
     // Update company product categories.
     if (!empty($company_product_categories) && 'null' !== $company_product_categories) {
@@ -3485,11 +3485,9 @@ function nab_update_company_profile_callback()
     }
 
     // Update company youtube
-   
-      if (isset($company_youtube)) {
+    if (isset($company_youtube)) {
         update_field('youtube_url', $company_youtube, $company_id);
     }
-    
 
     $final_result['success'] = true;
     $final_result['content'] = '';
@@ -3789,10 +3787,10 @@ function nab_generate_users_export_csv_file() {
         $user_results = $user_query->get_results();
 
          // CSV header row fields titles
-         $csv_fields   = array();
+         $csv_fields   = array();         
          $csv_fields[] = 'First Name';
          $csv_fields[] = 'Last Name';
-         $csv_fields[] = 'Email';
+         $csv_fields[] = 'Email';         
          $csv_fields[] = 'Title';
          $csv_fields[] = 'Company';
          $csv_fields[] = 'Registered Date';
@@ -3822,16 +3820,16 @@ function nab_generate_users_export_csv_file() {
                 }
 
                 $registered_date = date_format(date_create($current_user->user_registered), 'm-d-Y H:i:s');
-
+                
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
-                $dynamic_fields[] = $current_user->user_email;
+                $dynamic_fields[] = $current_user->user_email;                
                 $dynamic_fields[] = $title;
                 $dynamic_fields[] = $company;
                 $dynamic_fields[] = $registered_date;
 
                 fputcsv($output_handle, $dynamic_fields);
-            }           
+            }
         }
         exit;
     }
@@ -3870,54 +3868,6 @@ function nab_add_page_by_comment_filter() {
 function nab_copyright_year_shortcode() {
     
     return date( 'Y' );
-}
-
-function nab_sync_user_to_live() {
-
-    global $wpdb;
-
-    $user_id = filter_input( INPUT_GET, 'u', FILTER_SANITIZE_NUMBER_INT );
-
-    if ( isset( $user_id ) && ! empty( $user_id ) ) {
-
-        $final_results  = array();
-                
-        $user_query             = $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE ID = %d", $user_id );
-        $user_result            = $wpdb->get_row( $user_query, ARRAY_A);
-        $final_results['user']  = $user_result;
-        $final_results['meta']  = get_user_meta( $user_id );
-       
-        $fields_string = http_build_query( array( 'user_data' => $final_results['user'], 'meta_data' => $final_results['meta'] ) );
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://amplify.nabshow.com/wp-json/nab/request/sync-user-to-live',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $fields_string,
-            CURLOPT_HTTPHEADER => array(
-                'Cookie: PHPSESSID=hj847uemchb3njj9ritacchpdn'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $result = json_decode( $response );
-        $msg    = isset( $result->success ) && $result->success ? "User " . $user_id . " sync successfully" : "Error while sync user " . $user_id;
-        ?>
-        <div class="updated notice">
-            <p><?php echo esc_html( $msg ); ?></p>
-        </div>
-        <?php
-    }
 }
 
 /**
@@ -4108,4 +4058,137 @@ function nab_redirect_user_to_login_page() {
             exit();
         }
     }
+}
+
+function nab_register_user_api_endpoints()
+{
+
+    register_rest_route('nab', '/request/sync-user-to-live', array(
+        'methods'             => 'POST',
+        'callback'            => 'nab_sync_beta_user_to_live',
+        'permission_callback' => '__return_true',
+        'args'                => array(
+            'user_data'  => array(
+                'validate_callback' => function ($param) {
+                    return is_array($param);
+                },
+            ),
+            'meta_data' => array(
+                'validate_callback' => function ($param) {
+                    return is_array($param);
+                },
+            ),
+        ),
+    ));
+}
+
+function nab_sync_beta_user_to_live(WP_REST_Request $request)
+{
+
+    $user_data      = $request->get_param('user_data');
+    $meta_data      = $request->get_param('meta_data');
+    $final_result   = array('success' => false);
+
+    if (is_array($user_data) && is_array($meta_data)) {
+
+        global $wpdb;
+
+        if ((isset($user_data['user_email']) && !empty($user_data['user_email'])) && (isset($user_data['ID']) && !empty($user_data['ID']))) {
+
+            $user_exist = email_exists($user_data['user_email']);
+
+            if (!$user_exist) {
+
+                $is_username_exist = username_exists( $user_data['user_login'] );
+                
+                if ( $is_username_exist ) {
+                    $user_data['user_login'] = wc_create_new_customer_username($user_data['user_email']);
+                }
+
+                $table_name = $wpdb->users;
+
+                $user_id = $wpdb->insert(
+                    $table_name,
+                    array(
+                        'user_login'            => $user_data['user_login'],
+                        'user_pass'             => $user_data['user_pass'],
+                        'user_nicename'         => $user_data['user_nicename'],
+                        'user_email'            => $user_data['user_email'],
+                        'user_url'              => $user_data['user_url'],
+                        'user_registered'       => $user_data['user_registered'],
+                        'user_activation_key'   => $user_data['user_activation_key'],
+                        'user_status'           => $user_data['user_status'],
+                        'display_name'          => $user_data['display_name'],
+                        'spam'                  => $user_data['spam'],
+                        'deleted'               => $user_data['deleted']
+                    ),
+                    array(
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%d',
+                        '%s',
+                        '%d',
+                        '%d'
+                    )
+                );
+
+                if ( $user_id ) {
+
+                    $user_id = $wpdb->insert_id;
+                }
+            } else {
+                $user_id = $user_exist;
+
+                $table_name = $wpdb->users;
+
+                $wpdb->update(
+                    $table_name,
+                    array(
+                        'user_nicename' =>  $user_data['user_nicename'],
+                        'display_name'  =>  $user_data['display_name']
+                    ),
+                    array(
+                        'ID'   => $user_id
+                    ),
+                    array(
+                        '%s',
+                        '%s'
+                    ),
+                    array(
+                        '%d'
+                    )
+                );
+            }
+
+            if ($user_id) {
+
+                $exclude_metas = array(
+                    'profile_picture',
+                    'banner_image',
+                    'nab_purchased_product_2020',
+                    'nab_customer_product_bookmark',
+                );
+
+                foreach ($meta_data as $key => $value) {
+
+                    if (!empty($value[0]) && !in_array($key, $exclude_metas, true)) {
+
+                        if (is_serialized($value[0])) {
+                            $value[0] = maybe_unserialize($value[0]);
+                        }
+                        update_user_meta($user_id, $key, $value[0]);
+                    }
+                }
+
+                $final_result['success']  = true;
+            }
+        }
+    }
+
+    return new WP_REST_Response($final_result, 200);
 }

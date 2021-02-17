@@ -651,7 +651,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="search-item-cover">
 											<?php 
 											$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
-											?>
+											 ?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										</div>
@@ -1243,7 +1243,7 @@ if ($company_poc !== '' && !empty($company_poc)) {
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
-										<?php 
+										<?php
 										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
 										?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
