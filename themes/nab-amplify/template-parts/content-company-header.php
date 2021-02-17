@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template part for displaying compnay header banner in the header.
+ * Template part for displaying company header banner in the header.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -22,7 +22,7 @@ $profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
 $company_id       = get_the_ID();
 $company_admin_id = get_field('company_user_id', $company_id);
-$youtube_url      = get_field('youtube_url');  
+$youtube_url      = get_field('youtube_url');
 $company_poc      = get_field('point_of_contact');
 
 ?>
@@ -40,7 +40,7 @@ $company_poc      = get_field('point_of_contact');
                             <label for="banner_image_file">
                                 <span class="edit-bg-pic" style="display:none;" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id="banner_image_file" type="file" name="company_banner_image" style="display: none;" />
+                            <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
                         </div>
                         <div id="edit-mode-buttons">
                             <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
@@ -57,9 +57,9 @@ $company_poc      = get_field('point_of_contact');
                 <div class="amp-profile-inner">
                     <div class="amp-profile-content">
                         <div id="profile-avtar" class="amp-profile-image profile-avtar">
-                            <label class="profile-avtar-inner" for="profile_picture_file">
+                            <label class="profile-avtar-inner" for="profile_picture_file" id="bm-profile-pic"> <!-- bm-select-media -->
                                 <?php if ($profile_picture) { ?>
-                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Company Profile Picture" />
                                 <?php } else { ?>
                                     <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 30, '...'); ?></div>
                                 <?php } ?>
@@ -70,7 +70,7 @@ $company_poc      = get_field('point_of_contact');
                                 ?>
                                         <div class="profile-actions">
                                             <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
-                                            <input id="profile_picture_file" type="file" name="company_profile_picture" style="display: none;" />
+                                            <input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>
                                         </div>
                                 <?php
                                     }

@@ -107,7 +107,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__block_company_content_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__block_company_content_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__block_company_employees_block__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__block_company_employees_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__block_company_employees_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__block_company_feature_block__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__block_company_feature_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__block_company_feature_block__);
 // import all blocks here
+
 
 
 
@@ -7930,6 +7933,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+(function (wpI18n, wpBlocks, wpBlockEditor, wpComponents, wpElement) {
+  var __ = wpI18n.__;
+  var registerBlockType = wpBlocks.registerBlockType;
+  var Fragment = wpElement.Fragment;
+  var ServerSideRender = wpComponents.ServerSideRender;
+
+
+  registerBlockType("nab/company-feature", {
+    // built in attributes
+    title: __("Company Feature"),
+    description: __("Company Feature Block"),
+    icon: "editor-code",
+    category: "nab_amplify",
+    keywords: [__("Feature"), __("Gutenberg")],
+    edit: function edit() {
+      return wp.element.createElement(
+        Fragment,
+        null,
+        wp.element.createElement(ServerSideRender, { block: "nab/company-feature" })
+      );
+    },
+    save: function save() {
+      return null;
+    }
+  });
+})(wp.i18n, wp.blocks, wp.blockEditor, wp.components, wp.element);
 
 /***/ })
 /******/ ]);
