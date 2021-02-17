@@ -69,6 +69,9 @@
                 bmZoomOut.setAttribute('href', 'javascript:void(0)');
                 bmCropZoomOutAdjust.append(bmZoomOut);
 
+                alert('added');
+                console.log(nabModalContentWrap);
+
             }
 
             // Display the selected image.
