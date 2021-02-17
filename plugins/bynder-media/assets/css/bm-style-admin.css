@@ -81,11 +81,6 @@
 .bm-drag-drop-area p.bm-drag-drop-info{font-size:18px;}
 .bm-drag-drop-area #bm-browse-button:hover{background-color:rgb(99 99 223 / 94%);}
 
-/* cropper */
-.bm-adjust-crop-actions{position:absolute;right:10px;top:10px;}
-.bm-adjust-crop-actions .bm-crop-adjust{margin-bottom:10px;}
-.bm-adjust-crop-actions a{width:35px;height:35px;display:flex;justify-content:center;align-items:center;border:2px solid #ccc;color:#444!important}
-
 /* Media CSS */
 @media (max-width:1180px){
 

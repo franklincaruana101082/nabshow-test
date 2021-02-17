@@ -58,7 +58,7 @@
 
                 let bmCropZoomOutAdjust = document.createElement('div');
                 bmCropZoomOutAdjust.setAttribute('class', 'bm-crop-adjust bm-zoom-out');
-                bmCropZoomAdjust.append(bmCropZoomOutAdjust);
+                bmAdjustCropAction.append(bmCropZoomOutAdjust);
 
                 let bmZoomIn = document.createElement('a');
                 bmZoomIn.setAttribute('class', 'bm-zoom-in fa fa-plus');
