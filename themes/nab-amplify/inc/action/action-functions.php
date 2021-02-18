@@ -205,7 +205,7 @@ function nab_amplify_upload_images()
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
-                    update_user_meta($user_id, 'profile_update_one', '1');
+                    update_user_meta($user_id, 'profile_update_two', '1');
                 }
             }
         }
@@ -2480,7 +2480,7 @@ function nab_save_edit_account_additional_form_fields($user_id)
         }
     }
 
-    update_user_meta($user_id, 'profile_update_one', '1');
+    update_user_meta($user_id, 'profile_update_two', '1');
 }
 
 /**
@@ -3504,6 +3504,7 @@ function nab_update_company_profile_callback()
     if (isset($company_website)) {
         update_field('field_5fa3e87a3fa47', $company_website, $company_id);
     }
+    
 
     // Update point of contact
     if ( isset( $company_point_of_contact ) ) {
@@ -3578,7 +3579,6 @@ function nab_edit_company_about_callback()
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
-    $users = get_users();
     
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 

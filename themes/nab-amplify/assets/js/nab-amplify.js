@@ -248,8 +248,32 @@
     })
     jQuery('#product_categories').select2()
     jQuery('#company_point_of_contact').select2({
-      placeholder: 'Select Point of contact',
-      allowClear: true
+      ajax: {
+        url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+        dataType: 'json',
+        delay: 250, // delay in ms while typing when to perform a AJAX search
+        data: function (params) {
+          return {
+            q: params.term, // search query
+            action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+          }
+        },
+        processResults: function (data) {
+          var options = []
+          if (data) {
+            // data is the array of arrays, and each of them contains ID and the Label of the option
+            $.each(data, function (index, text) {
+              // do not forget that "index" is just auto incremented value
+              options.push({ id: text[0], text: text[1] })
+            })
+          }
+          return {
+            results: options
+          }
+        },
+        cache: true
+      },
+      minimumInputLength: 3
     })
 
     if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined') {
@@ -637,8 +661,32 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select Point of contact',
-            allowClear: true
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -697,8 +745,32 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select Point of contact',
-            allowClear: true
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -1051,8 +1123,32 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select Point of contact',
-            allowClear: true
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3
           })
           $('.company-admins').select2({
             ajax: {
@@ -1093,8 +1189,32 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select Point of contact',
-            allowClear: true
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3
           })
           $('.company-admins').select2({
             ajax: {
@@ -1165,7 +1285,7 @@
       .hide()
 
     if ( 0 < featuredSelector.length && null !== featuredSelector.val()) {
-      if (0 === featuredMax) {
+      if (0 === featuredMax && 0 < featuredSelector.val().length) {
         nabMembershipCategoryNotice(
           featuredSelector,
           "You can't add featured product categories without membership."
@@ -1400,8 +1520,32 @@
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select Point of contact',
-            allowClear: true
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3
           })
           $('.company-admins').select2({
             ajax: {
@@ -1443,8 +1587,32 @@
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select Point of contact',
-            allowClear: true
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3
           })
           $('.company-admins').select2({
             ajax: {

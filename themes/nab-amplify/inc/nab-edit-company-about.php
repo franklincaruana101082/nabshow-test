@@ -36,14 +36,25 @@
 										</label>
 										<div class="select-dark-simple">
 											<select name="company_point_of_contact" id="company_point_of_contact">
-												<option value=""></option>
-												<?php foreach ($users as $user) {
+											<?php
+												if ( ! empty( $company_data['company_point_of_contact'] ) ) {
 
+													$comp_poc = get_user_by( 'ID', $company_data['company_point_of_contact'] );
+
+													if ( $comp_poc ) {
+														
+														$user_name		= $comp_poc->user_login;
+														$user_full_name	= get_user_meta( $comp_poc->ID, 'first_name', true ) . ' ' . get_user_meta( $comp_poc->ID, 'last_name', true );
+
+														if ( ! empty( trim( $user_full_name ) ) ) {
+															$user_name .= ' (' . $user_full_name . ')';					
+														}
+														?>
+														<option value="<?php echo esc_attr( $comp_poc->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
+														<?php
+													}
+												}
 												?>
-													<option value="<?php echo $user->data->ID; ?>" <?php if ($user->data->ID == $company_data['company_point_of_contact']) {
-																										echo "selected";
-																									} ?>><?php echo $user->data->display_name; ?></option>
-												<?php } ?>
 											</select>
 										</div>
 								</div>
@@ -127,22 +138,21 @@
 											<option value=""></option>
 											<?php
 
-											foreach ($users as $user) {
+                                            foreach ($company_data['company_admins'] as $user) {
+                                                $comp_admin = get_user_by('ID', $user);
 
+                                                if ($comp_admin) {
+                                                    $user_name		= $comp_admin->user_login;
+                                                    $user_full_name	= get_user_meta($comp_admin->ID, 'first_name', true) . ' ' . get_user_meta($comp_admin->ID, 'last_name', true);
 
-
-												if (is_array($company_data['company_admins']) && in_array($user->data->ID, $company_data['company_admins'])) {
-													$selected_user = $user->data->ID;
-													$user_name		= $user->data->user_login;
-													$user_full_name	= get_user_meta($selected_user, 'first_name', true) . ' ' . get_user_meta($selected_user, 'last_name', true);
-													if (!empty(trim($user_full_name))) {
-														$user_name .= ' (' . $user_full_name . ')';
-													}
-											?>
-													<option value="<?php echo esc_attr($selected_user); ?>" selected><?php echo esc_html($user_name); ?></option>
-											<?php
-												}
-											}
+                                                    if (! empty(trim($user_full_name))) {
+                                                        $user_name .= ' (' . $user_full_name . ')';
+                                                    } ?>
+													<option value="<?php echo esc_attr($comp_admin->ID); ?>" selected><?php echo esc_html($user_name); ?></option>
+													<?php
+                                                }
+                                            }	
+												
 											?>
 										</select>
 									</div>
