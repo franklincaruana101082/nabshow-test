@@ -1020,7 +1020,7 @@ function nab_get_company_member_category_limit( $company_id ) {
  *
  * @return string Image URL.
  */
-function nab_amplify_get_featured_image( $post_ID, $default = true ) {
+function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url = '' ) {
 
 	$bynder_image = get_post_meta( $post_ID, 'profile_picture', true );
 	if ( null !== $bynder_image && ! empty( $bynder_image )
@@ -1031,7 +1031,8 @@ function nab_amplify_get_featured_image( $post_ID, $default = true ) {
 
 		// Send back default if not found?
 		if ( $default ) {
-			$featured_image = $featured_image ? $featured_image : nab_placeholder_img();
+			$default_url = ! empty( $default_url ) ? $default_url : nab_placeholder_img();
+			$featured_image = $featured_image ? $featured_image : $default_url;
 		}
 	}
 

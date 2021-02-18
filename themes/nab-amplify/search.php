@@ -415,7 +415,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$company_prod_query->the_post();
 
-								$thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+								$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID() );
 								$product_link	    = get_the_permalink();
 								$company_id			= get_field('nab_selected_company_id', get_the_ID());
 								$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
@@ -649,7 +649,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$product_query->the_post();
 
-								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+								$thumbnail_url  = nab_amplify_get_featured_image( get_the_ID() );
 								$product_link	= get_the_permalink();
 
 							?>
@@ -657,7 +657,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<div class="search-item-inner">
 										<div class="search-item-cover">
 											<?php
-											$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+											$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 											?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 											<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -732,7 +732,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$event_query->the_post();
 
 								$event_post_id		= get_the_ID();
-								$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+								$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
 								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
 								$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
@@ -841,8 +841,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$content_query->the_post();
 
-								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-								$post_link		= get_the_permalink();
+								$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
+								$post_link     = get_the_permalink();
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -1041,7 +1041,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$company_prod_query->the_post();
 
-							$thumbnail_url 	    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID() );
 							$product_link	    = get_the_permalink();
 							$company_id			= get_field('nab_selected_company_id', get_the_ID());
 							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
@@ -1258,7 +1258,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								<div class="search-item-inner">
 									<div class="search-item-cover">
 										<?php
-										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+										$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 										?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
 
@@ -1322,7 +1322,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_query->the_post();
 
 							$event_post_id		= get_the_ID();
-							$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
 							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
@@ -1418,8 +1418,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$content_query->the_post();
 
-							$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
-							$post_link		= get_the_permalink();
+							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
+							$post_link     = get_the_permalink();
 							?>
 							<div class="search-item">
 								<div class="search-item-inner">
