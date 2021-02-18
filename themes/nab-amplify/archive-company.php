@@ -46,8 +46,8 @@ if ( $company_query->have_posts() ) {
 
 				$cover_image        = get_field( 'cover_image' );
 				$profile_picture    = get_field( 'profile_picture' );
-				$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
-				$featured_image   	= get_the_post_thumbnail_url();
+				$cover_image        = ! empty( $cover_image ) ? $cover_image['url'] : $default_company_cover;
+				$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 				$profile_picture  	= $featured_image;
 				$company_url		= get_the_permalink();
 				?>
