@@ -1,0 +1,103 @@
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom: 1em;
+}
+h1, h2 {
+  font-family: $font__primary;
+  font-weight:600;
+  font-size: rem(42);
+  line-height: rem(44);
+  letter-spacing: -0.005em;
+  margin-top: 0;
+  
+  @include bp-1280 {
+    font-size: rem(58);
+    line-height: rem(58);
+    letter-spacing: -0.01em;
+  }
+}
+
+h3 {
+  font-family: $font__primary;
+  font-weight:600;
+  font-size: rem(23);
+  line-height: rem(27);
+  margin-top: 0;
+}
+
+h4 {
+  font-family: $font__primary;
+  font-weight: 600;
+  font-size: rem(20);
+  letter-spacing: 0.01em;
+}
+
+h5 {
+  font-family: $font__primary;
+  font-weight: 700;
+  font-size: rem(12);
+  line-height: rem(17);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $color__yellow;
+  margin: 0;
+}
+
+p {
+  font-family: $font__primary;
+  font-weight: 400;
+  font-size: rem(18);
+  color: $color__gray-lightest;
+  line-height: 1.44;
+  @include bp-1024 {
+    font-size: rem(28);
+    line-height: 1.36;
+  }
+  .introtext & {
+    font-family: $font__secondary;
+	  font-size: rem(16);
+	  line-height: rem(24);
+	  letter-spacing: -0.01em;
+  }
+}
+
+blockquote {
+  font-weight: 600;
+  font-size: rem(50);
+  line-height: 1.16;
+  letter-spacing: -0.04em;
+  color: $color__white;
+  padding: rem(15) rem(14);
+  background: linear-gradient(90deg, $color__blurple, $color__blue);
+  margin: rem(50) 0;
+  display: block;
+  //background-clip: content-box;
+  @include bp-1024 {
+    margin: rem(64) 0 rem(50);
+  }
+}
+
+a {
+  color: $color__yellow;
+  font-family: $font__primary;
+  transition: color .3s ease-in-out;
+  &:hover, &:focus, &:active {
+    color: $color__white;
+  }
+}
+img {
+  max-width: 100%;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="url"] {
+  display: inline-block;
+  width: 100%;
+  padding: 0 rem(10);
+  border: 0;
+  border-radius: rem(4);
+}

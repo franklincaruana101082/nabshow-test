@@ -39,6 +39,10 @@ if ( empty( $redirect_url ) ) {
 		}
 	}
 }
+if ( empty( $redirect_url ) ) {
+
+	$redirect_url = rtrim( get_site_url(), '/' ) . '/welcome/';
+}
 ?>
 
 	<main id="primary" class="site-main">
@@ -75,7 +79,7 @@ if ( empty( $redirect_url ) ) {
 
 									<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 										<input type="email" class="woocommerce-Input woocommerce-Input--text input-text" name="email" id="reg_email" autocomplete="email"
-										       placeholder="<?php esc_html_e( 'Email address*', 'woocommerce' ); ?>"
+										       placeholder="<?php esc_html_e( 'Email Address*', 'woocommerce' ); ?>"
 										       value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>"/><?php // @codingStandardsIgnoreLine
 										?>
 									</p>
@@ -92,15 +96,81 @@ if ( empty( $redirect_url ) ) {
 										       autocomplete="new-password"/>
 									</p>
 
+									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
+										<?php
+										$interest_items			= array( 'Content Creation', 'Live Event Production', 'Broadcast', 'Streaming' );
+										$selected_user_interest	= filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+										$selected_user_interest = isset( $selected_user_interest ) && ! empty( $selected_user_interest ) ? $selected_user_interest : array();
+										?>										
+										<div class="nab-section section-user-interest-signup">
+											<h3>I'm Interested In...</h3>
+											<i class="dropdown-message">Select all that apply</i>
+											<div class="user-interest-details-form">
+												<div class="checkbox-item-list">
+													<?php
+													foreach ( $interest_items as $item ) {
+														
+														$current_item = '';
+														
+														if ( is_array( $selected_user_interest ) && in_array( $item, $selected_user_interest, true ) ) {
+															$current_item = $item;
+														}
+														?>
+														<div class="checkbox-item amp-check-container">
+															<div class="amp-check-wrp">
+																<input type="checkbox" name="user_interest[]" class="sign-up-user-interest" value="<?php echo esc_attr( $item ); ?>" id="<?php echo esc_attr( $item ); ?>" <?php checked( $current_item, $item ); ?> />
+																<span class="amp-check"></span>
+															</div>
+															<label for="<?php echo esc_attr( $item ); ?>"><?php echo esc_html( $item ); ?></label>
+														</div>                                                            
+														<?php
+													}
+													?>                            
+												</div>                        
+											</div>
+										</div>
+									</div>
+									<hr>
+
 									<?php do_action( 'woocommerce_register_form' ); ?>
 
 									<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 										<input type="hidden" name="checkout_redirect" value="<?php echo esc_url( $redirect_url ); ?>">
 									<?php } ?>
 
+									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
+										<div class="amp-check-container check-align-top">
+											<div class="amp-check-wrp">
+												<input type="checkbox" name="press_member" class="signup-press-member" id="signup-press-member" value="1">
+												<span class="amp-check"></span>
+											</div>
+											<label for="signup-press-member" class="tooltip-container">
+												<div class="member-tooltip">
+													<div class="tooltip-label">I am a qualified member of the press.</div>
+													<div class="tooltip-wrap">
+														<i class="fa fa-info-circle" aria-hidden="true"></i>
+														<div class="tooltip">
+															Qualified members of the <a href="https://nabshow.com/2021/partner/press/">press</a> should select “Press” when registering to ensure future access to Amplify’s original content, networking and engagement opportunities, and exclusive events. To qualify, all members must agree with Amplify’s <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>. Contact information will not be shared unless press opt-in to share information.
+														</div>
+													</div>
+												</div>
+											</label>
+										</div>
+									</div>
+
+									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
+										<div class="amp-check-container check-align-top">
+											<div class="amp-check-wrp">
+												<input type="checkbox" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
+												<span class="amp-check"></span>
+											</div>
+											<label for="signup-privacy-policy">I agree to the NAB Amplify <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>.</label>
+										</div>
+									</div>
+
 									<p class="woocommerce-FormRow form-row">
 										<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-										<button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register"
+										<button disabled type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit" name="register"
 										        value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
 									</p>
 
@@ -114,7 +184,6 @@ if ( empty( $redirect_url ) ) {
 							</div>
 						</div>
 						<div class="nab-signup-now">
-						<h4 class="text-transform-initial">Sign up for an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</h4>
 
 							<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 								$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );

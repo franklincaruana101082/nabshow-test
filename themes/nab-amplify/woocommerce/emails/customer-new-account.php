@@ -34,12 +34,14 @@ if ( $user ) {
 <?php /* translators: %s: Customer username */ ?>
 	<p><?php printf( esc_html__( 'Dear %s,', 'woocommerce' ), esc_html( $full_name ) ); ?></p>
 <?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
-	<p><?php esc_html_e( 'Welcome to NAB Amplify!', 'nab-amplify' ); ?></p>
-	<p>This all-new, year-round digital platform is designed to provide you with opportunities for networking, discovery and education. It is also your registration destination for NAB Show New York, Radio Show and SMTE.</p>
-	<p>You completed step 1 – signing up! Finish building out your profile to optimize your experience, connections and event suggestions.</p>
+	
+	<p>Congratulations on joining the beta launch of NAB Amplify, a new digital experience and community hub, brought to you by the creators of NAB Show®️.</p>
+	<p>You completed step 1 – signing up! Now take full advantage of your elite access by building out your profile, connecting with others, searching events to RSVP for, reviewing companies and products and commenting on articles and videos.</p>
+	<p>Since we are still in beta mode, we expect you’ll notice areas for improvement or the occasional bug. Please help us learn and grow by clicking on the lightbulb in the top right corner of the navigation bar and submitting notes on your experience.</p>
+	<p>Thank you again for your support and collaboration in building the global hub for media, entertainment and technology.</p>
 
-	<p>Stay Amped!<br>
-	Team NAB</p>
+	<p>So, Let’s Get Started!<br>
+	NAB Amplify Team</p>
 
 <?php
 /**

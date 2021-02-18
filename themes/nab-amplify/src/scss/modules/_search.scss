@@ -1,0 +1,84 @@
+.search {
+	&__form {
+		background-color: $color__gray;
+		height: rem(50);
+		border-radius: rem(25);
+		margin: 0 rem(24) rem(30);
+		padding: 0 rem(14) 0 rem(15);
+		display: flex;
+		@include bp-768 {
+			max-width: rem(650);
+			margin: 0 auto rem(30);
+		}
+		@include bp-1024 {
+			margin: 0 auto rem(40); 
+		}
+	}
+		&__field {
+			background-color: transparent;
+			font-family: $font__secondary;
+			font-size: rem(16);
+			color: $color__white;
+			&::placeholder {
+				color: $color__gray-lighter;
+			}
+		}
+		&__submit {
+			background-color: transparent;
+			border: 0;
+		}
+	&__term {
+	  color: $color__yellow;
+	}
+	&__sort {
+	  list-style: none;
+	  padding: 0;
+	  margin: 2rem 0 0;
+	  display: flex;
+	  justify-content: center;
+	  li {
+		width: rem(200);
+	  }
+	}
+	&__sortOption {
+	  display: block;
+	  height: rem(40);
+	  line-height: rem(34);
+	  text-align: center;
+	  text-decoration: none;
+	  color: $color__white;
+	  font-size: rem(16);
+	  font-weight: bold;
+	  border: 3px solid $color__purple; //fallback
+	  border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+	  &._selected {
+		background: linear-gradient(90deg, $color__purple, $color__pink);
+	  }
+	}
+  }
+  
+  .result {
+	border-top: 3px solid $color__purple;
+	border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+	background-color: $color__gray-darkest;
+	padding: rem(18) rem(18) rem(46);
+	text-align: center;
+	&__image {
+	  border-radius: 50%;
+	  max-width: rem(102);
+	}
+	&__title {
+	  font-weight: 700;
+	  font-size: rem(22);
+	  line-height: rem(27);
+	  min-height: rem(54);
+	}
+	&__button {
+	  margin-bottom: rem(27);
+	}
+	&__message {
+	  display: block;
+	  font-size: rem(18);
+	  font-weight: 600;
+	}
+  }

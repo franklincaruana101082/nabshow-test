@@ -13,11 +13,6 @@ if ( empty( $user_id ) || 0 === $user_id ) {
     
     $user_id = get_current_user_id();
 }
-?>
-<div class="back-to-profile">
-    <a href="<?php echo esc_url( $profile_url ) ?>" class="get-back-arrow">Back to Profile</a>
-</div>
-<?php
 
 $customer_products = nab_get_customer_purchased_product( $user_id );
 

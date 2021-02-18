@@ -69,7 +69,7 @@
               ></span>
               <img
                 src={dataArray[index].media}
-                alt={dataArray[index].title}
+                alt={dataArray[index].mediaAlt}
                 className='img'
               />
             </Fragment>
@@ -130,6 +130,7 @@
                   onSelect={media => {
                     let arrayCopy = [...dataArray]
                     arrayCopy[index].media = media.url
+                    arrayCopy[index].mediaAlt = media.alt
                     setAttributes({ dataArray: arrayCopy })
                   }}
                   type='image'
@@ -222,6 +223,7 @@
               </div>
             </PanelBody>
           </InspectorControls>
+          
           <div className='upcoming-events-calendar'>
             <div className='upcoming-events-header'>
               <RichText
@@ -350,7 +352,7 @@
                       <div className='inner' style={{backgroundColor:backgroundColor}}>
                         <div className='left'>
                           {data.media ? (
-                            <img src={data.media} alt={data.title} />
+                            <img src={data.media} alt={data.mediaAlt} />
                           ) : (
                             <div className='no-image'>No Image</div>
                           )}

@@ -1,5 +1,13 @@
 *** WooCommerce Segment.com Connector Changelog ***
 
+2020.12.01 - version 1.9.3
+* New: WooCommerce 3.9.3, 4.0.1, 4.1.1, 4.2.2, 4.3.3, 4.4.1, 4.5.2, 4.6.2, 4.7.1 compatible
+* New: Tested upto WordPress 5.5.3
+* Fix: Blog archive page not tracked correctly
+* Fix: PHP Warning:  strpos(): Empty needle when any endpoint is empty
+* Update: Setting and description to enter segment source key
+* Update: POT File
+
 2019.11.13 - version 1.9.2
 * New: WooCommerce 3.6.5, 3.7.1, 3.8.0 compatible
 * Fix: Undefined index: HTTP_REFERER

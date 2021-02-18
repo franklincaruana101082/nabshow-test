@@ -44,8 +44,8 @@ include_once get_stylesheet_directory() . '/woocommerce/myaccount/navigation.php
 <script type="text/html" id="tmpl-bp-messages-form">
 	<?php bp_nouveau_messages_hook( 'before', 'compose_content' ); ?>
 
-    <label for="send-to-input"><?php esc_html_e( 'Send To', 'buddypress' ); ?></label>
-    <input type="text" name="send_to" class="send-to-input" id="send-to-input"/>
+    <label for="send-to-input"><?php esc_html_e( 'Send To', 'buddypress' ); ?><i class="fa fa-info-circle info-tooltip" data-bp-tooltip="Type @username or @name to select message recipient(s)." aria-hidden="true"></i></label>
+    <input type="text" name="send_to" value="@" class="send-to-input" id="send-to-input"/>
 
     <label for="subject"><?php _e( 'Subject', 'buddypress' ); ?></label>
     <input type="text" name="subject" id="subject"/>

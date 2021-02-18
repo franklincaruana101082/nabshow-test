@@ -102,5 +102,17 @@ add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
 
-//Remove comment form fields
-add_filter( 'comment_form_default_fields', 'nab_remove_comment_form_field' );
+// Mofified search query to search in the meta
+add_filter( 'posts_search', 'nab_modified_search_query_to_include_meta_search', 10, 2 );
+add_filter( 'posts_clauses', 'nab_moified_join_groupby_for_meta_search', 10, 2 );
+add_filter( 'tiny_mce_before_init', 'nabamplify_tiny_mce_before_init' );
+
+add_filter( 'bp_get_message_thread_excerpt', 'nab_filter_message_to_avoid_html_entity' );
+//add_filter('the_content', 'nab_reorder_comment_form', 1);
+
+add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 999, 2 );
+add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
+
+function nab_stop_bp_email_notification( $retval, $class_ref) {
+    return new WP_Error( 'missing_parameter', __CLASS__, $class_ref );
+}

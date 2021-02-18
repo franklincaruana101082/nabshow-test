@@ -1,10 +1,10 @@
 === WooCommerce Segment.com Connector ===
-Contributors: niravmehta, ratnakar.dubey, Tarun.Parswani, Mansi Shah
+Contributors: storeapps, niravmehta, ratnakar.dubey, Tarun.Parswani, Mansi Shah
 Donate link: https://www.storeapps.org/
-Tags: woocommerce, analytics, segment.com, connector
-Requires at least: 3.5
-Tested up to: 5.3.0
-Stable tag: 1.9.2
+Tags: woocommerce, analytics, segment.com, connector, segment
+Requires at least: 4.9.0
+Tested up to: 5.5.3
+Stable tag: 1.9.3
 
 Tracks Wordpress & WooCommerce's activity & send data to Segment.com
 
@@ -29,9 +29,9 @@ Segment.com has the power to store your analytics data for later use. You don't 
 == Usage ==
 
 How to start tracking activities of WooCommerce store
-1. You need to enter & save your Segment.com's API key in WooCommerce Integration settings, otherwise no event will be sent to Segment.com
+1. You need to enter & save your Segment.com's Write/API key in WooCommerce Integration settings, otherwise no event will be sent to Segment.com
 2. Go to 'WooCommerce -> Settings' & look for 'Segment.com Connector' link under 'Integration' tab.
-3. Put your Segment.com API key in field provided on that page & click 'Save changes'.
+3. Put your Segment.com Write/API key in field provided on that page & click 'Save changes'.
 4. That's it! Now activities on your site will be tracked & these data will be sent to Segment.com
 
 Note: By default these events will be tracked: Registration form, New user registered, Logged in, Logged out, Viewed account, Password changed, Address updated, Track post, Track page, Track archive, Track searche, Viewed product, Added to cart, Removed from cart, Viewed cart, Coupon applied, Checkout started, Calculated shipping, Payment started, Completed purchase, Viewed order, Tracked order, File downloaded, Re-ordered, Order cancelled, Commented, Reviewed product
@@ -63,8 +63,8 @@ Once have these data, you can use following code in any php file of that third p
 
 = Events are not being tracked. I can't see any data in Segment.com =
 
-Please check whether you've enetered & saved your Segment.com API key.
+Please check whether you've enetered & saved your Segment.com Write/API key.
 
 = Can I track additional events (from third party extensions)? =
 
-Yes, it is very easy to track additional events which are not included in this extension. You just need to call a function with some data. Please refer developer guide for details.
+Yes, it is very easy to track additional events which are not included in this extension. You just need to call a function with some data. Please refer developer guide: https://docs.woocommerce.com/document/segment-io-connector/#section-5 for details.

@@ -28,15 +28,22 @@ if ( post_password_required() ) {
 		?>
 		<div class="comment-section-title">
 			<h2>Discussion</h2>
-			<a href="#respond" class="navigate-reply btn">Add Comment</a>
+			<?php
+			if ( is_user_logged_in() ) {
+				?>
+				<a href="#respond" class="navigate-reply btn">Add Comment</a>
+				<?php
+			}
+			?>
 		</div>
 		<div class="comment-header">
 			<h3 class="comments-title">
 				<?php
 				printf(
 					/* translators: 1: title. */
-					esc_html__( 'Responses', 'nab-amplify' )
+					esc_html__( 'Responses', 'nab-amplify')
 				);
+				printf(' <span class="text-gradient">('.get_comments_number( get_the_ID() ).')</span>');
 				?>
 			</h3><!-- .comments-title -->
 			<div class="comment-filter">
@@ -81,7 +88,9 @@ if ( post_password_required() ) {
 
 	endif; // Check for have_comments().
 
-	comment_form();
+	if ( is_user_logged_in() ) {
+		comment_form();
+	}
 	?>
 
 </div><!-- #comments -->

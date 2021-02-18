@@ -1,0 +1,76 @@
+// Scss mixins
+@mixin cf() {
+    *zoom: 1;
+
+    &:before, &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+// RESPONSIVE
+@mixin bp-1440() {
+	@media (min-width: 90em) {
+		@content;
+		/*content:"1440px";*/
+	}
+ }
+ 
+ @mixin bp-1280() {
+	@media (min-width: 80em) {
+		@content;
+		/*content:"1280px";*/
+	}
+ }
+ 
+ @mixin bp-1024() {
+	@media (min-width: 64em) {
+		@content;
+		/*content:"1024px";*/
+	}
+ }
+ 
+ @mixin bp-768() {
+	@media (min-width: 48em) {
+		@content;
+		/*content:"768px";*/
+	}
+ }
+ 
+ @mixin bp-604() {
+	@media (min-width: 37.75em) {
+		@content;
+		/*content:"604px";*/
+	}
+ }
+ 
+ @mixin bp-480() {
+	@media (min-width: 30em) {
+		@content;
+		/*content:"480px";*/
+	}
+ }
+ 
+ @mixin bp-414() {
+	@media (min-width: 25.875em) {
+		@content;
+		/*content:"414px";*/
+	}
+ }
+ 
+ @mixin bp-360() {
+	@media (min-width: 22.5em) {
+		@content;
+		/*content:"360px";*/
+	}
+ }
+
+ @mixin bp-320() {
+	@media (min-width: 20em) {
+		@content;
+		/*content:"320px";*/
+	}
+ }
