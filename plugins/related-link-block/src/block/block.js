@@ -12,7 +12,7 @@ import './style.scss';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { MediaUpload, PlainText, InspectorControls } = wp.blockEditor;
-const { Button, PanelBody, PanelRow } = wp.components;
+const { Button, PanelBody, PanelRow, ToggleControl } = wp.components;
 
 
 registerBlockType( 'cgb/block-related-link-block', {
@@ -32,6 +32,14 @@ registerBlockType( 'cgb/block-related-link-block', {
 		linkUrl: {
 			attribute: 'href',
 			selector: '.relatedlink'
+		},
+		isSponsored: {
+			type: 'boolean',
+			default: false
+		},
+		hasVideo: {
+			type: 'boolean',
+			default: false
 		},
 		category: {
 			source: 'text',
@@ -92,7 +100,7 @@ registerBlockType( 'cgb/block-related-link-block', {
 			<div>
 			<InspectorControls>
 				<PanelBody
-					title="Link URL"
+					title="Link Options"
 					initialOpen={true}
 				>
 					<PanelRow>
@@ -102,11 +110,25 @@ registerBlockType( 'cgb/block-related-link-block', {
 							placeholder="Enter URL"
 						/>
 					</PanelRow>
+					<PanelRow>
+						<ToggleControl
+							label="Links to video"
+							checked={ attributes.hasVideo }
+							onChange={ content => setAttributes({ hasVideo: content })}
+						/>
+					</PanelRow>
+					<PanelRow>
+						<ToggleControl
+							label="Sponsored Content"
+							checked={ attributes.isSponsored }
+							onChange={ content => setAttributes({ isSponsored: content })}
+						/>
+					</PanelRow>
 				</PanelBody>
 			</InspectorControls>
 
-			<div className="relatedlink">
-				<div className="relatedlink__image">
+			<div className={(attributes.isSponsored ? 'relatedlink _sponsored' : 'relatedlink')}>
+				<div className={(attributes.hasVideo ? 'relatedlink__image _video' : 'relatedlink__image')}>
 					<MediaUpload
 						onSelect={ media => {setAttributes({imageAlt: media.alt, imageUrl: media.url }); } }
 						type="image"
@@ -153,19 +175,19 @@ registerBlockType( 'cgb/block-related-link-block', {
 
 			if(alt) {
 				return (
-					<div className="relatedlink__image" style={"background-image: url('"+ src +"');"}>
+					<div className={(attributes.hasVideo ? 'relatedlink__image _video' : 'relatedlink__image')} style={"background-image: url('"+ src +"');"}>
                 		<img className="relatedlink__img" src={ src } alt={ alt } />
               		</div>
 				);
 			}
 			return (
-				<div className="relatedlink__image" style={"background-image: url('"+ src +"');"}>
+				<div className={(attributes.hasVideo ? 'relatedlink__image _video' : 'relatedlink__image')} style={"background-image: url('"+ src +"');"}>
                 	<img className="relatedlink__img" src={ src } aria-hidden="true" />
               	</div>
 			);
 		};
 		return (
-			<a href={ attributes.linkUrl } className="relatedlink">
+			<a href={ attributes.linkUrl } className={(attributes.isSponsored ? 'relatedlink _sponsored' : 'relatedlink')}>
               { linkImage(attributes.imageUrl, attributes.imageAlt) }
               <h5 className="relatedlink__category">{ attributes.category }</h5>
               <h4 className="relatedlink__title">{ attributes.title }</h4>
