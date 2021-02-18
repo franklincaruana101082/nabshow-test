@@ -46,6 +46,28 @@
                 cropperCancel.setAttribute('href', 'javascript:void(0)');
                 cropperCancel.innerText = 'Cancel';
                 nabModalContentWrap.append(cropperCancel);
+
+                let bmAdjustCropAction = document.createElement('div');
+                bmAdjustCropAction.setAttribute('class', 'bm-adjust-crop-actions');
+                nabModalContentWrap.append(bmAdjustCropAction);
+
+                let bmCropZoomAdjust = document.createElement('div');
+                bmCropZoomAdjust.setAttribute('class', 'bm-crop-adjust bm-zoom-ad');
+                bmAdjustCropAction.append(bmCropZoomAdjust);
+
+                let bmCropZoomOutAdjust = document.createElement('div');
+                bmCropZoomOutAdjust.setAttribute('class', 'bm-crop-adjust bm-zoom-out');
+                bmAdjustCropAction.append(bmCropZoomOutAdjust);
+
+                let bmZoomIn = document.createElement('a');
+                bmZoomIn.setAttribute('class', 'bm-zoom-in fa fa-plus');
+                bmZoomIn.setAttribute('href', 'javascript:void(0)');
+                bmCropZoomAdjust.append(bmZoomIn);
+
+                let bmZoomOut = document.createElement('a');
+                bmZoomOut.setAttribute('class', 'bm-zoom-out fa fa-minus');
+                bmZoomOut.setAttribute('href', 'javascript:void(0)');
+                bmCropZoomOutAdjust.append(bmZoomOut);
             }
 
             // Display the selected image.
@@ -65,7 +87,7 @@
 
                     // Activate the cropper on the image.
                     const cropperImg = document.getElementById('cropper-image');
-                    cropper = new Cropper(cropperImg, {
+                    window.cropper = cropper = new Cropper(cropperImg, {
                         aspectRatio: ratio,
                         fillColor: '#fff',
                         imageSmoothingEnabled: false,
@@ -127,6 +149,15 @@
                 }/*, 'image/png' */);
             }
         });
+
+        $(document).on('click', '.bm-zoom-in', function () {
+            cropper.zoom(0.1);
+        });
+
+        $(document).on('click', '.bm-zoom-out', function () {
+            cropper.zoom(-0.1);
+        });
+
     });
 })(jQuery);
 
