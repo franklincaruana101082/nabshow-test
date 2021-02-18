@@ -32,9 +32,7 @@ add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 10 );
 
 // Load Gutenberg Block Editor on VIP Go for this /*
 
-if ( function_exists( 'wpcom_vip_load_gutenberg' ) ) {
-    wpcom_vip_load_gutenberg( true );
-}
+add_filter( 'use_block_editor_for_post', '__return_true' );
 
 // Add Custom Meta Box for Disclaimer Text
 function event_desclaimer_text_box() {
