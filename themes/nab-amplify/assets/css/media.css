@@ -196,6 +196,9 @@
 	/*.comments-area .comment-author .comment-avtar{width:70px}
 	.comments-area .comment-author .comment-details{width:calc(100% - 70px)}
 	.comments-area .comment-list .children{padding-left:70px}*/
+
+	/* popup design */
+	.nab-modal .modal-content-wrap{max-height:70vh}
 }
 @media (max-width:767px){
 	.res-padd-30{padding:0 30px!important}
