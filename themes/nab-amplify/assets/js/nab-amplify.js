@@ -1285,7 +1285,7 @@
       .hide()
 
     if ( 0 < featuredSelector.length && null !== featuredSelector.val()) {
-      if (0 === featuredMax && 0 < featuredSelector.val().length) {
+      if (0 === featuredMax && 0 < featuredSelector.val().length ) {
         nabMembershipCategoryNotice(
           featuredSelector,
           "You can't add featured product categories without membership."
