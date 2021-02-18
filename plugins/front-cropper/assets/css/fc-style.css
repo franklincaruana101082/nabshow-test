@@ -1,7 +1,13 @@
 /* cropper popup */
-#cropper-board .modal-content a {border-radius: 4px;color: #fff!important;margin-right: 10px;cursor:pointer}
+#cropper-board .modal-content a.button {border-radius: 4px;color: #fff!important;margin-right: 10px;cursor:pointer}
 #cropper-board.nab-modal .modal-content-wrap {text-align: center;}
 .cropper-container, #cropper-image {max-width: 100%;margin: 0 0 15px;max-height: 550px;}
+
+/* cropper */
+#cropper-board .bm-adjust-crop-actions{position:absolute;left:40px;top:40px;background-color:rgb(0 0 0 / 50%);padding:10px;}
+#cropper-board .bm-adjust-crop-actions .bm-crop-adjust{margin-bottom:10px;}
+#cropper-board .bm-adjust-crop-actions .bm-crop-adjust:last-child{margin-bottom:0;}
+#cropper-board .bm-adjust-crop-actions a{width:35px;height:35px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border:2px solid #ccc;color:#fff!important;}
 
 @media (max-width:600px){
 	#cropper-board.nab-modal .modal-content-wrap{max-height:60vh}
