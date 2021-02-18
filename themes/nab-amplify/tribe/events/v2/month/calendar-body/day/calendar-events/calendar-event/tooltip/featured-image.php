@@ -23,7 +23,7 @@ if ( ! $event->thumbnail->exists ) {
 $event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
 $featured_image   = nab_amplify_get_featured_image( $post_id );
 ?>
-<div class="tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
+<div class="ne-check01 tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
 	<a
 		href="<?php echo esc_url( $event_url ); ?>"
 		target="_blank"
