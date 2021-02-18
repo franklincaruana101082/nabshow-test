@@ -68,7 +68,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			}
 
 			// Post values.
-			$bm_meta_featured_image = filter_input( INPUT_POST, “bm_meta_featured_image”, FILTER_SANITIZE_STRING );
+			$bm_meta_featured_image = filter_input( INPUT_POST, "bm_meta_featured_image", FILTER_SANITIZE_STRING );
 
 			if ( $bm_meta_featured_image ) {
 				update_post_meta(
