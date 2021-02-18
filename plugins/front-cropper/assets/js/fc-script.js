@@ -87,7 +87,7 @@
 
                     // Activate the cropper on the image.
                     const cropperImg = document.getElementById('cropper-image');
-                    cropper = new Cropper(cropperImg, {
+                    window.cropper = cropper = new Cropper(cropperImg, {
                         aspectRatio: ratio,
                         fillColor: '#fff',
                         imageSmoothingEnabled: false,
@@ -149,6 +149,15 @@
                 }/*, 'image/png' */);
             }
         });
+
+        $(document).on('click', '.bm-zoom-in', function () {
+            cropper.zoom(0.1);
+        });
+
+        $(document).on('click', '.bm-zoom-out', function () {
+            cropper.zoom(-0.1);
+        });
+
     });
 })(jQuery);
 
