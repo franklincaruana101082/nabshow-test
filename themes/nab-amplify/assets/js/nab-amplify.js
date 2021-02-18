@@ -273,7 +273,9 @@
         },
         cache: true
       },
-      minimumInputLength: 3
+      minimumInputLength: 3,
+      placeholder:'Select Point of contact',
+      allowClear:true
     })
 
     if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined') {
@@ -686,7 +688,9 @@
               },
               cache: true
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
+            allowClear:true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -770,7 +774,9 @@
               },
               cache: true
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
+            allowClear:true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -1148,7 +1154,9 @@
               },
               cache: true
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
+            allowClear:true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1214,7 +1222,9 @@
               },
               cache: true
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
+            allowClear:true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1285,7 +1295,7 @@
       .hide()
 
     if ( 0 < featuredSelector.length && null !== featuredSelector.val()) {
-      if (0 === featuredMax && 0 < featuredSelector.val().length ) {
+      if (0 === featuredMax && 0 < featuredSelector.val().length) {
         nabMembershipCategoryNotice(
           featuredSelector,
           "You can't add featured product categories without membership."
@@ -1545,7 +1555,9 @@
               },
               cache: true
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
+            allowClear:true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1612,7 +1624,9 @@
               },
               cache: true
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
+            allowClear:true
           })
           $('.company-admins').select2({
             ajax: {
