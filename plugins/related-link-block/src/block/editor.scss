@@ -24,6 +24,9 @@
 			line-height: rem(17);
 			letter-spacing: 0.05em;
 			text-transform: uppercase;
+			._sponsored & {
+				color: $color__white;
+			}
 		}
 	}
 	&__title {
