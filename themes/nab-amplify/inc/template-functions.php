@@ -1023,7 +1023,8 @@ function nab_get_company_member_category_limit( $company_id ) {
 function nab_amplify_get_featured_image( $post_ID, $default = true ) {
 
 	$bynder_image = get_post_meta( $post_ID, 'profile_picture', true );
-	if ( null !== $bynder_image && ! empty( $bynder_image ) ) {
+	if ( null !== $bynder_image && ! empty( $bynder_image )
+	     && strpos( $bynder_image, 'assets') !== false) {
 		$featured_image = $bynder_image;
 	} else {
 		$featured_image = get_the_post_thumbnail_url( $post_ID );
