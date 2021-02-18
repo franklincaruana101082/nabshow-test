@@ -66,7 +66,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				num   = 0;
 
 			_.each( views, function( view ) {
-				if ( view.model.attributes.type === elementType ) {
+				if ( view.model.attributes.element_type === elementType ) {
 					num++;
 				}
 			} );

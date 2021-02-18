@@ -26,7 +26,7 @@ $c_page_id = Avada()->fusion_library->get_page_id();
 			<div class="fusion-columns fusion-columns-<?php echo esc_attr( $footer_widget_columns ); ?> fusion-widget-area">
 				<?php
 				/**
-				 * Check the column width based on the amount of columns chosen in Theme Options.
+				 * Check the column width based on the amount of columns chosen in Global Options.
 				 */
 				$footer_widget_columns = ( ! $footer_widget_columns ) ? 1 : $footer_widget_columns;
 				$column_width          = ( 5 === $footer_widget_columns ) ? 2 : 12 / $footer_widget_columns;
@@ -34,7 +34,7 @@ $c_page_id = Avada()->fusion_library->get_page_id();
 
 				<?php
 				/**
-				 * Render as many widget columns as have been chosen in Theme Options.
+				 * Render as many widget columns as have been chosen in Global Options.
 				 */
 				?>
 				<?php for ( $i = 1; $i < 7; $i++ ) : ?>
@@ -79,7 +79,7 @@ $c_page_id = Avada()->fusion_library->get_page_id();
 				/**
 				 * Footer Content (Copyright area) avada_footer_copyright_content hook.
 				 *
-				 * @hooked avada_render_footer_copyright_notice - 10 (outputs the HTML for the Theme Options footer copyright text)
+				 * @hooked avada_render_footer_copyright_notice - 10 (outputs the HTML for the Global Options footer copyright text)
 				 * @hooked avada_render_footer_social_icons - 15 (outputs the HTML for the footer social icons)..
 				 */
 				do_action( 'avada_footer_copyright_content' );

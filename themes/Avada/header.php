@@ -45,18 +45,22 @@ $wrapper_class .= ( is_page_template( 'blank.php' ) ) ? ' wrapper_blank' : '';
 		<div class="fusion-sides-frame"></div>
 		<div id="wrapper" class="<?php echo esc_attr( $wrapper_class ); ?>">
 			<div id="home" style="position:relative;top:-1px;"></div>
-			<?php avada_header_template( 'below', ( is_archive() || Avada_Helper::bbp_is_topic_tag() ) && ! ( class_exists( 'WooCommerce' ) && is_shop() ) ); ?>
-			<?php if ( 'left' === fusion_get_option( 'header_position' ) || 'right' === fusion_get_option( 'header_position' ) ) : ?>
-				<?php avada_side_header(); ?>
+			<?php if ( has_action( 'avada_render_header' ) ) : ?>
+				<?php do_action( 'avada_render_header' ); ?>
+			<?php else : ?>
+
+				<?php avada_header_template( 'below', ( is_archive() || Avada_Helper::bbp_is_topic_tag() ) && ! ( class_exists( 'WooCommerce' ) && is_shop() ) ); ?>
+				<?php if ( 'left' === fusion_get_option( 'header_position' ) || 'right' === fusion_get_option( 'header_position' ) ) : ?>
+					<?php avada_side_header(); ?>
+				<?php endif; ?>
+
+				<?php avada_sliders_container(); ?>
+
+				<?php avada_header_template( 'above', ( is_archive() || Avada_Helper::bbp_is_topic_tag() ) && ! ( class_exists( 'WooCommerce' ) && is_shop() ) ); ?>
+
 			<?php endif; ?>
 
-			<?php avada_sliders_container(); ?>
-
-			<?php avada_header_template( 'above', ( is_archive() || Avada_Helper::bbp_is_topic_tag() ) && ! ( class_exists( 'WooCommerce' ) && is_shop() ) ); ?>
-
-			<div class="avada-page-titlebar-wrapper">
-				<?php avada_current_page_title_bar( $c_page_id ); ?>
-			</div>
+			<?php avada_current_page_title_bar( $c_page_id ); ?>
 
 			<?php
 			$row_css    = '';

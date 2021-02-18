@@ -94,8 +94,8 @@ class Avada_Upgrade_552 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.2
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function set_sidebar_gutter_options( $options ) {
 
@@ -130,8 +130,8 @@ class Avada_Upgrade_552 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.2
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function set_alert_boxes_accent_colors( $options ) {
 
@@ -153,8 +153,8 @@ class Avada_Upgrade_552 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.2
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function set_archive_header_background_color( $options ) {
 		$header_bg_color = ( isset( $options['header_bg_color'] ) ) ? $options['header_bg_color'] : '#ffffff';
@@ -171,8 +171,8 @@ class Avada_Upgrade_552 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.2
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function turn_off_whats_app_social_sharing( $options ) {
 

@@ -98,7 +98,7 @@ function avada_options_section_advanced( $sections ) {
 					],
 					'dependencies_status'                => [
 						'label'       => esc_html__( "Avada's Option Network Dependencies", 'Avada' ),
-						'description' => esc_html__( "Avada's Option Network consists of Fusion Theme Options, Page Options, Builder options and each of them have dependent options ON by default. This means the only options you see are the only ones currently available for your selection. However, if you wish to disable this feature, simply turn this option off, and all dependencies will be disabled (requires save & refresh).", 'Avada' ),
+						'description' => esc_html__( "Avada's Option Network consists of Fusion Global Options, Page Options, Builder options and each of them have dependent options ON by default. This means the only options you see are the only ones currently available for your selection. However, if you wish to disable this feature, simply turn this option off, and all dependencies will be disabled (requires save & refresh).", 'Avada' ),
 						'id'          => 'dependencies_status',
 						'default'     => '1',
 						'type'        => 'switch',
@@ -130,7 +130,7 @@ function avada_options_section_advanced( $sections ) {
 					],
 					'disable_code_block_encoding'        => [
 						'label'       => esc_html__( 'Code Block Encoding', 'Avada' ),
-						'description' => esc_html__( 'Turn on to enable encoding in the Fusion Builder code block and syntax highlighting elements.', 'Avada' ),
+						'description' => esc_html__( 'Turn on to enable encoding in the Avada Builder code block and syntax highlighting elements.', 'Avada' ),
 						'id'          => 'disable_code_block_encoding',
 						'default'     => '1',
 						'type'        => 'switch',
@@ -421,20 +421,11 @@ function avada_options_section_advanced( $sections ) {
 							],
 						],
 					],
-					'status_fusion_slider'               => [
-						'label'       => esc_html__( 'Fusion Slider', 'Avada' ),
-						'description' => esc_html__( 'Turn on to enable the fusion slider.', 'Avada' ),
-						'id'          => 'status_fusion_slider',
-						'default'     => '1',
-						'type'        => 'switch',
-						// No need to refresh the page.
-						'transport'   => 'postMessage',
-					],
 					'status_eslider'                     => [
 						'label'       => esc_html__( 'Elastic Slider', 'Avada' ),
 						'description' => esc_html__( 'Turn on to enable the elastic slider.', 'Avada' ),
 						'id'          => 'status_eslider',
-						'default'     => '1',
+						'default'     => '0',
 						'type'        => 'switch',
 						// No need to refresh the page.
 						'transport'   => 'postMessage',
@@ -585,6 +576,50 @@ function avada_options_section_advanced( $sections ) {
 							'off'  => esc_html__( 'Off', 'Avada' ),
 						],
 						'transport'   => 'refresh',
+					],
+				],
+			],
+			'post_types_section'         => [
+				'label'  => esc_html__( 'Post Types', 'Avada' ),
+				'id'     => 'post_types_section',
+				'icon'   => true,
+				'type'   => 'sub-section',
+				'fields' => [
+					'status_fusion_slider'    => [
+						'label'       => esc_html__( 'Avada Slider', 'Avada' ),
+						'description' => esc_html__( 'Turn on to enable the Avada Slider.', 'Avada' ),
+						'id'          => 'status_fusion_slider',
+						'default'     => '1',
+						'type'        => 'switch',
+						// No need to refresh the page.
+						'transport'   => 'postMessage',
+					],
+					'status_fusion_forms'     => [
+						'label'       => esc_html__( 'Avada Forms', 'Avada' ),
+						'description' => esc_html__( 'Turn on to enable the Avada Forms.', 'Avada' ),
+						'id'          => 'status_fusion_forms',
+						'default'     => '1',
+						'type'        => 'switch',
+						// No need to refresh the page.
+						'transport'   => 'postMessage',
+					],
+					'status_fusion_portfolio' => [
+						'label'       => esc_html__( 'Avada Portfolio', 'Avada' ),
+						'description' => esc_html__( 'Turn on to enable the Avada Portfolio.', 'Avada' ),
+						'id'          => 'status_fusion_portfolio',
+						'default'     => '1',
+						'type'        => 'switch',
+						// No need to refresh the page.
+						'transport'   => 'postMessage',
+					],
+					'status_fusion_faqs'      => [
+						'label'       => esc_html__( 'Avada FAQs', 'Avada' ),
+						'description' => esc_html__( 'Turn on to enable the Avada Faqs.', 'Avada' ),
+						'id'          => 'status_fusion_faqs',
+						'default'     => '1',
+						'type'        => 'switch',
+						// No need to refresh the page.
+						'transport'   => 'postMessage',
 					],
 				],
 			],

@@ -49,7 +49,7 @@ class Avada_Widget_Style {
 		$this->init_options();
 
 		// Add styles and scripts.
-		add_action( 'admin_print_styles', [ $this, 'add_scripts_styles' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'add_scripts_styles' ] );
 
 		// If ajax request coming from front-end we dont want these added.
 		if ( ! isset( $_POST ) || ! isset( $_POST['action'] ) || 'fusion_get_widget_data' !== $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
@@ -207,6 +207,13 @@ class Avada_Widget_Style {
 					],
 				],
 			],
+			'fusion_divider_color'  => [
+				'key'          => 'fusion_divider_color',
+				'title'        => esc_html__( 'Divider Color', 'Avada' ),
+				'description'  => esc_html__( 'Controls the color of dividers in this widget container. Leave empty for the Global Options default value or no dividers when using the vertical menu widget.', 'Avada' ),
+				'css_property' => 'border-color',
+				'type'         => 'colorpickeralpha',
+			],
 			'fusion_align'          => [
 				'key'          => 'fusion_align',
 				'title'        => esc_html__( 'Content Align', 'Avada' ),
@@ -257,7 +264,13 @@ class Avada_Widget_Style {
 				$field_css_classes .= ' pyre_field avada-color colorpickeralpha';
 			}
 
-			$value                 = isset( $instance[ $option['key'] ] ) ? $instance[ $option['key'] ] : '';
+			$value = isset( $instance[ $option['key'] ] ) ? $instance[ $option['key'] ] : '';
+
+			// For vertical menu widget, convert the old border_color option to the new fusion_divider_color one.
+			if ( 'fusion_divider_color' === $option['key'] && empty( $instance['fusion_divider_color'] ) && ! empty( $instance['border_color'] ) ) {
+				$value = $instance['border_color'];
+			}
+
 			$option['description'] = isset( $option['description'] ) ? $option['description'] : '';
 
 			if ( 'range' === $option['type'] ) {
@@ -396,6 +409,13 @@ class Avada_Widget_Style {
 	public function save_widget_styling_options( $instance, $new_instance, $old_instance, $widget ) {
 
 		foreach ( $this->widget_options as $option ) {
+
+			// For vertical menu widget, convert the old border_color option to the new fusion_divider_color one.
+			if ( 'fusion_divider_color' === $option['key'] && empty( $new_instance['fusion_divider_color'] ) && ! isset( $old_instance['fusion_divider_color'] ) && ! empty( $new_instance['border_color'] ) ) {
+				$new_instance['fusion_divider_color'] = $new_instance['border_color'];
+				unset( $new_instance['border_color'] );
+			}
+
 			$instance[ $option['key'] ] = ! empty( $new_instance[ $option['key'] ] ) ? sanitize_text_field( $new_instance[ $option['key'] ] ) : '';
 		}
 
@@ -426,8 +446,9 @@ class Avada_Widget_Style {
 		$widget_num = $widget_obj['params'][0]['number'];
 		$widget_opt = $this->get_widget_opt( $widget_obj );
 
-		$style        = '';
-		$style_mobile = '';
+		$style          = '';
+		$style_mobile   = '';
+		$divider_styles = '';
 
 		// If calendar and no alignment set, set to default.
 		if ( isset( $widget_opt[ $widget_num ] ) && ! isset( $widget_opt[ $widget_num ]['fusion_align'] ) && false !== strpos( $widget_id, 'calendar' ) ) {
@@ -493,8 +514,40 @@ class Avada_Widget_Style {
 			$params[0]['before_widget'] = str_replace( '>', ' style="' . esc_attr( $style ) . '">', $params[0]['before_widget'] );
 		}
 
+		if ( isset( $widget_opt[ $widget_num ]['fusion_divider_color'] ) && '' !== $widget_opt[ $widget_num ]['fusion_divider_color'] ) {
+			$fusion_divider_color = Fusion_Sanitize::color( $widget_opt[ $widget_num ]['fusion_divider_color'] );
+			$divider_styles       = '#' . $widget_id . ' li { border-color:' . $fusion_divider_color . ';}';
+
+			if ( false !== strpos( $params[0]['widget_id'], 'tag_cloud' ) ) {
+				$divider_styles .= '#' . $widget_id . ' .tagcloud a { border-color:' . $fusion_divider_color . ';}';
+			} elseif ( false !== strpos( $params[0]['widget_id'], 'menu-widget' ) ) {
+				$divider_styles .= '#' . $widget_id . ' .fusion-widget-menu ul li a:after { color:' . $fusion_divider_color . ';}';
+			}
+		}
+
+		// Special handling for vertical menu widget, to take into account the deprecated border_color option.
+		if ( false !== strpos( $params[0]['widget_id'], 'avada-vertical-menu-widget' ) ) {
+			if ( isset( $widget_opt[ $widget_num ]['border_color'] ) && ! isset( $widget_opt[ $widget_num ]['fusion_divider_color'] ) ) {
+				$widget_opt[ $widget_num ]['fusion_divider_color'] = $widget_opt[ $widget_num ]['border_color'];
+			}
+
+			if ( '' !== $widget_opt[ $widget_num ]['fusion_divider_color'] ) {
+				$fusion_divider_color = Fusion_Sanitize::color( $widget_opt[ $widget_num ]['fusion_divider_color'] );
+	
+				$divider_styles .= '#' . $widget_id . ' .menu { border-right-color:' . $fusion_divider_color . ' !important;border-top-color:' . $fusion_divider_color . ' !important;}';
+				$divider_styles .= '#' . $widget_id . ' .menu li a { border-bottom-color:' . $fusion_divider_color . ' !important; }';
+				$divider_styles .= '#' . $widget_id . ' .right .menu { border-left-color:' . $fusion_divider_color . ' !important; }';
+			} else {
+				$divider_styles .= '#' . $widget_id . ' > ul.menu { margin-top: -8px; }'; // phpcs:ignore WordPress.Security.EscapeOutput
+			}
+		}
+
 		if ( ! empty( $style_mobile ) ) {
-			$params[0]['before_widget'] = '<style type="text/css" data-id="' . $widget_id . '">@media (max-width: ' . Avada()->settings->get( 'content_break_point' ) . 'px){' . $style_mobile . '}</style>' . $params[0]['before_widget'];
+			$style_mobile = '@media (max-width: ' . Avada()->settings->get( 'content_break_point' ) . 'px){' . $style_mobile . '}';
+		}
+
+		if ( ! empty( $style_mobile ) || ! empty( $divider_styles ) ) {
+			$params[0]['before_widget'] = '<style type="text/css" data-id="' . $widget_id . '">' . $divider_styles . $style_mobile . '</style>' . $params[0]['before_widget'];
 		}
 
 		return $params;

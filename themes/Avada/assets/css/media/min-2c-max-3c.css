@@ -1,11 +1,13 @@
 .fusion-blog-layout-grid-6 .fusion-post-grid,
 .fusion-grid-6 .fusion-grid-column,
-.fusion-portfolio-six .fusion-portfolio-post {
+.fusion-portfolio-six .fusion-portfolio-post,
+.products.products-6 .product-grid-view {
   width: 33.3333333333% !important;
 }
 .fusion-blog-layout-grid-6 .fusion-post-grid.fusion-element-landscape,
 .fusion-grid-6 .fusion-grid-column.fusion-element-landscape,
-.fusion-portfolio-six .fusion-portfolio-post.fusion-element-landscape {
+.fusion-portfolio-six .fusion-portfolio-post.fusion-element-landscape,
+.products.products-6 .product-grid-view.fusion-element-landscape {
   width: 66.6666666666% !important;
 }
 .fusion-blog-layout-grid-3 .fusion-post-grid,
@@ -17,7 +19,10 @@
 .fusion-portfolio-five .fusion-portfolio-post,
 .fusion-portfolio-four .fusion-portfolio-post,
 .fusion-portfolio-masonry .fusion-portfolio-post,
-.fusion-portfolio-three .fusion-portfolio-post {
+.fusion-portfolio-three .fusion-portfolio-post,
+.products.products-3 .product-grid-view,
+.products.products-4 .product-grid-view,
+.products.products-5 .product-grid-view {
   width: 50% !important;
 }
 .fusion-blog-layout-grid-3 .fusion-post-grid.fusion-element-landscape,
@@ -29,6 +34,9 @@
 .fusion-portfolio-five .fusion-portfolio-post.fusion-element-landscape,
 .fusion-portfolio-four .fusion-portfolio-post.fusion-element-landscape,
 .fusion-portfolio-masonry .fusion-portfolio-post.fusion-element-landscape,
-.fusion-portfolio-three .fusion-portfolio-post.fusion-element-landscape {
+.fusion-portfolio-three .fusion-portfolio-post.fusion-element-landscape,
+.products.products-3 .product-grid-view.fusion-element-landscape,
+.products.products-4 .product-grid-view.fusion-element-landscape,
+.products.products-5 .product-grid-view.fusion-element-landscape {
   width: 100% !important;
 }

@@ -41,7 +41,6 @@
 }
 .fusion-footer footer .fusion-row .fusion-columns {
   display: var(--footer_divider_line-flex);
-  -ms-flex-flow: wrap;
   flex-flow: wrap;
 }
 .rtl .fusion-footer footer .fusion-row .fusion-columns .fusion-column.fusion-column-last {

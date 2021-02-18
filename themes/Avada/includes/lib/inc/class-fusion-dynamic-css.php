@@ -681,7 +681,7 @@ class Fusion_Dynamic_CSS {
 		uksort(
 			self::$replace_patterns,
 			function( $a, $b ) {
-				return strlen( $a ) < strlen( $b );
+				return strlen( $b ) - strlen( $a );
 			}
 		);
 		return self::$replace_patterns;

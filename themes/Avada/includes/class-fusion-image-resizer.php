@@ -125,7 +125,8 @@ class Fusion_Image_Resizer {
 		// Get the destination file name.
 		$dest_file_name = "{$dir}/{$name}-{$suffix}.{$ext}";
 
-		if ( ! file_exists( $dest_file_name ) ) {
+		if ( ! file_exists( $dest_file_name ) || ( isset( $_GET['force-regenerate'] ) && $_GET['force-regenerate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput
+
 			/*
 			 *  Bail if this image isn't in the Media Library.
 			 *  We only want to resize Media Library images, so we can be sure they get deleted correctly when appropriate.

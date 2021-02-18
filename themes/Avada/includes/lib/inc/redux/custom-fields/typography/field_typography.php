@@ -10,7 +10,6 @@
  * - makeGoogleWebfontString()
  * - output()
  * - getGoogleArray()
- * - getSubsets()
  * - getVariants()
  * Classes list:
  * - FusionReduxFramework_typography
@@ -51,7 +50,7 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 		 *
 		 * @since FusionReduxFramework 1.0.0
 		 */
-		function __construct( $field = array(), $value = '', $parent ) {
+		function __construct( $field = array(), $value = '', $parent = null ) {
 			$this->parent = $parent;
 			$this->field  = $field;
 			$this->value  = $value;
@@ -69,7 +68,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 				'font-weight'     => true,
 				'font-style'      => true,
 				'font-backup'     => false,
-				'subsets'         => true,
 				'custom_fonts'    => true,
 				'text-align'      => true,
 				'text-transform'  => false,
@@ -79,7 +77,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 				'preview'         => true,
 				'line-height'     => true,
 				'multi' => array(
-					'subset' => false,
 					'weight' => false,
 				),
 				'word-spacing'    => false,
@@ -104,7 +101,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 				'line-height'     => '',
 				'word-spacing'    => '',
 				'letter-spacing'  => '',
-				'subsets'         => '',
 				'google'          => false,
 				'font-script'     => '',
 				'font-weight'     => '',
@@ -277,10 +273,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 				$multi = ( isset( $this->field['multi']['weight'] ) && $this->field['multi']['weight'] ) ? ' multiple="multiple"' : "";
 				echo '<select' . $multi . ' data-placeholder="' . __( 'Style', 'Avada' ) . '" class="fusionredux-typography fusionredux-typography-style select ' . $this->field['class'] . '" original-title="' . __( 'Font style', 'Avada' ) . '" id="' . $this->field['id'] . '_style" data-id="' . $this->field['id'] . '" data-value="' . $style . '">';
 
-				if ( empty( $this->value['subsets'] ) || empty( $this->value['font-weight'] ) ) {
-					echo '<option value=""></option>';
-				}
-
 				$nonGStyles = array(
 					'200' => 'Lighter',
 					'400' => 'Normal',
@@ -288,35 +280,11 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 					'900' => 'Bolder'
 				);
 
-				if ( ! isset( $this->value['font-weight'] ) && isset( $this->value['subsets'] ) ) {
-					$this->value['font-weight'] = $this->value['subsets'];
-				}
-
 				foreach ( $nonGStyles as $i => $style ) {
 					if ( ! isset( $this->value['font-weight'] ) ) {
 						$this->value['font-weight'] = false;
 					}
-
-					if ( ! isset( $this->value['subsets'] ) ) {
-						$this->value['subsets'] = false;
-					}
-
 					echo '<option value="' . $i . '" ' . selected( $this->value['font-weight'], $i, false ) . '>' . $style . '</option>';
-				}
-
-				echo '</select></div>';
-			}
-
-			/* Font Script */
-			if ( $this->field['font-family'] == true && $this->field['subsets'] == true && $this->field['google'] == true ) {
-				echo '<div class="select_wrapper typography-script tooltip" original-title="' . __( 'Font subsets', 'Avada' ) . '">';
-				echo '<input type="hidden" class="typography-subsets" name="' . $this->field['name'] . $this->field['name_suffix'] . '[subsets]' . '" value="' . $this->value['subsets'] . '" data-id="' . $this->field['id'] . '"  /> ';
-				echo '<label>' . __( 'Font Subsets', 'Avada' ) . '</label>';
-				$multi = ( isset( $this->field['multi']['subset'] ) && $this->field['multi']['subset'] ) ? ' multiple="multiple"' : "";
-				echo '<select'.$multi.' data-placeholder="' . __( 'Subsets', 'Avada' ) . '" class="fusionredux-typography fusionredux-typography-subsets ' . $this->field['class'] . '" original-title="' . __( 'Font script', 'Avada' ) . '"  id="' . $this->field['id'] . '-subsets" data-value="' . $this->value['subsets'] . '" data-id="' . $this->field['id'] . '" >';
-
-				if ( empty( $this->value['subsets'] ) ) {
-					echo '<option value=""></option>';
 				}
 
 				echo '</select></div>';
@@ -502,7 +470,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 						if ( $isGoogleFont == true && isset( $fontFamily ) && is_array( $fontFamily ) && isset( $fontFamily[0] ) ) {
 							$this->parent->typography_preview[ $fontFamily[0] ] = array(
 								'font-style' => array( $this->value['font-weight'] . $this->value['font-style'] ),
-								'subset'     => array( $this->value['subsets'] )
 							);
 
 							$protocol = ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443 ) ? "https:" : "http:";
@@ -586,8 +553,7 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 		 * @since FusionReduxFramework 3.0.0
 		 */
 		function makeGoogleWebfontLink( $fonts ) {
-			$link    = "";
-			$subsets = array();
+			$link = "";
 
 			foreach ( $fonts as $family => $font ) {
 				if ( ! empty( $link ) ) {
@@ -603,20 +569,7 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 						$link .= implode( ',', $font['font-style'] );
 					}
 				}
-
-				if ( ! empty( $font['subset'] ) ) {
-					foreach ( $font['subset'] as $subset ) {
-						if ( ! in_array( $subset, $subsets ) ) {
-							array_push( $subsets, $subset );
-						}
-					}
-				}
 			}
-
-			if ( ! empty( $subsets ) ) {
-				$link .= "&subset=" . implode( ',', $subsets );
-			}
-
 
 			return 'https://fonts.googleapis.com/css?family=' . str_replace( '|', '%7C', $link );
 		}
@@ -629,8 +582,7 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 		 */
 		function makeGoogleWebfontString( $fonts ) {
 
-			$link    = "";
-			$subsets = array();
+			$link = "";
 
 			foreach ( $fonts as $family => $font ) {
 				if ( ! empty( $link ) ) {
@@ -646,18 +598,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 						$link .= implode( ',', $font['font-style'] );
 					}
 				}
-
-				if ( ! empty( $font['subset'] ) ) {
-					foreach ( $font['subset'] as $subset ) {
-						if ( ! in_array( $subset, $subsets ) ) {
-							array_push( $subsets, $subset );
-						}
-					}
-				}
-			}
-
-			if ( ! empty( $subsets ) ) {
-				$link .= "&subset=" . implode( ',', $subsets );
 			}
 
 			return "'" . $link . "'";
@@ -889,12 +829,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 								$this->parent->typography[ $font['font-family'] ]['font-style'][] = $style;
 							}
 						}
-
-						if ( ! empty( $font['subsets'] ) ) {
-							if ( empty( $this->parent->typography[ $font['font-family'] ]['subset'] ) || ! in_array( $font['subsets'], $this->parent->typography[ $font['font-family'] ]['subset'] ) ) {
-								$this->parent->typography[ $font['font-family'] ]['subset'][] = $font['subsets'];
-							}
-						}
 					} // !array_key_exists
 				} //!empty fonts array
 			} // Typography not set
@@ -945,7 +879,6 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 					foreach ( $result->items as $font ) {
 						$this->parent->googleArray[ $font->family ] = array(
 							'variants' => $this->getVariants( $font->variants ),
-							'subsets'  => $this->getSubsets( $font->subsets )
 						);
 					}
 
@@ -990,43 +923,13 @@ if ( ! class_exists( 'FusionReduxFramework_typography' ) ) {
 										'id'          => $extra_item['family'],
 										'text'        => $extra_item['family'],
 										'data-google' => 'true'
-									);			
+									);
 								}
 							}
 						}
 					}
 				}
 			}
-		}
-
-		/**
-		 * getSubsets Function.
-		 * Clean up the Google Webfonts subsets to be human readable
-		 *
-		 * @since FusionReduxFramework 0.2.0
-		 */
-		private function getSubsets( $var ) {
-			$result = array();
-
-			foreach ( $var as $v ) {
-				if ( strpos( $v, "-ext" ) ) {
-					$name = sprintf(
-						/* Translators: language subset. */
-						esc_html__( '%s Extended', 'Avada' ),
-						ucfirst( str_replace( '-ext', '', $v ) )
-					);
-					$name = ucfirst( str_replace( "-ext", " Extended", $v ) );
-				} else {
-					$name = ucfirst( $v );
-				}
-
-				array_push( $result, array(
-					'id'   => $v,
-					'name' => $name
-				) );
-			}
-
-			return array_filter( $result );
 		}
 
 		/**

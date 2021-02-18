@@ -37,7 +37,7 @@ if ( ! class_exists( 'FusionReduxFramework_slider' ) ) {
 		private $display_text = 2;
 		private $display_select = 3;
 
-		function __construct( $field = array(), $value = '', $parent ) {
+		function __construct( $field = array(), $value = '', $parent = null ) {
 
 			//parent::__construct( $parent->sections, $parent->args );
 			$this->parent = $parent;

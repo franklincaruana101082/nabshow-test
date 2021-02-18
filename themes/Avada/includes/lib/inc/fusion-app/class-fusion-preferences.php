@@ -88,7 +88,7 @@ class Fusion_Preferences {
 	}
 
 	/**
-	 * Sets Fusion Builder front-end preferences.
+	 * Sets Avada Builder front-end preferences.
 	 *
 	 * @access public
 	 * @since 2.0
@@ -104,7 +104,7 @@ class Fusion_Preferences {
 	}
 
 	/**
-	 * Gets Fusion Builder front-end preferences.
+	 * Gets Avada Builder front-end preferences.
 	 *
 	 * @access public
 	 * @since 2.0
@@ -114,7 +114,7 @@ class Fusion_Preferences {
 	}
 
 	/**
-	 * Save Fusion Builder front-end preferences.
+	 * Save Avada Builder front-end preferences.
 	 *
 	 * @access public
 	 * @since 2.0
@@ -197,8 +197,8 @@ class Fusion_Preferences {
 			],
 			[
 				'type'        => 'radio_button_set',
-				'heading'     => esc_html__( 'Enable Sticky Header', 'fusion-builder' ),
-				'description' => esc_html__( 'Choose if sticky header should be enabled or disabled.', 'fusion-builder' ),
+				'heading'     => __( 'Enable Sticky Header & Containers', 'fusion-builder' ),
+				'description' => esc_html__( 'Choose if sticky header and sticky containers should be enabled or disabled.', 'fusion-builder' ),
 				'param_name'  => 'sticky_header',
 				'value'       => [
 					'on'  => esc_html__( 'On', 'fusion-builder' ),
@@ -208,8 +208,8 @@ class Fusion_Preferences {
 			],
 			[
 				'type'        => 'radio_button_set',
-				'heading'     => esc_html__( 'Enable Transparent Header', 'fusion-builder' ),
-				'description' => esc_html__( 'Choose if transparent header should be enabled or disabled.', 'fusion-builder' ),
+				'heading'     => __( 'Enable Transparent Header & Absolute Containers', 'fusion-builder' ),
+				'description' => esc_html__( 'Choose if transparent header and absolute containers should be enabled or disabled.', 'fusion-builder' ),
 				'param_name'  => 'transparent_header',
 				'value'       => [
 					'on'  => esc_html__( 'On', 'fusion-builder' ),

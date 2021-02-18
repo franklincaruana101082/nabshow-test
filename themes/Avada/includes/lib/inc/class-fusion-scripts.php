@@ -89,6 +89,14 @@ class Fusion_Scripts {
 				true,
 			],
 			[
+				'fusion',
+				self::$js_folder_url . '/general/fusion.js',
+				self::$js_folder_path . '/general/fusion.js',
+				[],
+				$fusion_library_latest_version,
+				true,
+			],
+			[
 				'isotope',
 				self::$js_folder_url . '/library/isotope.js',
 				self::$js_folder_path . '/library/isotope.js',
@@ -215,14 +223,6 @@ class Fusion_Scripts {
 				true,
 			],
 			[
-				'jquery-easy-pie-chart',
-				self::$js_folder_url . '/library/jquery.easyPieChart.js',
-				self::$js_folder_path . '/library/jquery.easyPieChart.js',
-				[ 'jquery' ],
-				'2.1.7',
-				true,
-			],
-			[
 				'jquery-fitvids',
 				self::$js_folder_url . '/library/jquery.fitvids.js',
 				self::$js_folder_path . '/library/jquery.fitvids.js',
@@ -235,7 +235,7 @@ class Fusion_Scripts {
 				self::$js_folder_url . '/library/jquery.flexslider.js',
 				self::$js_folder_path . '/library/jquery.flexslider.js',
 				[ 'jquery' ],
-				'2.2.2',
+				'2.7.2',
 				true,
 			],
 			[
@@ -432,6 +432,14 @@ class Fusion_Scripts {
 				'1',
 				true,
 			],
+			[
+				'jquery-sticky-kit',
+				self::$js_folder_url . '/library/jquery.sticky-kit.js',
+				self::$js_folder_path . '/library/jquery.sticky-kit.js',
+				[ 'jquery' ],
+				'1.1.2',
+				true,
+			],
 		];
 
 		// Conditional scripts.
@@ -492,6 +500,11 @@ class Fusion_Scripts {
 
 		$is_builder = ( function_exists( 'fusion_is_preview_frame' ) && fusion_is_preview_frame() ) || ( function_exists( 'fusion_is_builder_frame' ) && fusion_is_builder_frame() );
 
+		$header_override = false;
+		if ( class_exists( 'Fusion_Template_Builder' ) ) {
+			$header_override = Fusion_Template_Builder::get_instance()->get_override( 'header' );
+		}
+
 		// Some general enqueue for now.
 		Fusion_Dynamic_JS::enqueue_script(
 			'fusion-general-global',
@@ -502,15 +515,6 @@ class Fusion_Scripts {
 			true
 		);
 
-		Fusion_Dynamic_JS::enqueue_script(
-			'fusion',
-			self::$js_folder_url . '/general/fusion.js',
-			self::$js_folder_path . '/general/fusion.js',
-			[ 'jquery' ],
-			$fusion_library_latest_version,
-			true
-		);
-
 		// Scroll to anchor, required in FB?
 		$scroll_to_anchor_dependencies = [
 			'jquery',
@@ -518,7 +522,7 @@ class Fusion_Scripts {
 			'modernizr',
 		];
 
-		if ( ! isset( $post->ID ) || 'no' !== fusion_get_page_option( 'display_header', $post->ID ) ) {
+		if ( ! $header_override && ( ! isset( $post->ID ) || 'no' !== fusion_get_page_option( 'display_header', $post->ID ) ) ) {
 			$scroll_to_anchor_dependencies[] = 'avada-menu';
 		}
 
@@ -542,7 +546,7 @@ class Fusion_Scripts {
 		);
 
 		// If responsive is disabled.
-		if ( ! fusion_library()->get_option( 'responsive' ) ) {
+		if ( ! fusion_library()->get_option( 'responsive' ) || $is_builder ) {
 			Fusion_Dynamic_JS::enqueue_script(
 				'fusion-non-responsive',
 				self::$js_folder_url . '/general/fusion-non-responsive.js',
@@ -564,6 +568,14 @@ class Fusion_Scripts {
 	protected function localize_scripts() {
 
 		// Localize scripts.
+		Fusion_Dynamic_JS::localize_script(
+			'fusion',
+			'fusionJSVars',
+			[
+				'visibility_small'  => fusion_library()->get_option( 'visibility_small' ),
+				'visibility_medium' => fusion_library()->get_option( 'visibility_medium' ),
+			]
+		);
 		Fusion_Dynamic_JS::localize_script(
 			'fusion-video-bg',
 			'fusionVideoBgVars',

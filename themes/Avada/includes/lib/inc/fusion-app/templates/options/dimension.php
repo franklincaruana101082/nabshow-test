@@ -11,7 +11,24 @@
 var valueCheck = 'undefined' === typeof param.param_name ? option_value : param.value,
 	isFrontEnd = jQuery( 'body' ).hasClass( 'fusion-builder-live' ),
 	topLabel, rightLabel, bottomLabel, leftLabel, numberOfDimensions,
-	borderRadius = 'border_radius' === param.param_name || 'border_radius' === param.type ? true : false;
+	borderRadius = ( 'undefined' !== typeof param.param_name && param.param_name.includes( 'border_radius' ) ) ? true : false,
+	paramOptions = {};
+
+	if ( 'undefined' === typeof param.value && 'undefined' !== typeof param.choices ) {
+		param.value = param.choices;
+	}
+
+	if ( 'undefined' === typeof param.value && 'undefined' !== typeof param.default ) {
+		param.value = param.default;
+	}
+
+	if ( 'undefined' !== typeof param.value ) {
+		paramOptions = param.value;
+	}
+
+	if ( 'undefined' !== typeof param.value && 'undefined' !== typeof param.value.units ) {
+		delete param.value.units;
+	}
 
 if ( 'object' === typeof param.value && 'string' === typeof valueCheck ) {
 	valueCheck = param.value;
@@ -35,20 +52,22 @@ if ( 'object' == typeof valueCheck ) { #>
 	<# } else { #>
 		<div class="multi-builder-dimension" id="{{ param.param_name }}">
 	<# } #>
-	<# numberOfDimensions = Object.keys( valueCheck ).length; #>
-	<# _.each( valueCheck, function( sub_value, sub_param ) { #>
+	<# numberOfDimensions = Object.keys( paramOptions ).length; #>
+	<# _.each( paramOptions, function( sub_value, sub_param ) { #>
 		<#
-		var dimension_value = ( 'undefined' !== typeof atts && 'undefined' !== typeof atts.params[ sub_param ] ) ? atts.params[ sub_param ] : sub_value,
+		var dimension_value = ( 'undefined' !== typeof atts && 'undefined' !== typeof atts.params[ sub_param ] ) ? atts.params[ sub_param ] : valueCheck[ sub_param ],
 			values = 'string' === typeof option_value ? option_value.split(' ') : '',
 			inputClass,
 			content_text;
 
-			dimension_value = ( 'undefined' !== typeof atts && 'undefined' !== atts.params[ sub_param ] ) ? atts.params[ sub_param ] : sub_value;
+			dimension_value = ( 'undefined' !== typeof atts && 'undefined' !== atts.params[ sub_param ] ) ? atts.params[ sub_param ] : valueCheck[ sub_param ];
 			inputClass = '';
 
 		content_text = isFrontEnd ? fusionBuilderText.fusion_dimension_width_label : 'fusiona-expand';
 		if ( sub_param.indexOf( 'height' ) > -1 || sub_param.indexOf( 'horizontal' ) > -1  ) {
 			content_text = isFrontEnd ? fusionBuilderText.fusion_dimension_height_label : 'fusiona-expand fusion-rotate-315';
+		} else if ( sub_param.indexOf( 'width' ) > -1 || sub_param.indexOf( 'width' ) > -1  ) {
+			content_text = isFrontEnd ? fusionBuilderText.fusion_dimension_width_label : 'fusiona-expand fusion-rotate-45';
 		}
 		if ( ! borderRadius && sub_param.indexOf( 'top' ) > -1 || sub_param.indexOf( 'top_left' ) > -1 ) {
 			content_text = isFrontEnd ? topLabel : 'dashicons dashicons-arrow-up-alt';
@@ -74,7 +93,7 @@ if ( 'object' == typeof valueCheck ) { #>
 				dimension_value = values[3];
 			}
 		}
-		if ( sub_param.indexOf( 'all' ) > -1 ) {
+		if ( sub_param.indexOf( 'all' ) > -1 && sub_param.indexOf( 'small' ) < 1 ) {
 			content_text = isFrontEnd ? fusionBuilderText.fusion_dimension_all_label : 'fa fa-arrows';
 			if ( 'object' == typeof dimension_value ) {
 				dimension_value = dimension_value.value[ sub_param ];
@@ -85,7 +104,7 @@ if ( 'object' == typeof valueCheck ) { #>
 			<# if ( isFrontEnd && 1 < numberOfDimensions ) { #>
 				<label>{{content_text}}</label>
 			<# } else { #>
-				<span class="add-on"><i class="{{ content_text }}"></i></span>
+				<span class="add-on"><i class="{{ content_text }}" aria-hidden="true"></i></span>
 			<# } #>
 			<input type="text" name="{{ sub_param }}" id="{{ sub_param }}" value="{{ dimension_value }}" {{{ inputClass }}} />
 		</div>
@@ -124,7 +143,7 @@ if ( 'object' == typeof valueCheck ) { #>
 			<# if ( isFrontEnd ) { #>
 				<label>{{topLabel}}</label>
 			<# } else { #>
-				<span class="add-on"><i class="dashicons dashicons-arrow-up"></i></span>
+				<span class="add-on"><i class="dashicons dashicons-arrow-up" aria-hidden="true"></i></span>
 			<# } #>
 			<input type="text" name="{{ param.param_name }}_top" id="{{ param.param_name }}_top" value="{{ dimension_top }}" />
 		</div>
@@ -132,7 +151,7 @@ if ( 'object' == typeof valueCheck ) { #>
 			<# if ( isFrontEnd ) { #>
 				<label>{{rightLabel}}</label>
 			<# } else { #>
-				<span class="add-on"><i class="dashicons dashicons-arrow-right"></i></span>
+				<span class="add-on"><i class="dashicons dashicons-arrow-right" aria-hidden="true"></i></span>
 			<# } #>
 			<input type="text" name="{{ param.param_name }}_right" id="{{ param.param_name }}_right" value="{{ dimension_right }}" />
 		</div>
@@ -140,7 +159,7 @@ if ( 'object' == typeof valueCheck ) { #>
 			<# if ( isFrontEnd ) { #>
 				<label>{{bottomLabel}}</label>
 			<# } else { #>
-				<span class="add-on"><i class="dashicons dashicons-arrow-down"></i></span>
+				<span class="add-on"><i class="dashicons dashicons-arrow-down" aria-hidden="true"></i></span>
 			<# } #>
 			<input type="text" name="{{ param.param_name }}_bottom" id="{{ param.param_name }}_bottom" value="{{ dimension_bottom }}" />
 		</div>
@@ -148,7 +167,7 @@ if ( 'object' == typeof valueCheck ) { #>
 			<# if ( isFrontEnd ) { #>
 				<label>{{leftLabel}}</label>
 			<# } else { #>
-				<span class="add-on"><i class="dashicons dashicons-arrow-left"></i></span>
+				<span class="add-on"><i class="dashicons dashicons-arrow-left" aria-hidden="true"></i></span>
 			<# } #>
 			<input type="text" name="{{ param.param_name }}_left" id="{{ param.param_name }}_left" value="{{ dimension_left }}" />
 		</div>

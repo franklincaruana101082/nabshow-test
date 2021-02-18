@@ -27,7 +27,7 @@ $settings_text   = Avada()->settings->get( 'privacy_bar_more_text' );
 	<div class="fusion-privacy-bar-main">
 		<span><?php echo do_shortcode( $text ); ?>
 			<?php if ( $more ) : ?>
-				<a href="#" class="fusion-privacy-bar-learn-more"><?php echo esc_attr( $settings_text ); ?> <i class="fusion-icon-angle-down"></i></a>
+				<a href="#" class="fusion-privacy-bar-learn-more"><?php echo esc_attr( $settings_text ); ?> <i class="fusion-icon-angle-down" aria-hidden="true"></i></a>
 			<?php endif; ?>
 		</span>
 		<a href="#" class="fusion-privacy-bar-acceptance fusion-button fusion-button-default fusion-button-default-size fusion-button-span-no" data-alt-text="<?php echo esc_attr( $button_alt_text ); ?>" data-orig-text="<?php echo esc_attr( $button_text ); ?>">

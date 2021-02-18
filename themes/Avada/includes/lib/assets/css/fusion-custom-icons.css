@@ -12,12 +12,9 @@
 }
 #fusion-custom-icons-metabox .fusion-custom-icons-wrapper.fusion-no-custom-icons-uploaded #fusion-icons-uploader-drop-zone {
   height: 300px;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-align: center;
-      align-items: center;
+  justify-content: center;
+  align-items: center;
   border: 3px dashed #e4e6ea;
 }
 #fusion-custom-icons-metabox .fusion-custom-icons-wrapper.fusion-no-custom-icons-uploaded #fusion-icons-uploader-drop-zone.fusion-drag-over {
@@ -49,10 +46,8 @@
   font-weight: bold;
 }
 #fusion-custom-icons-metabox .fusion-custom-icons-wrapper.fusion-custom-icons-uploaded .fusion-custom-icons-top-bar {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   border-bottom: 1px solid #e1e1e1;
 }
 #fusion-custom-icons-metabox .fusion-custom-icons-wrapper.fusion-custom-icons-uploaded .fusion-custom-icons-top-bar #fusion-custom-icons-upload {

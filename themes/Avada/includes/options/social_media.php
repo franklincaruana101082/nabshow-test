@@ -23,6 +23,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function avada_options_section_social_media( $sections ) {
 
+	// Check if we have a global header override.
+	$has_global_header = false;
+	if ( class_exists( 'Fusion_Template_Builder' ) ) {
+		$default_layout    = Fusion_Template_Builder::get_default_layout();
+		$has_global_header = isset( $default_layout['data']['template_terms'] ) && isset( $default_layout['data']['template_terms']['header'] ) && $default_layout['data']['template_terms']['header'];
+	}
+
 	$sections['social_media'] = [
 		'label'    => esc_html__( 'Social Media', 'Avada' ),
 		'id'       => 'heading_social_media',
@@ -118,7 +125,7 @@ function avada_options_section_social_media( $sections ) {
 								'id'          => 'custom_title',
 								'type'        => 'text',
 								'label'       => esc_html__( 'Custom Icon Title', 'Avada' ),
-								'description' => esc_html__( 'Insert your custom link here', 'Avada' ),
+								'description' => esc_html__( 'Insert a title for your custom icon here', 'Avada' ),
 								'default'     => '',
 								'required'    => [
 									[
@@ -169,11 +176,12 @@ function avada_options_section_social_media( $sections ) {
 								'selector'            => '.fusion-footer',
 								'container_inclusive' => false,
 								'render_callback'     => [ 'Avada_Partial_Refresh_Callbacks', 'footer' ],
+								'skip_for_template'   => [ 'footer' ],
 							],
 
 							// Partial refresh for the sharingbox.
 							'sharingbox_social_media_icons' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
+								'selector'              => '.fusion-theme-sharing-box.fusion-single-sharing-box',
 								'container_inclusive'   => true,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
 								'success_trigger_event' => 'fusionInitTooltips',
@@ -190,11 +198,24 @@ function avada_options_section_social_media( $sections ) {
 				'icon'        => true,
 				'type'        => 'sub-section',
 				'fields'      => [
+					'header_social_links_notice'        => [
+						'id'          => 'header_social_links_notice',
+						'label'       => '',
+						'hidden'      => ! $has_global_header,
+						'description' => class_exists( 'Fusion_Template_Builder' ) && $has_global_header ? sprintf(
+							/* translators: 1: Content|Footer|Page Title Bar. 2: URL. */
+							'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are not available because a global %1$s override is currently used. To edit your global layout please visit <a href="%2$s" target="_blank">this page</a>.', 'Avada' ) . '</div>',
+							Fusion_Template_Builder::get_instance()->get_template_terms()['header']['label'],
+							admin_url( 'admin.php?page=avada-layouts' )
+						) : '',
+						'type'        => 'custom',
+					],
 					'header_social_links_font_size'     => [
 						'label'       => esc_html__( 'Header Social Icon Font Size', 'Avada' ),
 						'description' => esc_html__( 'Controls the font size of the header social icons.', 'Avada' ),
 						'id'          => 'header_social_links_font_size',
 						'default'     => '16px',
+						'hidden'      => $has_global_header,
 						'type'        => 'dimension',
 						'css_vars'    => [
 							[
@@ -208,6 +229,7 @@ function avada_options_section_social_media( $sections ) {
 						'description'     => esc_html__( 'Controls the tooltip position of the header social icons.', 'Avada' ),
 						'id'              => 'header_social_links_tooltip_placement',
 						'default'         => 'Bottom',
+						'hidden'          => $has_global_header,
 						'type'            => 'radio-buttonset',
 						'choices'         => [
 							'top'    => esc_html__( 'Top', 'Avada' ),
@@ -241,6 +263,7 @@ function avada_options_section_social_media( $sections ) {
 						'description'     => esc_html__( 'Custom colors allow you to choose a color for icons and boxes. Brand colors will use the exact brand color of each network for the icons or boxes.', 'Avada' ),
 						'id'              => 'header_social_links_color_type',
 						'default'         => 'custom',
+						'hidden'          => $has_global_header,
 						'type'            => 'radio-buttonset',
 						'choices'         => [
 							'custom' => esc_html__( 'Custom Colors', 'Avada' ),
@@ -271,6 +294,7 @@ function avada_options_section_social_media( $sections ) {
 						'description' => esc_html__( 'Controls the color of the header social icons. This color will be used for all social icons in the header.', 'Avada' ),
 						'id'          => 'header_social_links_icon_color',
 						'default'     => '#ffffff',
+						'hidden'      => $has_global_header,
 						'type'        => 'color-alpha',
 						'required'    => [
 							[
@@ -292,6 +316,7 @@ function avada_options_section_social_media( $sections ) {
 						'description'     => esc_html__( 'Controls if each icon is displayed in a small box.', 'Avada' ),
 						'id'              => 'header_social_links_boxed',
 						'default'         => '0',
+						'hidden'          => $has_global_header,
 						'type'            => 'switch',
 						// Partial refresh for the header.
 						'partial_refresh' => [
@@ -318,6 +343,7 @@ function avada_options_section_social_media( $sections ) {
 						'description' => esc_html__( 'Controls the color of the social icon box.', 'Avada' ),
 						'id'          => 'header_social_links_box_color',
 						'default'     => '#ffffff',
+						'hidden'      => $has_global_header,
 						'type'        => 'color-alpha',
 						'required'    => [
 							[
@@ -344,6 +370,7 @@ function avada_options_section_social_media( $sections ) {
 						'description' => esc_html__( 'Controls the box radius.', 'Avada' ),
 						'id'          => 'header_social_links_boxed_radius',
 						'default'     => '4px',
+						'hidden'      => $has_global_header,
 						'type'        => 'dimension',
 						'required'    => [
 							[
@@ -401,6 +428,7 @@ function avada_options_section_social_media( $sections ) {
 								'container_inclusive'   => false,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'footer' ],
 								'success_trigger_event' => 'fusionInitTooltips',
+								'skip_for_template'     => [ 'footer' ],
 							],
 						],
 					],
@@ -450,6 +478,7 @@ function avada_options_section_social_media( $sections ) {
 								'container_inclusive'   => false,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'footer' ],
 								'success_trigger_event' => [ 'fusionInitTooltips' ],
+								'skip_for_template'     => [ 'footer' ],
 							],
 						],
 					],
@@ -476,6 +505,7 @@ function avada_options_section_social_media( $sections ) {
 								'container_inclusive'   => false,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'footer' ],
 								'success_trigger_event' => [ 'fusionInitTooltips' ],
+								'skip_for_template'     => [ 'footer' ],
 							],
 						],
 					],
@@ -524,6 +554,7 @@ function avada_options_section_social_media( $sections ) {
 								'container_inclusive'   => false,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'footer' ],
 								'success_trigger_event' => [ 'fusionInitTooltips' ],
+								'skip_for_template'     => [ 'footer' ],
 							],
 						],
 					],
@@ -611,13 +642,13 @@ function avada_options_section_social_media( $sections ) {
 				],
 			],
 			'heading_social_sharing_box'  => [
-				'label'  => esc_html__( 'Social Sharing Box', 'Avada' ),
+				'label'  => esc_html__( 'Social Sharing', 'Avada' ),
 				'id'     => 'heading_social_sharing_box',
 				'icon'   => true,
 				'type'   => 'sub-section',
 				'fields' => [
 					'sharing_social_tagline'             => [
-						'label'           => esc_html__( 'Sharing Box Tagline', 'Avada' ),
+						'label'           => esc_html__( 'Social Sharing Tagline', 'Avada' ),
 						'description'     => esc_html__( 'Insert a tagline for the social sharing boxes.', 'Avada' ),
 						'id'              => 'sharing_social_tagline',
 						'default'         => esc_html__( 'Share This Story, Choose Your Platform!', 'Avada' ),
@@ -626,7 +657,7 @@ function avada_options_section_social_media( $sections ) {
 
 							// Partial refresh for the sharingbox.
 							'sharingbox_sharing_social_tagline' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
+								'selector'              => '.fusion-theme-sharing-box.fusion-single-sharing-box',
 								'container_inclusive'   => true,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
 								'success_trigger_event' => 'fusionInitTooltips',
@@ -634,7 +665,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_box_tagline_text_color'     => [
-						'label'       => esc_html__( 'Sharing Box Tagline Text Color', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Tagline Text Color', 'Avada' ),
 						'description' => esc_html__( 'Controls the color of the tagline text in the social sharing boxes.', 'Avada' ),
 						'id'          => 'sharing_box_tagline_text_color',
 						'default'     => '#212934',
@@ -648,7 +679,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'social_bg_color'                    => [
-						'label'       => esc_html__( 'Sharing Box Background Color', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Background Color', 'Avada' ),
 						'description' => esc_html__( 'Controls the background color of the social sharing boxes.', 'Avada' ),
 						'id'          => 'social_bg_color',
 						'default'     => '#f9f9fb',
@@ -686,14 +717,40 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'social_share_box_icon_info'         => [
-						'label'       => esc_html__( 'Social Sharing Box Icons', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Icons', 'Avada' ),
 						'description' => '',
 						'id'          => 'social_share_box_icon_info',
 						'icon'        => true,
 						'type'        => 'info',
 					],
+					'social_sharing'                     => [
+						'label'                  => esc_html__( 'Social Sharing', 'Avada' ),
+						'description'            => esc_html__( 'Select social network you want to be displayed in the social share box.', 'Avada' ),
+						'id'                     => 'social_sharing',
+						'default'                => [ 'facebook', 'twitter', 'reddit', 'linkedin', 'whatsapp', 'tumblr', 'pinterest', 'vk', 'xing', 'email' ],
+						'type'                   => 'select',
+						'multi'                  => true,
+						'choices'                => [
+							'facebook'  => esc_html__( 'Facebook', 'Avada' ),
+							'twitter'   => esc_html__( 'Twitter', 'Avada' ),
+							'reddit'    => esc_html__( 'Reddit', 'Avada' ),
+							'linkedin'  => esc_html__( 'LinkedIn', 'Avada' ),
+							'whatsapp'  => esc_html__( 'WhatsApp', 'Avada' ),
+							'tumblr'    => esc_html__( 'Tumblr', 'Avada' ),
+							'pinterest' => esc_html__( 'Pinterest', 'Avada' ),
+							'vk'        => esc_html__( 'VK', 'Avada' ),
+							'xing'      => esc_html__( 'Xing', 'Avada' ),
+							'email'     => esc_html__( 'Email', 'Avada' ),
+						],
+						'social_share_box_links' => [
+							'selector'              => '.fusion-theme-sharing-box.fusion-single-sharing-box',
+							'container_inclusive'   => true,
+							'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
+							'success_trigger_event' => 'fusionInitTooltips',
+						],
+					],
 					'sharing_social_links_font_size'     => [
-						'label'       => esc_html__( 'Sharing Box Icon Font Size', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Icon Font Size', 'Avada' ),
 						'description' => esc_html__( 'Controls the font size of the social icons in the social sharing boxes.', 'Avada' ),
 						'id'          => 'sharing_social_links_font_size',
 						'default'     => '16px',
@@ -701,12 +758,12 @@ function avada_options_section_social_media( $sections ) {
 						'css_vars'    => [
 							[
 								'name'    => '--sharing_social_links_font_size',
-								'element' => '.fusion-sharing-box',
+								'element' => '.fusion-theme-sharing-box',
 							],
 						],
 					],
 					'sharing_social_links_tooltip_placement' => [
-						'label'           => esc_html__( 'Sharing Box Icons Tooltip Position', 'Avada' ),
+						'label'           => esc_html__( 'Social Sharing Icons Tooltip Position', 'Avada' ),
 						'description'     => esc_html__( 'Controls the tooltip position of the social icons in the social sharing boxes.', 'Avada' ),
 						'id'              => 'sharing_social_links_tooltip_placement',
 						'default'         => 'Top',
@@ -722,7 +779,7 @@ function avada_options_section_social_media( $sections ) {
 
 							// Partial refresh for the sharingbox.
 							'sharingbox_sharing_social_links_tooltip_placement' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
+								'selector'              => '.fusion-theme-sharing-box.fusion-single-sharing-box',
 								'container_inclusive'   => true,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
 								'success_trigger_event' => 'fusionInitTooltips',
@@ -730,7 +787,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_social_links_color_type'    => [
-						'label'           => esc_html__( 'Sharing Box Icon Color Type', 'Avada' ),
+						'label'           => esc_html__( 'Social Sharing Icon Color Type', 'Avada' ),
 						'description'     => esc_html__( 'Custom colors allow you to choose a color for icons and boxes. Brand colors will use the exact brand color of each network for the icons or boxes.', 'Avada' ),
 						'id'              => 'sharing_social_links_color_type',
 						'default'         => 'custom',
@@ -743,7 +800,7 @@ function avada_options_section_social_media( $sections ) {
 
 							// Partial refresh for the sharingbox.
 							'sharingbox_sharing_sharing_social_links_color_type' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
+								'selector'              => '.fusion-theme-sharing-box.fusion-single-sharing-box',
 								'container_inclusive'   => true,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
 								'success_trigger_event' => 'fusionInitTooltips',
@@ -751,7 +808,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_social_links_icon_color'    => [
-						'label'       => esc_html__( 'Sharing Box Icon Color', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Icon Color', 'Avada' ),
 						'description' => esc_html__( 'Controls the color of the social icons in the social sharing boxes. This color will be used for all social icons.', 'Avada' ),
 						'id'          => 'sharing_social_links_icon_color',
 						'default'     => '#9ea0a4',
@@ -771,7 +828,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_social_links_boxed'         => [
-						'label'           => esc_html__( 'Sharing Box Icons Boxed', 'Avada' ),
+						'label'           => esc_html__( 'Social Sharing Icons Boxed', 'Avada' ),
 						'description'     => esc_html__( 'Controls if each social icon is displayed in a small box.', 'Avada' ),
 						'id'              => 'sharing_social_links_boxed',
 						'default'         => '0',
@@ -780,7 +837,7 @@ function avada_options_section_social_media( $sections ) {
 
 							// Partial refresh for the sharingbox.
 							'sharingbox_sharing_social_links_boxed' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
+								'selector'              => '.fusion-theme-sharing-box.fusion-single-sharing-box',
 								'container_inclusive'   => true,
 								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
 								'success_trigger_event' => 'fusionInitTooltips',
@@ -788,7 +845,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_social_links_box_color'     => [
-						'label'       => esc_html__( 'Sharing Box Icon Box Color', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Icon Box Color', 'Avada' ),
 						'description' => esc_html__( 'Controls the color of the social icon box.', 'Avada' ),
 						'id'          => 'sharing_social_links_box_color',
 						'default'     => '#e8e8e8',
@@ -813,7 +870,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_social_links_boxed_radius'  => [
-						'label'       => esc_html__( 'Sharing Box Icon Boxed Radius', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Icon Boxed Radius', 'Avada' ),
 						'description' => esc_html__( 'Controls the box radius of the social icon box.', 'Avada' ),
 						'id'          => 'sharing_social_links_boxed_radius',
 						'default'     => '4px',
@@ -833,7 +890,7 @@ function avada_options_section_social_media( $sections ) {
 						],
 					],
 					'sharing_social_links_boxed_padding' => [
-						'label'       => esc_html__( 'Sharing Box Icons Boxed Padding', 'Avada' ),
+						'label'       => esc_html__( 'Social Sharing Icons Boxed Padding', 'Avada' ),
 						'description' => esc_html__( 'Controls the interior padding of the social icon box.', 'Avada' ),
 						'id'          => 'sharing_social_links_boxed_padding',
 						'default'     => '8px',
@@ -848,176 +905,7 @@ function avada_options_section_social_media( $sections ) {
 						'css_vars'    => [
 							[
 								'name'    => '--sharing_social_links_boxed_padding',
-								'element' => '.fusion-sharing-box',
-							],
-						],
-					],
-					'social_share_box_links_title'       => [
-						'label'       => esc_html__( 'Sharing Box Links', 'Avada' ),
-						'description' => '',
-						'id'          => 'social_share_box_links_title',
-						'icon'        => true,
-						'type'        => 'info',
-					],
-					'sharing_facebook'                   => [
-						'label'           => esc_html__( 'Facebook', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'Facebook', 'Avada' ) ),
-						'id'              => 'sharing_facebook',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_facebook' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_twitter'                    => [
-						'label'           => esc_html__( 'Twitter', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'Twitter', 'Avada' ) ),
-						'id'              => 'sharing_twitter',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_twitter' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_reddit'                     => [
-						'label'           => esc_html__( 'Reddit', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'Reddit', 'Avada' ) ),
-						'id'              => 'sharing_reddit',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_reddit' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_linkedin'                   => [
-						'label'           => esc_html__( 'LinkedIn', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'LinkedIn', 'Avada' ) ),
-						'id'              => 'sharing_linkedin',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_linkedin' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_whatsapp'                   => [
-						'label'           => esc_html__( 'WhatsApp', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'WhatsApp', 'Avada' ) ),
-						'id'              => 'sharing_whatsapp',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_whatsapp' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_tumblr'                     => [
-						'label'           => esc_html__( 'Tumblr', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'Tumblr', 'Avada' ) ),
-						'id'              => 'sharing_tumblr',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_tumblr' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_pinterest'                  => [
-						'label'           => esc_html__( 'Pinterest', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'Pinterest', 'Avada' ) ),
-						'id'              => 'sharing_pinterest',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_pinterest' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_vk'                         => [
-						'label'           => esc_html__( 'VK', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'VK', 'Avada' ) ),
-						'id'              => 'sharing_vk',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_vk' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
-							],
-						],
-					],
-					'sharing_email'                      => [
-						'label'           => esc_html__( 'Email', 'Avada' ),
-						/* translators: Social Network name. */
-						'description'     => sprintf( esc_html__( 'Turn on to display %s in the social share box.', 'Avada' ), esc_html__( 'Email', 'Avada' ) ),
-						'id'              => 'sharing_email',
-						'default'         => '1',
-						'type'            => 'switch',
-						'partial_refresh' => [
-
-							// Partial refresh for the sharingbox.
-							'sharingbox_sharing_email' => [
-								'selector'              => '.fusion-sharing-box.fusion-single-sharing-box',
-								'container_inclusive'   => true,
-								'render_callback'       => [ 'Avada_Partial_Refresh_Callbacks', 'sharingbox' ],
-								'success_trigger_event' => 'fusionInitTooltips',
+								'element' => '.fusion-theme-sharing-box',
 							],
 						],
 					],

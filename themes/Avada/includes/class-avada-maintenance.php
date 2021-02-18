@@ -21,14 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Avada_Maintenance {
 
 	/**
-	 * Determines if we should activate the maintenance mode or not.
-	 *
-	 * @access private
-	 * @var bool
-	 */
-	private $maintenance = false;
-
-	/**
 	 * The message that will be displayed to all non-admins.
 	 * This will be displayed on the frontend instead of the normal site.
 	 *
@@ -65,11 +57,10 @@ class Avada_Maintenance {
 			return;
 		}
 
-		$this->maintenance   = $maintenance;
 		$this->users_warning = $users_warning;
 		$this->admin_warning = $admin_warning;
 
-		if ( is_admin() || ( in_array( $GLOBALS['pagenow'], [ 'wp-login.php', 'wp-register.php' ] ) ) ) {
+		if ( is_admin() || ( in_array( $GLOBALS['pagenow'], [ 'wp-login.php', 'wp-register.php' ], true ) ) ) {
 			return;
 		}
 

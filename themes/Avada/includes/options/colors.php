@@ -72,7 +72,7 @@ function avada_options_section_colors( $sections ) {
 			],
 			'scheme_type'                => [
 				'label'       => esc_html__( 'Predefined Theme Skin', 'Avada' ),
-				'description' => esc_html__( 'Controls the main theme skin to be light or dark. Select a skin and all color options will change to the defined selection. Please note that individual pages have containers and Fusion Page Options that can override this setting, therefor you may not fully see the changes. If you change to light and a page is still dark, edit the page and look at each container background settings, along with Fusion Page Options.', 'Avada' ),
+				'description' => esc_html__( 'Controls the main theme skin to be light or dark. Select a skin and all color options will change to the defined selection. Please note that individual pages have containers and Avada Page Options that can override this setting, therefore you may not fully see the changes. If you change to light and a page is still dark, edit the page and look at each container background settings, along with Avada Page Options.', 'Avada' ),
 				'id'          => 'scheme_type',
 				'default'     => '',
 				'type'        => 'preset',
@@ -91,7 +91,7 @@ function avada_options_section_colors( $sections ) {
 			],
 			'color_scheme'               => [
 				'label'       => esc_html__( 'Predefined Color Scheme', 'Avada' ),
-				'description' => esc_html__( 'Controls the main color scheme throughout the theme. Select a scheme and all the color options will change to the defined selection. Click the Save button to save your own current custom color scheme. Click the Import button to import a custom scheme. To delete or export a scheme, you must first have a custom scheme saved.', 'Avada' ),
+				'description' => esc_html__( 'Controls the main color scheme throughout the theme. Select a scheme and all the color options will change to the defined selection.', 'Avada' ),
 				'id'          => 'color_scheme',
 				'default'     => 'Green',
 				'type'        => 'preset',
@@ -151,7 +151,7 @@ function avada_options_section_colors( $sections ) {
 			],
 			'custom_color'               => [
 				'label'         => esc_html__( 'Save / Import Color Scheme', 'Avada' ),
-				'subtitle'      => esc_html__( 'Click the Save button to save your own current custom color scheme. Click the import button to import custom scheme', 'Avada' ),
+				'subtitle'      => esc_html__( 'Click the Save button to save your own current custom color scheme. Click the Import button to import custom scheme. To delete or export a scheme, you must first have a custom scheme saved.', 'Avada' ),
 				'id'            => 'custom_color_scheme_options',
 				'type'          => 'custom',
 				'hide_on_front' => true,

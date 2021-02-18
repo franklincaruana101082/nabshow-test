@@ -120,7 +120,9 @@ function avada_dynamic_css_array( $original_css = [] ) {
 			$css['global'][ '#post-' . $c_page_id . ' .fusion-post-slideshow img' ]['width'] = Fusion_Sanitize::size( fusion_get_page_option( 'fimg[width]', $c_page_id ) );
 		}
 
-		$css['global'][ '#post-' . $c_page_id . ' .fusion-post-slideshow img' ]['max-width'] = Fusion_Sanitize::size( fusion_get_page_option( 'fimg[width]', $c_page_id ) );
+		if ( false === strpos( fusion_get_page_option( 'fimg[width]', $c_page_id ), '%' ) ) {
+			$css['global'][ '#post-' . $c_page_id . ' .fusion-post-slideshow img' ]['max-width'] = Fusion_Sanitize::size( fusion_get_page_option( 'fimg[width]', $c_page_id ) );
+		}
 	}
 
 	if ( is_single() && fusion_get_page_option( 'fimg[height]', $c_page_id ) ) {

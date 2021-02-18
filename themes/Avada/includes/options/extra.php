@@ -23,8 +23,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function avada_options_section_extra( $sections ) {
 
+	$contact_page_callback = [
+		[
+			'where'     => 'postMeta',
+			'condition' => '_wp_page_template',
+			'operator'  => '===',
+			'value'     => 'contact.php',
+		],
+	];
+
 	$sections['extras'] = [
-		'label'    => esc_html__( 'Extra', 'Avada' ),
+		'label'    => esc_html__( 'Extras', 'Avada' ),
 		'id'       => 'extra_section',
 		'priority' => 24,
 		'icon'     => 'el-icon-cogs',
@@ -262,6 +271,13 @@ function avada_options_section_extra( $sections ) {
 								'sanitize_callback' => '__return_empty_string',
 							],
 						],
+					],
+					'faq_slug'                   => [
+						'label'       => esc_html__( 'FAQ Slug', 'Avada' ),
+						'description' => esc_html__( 'The slug name cannot be the same name as a page name or the layout will break. This option changes the permalink when you use the permalink type as %postname%. Make sure to regenerate permalinks.', 'Avada' ),
+						'id'          => 'faq_slug',
+						'default'     => 'faq-items',
+						'type'        => 'text',
 					],
 				],
 			],
@@ -880,163 +896,6 @@ function avada_options_section_extra( $sections ) {
 						'full_refresh' => [
 							'pagination_start_end_range_partial' => [
 								'js_callback' => [ 'isPaginationOnPage' ],
-							],
-						],
-					],
-				],
-			],
-			'forms_styling_section'  => [
-				'label'       => esc_html__( 'Forms Styling', 'Avada' ),
-				'description' => '',
-				'id'          => 'forms_styling_section',
-				'type'        => 'sub-section',
-				'fields'      => [
-					'forms_styling_important_note_info' => [
-						'label'       => '',
-						'description' => '<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab apply to all forms throughout the site, including the 3rd party plugins that Avada has design integration with.', 'Avada' ) . '</div>',
-						'id'          => 'forms_styling_important_note_info',
-						'type'        => 'custom',
-					],
-					'form_input_height'                 => [
-						'label'       => esc_html__( 'Form Input and Select Height', 'Avada' ),
-						'description' => esc_html__( 'Controls the height of all search, form input and select fields.', 'Avada' ),
-						'id'          => 'form_input_height',
-						'default'     => '50px',
-						'type'        => 'dimension',
-						'choices'     => [ 'px' ],
-						'css_vars'    => [
-							[
-								'name' => '--form_input_height',
-							],
-							[
-								'name'     => '--form_input_height-main-menu-search-width',
-								'callback' => [
-									'conditional_return_value',
-									[
-										'value_pattern' => [ 'calc(250px + 1.43 * $)', '250px' ],
-										'conditions'    => [
-											[ 'form_input_height', '>', '35' ],
-										],
-									],
-								],
-							],
-						],
-					],
-					'form_bg_color'                     => [
-						'label'       => esc_html__( 'Form Background Color', 'Avada' ),
-						'description' => esc_html__( 'Controls the background color of form fields.', 'Avada' ),
-						'id'          => 'form_bg_color',
-						'default'     => '#ffffff',
-						'type'        => 'color-alpha',
-						'css_vars'    => [
-							[
-								'name'     => '--form_bg_color',
-								'callback' => [ 'sanitize_color' ],
-							],
-						],
-					],
-					'form_text_size'                    => [
-						'label'       => esc_html__( 'Form Font Size', 'Avada' ),
-						'description' => esc_html__( 'Controls the size of the form text.', 'Avada' ),
-						'id'          => 'form_text_size',
-						'default'     => '16px',
-						'type'        => 'dimension',
-						'css_vars'    => [
-							[
-								'name' => '--form_text_size',
-							],
-						],
-					],
-					'form_text_color'                   => [
-						'label'       => esc_html__( 'Form Text Color', 'Avada' ),
-						'description' => esc_html__( 'Controls the color of the form text.', 'Avada' ),
-						'id'          => 'form_text_color',
-						'default'     => '#9ea0a4',
-						'type'        => 'color-alpha',
-						'css_vars'    => [
-							[
-								'name'     => '--form_text_color',
-								'callback' => [ 'sanitize_color' ],
-							],
-							[
-								'name'     => '--form_text_color-35a',
-								'callback' => [ 'color_alpha_set', '0.35' ],
-							],
-						],
-					],
-					'form_border_width'                 => [
-						'label'       => esc_html__( 'Form Border Size', 'fusion-builder' ),
-						'description' => esc_html__( 'Controls the border size of the form fields.', 'fusion-builder' ),
-						'id'          => 'form_border_width',
-						'default'     => '1',
-						'type'        => 'slider',
-						'choices'     => [
-							'min'  => '0',
-							'max'  => '50',
-							'step' => '1',
-						],
-						'css_vars'    => [
-							[
-								'name'          => '--form_border_width',
-								'value_pattern' => '$px',
-							],
-						],
-					],
-					'form_border_color'                 => [
-						'label'       => esc_html__( 'Form Border Color', 'Avada' ),
-						'description' => esc_html__( 'Controls the border color of the form fields.', 'Avada' ),
-						'id'          => 'form_border_color',
-						'default'     => '#e2e2e2',
-						'type'        => 'color-alpha',
-						'required'    => [
-							[
-								'setting'  => 'form_border_width',
-								'operator' => '>',
-								'value'    => '0',
-							],
-						],
-						'css_vars'    => [
-							[
-								'name'     => '--form_border_color',
-								'callback' => [ 'sanitize_color' ],
-							],
-						],
-					],
-					'form_focus_border_color'           => [
-						'label'       => esc_html__( 'Form Border Color On Focus', 'Avada' ),
-						'description' => esc_html__( 'Controls the border color of the form fields when they have focus.', 'Avada' ),
-						'id'          => 'form_focus_border_color',
-						'default'     => '#65bc7b',
-						'type'        => 'color-alpha',
-						'required'    => [
-							[
-								'setting'  => 'form_border_width',
-								'operator' => '>',
-								'value'    => '0',
-							],
-						],
-						'css_vars'    => [
-							[
-								'name'     => '--form_focus_border_color',
-								'callback' => [ 'sanitize_color' ],
-							],
-						],
-					],
-					'form_border_radius'                => [
-						'label'       => esc_html__( 'Form Border Radius', 'fusion-builder' ),
-						'description' => esc_html__( 'Controls the border radius of the form fields. Also works, if border size is set to 0.', 'fusion-builder' ),
-						'id'          => 'form_border_radius',
-						'default'     => '6',
-						'type'        => 'slider',
-						'choices'     => [
-							'min'  => '0',
-							'max'  => '50',
-							'step' => '1',
-						],
-						'css_vars'    => [
-							[
-								'name'          => '--form_border_radius',
-								'value_pattern' => '$px',
 							],
 						],
 					],

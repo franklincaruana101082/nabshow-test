@@ -95,9 +95,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 </div>
 
-<div id="fusion-page-options-loader" style="display: none;">
-	<img src="<?php echo esc_url( admin_url( 'images/spinner.gif' ) ); ?>" />
-</div>
+<div id="fusion-page-options-loader" class="avada-db-loader" style="display: none;"></div>
 
 <input type="hidden" id="fusion-page-options-nonce" value="<?php echo esc_attr( wp_create_nonce( 'fusion-page-options-nonce' ) ); ?>" />
 

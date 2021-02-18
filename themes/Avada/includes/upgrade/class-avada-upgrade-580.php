@@ -89,8 +89,8 @@ class Avada_Upgrade_580 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.8.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_fa_status( $options ) {
 
@@ -112,8 +112,8 @@ class Avada_Upgrade_580 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.8.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_flyout_menu_padding( $options ) {
 		$nav_font_size      = Avada()->settings->get( 'nav_typography', 'font-size' );

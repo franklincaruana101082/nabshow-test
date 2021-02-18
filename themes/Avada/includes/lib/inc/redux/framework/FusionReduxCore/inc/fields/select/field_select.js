@@ -40,7 +40,7 @@
                             default_params.width = "100%";
                         }
 
-                        if ( $( this ).siblings( '.select3_params' ).size() > 0 ) {
+                        if ( $( this ).siblings( '.select3_params' ).length > 0 ) {
                             var select3_params = $( this ).siblings( '.select3_params' ).val();
                             select3_params = JSON.parse( select3_params );
                             default_params = $.extend( {}, default_params, select3_params );
@@ -50,10 +50,7 @@
                             default_params = $.extend(
                                 {}, {
                                     formatResult: fusionredux.field_objects.select.addIcon,
-                                    formatSelection: fusionredux.field_objects.select.addIcon,
-                                    escapeMarkup: function( m ) {
-                                        return m;
-                                    }
+                                    formatSelection: fusionredux.field_objects.select.addIcon
                                 }, default_params
                             );
                         }

@@ -11,13 +11,13 @@
 <ul>
 	<a href="#" class="fusion-panel-link" data-label="{{ label }}" id="{{ id }}" <# if ( 'undefined' !== typeof icon ) {#> data-icon={{ icon }} <# } #> aria-expanded="false">
 		<# if ( 'undefined' !== typeof icon ) { #>
-			<i class="{{ icon }}"></i>
+			<i class="{{ icon }}" aria-hidden="true"></i>
 		<# } #>
 		{{{ label }}}
 	</a>
 	<# if ( 'object' === typeof fields ) {
 		_.each( fields, function( subSection, subSectionId ) {
-			if ( 'sub-section' !== subSection.type && 'accordion' !== subSection.type ) {
+			if ( ( 'sub-section' !== subSection.type && 'accordion' !== subSection.type ) || subSection.hidden ) {
 				return;
 			}#>
 		<li style="display:none">

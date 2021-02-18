@@ -87,7 +87,7 @@ class Fusion_Patcher {
 		}
 
 		// Only instantiate the sub-classes if we're on the admin page.
-		$slug            = $args['context'] . '-fusion-patcher';
+		$slug            = $args['context'] . '-patcher';
 		$referer         = fusion_get_referer();
 		$referer         = $referer ? $referer : '';
 		$is_patcher_page = (bool) ( is_admin() && ( ( isset( $_GET['page'] ) && $slug === $_GET['page'] ) || ( false !== strpos( $referer, $slug ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
@@ -188,8 +188,11 @@ class Fusion_Patcher {
 	 * @since 1.0.0
 	 */
 	public function admin_scripts() {
-
 		wp_enqueue_style( 'fusion-patcher', FUSION_LIBRARY_URL . '/assets/css/fusion-patcher-style.css', false, time() );
+
+		if ( class_exists( 'Avada' ) ) {
+			wp_enqueue_style( 'avada_admin_css', trailingslashit( Avada::$template_dir_url ) . 'assets/admin/css/avada-admin.css', [], AVADA_VERSION );
+		}       
 
 	}
 

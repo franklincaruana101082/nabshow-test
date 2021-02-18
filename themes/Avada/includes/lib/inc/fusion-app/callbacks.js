@@ -109,6 +109,62 @@ var fusionSanitize = {
 	},
 
 	/**
+	 * Sanitize values like for example 10px, 30% etc.
+	 *
+	 * @param {String}	value -The value to sanitize.
+	 * @param {Boolean|String} fallback_unit - A fallback unit to use in case no unit is found.
+	 * @return {String}
+	 */
+	size: function ( value, fallback_unit ) {
+		var numbersRegex = new RegExp( /[0-9]/ ),
+			unit;
+
+		// Trim the value.
+		value = value.trim();
+
+		if ( [ 'auto', 'inherit', 'initial' ].includes( value ) ) {
+			return value;
+		}
+
+		// Return empty if there are no numbers in the value.
+		// Prevents some CSS errors.
+		if ( ! numbersRegex.test( value ) ) {
+			return '';
+		}
+
+		if ( false !== value.includes( 'calc' ) ) {
+			return value;
+		}
+
+		unit = fusionSanitize.get_unit( value );
+		if ( fallback_unit && '' === unit ) {
+			unit = ( true === fallback_unit ) ? 'px' : fallback_unit;
+		}
+		return fusionSanitize.number( value ) + unit;
+
+	},
+
+	/**
+	 * Return the unit of a given value.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  {string} - value A value with unit.
+	 * @return {string} - The unit of the given value.
+	 */
+	get_unit: function( value ) {
+		var unit_used,
+			units = [ 'px', 'rem', 'em', '%', 'vmin', 'vmax', 'vh', 'vw', 'ex', 'cm', 'mm', 'in', 'pt', 'pc', 'ch' ];
+
+		// Trim the value.
+		value = value.trim();
+
+		return _.find( units, function( unit ) {
+			return value.includes( unit );
+		} );
+	},
+
+	/**
 	 * Sets the alpha channel of a color,
 	 *
 	 * @since 2.0.0
@@ -216,6 +272,122 @@ var fusionSanitize = {
 			return fallback.replace( /\$/g, value );
 		}
 		return success.replace( /\$/g, value );
+	},
+
+	/**
+	 * Sanitizes a number value.
+	 *
+	 * @param {string|number} value - The value to sanitize.
+	 * @return {number}
+	 */
+	number: function( value ) {
+		value = value.toString();
+		return value.replace( /\D+/g, '' );
+	},
+
+	/**
+	 * Adds CSS values.
+	 *
+	 * @static
+	 * @access public
+	 * @since 7.0
+	 * @param {array} values - An array of CSS values.
+	 * @return {string} - The combined value.
+	 */
+	add_css_values( values ) {
+		var units 		= [],
+			numerics	= [],
+			should_calc = false,
+			result 		= '';
+
+		if ( ! values && ! _.isArray( values ) && _.isEmpty( values ) ) {
+			return;
+		}
+		// Figure out what we're dealing with.
+		_.each( values, function( value, key ) {
+			var unit;
+
+			if ( 'auto' === value || 'inherit' === value || 'initial' === value ) {
+				return;
+			}
+
+			// Trim the value.
+			value          = value.trim();
+			values[ key ]  = value;
+
+			// Detect if the value uses calc().
+			if ( false !== value.includes( 'calc' ) ) {
+				should_calc = true;
+			}
+
+			// Add unit to the array of units used.
+			unit = fusionSanitize.get_unit( value );
+
+			if ( ! _.isEmpty( unit ) && ! units.includes( unit ) ) {
+				units.push( unit );
+			}
+
+			// Add numeric value to the array of numerics.
+			numerics.push( fusionSanitize.number( value ) );
+		} );
+
+		// Make sure there's 1 instance of each unit in the array.
+		// We need that to figure out if we'll be using calc() or not below.
+		units = _.uniq( units );
+
+		// If we're using more than one units then we should use calc().
+		if ( 1 < units.length ) {
+			should_calc = true;
+		}
+
+		// All values added use the same unit and no calc() is necessary.
+		// We simply need to return the numeric sum with the defined value.
+		if ( ! should_calc ) {
+
+			// No units, so just return the sum of all values.
+			if ( 0 === units.length ) {
+				return _.reduce( numerics, function( memo, num ) {
+					return parseFloat( memo ) + parseFloat( num );
+				} );
+			}
+
+			// Add values and append the unit.
+			return _.reduce( numerics, function( memo, num ) {
+				return parseFloat( memo ) + parseFloat( num );
+			} ) + units[ 0 ];
+		}
+
+		// If we got this far then we need to use calc().
+		// eslint-disable-next-line vars-on-top
+		for ( var i = 0; i < values.length; i ++ ) {
+			// eslint-disable-next-line vars-on-top
+			var value = values[ i ];
+
+			// Only add + if this is not the first item in the calculations.
+			if ( 0 < i ) {
+				result += ' + ';
+			}
+
+			if ( false !== value.includes( 'calc' ) ) {
+				// Remove calc but keep the parentheses. This fixes a browser bug in older versions of some browsers
+				// where nested calc values don't work. Leaving the parentheses has the exact same effect.
+				result += value.replace( 'calc', '' );
+			} else {
+				result += value;
+			}
+
+		}
+
+		// Remove multiple spaces.
+		result = result.replace( / {5}| {4}| {3}| {2}/, ' ' );
+		// A simple tweak to make sure that negative values are substracted.
+		result = result.replace( /\+ -/, ' - ' );
+		// The above might have resulted is a couple of double-spaces, so make them single again.
+		result = result.replace( / {2}/, ' ' );
+		// Put it all together and wrap it up.
+
+		return 'calc(' + result + ')';
+
 	},
 
 	/**
@@ -1231,7 +1403,8 @@ function fusionRecalcAllMediaQueries() {
 			'-sliders',
 			'-eslider',
 			'-not-responsive',
-			'-cf7'
+			'-cf7',
+			'-header-legacy'
 		],
 		queries  = [
 			'max-sh-640',
@@ -1285,7 +1458,8 @@ function fusionRecalcAllMediaQueries() {
 }
 
 function fusionRecalcVisibilityMediaQueries() {
-	var mediaQueries = {
+	var $previewFrameHead = jQuery( '#fb-preview' ).contents().find( 'head' ),
+		mediaQueries = {
 			small: fusionGetMediaQuery( [ [ 'max-width', parseInt( fusionSanitize.getOption( 'visibility_small' ), 10 ) + 'px' ] ] ),
 			medium: fusionGetMediaQuery( [
 				[ 'min-width', parseInt( fusionSanitize.getOption( 'visibility_small' ), 10 ) + 'px' ],
@@ -1294,12 +1468,24 @@ function fusionRecalcVisibilityMediaQueries() {
 			large: fusionGetMediaQuery( [ [ 'min-width', parseInt( fusionSanitize.getOption( 'visibility_medium' ), 10 ) + 'px' ] ] )
 		},
 		css = {
-			small: mediaQueries.small + '{body:not(.fusion-builder-ui-wireframe) .fusion-no-small-visibility{display:none !important;}}',
-			medium: mediaQueries.medium + '{body:not(.fusion-builder-ui-wireframe) .fusion-no-medium-visibility{display:none !important;}}',
-			large: mediaQueries.large + '{body:not(.fusion-builder-ui-wireframe) .fusion-no-large-visibility{display:none !important;}}'
-		};
-	if ( jQuery( '#fb-preview' ).contents().find( 'head' ).find( '#css-fb-visibility' ).length ) {
-		jQuery( '#fb-preview' ).contents().find( 'head' ).find( '#css-fb-visibility' ).remove();
+			small: 'body:not(.fusion-builder-ui-wireframe) .fusion-no-small-visibility{display:none !important;}',
+			medium: 'body:not(.fusion-builder-ui-wireframe) .fusion-no-medium-visibility{display:none !important;}',
+			large: 'body:not(.fusion-builder-ui-wireframe) .fusion-no-large-visibility{display:none !important;}'
+		},
+		absoluteCss = 'position:absolute;top:auto;width:100%;';
+
+	// Absolute positioning.
+	css.small  += 'body:not(.fusion-builder-ui-wireframe) .fusion-absolute-position-small{' + absoluteCss + '}';
+	css.medium += 'body:not(.fusion-builder-ui-wireframe) .fusion-absolute-position-medium{' + absoluteCss + '}';
+	css.large  += 'body:not(.fusion-builder-ui-wireframe) .fusion-absolute-position-large{' + absoluteCss + '}';
+
+	// Add media queries.
+	css.small  = mediaQueries.small + '{' + css.small + '}';
+	css.medium = mediaQueries.medium + '{' + css.medium + '}';
+	css.large  = mediaQueries.large + '{' + css.large + '}';
+
+	if ( $previewFrameHead.find( '#css-fb-visibility' ).length ) {
+		$previewFrameHead.find( '#css-fb-visibility' ).remove();
 	}
-	jQuery( '#fb-preview' ).contents().find( 'head' ).append( '<style type="text/css" id="css-fb-visibility">' + css.small + css.medium + css.large + '</style>' );
+	$previewFrameHead.append( '<style type="text/css" id="css-fb-visibility">' + css.small + css.medium + css.large + '</style>' );
 }

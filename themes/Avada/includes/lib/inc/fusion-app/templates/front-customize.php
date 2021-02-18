@@ -36,7 +36,7 @@ $permalink    = add_query_arg( 'builder_id', esc_attr( $builder_id ), $permalink
 $preferences  = Fusion_App()->preferences->get_preferences();
 $overlay_mode = isset( $preferences['sidebar_overlay'] ) && 'on' === $preferences['sidebar_overlay'] ? ' fusion-overlay-mode' : '';
 ?>
-<title><?php esc_html_e( 'Fusion Builder', 'Avada' ); // phpcs:ignore WPThemeReview.CoreFunctionality ?></title>
+<title><?php esc_html_e( 'Avada Builder', 'Avada' ); // phpcs:ignore WPThemeReview.CoreFunctionality ?></title>
 
 <script type="text/javascript">
 // TODO: localize the following vars ?

@@ -56,7 +56,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionExtended',
 				aria: fusionBuilderText.extended_options,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-ellipsis"></i>',
+				contentFA: '<i class="fusiona-ellipsis" aria-hidden="true"></i>',
 				hasForm: false,
 
 				init: function() {
@@ -102,7 +102,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionAlign',
 				aria: fusionBuilderText.align_text,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-align-center"></i>',
+				contentFA: '<i class="fusiona-align-center" aria-hidden="true"></i>',
 				hasForm: true,
 
 				init: function() {
@@ -334,7 +334,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionTypography',
 				aria: fusionBuilderText.typography,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-font-solid"></i>',
+				contentFA: '<i class="fusiona-font-solid" aria-hidden="true"></i>',
 				hasForm: true,
 				fonts: [],
 				loadPreviews: false,
@@ -547,8 +547,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						selectionRange = MediumEditor.selection.getSelectionRange( this.document ),
 						parentEl       = MediumEditor.selection.getSelectedParentElement( selectionRange ),
 						values         = {
-							subset: 'latin',
-							subsetLabel: 'Default',
 							variant: 'regular',
 							variantLabel: 'Default',
 							family: ''
@@ -582,10 +580,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						}
 						values.family = values.family.replace( /"/g, '' ).replace( /'/g, '' );
 
-						if ( el.hasAttribute( 'data-fusion-google-subset' ) ) {
-							values.subset = el.getAttribute( 'data-fusion-google-subset' );
-
-						}
 						if ( el.hasAttribute( 'data-fusion-google-variant' ) ) {
 							values.variant = el.getAttribute( 'data-fusion-google-variant' );
 							if ( ! _.isUndefined( FusionApp.assets ) && ! _.isUndefined( FusionApp.assets.webfonts ) ) {
@@ -615,8 +609,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						family        = familyHold.querySelector( '[data-value="' + values.family + '"]' ),
 						variant       = form.querySelector( '#fusion-variant' ),
 						variants      = form.querySelector( '.fuson-options-holder.variant' ),
-						subsets       = form.querySelector( '.fuson-options-holder.subset' ),
-						subset        = form.querySelector( '#fusion-subset' ),
 						rect;
 
 					if ( family ) {
@@ -628,13 +620,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					}
 					if ( variants ) {
 						this.updateVariants( values.family );
-					}
-					if ( subset ) {
-						subset.setAttribute( 'data-value', values.subset );
-						subset.innerHTML = values.subsetLabel;
-					}
-					if ( subsets ) {
-						this.updateSubsets( values.family );
 					}
 				},
 
@@ -748,8 +733,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						familyOptions,
 						familyVariant,
 						familyVariantSelect,
-						familySubset,
-						familySubsetSelect,
 						familyVariantVisible,
 						familyVariantOptionsHolder,
 						familyVariantOptions;
@@ -774,7 +757,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 					closeButton           = doc.createElement( 'button' );
 					closeButton.className = 'fusion-inline-editor-close';
-					closeButton.innerHTML = '<i class="fusiona-check"></i>';
+					closeButton.innerHTML = '<i class="fusiona-check" aria-hidden="true"></i>';
 					navHold.appendChild( closeButton );
 
 					tabHold = doc.createElement( 'div' );
@@ -945,7 +928,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 								var family = option.getAttribute( 'data-value' );
 								if ( self.visibleY( option, rectTop, rectBottom ) ) {
 									option.classList.add( 'visible' );
-									self.getWebFont( family );
+									self.webFontLoad( family );
 								}
 							} );
 						} );
@@ -983,32 +966,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 					familyOptions.appendChild( familyVariant );
 
-					// Family subset.
-					familySubset = doc.createElement( 'div' );
-					familySubsetVisible = doc.createElement( 'div' );
-					familySubsetVisible.className = 'fusion-select-wrapper';
-					familySubsetVisible.innerHTML = '<label for="subset">' + fusionBuilderText.typography_subset + '</label>';
-
-					familySubsetSelect = doc.createElement( 'div' );
-					familySubsetSelect.className = 'fusion-select fusion-selected-value';
-					familySubsetSelect.id        = 'fusion-subset';
-					familySubsetSelect.setAttribute( 'data-name', 'subset' );
-					familySubsetSelect.setAttribute( 'data-id', 'subset' );
-
-					familySubsetVisible.appendChild( familySubsetSelect );
-
-					familySubsetOptions                 = doc.createElement( 'div' );
-					familySubsetOptions.className       = 'fusion-options-wrapper subset';
-					familySubsetOptions.innerHTML       = '<label for="subset">' + fusionBuilderText.typography_subset + '</label>';
-					familySubsetOptionsHolder           = doc.createElement( 'div' );
-					familySubsetOptionsHolder.className = 'fuson-options-holder subset';
-					familySubsetOptions.appendChild( familySubsetOptionsHolder );
-
-					familySubset.appendChild( familySubsetVisible );
-					familySubset.appendChild( familySubsetOptions );
-
-					familyOptions.appendChild( familySubset );
-
 					familyTab.appendChild( familyOptions );
 
 					form.appendChild( navHold );
@@ -1021,10 +978,8 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					this.on( settingsLink, 'click', this.handleTabClick.bind( this ) );
 					this.on( familyLink, 'click', this.handleTabClick.bind( this ) );
 
-					// Variant and subset clicks.
+					// Variant clicks.
 					this.on( familyVariantVisible, 'click', this.handleVariantClick.bind( this ) );
-					this.on( familySubsetVisible, 'click', this.handleVariantClick.bind( this ) );
-					this.on( familySubsetOptionsHolder, 'click', this.handleOptionClick.bind( this ) );
 					this.on( familyVariantOptionsHolder, 'click', this.handleOptionClick.bind( this ) );
 
 					// Form saves.
@@ -1169,7 +1124,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						if ( self.loadPreviews ) {
 							option.setAttribute( 'style', 'font-family:' + font.family );
 							if ( 5 > index ) {
-								self.getWebFont( font.family );
+								self.webFontLoad( font.family );
 								option.classList.add( 'visible' );
 							}
 						}
@@ -1324,19 +1279,13 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					var value    = event.target.getAttribute( 'data-value' ),
 						font     = event.target.classList.contains( 'fusion-select' ) ? this.getFontFamily() : value,
 						self     = this,
-						variant  = value,
-						subset   = value;
+						variant  = value;
 
 					if ( event.target.classList.contains( 'fusion-variant-select' ) ) {
 						this.updateSingleVariant( value, event.target.innerHTML );
-						subset = this.getFontSubset();
-					} else if ( event.target.classList.contains( 'fusion-subset-select' ) ) {
-						this.updateSingleSubset( value, event.target.innerHTML );
-						variant = this.getFontVariant();
 					} else {
 						this.updateSingleFamily();
 						variant = this.updateVariants( font );
-						subset  = this.updateSubsets( font );
 					}
 
 					event.target.classList.add( 'active' );
@@ -1346,13 +1295,13 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					}
 
 					if ( -1 !== FusionApp.assets.webfontsStandardArray.indexOf( font ) || this.isCustomFont( font ) ) {
-						this.changePreview( font, false, variant, subset );
+						this.changePreview( font, false, variant );
 
-					} else if ( this.webFontLoad( font, variant, subset, false ) ) {
-						self.changePreview( font, true, variant, subset );
+					} else if ( this.webFontLoad( font, variant, false ) ) {
+						self.changePreview( font, true, variant );
 					} else {
 						jQuery( window ).one( 'fusion-font-loaded', function() {
-							self.changePreview( font, true, variant, subset );
+							self.changePreview( font, true, variant );
 						} );
 					}
 				},
@@ -1393,36 +1342,10 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					return false;
 				},
 
-				getFontSubset: function() {
-					var form   = this.getForm(),
-						input  = form.querySelector( '#fusion-subset' );
-
-					if ( input ) {
-						return input.getAttribute( 'data-value' );
-					}
-					return false;
-				},
-
 				updateSingleVariant: function( value, label ) {
 					var form        = this.getForm(),
 						inputDiv    = form.querySelector( '#fusion-variant' ),
 						optionsHold = form.querySelector( '.fuson-options-holder.variant' ),
-						actives     = optionsHold.querySelectorAll( '.active' );
-
-					inputDiv.setAttribute( 'data-value', value );
-					inputDiv.innerHTML = label;
-
-					if ( actives ) {
-						_.each( actives, function( active ) {
-							active.classList.remove( 'active' );
-						} );
-					}
-				},
-
-				updateSingleSubset: function( value, label ) {
-					var form        = this.getForm(),
-						inputDiv    = form.querySelector( '#fusion-subset' ),
-						optionsHold = form.querySelector( '.fuson-options-holder.subset' ),
 						actives     = optionsHold.querySelectorAll( '.active' );
 
 					inputDiv.setAttribute( 'data-value', value );
@@ -1447,61 +1370,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					}
 				},
 
-				updateSubsets: function( font ) {
-					var self         = this,
-						subsets      = this.getSubsets( font ),
-						form         = this.getForm(),
-						holder       = form.querySelector( '.fuson-options-holder.subset' ),
-						inputDiv     = form.querySelector( '#fusion-subset' ),
-						doc          = this.document,
-						hasSelection = false,
-						defaultVal   = 'latin',
-						currentVal   = inputDiv.getAttribute( 'data-value' );
-
-					while ( holder.firstChild ) {
-						holder.removeChild( holder.firstChild );
-					}
-
-					if ( ! subsets ) {
-						subsets = [
-							{
-								id: '',
-								label: 'Default'
-							}
-						];
-					}
-
-					// If currentVal is within variants, then use as default.
-					if ( _.contains( _.pluck( subsets, 'id' ), currentVal ) ) {
-						defaultVal = currentVal;
-					}
-
-					_.each( subsets, function( subset ) {
-						var option = doc.createElement( 'div' );
-
-						option.className = 'fusion-select fusion-subset-select';
-						option.innerHTML = subset.label;
-						option.setAttribute( 'data-value', subset.id );
-
-						if ( defaultVal === subset.id  ) {
-							hasSelection = true;
-							option.classList.add( 'active' );
-							inputDiv.setAttribute( 'data-value', subset.id );
-							inputDiv.innerHTML = subset.label;
-						}
-						self.on( option, 'click',  self.handleFontChange.bind( self ) );
-						holder.appendChild( option );
-					} );
-
-					if ( ! hasSelection && holder.firstChild ) {
-						holder.firstChild.classList.add( 'active' );
-						defaultVal = holder.firstChild.getAttribute( 'data-value' );
-						inputDiv.setAttribute( 'data-value', defaultVal );
-						inputDiv.innerHTML = holder.firstChild.innerHTML;
-					}
-
-					return defaultVal;
-				},
 				updateVariants: function( font ) {
 					var self         = this,
 						variants     = this.getVariants( font ),
@@ -1559,7 +1427,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					return defaultVal;
 				},
 
-				changePreview: function( font, googleFont, variant, subset ) {
+				changePreview: function( font, googleFont, variant ) {
 					var iframe     = document.getElementById( 'fb-preview' ),
 						iframeWin  = rangy.dom.getIframeWindow( iframe ),
 						fontWeight = '',
@@ -1598,16 +1466,9 @@ var FusionPageBuilder = FusionPageBuilder || {};
 								el.removeAttribute( 'data-fusion-google-variant' );
 							}
 
-							// Subset handling.
-							if ( '' !== subset ) {
-								el.setAttribute( 'data-fusion-google-subset', subset );
-							} else {
-								el.removeAttribute( 'data-fusion-google-subset' );
-							}
 						} else {
 							el.removeAttribute( 'data-fusion-google-font' );
 							el.removeAttribute( 'data-fusion-google-variant' );
-							el.removeAttribute( 'data-fusion-google-subset' );
 						}
 
 						el.classList.remove( 'fusion-editing' );
@@ -1643,7 +1504,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionFontColor',
 				aria: fusionBuilderText.font_color,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusion-color-preview"></i>',
+				contentFA: '<i class="fusion-color-preview" aria-hidden="true"></i>',
 				hasForm: true,
 				override: false,
 				parentCid: false,
@@ -1785,7 +1646,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					jQuery( input ).iris( 'show' );
 
 					if ( ! jQuery( input ).parent().parent().find( '.wp-picker-clear-button' ).length ) {
-						jQuery( input ).parent().parent().append( '<button class="button button-small wp-picker-clear wp-picker-clear-button"><i class="fusiona-eraser-solid"></i></button>' );
+						jQuery( input ).parent().parent().append( '<button class="button button-small wp-picker-clear wp-picker-clear-button"><i class="fusiona-eraser-solid" aria-hidden="true"></i></button>' );
 
 						jQuery( input ).parent().parent().find( '.wp-picker-clear-button' ).on( 'click', function() {
 							jQuery( input ).parent().parent().find( 'input.wp-picker-clear' ).trigger( 'click' );
@@ -1829,7 +1690,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					form.appendChild( input );
 
 					close.className = 'fusion-inline-editor-close';
-					close.innerHTML = '<i class="fusiona-check"></i>';
+					close.innerHTML = '<i class="fusiona-check" aria-hidden="true"></i>';
 					form.appendChild( close );
 
 					// Handle save button clicks (capture)
@@ -1930,7 +1791,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionInlineShortcode',
 				aria: fusionBuilderText.add_element,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-plus"></i>',
+				contentFA: '<i class="fusiona-plus" aria-hidden="true"></i>',
 				hasForm: true,
 
 				init: function() {
@@ -2291,7 +2152,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'createLink',
 				aria: fusionBuilderText.link_options,
 				contentDefault: '<b>#</b>;',
-				contentFA: '<i class="fusiona-link-solid"></i>',
+				contentFA: '<i class="fusiona-link-solid" aria-hidden="true"></i>',
 				hasForm: true,
 				tagNames: [ 'a' ],
 
@@ -2299,6 +2160,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					MediumEditor.extensions.form.prototype.init.apply( this, arguments );
 
 					this._handleInputChange = _.debounce( _.bind( this.handleInputChange, this ), 500 );
+					this._keyUpInputChange  = _.debounce( _.bind( this.keyUpInputChange, this ), 1500 );
 				},
 
 				handleClick: function( event ) {
@@ -2372,8 +2234,8 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						form.classList.remove( 'hidden' );
 					}, 400 );
 
-					this.getHrefInput().value   = '';
-					this.getTargetInput().value = '';
+					this.getHrefInput().value     = '';
+					this.getTargetInput().value   = '';
 					this.getTargetInput().checked = false;
 
 					setTimeout( function() {
@@ -2457,9 +2319,9 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					form.className = 'medium-editor-toolbar-form fusion-inline-anchor fusion-link-selector';
 					form.id        = 'medium-editor-toolbar-form-anchor-' + this.getEditorId();
 
-					input.className = 'medium-editor-toolbar-input fusion-builder-link-field';
-					input.id        = 'fusion-anchor-href';
-					input.type      = 'text';
+					input.className   = 'medium-editor-toolbar-input fusion-builder-link-field';
+					input.id          = 'fusion-anchor-href';
+					input.type        = 'text';
 					input.placeholder = fusionBuilderText.select_link;
 					form.appendChild( input );
 
@@ -2467,7 +2329,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					form.appendChild( linkSearch );
 
 					linkClear.className = 'button button-small wp-picker-clear';
-					linkClear.innerHTML = '<i class="fusiona-eraser-solid"></i>';
+					linkClear.innerHTML = '<i class="fusiona-eraser-solid" aria-hidden="true"></i>';
 					form.appendChild( linkClear );
 
 					label.className = 'switch';
@@ -2480,10 +2342,10 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					targetHold.appendChild( targetLabel );
 
 					targetInput.className = 'switch-input screen-reader-text';
-					targetInput.name = 'fusion-anchor-target';
-					targetInput.id  = 'fusion-anchor-target-' + this.getEditorId();
-					targetInput.type = 'checkbox';
-					targetInput.value = '0';
+					targetInput.name      = 'fusion-anchor-target';
+					targetInput.id        = 'fusion-anchor-target-' + this.getEditorId();
+					targetInput.type      = 'checkbox';
+					targetInput.value     = '0';
 
 					labelSpan.className = 'switch-label';
 					labelSpan.setAttribute( 'data-on', fusionBuilderText.on );
@@ -2508,12 +2370,12 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					form.appendChild( targetHold );
 
 					close.className = 'fusion-inline-editor-close';
-					close.innerHTML = '<i class="fusiona-check"></i>';
+					close.innerHTML = '<i class="fusiona-check" aria-hidden="true"></i>';
 					form.appendChild( close );
 
 					this.on( input, 'change', this.handleInputChange.bind( this ), true );
 					this.on( input, 'blur', this.handleInputChange.bind( this ), true );
-					this.on( input, 'keyup', this._handleInputChange.bind( this ), true );
+					this.on( input, 'keyup', this._keyUpInputChange.bind( this ), true );
 					this.on( targetInput, 'change', this._handleInputChange.bind( this ), true );
 
 					// Handle save button clicks (capture)
@@ -2558,8 +2420,20 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					return opts;
 				},
 
+				keyUpInputChange: function( event ) {
+					this.handleInputChange( event );
+
+					// Return the focus back to the input.
+					jQuery( this.getForm() ).find( '.fusion-builder-link-field' ).focus();
+				},
+
 				handleInputChange: function( event ) {
 					var opts = this.getFormOpts();
+
+					// If form is hidden, do not try to save again.
+					if ( ! jQuery( this.getForm() ).hasClass( 'visible' ) ) {
+						return;
+					}
 
 					this.base.restoreSelection();
 
@@ -2579,9 +2453,11 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				},
 
 				handleSaveClick: function( event ) {
+					this.handleInputChange( event );
 
 					// Clicking Save -> create the font size
 					event.preventDefault();
+
 					this.doFormSave();
 				}
 			} );
@@ -2605,7 +2481,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionRemoveFormat',
 				aria: fusionBuilderText.remove_format,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-undo"></i>',
+				contentFA: '<i class="fusiona-undo" aria-hidden="true"></i>',
 				hasForm: false,
 
 				init: function() {
@@ -2629,7 +2505,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						el.removeAttribute( 'data-fusion-font' );
 						el.removeAttribute( 'data-fusion-google-font' );
 						el.removeAttribute( 'data-fusion-google-variant' );
-						el.removeAttribute( 'data-fusion-google-subset' );
 						el.style[ 'line-height' ]    = '';
 						el.style[ 'font-size' ]      = '';
 						el.style[ 'font-family' ]    = '';
@@ -2667,7 +2542,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionIndent',
 				aria: fusionBuilderText.indent,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-indent"></i>',
+				contentFA: '<i class="fusiona-indent" aria-hidden="true"></i>',
 				hasForm: false,
 
 				init: function() {
@@ -2725,7 +2600,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				action: 'fusionOutdent',
 				aria: fusionBuilderText.outdent,
 				contentDefault: '&#xB1;',
-				contentFA: '<i class="fusiona-outdent"></i>',
+				contentFA: '<i class="fusiona-outdent" aria-hidden="true"></i>',
 				hasForm: false,
 
 				init: function() {

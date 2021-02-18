@@ -49,8 +49,7 @@ html body.custom-background,
 .layout-boxed-mode.avada-footer-fx-sticky .above-footer-wrapper,
 .layout-boxed-mode.avada-footer-fx-sticky-with-parallax-bg-image .above-footer-wrapper,
 .layout-boxed-mode #main,
-#main,
-.fusion-separator .icon-wrapper {
+#main {
   background-color: var(--content_bg_color);
 }
 .quicktags-toolbar input {

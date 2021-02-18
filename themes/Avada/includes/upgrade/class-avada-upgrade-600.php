@@ -92,8 +92,8 @@ class Avada_Upgrade_600 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.0.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_sidebar_width_options( $options ) {
 		$sidebar_width_options = [
@@ -119,8 +119,8 @@ class Avada_Upgrade_600 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.0.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_lowercase_options( $options ) {
 		$lowercase_options = [
@@ -163,8 +163,8 @@ class Avada_Upgrade_600 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.0.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_underscore_options( $options ) {
 		$underscore_options = [

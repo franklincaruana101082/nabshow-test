@@ -22,7 +22,7 @@ if ( ! empty( $wc_cart_items ) ) {
 }
 
 $id             = get_the_ID(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
-$in_cart        = in_array( $id, $items_in_cart );
+$in_cart        = in_array( $id, $items_in_cart ); // phpcs:ignore WordPress.PHP.StrictInArray
 $size           = 'shop_catalog';
 $post_permalink = get_permalink();
 

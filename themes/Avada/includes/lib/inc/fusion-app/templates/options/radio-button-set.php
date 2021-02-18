@@ -8,11 +8,17 @@
 
 ?>
 <#
-var fieldId = 'undefined' === typeof param.param_name ? param.id : param.param_name,
-	choices = 'undefined' === typeof param.param_name ? param.choices : param.value,
-	icons   = 'undefined' !== typeof FusionApp && 'undefined' !== typeof param.icons ? param.icons : '';
+var fieldId      = 'undefined' === typeof param.param_name ? param.id : param.param_name,
+	choices      = 'undefined' === typeof param.param_name ? param.choices : param.value,
+	icons        = ( 'undefined' !== typeof FusionApp || 'undefined' !== typeof param.back_icons && param.back_icons ) && 'undefined' !== typeof param.icons ? param.icons : '',
+	gridLayout   = ( 'undefined' !== typeof param.grid_layout && param.grid_layout ) ? true : false,
+	wrapperClass = '';
+
+	if ( gridLayout ) {
+		wrapperClass = 'fusion-form-radio-button-set-grid-layout';
+	}
 #>
-<div class="fusion-form-radio-button-set ui-buttonset fusion-option-{{ fieldId }}">
+<div class="fusion-form-radio-button-set ui-buttonset fusion-option-{{ fieldId }} {{ wrapperClass }}">
 	<#
 	var choice = option_value,
 	index = 0;
@@ -27,10 +33,12 @@ var fieldId = 'undefined' === typeof param.param_name ? param.id : param.param_n
 		index++;
 		var selected  = ( value == choice ) ? ' ui-state-active' : '',
 			icon      = ( 'undefined' !== typeof icons[ value ] && '' !== icons ) ? icons[ value ] : '',
-			title     = name,
+			title     = gridLayout ? '' : name,
 			iconClass = '' === icon ? '' : 'has-tooltip';
 
-		if ( -1 !== icon.indexOf( 'svg' ) || -1 !== icon.indexOf( 'span' ) ) {
+		if ( '' !== title && -1 !== icon.indexOf( 'span' ) && -1 === icon.indexOf( 'onlyIcon' ) ) {
+			title = icon + '<div class="fusion-button-set-title">' + title + '</div>';
+		} else if ( -1 !== icon.indexOf( 'svg' ) || -1 !== icon.indexOf( 'span' ) ) {
 			title = icon;
 		} else if ( '' !== icon ) {
 			iconClass += ' ' + icon;

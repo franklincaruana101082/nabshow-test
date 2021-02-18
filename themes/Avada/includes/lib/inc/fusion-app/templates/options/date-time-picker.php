@@ -32,7 +32,7 @@
 				class="fusion-date-picker fusion-hide-from-atts"
 				value="{{ date }}" />
 			<div class="fusion-date-picker-field add-on">
-				<i class="fusiona-calendar-plus-o" data-date-icon="fusiona-calendar-plus-o"></i>
+				<i class="fusiona-calendar-plus-o" data-date-icon="fusiona-calendar-plus-o" aria-hidden="true"></i>
 			</div>
 		</div>
 
@@ -44,7 +44,7 @@
 				class="fusion-time-picker fusion-hide-from-atts"
 				value="{{ time }}" />
 			<div class="fusion-time-picker-field add-on">
-				<i data-time-icon="fusiona-clock" class="fusiona-clock"></i>
+				<i data-time-icon="fusiona-clock" class="fusiona-clock" aria-hidden="true"></i>
 			</div>
 		</div>
 	</div>
@@ -59,7 +59,7 @@
 		value="{{ option_value }}"
 	/>
 	<div class="fusion-dt-picker-field add-on" >
-		<i data-time-icon="fusiona-clock" data-date-icon="fusiona-calendar-plus-o"></i>
+		<i data-time-icon="fusiona-clock" data-date-icon="fusiona-calendar-plus-o" aria-hidden="true"></i>
 	</div>
 </div>
 <# } #>

@@ -33,7 +33,7 @@ class Avada_AvadaRedux_Migration extends Avada_Migrate {
 
 
 	/**
-	 * The Theme Options db name.
+	 * The Global Options db name.
 	 *
 	 * @since 5.1.0
 	 * @access public

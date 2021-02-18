@@ -144,7 +144,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			if ( 'fusion_tb_section' === FusionApp.data.postDetails.post_type && 0 < $element.length ) {
 				$element.html( $element.data( 'layout' ) );
 			} else {
-				$element.html( $element.data( 'page' ) );
+				$element.html( $element.data( 'name' ) );
 			}
 		},
 
@@ -342,8 +342,16 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			var self = this,
 				flatOptions,
 				tab,
+				poObject,
 				tabId;
 
+			// Unset context check if we have a PO first, otherwise will fallback to TO.
+			if ( 'undefined' === typeof context ) {
+				poObject = this.getFlatPoObject();
+				if ( 'undefined' !== typeof poObject[ option ] && 'object' === typeof FusionApp.data.postMeta._fusion && 'undefined' !== typeof FusionApp.data.postMeta._fusion[ option ] && '' !== FusionApp.data.postMeta._fusion[ option ] ) {
+					context = 'po';
+				}
+			}
 			context     = 'undefined' === typeof context || ! context ? 'to' : context;
 			flatOptions = 'po' !== context ? this.getFlatToObject() : this.getFlatPoObject();
 			tab         = flatOptions[ option ];
@@ -721,7 +729,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		},
 
 		/**
-		 * Add Fusion-Builder-Elements panels.
+		 * Add Avada-Builder-Elements panels.
 		 *
 		 * @since 2.0.0
 		 * @return {void}
@@ -1148,16 +1156,21 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		 * @param {string} to - The theme-option name.
 		 * @param {mixed} value - The value.
 		 * @param {string} type - The option-type (yesno/showhide/reverseyesno etc).
+		 * @param {string} subset - The option subset.
 		 * @return {string} - Returns the value as a string.
 		 */
-		fixToValueName: function( to, value, type ) {
+		fixToValueName: function( to, value, type, subset ) {
 			var flatTo  = this.getFlatToObject();
 
 			if ( 'undefined' !== typeof flatTo[ to ] && 'undefined' !== typeof flatTo[ to ].choices && 'undefined' !== typeof flatTo[ to ].choices[ value ] && 'yesno' !== type ) {
 				return flatTo[ to ].choices[ value ];
 			}
 			if ( 'object' === typeof value ) {
-				value = _.values( value ).join( ', ' );
+				if ( !_.isEmpty( subset ) && 'undefined' !== typeof value[ subset ] ) {
+					value = value[ subset ];
+				} else {
+					value = _.values( value ).join( ', ' );
+				}
 			}
 
 			switch ( type ) {
@@ -1260,7 +1273,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				FusionApp.assets.webfonts.custom.push( {
 					family: name,
 					label: name,
-					subsets: [],
 					variants: []
 
 				} );
@@ -1735,10 +1747,15 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		 * @param {string} choice - In case the value is an object and we want to get the value of a key in that object.
 		 * @return {mixed} - Returns the value.
 		 */
-		getPoToValue: function( id, choice ) {
+		getPoToValue: function( id, choice, toOnly ) {
 			var mapKey = this.getGlobalMapKey( id );
+
+			if ( 'undefined' === typeof toOnly ) {
+				toOnly = false;
+			}
+
 			if ( mapKey ) {
-				return this.getPoToValueFromGlobalKey( mapKey, choice );
+				return this.getPoToValueFromGlobalKey( mapKey, choice, toOnly );
 			}
 			return null;
 		},
@@ -1776,7 +1793,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		 * @param {string|undefined} choice - Used if we want to get a choice from a value object.
 		 * @return {string|Object} - Returns the value.
 		 */
-		getPoToValueFromGlobalKey: function( key, choice ) {
+		getPoToValueFromGlobalKey: function( key, choice, toOnly ) {
 			var value = null,
 				skip  = false,
 				parts;
@@ -1798,6 +1815,11 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				if ( FusionApp.settings[ parts[ 0 ] ] && 'undefined' !== typeof FusionApp.settings[ parts[ 0 ] ][ parts[ 1 ] ] ) {
 					value = FusionApp.settings[ parts[ 0 ] ][ parts[ 1 ] ];
 				}
+			}
+
+			// Return early if we only want TO.
+			if ( 'undefined' !== typeof toOnly && toOnly ) {
+				return value;
 			}
 
 			// Check if we have an option map for this key.
@@ -1934,7 +1956,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			values = values || {};
 
-			values      = 'PS' === type ? FusionApp.data.postDetails : values,
+			values      = 'PS' === type ? FusionApp.data.postDetails : values;
 			origValue   = values[ id ];
 			value       = origValue;
 			parentValue = value;
@@ -2043,7 +2065,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				_.each( cssVars, function( cssVar ) {
 
 					// Reset value on each loop.  In case callback of prior messed with it.
-					var varVal   = self.getPoToValue( id, cssVar.choice ),
+					var varVal   = 'undefined' !== typeof cssVar.po && false === cssVar.po ? self.getPoToValue( id, cssVar.choice, true ) : self.getPoToValue( id, cssVar.choice, false ),
 						selector = ':root';
 
 					// Get sub-value if we have a 3rd argument.
@@ -2546,7 +2568,8 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			'click .upload-image-remove': 'removeImage',
 			'click .option-preview-toggle': 'previewToggle',
 			'click .fusion-panel-description': 'showHideDescription',
-			'click .fusion-panel-shortcut': 'defaultPreview'
+			'click .fusion-panel-shortcut': 'defaultPreview',
+			'click .fusion-quick-option': 'quickOption'
 		},
 
 		/**
@@ -2599,6 +2622,21 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			this.initOptions();
 			FusionApp.sidebarView.$el.find( '.fusion-sidebar-section:visible' ).scrollTop( 0 );
 			return this;
+		},
+
+		/**
+		 * Navigates to a separate tab.
+		 *
+		 * @since 7.0
+		 * @param object event The click event.
+		 * @return {void}
+		 */
+		quickOption: function( event ) {
+			var $trigger = jQuery( event.target );
+
+			event.preventDefault();
+
+			FusionApp.sidebarView.openOption( $trigger.data( 'fusion-option' ) );
 		},
 
 		/**
@@ -2686,7 +2724,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			if ( FusionApp.sidebarView ) {
 				jQuery( '.fusion-builder-toggles a' ).first().trigger( 'click' );
-				FusionApp.sidebarView.openOption( $element.data( 'fusion-option' ) );
+				FusionApp.sidebarView.openOption( $element.data( 'fusion-option' ), 'to' );
 			}
 		},
 
@@ -2718,6 +2756,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			this.optionColorPalette( $thisEl );
 			this.optionRaw( $thisEl );
 			this.optionLinkSelector( $thisEl );
+			this.optionHubSpotMap( $thisEl );
 
 			if ( 'undefined' === typeof $element ) {
 				this.optionRepeater( this.type );
@@ -3061,21 +3100,32 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			this.saveChange( $target, value, saveId, save, type );
 
-			if ( 'TO' === type || 'FBE' === type ) {
+			if ( 'TO' === type || 'FBE' === type || 'PO' === type ) {
 				FusionApp.createMapObjects();
 				if ( 'object' === typeof save[ saveId ] ) {
 					this.updateSettingsToParams( id + '[' + $target.attr( 'name' ) + ']', value );
 					this.updateSettingsToExtras( id + '[' + $target.attr( 'name' ) + ']', value );
 					this.updateSettingsToParams( id, save[ saveId ] );
 					this.updateSettingsToExtras( id, save[ saveId ] );
-					this.updateSettingsToPo( id, save[ saveId ] );
+					if ( 'TO' === type || 'FBE' === type ) {
+						this.updateSettingsToPo( id, save[ saveId ] );
+					}
 				} else {
 					this.updateSettingsToParams( id, value );
 					this.updateSettingsToExtras( id, value );
-					this.updateSettingsToPo( id, value );
+					if ( 'TO' === type || 'FBE' === type ) {
+						this.updateSettingsToPo( id, value );
+					}
 				}
 
 				FusionEvents.trigger( 'fusion-preview-update', id, value );
+			}
+
+			// Custom events defined.
+			if ( 'object' === typeof fields[ id ].events ) {
+				_.each( fields[ id ].events, function( customEvent ) {
+					FusionEvents.trigger( customEvent, id, value );
+				} );
 			}
 
 			// Check update_callback args.
@@ -3112,6 +3162,11 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			if ( fields[ id ].id && '_fusion_builder_custom_css' === fields[ id ].id ) {
 				avadaPanelIFrame.liveUpdatePageCustomCSS( value );
+				return;
+			}
+
+			if ( fields[ id ].id && ( 'visibility_small' === fields[ id ].id || 'visibility_medium' === fields[ id ].id ) ) {
+				jQuery( '#fusion-parent-window-css-vars' ).html( ':root{--small_screen_width:' + FusionApp.settings.visibility_small + 'px;}:root{--medium_screen_width:' + FusionApp.settings.visibility_medium + 'px;}' );
 				return;
 			}
 
@@ -3246,8 +3301,9 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		updateSettingsToParams: function( id, value, skipRender ) {
 			var self         = this,
 				initialValue = self.cloneValue( value ),
-				$colorPicker,
+				$target,
 				defaultText,
+				args,
 				type;
 
 			skipRender = 'undefined' === typeof skipRender ? false : skipRender;
@@ -3259,7 +3315,12 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 				if ( ! _.isUndefined( fusionAllElements[ rule.element ] ) ) {
 					if ( rule.callback ) {
-						value = avadaPanelIFrame.applyCallback( initialValue, rule.callback, false );
+
+						args = {
+							id: id,
+							type: self.model.get( 'type' )
+						};
+						value = avadaPanelIFrame.applyCallback( initialValue, rule.callback, args );
 					}
 
 					// Update default for element render.
@@ -3270,19 +3331,10 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						// Only option that uses visual default value should update.
 						if ( 'colorpickeralpha' === fusionAllElements[ rule.element ].params[ rule.param ].type || 'color' === fusionAllElements[ rule.element ].params[ rule.param ].type || 'range' === fusionAllElements[ rule.element ].params[ rule.param ].type ) {
 							fusionAllElements[ rule.element ].params[ rule.param ][ 'default' ] = value;
-						}
+							$target = jQuery( '.' + rule.element + ' [data-option-id="' + rule.param + '"]' );
 
-						// If option exists on page right now, need to update.
-						if ( 'colorpickeralpha' === fusionAllElements[ rule.element ].params[ rule.param ].type || 'color' === fusionAllElements[ rule.element ].params[ rule.param ].type ) {
-							$colorPicker = jQuery( '.' + rule.element + ' [data-option-id="' + rule.param + '"] .fusion-builder-color-picker-hex' );
-							if ( 1 === $colorPicker.length ) {
-								$colorPicker.data( 'default', value ).trigger( 'change' );
-								if ( '' === $colorPicker.val() ) {
-									$colorPicker.addClass( 'fusion-default-changed' );
-									if ( $colorPicker.hasClass( 'wp-color-picker' ) ) {
-										$colorPicker.wpColorPicker( 'color', value );
-									}
-								}
+							if ( 1 === $target.length ) {
+								FusionEvents.trigger( 'fusion-default-changed-' + $target.closest( '.fusion-builder-module-settings' ).attr( 'data-element-cid' ), rule.param, value );
 							}
 						}
 
@@ -3510,6 +3562,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionColorPalette );
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionRawField );
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionLinkSelector );
+	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionHubSpotMap );
 
 	// Active states.
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.fusionActiveStates );

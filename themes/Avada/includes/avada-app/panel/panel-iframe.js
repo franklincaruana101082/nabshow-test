@@ -218,10 +218,15 @@
 		 * @param {string} choice - In case the value is an object and we want to get the value of a key in that object.
 		 * @return {mixed} - Returns the value.
 		 */
-		getPoToValue: function( id, choice ) {
+		getPoToValue: function( id, choice, toOnly ) {
 			var mapKey = this.getGlobalMapKey( id );
+
+			if ( 'undefined' === typeof toOnly ) {
+				toOnly = false;
+			}
+
 			if ( mapKey ) {
-				return this.getPoToValueFromGlobalKey( mapKey, choice );
+				return this.getPoToValueFromGlobalKey( mapKey, choice, toOnly );
 			}
 			return null;
 		},
@@ -259,7 +264,7 @@
 		 * @param {string|undefined} choice - Used if we want to get a choice from a value object.
 		 * @return {string|Object} - Returns the value.
 		 */
-		getPoToValueFromGlobalKey: function( key, choice ) {
+		getPoToValueFromGlobalKey: function( key, choice, toOnly ) {
 			var value = null,
 				skip  = false,
 				parts;
@@ -281,6 +286,11 @@
 				if ( FusionApp.settings[ parts[ 0 ] ] && 'undefined' !== typeof FusionApp.settings[ parts[ 0 ] ][ parts[ 1 ] ] ) {
 					value = FusionApp.settings[ parts[ 0 ] ][ parts[ 1 ] ];
 				}
+			}
+
+			// Return early if we only want TO.
+			if ( 'undefined' !== typeof toOnly && toOnly ) {
+				return value;
 			}
 
 			// Check if we have an option map for this key.
@@ -417,7 +427,7 @@
 
 			values = values || {};
 
-			values      = 'PS' === type ? FusionApp.data.postDetails : values,
+			values      = 'PS' === type ? FusionApp.data.postDetails : values;
 			origValue   = values[ id ];
 			value       = origValue;
 			parentValue = value;
@@ -526,7 +536,7 @@
 				_.each( cssVars, function( cssVar ) {
 
 					// Reset value on each loop.  In case callback of prior messed with it.
-					var varVal   = self.getPoToValue( id, cssVar.choice ),
+					var varVal   = 'undefined' !== typeof cssVar.po && false === cssVar.po ? self.getPoToValue( id, cssVar.choice, true ) : self.getPoToValue( id, cssVar.choice, false ),
 						selector = ':root';
 
 					// Get sub-value if we have a 3rd argument.

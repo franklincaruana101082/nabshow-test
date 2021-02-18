@@ -248,20 +248,20 @@ function avada_options_section_typography( $sections ) {
 				],
 			],
 			'headers_typography_section'        => [
-				'label'  => esc_html__( 'Headers Typography', 'Avada' ),
+				'label'  => esc_html__( 'Heading Typography', 'Avada' ),
 				'id'     => 'headers_typography_section',
 				'type'   => 'sub-section',
 				'fields' => [
 					'headers_typography_important_note_info' => [
 						'label'       => '',
-						'description' => '<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> This tab contains general typography options. Additional typography options for specific areas can be found within other tabs. Example: For menu typography options go to the menu tab.', 'Avada' ) . '</div>',
+						'description' => '<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> This tab contains heading typography options. Additional typography options for specific areas can be found within other tabs. Example: For menu typography options go to the menu tab.', 'Avada' ) . '</div>',
 						'id'          => 'headers_typography_important_note_info',
 						'type'        => 'custom',
 					],
 					'h1_typography'                 => [
 						'id'          => 'h1_typography',
-						'label'       => esc_html__( 'H1 Headers Typography', 'Avada' ),
-						'description' => esc_html__( 'These settings control the typography for all H1 Headers.', 'Avada' ),
+						'label'       => esc_html__( 'H1 Headings Typography', 'Avada' ),
+						'description' => esc_html__( 'These settings control the typography for all H1 headings.', 'Avada' ),
 						'type'        => 'typography',
 						'choices'     => [
 							'font-family'    => true,
@@ -328,8 +328,8 @@ function avada_options_section_typography( $sections ) {
 					],
 					'h2_typography'                 => [
 						'id'          => 'h2_typography',
-						'label'       => esc_html__( 'H2 Headers Typography', 'Avada' ),
-						'description' => esc_html__( 'These settings control the typography for all H2 Headers.', 'Avada' ),
+						'label'       => esc_html__( 'H2 Headings Typography', 'Avada' ),
+						'description' => esc_html__( 'These settings control the typography for all H2 headings.', 'Avada' ),
 						'type'        => 'typography',
 						'choices'     => [
 							'font-family'    => true,
@@ -396,8 +396,8 @@ function avada_options_section_typography( $sections ) {
 					],
 					'h3_typography'                 => [
 						'id'          => 'h3_typography',
-						'label'       => esc_html__( 'H3 Headers Typography', 'Avada' ),
-						'description' => esc_html__( 'These settings control the typography for all H3 Headers.', 'Avada' ),
+						'label'       => esc_html__( 'H3 Headings Typography', 'Avada' ),
+						'description' => esc_html__( 'These settings control the typography for all H3 headings.', 'Avada' ),
 						'type'        => 'typography',
 						'choices'     => [
 							'font-family'    => true,
@@ -464,8 +464,8 @@ function avada_options_section_typography( $sections ) {
 					],
 					'h4_typography'                 => [
 						'id'          => 'h4_typography',
-						'label'       => esc_html__( 'H4 Headers Typography', 'Avada' ),
-						'description' => esc_html__( 'These settings control the typography for all H4 Headers.', 'Avada' ),
+						'label'       => esc_html__( 'H4 Headings Typography', 'Avada' ),
+						'description' => esc_html__( 'These settings control the typography for all H4 headings.', 'Avada' ),
 						'type'        => 'typography',
 						'choices'     => [
 							'font-family'    => true,
@@ -532,8 +532,8 @@ function avada_options_section_typography( $sections ) {
 					],
 					'h5_typography'                 => [
 						'id'          => 'h5_typography',
-						'label'       => esc_html__( 'H5 Headers Typography', 'Avada' ),
-						'description' => esc_html__( 'These settings control the typography for all H5 Headers.', 'Avada' ),
+						'label'       => esc_html__( 'H5 Headings Typography', 'Avada' ),
+						'description' => esc_html__( 'These settings control the typography for all H5 headings.', 'Avada' ),
 						'type'        => 'typography',
 						'choices'     => [
 							'font-family'    => true,
@@ -600,8 +600,8 @@ function avada_options_section_typography( $sections ) {
 					],
 					'h6_typography'                 => [
 						'id'          => 'h6_typography',
-						'label'       => esc_html__( 'H6 Headers Typography', 'Avada' ),
-						'description' => esc_html__( 'These settings control the typography for all H6 Headers.', 'Avada' ),
+						'label'       => esc_html__( 'H6 Headings Typography', 'Avada' ),
+						'description' => esc_html__( 'These settings control the typography for all H6 headings.', 'Avada' ),
 						'type'        => 'typography',
 						'choices'     => [
 							'font-family'    => true,

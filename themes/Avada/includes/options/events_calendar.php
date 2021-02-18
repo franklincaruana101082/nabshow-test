@@ -391,7 +391,7 @@ function avada_options_section_events_calendar( $sections ) {
 						'label'       => esc_html__( 'Events Sidebar Widget / Meta Content Title Background Color', 'Avada' ),
 						'description' => esc_html__( 'Controls the background color of the sidebar widget / meta content title for single event posts.', 'Avada' ),
 						'id'          => 'ec_sidebar_widget_bg_color',
-						'default'     => '#aace4e',
+						'default'     => '#65bc7b',
 						'type'        => 'color-alpha',
 						'css_vars'    => [
 							[

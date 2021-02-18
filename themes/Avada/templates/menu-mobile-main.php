@@ -14,9 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Direct script access denied.' );
 }
 
-if ( 'flyout' === Avada()->settings->get( 'mobile_menu_design' ) && ( 'top' !== fusion_get_option( 'header_position' ) || ! in_array( Avada()->settings->get( 'header_layout' ), [ 'v4', 'v5' ] ) ) ) {
+if ( 'flyout' === Avada()->settings->get( 'mobile_menu_design' ) && ( 'top' !== fusion_get_option( 'header_position' ) || ! in_array( Avada()->settings->get( 'header_layout' ), [ 'v4', 'v5' ], true ) ) ) {
 	get_template_part( 'templates/menu-mobile-flyout' );
-} elseif ( 'top' !== fusion_get_option( 'header_position' ) || ( ! in_array( Avada()->settings->get( 'header_layout' ), [ 'v4', 'v5' ] ) ) ) {
+} elseif ( 'top' !== fusion_get_option( 'header_position' ) || ( ! in_array( Avada()->settings->get( 'header_layout' ), [ 'v4', 'v5' ], true ) ) ) {
 	get_template_part( 'templates/menu-mobile-modern' );
 }
 

@@ -382,16 +382,19 @@ class Fusion_Settings {
 	 * @param   string $type description of option type.
 	 * @param   string $reset option name for reset.
 	 * @param   array  $param Shortcode params declared while mapping.
+	 * @param   bool   $check_page Whether we need to check the page options for value.
 	 * @return  string $setting_description Setting description with default value link to Element Options.
 	 */
-	public function get_default_description( $setting = null, $subset = false, $type = null, $reset = '', $param = '' ) {
+	public function get_default_description( $setting = null, $subset = false, $type = null, $reset = '', $param = '', $check_page = false ) {
 
 		if ( is_null( $setting ) || empty( $setting ) ) {
 			return '';
 		}
 
 		if ( 'menu' !== $type ) {
-			if ( ! is_array( $subset ) ) {
+			if ( $check_page ) {
+				$setting_value = fusion_get_option( $setting );
+			} elseif ( ! is_array( $subset ) ) {
 				$setting_value = $this->get( $setting, $subset );
 			} else {
 				$setting_values = [];
@@ -576,6 +579,8 @@ class Fusion_Settings {
 			foreach ( $subset as $sub_subset ) {
 				$default_value[] = $this->get( $setting, $sub_subset );
 			}
+		} elseif ( $check_page ) {
+			$default_value = fusion_get_option( $setting );
 		} else {
 			$default_value = $this->get( $setting, $subset );
 		}

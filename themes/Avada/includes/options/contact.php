@@ -39,15 +39,15 @@ function avada_options_section_contact( $sections ) {
 	];
 
 	$sections['contact'] = [
-		'label'    => esc_html__( 'Contact Form', 'Avada' ),
+		'label'    => esc_html__( 'Contact Template', 'Avada' ),
 		'id'       => 'heading_contact',
 		'priority' => 22,
 		'is_panel' => true,
-		'icon'     => 'el-icon-envelope',
+		'icon'     => 'el el-map-marker',
 		'alt_icon' => 'fusiona-envelope',
 		'fields'   => [
 			'contact_form_options_subsection'   => [
-				'label'       => esc_html__( 'Contact Form', 'Avada' ),
+				'label'       => esc_html__( 'Contact Template', 'Avada' ),
 				'description' => '',
 				'id'          => 'contact_form_options_subsection',
 				'icon'        => true,
@@ -119,105 +119,6 @@ function avada_options_section_contact( $sections ) {
 						],
 						'update_callback' => $contact_page_callback,
 					],
-					'contact_form_options_info_2'      => [
-						'label'       => esc_html__( 'ReCaptcha', 'Avada' ),
-						'description' => '',
-						'id'          => 'contact_form_options_info_2',
-						'type'        => 'info',
-					],
-					'recaptcha_version'                => [
-						'label'           => esc_html__( 'ReCaptcha Version', 'Avada' ),
-						'description'     => esc_html__( 'Set the ReCaptcha version you want to use and make sure your keys below match the set version.', 'Avada' ),
-						'id'              => 'recaptcha_version',
-						'default'         => 'v3',
-						'type'            => 'radio-buttonset',
-						'choices'         => [
-							'v2' => esc_html__( 'V2', 'Avada' ),
-							'v3' => esc_html__( 'V3', 'Avada' ),
-						],
-						'update_callback' => $contact_page_callback,
-					],
-					'recaptcha_public'                 => [
-						'label'       => esc_html__( 'ReCaptcha Site Key', 'Avada' ),
-						/* translators: "our docs" link. */
-						'description' => sprintf( esc_html__( 'Follow the steps in %s to get the site key.', 'Avada' ), '<a href="https://theme-fusion.com/documentation/avada/pages/setting-up-contact-page/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'our docs', 'Avada' ) . '</a>' ),
-						'id'          => 'recaptcha_public',
-						'default'     => '',
-						'type'        => 'text',
-						// This option doesn't require updating the preview.
-						'transport'   => 'postMessage',
-					],
-					'recaptcha_private'                => [
-						'label'       => esc_html__( 'ReCaptcha Secret Key', 'Avada' ),
-						/* translators: "our docs" link. */
-						'description' => sprintf( esc_html__( 'Follow the steps in %s to get the secret key.', 'Avada' ), '<a href="https://theme-fusion.com/documentation/avada/pages/setting-up-contact-page/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'our docs', 'Avada' ) . '</a>' ),
-						'id'          => 'recaptcha_private',
-						'default'     => '',
-						'type'        => 'text',
-						// This option doesn't require updating the preview.
-						'transport'   => 'postMessage',
-					],
-					'recaptcha_color_scheme'           => [
-						'label'           => esc_html__( 'ReCaptcha Color Scheme', 'Avada' ),
-						'description'     => esc_html__( 'Controls the recaptcha color scheme.', 'Avada' ),
-						'id'              => 'recaptcha_color_scheme',
-						'default'         => 'light',
-						'type'            => 'radio-buttonset',
-						'choices'         => [
-							'light' => esc_html__( 'Light', 'Avada' ),
-							'dark'  => esc_html__( 'Dark', 'Avada' ),
-						],
-						'required'        => [
-							[
-								'setting'  => 'recaptcha_version',
-								'operator' => '==',
-								'value'    => 'v2',
-							],
-						],
-						'update_callback' => $contact_page_callback,
-					],
-					'recaptcha_score'                  => [
-						'label'       => esc_html__( 'ReCaptcha Security Score', 'Avada' ),
-						'description' => esc_html__( 'Set a threshold score that must be met by the ReCaptcha response. The higher the score the harder it becomes for bots, but also false positives increase.', 'Avada' ),
-						'id'          => 'recaptcha_score',
-						'default'     => '0.5',
-						'type'        => 'slider',
-						'choices'     => [
-							'min'  => '0.1',
-							'max'  => '1',
-							'step' => '0.1',
-						],
-						'required'    => [
-							[
-								'setting'  => 'recaptcha_version',
-								'operator' => '==',
-								'value'    => 'v3',
-							],
-						],
-						// This option doesn't require updating the preview.
-						'transport'   => 'postMessage',
-					],
-					'recaptcha_badge_position'         => [
-						'label'           => esc_html__( 'ReCaptcha Badge Position', 'Avada' ),
-						'description'     => __( 'Set where and if the ReCaptcha badge should be displayed. <strong>NOTE:</strong> Google\'s Terms and Privacy information needs to be displayed on the contact form.', 'Avada' ),
-						'id'              => 'recaptcha_badge_position',
-						'default'         => 'inline',
-						'type'            => 'radio-buttonset',
-						'choices'         => [
-							'inline'      => esc_html__( 'Inline', 'Avada' ),
-							'bottomleft'  => esc_html__( 'Bottom Left', 'Avada' ),
-							'bottomright' => esc_html__( 'Bottom Right', 'Avada' ),
-							'hide'        => esc_html__( 'Hide', 'Avada' ),
-						],
-						'required'        => [
-							[
-								'setting'  => 'recaptcha_version',
-								'operator' => '==',
-								'value'    => 'v3',
-							],
-						],
-						'update_callback' => $contact_page_callback,
-					],
 				],
 			],
 			'google_map_section'                => [
@@ -244,7 +145,7 @@ function avada_options_section_contact( $sections ) {
 					],
 					'google_map_important_note_info' => [
 						'label'           => '',
-						'description'     => '<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are for the google map that displays on the "Contact" page template. The only option that controls the Fusion Builder google map element is the Google Maps API Key.', 'Avada' ) . '</div>',
+						'description'     => '<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are for the google map that displays on the "Contact" page template. The only option that controls the Avada Builder google map element is the Google Maps API Key.', 'Avada' ) . '</div>',
 						'id'              => 'google_map_important_note_info',
 						'type'            => 'custom',
 						'required'        => [
@@ -259,7 +160,7 @@ function avada_options_section_contact( $sections ) {
 					'gmap_api'                       => [
 						'label'           => esc_html__( 'Google Maps API Key', 'Avada' ),
 						/* translators: "the Google docs" link. */
-						'description'     => sprintf( esc_html__( 'Follow the steps in %s to get the API key. This key applies to both the contact page map and Fusion Builder google map element.', 'Avada' ), '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" target="_blank" rel="noopener noreferrer">' . esc_html__( 'the Google docs', 'Avada' ) . '</a>' ),
+						'description'     => sprintf( esc_html__( 'Follow the steps in %s to get the API key. This key applies to both the contact page map and Avada Builder google map element.', 'Avada' ), '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" target="_blank" rel="noopener noreferrer">' . esc_html__( 'the Google docs', 'Avada' ) . '</a>' ),
 						'id'              => 'gmap_api',
 						'default'         => '',
 						'type'            => 'text',

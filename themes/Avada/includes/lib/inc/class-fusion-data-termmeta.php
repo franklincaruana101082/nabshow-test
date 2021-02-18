@@ -172,54 +172,58 @@ class Fusion_Data_TermMeta {
 	public function get_all_meta() {
 
 		// If we don't have the option in our cache, get it from the term.
-		if ( ! $this->data ) {
+		if ( is_null( $this->data ) ) {
 
 			// Get the term-meta.
 			$this->data = get_term_meta( $this->term_id, self::ROOT, true );
 
-			// Check if we have a template override.
-			$template_override = false;
-			$ptb_override      = false;
-			if ( class_exists( 'Fusion_Template_Builder' ) ) {
-				$template_override = Fusion_Template_Builder::get_instance()->get_override( 'content' );
-				$ptb_override      = Fusion_Template_Builder::get_instance()->get_override( 'page_title_bar' );
-			}
+			// Make sure template overrides are not checked while retrieving meta values for Avada Slider.
+			if ( false === get_term_by( 'id', $this->term_id, 'slide-page' ) ) {
 
-			// Use the PTB's template post-meta, and fill-in the gaps with the term's meta.
-			if ( $ptb_override && is_object( $ptb_override ) && isset( $ptb_override->ID ) ) {
+				// Check if we have a template override.
+				$template_override = false;
+				$ptb_override      = false;
+				if ( class_exists( 'Fusion_Template_Builder' ) ) {
+					$template_override = Fusion_Template_Builder::get_instance()->get_override( 'content' );
+					$ptb_override      = Fusion_Template_Builder::get_instance()->get_override( 'page_title_bar' );
+				}
 
-				// Remove post-meta that should be overrides from the PTB template.
-				foreach ( [ 'page_title_bar', 'page_title_bg', 'page_title_height', 'page_title_mobile_height' ] as $option ) {
-					if ( isset( $this->data[ $option ] ) ) {
-						unset( $this->data[ $option ] );
+				// Use the PTB's template post-meta, and fill-in the gaps with the term's meta.
+				if ( $ptb_override && is_object( $ptb_override ) && isset( $ptb_override->ID ) ) {
+
+					// Remove post-meta that should be overrides from the PTB template.
+					foreach ( [ 'page_title_bar', 'page_title_bg', 'page_title_height', 'page_title_mobile_height' ] as $option ) {
+						if ( isset( $this->data[ $option ] ) ) {
+							unset( $this->data[ $option ] );
+						}
 					}
+
+					// Add the template post-meta.
+					$this->data = wp_parse_args(
+						$this->data,
+						get_post_meta( $ptb_override->ID, self::ROOT, true )
+					);
 				}
 
-				// Add the template post-meta.
-				$this->data = wp_parse_args(
-					$this->data,
-					get_post_meta( $ptb_override->ID, self::ROOT, true )
-				);
-			}
+				// Use the template post-meta, and fill-in the gaps with the term's meta.
+				if ( $template_override && is_object( $template_override ) && isset( $template_override->ID ) ) {
 
-			// Use the template post-meta, and fill-in the gaps with the term's meta.
-			if ( $template_override && is_object( $template_override ) && isset( $template_override->ID ) ) {
+					// Remove post-meta that should be overrides from the content template.
+					if ( isset( $this->data['main_padding'] ) ) {
+						unset( $this->data['main_padding'] );
+					}
 
-				// Remove post-meta that should be overrides from the content template.
-				if ( isset( $this->data['main_padding'] ) ) {
-					unset( $this->data['main_padding'] );
+					// Add the template post-meta.
+					$this->data = wp_parse_args(
+						$this->data,
+						get_post_meta( $template_override->ID, self::ROOT, true )
+					);
 				}
-
-				// Add the template post-meta.
-				$this->data = wp_parse_args(
-					$this->data,
-					get_post_meta( $template_override->ID, self::ROOT, true )
-				);
 			}
 		}
 
 		// If term-meta doesn't exist, migrate it.
-		if ( ! $this->data ) {
+		if ( '' === $this->data ) {
 			$this->data = $this->migrate_meta();
 		}
 

@@ -128,7 +128,7 @@ class Avada_Remote_Installer {
 		// Check for token and then install if it's valid.
 		$nonces = $this->_get_nonce( $download, $token );
 
-		$registered = ( ! in_array( $download, [ 'Fusion Builder', 'Fusion Core' ], true ) ) ? Avada()->registration->is_registered() : true;
+		$registered = ( ! in_array( $download, [ 'Avada Builder', 'Avada Core' ], true ) ) ? Avada()->registration->is_registered() : true;
 
 		if ( false !== $nonces && $registered ) {
 			$api_args = [

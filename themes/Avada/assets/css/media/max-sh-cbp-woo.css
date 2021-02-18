@@ -1,49 +1,12 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable no-duplicate-selectors */
-.woo-tabs-horizontal #wrapper .woocommerce-tabs .panel,
-.woo-tabs-horizontal #wrapper .woocommerce-tabs .tabs {
-  float: none;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100% !important;
-}
-.woo-tabs-horizontal .woocommerce-tabs > .tabs {
-  border: none;
-}
-.woo-tabs-horizontal .woocommerce-tabs > .tabs > .wc-tab {
-  border-top: 1px solid;
-}
-.woo-tabs-horizontal .woocommerce-tabs > .tabs .active {
-  border-top: none;
-  border-left: none;
-  border-right: none;
-}
-.woo-tabs-horizontal .woocommerce-tabs > .tabs .active a {
-  background-color: transparent;
-}
-.woo-tabs-horizontal .woocommerce-tabs > .tabs li {
-  float: none;
-}
-.woo-tabs-horizontal .woocommerce-tabs > .tabs li a {
-  padding: 10px 0;
-}
-.woo-tabs-horizontal .woocommerce-tabs .entry-content {
-  border-top: 1px solid;
-}
 .woocommerce-MyAccount-navigation,
-.woocommerce-side-nav,
-.woocommerce-tabs .tabs {
+.woocommerce-side-nav {
   margin-bottom: 25px;
 }
-.woocommerce-tabs .panel {
-  width: 91% !important;
-  padding: 4% !important;
-}
 .woocommerce .checkout_coupon {
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .woocommerce .checkout_coupon .promo-code-heading {
   margin-bottom: 5px;
@@ -78,8 +41,7 @@
   padding-left: 8px;
 }
 .woocommerce-MyAccount-navigation,
-.woocommerce-side-nav,
-.woocommerce-tabs .tabs {
+.woocommerce-side-nav {
   margin-bottom: 25px;
 }
 .woocommerce-container .social-share {
@@ -95,21 +57,14 @@
   padding-right: 0 !important;
   width: 50%;
 }
-.fusion-body .products li {
-  width: 225px;
-}
 .fusion-body .avada-myaccount-user .username .not-user {
   padding: 0 5px;
 }
-#main .has-sidebar .products li,
-#main .products li:nth-child(3n),
-#main .products li:nth-child(4n),
 #wrapper .catalog-ordering > ul,
 .avada-customer-details .addresses .col-1,
 .avada-customer-details .addresses .col-2,
 .avada-myaccount-data .addresses .col-1,
 .avada-myaccount-data .addresses .col-2,
-.products li,
 .woocommerce-MyAccount-content .addresses .col-1,
 .woocommerce-MyAccount-content .addresses .col-2 {
   float: none !important;
@@ -132,12 +87,9 @@
   margin: 0;
 }
 #wrapper .orderby-order-container {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   margin: 0 auto 10px;
   width: 225px;
   float: none;
@@ -261,31 +213,25 @@ form.checkout .shop_table tfoot td {
   line-height: 25px;
 }
 .cart-collaterals {
-  -ms-flex-direction: column;
-      flex-direction: column;
+  flex-direction: column;
 }
 .cart-collaterals .shipping-coupon .coupon #avada_coupon_code {
   margin: 0 0 20px;
   width: 100%;
 }
 .avada-coupon-fields {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -ms-flex-pack: end;
-      justify-content: flex-end;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 #wrapper #customer_login .col-1,
 #wrapper #customer_login .col-2,
 #wrapper .cart-totals-buttons,
-#wrapper .product .images,
 #wrapper .product .summary.entry-summary,
 #wrapper .shipping-coupon,
 #wrapper .woocommerce form.checkout #customer_details .col-1,
 #wrapper .woocommerce form.checkout #customer_details .col-2,
 #wrapper .woocommerce-content-box,
 #wrapper .woocommerce-side-nav,
-#wrapper .woocommerce-tabs .panel,
-#wrapper .woocommerce-tabs .tabs,
 .avada-single-product-gallery-wrapper,
 .fusion-body .cart-collaterals .cart_totals,
 .fusion-body .woocommerce-MyAccount-content,
@@ -293,6 +239,10 @@ form.checkout .shop_table tfoot td {
   float: none;
   margin-left: auto;
   margin-right: auto;
+  width: 100% !important;
+}
+#wrapper .product .woocommerce-product-gallery {
+  float: none;
   width: 100% !important;
 }
 #customer_login .col-1,
@@ -310,12 +260,8 @@ form.checkout .shop_table tfoot td {
   float: none;
   margin-left: 0;
 }
-.product .images {
+.product .avada-product-images-global .woocommerce-product-gallery {
   margin-bottom: 30px;
-}
-.product .images #carousel .flex-direction-nav,
-.product .images #slider .flex-direction-nav {
-  display: none !important;
 }
 #reviews li .avatar {
   display: none;
@@ -380,12 +326,4 @@ html .woocommerce .woocommerce-container .social-share {
 .avada-has-woo-gallery-disabled.product .entry-summary .summary-container,
 .avada-has-woo-gallery-disabled .product .entry-summary .summary-container {
   margin-top: 20px;
-}
-.fusion-woocommerce-quick-view-overlay,
-.fusion-woocommerce-quick-view-container,
-.fusion-body a.fusion-quick-view {
-  display: none !important;
-}
-.show_details_button.fusion-has-quick-view {
-  display: block !important;
 }

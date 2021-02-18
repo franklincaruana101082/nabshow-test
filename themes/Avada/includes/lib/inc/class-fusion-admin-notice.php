@@ -38,7 +38,7 @@ class Fusion_Admin_Notice {
 	 *
 	 * @access private
 	 * @since 1.5
-	 * @var string
+	 * @var array
 	 */
 	private $screen;
 
@@ -111,7 +111,7 @@ class Fusion_Admin_Notice {
 	 * @param array  $screen         An array of screen-IDs (the ID returned from the get_current_screen() function ).
 	 */
 	public function __construct( $id = '', $content = '', $show = true, $type = 'warning', $dismissible = true, $dismiss_type = 'user_meta', $dismiss_option = '', $screen = [] ) {
-		
+
 		// Early exit if already added.
 		if ( in_array( $id, self::$already_added_ids ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 			return;
@@ -207,7 +207,7 @@ class Fusion_Admin_Notice {
 	 */
 	public function the_notice() {
 		$attrs = [
-			'class' => 'notice fusion-notice notice-' . $this->type,
+			'class' => 'avada-db-card avada-db-notice avada-db-notice-' . $this->type . ' notice fusion-notice notice-' . $this->type,
 		];
 		if ( $this->id ) {
 			$attrs['id'] = $this->id;
@@ -242,6 +242,6 @@ class Fusion_Admin_Notice {
 			time(),
 			true
 		);
-		wp_localize_script( 'fusion-admin-notices', 'fusionAdminNoticesNonce', wp_create_nonce( 'fusion_admin_notice' ) );
+		wp_localize_script( 'fusion-admin-notices', 'fusionAdminNoticesNonce', [ 'nonce' => wp_create_nonce( 'fusion_admin_notice' ) ] );
 	}
 }

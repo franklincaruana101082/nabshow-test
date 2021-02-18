@@ -119,6 +119,7 @@ class Avada_Demo_Remove {
 			'avada_faq',
 			'avada_layout',
 			'fusion_icons',
+			'fusion_form',
 			'product',
 			'event',
 			'forum',
@@ -127,6 +128,9 @@ class Avada_Demo_Remove {
 		foreach ( $content_types as $content_type ) {
 			$this->content_tracker->reset_stage( $content_type );
 		}
+
+		// Remove Woo attributes, if they were imported.
+		$this->remove_woo_attributes();
 
 		// Restore global layout backup, since they are part of 'content' stage need to be handled separately.
 		$this->remove_avada_layout();
@@ -151,6 +155,7 @@ class Avada_Demo_Remove {
 				'fusion_tb_layout',
 				'fusion_tb_section',
 				'fusion_icons',
+				'fusion_form',
 				'avada_faq',
 				'avada_portfolio',
 				'attachment',
@@ -235,7 +240,7 @@ class Avada_Demo_Remove {
 	}
 
 	/**
-	 * Removes Fusion Sliders for selected demo.
+	 * Removes Avada Sliders for selected demo.
 	 *
 	 * @access private
 	 * @since 5.2
@@ -297,7 +302,11 @@ class Avada_Demo_Remove {
 
 		if ( class_exists( 'LS_Sliders' ) ) { // If layer slider is activated.
 
-			include WP_PLUGIN_DIR . '/LayerSlider/classes/class.ls.exportutil.php';
+			if ( version_compare( LS_PLUGIN_VERSION, '6.11.0', '>=' ) ) {
+				include WP_PLUGIN_DIR . '/LayerSlider/assets/classes/class.ls.exportutil.php';
+			} else {
+				include WP_PLUGIN_DIR . '/LayerSlider/classes/class.ls.exportutil.php';
+			}
 			$slider_export = new LS_ExportUtil();
 
 			$history_sliders = $this->content_tracker->get( 'layer_sliders' );
@@ -349,7 +358,7 @@ class Avada_Demo_Remove {
 	}
 
 	/**
-	 * Removes Theme Options for selected demo and restores backup.
+	 * Removes Global Options for selected demo and restores backup.
 	 *
 	 * @access private
 	 * @since 5.2
@@ -381,6 +390,22 @@ class Avada_Demo_Remove {
 		}
 
 		$this->content_tracker->reset_stage( 'avada_layout' );
+	}
+
+	/**
+	 * Remove Woo attributes.
+	 *
+	 * @access private
+	 * @since 7.2
+	 */
+	private function remove_woo_attributes() {
+
+		$attr_ids = $this->content_tracker->get( 'woo_attributes' );
+		if ( $attr_ids && is_array( $attr_ids ) ) {
+			foreach ( $attr_ids as $attr_id ) {
+				wc_delete_attribute( $attr_id );
+			}
+		}
 	}
 
 	/**
