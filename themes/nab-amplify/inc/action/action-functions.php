@@ -205,6 +205,7 @@ function nab_amplify_upload_images()
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
+                    do_action( 'user_profile_image_updated', $user_id );
                     update_user_meta($user_id, 'profile_update_two', '1');
                 }
             }

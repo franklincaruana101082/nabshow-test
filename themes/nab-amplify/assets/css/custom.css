@@ -87,6 +87,7 @@ abbr[title]{text-decoration:none}
 figcaption{color:#999!important}
 iframe{border:none!important}
 .small {font-size:80%}
+b, strong{font-family:'Open Sans', Arial, sans-serif;font-weight:700}
 /************* Default style variables *************/
 
 /* heading */

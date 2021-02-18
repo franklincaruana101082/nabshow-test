@@ -135,7 +135,6 @@
 									</label>
 									<div class="select-dark-simple">
 										<select class="company-admins" name="company_admins[]" multiple="true" id="company_admins">
-											<option value=""></option>
 											<?php
 
                                             foreach ($company_data['company_admins'] as $user) {

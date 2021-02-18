@@ -16,6 +16,7 @@ $linkedin_url     = get_field('linkedin_url');
 $facebook_url     = get_field('facebook_url');
 $twitter_url      = get_field('twitter_url');
 $member_level     = get_field('member_level');
+
 $cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
 $company_id       = get_the_ID();
 $featured_image   = nab_amplify_get_featured_image( $company_id );

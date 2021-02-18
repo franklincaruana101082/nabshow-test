@@ -121,7 +121,7 @@ if ( $user_logged_in ) {
 
                                             <?php
                                             if ( ! empty( $user_data[ 'user_city' ][0] ) ) {
-                                                
+
                                                 $location = array( $user_data[ 'user_city' ][0] );
 
                                                 if ( isset( $user_data[ 'user_state' ][0] ) && ! empty( $user_data[ 'user_state' ][0] ) ) {
@@ -191,17 +191,17 @@ if ( $user_logged_in ) {
                                             <?php
                                         } else {
                                             echo nab_amplify_bp_get_friendship_button( $member_id, false );
-                                        }										
+                                        }
 									}
 									?>
                                 </div>
 							<?php } else { ?>
                             <div class="amp-profile-info">
-                                <h2><?php echo esc_html( $member_name ); ?></h2>                                
+                                <h2><?php echo esc_html( $member_name ); ?></h2>
                             </div>
 							<?php
 							if ( ! bp_is_my_profile() ) {
-                                
+
                                 if ( ! nab_member_can_connect_to_anyone( $member_id ) ) {
                                     ?>
                                     <div id="amp-profile-restrict-message">
@@ -216,7 +216,7 @@ if ( $user_logged_in ) {
                                         ?>
                                     </div>
                                     <?php
-                                }                                
+                                }
 							}
 							?>
                         </div>

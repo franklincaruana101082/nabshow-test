@@ -913,7 +913,6 @@ function nab_company_feature_render_callback($attributes)
     $admin_id           = get_field('company_user_id', get_the_ID());
     $member_level = get_field('member_level');
 
-
     if (is_array($feature_enable_reaction)) {
         $feature_enable_reaction = $feature_enable_reaction[0];
     }

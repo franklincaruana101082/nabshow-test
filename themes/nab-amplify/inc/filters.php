@@ -118,7 +118,7 @@ add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
 function nab_stop_bp_email_notification( $retval, $class_ref) {
     
     if ( is_user_logged_in() ) {
-        update_user_meta( get_current_user_id(), 'buddypress_activity_one', '1');
+        update_user_meta( get_current_user_id(), 'buddypress_activity_two', '1');
     }    
     return $retval;
 }

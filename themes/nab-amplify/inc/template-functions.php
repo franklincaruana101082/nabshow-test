@@ -53,11 +53,11 @@ function nab_amplify_get_user_images($user_id = 0)
 	$user_images = array();
 	foreach ($user_images_names as $user_image) {
 
-		$user_image_id = get_user_meta( $user_id, $user_image['name'], true );
+		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
 
 		// If the meta value contains "assets", it has Bynder URL.
-		if ( strpos( $user_image_id, 'assets' ) !== false ) {
-			$user_images[ $user_image['name'] ] = $user_image_id;
+		if ( strpos( $user_image_id, 'assets') !== false ) {
+			$user_images[$user_image['name']] = $user_image_id;
 
         // Else try to find from attachments.
 		} else {

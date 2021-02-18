@@ -252,7 +252,6 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 
 /* Load Gutenberg in custom post types */
-
 function maybe_load_gutenberg_for_post_type( $can_edit, $post ) {
 	$enable_for_post_types = [ 'page', 'articles', 'wp_block', 'company', 'company-products', 'landing-page' ];
 

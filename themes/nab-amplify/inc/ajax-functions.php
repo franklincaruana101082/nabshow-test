@@ -1935,6 +1935,7 @@ function nab_update_member_bookmark_callback()
 
 				$final_result['tooltip'] = 'Remove from Bookmarks';
 			}
+			do_action( 'nab_bookmark_added', $item_id, $current_user_id );
 		} else if ('remove' === strtolower($bm_action)) {
 
 			if (!empty($bookmark_products) && is_array($bookmark_products) && in_array($item_id, $bookmark_products, true)) {
@@ -2268,6 +2269,7 @@ function nab_bp_send_message()
 	global $bp;
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
+	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_STRING);
 	$message = filter_input(INPUT_POST, 'message', FILTER_UNSAFE_RAW);
 	$recipient  = filter_input(INPUT_POST, 'send_to', FILTER_SANITIZE_STRING);
 	$subject = 'Private message';
@@ -2307,11 +2309,13 @@ function nab_bp_send_message()
 
 	// Send the message.
 	if (true === is_int($send)) {
+		if ( isset( $post_id ) && ! empty( $post_id ) ) {
+			do_action( 'nab_message_send', $recipient, $current_user_id, $post_id );
+		}		
 		wp_send_json_success(array(
 			'feedback' => __('Message successfully sent.', 'buddypress'),
 			'type'     => 'success',
-		));
-
+		));		
 		// Message could not be sent.
 	} else {
 		$response['feedback'] = $send->get_error_message();

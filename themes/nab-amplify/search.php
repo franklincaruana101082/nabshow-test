@@ -842,7 +842,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$content_query->the_post();
 
 								$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
-								$post_link     = get_the_permalink();
+								$post_link		= get_the_permalink();
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -1419,7 +1419,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$content_query->the_post();
 
 							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
-							$post_link     = get_the_permalink();
+							$post_link		= get_the_permalink();
 							?>
 							<div class="search-item">
 								<div class="search-item-inner">
