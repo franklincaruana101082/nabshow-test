@@ -342,6 +342,9 @@
 	.single-articles .related-title{padding:20px 30px}
 	.single-articles .related-content-2{padding:0 30px}
 	.single-articles .select2-container--default .select2-results__option{font-size:16px}
+
+	/* popup design */
+	.nab-modal .modal-content-wrap{max-height:70vh}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap}
