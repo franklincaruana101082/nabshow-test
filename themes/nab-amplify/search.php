@@ -530,10 +530,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$cover_image        = get_field('cover_image');
 								$profile_picture    = get_field('profile_picture');
 								$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-								$featured_image  	= get_the_post_thumbnail_url();
+								$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
-								$company_poc        = get_field('point_of_contact'); 
+								$company_poc        = get_field('point_of_contact');
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -651,12 +651,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
 								$product_link	= get_the_permalink();
-								
+
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
-											<?php 
+											<?php
 											$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
 											?>
 											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />
@@ -1143,7 +1143,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$cover_image        = get_field('cover_image');
 							$profile_picture    = get_field('profile_picture');
 							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-							$featured_image   	= get_the_post_thumbnail_url();
+							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
 							$company_poc		= get_field('point_of_contact');
@@ -1252,12 +1252,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$product_query->the_post();
 							$product_link	= get_the_permalink();
-							
+
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
-										<?php 
+										<?php
 										$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
 										?>
 										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="product thumbnail" />

@@ -53,19 +53,26 @@ function nab_amplify_get_user_images($user_id = 0)
 	$user_images = array();
 	foreach ($user_images_names as $user_image) {
 
-		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
+		$user_image_id = get_user_meta( $user_id, $user_image['name'], true );
 
-		if ('removed' === $user_image_id) {
-			// Show default avatar if deleted from edit profile section.
-			$user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-		} else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
-			// Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
-			$user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
+		// If the meta value contains "assets", it has Bynder URL.
+		if ( strpos( $user_image_id, 'assets' ) !== false ) {
+			$user_images[ $user_image['name'] ] = $user_image_id;
+
+        // Else try to find from attachments.
 		} else {
-			// Show uploaded images or the default ones.
-			$user_images[$user_image['name']] = !empty($user_image_id)
-				? wp_get_attachment_image_src($user_image_id, 'full')[0]
-				: get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			if ( 'removed' === $user_image_id ) {
+				// Show default avatar if deleted from edit profile section.
+				$user_images[ $user_image['name'] ] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			} else if ( 'profile_picture' === $user_image['name'] && empty( $user_image_id ) ) {
+				// Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
+				$user_images[ $user_image['name'] ] = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false ) );
+			} else {
+				// Show uploaded images or the default ones.
+				$user_images[ $user_image['name'] ] = ! empty( $user_image_id )
+					? wp_get_attachment_image_src( $user_image_id, 'full' )[0]
+					: get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			}
 		}
 	}
 
@@ -1015,7 +1022,7 @@ function nab_get_company_member_category_limit( $company_id ) {
  */
 function nab_amplify_get_featured_image( $post_ID, $default = true ) {
 
-	$bynder_image = get_post_meta( $post_ID, '_bm_meta_featured_image', true );
+	$bynder_image = get_post_meta( $post_ID, 'profile_picture', true );
 	if ( null !== $bynder_image && ! empty( $bynder_image ) ) {
 		$featured_image = $bynder_image;
 	} else {
