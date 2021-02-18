@@ -39,7 +39,7 @@ get_header();
 
 							$product_query->the_post();
 
-							$thumbnail_url = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
 							$product_link  = get_the_permalink();
 							?>
                             <div class="search-item">

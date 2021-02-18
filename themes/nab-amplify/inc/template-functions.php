@@ -784,7 +784,7 @@ function nab_get_member_event_list($product_ids_regex, $user_id, $previous_event
 						$purchased_events->the_post();
 
 						$event_id   = get_the_ID();
-						$event_img  = has_post_thumbnail() ? get_the_post_thumbnail_url() : $event_default_img;
+						$event_img  = nab_amplify_get_featured_image( $event_id, true, $event_default_img );
 						$event_date = get_field('show_date', $event_id);
 						$event_url  = get_field('show_url', $event_id);
 
@@ -1020,14 +1020,14 @@ function nab_get_company_member_category_limit( $company_id ) {
  *
  * @return string Image URL.
  */
-function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url = '' ) {
+function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url = '', $size = 'post-thumbnail' ) {
 
 	$bynder_image = get_post_meta( $post_ID, 'profile_picture', true );
 	if ( null !== $bynder_image && ! empty( $bynder_image )
 	     && strpos( $bynder_image, 'assets') !== false) {
 		$featured_image = $bynder_image;
 	} else {
-		$featured_image = get_the_post_thumbnail_url( $post_ID );
+		$featured_image = get_the_post_thumbnail_url( $post_ID, $size );
 
 		// Send back default if not found?
 		if ( $default ) {

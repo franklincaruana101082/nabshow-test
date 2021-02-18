@@ -237,7 +237,7 @@ function nab_amplify_edit_product()
     $post_data->categories                 = $taxonomy_data;
     $post_data->tags                       = $tag_data;
     $post_data->product_media              = $product_media;
-    $post_data->product_thumbnail          = get_the_post_thumbnail_url($post_id, 'full');
+    $post_data->product_thumbnail          = nab_amplify_get_featured_image( $post_id, true, '', 'full' );
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
     $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copyx', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specsx', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
@@ -3138,7 +3138,7 @@ function nab_register_company_tags_taxonomy()
  * Display article tags.
  *
  * @param  array $atts
- * 
+ *
  * @return string
  */
 function nab_article_tags_shortcode_callback($atts)
@@ -3429,7 +3429,7 @@ function nab_update_company_profile_callback()
     }
 
     if (!empty($company_search_categories) && 'null' !== $company_search_categories) {
-        
+
         $company_search_categories = explode(',', $company_search_categories);
 
         if (0 === (int) $category_limit['search'] && count($company_search_categories) > 0) {
@@ -3471,13 +3471,13 @@ function nab_update_company_profile_callback()
         update_field('field_5fb60e4bce135', $facebook_profile, $company_id);
     }
 
-    // Update linkedin 
+    // Update linkedin
     if (isset($twitter_profile)) {
         update_field('field_5fb60e59ce136', $twitter_profile, $company_id);
     }
-    
 
-    // Update Company 
+
+    // Update Company
     if ($company_about) {
         update_field('field_5fb63813b099e', $company_about, $company_id);
     }
@@ -3487,7 +3487,7 @@ function nab_update_company_profile_callback()
         update_field('field_5fa3e81e3fa45', $company_industry, $company_id);
     }
 
-    // Update location 
+    // Update location
     $field_key = 'field_5fa3e84f3fa46';
     $values = array(
         '_street_line_1'    =>   $company_location_street_one, //THE 1st PART MATCHES YOUR FIELD NAMES, THE 2nd IS THE VALUE YOU WANT
@@ -3504,11 +3504,11 @@ function nab_update_company_profile_callback()
     if (isset($company_website)) {
         update_field('field_5fa3e87a3fa47', $company_website, $company_id);
     }
-    
+
 
     // Update point of contact
     if ( isset( $company_point_of_contact ) ) {
-        
+
         if ( $company_point_of_contact !== '') {
             update_field('field_5fb4f4bcbe04a', $company_point_of_contact, $company_id);
         } else {
@@ -3531,7 +3531,7 @@ function nab_update_company_profile_callback()
     if (isset($company_youtube)) {
         update_field('youtube_url', $company_youtube, $company_id);
     }
-    
+
 
     if ( isset( $company_admins ) && 'null' !== $company_admins ) {
 
@@ -3545,9 +3545,9 @@ function nab_update_company_profile_callback()
                 wp_send_json_error('Update Failed. With the Standard Package you are limited to one company admin at a time. Contact your sales rep to upgrade to the Plus or Premium Package for unlimited admin accounts.');
                }
             }
-            
+
         } else {
-            
+
             update_field('company_user_id', $company_admins, $company_id);
         }
 
@@ -3579,7 +3579,7 @@ function nab_edit_company_about_callback()
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
-    
+
     require_once get_template_directory() . '/inc/nab-edit-company-about.php';
 
 
@@ -3864,7 +3864,7 @@ function nab_generate_users_export_csv_file()
          $csv_fields[] = 'Title';
          $csv_fields[] = 'Company';
          $csv_fields[] = 'Registered Date';
-     
+
          // Generate csv file as a direct download
          $output_filename = 'amplify-user-list-' . date('m-d-Y') . '.csv';
          $output_handle   = fopen('php://output', 'w');
@@ -3874,7 +3874,7 @@ function nab_generate_users_export_csv_file()
 
          fputcsv($output_handle, $csv_fields);
 
-        if ( ! empty( $user_results ) ) {            
+        if ( ! empty( $user_results ) ) {
 
             foreach ($user_results as $current_user) {
 
@@ -3899,14 +3899,14 @@ function nab_generate_users_export_csv_file()
                 $dynamic_fields[] = $registered_date;
 
                 fputcsv($output_handle, $dynamic_fields);
-            }           
+            }
         }
         exit;
     }
 }
 
 /**
- * 
+ *
  * Add company admin by URL
  */
 
@@ -4078,7 +4078,7 @@ function nab_generate_company_export_csv_file()
     }
 }
 
-/** 
+/**
  * Copyright Year shortcode use in the footer to display dynamic year.
  */
 function nab_copyright_year_shortcode()
@@ -4099,11 +4099,11 @@ function wp_batch_processing_init()
 
 function generate_add_admin_string()
 {
-    // String of all alphanumeric character 
+    // String of all alphanumeric character
     $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
-    // Shufle the $str_result and returns substring 
-    // of specified length 
+    // Shufle the $str_result and returns substring
+    // of specified length
     return substr(
         str_shuffle($str_result),
         0,
@@ -4113,7 +4113,7 @@ function generate_add_admin_string()
 /**
  * Update numeric member level base on acf member level field.
  *
- * @param  int $post_id 
+ * @param  int $post_id
  */
 function nab_update_company_member_level_meta_num($post_id)
 {
@@ -4222,7 +4222,7 @@ function nab_sync_beta_user_to_live(WP_REST_Request $request)
             if (!$user_exist) {
 
                 $is_username_exist = username_exists( $user_data['user_login'] );
-                
+
                 if ( $is_username_exist ) {
                     $user_data['user_login'] = wc_create_new_customer_username($user_data['user_email']);
                 }

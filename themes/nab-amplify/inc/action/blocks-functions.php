@@ -115,7 +115,7 @@ function trendingactivity_render($attributes)
                         $post_data          = get_post($post->post_id);
                         $author_id          = $post_data->post_author;
                         $total_reactions    = $post->total_reaction;
-                        $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url($post_data->ID) : nab_placeholder_img();
+                        $thumbnail_url      = nab_amplify_get_featured_image( $post_data->ID );
 
                         if ($post->post_type === 'company-products') {
 
@@ -641,7 +641,7 @@ function nab_company_events_render_callback($attributes)
                         $event_query->the_post();
 
                         $event_post_id      = get_the_ID();
-                        $thumbnail_url      = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+                        $thumbnail_url      = nab_amplify_get_featured_image( $event_post_id, true, nab_product_company_placeholder_img() );
                         $event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
                         $event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
                         $event_link         = get_post_meta($event_post_id, '_EventURL', true);
@@ -749,7 +749,7 @@ function nab_company_content_render_callback($attributes)
 
                         $content_query->the_post();
 
-                        $thumbnail_url     = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+                        $thumbnail_url  = nab_amplify_get_featured_image( get_the_ID() );
                         $event_link     = get_the_permalink();
                         $post_date      = get_the_date('M. j, Y');
                     ?>
@@ -912,7 +912,7 @@ function nab_company_feature_render_callback($attributes)
     $user_id            = get_current_user_id();
     $admin_id           = get_field('company_user_id', get_the_ID());
     $member_level = get_field('member_level');
-    
+
 
     if (is_array($feature_enable_reaction)) {
         $feature_enable_reaction = $feature_enable_reaction[0];
@@ -1077,8 +1077,8 @@ function nab_company_downlodable_pdfs_callback($attributes)
 
                         $pdf_query->the_post();
 
-                        $thumbnail_url  = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
                         $pdf_id         = get_the_ID();
+                        $thumbnail_url  = nab_amplify_get_featured_image( $pdf_id );
 
                     ?>
                         <div class="amp-item-col">
