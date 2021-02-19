@@ -1013,10 +1013,10 @@ function nab_get_search_filter_state_callback() {
 
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
-	$final_result 	= array();	
+	$final_result 	= array();
 	$country		= filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
-	
-	$countries_obj  		= new WC_Countries();	
+
+	$countries_obj  		= new WC_Countries();
 	$default_country        = ! empty( $country ) ? $country : $countries_obj->get_base_country();
 	$default_county_states  = $countries_obj->get_states( $default_country );
 
@@ -1097,31 +1097,31 @@ function nab_member_search_filter_callback()
 		}
 
 		if ( ! empty( $country ) ) {
-			
+
 			$meta_query_args[] = array(
 				'key' 		=> 'user_country',
-				'value'		=> $country				
+				'value'		=> $country
 			);
 		}
 
 		if ( ! empty( $state ) ) {
-			
+
 			$meta_query_args[] = array(
 				'key' 		=> 'user_state',
-				'value'		=> $state				
+				'value'		=> $state
 			);
 		}
 
 		if ( ! empty( $city ) ) {
-			
+
 			$meta_query_args[] = array(
 				'key' 		=> 'user_city',
-				'value'		=> $city				
+				'value'		=> $city
 			);
 		}
 
 		if ( count( $meta_query_args ) > 2 ) {
-			
+
 			$meta_query_args[ 'relation' ] = 'AND';
 		}
 
@@ -1159,66 +1159,66 @@ function nab_member_search_filter_callback()
 	$total_pages	= 0;
 
 	if ( $meta_result ) {
-		
+
 		if ( count( $wp_user_ids ) > 0 ) {
 
-			$members_filter[ 'include' ] = $wp_user_ids;			
+			$members_filter[ 'include' ] = $wp_user_ids;
 		}
 
 		if (bp_has_members($members_filter)) {
 
 			global $members_template;
-	
+
 			$total_users	= $members_template->total_member_count;
 			$total_pages	= ceil($total_users / $post_limit);
 			$cnt 			= 0;
-	
+
 			$current_user_id = get_current_user_id();
-	
+
 			while (bp_members()) {
-	
+
 				bp_the_member();
-	
+
 				$member_user_id	= bp_get_member_user_id();
 				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
 				$user_full_name = bp_get_member_name();
 				if (empty(trim($user_full_name))) {
 					$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 				}
-	
+
 				$company 		= get_user_meta($member_user_id, 'attendee_company', true);
 				$title 		= get_user_meta($member_user_id, 'attendee_title', true);
 				$user_images 	= nab_amplify_get_user_images($member_user_id);
-	
+
 				$user_avatar = '<img src="' . $user_images['profile_picture'] . '" />';
-	
+
 				$result_user[$cnt]['cover_img'] = $user_images['banner_image'];
 				$result_user[$cnt]['name'] 		= html_entity_decode($user_full_name);
 				$result_user[$cnt]['company'] 	= html_entity_decode($company);
 				$result_user[$cnt]['title'] 	= html_entity_decode($title);
 				$result_user[$cnt]['avatar']		= $user_avatar;
 				$result_user[$cnt]['link']		= bp_get_member_permalink();
-	
+
 				$action_button = nab_amplify_bp_get_friendship_button($member_user_id);
 				$result_user[$cnt]['action_button'] = $action_button;
-	
+
 				if ($is_friend && 'is_friend' === $is_friend) {
 					$cancel_friendship_button = nab_amplify_bp_get_cancel_friendship_button($member_user_id);
 					$result_user[$cnt]['cancel_friendship_button'] = $cancel_friendship_button;
 				}
-	
+
 				if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
-	
+
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
 				} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
-	
+
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
 				}
-	
+
 				$cnt++;
 			}
 		}
-	}	
+	}
 
 	$final_result['next_page_number']	= $page_number + 1;
 	$final_result['total_page']			= $total_pages;
@@ -1308,7 +1308,7 @@ function nab_company_search_filter_callback()
 			$cover_image        = get_field('cover_image');
 			$profile_picture    = get_field('profile_picture');
 			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
-			$featured_image  	= has_post_thumbnail() ? get_the_post_thumbnail_url() : false;
+			$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 			$profile_picture    = $featured_image;
 			$company_url		= get_the_permalink();
 			$company_poc		= get_field('point_of_contact');
@@ -1316,7 +1316,7 @@ function nab_company_search_filter_callback()
 			$result_post[$cnt]['cover_img'] = $cover_image;
 			$result_post[$cnt]['link'] 		= $company_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
-			
+
 			if ( $profile_picture ) {
 				$result_post[$cnt]['profile'] 	= $profile_picture;
 			} else {
@@ -1563,15 +1563,15 @@ function nab_product_search_filter_callback()
 		'taxonomy' => 'product_visibility',
 		'field'    => 'slug',
 		'terms'    => array( 'exclude-from-search' ),
-		'operator' => 'NOT IN',		
+		'operator' => 'NOT IN',
 	);
 
 	if (!empty($category)) {
 
-		$tax_query_args[] = array(			
+		$tax_query_args[] = array(
 			'taxonomy' => 'product_cat',
 			'field'    => 'slug',
-			'terms'    => $category,		
+			'terms'    => $category,
 		);
 	}
 
@@ -1587,7 +1587,7 @@ function nab_product_search_filter_callback()
 		$cnt 				= 0;
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
-		
+
 		while ($product_query->have_posts()) {
 
 			$product_query->the_post();
@@ -1765,7 +1765,7 @@ function nab_content_search_filter_callback()
 	$all_post_types = nab_get_search_post_types();
 
 	if ( isset( $content_type ) && ! empty ( $content_type ) ) {
-		
+
 		if ( 'other' === $content_type && ( $key = array_search( 'articles', $all_post_types ) ) !== false ) {
 			unset( $all_post_types[ $key ] );
 		} else {
@@ -1778,8 +1778,8 @@ function nab_content_search_filter_callback()
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		'posts_per_page' 	=> $post_limit,
-		's'					=> $search_term,		
-	);	
+		's'					=> $search_term,
+	);
 
 	if (!empty($search_term)) {
 		$content_args['_meta_search'] = true;
@@ -1794,7 +1794,7 @@ function nab_content_search_filter_callback()
 		$content_args['order']		= $order;
 	}
 
-	$meta_query_args = array( 
+	$meta_query_args = array(
 		'relation' => 'AND',
 		array(
 			'relation'	=> 'OR',
@@ -1818,7 +1818,7 @@ function nab_content_search_filter_callback()
 			'compare'	=> 'LIKE'
 		);
 	}
-	
+
 	if ( ! empty( $subject ) ) {
 		$meta_query_args[] = array(
 			'key'		=> 'content_subject',
@@ -1843,7 +1843,7 @@ function nab_content_search_filter_callback()
 
 			$content_query->the_post();
 
-			$thumbnail_url 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+			$thumbnail_url  = nab_amplify_get_featured_image( get_the_ID() );
 
 			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
@@ -2460,7 +2460,7 @@ function nab_get_search_city_callback() {
 	$search_key	= filter_input( INPUT_GET, 'q', FILTER_SANITIZE_STRING );
 	$country	= filter_input( INPUT_GET, 'country', FILTER_SANITIZE_STRING );
 	$state		= filter_input( INPUT_GET, 'state', FILTER_SANITIZE_STRING );
-	
+
 	$final_result	= [];
 
 	if ( isset( $search_key ) && ! empty( $search_key ) ) {
@@ -2472,10 +2472,10 @@ function nab_get_search_city_callback() {
 		$meta_query_args[] = array(
 			'key' => 'user_city',
 			'value' => $search_key,
-			'compare' => 'LIKE'								
+			'compare' => 'LIKE'
 		);
 
-		if ( ! empty( $country ) || ! empty( $state ) ) {			
+		if ( ! empty( $country ) || ! empty( $state ) ) {
 
 			if ( ! empty( $country ) ) {
 
@@ -2486,12 +2486,12 @@ function nab_get_search_city_callback() {
 			}
 
 			if ( ! empty( $state ) ) {
-				
+
 				$meta_query_args[] = array(
 					'key' => 'user_state',
 					'value' => $state
 				);
-			}			
+			}
 		}
 
 		$user_args[ 'meta_query' ] = $meta_query_args;
@@ -2499,13 +2499,13 @@ function nab_get_search_city_callback() {
 		$user_query		= new WP_User_Query( $user_args );
 		$found_users	= $user_query->get_results();
 
-		if ( ! empty( $found_users ) && is_array( $found_users ) ) {			
+		if ( ! empty( $found_users ) && is_array( $found_users ) ) {
 
 			foreach ( $found_users as $current_user_id ) {
 
 				$user_city = get_user_meta( $current_user_id, 'user_city', true );
-				
-				
+
+
 				if ( ! empty( $user_city ) && ! in_array( $user_city, $final_result, true ) ) {
 					$final_result[] = $user_city;
 				}
