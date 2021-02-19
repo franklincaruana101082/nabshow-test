@@ -70,10 +70,6 @@ class Fusion_Data {
 				'label' => 'LinkedIn',
 				'color' => '#0077b5',
 			],
-			'mixer'      => [
-				'label' => 'Mixer',
-				'color' => '#1FBAED',
-			],
 			'myspace'    => [
 				'label' => 'Myspace',
 				'color' => '#000000',
@@ -106,6 +102,10 @@ class Fusion_Data {
 				'label' => 'Spotify',
 				'color' => '#2ebd59',
 			],
+			'tiktok'     => [
+				'label' => 'Tiktok',
+				'color' => '#010101',
+			],
 			'tumblr'     => [
 				'label' => 'Tumblr',
 				'color' => '#35465c',
@@ -125,6 +125,10 @@ class Fusion_Data {
 			'vk'         => [
 				'label' => 'VK',
 				'color' => '#45668e',
+			],
+			'wechat'     => [
+				'label' => 'WeChat',
+				'color' => '#7bb22e',
 			],
 			'whatsapp'   => [
 				'label' => 'WhatsApp',
@@ -148,6 +152,10 @@ class Fusion_Data {
 			],
 			'email'      => [
 				'label' => esc_html__( 'Email Address', 'Avada' ),
+				'color' => '#000000',
+			],
+			'phone'      => [
+				'label' => esc_html__( 'Phone', 'Avada' ),
 				'color' => '#000000',
 			],
 		];
@@ -400,24 +408,9 @@ class Fusion_Data {
 	 * @return  array
 	 */
 	public static function font_subsets() {
-		return [
-			'greek-ext',
-			'greek',
-			'cyrillic-ext',
-			'cyrillic',
-			'latin-ext',
-			'latin',
-			'vietnamese',
-			'arabic',
-			'gujarati',
-			'devanagari',
-			'bengali',
-			'hebrew',
-			'khmer',
-			'tamil',
-			'telugu',
-			'thai',
-		];
+		// Deprecated in Avada 7.0 - The google-fonts API changed
+		// and no longer requires subsets.
+		return [];
 	}
 
 	/**
@@ -499,6 +492,7 @@ class Fusion_Data {
 		$light['icon_color']                      = '#ffffff';
 		$light['imgframe_border_color']           = '#f6f6f6';
 		$light['imgframe_style_color']            = '#000000';
+		$light['before_after_border_color']       = '#f6f6f6';
 		$light['sep_pricing_box_heading_color']   = '#333333';
 		$light['full_boxed_pricing_box_heading_color'] = '#333333';
 		$light['pricing_bg_color']                     = '#ffffff';
@@ -621,6 +615,7 @@ class Fusion_Data {
 		$dark['icon_border_color']               = '#3e3e3e';
 		$dark['icon_color']                      = '#ffffff';
 		$dark['imgframe_border_color']           = '#494848';
+		$dark['before_after_border_color']       = '#494848';
 		$dark['imgframe_style_color']            = '#000000';
 		$dark['sep_pricing_box_heading_color']   = '#ffffff';
 		$dark['full_boxed_pricing_box_heading_color'] = '#AAA9A9';
@@ -874,6 +869,11 @@ class Fusion_Data {
 			'privacy_bar_link_hover_color',
 			'faq_accordian_active_color',
 			'accordian_active_color',
+			'header_top_menu_sub_hover_color',
+			'breadcrumbs_text_hover_color',
+			'form_focus_border_color',
+			'icon_circle_color_hover',
+			'icon_border_color_hover',
 		];
 
 		foreach ( $colors as $color => $values ) {

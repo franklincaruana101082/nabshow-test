@@ -3,7 +3,7 @@ jQuery(function($) {
 
         $('.fusionredux-container').each( function() {
             if ( ! $(this).hasClass('fusionredux-no-sections') ) {
-                $(this).find('.fusionredux-main').prepend('<span class="dashicons dashicons-search"></span><input class="fusionredux_field_search" name="" type="text" placeholder="' + fusionreduxsearch + '"/>');
+                $(this).find('.fusionredux-main').prepend('<span class="dashicons dashicons-search"></span><input class="fusionredux_field_search" name="" type="text" placeholder="' + fusionreduxsearch.text + '"/>');
             }
         } );
 

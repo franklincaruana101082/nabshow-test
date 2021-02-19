@@ -29,7 +29,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						$tabMenu       = $dialogContent.find( '.fusion-builder-modal-top-container' ),
 						$titleBar      = title.closest( '.ui-dialog-titlebar' );
 
-					$titleBar.after( $tabMenu );
+					$dialogContent.before( $tabMenu );
 
 					if ( $titleBar.parent( '.fusion-builder-child-element' ).length ) {
 						$titleBar.find( '.ui-dialog-title' ).before( '<span class="ui-dialog-close fusion-back-menu-item"><svg version="1.1" width="18" height="18" viewBox="0 0 32 32"><path d="M12.586 27.414l-10-10c-0.781-0.781-0.781-2.047 0-2.828l10-10c0.781-0.781 2.047-0.781 2.828 0s0.781 2.047 0 2.828l-6.586 6.586h19.172c1.105 0 2 0.895 2 2s-0.895 2-2 2h-19.172l6.586 6.586c0.39 0.39 0.586 0.902 0.586 1.414s-0.195 1.024-0.586 1.414c-0.781 0.781-2.047 0.781-2.828 0z"></path></svg></span>' );
@@ -40,7 +40,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					if ( ! this.options.title ) {
 						title.html( '&#160;' );
 					} else {
-						title.html( this.options.title );
+						title.text( this.options.title );
 					}
 				},
 				_hide: function( event ) {
@@ -58,8 +58,11 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		 * @return {void}
 		 */
 		resizeDialog: function() {
+			var titleBar = jQuery( '.fusion-builder-large-library-dialog .ui-dialog-titlebar' ),
+				titleBarHeight = titleBar.length ? titleBar.height() : 0;
+
 			this.dialogWidth  = 0.85 * jQuery( window ).width(),
-			this.dialogHeight = ( 0.9 * ( jQuery( window ).height() - 54 ) ) - jQuery( '.fusion-builder-large-library-dialog .ui-dialog-titlebar' ).height();
+			this.dialogHeight = ( 0.9 * ( jQuery( window ).height() - 54 ) ) - titleBarHeight;
 
 			jQuery( '.fusion_builder_modal_settings:ui-dialog, #fusion-builder-front-end-library:ui-dialog, .fusion-builder-keyboard-shortcuts-dialog .ui-dialog-content:ui-dialog, .fusion-builder-preferences-dialog .ui-dialog-content:ui-dialog' ).dialog( 'option', 'width', this.dialogWidth );
 			jQuery( '.fusion_builder_modal_settings:ui-dialog, #fusion-builder-front-end-library:ui-dialog, .fusion-builder-keyboard-shortcuts-dialog .ui-dialog-content:ui-dialog, .fusion-builder-preferences-dialog .ui-dialog-content:ui-dialog' ).dialog( 'option', 'height', this.dialogHeight );

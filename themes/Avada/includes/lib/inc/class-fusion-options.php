@@ -227,7 +227,7 @@ class Fusion_Options {
 	 *
 	 * @access protected
 	 * @since 1.0.0
-	 * @return array
+	 * @return array|Object
 	 */
 	protected function get_options() {
 		return [];

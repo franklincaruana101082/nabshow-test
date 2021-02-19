@@ -1,21 +1,15 @@
 <?php
 /**
- * Plugin Name:   ariColor
- * Plugin URI:    http://aristath.github.io/ariColor/
- * Description:   A PHP library for color manipulation in WordPress themes and plugins
- * Author:        Aristeides Stathopoulos
- * Author URI:    http://aristeides.com
+ * Plugin Name:   Fusion Library
+ * Description:   A PHP library for color manipulation
+ * Author:        ThemeFusion
+ * Author URI:    https://theme-fusion.com
  * Version:       1.1.0
- * Text Domain:   aricolor
  *
- * GitHub Plugin URI: aristath/ariColor
- * GitHub Plugin URI: https://github.com/aristath/ariColor
- *
- * @package     ariColor
+ * @package     Fusion Library
  * @category    Core
- * @author      Aristeides Stathopoulos
- * @copyright   Copyright (c) 2016, Aristeides Stathopoulos
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @author      ThemeFusion
+ * @copyright   Copyright (c) ThemeFusion
  * @since       1.0
  *
  */
@@ -182,6 +176,15 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 		 * @var float
 		 */
 		public $luminance;
+
+		/**
+		 * Closest word color match.
+		 *
+		 * @access public
+		 * @since 3.1
+		 * @var string
+		 */
+		public $closets_word_color_match = 'black';
 
 		/**
 		 * The class constructor.
@@ -486,6 +489,7 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 			$this->set_brightness();
 			$this->set_hsl();
 			$this->set_luminance();
+			$this->set_closest_word_color_match();
 
 		}
 
@@ -509,6 +513,7 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 			$this->set_brightness();
 			$this->set_hsl();
 			$this->set_luminance();
+			$this->set_closest_word_color_match();
 		}
 
 		/**
@@ -537,6 +542,7 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 			$this->set_brightness();
 			$this->set_hsl();
 			$this->set_luminance();
+			$this->set_closest_word_color_match();
 		}
 
 		/**
@@ -552,6 +558,7 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 			$this->saturation = $value[1];
 			$this->lightness  = $value[2];
 			$this->from_hsl_array();
+			$this->set_closest_word_color_match();
 		}
 
 		/**
@@ -568,6 +575,7 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 			$this->lightness  = $value[2];
 			$this->alpha      = $value[3];
 			$this->from_hsl_array();
+			$this->set_closest_word_color_match();
 		}
 
 		/**
@@ -939,7 +947,796 @@ if ( ! class_exists( 'Fusion_Color' ) ) {
 				'yellow'               => 'FFFF00',
 				'yellowgreen'          => '9ACD32',
 			);
+		}
 
+		/**
+		 * Gets an array of all the word colors with their HEX, RGB and HSL values.
+		 *
+		 * @static
+		 * @access public
+		 * @since 3.1
+		 * @return array The array of all word colors and their values.
+		 */
+		public static function get_word_colors_with_values( $extended = false ) {
+			$base_colors = [	
+				'aqua' => [
+					'hex' => '00FFFF',
+					'rgb' => [ 'red' => '0', 'green' => '255', 'blue' => '255' ],
+					'hsl' => [ 'hue' => '180', 'saturation' => '100', 'lightness' => '50' ],
+				],
+				'black' => [
+					'hex' => '000000',
+					'rgb' => [ 'red' => '0', 'green' => '0', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '0' ],
+				],			
+				'blue' => [
+					'hex' => '0000FF',
+					'rgb' => [ 'red' => '0', 'green' => '0', 'blue' => '255' ],
+					'hsl' => [ 'hue' => '240', 'saturation' => '100', 'lightness' => '50' ],
+				],
+				'brown' => [
+					'hex' => 'A52A2A',
+					'rgb' => [ 'red' => '165', 'green' => '42', 'blue' => '42' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '59', 'lightness' => '41' ],
+				],
+				'cyan' => [
+					'hex' => '00FFFF',
+					'rgb' => [ 'red' => '0', 'green' => '255', 'blue' => '255' ],
+					'hsl' => [ 'hue' => '180', 'saturation' => '100', 'lightness' => '50' ],
+				],
+				'gray' => [
+					'hex' => '808080',
+					'rgb' => [ 'red' => '128', 'green' => '128', 'blue' => '128' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '50' ],
+				],
+				'green' => [
+					'hex' => '008000',
+					'rgb' => [ 'red' => '0', 'green' => '128', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '120', 'saturation' => '100', 'lightness' => '25' ],
+				],
+				'grey' => [
+					'hex' => '808080',
+					'rgb' => [ 'red' => '128', 'green' => '128', 'blue' => '128' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '50' ],
+				],
+				'indigo' => [
+					'hex' => '4B0082',
+					'rgb' => [ 'red' => '75', 'green' => '0', 'blue' => '130' ],
+					'hsl' => [ 'hue' => '275', 'saturation' => '100', 'lightness' => '25' ],
+				],
+				'lightgray' => [
+					'hex' => 'D3D3D3',
+					'rgb' => [ 'red' => '211', 'green' => '211', 'blue' => '211' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '83' ],
+				],			
+				'lime' => [
+					'hex' => '00FF00',
+					'rgb' => [ 'red' => '0', 'green' => '255', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '120', 'saturation' => '100', 'lightness' => '50' ],
+				],
+				'magenta' => [
+					'hex' => 'FF00FF',
+					'rgb' => [ 'red' => '255', 'green' => '0', 'blue' => '255' ],
+					'hsl' => [ 'hue' => '300', 'saturation' => '100', 'lightness' => '50' ],
+				],			
+				'navy' => [
+					'hex' => '000080',
+					'rgb' => [ 'red' => '0', 'green' => '0', 'blue' => '128' ],
+					'hsl' => [ 'hue' => '240', 'saturation' => '100', 'lightness' => '25' ],
+				],		
+				'olive' => [
+					'hex' => '808000',
+					'rgb' => [ 'red' => '128', 'green' => '128', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '60', 'saturation' => '100', 'lightness' => '25' ],
+				],
+				'orange' => [
+					'hex' => 'FFA500',
+					'rgb' => [ 'red' => '255', 'green' => '165', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '39', 'saturation' => '100', 'lightness' => '50' ],
+				],
+				'pink' => [
+					'hex' => 'FFC0CB',
+					'rgb' => [ 'red' => '255', 'green' => '192', 'blue' => '203' ],
+					'hsl' => [ 'hue' => '350', 'saturation' => '100', 'lightness' => '88' ],
+				],
+				'purple' => [
+					'hex' => '800080',
+					'rgb' => [ 'red' => '128', 'green' => '0', 'blue' => '128' ],
+					'hsl' => [ 'hue' => '300', 'saturation' => '100', 'lightness' => '25' ],
+				],
+				'red' => [
+					'hex' => 'FF0000',
+					'rgb' => [ 'red' => '255', 'green' => '0', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '100', 'lightness' => '50' ],
+				],
+				'silver' => [
+					'hex' => 'C0C0C0',
+					'rgb' => [ 'red' => '192', 'green' => '192', 'blue' => '192' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '75' ],
+				],
+				'violet' => [
+					'hex' => 'EE82EE',
+					'rgb' => [ 'red' => '238', 'green' => '130', 'blue' => '238' ],
+					'hsl' => [ 'hue' => '300', 'saturation' => '76', 'lightness' => '72' ],
+				],
+				'white' => [
+					'hex' => 'FFFFFF',
+					'rgb' => [ 'red' => '255', 'green' => '255', 'blue' => '255' ],
+					'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '100' ],
+				],
+				'yellow' => [
+					'hex' => 'FFFF00',
+					'rgb' => [ 'red' => '255', 'green' => '255', 'blue' => '0' ],
+					'hsl' => [ 'hue' => '60', 'saturation' => '100', 'lightness' => '50' ],
+				],
+			];
+
+			if ( $extended ) {
+
+				$extended_colors = [
+					'aliceblue' => [
+						'hex' => 'F0F8FF',
+						'rgb' => [ 'red' => '240', 'green' => '248', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '208', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'antiquewhite' => [
+						'hex' => 'FAEBD7',
+						'rgb' => [ 'red' => '250', 'green' => '235', 'blue' => '215' ],
+						'hsl' => [ 'hue' => '34', 'saturation' => '78', 'lightness' => '91' ],
+					],
+					'aquamarine' => [
+						'hex' => '7FFFD4',
+						'rgb' => [ 'red' => '127', 'green' => '255', 'blue' => '212' ],
+						'hsl' => [ 'hue' => '160', 'saturation' => '100', 'lightness' => '75' ],
+					],
+					'azure' => [
+						'hex' => 'F0FFFF',
+						'rgb' => [ 'red' => '240', 'green' => '255', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'beige' => [
+						'hex' => 'F5F5DC',
+						'rgb' => [ 'red' => '245', 'green' => '245', 'blue' => '220' ],
+						'hsl' => [ 'hue' => '60', 'saturation' => '56', 'lightness' => '91' ],
+					],
+					'bisque' => [
+						'hex' => 'FFE4C4',
+						'rgb' => [ 'red' => '255', 'green' => '228', 'blue' => '196' ],
+						'hsl' => [ 'hue' => '33', 'saturation' => '100', 'lightness' => '88' ],
+					],					
+					'blanchedalmond' => [
+						'hex' => 'FFEBCD',
+						'rgb' => [ 'red' => '255', 'green' => '235', 'blue' => '205' ],
+						'hsl' => [ 'hue' => '36', 'saturation' => '100', 'lightness' => '90' ],
+					],
+					'blueviolet' => [
+						'hex' => '8A2BE2',
+						'rgb' => [ 'red' => '138', 'green' => '43', 'blue' => '226' ],
+						'hsl' => [ 'hue' => '271', 'saturation' => '76', 'lightness' => '53' ],
+					],					
+					'burlywood' => [
+						'hex' => 'DEB887',
+						'rgb' => [ 'red' => '222', 'green' => '184', 'blue' => '135' ],
+						'hsl' => [ 'hue' => '34', 'saturation' => '57', 'lightness' => '70' ],
+					],
+					'cadetblue' => [
+						'hex' => '5F9EA0',
+						'rgb' => [ 'red' => '95', 'green' => '158', 'blue' => '160' ],
+						'hsl' => [ 'hue' => '182', 'saturation' => '25', 'lightness' => '50' ],
+					],
+					'chartreuse' => [
+						'hex' => '7FFF00',
+						'rgb' => [ 'red' => '127', 'green' => '255', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '90', 'saturation' => '100', 'lightness' => '50' ],
+					],
+					'chocolate' => [
+						'hex' => 'D2691E',
+						'rgb' => [ 'red' => '210', 'green' => '105', 'blue' => '30' ],
+						'hsl' => [ 'hue' => '25', 'saturation' => '75', 'lightness' => '47' ],
+					],
+					'coral' => [
+						'hex' => 'FF7F50',
+						'rgb' => [ 'red' => '255', 'green' => '127', 'blue' => '80' ],
+						'hsl' => [ 'hue' => '16', 'saturation' => '100', 'lightness' => '66' ],
+					],
+					'cornflowerblue' => [
+						'hex' => '6495ED',
+						'rgb' => [ 'red' => '100', 'green' => '149', 'blue' => '237' ],
+						'hsl' => [ 'hue' => '219', 'saturation' => '79', 'lightness' => '66' ],
+					],
+					'cornsilk' => [
+						'hex' => 'FFF8DC',
+						'rgb' => [ 'red' => '255', 'green' => '248', 'blue' => '220' ],
+						'hsl' => [ 'hue' => '48', 'saturation' => '100', 'lightness' => '93' ],
+					],
+					'crimson' => [
+						'hex' => 'DC143C',
+						'rgb' => [ 'red' => '220', 'green' => '20', 'blue' => '60' ],
+						'hsl' => [ 'hue' => '348', 'saturation' => '83', 'lightness' => '47' ],
+					],				
+					'darkblue' => [
+						'hex' => '00008B',
+						'rgb' => [ 'red' => '0', 'green' => '0', 'blue' => '139' ],
+						'hsl' => [ 'hue' => '240', 'saturation' => '100', 'lightness' => '27' ],
+					],
+					'darkcyan' => [
+						'hex' => '008B8B',
+						'rgb' => [ 'red' => '0', 'green' => '139', 'blue' => '139' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '100', 'lightness' => '27' ],
+					],
+					'darkgoldenrod' => [
+						'hex' => 'B8860B',
+						'rgb' => [ 'red' => '184', 'green' => '134', 'blue' => '11' ],
+						'hsl' => [ 'hue' => '43', 'saturation' => '89', 'lightness' => '38' ],
+					],
+					'darkgray' => [
+						'hex' => 'A9A9A9',
+						'rgb' => [ 'red' => '169', 'green' => '169', 'blue' => '169' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '66' ],
+					],
+					'darkgreen' => [
+						'hex' => '006400',
+						'rgb' => [ 'red' => '0', 'green' => '100', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '100', 'lightness' => '20' ],
+					],
+					'darkgrey' => [
+						'hex' => 'A9A9A9',
+						'rgb' => [ 'red' => '169', 'green' => '169', 'blue' => '169' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '66' ],
+					],
+					'darkkhaki' => [
+						'hex' => 'BDB76B',
+						'rgb' => [ 'red' => '189', 'green' => '183', 'blue' => '107' ],
+						'hsl' => [ 'hue' => '56', 'saturation' => '38', 'lightness' => '58' ],
+					],
+					'darkmagenta' => [
+						'hex' => '8B008B',
+						'rgb' => [ 'red' => '139', 'green' => '0', 'blue' => '139' ],
+						'hsl' => [ 'hue' => '300', 'saturation' => '100', 'lightness' => '27' ],
+					],
+					'darkolivegreen' => [
+						'hex' => '556B2F',
+						'rgb' => [ 'red' => '85', 'green' => '107', 'blue' => '47' ],
+						'hsl' => [ 'hue' => '82', 'saturation' => '39', 'lightness' => '30' ],
+					],
+					'darkorange' => [
+						'hex' => 'FF8C00',
+						'rgb' => [ 'red' => '255', 'green' => '140', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '33', 'saturation' => '100', 'lightness' => '50' ],
+					],
+					'darkorchid' => [
+						'hex' => '9932CC',
+						'rgb' => [ 'red' => '153', 'green' => '50', 'blue' => '204' ],
+						'hsl' => [ 'hue' => '280', 'saturation' => '61', 'lightness' => '50' ],
+					],
+					'darkred' => [
+						'hex' => '8B0000',
+						'rgb' => [ 'red' => '139', 'green' => '0', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '100', 'lightness' => '27' ],
+					],
+					'darksalmon' => [
+						'hex' => 'E9967A',
+						'rgb' => [ 'red' => '233', 'green' => '150', 'blue' => '122' ],
+						'hsl' => [ 'hue' => '15', 'saturation' => '72', 'lightness' => '70' ],
+					],
+					'darkseagreen' => [
+						'hex' => '8FBC8F',
+						'rgb' => [ 'red' => '143', 'green' => '188', 'blue' => '143' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '25', 'lightness' => '65' ],
+					],
+					'darkslateblue' => [
+						'hex' => '483D8B',
+						'rgb' => [ 'red' => '72', 'green' => '61', 'blue' => '139' ],
+						'hsl' => [ 'hue' => '248', 'saturation' => '39', 'lightness' => '39' ],
+					],
+					'darkslategray' => [
+						'hex' => '2F4F4F',
+						'rgb' => [ 'red' => '47', 'green' => '79', 'blue' => '79' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '25', 'lightness' => '25' ],
+					],
+					'darkslategrey' => [
+						'hex' => '2F4F4F',
+						'rgb' => [ 'red' => '47', 'green' => '79', 'blue' => '79' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '25', 'lightness' => '25' ],
+					],
+					'darkturquoise' => [
+						'hex' => '00CED1',
+						'rgb' => [ 'red' => '0', 'green' => '206', 'blue' => '209' ],
+						'hsl' => [ 'hue' => '181', 'saturation' => '100', 'lightness' => '41' ],
+					],
+					'darkviolet' => [
+						'hex' => '9400D3',
+						'rgb' => [ 'red' => '148', 'green' => '0', 'blue' => '211' ],
+						'hsl' => [ 'hue' => '282', 'saturation' => '100', 'lightness' => '41' ],
+					],
+					'deeppink' => [
+						'hex' => 'FF1493',
+						'rgb' => [ 'red' => '255', 'green' => '20', 'blue' => '147' ],
+						'hsl' => [ 'hue' => '328', 'saturation' => '100', 'lightness' => '54' ],
+					],
+					'deepskyblue' => [
+						'hex' => '00BFFF',
+						'rgb' => [ 'red' => '0', 'green' => '191', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '195', 'saturation' => '100', 'lightness' => '50' ],
+					],
+					'dimgray' => [
+						'hex' => '696969',
+						'rgb' => [ 'red' => '105', 'green' => '105', 'blue' => '105' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '41' ],
+					],
+					'dimgrey' => [
+						'hex' => '696969',
+						'rgb' => [ 'red' => '105', 'green' => '105', 'blue' => '105' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '41' ],
+					],
+					'dodgerblue' => [
+						'hex' => '1E90FF',
+						'rgb' => [ 'red' => '30', 'green' => '144', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '210', 'saturation' => '100', 'lightness' => '56' ],
+					],
+					'firebrick' => [
+						'hex' => 'B22222',
+						'rgb' => [ 'red' => '178', 'green' => '34', 'blue' => '34' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '68', 'lightness' => '42' ],
+					],
+					'floralwhite' => [
+						'hex' => 'FFFAF0',
+						'rgb' => [ 'red' => '255', 'green' => '250', 'blue' => '240' ],
+						'hsl' => [ 'hue' => '40', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'forestgreen' => [
+						'hex' => '228B22',
+						'rgb' => [ 'red' => '34', 'green' => '139', 'blue' => '34' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '61', 'lightness' => '34' ],
+					],
+					'fuchsia' => [
+						'hex' => 'FF00FF',
+						'rgb' => [ 'red' => '255', 'green' => '0', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '300', 'saturation' => '100', 'lightness' => '50' ],
+					],
+					'gainsboro' => [
+						'hex' => 'DCDCDC',
+						'rgb' => [ 'red' => '220', 'green' => '220', 'blue' => '220' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '86' ],
+					],
+					'ghostwhite' => [
+						'hex' => 'F8F8FF',
+						'rgb' => [ 'red' => '248', 'green' => '248', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '240', 'saturation' => '100', 'lightness' => '99' ],
+					],
+					'gold' => [
+						'hex' => 'FFD700',
+						'rgb' => [ 'red' => '255', 'green' => '215', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '51', 'saturation' => '100', 'lightness' => '50' ],
+					],								
+					'goldenrod' => [
+						'hex' => 'DAA520',
+						'rgb' => [ 'red' => '218', 'green' => '165', 'blue' => '32' ],
+						'hsl' => [ 'hue' => '43', 'saturation' => '74', 'lightness' => '49' ],
+					],
+					'greenyellow' => [
+						'hex' => 'ADFF2F',
+						'rgb' => [ 'red' => '173', 'green' => '255', 'blue' => '47' ],
+						'hsl' => [ 'hue' => '84', 'saturation' => '100', 'lightness' => '59' ],
+					],							
+					'honeydew' => [
+						'hex' => 'F0FFF0',
+						'rgb' => [ 'red' => '240', 'green' => '255', 'blue' => '240' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'hotpink' => [
+						'hex' => 'FF69B4',
+						'rgb' => [ 'red' => '255', 'green' => '105', 'blue' => '180' ],
+						'hsl' => [ 'hue' => '330', 'saturation' => '100', 'lightness' => '71' ],
+					],
+					'indianred' => [
+						'hex' => 'CD5C5C',
+						'rgb' => [ 'red' => '205', 'green' => '92', 'blue' => '92' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '53', 'lightness' => '58' ],
+					],				
+					'ivory' => [
+						'hex' => 'FFFFF0',
+						'rgb' => [ 'red' => '255', 'green' => '255', 'blue' => '240' ],
+						'hsl' => [ 'hue' => '60', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'khaki' => [
+						'hex' => 'F0E68C',
+						'rgb' => [ 'red' => '240', 'green' => '230', 'blue' => '140' ],
+						'hsl' => [ 'hue' => '54', 'saturation' => '77', 'lightness' => '75' ],
+					],								
+					'lavender' => [
+						'hex' => 'E6E6FA',
+						'rgb' => [ 'red' => '230', 'green' => '230', 'blue' => '250' ],
+						'hsl' => [ 'hue' => '240', 'saturation' => '67', 'lightness' => '94' ],
+					],
+					'lavenderblush' => [
+						'hex' => 'FFF0F5',
+						'rgb' => [ 'red' => '255', 'green' => '240', 'blue' => '245' ],
+						'hsl' => [ 'hue' => '340', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'lawngreen' => [
+						'hex' => '7CFC00',
+						'rgb' => [ 'red' => '124', 'green' => '252', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '90', 'saturation' => '100', 'lightness' => '49' ],
+					],
+					'lemonchiffon' => [
+						'hex' => 'FFFACD',
+						'rgb' => [ 'red' => '255', 'green' => '250', 'blue' => '205' ],
+						'hsl' => [ 'hue' => '54', 'saturation' => '100', 'lightness' => '90' ],
+					],
+					'lightblue' => [
+						'hex' => 'ADD8E6',
+						'rgb' => [ 'red' => '173', 'green' => '216', 'blue' => '230' ],
+						'hsl' => [ 'hue' => '195', 'saturation' => '53', 'lightness' => '79' ],
+					],
+					'lightcoral' => [
+						'hex' => 'F08080',
+						'rgb' => [ 'red' => '240', 'green' => '128', 'blue' => '128' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '79', 'lightness' => '72' ],
+					],
+					'lightcyan' => [
+						'hex' => 'E0FFFF',
+						'rgb' => [ 'red' => '224', 'green' => '255', 'blue' => '255' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '100', 'lightness' => '94' ],
+					],
+					'lightgoldenrodyellow' => [
+						'hex' => 'FAFAD2',
+						'rgb' => [ 'red' => '250', 'green' => '250', 'blue' => '210' ],
+						'hsl' => [ 'hue' => '60', 'saturation' => '80', 'lightness' => '90' ],
+					],				
+					'lightgreen' => [
+						'hex' => '90EE90',
+						'rgb' => [ 'red' => '144', 'green' => '238', 'blue' => '144' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '73', 'lightness' => '75' ],
+					],
+					'lightgrey' => [
+						'hex' => 'D3D3D3',
+						'rgb' => [ 'red' => '211', 'green' => '211', 'blue' => '211' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '83' ],
+					],
+					'lightpink' => [
+						'hex' => 'FFB6C1',
+						'rgb' => [ 'red' => '255', 'green' => '182', 'blue' => '193' ],
+						'hsl' => [ 'hue' => '351', 'saturation' => '100', 'lightness' => '86' ],
+					],
+					'lightsalmon' => [
+						'hex' => 'FFA07A',
+						'rgb' => [ 'red' => '255', 'green' => '160', 'blue' => '122' ],
+						'hsl' => [ 'hue' => '17', 'saturation' => '100', 'lightness' => '74' ],
+					],
+					'lightseagreen' => [
+						'hex' => '20B2AA',
+						'rgb' => [ 'red' => '32', 'green' => '178', 'blue' => '170' ],
+						'hsl' => [ 'hue' => '177', 'saturation' => '70', 'lightness' => '41' ],
+					],
+					'lightskyblue' => [
+						'hex' => '87CEFA',
+						'rgb' => [ 'red' => '135', 'green' => '206', 'blue' => '250' ],
+						'hsl' => [ 'hue' => '203', 'saturation' => '92', 'lightness' => '75' ],
+					],
+					'lightslategray' => [
+						'hex' => '778899',
+						'rgb' => [ 'red' => '119', 'green' => '136', 'blue' => '153' ],
+						'hsl' => [ 'hue' => '210', 'saturation' => '14', 'lightness' => '53' ],
+					],
+					'lightslategrey' => [
+						'hex' => '778899',
+						'rgb' => [ 'red' => '119', 'green' => '136', 'blue' => '153' ],
+						'hsl' => [ 'hue' => '210', 'saturation' => '14', 'lightness' => '53' ],
+					],
+					'lightsteelblue' => [
+						'hex' => 'B0C4DE',
+						'rgb' => [ 'red' => '176', 'green' => '196', 'blue' => '222' ],
+						'hsl' => [ 'hue' => '214', 'saturation' => '41', 'lightness' => '78' ],
+					],
+					'lightyellow' => [
+						'hex' => 'FFFFE0',
+						'rgb' => [ 'red' => '255', 'green' => '255', 'blue' => '224' ],
+						'hsl' => [ 'hue' => '60', 'saturation' => '100', 'lightness' => '94' ],
+					],
+					'limegreen' => [
+						'hex' => '32CD32',
+						'rgb' => [ 'red' => '50', 'green' => '205', 'blue' => '50' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '61', 'lightness' => '50' ],
+					],
+					'linen' => [
+						'hex' => 'FAF0E6',
+						'rgb' => [ 'red' => '250', 'green' => '240', 'blue' => '230' ],
+						'hsl' => [ 'hue' => '30', 'saturation' => '67', 'lightness' => '94' ],
+					],					
+					'maroon' => [
+						'hex' => '800000',
+						'rgb' => [ 'red' => '128', 'green' => '0', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '100', 'lightness' => '25' ],
+					],
+					'mediumaquamarine' => [
+						'hex' => '66CDAA',
+						'rgb' => [ 'red' => '102', 'green' => '205', 'blue' => '170' ],
+						'hsl' => [ 'hue' => '160', 'saturation' => '51', 'lightness' => '60' ],
+					],
+					'mediumblue' => [
+						'hex' => '0000CD',
+						'rgb' => [ 'red' => '0', 'green' => '0', 'blue' => '205' ],
+						'hsl' => [ 'hue' => '240', 'saturation' => '100', 'lightness' => '40' ],
+					],
+					'mediumorchid' => [
+						'hex' => 'BA55D3',
+						'rgb' => [ 'red' => '186', 'green' => '85', 'blue' => '211' ],
+						'hsl' => [ 'hue' => '288', 'saturation' => '59', 'lightness' => '58' ],
+					],
+					'mediumpurple' => [
+						'hex' => '9370D0',
+						'rgb' => [ 'red' => '147', 'green' => '112', 'blue' => '208' ],
+						'hsl' => [ 'hue' => '262', 'saturation' => '51', 'lightness' => '63' ],
+					],
+					'mediumseagreen' => [
+						'hex' => '3CB371',
+						'rgb' => [ 'red' => '60', 'green' => '179', 'blue' => '113' ],
+						'hsl' => [ 'hue' => '147', 'saturation' => '50', 'lightness' => '47' ],
+					],
+					'mediumslateblue' => [
+						'hex' => '7B68EE',
+						'rgb' => [ 'red' => '123', 'green' => '104', 'blue' => '238' ],
+						'hsl' => [ 'hue' => '249', 'saturation' => '80', 'lightness' => '67' ],
+					],
+					'mediumspringgreen' => [
+						'hex' => '00FA9A',
+						'rgb' => [ 'red' => '0', 'green' => '250', 'blue' => '154' ],
+						'hsl' => [ 'hue' => '157', 'saturation' => '100', 'lightness' => '49' ],
+					],
+					'mediumturquoise' => [
+						'hex' => '48D1CC',
+						'rgb' => [ 'red' => '72', 'green' => '209', 'blue' => '204' ],
+						'hsl' => [ 'hue' => '178', 'saturation' => '60', 'lightness' => '55' ],
+					],
+					'mediumvioletred' => [
+						'hex' => 'C71585',
+						'rgb' => [ 'red' => '199', 'green' => '21', 'blue' => '133' ],
+						'hsl' => [ 'hue' => '322', 'saturation' => '81', 'lightness' => '43' ],
+					],
+					'midnightblue' => [
+						'hex' => '191970',
+						'rgb' => [ 'red' => '25', 'green' => '25', 'blue' => '112' ],
+						'hsl' => [ 'hue' => '240', 'saturation' => '64', 'lightness' => '27' ],
+					],
+					'mintcream' => [
+						'hex' => 'F5FFFA',
+						'rgb' => [ 'red' => '245', 'green' => '255', 'blue' => '250' ],
+						'hsl' => [ 'hue' => '150', 'saturation' => '100', 'lightness' => '98' ],
+					],
+					'mistyrose' => [
+						'hex' => 'FFE4E1',
+						'rgb' => [ 'red' => '255', 'green' => '228', 'blue' => '225' ],
+						'hsl' => [ 'hue' => '6', 'saturation' => '100', 'lightness' => '94' ],
+					],
+					'moccasin' => [
+						'hex' => 'FFE4B5',
+						'rgb' => [ 'red' => '255', 'green' => '228', 'blue' => '181' ],
+						'hsl' => [ 'hue' => '38', 'saturation' => '100', 'lightness' => '85' ],
+					],
+					'navajowhite' => [
+						'hex' => 'FFDEAD',
+						'rgb' => [ 'red' => '255', 'green' => '222', 'blue' => '173' ],
+						'hsl' => [ 'hue' => '36', 'saturation' => '100', 'lightness' => '84' ],
+					],
+					'oldlace' => [
+						'hex' => 'FDF5E6',
+						'rgb' => [ 'red' => '253', 'green' => '245', 'blue' => '230' ],
+						'hsl' => [ 'hue' => '39', 'saturation' => '85', 'lightness' => '95' ],
+					],
+					'olivedrab' => [
+						'hex' => '6B8E23',
+						'rgb' => [ 'red' => '107', 'green' => '142', 'blue' => '35' ],
+						'hsl' => [ 'hue' => '80', 'saturation' => '60', 'lightness' => '35' ],
+					],					
+					'orangered' => [
+						'hex' => 'FF4500',
+						'rgb' => [ 'red' => '255', 'green' => '69', 'blue' => '0' ],
+						'hsl' => [ 'hue' => '16', 'saturation' => '100', 'lightness' => '50' ],
+					],
+					'orchid' => [
+						'hex' => 'DA70D6',
+						'rgb' => [ 'red' => '218', 'green' => '112', 'blue' => '214' ],
+						'hsl' => [ 'hue' => '302', 'saturation' => '59', 'lightness' => '65' ],
+					],
+					'palegoldenrod' => [
+						'hex' => 'EEE8AA',
+						'rgb' => [ 'red' => '238', 'green' => '232', 'blue' => '170' ],
+						'hsl' => [ 'hue' => '55', 'saturation' => '67', 'lightness' => '80' ],
+					],
+					'palegreen' => [
+						'hex' => '98FB98',
+						'rgb' => [ 'red' => '152', 'green' => '251', 'blue' => '152' ],
+						'hsl' => [ 'hue' => '120', 'saturation' => '93', 'lightness' => '79' ],
+					],
+					'paleturquoise' => [
+						'hex' => 'AFEEEE',
+						'rgb' => [ 'red' => '175', 'green' => '238', 'blue' => '238' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '65', 'lightness' => '81' ],
+					],
+					'palevioletred' => [
+						'hex' => 'DB7093',
+						'rgb' => [ 'red' => '219', 'green' => '112', 'blue' => '147' ],
+						'hsl' => [ 'hue' => '340', 'saturation' => '60', 'lightness' => '65' ],
+					],
+					'papayawhip' => [
+						'hex' => 'FFEFD5',
+						'rgb' => [ 'red' => '255', 'green' => '239', 'blue' => '213' ],
+						'hsl' => [ 'hue' => '37', 'saturation' => '100', 'lightness' => '92' ],
+					],
+					'peachpuff' => [
+						'hex' => 'FFDAB9',
+						'rgb' => [ 'red' => '255', 'green' => '218', 'blue' => '185' ],
+						'hsl' => [ 'hue' => '28', 'saturation' => '100', 'lightness' => '86' ],
+					],
+					'peru' => [
+						'hex' => 'CD853F',
+						'rgb' => [ 'red' => '205', 'green' => '133', 'blue' => '63' ],
+						'hsl' => [ 'hue' => '30', 'saturation' => '59', 'lightness' => '53' ],
+					],				
+					'plum' => [
+						'hex' => 'DDA0DD',
+						'rgb' => [ 'red' => '221', 'green' => '160', 'blue' => '221' ],
+						'hsl' => [ 'hue' => '300', 'saturation' => '47', 'lightness' => '75' ],
+					],
+					'powderblue' => [
+						'hex' => 'B0E0E6',
+						'rgb' => [ 'red' => '176', 'green' => '224', 'blue' => '230' ],
+						'hsl' => [ 'hue' => '187', 'saturation' => '52', 'lightness' => '80' ],
+					],				
+					'rosybrown' => [
+						'hex' => 'BC8F8F',
+						'rgb' => [ 'red' => '188', 'green' => '143', 'blue' => '143' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '25', 'lightness' => '65' ],
+					],
+					'royalblue' => [
+						'hex' => '4169E1',
+						'rgb' => [ 'red' => '65', 'green' => '105', 'blue' => '225' ],
+						'hsl' => [ 'hue' => '225', 'saturation' => '73', 'lightness' => '57' ],
+					],
+					'saddlebrown' => [
+						'hex' => '8B4513',
+						'rgb' => [ 'red' => '139', 'green' => '69', 'blue' => '19' ],
+						'hsl' => [ 'hue' => '25', 'saturation' => '76', 'lightness' => '31' ],
+					],
+					'salmon' => [
+						'hex' => 'FA8072',
+						'rgb' => [ 'red' => '250', 'green' => '128', 'blue' => '114' ],
+						'hsl' => [ 'hue' => '6', 'saturation' => '93', 'lightness' => '71' ],
+					],							
+					'sandybrown' => [
+						'hex' => 'F4A460',
+						'rgb' => [ 'red' => '244', 'green' => '164', 'blue' => '96' ],
+						'hsl' => [ 'hue' => '28', 'saturation' => '87', 'lightness' => '67' ],
+					],
+					'seagreen' => [
+						'hex' => '2E8B57',
+						'rgb' => [ 'red' => '46', 'green' => '139', 'blue' => '87' ],
+						'hsl' => [ 'hue' => '146', 'saturation' => '50', 'lightness' => '36' ],
+					],
+					'seashell' => [
+						'hex' => 'FFF5EE',
+						'rgb' => [ 'red' => '255', 'green' => '245', 'blue' => '238' ],
+						'hsl' => [ 'hue' => '25', 'saturation' => '100', 'lightness' => '97' ],
+					],
+					'sienna' => [
+						'hex' => 'A0522D',
+						'rgb' => [ 'red' => '160', 'green' => '82', 'blue' => '45' ],
+						'hsl' => [ 'hue' => '19', 'saturation' => '56', 'lightness' => '40' ],
+					],				
+					'skyblue' => [
+						'hex' => '87CEEB',
+						'rgb' => [ 'red' => '135', 'green' => '206', 'blue' => '235' ],
+						'hsl' => [ 'hue' => '197', 'saturation' => '71', 'lightness' => '73' ],
+					],
+					'slateblue' => [
+						'hex' => '6A5ACD',
+						'rgb' => [ 'red' => '106', 'green' => '90', 'blue' => '205' ],
+						'hsl' => [ 'hue' => '248', 'saturation' => '53', 'lightness' => '58' ],
+					],
+					'slategray' => [
+						'hex' => '708090',
+						'rgb' => [ 'red' => '112', 'green' => '128', 'blue' => '144' ],
+						'hsl' => [ 'hue' => '210', 'saturation' => '13', 'lightness' => '50' ],
+					],
+					'slategrey' => [
+						'hex' => '708090',
+						'rgb' => [ 'red' => '112', 'green' => '128', 'blue' => '144' ],
+						'hsl' => [ 'hue' => '210', 'saturation' => '13', 'lightness' => '50' ],
+					],
+					'snow' => [
+						'hex' => 'FFFAFA',
+						'rgb' => [ 'red' => '255', 'green' => '250', 'blue' => '250' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '100', 'lightness' => '99' ],
+					],
+					'springgreen' => [
+						'hex' => '00FF7F',
+						'rgb' => [ 'red' => '0', 'green' => '255', 'blue' => '127' ],
+						'hsl' => [ 'hue' => '150', 'saturation' => '100', 'lightness' => '50' ],
+					],				
+					'steelblue' => [
+						'hex' => '4682B4',
+						'rgb' => [ 'red' => '70', 'green' => '130', 'blue' => '180' ],
+						'hsl' => [ 'hue' => '207', 'saturation' => '44', 'lightness' => '49' ],
+					],
+					'tan' => [
+						'hex' => 'D2B48C',
+						'rgb' => [ 'red' => '210', 'green' => '180', 'blue' => '140' ],
+						'hsl' => [ 'hue' => '34', 'saturation' => '44', 'lightness' => '69' ],
+					],
+					'teal' => [
+						'hex' => '008080',
+						'rgb' => [ 'red' => '0', 'green' => '128', 'blue' => '128' ],
+						'hsl' => [ 'hue' => '180', 'saturation' => '100', 'lightness' => '25' ],
+					],
+					'thistle' => [
+						'hex' => 'D8BFD8',
+						'rgb' => [ 'red' => '216', 'green' => '191', 'blue' => '216' ],
+						'hsl' => [ 'hue' => '300', 'saturation' => '24', 'lightness' => '80' ],
+					],
+					'tomato' => [
+						'hex' => 'FF6347',
+						'rgb' => [ 'red' => '255', 'green' => '99', 'blue' => '71' ],
+						'hsl' => [ 'hue' => '9', 'saturation' => '100', 'lightness' => '64' ],
+					],
+					'turquoise' => [
+						'hex' => '40E0D0',
+						'rgb' => [ 'red' => '64', 'green' => '224', 'blue' => '208' ],
+						'hsl' => [ 'hue' => '174', 'saturation' => '72', 'lightness' => '56' ],
+					],						
+					'wheat' => [
+						'hex' => 'F5DEB3',
+						'rgb' => [ 'red' => '245', 'green' => '222', 'blue' => '179' ],
+						'hsl' => [ 'hue' => '39', 'saturation' => '77', 'lightness' => '83' ],
+					],				
+					'whitesmoke' => [
+						'hex' => 'F5F5F5',
+						'rgb' => [ 'red' => '245', 'green' => '245', 'blue' => '245' ],
+						'hsl' => [ 'hue' => '0', 'saturation' => '0', 'lightness' => '96' ],
+					],
+					'yellowgreen' => [
+						'hex' => '9ACD32',
+						'rgb' => [ 'red' => '154', 'green' => '205', 'blue' => '50' ],
+						'hsl' => [ 'hue' => '80', 'saturation' => '61', 'lightness' => '50' ],
+					],					
+				];
+			} else {
+				$extended_colors = [];
+			}
+
+			$colors = array_merge( $base_colors, $extended_colors );
+
+			return $colors;
+		}		
+
+		/**
+		 * Get closest word color match of a given color.
+		 *
+		 * @access protected
+		 * @since 3.1
+		 * @return void
+		 */
+		protected function set_closest_word_color_match() {
+			$word_colors = self::get_word_colors_with_values();
+			$rgb_diff    = $hsl_diff = $diff = 0;
+			$total_diff  = -1;
+
+			foreach( $word_colors as $word_color => $values ) {
+				if ( $this->hex === '#' . $values['hex'] ) {
+					$this->closets_word_color_match = $word_color;
+					break;
+				} else {
+					$rgb_diff = sqrt( ( $this->red - $values['rgb']['red'] ) ** 2 + ( $this->green - $values['rgb']['green'] ) ** 2 + ( $this->blue - $values['rgb']['blue'] ) ** 2 );
+					$hsl_diff = sqrt( ( $this->hue - $values['hsl']['hue'] ) ** 2 + ( $this->saturation - $values['hsl']['saturation'] ) ** 2 + ( $this->lightness - $values['hsl']['lightness'] ) ** 2 );
+					$hsl_diff = 0;
+					$diff = ( $rgb_diff + $hsl_diff ) / 2;
+
+					if ( $total_diff < 0 || $total_diff > $diff ) {
+					  $total_diff                     = $diff;
+					  $this->closets_word_color_match = $word_color;
+					}					
+				}
+			}
 		}
 
 		/**

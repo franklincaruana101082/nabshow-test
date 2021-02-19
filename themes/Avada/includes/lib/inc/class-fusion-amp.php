@@ -1,6 +1,6 @@
 <?php
 /**
- * AMP methods for Avada & Fusion-Builder.
+ * AMP methods for Avada & Avada Builder.
  *
  * @package Fusion-Library
  * @since 1.8.1

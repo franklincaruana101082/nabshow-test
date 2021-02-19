@@ -74,19 +74,24 @@ class Fusion_Social_Icon {
 			$custom = '<img src="' . $args['custom_source'] . '" style="width:auto;" alt="' . $args['custom_title'] . '" />';
 		}
 
+		$icon_options['social_network'] = ( 'email' === $icon_options['social_network'] ) ? 'mail' : $icon_options['social_network'];
+
 		if ( 'custom' === substr( $icon_options['social_network'], 0, 7 ) ) {
 			$icon_options['class'] .= 'custom ';
-			$tooltip                = esc_attr__( 'Custom', 'Avada' );
-
-			if ( isset( $args['custom_title'] ) ) {
-				$tooltip = str_replace( 'custom', '', $args['custom_title'] );
-			}
+			$tooltip                = $args['custom_title'];
 		} else {
-			$tooltip = ucfirst( $icon_options['social_network'] );
-			$tooltip = 'email' === $icon_options['social_network'] ? esc_attr__( 'Email', 'Avada' ) : $icon_options['social_network'];
+			$tooltip = $icon_options['social_network'];
 		}
 
-		$icon_options['social_network'] = ( 'email' === $icon_options['social_network'] ) ? 'mail' : $icon_options['social_network'];
+		$tooltip = self::get_social_network_name( $tooltip );
+
+		if ( 'none' !== strtolower( self::$args['tooltip_placement'] ) ) {
+			$icon_options['data-placement'] = strtolower( self::$args['tooltip_placement'] );
+			$icon_options['data-title']     = $tooltip;
+			$icon_options['data-toggle']    = 'tooltip';
+		}
+
+		$icon_options['title'] = $tooltip;
 
 		$icon_options['class'] .= 'fusion-social-network-icon fusion-tooltip fusion-' . $icon_options['social_network'] . ' ' . self::$iconfont_prefix . $icon_options['social_network'];
 		$icon_options['class'] .= ( $args['last'] ) ? ' fusion-last-social-icon' : '';
@@ -120,6 +125,12 @@ class Fusion_Social_Icon {
 			$icon_options['target'] = '_self';
 		}
 
+		if ( 'phone' === $icon_options['social_network'] ) {
+
+			$icon_options['href']   = 'tel:' . str_replace( 'tel:', '', $icon_options['social_link'] );
+			$icon_options['target'] = '_self';
+		}
+
 		if ( fusion_library()->get_option( 'nofollow_social_links' ) ) {
 			$icon_options['rel'] = 'nofollow';
 		}
@@ -141,20 +152,6 @@ class Fusion_Social_Icon {
 			$icon_options['style']          .= 'border-radius:' . self::$args['icon_boxed_radius'] . ';';
 		}
 
-		if ( 'none' !== strtolower( self::$args['tooltip_placement'] ) ) {
-			$icon_options['data-placement'] = strtolower( self::$args['tooltip_placement'] );
-			if ( 'Youtube' === $tooltip ) {
-				$tooltip = 'YouTube';
-			} elseif ( 'Linkedin' === $tooltip ) {
-				$tooltip = 'LinkedIn';
-			}
-
-			$icon_options['data-title']  = $tooltip;
-			$icon_options['data-toggle'] = 'tooltip';
-		}
-
-		$icon_options['title'] = $tooltip;
-
 		$icon_options = apply_filters( 'fusion_attr_social-icons-class-icon', $icon_options ); // phpcs:ignore WordPress.NamingConventions.ValidHookName
 
 		$properties = '';
@@ -168,5 +165,43 @@ class Fusion_Social_Icon {
 
 		return '<a ' . $properties . '><span class="screen-reader-text">' . $tooltip . '</span>' . $custom . '</a>';
 
+	}
+
+	/**
+	 * Creates the markup for a single icon.
+	 *
+	 * @static
+	 * @access public
+	 * @since 3.0
+	 * @param string $network_name Name of the social network.
+	 * @return string The network name with correct pelling.
+	 */
+	public static function get_social_network_name( $network_name ) {
+		$network_names = [
+			'linkedin'   => 'LinkedIn',
+			'paypal'     => 'PayPal',
+			'soundcloud' => 'SoundCloud',
+			'wechat'     => 'WeChat',
+			'whatsapp'   => 'WhatsApp',
+			'youtube'    => 'YouTube',
+		];
+
+		if ( isset( $network_names[ $network_name ] ) ) {
+			$network_name = $network_names[ $network_name ];
+		} elseif ( 'mail' === $network_name ) {
+			$network_name = esc_attr__( 'Email', 'Avada' );
+		} elseif ( 'phone' === $network_name ) {
+			$network_name = esc_attr__( 'Phone', 'Avada' );
+		} elseif ( 'custom' === substr( $network_name, 0, 7 ) ) {
+			$network_name = str_replace( [ 'custom', 'custom_' ], '', $network_name );
+		} elseif ( '' === $network_name ) {
+
+			// Network is custom but no custom title was set.
+			$network_name = esc_attr__( 'Custom', 'Avada' );
+		} else {
+			$network_name = ucfirst( $network_name );
+		}
+
+		return $network_name;
 	}
 }

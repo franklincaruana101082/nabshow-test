@@ -42,7 +42,7 @@
 			 * @access      public
 			 * @return      void
 			 */
-			function __construct( $field = array(), $value = '', $parent ) {
+			function __construct( $field = array(), $value = '', $parent = null ) {
 				$this->parent = $parent;
 				$this->field  = $field;
 				$this->value  = $value;
@@ -118,6 +118,10 @@
 				}
 
 				$indent = ( isset( $this->field['sectionIndent'] ) && $this->field['sectionIndent'] ) ? ' form-table-section-indented' : '';
+
+				if ( isset( $this->field['hidden'] ) && true === $this->field['hidden'] ) {
+					return;
+				}
 
 				echo '</td></tr></table><div id="info-' . esc_attr($this->field['id']) . '" class="' . ( isset( $this->field['icon'] ) && ! empty( $this->field['icon'] ) && $this->field['icon'] !== true ? "hasIcon " : "") . esc_attr($this->field['style']) . ' ' . esc_attr($this->field['class']) . ' fusionredux-field-' . esc_attr($this->field['type']) . esc_attr($indent) . '"'.( !empty($this->field['color']) ? ' style="' . esc_attr($this->field['color']) . '"' : '' ) . '>';
 

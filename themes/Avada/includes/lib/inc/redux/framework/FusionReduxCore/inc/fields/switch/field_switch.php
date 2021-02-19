@@ -14,7 +14,7 @@ if ( ! class_exists( 'FusionReduxFramework_switch' ) ) {
 		 *
 		 * @since FusionReduxFramework 0.0.4
 		 */
-		function __construct( $field = array(), $value = '', $parent ) {
+		function __construct( $field = array(), $value = '', $parent = null ) {
 			$this->parent = $parent;
 			$this->field  = $field;
 			$this->value  = $value;

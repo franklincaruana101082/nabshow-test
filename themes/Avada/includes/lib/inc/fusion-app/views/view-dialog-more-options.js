@@ -58,7 +58,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				this.elementView = view.view;
 
 				type    = this.elementView.model.get( 'element_type' );
-				params  = this.elementView.model.get( 'params' );
+				params  = this.elementView.model.get( 'params' ); // eslint-disable-line no-unused-vars
 				element = fusionAllElements[ type ];
 				helpURL = ( 'undefined' !== typeof element.help_url ) ? element.help_url : '';
 

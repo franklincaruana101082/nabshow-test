@@ -119,7 +119,7 @@ class Avada_Importer_Data {
 			if ( ! empty( $remote_demos ) && $remote_demos && function_exists( 'json_last_error' ) && json_last_error() === JSON_ERROR_NONE ) {
 				$demos = $remote_demos;
 			}
-			set_transient( 'avada_demos', $demos, WEEK_IN_SECONDS );
+			set_transient( 'avada_demos', $demos, DAY_IN_SECONDS );
 		}
 		return $demos;
 	}
@@ -398,6 +398,19 @@ class Avada_Importer_Data {
 	public function is_shop() {
 		if ( isset( $this->demo_data['shop'] ) && true === $this->demo_data['shop'] ) {
 			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get the Woo Product Attributes data.
+	 *
+	 * @access public
+	 * @return false|array
+	 */
+	public function get_woo_product_attributes() {
+		if ( isset( $this->demo_data['woo_product_attributes'] ) && false != $this->demo_data['woo_product_attributes'] ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+			return $this->demo_data['woo_product_attributes'];
 		}
 		return false;
 	}

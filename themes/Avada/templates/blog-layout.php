@@ -45,7 +45,7 @@ if ( is_search() ) {
 }
 
 $post_class = 'fusion-post-' . $blog_layout;
-$lazy_load  = Avada()->settings->get( 'lazy_load' );
+$lazy_load  = 'avada' === Avada()->settings->get( 'lazy_load' ) ? true : false;
 
 // Used for grid and timeline layouts.
 $is_there_meta = $is_there_meta_above || $is_there_meta_below;
@@ -105,7 +105,7 @@ if ( $content_align && ( 'grid' === $blog_layout || 'masonry' === $blog_layout |
 	<div class="<?php echo esc_attr( $container_class ); ?>" data-pages="<?php echo (int) $number_of_pages; ?>">
 		<?php if ( 'timeline' === $blog_layout ) : ?>
 			<?php // Add the timeline icon. ?>
-			<div class="fusion-timeline-icon"><i class="fusion-icon-bubbles"></i></div>
+			<div class="fusion-timeline-icon"><i class="fusion-icon-bubbles" aria-hidden="true"></i></div>
 			<div class="fusion-blog-layout-timeline fusion-clearfix">
 
 			<?php
@@ -354,7 +354,7 @@ if ( $content_align && ( 'grid' === $blog_layout || 'masonry' === $blog_layout |
 										$readmore_alignment = ! $display_comments && '' !== $content_align ? 'fusion-align' . $content_align : 'fusion-alignleft';
 									?>
 									<div class="<?php echo esc_attr( $readmore_alignment ); ?>">
-										<a href="<?php echo esc_url_raw( get_permalink() ); ?>" class="fusion-read-more"<?php echo $link_target; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+										<a href="<?php echo esc_url_raw( get_permalink() ); ?>" class="fusion-read-more"<?php echo $link_target; // phpcs:ignore WordPress.Security.EscapeOutput ?> aria-label="<?php esc_attr_e( 'More on', 'Avada' ); ?> <?php the_title_attribute(); ?>">
 											<?php echo esc_textarea( apply_filters( 'avada_blog_read_more_link', esc_attr__( 'Read More', 'Avada' ) ) ); ?>
 										</a>
 									</div>
@@ -365,9 +365,9 @@ if ( $content_align && ( 'grid' === $blog_layout || 'masonry' === $blog_layout |
 									<?php $comment_alignment = ! $display_read_more && '' !== $content_align ? 'fusion-align' . $content_align : 'fusion-alignright'; ?>
 									<div class="<?php echo esc_attr( $comment_alignment ); ?>">
 										<?php if ( ! post_password_required( $post->ID ) ) : ?>
-											<?php comments_popup_link( '<i class="fusion-icon-bubbles"></i>&nbsp;0', '<i class="fusion-icon-bubbles"></i>&nbsp;1', '<i class="fusion-icon-bubbles"></i>&nbsp;%' ); ?>
+											<?php comments_popup_link( '<i class="fusion-icon-bubbles" aria-hidden="true"></i>&nbsp;0', '<i class="fusion-icon-bubbles" aria-hidden="true"></i>&nbsp;1', '<i class="fusion-icon-bubbles" aria-hidden="true"></i>&nbsp;%' ); ?>
 										<?php else : ?>
-											<i class="fusion-icon-bubbles"></i>&nbsp;<?php esc_attr_e( 'Protected', 'Avada' ); ?>
+											<i class="fusion-icon-bubbles" aria-hidden="true"></i>&nbsp;<?php esc_attr_e( 'Protected', 'Avada' ); ?>
 										<?php endif; ?>
 									</div>
 								<?php endif; ?>
@@ -384,7 +384,7 @@ if ( $content_align && ( 'grid' === $blog_layout || 'masonry' === $blog_layout |
 							<?php if ( $display_read_more ) : ?>
 								<?php $link_target = ( 'yes' === fusion_get_page_option( 'link_icon_target', $post->ID ) || 'yes' === fusion_get_page_option( 'post_links_target', $post->ID ) ) ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>
 								<div class="fusion-alignright">
-									<a href="<?php echo esc_url_raw( get_permalink() ); ?>" class="fusion-read-more"<?php echo $link_target; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+									<a href="<?php echo esc_url_raw( get_permalink() ); ?>" class="fusion-read-more"<?php echo $link_target; // phpcs:ignore WordPress.Security.EscapeOutput ?> aria-label="<?php esc_attr_e( 'More on', 'Avada' ); ?> <?php the_title_attribute(); ?>">
 										<?php echo esc_textarea( apply_filters( 'avada_read_more_name', esc_attr__( 'Read More', 'Avada' ) ) ); ?>
 									</a>
 								</div>

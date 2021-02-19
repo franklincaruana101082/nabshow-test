@@ -60,24 +60,6 @@
 			</div>
 
 		</div>
-		<div class="subsets hide-on-standard-fonts fusion-subsets-wrapper">
-			<h5><?php esc_html_e( 'Subset', 'Avada' ); ?></h5>
-			<#
-				var subsetLabel = '<?php esc_attr_e( 'Select Font Subset', 'Avada' ); ?>';
-
-				if ( 'string' === typeof option_value['subsets'] && '' !== option_value['subsets'] ) {
-					subsetLabel = option_value['subsets'].replace( 'ext', 'Extended' ).replace( '-', ' ' ).replace( /\w\S*/g, function( txt ) {
-						return txt.charAt( 0 ).toUpperCase() + txt.substr( 1 ).toLowerCase();
-					} );
-				}
-			#>
-			<div class="fusion-typography-select-wrapper">
-				<select name="subsets" class="subset" id="fusion-typography-subsets-{{{ param.id }}}">
-					<option value="" selected disabled hidden>{{ subsetLabel }}</option>
-				</select>
-				<div class="fusiona-arrow-down"></div>
-			</div>
-		</div>
 		<div class="variant fusion-variant-wrapper">
 			<h5><?php esc_html_e( 'Variant', 'Avada' ); ?></h5>
 			<div class="fusion-typography-select-wrapper">
@@ -188,7 +170,7 @@
 					<label>
 						<input name="{{ fieldId }}" class="{{ fieldId }} color-picker color-picker-placeholder" type="text" value="{{ option_value['color'] }}">
 					</label>
-					<button class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid"></i></button>
+					<button class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid" aria-hidden="true"></i></button>
 				</span>
 				<span class="fusion-colorpicker-icon fusiona-color-dropper"></span>
 			</div>

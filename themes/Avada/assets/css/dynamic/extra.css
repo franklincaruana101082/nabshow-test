@@ -138,7 +138,9 @@ body:not(.avada-has-pagination-padding) .pagination .pagination-dots {
 }
 .input-text:not(textarea),
 input[type="text"],
+input[type="date"],
 input[type="number"],
+input[type="phone-number"],
 input[type="email"],
 input[type="password"],
 input.s,
@@ -184,6 +186,7 @@ input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="password"],
+input[type="phone-number"],
 textarea,
 input.s,
 #comment-input input,
@@ -207,6 +210,7 @@ input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
+input[type="phone-number"]:focus,
 textarea:focus,
 input.s:focus,
 #comment-input input:focus,
@@ -293,12 +297,12 @@ input.s .placeholder:focus,
   border-color: var(--form_focus_border_color);
 }
 .fusion-live-search .fusion-search-results.suggestions-added {
-  margin-top: var(--form_border_width);
+  margin-top: var(--form_border_width-top);
 }
 .fusion-live-search .fusion-search-results,
 .fusion-live-search .fusion-search-result {
   border-color: var(--form_focus_border_color);
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
 }
 .select-arrow,
 #wrapper .select-arrow,
@@ -315,6 +319,7 @@ input#s::-moz-placeholder,
 .comment-form-comment textarea::-moz-placeholder,
 .input-text::-moz-placeholder,
 input::-moz-placeholder,
+textarea.fusion-form-input::-moz-placeholder,
 .searchform .s::-moz-placeholder {
   color: var(--form_text_color);
 }
@@ -325,6 +330,7 @@ input#s::-webkit-input-placeholder,
 .comment-form-comment textarea::-webkit-input-placeholder,
 .input-text::-webkit-input-placeholder,
 input::-webkit-input-placeholder,
+textarea.fusion-form-input::-webkit-input-placeholder,
 .searchform .s::-webkit-input-placeholder {
   color: var(--form_text_color);
 }
@@ -335,6 +341,7 @@ input#s::-ms-input-placeholder,
 .comment-form-comment textarea::-ms-input-placeholder,
 .input-text::-ms-input-placeholder,
 input::-ms-input-placeholder,
+textarea.fusion-form-input::-ms-input-placeholder,
 .searchform .s::-ms-input-placeholder {
   color: var(--form_text_color);
 }
@@ -374,7 +381,9 @@ input::-ms-input-placeholder,
 }
 .input-text,
 input[type="text"],
+input[type="date"],
 input[type="number"],
+input[type="phone-number"],
 input[type="email"],
 input[type="password"],
 textarea,
@@ -401,7 +410,7 @@ select,
 .select2-container .select2-selection .select2-selection__arrow,
 .select2-container--default .select2-search--dropdown .select2-search__field,
 .select2-dropdown {
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
   border-color: var(--form_border_color);
   border-radius: var(--form_border_radius);
 }
@@ -419,16 +428,16 @@ select,
 .fusion-search-element .searchform.fusion-search-form-classic .fusion-search-form-content,
 input[type="tel"] {
   border-radius: var(--form_border_radius);
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
 }
 .select2-container .select2-selection .select2-selection__arrow {
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
 }
 .select-arrow,
 .avada-select-parent .select-arrow,
 .gravity-select-parent .select-arrow,
 .wpcf7-select-parent .select-arrow {
-  bottom: var(--form_border_width);
+  bottom: var(--form_border_width-bottom);
 }
 .fusion-blog-layout-masonry .fusion-post-content-wrapper,
 .fusion-portfolio-layout-masonry .fusion-portfolio-content {

@@ -57,7 +57,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 			self::$classes['menus'] = new Avada_Megamenu();
 
 			// Add the first level menu style dropdown to the menu fields.
-			add_action( 'wp_nav_menu_item_custom_fields', [ $this, 'add_menu_button_fields' ], 10, 4 );
+			add_action( 'wp_nav_menu_item_custom_fields', [ $this, 'add_menu_button_fields' ], 10, 5 );
 
 			// Add the mega menu custom fields to the menu fields.
 			if ( Avada()->settings->get( 'disable_megamenu' ) ) {
@@ -66,6 +66,9 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 
 			// Add the menu arrow highlights.
 			add_filter( 'avada_menu_arrow_hightlight', [ $this, 'add_menu_arrow_highlight' ], 10, 2 );
+
+			// Add special menu items meta box.
+			add_action( 'admin_head-nav-menus.php', [ $this, 'add_special_links_meta_box' ] );
 		}
 
 		/**
@@ -103,106 +106,327 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		/**
 		 * Adds the menu button fields.
 		 *
+		 * @static
 		 * @access public
 		 * @since 6.0.0
 		 * @return array.
 		 */
 		public static function menu_options_map() {
-			return apply_filters(
-				'avada_menu_options',
-				[
-					'megamenu-style'                      => [
-						'id'          => 'megamenu-style',
-						'label'       => esc_attr__( 'Menu First Level Style', 'Avada' ),
-						'choices'     => [
-							''                     => esc_attr__( 'Default Style', 'Avada' ),
-							'fusion-button-small'  => esc_attr__( 'Button Small', 'Avada' ),
-							'fusion-button-medium' => esc_attr__( 'Button Medium', 'Avada' ),
-							'fusion-button-large'  => esc_attr__( 'Button Large', 'Avada' ),
-							'fusion-button-xlarge' => esc_attr__( 'Button xLarge', 'Avada' ),
-						],
-						'description' => esc_attr__( 'Select to use normal text (default) for the parent level menu item, or a button. Button styles are controlled in Theme Options > Fusion Builder Elements.', 'Avada' ),
-						'type'        => 'select',
-						'default'     => '',
-						'save_id'     => 'fusion_menu_style',
+			return [
+				'megamenu-style'                        => [
+					'id'          => 'megamenu-style',
+					'label'       => esc_attr__( 'Menu First Level Style', 'Avada' ),
+					'choices'     => [
+						''                     => esc_attr__( 'Default Style', 'Avada' ),
+						'fusion-button-small'  => esc_attr__( 'Button Small', 'Avada' ),
+						'fusion-button-medium' => esc_attr__( 'Button Medium', 'Avada' ),
+						'fusion-button-large'  => esc_attr__( 'Button Large', 'Avada' ),
+						'fusion-button-xlarge' => esc_attr__( 'Button xLarge', 'Avada' ),
 					],
-					'megamenu-icon'                       => [
-						'id'          => 'megamenu-icon',
-						'label'       => esc_attr__( 'Icon Select', 'Avada' ),
-						'description' => esc_attr__( 'Select an icon for your menu item. For top-level menu items, icon styles can be controlled in Theme Options > Menu > Main Menu Icons.', 'Avada' ),
-						'type'        => 'iconpicker',
-						'default'     => '',
+					'description' => esc_attr__( 'Select to use normal text (default) for the parent level menu item, or a button. Button styles are controlled in Global Options > Avada Builder Elements.', 'Avada' ),
+					'type'        => 'select',
+					'default'     => '',
+					'save_id'     => 'fusion_menu_style',
+				],
+				'megamenu-icon'                         => [
+					'id'          => 'megamenu-icon',
+					'label'       => esc_attr__( 'Icon Select', 'Avada' ),
+					'description' => esc_attr__( 'Select an icon for your menu item. For top-level menu items, icon styles can be controlled in Global Options > Menu > Main Menu Icons.', 'Avada' ),
+					'type'        => 'iconpicker',
+					'default'     => '',
+				],
+				'megamenu-icononly'                     => [
+					'id'          => 'megamenu-icononly',
+					'label'       => esc_attr__( 'Icon/Thumbnail Only', 'Avada' ),
+					'description' => esc_attr__( 'Turn on to only show the icon/image thumbnail while hiding the menu text. Important: this does not apply to the mobile menu.', 'Avada' ),
+					'type'        => 'radio-buttonset',
+					'default'     => 'off',
+					'choices'     => [
+						'icononly' => esc_attr__( 'On', 'Avada' ),
+						'off'      => esc_attr__( 'Off', 'Avada' ),
 					],
-					'megamenu-icononly'                   => [
-						'id'          => 'megamenu-icononly',
-						'label'       => esc_attr__( 'Icon/Thumbnail Only', 'Avada' ),
-						'description' => esc_attr__( 'Turn on to only show the icon/image thumbnail while hiding the menu text. Important: this does not apply to the mobile menu.', 'Avada' ),
-						'type'        => 'radio-buttonset',
-						'default'     => 'off',
-						'choices'     => [
-							'icononly' => esc_attr__( 'On', 'Avada' ),
-							'off'      => esc_attr__( 'Off', 'Avada' ),
-						],
-						'save_id'     => 'fusion_menu_icononly',
-					],
-					'megamenu-highlight-label'            => [
-						'id'          => 'megamenu-highlight-label',
-						'label'       => esc_attr__( 'Menu Highlight Label', 'Avada' ),
-						'description' => esc_attr__( 'Set the highlight label for menu item.', 'Avada' ),
-						'type'        => 'text',
-						'save_id'     => 'fusion_highlight_label',
-					],
-					'megamenu-highlight-label-background' => [
-						'id'          => 'megamenu-highlight-label-background',
-						'label'       => esc_attr__( 'Menu Highlight Label Background Color', 'Avada' ),
-						/* translators: "Theme Options" link. */
-						'description' => sprintf( esc_attr__( 'Set the highlight label background color. To set a border radius, visit %s and modify the Menu Highlight Label Radius option.', 'Avada' ), '<a href="' . esc_url_raw( admin_url( 'themes.php?page=avada_options#main_nav_highlight_radius' ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Theme Options', 'Avada' ) . '</a>' ),
-						'type'        => 'color-alpha',
-						'save_id'     => 'fusion_highlight_label_background',
-						'dependency'  => [
-							[
-								'field'      => 'megamenu-highlight-label',
-								'value'      => '',
-								'comparison' => '!=',
-							],
+					'save_id'     => 'fusion_menu_icononly',
+				],
+				'megamenu-highlight-label'              => [
+					'id'          => 'megamenu-highlight-label',
+					'label'       => esc_attr__( 'Menu Highlight Label', 'Avada' ),
+					'description' => esc_attr__( 'Set the highlight label for menu item.', 'Avada' ),
+					'type'        => 'text',
+					'save_id'     => 'fusion_highlight_label',
+				],
+				'megamenu-highlight-label-background'   => [
+					'id'          => 'megamenu-highlight-label-background',
+					/* translators: "<span>" tags. */
+					'label'       => sprintf( esc_html__( '%1$sMenu Highlight Label Background Color%2$s%3$sCart Counter Background Color%4$s', 'Avada' ), '<span class="fusion-menu-default-text">', '</span>', '<span class="fusion-menu-cart-text">', '</span>' ),
+					/* translators: %1$s: <span> tag. %2$s: "TGlobal Options" link. %3$s: <span> tag. %4$s: <span> tag. %5$s: <span> tag. */
+					'description' => sprintf( esc_html__( '%1$sSet the highlight label background color. To set a border radius, visit %2$s and modify the Menu Highlight Label Radius option.%3$s%4$s Set cart counter background color.%5$s', 'Avada' ), '<span class="fusion-menu-default-text">', '<a href="' . esc_url_raw( admin_url( 'themes.php?page=avada_options#main_nav_highlight_radius' ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Global Options', 'Avada' ) . '</a>', '</span>', '<span class="fusion-menu-cart-text">', '</span>' ),
+					'type'        => 'color-alpha',
+					'save_id'     => 'fusion_highlight_label_background',
+					'dependency'  => [
+						[
+							'field'      => 'megamenu-highlight-label',
+							'value'      => '',
+							'comparison' => '!=',
 						],
 					],
-					'megamenu-highlight-label-color'      => [
-						'id'          => 'megamenu-highlight-label-color',
-						'label'       => esc_attr__( 'Menu Highlight Label Text Color', 'Avada' ),
-						'description' => esc_attr__( 'Set the highlight label text color.', 'Avada' ),
-						'type'        => 'color',
-						'save_id'     => 'fusion_highlight_label_color',
-						'dependency'  => [
-							[
-								'field'      => 'megamenu-highlight-label',
-								'value'      => '',
-								'comparison' => '!=',
-							],
+				],
+				'megamenu-highlight-label-color'        => [
+					'id'          => 'megamenu-highlight-label-color',
+					/* translators: "<span>" tags. */
+					'label'       => sprintf( esc_html__( '%1$sMenu Highlight Label Text Color%2$s%3$sCart Counter Text Color%4$s', 'Avada' ), '<span class="fusion-menu-default-text">', '</span>', '<span class="fusion-menu-cart-text">', '</span>' ),
+					/* translators: "<span>" tags. */
+					'description' => sprintf( esc_html__( '%1$sSet the highlight label text color.%2$s%3$sSet the cart counter text color.%4$s', 'Avada' ), '<span class="fusion-menu-default-text">', '</span>', '<span class="fusion-menu-cart-text">', '</span>' ),
+					'type'        => 'color',
+					'save_id'     => 'fusion_highlight_label_color',
+					'dependency'  => [
+						[
+							'field'      => 'megamenu-highlight-label',
+							'value'      => '',
+							'comparison' => '!=',
 						],
 					],
-					'megamenu-highlight-label-border-color' => [
-						'id'          => 'megamenu-highlight-label-border-color',
-						'label'       => esc_attr__( 'Menu Highlight Label Border Color', 'Avada' ),
-						'description' => esc_attr__( 'Set the highlight label border color.', 'Avada' ),
-						'type'        => 'color',
-						'save_id'     => 'fusion_highlight_label_border_color',
-						'dependency'  => [
-							[
-								'field'      => 'megamenu-highlight-label',
-								'value'      => '',
-								'comparison' => '!=',
-							],
+				],
+				'megamenu-highlight-label-border-color' => [
+					'id'          => 'megamenu-highlight-label-border-color',
+					/* translators: "<span>" tags. */
+					'label'       => sprintf( esc_html__( '%1$sMenu Highlight Label Border Color%2$s%3$sCart Counter Border Color %4$s', 'Avada' ), '<span class="fusion-menu-default-text">', '</span>', '<span class="fusion-menu-cart-text">', '</span>' ),
+					/* translators: "<span>" tags. */
+					'description' => sprintf( esc_html__( '%1$sSet the highlight label border color.%2$s%3$sSet the cart counter border color.%4$s', 'Avada' ), '<span class="fusion-menu-default-text">', '</span>', '<span class="fusion-menu-cart-text">', '</span>' ),
+					'type'        => 'color',
+					'save_id'     => 'fusion_highlight_label_border_color',
+					'dependency'  => [
+						[
+							'field'      => 'megamenu-highlight-label',
+							'value'      => '',
+							'comparison' => '!=',
 						],
 					],
-					'megamenu-modal'                      => [
-						'id'          => 'megamenu-modal',
-						'label'       => esc_attr__( 'Modal Window Anchor', 'Avada' ),
-						'description' => esc_attr__( 'Add the class name of the modal window you want to open on menu item click.', 'Avada' ),
-						'type'        => 'text',
+				],
+				'megamenu-modal'                        => [
+					'id'          => 'megamenu-modal',
+					'label'       => esc_attr__( 'Modal Window Anchor', 'Avada' ),
+					'description' => esc_attr__( 'Add the class name of the modal window you want to open on menu item click.', 'Avada' ),
+					'type'        => 'text',
+				],
+				'megamenu-background-image'             => [
+					'id'          => 'megamenu-background-image',
+					'label'       => esc_html__( 'Mega Menu / Flyout Menu Background Image', 'Avada' ),
+					'description' => __( 'Select an image for the mega menu or flyout menu background.<br /><strong>Mega Menu:</strong> In case of mega menu, if left empty, the Main Menu Dropdown Background Color will be used. Each mega menu column can have its own background image, or you can have one image that spreads across the entire mega menu width.<br /><strong>Flyout Menu:</strong> When used in the flyout menu, the image will be shown full screen when hovering the corresponding menu item.', 'Avada' ),
+					'type'        => 'media',
+					'dependency'  => [
+						[
+							'field'      => 'depth',
+							'value'      => '3',
+							'comparison' => '<',
+						],
 					],
-				]
-			);
+				],
+			];
+		}
+
+		/**
+		 * Adds Avada special menu items meta box.
+		 *
+		 * @since  7.0
+		 * @access public
+		 * @return void
+		 */
+		public function add_special_links_meta_box() {
+			add_meta_box( 'avada_special_items_nav_link', __( 'Avada Special Menu Items', 'Avada' ), [ $this, 'special_menut_items' ], 'nav-menus', 'side', 'low' );
+		}
+
+		/**
+		 * Outputs contents of Avada special menu items meta box.
+		 *
+		 * @since  7.0
+		 * @access public
+		 * @return void
+		 */
+		public function special_menut_items() {
+			?>
+			<div class="avada-special-menu-items-note"><?php _e( '<strong>IMPORTANT NOTE:</strong> These items only work in Avada Builder Menu element.', 'Avada' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+			<div id="avada-special-menu-items" class="posttypediv">
+				<div id="tabs-panel-avada-special-menu-items" class="tabs-panel tabs-panel-active">
+					<ul id="avada-special-menu-items-checklist" class="categorychecklist form-no-clear">
+						<?php
+						$endpoints = [
+							'#fusion-search'             => esc_html__( 'Search', 'Avada' ),
+							'#fusion-sliding-bar-toggle' => esc_html__( 'Sliding Bar Toggle', 'Avada' ),
+						];
+						if ( class_exists( 'WooCommerce' ) ) {
+							$endpoints['#fusion-woo-cart']       = esc_html__( 'WooCommerce Cart', 'Avada' );
+							$endpoints['#fusion-woo-my-account'] = esc_html__( 'WooCommerce My Account', 'Avada' );
+						}
+						$i = -1;
+						foreach ( $endpoints as $key => $value ) :
+							?>
+							<li>
+								<label class="menu-item-title">
+									<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html( $value ); ?>
+								</label>
+								<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
+								<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_attr( $value ); ?>" />
+								<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo esc_attr( $key ); ?>" />
+								<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" />
+							</li>
+							<?php
+							$i--;
+						endforeach;
+						?>
+					</ul>
+				</div>
+				<p class="button-controls wp-clearfix" data-items-type="avada-special-menu-items">
+					<span class="list-controls hide-if-no-js">
+						<input type="checkbox" id="avada-special-menu-items-tab" class="select-all">
+						<label for="avada-special-menu-items-tab"><?php esc_html_e( 'Select all', 'Avada' ); ?></label>
+					</span>
+					<span class="add-to-menu">
+						<button type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'Avada' ); ?>" name="add-post-type-menu-item" id="submit-avada-special-menu-items"><?php esc_html_e( 'Add to menu', 'Avada' ); ?></button>
+						<span class="spinner"></span>
+					</span>
+				</p>
+			</div>
+			<?php
+		}
+
+		/**
+		 * Adds CSS to hide URL for special link menu.
+		 *
+		 * @since  7.0
+		 * @access public
+		 * @param int $item_id The menu-item's ID.
+		 * @return void
+		 */
+		public function hide_url_field( $item_id ) {
+			?>
+			<style type="text/css">
+				#menu-item-settings-<?php echo esc_attr( $item_id ); ?> p.field-url {
+					display: none;
+				}
+			</style>
+			<?php
+		}
+
+		/**
+		 * Adds the menu button fields.
+		 *
+		 * @static
+		 * @access public
+		 * @since 7.0.0
+		 * @param array  $fields   Existing fields.
+		 * @param string $item_url The menu item's URL.
+		 * @param int    $depth    The item's depth.
+		 * @return array.
+		 */
+		public static function special_link_options_map( $fields, $item_url, $depth ) {
+			$custom_fields = [
+				'fusion-megamenu-special-link-note'    => [
+					'id'          => 'fusion-megamenu-special-link-note',
+					'label'       => esc_attr__( 'Important Note', 'Avada' ),
+					'description' => esc_attr__( 'Avada Special Menu Items can only be used as top-level items. Please move the item to top-level to see the available options.', 'Avada' ),
+					'type'        => 'note',
+					'save_id'     => 'fusion_special_link_note',
+					'dependency'  => [
+						[
+							'field'      => 'depth',
+							'value'      => '1',
+							'comparison' => '>',
+						],
+					],
+				],
+				'fusion-megamenu-special-link'         => [
+					'id'          => 'fusion-megamenu-special-link',
+					'label'       => esc_attr__( 'Special Link Type', 'Avada' ),
+					'description' => esc_attr__( 'Select to add a special link type.', 'Avada' ),
+					'type'        => 'hidden',
+					'value'       => 0 === $depth ? ltrim( $item_url, '#' ) : '',
+					'save_id'     => 'fusion_special_link',
+				],
+				'megamenu-show-woo-cart-counter'       => [
+					'id'          => 'megamenu-show-woo-cart-counter',
+					'label'       => esc_attr__( 'Show WooCommerce Cart Counter', 'Avada' ),
+					'description' => esc_attr__( 'Turn on to show the cart products counter.', 'Avada' ),
+					'type'        => 'radio-buttonset',
+					'default'     => 'no',
+					'choices'     => [
+						'yes' => esc_attr__( 'On', 'Avada' ),
+						'no'  => esc_attr__( 'Off', 'Avada' ),
+					],
+					'save_id'     => 'fusion_show_woo_cart_counter',
+					'dependency'  => [
+						[
+							'field'      => 'fusion-megamenu-special-link',
+							'value'      => 'fusion-woo-cart',
+							'comparison' => '==',
+						],
+					],
+				],
+				'megamenu-show-empty-woo-cart-counter' => [
+					'id'          => 'megamenu-show-empty-woo-cart-counter',
+					'label'       => esc_attr__( 'Show WooCommerce Empty Cart Counter', 'Avada' ),
+					'description' => esc_attr__( 'Turn on to show the cart counter when cart is empty.', 'Avada' ),
+					'type'        => 'radio-buttonset',
+					'default'     => 'yes',
+					'choices'     => [
+						'yes' => esc_attr__( 'On', 'Avada' ),
+						'no'  => esc_attr__( 'Off', 'Avada' ),
+					],
+					'save_id'     => 'fusion_show_empty_woo_cart_counter',
+					'dependency'  => [
+						[
+							'field'      => 'fusion-megamenu-special-link',
+							'value'      => 'fusion-woo-cart',
+							'comparison' => '==',
+						],
+						[
+							'field'      => 'megamenu-show-woo-cart-counter',
+							'value'      => 'yes',
+							'comparison' => '==',
+						],
+					],
+				],
+				'megamenu-show-woo-cart-contents'      => [
+					'id'          => 'megamenu-show-woo-cart-contents',
+					'label'       => esc_attr__( 'Show WooCommerce Cart Contents Dropdown', 'Avada' ),
+					'description' => esc_attr__( 'Turn on to show the cart contents dropdown.', 'Avada' ),
+					'type'        => 'radio-buttonset',
+					'default'     => 'no',
+					'choices'     => [
+						'yes' => esc_attr__( 'On', 'Avada' ),
+						'no'  => esc_attr__( 'Off', 'Avada' ),
+					],
+					'save_id'     => 'fusion_show_woo_cart_contents',
+					'dependency'  => [
+						[
+							'field'      => 'fusion-megamenu-special-link',
+							'value'      => 'fusion-woo-cart',
+							'comparison' => '==',
+						],
+					],
+				],
+				'megamenu-searchform-mode'             => [
+					'id'          => 'megamenu-searchform-mode',
+					'label'       => esc_html__( 'Search-Form Mode', 'Avada' ),
+					'description' => esc_html__( 'Select how your search-form will be displayed.', 'Avada' ),
+					'type'        => 'radio-buttonset',
+					'default'     => 'inline',
+					'choices'     => [
+						'inline'   => esc_html__( 'Inline', 'Avada' ),
+						'dropdown' => esc_html__( 'Dropdown', 'Avada' ),
+						'overlay'  => esc_html__( 'Overlay', 'Avada' ),
+					],
+					'save_id'     => 'fusion_searchform_mode',
+					'dependency'  => [
+						[
+							'field'      => 'fusion-megamenu-special-link',
+							'value'      => 'fusion-search',
+							'comparison' => '==',
+						],
+					],
+				],
+			];
+
+			return array_merge( $custom_fields, $fields );
 		}
 
 		/**
@@ -225,9 +449,9 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 			}
 
 			$mega_fields = [
-				'megamenu-status'           => [
+				'megamenu-status'      => [
 					'id'          => 'megamenu-status',
-					'label'       => esc_html__( 'Fusion Mega Menu', 'Avada' ),
+					'label'       => esc_html__( 'Avada Mega Menu', 'Avada' ),
 					'choices'     => [
 						'enabled' => esc_attr__( 'On', 'Avada' ),
 						'off'     => esc_attr__( 'Off', 'Avada' ),
@@ -243,28 +467,10 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						],
 					],
 				],
-				'megamenu-background-image' => [
-					'id'          => 'megamenu-background-image',
-					'label'       => esc_html__( 'Mega Menu / Flyout Menu Background Image', 'Avada' ),
-					'description' => __( 'Select an image for the mega menu or flyout menu background.<br /><strong>Mega Menu:</strong> In case of mega menu, if left empty, the Main Menu Dropdown Background Color will be used. Each mega menu column can have its own background image, or you can have one image that spreads across the entire mega menu width.<br /><strong>Flyout Menu:</strong> When used in the flyout menu, the image will be shown full screen when hovering the corresponding menu item.', 'Avada' ),
-					'type'        => 'media',
-					'dependency'  => [
-						[
-							'field'      => 'depth',
-							'value'      => '3',
-							'comparison' => '<',
-						],
-						[
-							'field'      => 'parent_megamenu-status',
-							'value'      => 'enabled',
-							'comparison' => '==',
-						],
-					],
-				],
-				'megamenu-thumbnail'        => [
+				'megamenu-thumbnail'   => [
 					'id'          => 'megamenu-thumbnail',
 					'label'       => esc_html__( 'Mega Menu Thumbnail', 'Avada' ),
-					'description' => esc_html__( 'Select an image to use as a thumbnail for the menu item. For top-level items, the size of the thumbnail can be controlled in Theme Options > Menu > Main Menu Icons.', 'Avada' ),
+					'description' => esc_html__( 'Select an image to use as a thumbnail for the menu item. For top-level items, the size of the thumbnail can be controlled in Global Options > Menu > Main Menu Icons.', 'Avada' ),
 					'type'        => 'media',
 					'dependency'  => [
 						[
@@ -274,14 +480,15 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						],
 					],
 				],
-				'megamenu-width'            => [
+				'megamenu-width'       => [
 					'id'          => 'megamenu-width',
-					'label'       => esc_attr__( 'Full Width Mega Menu', 'Avada' ),
+					'label'       => esc_attr__( 'Mega Menu Wrapper Width', 'Avada' ),
 					'choices'     => [
-						'fullwidth' => esc_attr__( 'On', 'Avada' ),
-						'off'       => esc_attr__( 'Off', 'Avada' ),
+						'fullwidth' => esc_attr__( 'Max Width', 'Avada' ),
+						'off'       => esc_attr__( 'Fit Content', 'Avada' ),
 					],
-					'description' => esc_attr__( 'Turn on to have the mega menu full width, which is taken from the site width option in Theme Options. Note this overrides the column width option.', 'Avada' ),
+					/* translators: %s: "Global Options" link. */
+					'description' => sprintf( esc_attr__( 'Controls the width of mega menu. In case of max width, it is taken from the site width option in %s. Note this overrides the column width option.', 'Avada' ), '<a href="' . esc_url_raw( admin_url( 'themes.php?page=avada_options#megamenu_width' ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Global Options', 'Avada' ) . '</a>' ),
 					'type'        => 'radio-buttonset',
 					'default'     => 'off',
 					'dependency'  => [
@@ -297,7 +504,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						],
 					],
 				],
-				'megamenu-columns'          => [
+				'megamenu-columns'     => [
 					'id'          => 'megamenu-columns',
 					'label'       => esc_attr__( 'Mega Menu Number of Columns', 'Avada' ),
 					'choices'     => [
@@ -325,7 +532,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						],
 					],
 				],
-				'megamenu-columnwidth'      => [
+				'megamenu-columnwidth' => [
 					'id'          => 'megamenu-columnwidth',
 					'label'       => esc_attr__( 'Mega Menu Column Width', 'Avada' ),
 					'description' => esc_attr__( 'Set the width of the column. In percentage, ex 60%.', 'Avada' ),
@@ -348,7 +555,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						],
 					],
 				],
-				'megamenu-title'            => [
+				'megamenu-title'       => [
 					'id'          => 'megamenu-title',
 					'label'       => esc_attr__( 'Mega Menu Column Title', 'Avada' ),
 					'choices'     => [
@@ -371,7 +578,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						],
 					],
 				],
-				'megamenu-widgetarea'       => [
+				'megamenu-widgetarea'  => [
 					'id'          => 'megamenu-widgetarea',
 					'label'       => esc_attr__( 'Mega Menu Widget Area', 'Avada' ),
 					'choices'     => $sidebars,
@@ -407,10 +614,23 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @since 6.0.0
 		 * @param string $item_id The ID of the menu item.
 		 * @param object $item    The menu item object.
+		 * @param int    $depth   The menu item depth (starts at 0).
 		 * @return void.
 		 */
-		public function parse_options( $item_id, $item ) {
-			$fields = $this::menu_options_map();
+		public function parse_options( $item_id, $item, $depth ) {
+			$fields   = self::menu_options_map();
+			$specials = [ '#fusion-woo-cart', '#fusion-woo-my-account', '#fusion-search', '#fusion-sliding-bar-toggle' ];
+
+			// Add special-links options.
+			if ( isset( $item->object ) && 'custom' === $item->object && in_array( $item->url, $specials, true ) ) {
+				$fields = self::special_link_options_map( $fields, $item->url, $depth );
+
+				// Do not show URL field for special links options.
+				$this->hide_url_field( $item->ID );
+			}
+
+			$fields = apply_filters( 'avada_menu_options', $fields );
+
 			if ( is_array( $fields ) ) {
 				foreach ( $fields as $field ) {
 
@@ -426,8 +646,14 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 					if ( isset( $field['type'] ) ) {
 						switch ( $field['type'] ) {
 
+							case 'note':
+								$this->note( $field['id'], $field['label'], $field['description'], $field['dependency'], $item_id, $item, $field['save_id'] );
+								break;
 							case 'text':
 								$this->text( $field['id'], $field['label'], $field['description'], $field['dependency'], $item_id, $item, $field['save_id'] );
+								break;
+							case 'hidden':
+								$this->hidden( $field['id'], $item_id, $item, $field['value'] );
 								break;
 							case 'radio-buttonset':
 								$this->radio_buttonset( $field['id'], $field['label'], $field['choices'], $field['description'], $field['default'], $field['dependency'], $item_id, $item, $field['save_id'] );
@@ -454,6 +680,29 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		}
 
 		/**
+		 * Note control.
+		 *
+		 * @access public
+		 * @since 7.1
+		 * @param string $id         The ID.
+		 * @param string $label      The label.
+		 * @param string $desc       The description.
+		 * @param array  $dependency The dependencies array.
+		 * @param string $item_id    The ID of the menu item.
+		 * @param object $item       The menu item object.
+		 * @param string $save_id    The save ID if it is different from ID.
+		 */
+		public function note( $id, $label, $desc = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
+			?>
+			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
+				<div class="avada-special-menu-items-note">
+					<strong><?php echo esc_html( $label ); ?>:</strong> <span><?php echo esc_html( $desc ); ?></span>
+				</div>
+			</div>
+			<?php
+		}
+
+		/**
 		 * Text controls.
 		 *
 		 * @access public
@@ -466,7 +715,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object $item       The menu item object.
 		 * @param string $save_id    The save ID if it is different from ID.
 		 */
-		public function text( $id, $label, $desc = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function text( $id, $label, $desc = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			?>
 			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
 				<div class="option-details">
@@ -477,6 +726,22 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 					<input type="text" id="edit-menu-item-<?php echo esc_attr( $id ); ?>-<?php echo esc_attr( $item_id ); ?>" class="edit-menu-item-<?php echo esc_attr( $id ); ?>" name="menu-item-fusion-<?php echo esc_attr( $id ); ?>[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->{ $save_id } ); ?>" />
 				</div>
 			</div>
+			<?php
+		}
+
+		/**
+		 * Hidden controls.
+		 *
+		 * @access public
+		 * @since 7.0.0
+		 * @param string $id      The ID.
+		 * @param string $item_id The ID of the menu item.
+		 * @param object $item    The menu item object.
+		 * @param string $value   The save ID if it is different from ID.
+		 */
+		public function hidden( $id, $item_id, $item, $value ) {
+			?>
+			<input type="hidden" id="edit-menu-item-<?php echo esc_attr( $id ); ?>-<?php echo esc_attr( $item_id ); ?>" class="edit-menu-item-<?php echo esc_attr( $id ); ?> <?php echo esc_attr( $id ); ?>" name="menu-item-<?php echo esc_attr( $id ); ?>[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $value ); ?>" />
 			<?php
 		}
 
@@ -495,14 +760,14 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object           $item       The menu item object.
 		 * @param string           $save_id    The save ID if it is different from ID.
 		 */
-		public function radio_buttonset( $id, $label, $options, $desc = '', $default = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function radio_buttonset( $id, $label, $options, $desc = '', $default = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			?>
 			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
 				<div class="option-details">
 					<h3><?php echo $label; // phpcs:ignore WordPress.Security.EscapeOutput ?></h3>
 					<p class="description"><?php echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 				</div>
-				<div class="option-field fusion-builder-option-container">
+				<div class="option-field fusion-builder-option-container avada-buttonset">
 					<div class="fusion-form-radio-button-set ui-buttonset edit-menu-item-<?php echo esc_attr( $id ); ?>">
 						<input type="hidden" id="edit-menu-item-fusion-<?php echo esc_attr( $id ); ?>-<?php echo esc_attr( $item_id ); ?>" name="menu-item-fusion-<?php echo esc_attr( $id ); ?>[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->{ $save_id } ); ?>" class="button-set-value" />
 						<?php foreach ( $options as $value => $label ) : ?>
@@ -530,7 +795,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object           $item       The menu item object.
 		 * @param string           $save_id    The save ID if it is different from ID.
 		 */
-		public function select( $id, $label, $options, $desc = '', $default = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function select( $id, $label, $options, $desc = '', $default = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			?>
 			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
 				<div class="option-details">
@@ -561,7 +826,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object $item       The menu item object.
 		 * @param string $save_id    The save ID if it is different from ID.
 		 */
-		public function iconpicker( $id, $label, $desc = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function iconpicker( $id, $label, $desc = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			?>
 			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
 				<div class="option-details">
@@ -595,7 +860,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object           $item       The menu item object.
 		 * @param string           $save_id    The save ID if it is different from ID.
 		 */
-		public function color_alpha( $id, $label, $desc = '', $default = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function color_alpha( $id, $label, $desc = '', $default = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			?>
 			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
 				<div class="option-details">
@@ -624,7 +889,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object           $item       The menu item object.
 		 * @param string           $save_id    The save ID if it is different from ID.
 		 */
-		public function color( $id, $label, $desc = '', $default = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function color( $id, $label, $desc = '', $default = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			$this->color_alpha( $id, $label, $desc, $default, $dependency, $item_id, $item, $save_id );
 		}
 
@@ -641,7 +906,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object $item       The menu item object.
 		 * @param string $save_id    The save ID if it is different from ID.
 		 */
-		public function media( $id, $label, $desc = '', $dependency = [], $item_id, $item, $save_id ) {
+		public function media( $id, $label, $desc = '', $dependency = [], $item_id = 0, $item = null, $save_id = '' ) {
 			$media_id = str_replace( 'megamenu-', '', $id );
 			?>
 			<div class="fusion-builder-option field-<?php echo esc_attr( $id ); ?>">
@@ -660,7 +925,7 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 						?>
 						<input type="hidden" id="edit-menu-item-<?php echo esc_attr( $id ); ?>-id-<?php echo esc_attr( $item_id ); ?>" class="regular-text fusion-builder-upload-field" name="menu-item-fusion-<?php echo esc_attr( $id ); ?>-id[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $thumbnail_id ); ?>" />
 						<div class="fusion-builder-upload-preview">
-							<img src="<?php echo esc_attr( $item->{ $save_id } ); ?>" id="fusion-media-img-<?php echo esc_attr( $media_id ); ?>-<?php echo esc_attr( $item_id ); ?>" class="fusion-<?php echo esc_attr( $id ); ?>-image" style="<?php echo ( trim( $item->fusion_megamenu_thumbnail ) ) ? 'display:inline;' : ''; ?>" />
+							<img src="<?php echo esc_attr( $item->{ $save_id } ); ?>" id="fusion-media-img-<?php echo esc_attr( $media_id ); ?>-<?php echo esc_attr( $item_id ); ?>" class="fusion-<?php echo esc_attr( $id ); ?>-image" <?php echo ( trim( $item->fusion_megamenu_thumbnail ) ) ? 'style="display:inline;"' : ''; ?>" />
 						</div>
 						<input type='button' data-id="<?php echo esc_attr( $media_id ); ?>-<?php echo esc_attr( $item_id ); ?>" class='button-upload fusion-builder-upload-button avada-edit-button' data-type="image" value="<?php esc_attr_e( 'Edit', 'Avada' ); ?>" />
 						<input type="button" data-id="<?php echo esc_attr( $media_id ); ?>-<?php echo esc_attr( $item_id ); ?>" class="upload-image-remove avada-remove-button" value="<?php esc_attr_e( 'Remove', 'Avada' ); ?>"  />
@@ -679,27 +944,28 @@ if ( ! class_exists( 'Avada_Megamenu_Framework' ) ) {
 		 * @param object $item    The menu item object.
 		 * @param int    $depth   The depth of the current item in the menu.
 		 * @param array  $args    Menu arguments.
+		 * @param int    $id      Menu ID.
 		 * @return void.
 		 */
-		public function add_menu_button_fields( $item_id, $item, $depth, $args ) {
+		public function add_menu_button_fields( $item_id, $item, $depth, $args, $id ) {
 			$name = 'menu-item-fusion-megamenu-style';
 			?>
 			<div class="fusion-menu-options-container">
-				<a class="button button-primary button-large fusion-menu-option-trigger" href="#"><?php esc_attr_e( 'Avada Menu Options', 'Avada' ); ?></a>
+				<a class="button button-primary button-large fusion-menu-option-trigger" href="#"><?php esc_html_e( 'Avada Menu Options', 'Avada' ); ?></a>
 				<div class="fusion_builder_modal_overlay" style="display:none"></div>
 				<div id="fusion-menu-options-<?php echo esc_attr( $item_id ); ?>" class="fusion-options-holder fusion-builder-modal-settings-container" style="display:none">
 					<div class="fusion-builder-modal-container fusion_builder_module_settings">
 						<div class="fusion-builder-modal-top-container">
-							<h2><?php esc_attr_e( 'Avada Menu Options', 'Avada' ); ?></h2>
+							<h2><?php esc_html_e( 'Avada Menu Options', 'Avada' ); ?></h2>
 							<div class="fusion-builder-modal-close fusiona-plus2"></div>
 						</div>
 						<div class="fusion-builder-modal-bottom-container">
-							<a href="#" class="fusion-builder-modal-save" ><span><?php esc_attr_e( 'Save', 'Avada' ); ?></span></a>
-							<a href="#" class="fusion-builder-modal-close" ><span><?php esc_attr_e( 'Cancel', 'Avada' ); ?></span></a>
+							<a href="#" class="fusion-builder-modal-save" ><span><?php esc_html_e( 'Save', 'Avada' ); ?></span></a>
+							<a href="#" class="fusion-builder-modal-close" ><span><?php esc_html_e( 'Cancel', 'Avada' ); ?></span></a>
 						</div>
 						<div class="fusion-builder-main-settings fusion-builder-main-settings-full">
 							<div class="fusion-builder-module-settings">
-								<?php $this->parse_options( $item_id, $item ); ?>
+								<?php $this->parse_options( $item_id, $item, $depth ); ?>
 							</div>
 						</div>
 					</div>

@@ -91,11 +91,16 @@ function avada_options_section_performance( $sections ) {
 				'transport'   => 'postMessage',
 			],
 			'lazy_load'                            => [
-				'label'       => esc_html__( 'Enable Lazy Loading', 'Avada' ),
-				'description' => esc_html__( 'Enable lazy loading for your website\'s images to improve performance.', 'Avada' ),
+				'label'       => esc_html__( 'Image Lazy Loading', 'Avada' ),
+				'description' => __( 'Choose your preferred lazy loading method for your website\'s images to improve performance. <strong>IMPORTANT:</strong> The WordPress native method can cause issues with dynamically loaded elements like image carousels.', 'Avada' ),
 				'id'          => 'lazy_load',
-				'default'     => '0',
-				'type'        => 'switch',
+				'default'     => 'none',
+				'type'        => 'radio-buttonset',
+				'choices'     => [
+					'avada'     => esc_html__( 'Avada', 'Avada' ),
+					'wordpress' => esc_html__( 'WordPress', 'Avada' ),
+					'none'      => esc_html__( 'None', 'Avada' ),
+				],
 				'transport'   => 'postMessage', // No need to refresh the page.
 			],
 			'font_face_display'                    => [
@@ -108,6 +113,20 @@ function avada_options_section_performance( $sections ) {
 					'block'    => esc_html__( 'Block', 'Avada' ),
 					'swap'     => esc_html__( 'Swap Non-Icon Fonts', 'Avada' ),
 					'swap-all' => esc_html__( 'Swap All', 'Avada' ),
+				],
+				'transport'   => 'postMessage', // No need to refresh the page.
+			],
+			'preload_fonts'                        => [
+				'label'       => esc_html__( 'Preload Key Fonts', 'Avada' ),
+				'description' => esc_html__( 'Make a selection to prioritize fetching resources that will be requested later in page load. This improves page load time as the browser caches preloaded resources so they are available immediately when needed.', 'Avada' ),
+				'id'          => 'preload_fonts',
+				'default'     => 'icon_fonts',
+				'type'        => 'radio-buttonset',
+				'choices'     => [
+					'all'          => esc_html__( 'All', 'Avada' ),
+					'google_fonts' => esc_html__( 'Google Fonts', 'Avada' ),
+					'icon_fonts'   => esc_html__( 'Icon Fonts', 'Avada' ),
+					'none'         => esc_html__( 'None', 'Avada' ),
 				],
 				'transport'   => 'postMessage', // No need to refresh the page.
 			],
@@ -138,7 +157,7 @@ function avada_options_section_performance( $sections ) {
 				'type'  => 'info',
 			],
 			'css_cache_method'                     => [
-				'label'       => esc_html__( 'CSS Compiling method', 'Avada' ),
+				'label'       => esc_html__( 'CSS Compiling Method', 'Avada' ),
 				'description' => esc_html__( 'Select "File" mode to compile the dynamic CSS to files (a separate file will be created for each of your pages & posts inside of the uploads/fusion-styles folder), "Database" mode to cache the CSS in your database, or select "Disabled" to disable.', 'Avada' ),
 				'id'          => 'css_cache_method',
 				'default'     => 'file',
@@ -193,13 +212,13 @@ function avada_options_section_performance( $sections ) {
 				'transport'   => 'postMessage', // No need to refresh the page.
 			],
 			'reset_caches_button'                  => [
-				'label'         => esc_html__( 'Reset Fusion Caches', 'Avada' ),
+				'label'         => esc_html__( 'Reset Avada Caches', 'Avada' ),
 				/* translators: %1$s: <code>uploads/fusion-styles</code>. %2$s: <code>uploads/fusion-scripts</code>. */
 				'description'   => ( is_multisite() && is_main_site() ) ? sprintf( esc_html__( 'Resets all Dynamic CSS & Dynamic JS, cleans-up the database and deletes the %1$s and %2$s folders. When resetting the caches on the main site of a multisite installation, caches for all sub-sites will be reset. IMPORTANT NOTE: On large multisite installations with a low PHP timeout setting, bulk-resetting the caches may timeout.', 'Avada' ), '<code>uploads/fusion-styles</code>', '<code>uploads/fusion-scripts</code>' ) : sprintf( esc_html__( 'Resets all Dynamic CSS & Dynamic JS, cleans-up the database and deletes the %1$s and %2$s folders.', 'Avada' ), '<code>uploads/fusion-styles</code>', '<code>uploads/fusion-scripts</code>' ),
 				'id'            => 'reset_caches_button',
 				'default'       => '',
 				'type'          => 'raw',
-				'content'       => '<a class="button button-secondary" href="#" onclick="fusionResetCaches(event);" target="_self" >' . esc_html__( 'Reset Fusion Caches', 'Avada' ) . '</a><span class="spinner fusion-spinner"></span>',
+				'content'       => '<a class="button button-secondary" href="#" onclick="fusionResetCaches(event);" target="_self" >' . esc_html__( 'Reset Avada Caches', 'Avada' ) . '</a><span class="spinner fusion-spinner"></span>',
 				'full_width'    => false,
 				'transport'     => 'postMessage', // No need to refresh the page.
 				'hide_on_front' => true,
@@ -214,7 +233,7 @@ function avada_options_section_performance( $sections ) {
 				'label'       => '',
 				'description' => sprintf(
 					/* translators: URL for the plugins page. */
-					'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> To use the Avada PWA feature you need to install and activate the latest version of the PWA plugin. Please <a href="%s">visit the Avada Plugins page</a> to install and activate the plugin and then refresh Theme Options to edit the options.', 'Avada' ) . '</div>',
+					'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> To use the Avada PWA feature you need to install and activate the latest version of the PWA plugin. Please <a href="%s">visit the Avada Plugins page</a> to install and activate the plugin and then refresh Global Options to edit the options.', 'Avada' ) . '</div>',
 					admin_url( 'admin.php?page=avada-plugins' )
 				),
 				'id'          => 'pwa_required_notice',

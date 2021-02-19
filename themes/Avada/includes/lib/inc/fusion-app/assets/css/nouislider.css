@@ -149,13 +149,16 @@
   cursor: not-allowed;
 }
 /* ThemeFusion Edit for #1096 */
-.fusion-builder-live .fusion-slider-container .noUi-base{
+.fusion-builder-live .fusion-slider-container .noUi-base,
+.fusion-builder-live .custom-width-range-slider .noUi-base{
   background: #198fd9;
 }
-.fusion-builder-live .fusion-slider-container .noUi-base .noUi-origin {
+.fusion-builder-live .fusion-slider-container .noUi-base .noUi-origin,
+.fusion-builder-live .custom-width-range-slider .noUi-base .noUi-origin {
   background: #e0e3e7;
 }
-.fusion-builder-live .fusion-slider-container .noUi-handle {
+.fusion-builder-live .fusion-slider-container .noUi-handle,
+.fusion-builder-live .custom-width-range-slider .noUi-handle {
     width: 22px !important;
     height: 22px !important;
     top:-8px;
@@ -165,11 +168,15 @@
     box-shadow: 0 0 3px rgba(149, 153, 158, 0.40) !important;
     cursor: ew-resize;
 }
-.fusion-builder-live .fusion-slider-container .noUi-handle.noUi-active {
+.fusion-builder-live .fusion-slider-container .noUi-handle.noUi-active,
+.fusion-builder-live .custom-width-range-slider .noUi-handle.noUi-active {
     -webkit-transform: scale3d(1.5, 1.5, 1);
     transform: scale3d(1.5, 1.5, 1);
 }
-.fusion-builder-live .fusion-slider-container .noUi-handle:before, .fusion-builder-live .fusion-slider-container .noUi-handle:after {
+.fusion-builder-live .fusion-slider-container .noUi-handle:before, 
+.fusion-builder-live .custom-width-range-slider .noUi-handle:before, 
+.fusion-builder-live .fusion-slider-container .noUi-handle:after,
+.fusion-builder-live .custom-width-range-slider .noUi-handle:after {
     content: "";
     border: 3px solid transparent;
     border-right-color: #328fd9;
@@ -180,7 +187,8 @@
     top: 50%;
     transform: translateY(-50%);
 }
-.fusion-builder-live .fusion-slider-container .noUi-handle:after {
+.fusion-builder-live .fusion-slider-container .noUi-handle:after,
+.fusion-builder-live .custom-width-range-slider .noUi-handle:after {
     left: auto;
     right: 0;
     border-left-color: #328fd9;

@@ -56,6 +56,9 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 				this.sidebarView        = false;
 				this.renderUI();
 
+				// Preview size.
+				this.previewWindowSize  = 'large';
+
 				// Hold scripts which are being added to frame.
 				this.scripts            = {};
 
@@ -84,7 +87,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 				// If page switch has been triggered manually.
 				this.manualSwitch = false;
 
-				this.linkSelectors = 'td.tribe-events-thismonth a, .tribe-events-month-event-title a,.fusion-menu a, .fusion-secondary-menu a, .fusion-logo-link, .widget a, .woocommerce-tabs a, .fusion-posts-container a:not(.fusion-rollover-gallery), .fusion-rollover .fusion-rollover-link, .project-info-box a, .fusion-meta-info-wrapper a, .related-posts a, .related.products a, .woocommerce-page .products .product a, #tribe-events-content a, .fusion-breadcrumbs a, .single-navigation a, .fusion-column-inner-bg a';
+				this.linkSelectors = 'td.tribe-events-thismonth a, .tribe-events-month-event-title a,.fusion-menu a, .fusion-secondary-menu a, .fusion-logo-link, .fusion-imageframe > a, .widget a, .woocommerce-tabs a, .fusion-posts-container a:not(.fusion-rollover-gallery), .fusion-rollover .fusion-rollover-link, .project-info-box a, .fusion-meta-info-wrapper a, .related-posts a, .related.products a, .woocommerce-page .products .product a, #tribe-events-content a, .fusion-breadcrumbs a, .single-navigation a, .fusion-column-inner-bg a';
 			},
 
 			/**
@@ -227,6 +230,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 			 * @return {void}
 			 */
 			setup: function() {
+
 				this.previewWindow = jQuery( '#fb-preview' )[ 0 ].contentWindow;
 
 				this.updateData();
@@ -238,12 +242,12 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 
 					this.builderActive = true;
 
-					// Check if content overide has content element that we can edit.
-					if ( 'undefined' !== this.data.template_override && 'undefined' !== this.data.template_override.content && '' !== this.data.template_override.content && false !== this.data.template_override.content ) {
+					// eslint-disable-next-line vars-on-top
+					var hasOverrideContent	= this.data.template_override && this.data.template_override.content,
+						overrideContent		= hasOverrideContent && this.data.template_override.content.post_content;
 
-						if ( -1 === this.data.template_override.content.post_content.indexOf( 'fusion_tb_content' ) ) {
-							this.hasEditableContent = false;
-						}
+					if ( 'fusion_tb_section' !== this.data.query.post_type && hasOverrideContent && overrideContent && ! overrideContent.includes( 'fusion_tb_content' ) ) {
+						this.hasEditableContent = false;
 					}
 
 					if ( 'undefined' === typeof FusionPageBuilderApp ) {
@@ -360,9 +364,9 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 					type: 'POST',
 					url: fusionAppConfig.ajaxurl,
 					dataType: 'json',
-					data: postData,
-
-					success: function( data ) {
+					data: postData
+				} )
+					.done( function( data ) {
 						if ( 'object' !== typeof data ) {
 							return;
 						}
@@ -406,7 +410,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 									title: fusionBuilderText.page_save_failed,
 									content: fusionBuilderText.authentication_no_heartbeat,
 									type: 'error',
-									icon: '<i class="fusiona-exclamation-triangle"></i>',
+									icon: '<i class="fusiona-exclamation-triangle" aria-hidden="true"></i>',
 									actions: [
 										{
 											label: fusionBuilderText.ok,
@@ -440,7 +444,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 								title: fusionBuilderText.problem_saving,
 								content: fusionBuilderText.changes_not_saved + self.getSaveMessages( data.data ),
 								type: 'error',
-								icon: '<i class="fusiona-exclamation-triangle"></i>',
+								icon: '<i class="fusiona-exclamation-triangle" aria-hidden="true"></i>',
 								actions: [
 									{
 										label: fusionBuilderText.ok,
@@ -457,8 +461,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 								]
 							} );
 						}
-					}
-				} );
+					} );
 			},
 
 			/**
@@ -474,11 +477,11 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 				if ( 'object' === typeof data.failure ) {
 					_.each( data.failure, function( messages ) {
 						if ( 'string' === typeof messages ) {
-							returnMessages += '<li class="failure"><i class="fusiona-exclamation-triangle"></i>' + messages + '</li>';
+							returnMessages += '<li class="failure"><i class="fusiona-exclamation-triangle" aria-hidden="true"></i>' + messages + '</li>';
 						} else if ( 'object' === typeof messages ) {
 							_.each( messages, function( message ) {
 								if ( 'string' === typeof message ) {
-									returnMessages += '<li class="failure"><i class="fusiona-exclamation-triangle"></i>' + message + '</li>';
+									returnMessages += '<li class="failure"><i class="fusiona-exclamation-triangle" aria-hidden="true"></i>' + message + '</li>';
 								}
 							} );
 						}
@@ -488,11 +491,11 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 				if ( 'object' === typeof data.success ) {
 					_.each( data.success, function( messages ) {
 						if ( 'string' === typeof messages ) {
-							returnMessages += '<li class="success"><i class="fusiona-check"></i>' + messages + '</li>';
+							returnMessages += '<li class="success"><i class="fusiona-check" aria-hidden="true"></i>' + messages + '</li>';
 						} else if ( 'object' === typeof messages ) {
 							_.each( messages, function( message ) {
 								if ( 'string' === typeof message ) {
-									returnMessages += '<li class="success"><i class="fusiona-check"></i>' + message + '</li>';
+									returnMessages += '<li class="success"><i class="fusiona-check" aria-hidden="true"></i>' + message + '</li>';
 								}
 							} );
 						}
@@ -884,7 +887,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 					this.reInitIconPicker();
 
 					if ( this.hasContentChanged( 'global', 'theme-option' ) ) {
-						postData.fusion_options = jQuery.param( FusionApp.settings ); // eslint-disable-line camelcase
+						postData.fusion_options = jQuery.param( this.maybeEmptyArray( FusionApp.settings ) ); // eslint-disable-line camelcase
 					}
 
 					if ( this.hasContentChanged( 'page', 'page-option' ) ) {
@@ -1004,8 +1007,8 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 					linkHash       = '',
 					targetPathname = '',
 					targetHostname = '',
+					$targetEl      = this.previewWindow.jQuery( jQuery( event.currentTarget ) ),
 					link,
-					$targetEl,
 					linkParts;
 
 				event.preventDefault();
@@ -1033,10 +1036,14 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 
 				// Check for scroll links on same page and return.
 				if ( '#' === linkHref.charAt( 0 ) || ( '' !== linkHash && targetPathname === location.pathname ) ) {
-					$targetEl = this.previewWindow.jQuery( jQuery( event.currentTarget ) );
-					if ( 'function' === typeof $targetEl.fusion_scroll_to_anchor_target ) {
+					if ( 'function' === typeof $targetEl.fusion_scroll_to_anchor_target && ! $targetEl.parent().parent().hasClass( 'wc-tabs' ) ) {
 						$targetEl.fusion_scroll_to_anchor_target();
 					}
+					return;
+				}
+
+				// Check if flyout submenus are enabled and menu item has submenu.
+				if ( $targetEl.parent().hasClass( 'menu-item' ) && $targetEl.parent().hasClass( 'menu-item-has-children' ) && $targetEl.closest( '.fusion-menu-element-wrapper' ).hasClass( 'submenu-mode-flyout' ) ) {
 					return;
 				}
 
@@ -1328,12 +1335,17 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 						value = jQuery( this ).val().toLowerCase();
 
 						thisEl.find( '.fusion-builder-all-modules li' ).each( function() {
+							var shortcode = jQuery( this ).find( '.fusion_module_label' ).length ? jQuery( this ).find( '.fusion_module_label' ).text().trim().toLowerCase() : '';
 
 							name = jQuery( this ).find( '.fusion_module_title' ).text().trim().toLowerCase();
 
 							// Also show portfolio on recent works search
 							if ( 'portfolio' === name ) {
 								name += ' recent works';
+							}
+
+							if ( 'fusion_imageframe' === shortcode ) {
+								name += ' ' + fusionBuilderText.logo.trim().toLowerCase();
 							}
 
 							if ( -1 !== name.search( value ) || jQuery( this ).hasClass( 'spacer' ) ) {
@@ -1361,47 +1373,43 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 			setElementFonts: function( googleFonts ) {
 				var postContent = this.getPost( 'post_content' ),
 					regexp,
-					elementFonts,
+					fontProps,
 					tempFonts = {},
 					saveFonts = [];
 
 				if ( 'string' === typeof postContent && '' !== postContent && -1 !== postContent.indexOf( 'fusion_font_' ) ) {
-					regexp       = new RegExp( '(fusion_font_[^=]*=")([^"]*)"', 'g' );
-					elementFonts = this.getPost( 'post_content' ).match( regexp );
-					if ( 'object' === typeof elementFonts ) {
-						_.each( elementFonts, function( match, key ) { // eslint-disable-line no-unused-vars
-							var matches = match.slice( 0, -1 ).split( '="' ),
-								unique  = matches[ 0 ].replace( 'fusion_font_family_', '' ).replace( 'fusion_font_subset_', '' ).replace( 'fusion_font_variant_', '' ),
-								type    = 'family';
+					regexp		= new RegExp( '(fusion_font_[^=]*=")([^"]*)"', 'g' );
+					fontProps	= this.getPost( 'post_content' ).match( regexp );
 
-							if ( -1 !== matches[ 0 ].indexOf( 'fusion_font_subset_' ) ) {
-								type = 'subset';
-							} else if (  -1 !== matches[ 0 ].indexOf( 'fusion_font_variant_' ) ) {
-								type = 'variant';
-							}
+					// Iterate through all font properties in post content and build font objects.
+					_.each( fontProps, function( prop ) {
+						var config 			= prop.slice( 0, -1 ).split( '="' ),
+							key				= config[ 0 ],
+							value			= config[ 1 ],
+							optionId		= key.replace( /fusion_font_(family|variant)_/, '' ),
+							fontProperty	= ( key.includes( 'fusion_font_variant_' ) && 'variant' ) || 'family';
 
-							if ( '' === matches[ 1 ] && 'family' === type ) {
-								return;
-							}
+						if ( '' === key && 'family' === fontProperty ) {
+							return;
+						}
 
-							if ( 'object' !== typeof tempFonts[ unique ] ) {
-								tempFonts[ unique ] = {};
-							} else if ( 'family' === type ) {
+						if ( 'object' !== typeof tempFonts[ optionId ] ) {
+							tempFonts[ optionId ] = {};
+						} else if ( 'family' === fontProperty && tempFonts[ optionId ].family ) {
 
-								// If we are setting family again for something already in process, then save out incomplete and start fresh
-								saveFonts.push( tempFonts[ unique ] );
-								tempFonts[ unique ] = {};
-							}
+							// If we are setting family again for something already in process, then save out incomplete and start fresh
+							saveFonts.push( tempFonts[ optionId ] );
+							tempFonts[ optionId ] = {};
+						}
 
-							tempFonts[ unique ][ type ] = matches[ 1 ];
+						tempFonts[ optionId ][ fontProperty ] = value;
 
-							// If all three are set, add to save fonts and delete from temporary holder so others can be collected with same ID.
-							if ( 'undefined' !== typeof tempFonts[ unique ].family && 'undefined' !== typeof tempFonts[ unique ].subset && 'undefined' !== typeof tempFonts[ unique ].variant ) {
-								saveFonts.push( tempFonts[ unique ] );
-								delete tempFonts[ unique ];
-							}
-						} );
-					}
+						// If all three are set, add to save fonts and delete from temporary holder so others can be collected with same ID.
+						if ( 'undefined' !== typeof tempFonts[ optionId ].family && 'undefined' !== typeof tempFonts[ optionId ].variant ) {
+							saveFonts.push( tempFonts[ optionId ] );
+							delete tempFonts[ optionId ];
+						}
+					} );
 
 					// Check for incomplete ones with family and add them too.
 					_.each( tempFonts, function( font, option ) {
@@ -1412,25 +1420,19 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 
 
 					// Look all fonts for saving and save.
-					_.each( saveFonts, function( font, option ) { // eslint-disable-line no-unused-vars
+					_.each( saveFonts, function( font ) {
 						if ( 'undefined' === typeof font.family || '' === font.family ) {
 							return;
 						}
 						if ( 'undefined' === typeof googleFonts[ font.family ] ) {
 							googleFonts[ font.family ] = {
-								variants: [],
-								subsets: []
+								variants: []
 							};
 						}
 
 						// Add the variant if it does not exist already.
 						if ( 'string' === typeof font.variant && ! googleFonts[ font.family ].variants.includes( font.variant ) ) {
 							googleFonts[ font.family ].variants.push( font.variant );
-						}
-
-						// Add the subset if not already included.
-						if ( 'string' === typeof font.subset && ! googleFonts[ font.family ].subsets.includes( font.subset ) ) {
-							googleFonts[ font.family ].subsets.push( font.subset );
 						}
 					} );
 				}
@@ -1454,19 +1456,13 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 					$fontNodes.each( function() {
 						if ( 'undefined' === typeof googleFonts[ jQuery( this ).attr( 'data-fusion-google-font' ) ] ) {
 							googleFonts[ jQuery( this ).attr( 'data-fusion-google-font' ) ] = {
-								variants: [],
-								subsets: []
+								variants: []
 							};
 						}
 
 						// Add the variant.
 						if ( jQuery( this ).attr( 'data-fusion-google-variant' ) ) {
 							googleFonts[ jQuery( this ).attr( 'data-fusion-google-font' ) ].variants.push( jQuery( this ).attr( 'data-fusion-google-variant' ) );
-						}
-
-						// Add the subset.
-						if ( jQuery( this ).attr( 'data-fusion-google-subset' ) ) {
-							googleFonts[ jQuery( this ).attr( 'data-fusion-google-font' ) ].subsets.push( jQuery( this ).attr( 'data-fusion-google-subset' ) );
 						}
 					} );
 				}
@@ -1513,8 +1509,9 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 							action: 'fusion_font_awesome',
 							fusion_load_nonce: fusionAppConfig.fusion_load_nonce,
 							pro_status: FusionApp.settings.status_fontawesome_pro
-						},
-						success: function( response ) {
+						}
+					} )
+						.done( function( response ) {
 							fusionAppConfig.fontawesomeicons = response.icons;
 							jQuery( '#fontawesome-css' ).attr( 'href', response.css_url );
 
@@ -1525,8 +1522,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 							}
 
 							FusionApp.reInitIconPicker();
-						}
-					} );
+						} );
 
 				}
 			},
@@ -1617,7 +1613,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 				_.each( icons, function( icon, key ) {
 					_.each( icon[ 1 ], function( iconSubset ) {
 						if ( -1 !== self.settings.status_fontawesome.indexOf( iconSubset ) ) {
-							outputSets[ iconSubset ] += '<span class="icon_preview ' + key + '" title="' + key + ' - ' + iconSubsets[ iconSubset ] + '"><i class="' + icon[ 0 ] + ' ' + iconSubset + '" data-name="' + icon[ 0 ].substr( 3 ) + '"></i></span>';
+							outputSets[ iconSubset ] += '<span class="icon_preview ' + key + '" title="' + key + ' - ' + iconSubsets[ iconSubset ] + '"><i class="' + icon[ 0 ] + ' ' + iconSubset + '" data-name="' + icon[ 0 ].substr( 3 ) + '" aria-hidden="true"></i></span>';
 						}
 					} );
 				} );
@@ -1641,7 +1637,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 							fusionIconSearch.push( { name: icon } );
 						}
 
-						output += '<span class="icon_preview ' + icon + '" title="' + iconSet.css_prefix + icon + '"><i class="' + iconSet.css_prefix + icon + '" data-name="' + icon + '"></i></span>';
+						output += '<span class="icon_preview ' + icon + '" title="' + iconSet.css_prefix + icon + '"><i class="' + iconSet.css_prefix + icon + '" data-name="' + icon + '" aria-hidden="true"></i></span>';
 					} );
 					output += '</div>';
 				} );
@@ -1786,7 +1782,7 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 
 				// Use default icon (exclamation mark) if no custom icon is defined.
 				if ( ! args.icon ) {
-					args.icon = '<i class="fas fa-exclamation">';
+					args.icon = '<i class="fas fa-exclamation" aria-hidden="true">';
 				}
 
 				// Use default type (warning) if no type is defined.
@@ -1879,6 +1875,93 @@ var FusionEvents = _.extend( {}, Backbone.Events );
 						}
 					]
 				} );
+			},
+
+			/**
+			 * Getter for TO value or it's default if value is not saved yet.
+			 *
+			 * @since 3.0
+			 * @param {string} optionKey - Option key (ID).
+			 * @return {mixed}
+			 */
+			getSettingValue: function( settingKey ) {
+				var flatOptions;
+
+				if ( undefined === settingKey ) {
+					return undefined;
+				}
+
+				if ( 'undefined' !== typeof this.settings[ settingKey ] ) {
+					return this.settings[ settingKey ];
+				}
+
+				flatOptions = this.sidebarView.getFlatToObject();
+
+				if ( 'undefined' !== typeof flatOptions[ settingKey ] && 'undefined' !== typeof flatOptions[ settingKey ][ 'default' ] ) {
+					return flatOptions[ settingKey ][ 'default' ];
+				}
+
+				return undefined;
+			},
+
+			/**
+			 * Getter for previewWindowSize property.
+			 * Used to get 'custom' screen size, which is used to change correct options in EO.
+			 *
+			 * @since 3.0
+			 * @return {string}
+			 */
+			getPreviewWindowSize: function() {
+				return this.previewWindowSize;
+			},
+
+			/**
+			 * Helper for responsive options.
+			 *
+			 * @since 2.3.0
+			 * @return {string}
+			 */
+			getResponsiveOptionKey: function ( key, isFlex = true ) {
+				var previewSize = FusionApp.getPreviewWindowSize(),
+					optionKey	= ! isFlex || 'large' == previewSize ? key :  key + '_' + previewSize;
+				return optionKey;
+			},
+
+			/**
+			 * Setter for previewWindowSize property.
+			 * Used to set 'custom' screen size, which is used to change correct options in EO.
+			 *
+			 * @since 3.0
+			 * @param {string} newScreenSize - New screen size string.
+			 * @return {void}
+			 */
+			setPreviewWindowSize: function( newScreenSize ) {
+
+				if ( -1 !== newScreenSize.indexOf( 'mobile' ) ) {
+					this.previewWindowSize = 'small';
+				} else if ( -1 !== newScreenSize.indexOf( 'tablet' ) ) {
+					this.previewWindowSize = 'medium';
+				} else {
+					this.previewWindowSize = 'large';
+				}
+			},
+
+			/**
+			 * Check for empty array values.
+			 * Used to fix issue with jQuery.param omit empty array.
+			 *
+			 * @since 7.2
+			 * @param {object} obj - Object Arrays.
+			 * @return {void}
+			 */
+			maybeEmptyArray: function( obj ) {
+				var key;
+				for ( key in obj ) {
+					if ( 'object' === typeof obj[ key ] && 0 == obj[ key ].length ) {
+						obj[ key ] = [ '' ];
+					}
+				}
+				return obj;
 			}
 
 		} );

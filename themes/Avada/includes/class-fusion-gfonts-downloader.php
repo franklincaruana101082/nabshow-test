@@ -380,7 +380,7 @@ class Fusion_GFonts_Downloader {
 				$variants = $this->font['variants'];
 			}
 			foreach ( $this->font['files'] as $variant => $file ) {
-				if ( in_array( $variant, $variants ) ) {
+				if ( in_array( $variant, $variants ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 					$file = new Fusion_Downloader( $file, 'fusion-gfonts/' . sanitize_key( $this->family ) );
 					$file->download_file();
 				}

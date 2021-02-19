@@ -117,6 +117,10 @@ class Fusion_Builder_Demos_Importer {
 
 			$this->include_demo_files();
 		}
+
+		self::import_demo_headers();
+		self::import_demo_forms();
+		self::import_demo_content_sections();
 	}
 
 	/**
@@ -317,7 +321,7 @@ class Fusion_Builder_Demos_Importer {
 	 */
 	private function include_demo_files() {
 
-		// Load Fusion Builder demos.
+		// Load Avada Builder demos.
 		foreach ( self::$demo_files as $demo_file ) {
 			include $demo_file;
 		}
@@ -342,6 +346,48 @@ class Fusion_Builder_Demos_Importer {
 
 		// Recursively delete the folder.
 		return $filesystem->delete( $dir, true );
+
+	}
+
+	/**
+	 * Import header demos.
+	 *
+	 * @static
+	 * @access public
+	 * @since 7.0
+	 */
+	public static function import_demo_headers() {
+		include Avada::$template_dir_path . '/headers/default-headers.php';
+		include Avada::$template_dir_path . '/headers/custom-headers.php';
+	}
+
+	/**
+	 * Import form demos.
+	 *
+	 * @static
+	 * @access public
+	 * @since 7.0.2
+	 */
+	public static function import_demo_forms() {
+
+		if ( defined( 'FUSION_BUILDER_PLUGIN_DIR' ) && file_exists( FUSION_BUILDER_PLUGIN_DIR . '/templates/forms/form-templates.php' ) ) {
+			include FUSION_BUILDER_PLUGIN_DIR . '/templates/forms/form-templates.php';
+		}
+
+	}
+
+	/**
+	 * Import content layout sections.
+	 *
+	 * @static
+	 * @access public
+	 * @since 7.2
+	 */
+	public static function import_demo_content_sections() {
+
+		if ( defined( 'FUSION_BUILDER_PLUGIN_DIR' ) && file_exists( FUSION_BUILDER_PLUGIN_DIR . '/templates/content/content-templates.php' ) ) {
+			include FUSION_BUILDER_PLUGIN_DIR . '/templates/content/content-templates.php';
+		}
 
 	}
 }

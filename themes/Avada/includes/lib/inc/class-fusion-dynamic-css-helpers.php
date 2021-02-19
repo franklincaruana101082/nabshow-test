@@ -354,6 +354,15 @@ class Fusion_Dynamic_CSS_Helpers {
 		$c_page_id = fusion_library()->get_page_id();
 		$page_id   = ( $c_page_id ) ? $c_page_id : 'global';
 
+		// If a layout is used, and we don't have a specific page ID, need to make sure they get different CSS IDs.
+		if ( ! $c_page_id && class_exists( 'Fusion_Template_Builder' ) ) {
+			$layout = Fusion_Template_Builder::get_instance()->get_override( 'layout' );
+
+			if ( $layout && 'global' !== $layout->ID ) {
+				$page_id = $layout->ID;
+			}
+		}
+
 		if ( ! isset( $ids[ $page_id ] ) || ! $ids[ $page_id ] ) {
 			$dynamic_css_obj = Fusion_Dynamic_CSS::get_instance();
 			$dynamic_css     = $dynamic_css_obj->generate_final_css();

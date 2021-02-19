@@ -461,7 +461,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 			}
 
 			// Only proceed forward if the parameter is set to true and plugin is active.
-			if ( isset( $_GET['tgmpa-update'] ) && 'update-plugin' === $_GET['tgmpa-update'] && $this->is_plugin_activated( $slug ) ) {
+			if ( isset( $_GET['tgmpa-update'] ) && 'update-plugin' === $_GET['tgmpa-update'] && $this->is_plugin_active( $slug ) ) {
 				deactivate_plugins( $this->plugins[ $slug ]['file_path'], true );
 
 				if ( ! isset( $_GET['plugin_source'] ) ) {
@@ -694,11 +694,16 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		 * @return null Aborts early if we're processing a plugin installation action.
 		 */
 		public function install_plugins_page() {
+			// ThemeFusion edit for Avada: correct PHP notice.
+			if ( $this->do_plugin_install() ) {
+				return;
+			}
+
 			// Store new instance of plugin table in object.
 			$plugin_table = new TGMPA_List_Table;
 
 			// Return early if processing a plugin installation action.
-			if ( ( ( 'tgmpa-bulk-install' === $plugin_table->current_action() || 'tgmpa-bulk-update' === $plugin_table->current_action() ) && $plugin_table->process_bulk_actions() ) || $this->do_plugin_install() ) {
+			if ( ( ( 'tgmpa-bulk-install' === $plugin_table->current_action() || 'tgmpa-bulk-update' === $plugin_table->current_action() ) && $plugin_table->process_bulk_actions() ) ) {
 				return;
 			}
 
@@ -856,7 +861,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 
 				// Only activate plugins if the config option is set to true and the plugin isn't
 				// already active (upgrade).
-				if ( $this->is_automatic && ! $this->is_plugin_activated( $slug ) ) {
+				if ( $this->is_automatic && ! $this->is_plugin_active( $slug ) ) {
 					$plugin_activate = $upgrader->plugin_info(); // Grab the plugin info from the Plugin_Upgrader method.
 					if ( false === $this->activate_single_plugin( $plugin_activate, $slug, true ) ) {
 						return true; // Finish execution of the function early as we encountered an error.
@@ -1018,7 +1023,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 						echo '<p>', esc_html( $this->strings['plugin_activated'] ), '</p>';
 					}
 				}
-			} elseif ( $this->is_plugin_activated( $slug ) ) {
+			} elseif ( $this->is_plugin_active( $slug ) ) {
 				// No simpler message format provided as this message should never be encountered
 				// on the plugin install page.
 				echo '<div id="message" class="error"><p>',
@@ -1081,10 +1086,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 
 			foreach ( $this->plugins as $slug => $plugin ) {
 				// ThemeFusion edit for Avada theme: added ! $plugin['required'] to the conditional
-				if ( $this->is_plugin_activated( $slug ) && false === $this->does_plugin_have_update( $slug ) ||
-					! $plugin['required']
-
-				) {
+				if ( $this->is_plugin_active( $slug ) && false === $this->does_plugin_have_update( $slug ) || ! $plugin['required'] ) {
 					continue;
 				}
 
@@ -1102,7 +1104,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 						$total_required_action_count++;
 					}
 				} else {
-					if ( ! $this->is_plugin_activated( $slug ) && $this->can_plugin_activate( $slug ) ) {
+					if ( ! $this->is_plugin_active( $slug ) && $this->can_plugin_activate( $slug ) ) {
 						if ( current_user_can( 'activate_plugins' ) ) {
 							$activate_link_count++;
 
@@ -1143,7 +1145,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 
 				// As add_settings_error() wraps the final message in a <p> and as the final message can't be
 				// filtered, using <p>'s in our html would render invalid html output.
-				$line_template = '<span style="display: block; margin: 0.5em 0.5em 0 0; clear: both;">%s</span>' . "\n";
+				$line_template = '<span class="avada-db-settings-error-p">%s</span>';
 
 				if ( ! current_user_can( 'activate_plugins' ) && ! current_user_can( 'install_plugins' ) && ! current_user_can( 'update_plugins' ) ) {
 					$rendered  = esc_html( $this->strings['notice_cannot_install_activate'] ) . ' ' . esc_html( $this->strings['contact_admin'] );
@@ -1151,7 +1153,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 				} else {
 
 					// ThemeFusion edit for Avada theme: add a nag title
-					$rendered = '<span class="fusion-update-heading" style="margin-top:-0.4em">' . esc_html__( 'Installation/Update Of Required Plugins Needed', 'Avada' ) . '</span>';
+					$rendered = '<span class="avada-db-settings-error-heading">' . esc_html__( 'Install/Activation/Update Of Required Plugin(s) Needed', 'Avada' ) . '</span>';
 
 					// If dismissable is false and a message is set, output it now.
 					if ( ! $this->dismissable && ! empty( $this->dismiss_msg ) ) {
@@ -1272,9 +1274,9 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		 */
 		protected function get_admin_notice_class() {
 			if ( ! empty( $this->strings['nag_type'] ) ) {
-				return sanitize_html_class( strtolower( $this->strings['nag_type'] ) );
+				return 'avada-db-card avada-db-notice ' . sanitize_html_class( strtolower( $this->strings['nag_type'] ) );
 			}
-			return 'notice-warning';
+			return 'avada-db-card avada-db-notice notice-warning';
 		}
 
 		/**
@@ -1631,11 +1633,13 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		 *                or the plugin name if not.
 		 */
 		public function get_info_link( $slug ) {
+			$name = str_replace( 'Fusion', 'Avada', $this->plugins[ $slug ]['name'] ); // ThemeFusion edit for Avada.
+
 			if ( ! empty( $this->plugins[ $slug ]['external_url'] ) && preg_match( self::IS_URL_REGEX, $this->plugins[ $slug ]['external_url'] ) ) {
 				$link = sprintf(
 					'<a href="%1$s" target="_blank">%2$s</a>',
 					esc_url( $this->plugins[ $slug ]['external_url'] ),
-					esc_html( $this->plugins[ $slug ]['name'] )
+					esc_html( $name )
 				);
 			} elseif ( 'repo' === $this->plugins[ $slug ]['source_type'] ) {
 				$url = add_query_arg(
@@ -1652,10 +1656,10 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 				$link = sprintf(
 					'<a href="%1$s" class="thickbox">%2$s</a>',
 					esc_url( $url ),
-					esc_html( $this->plugins[ $slug ]['name'] )
+					esc_html( $name )
 				);
 			} else {
-				$link = esc_html( $this->plugins[ $slug ]['name'] ); // No hyperlink.
+				$link = esc_html( $name ); // No hyperlink.
 			}
 
 			return $link;
@@ -1761,7 +1765,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		public function is_tgmpa_complete() {
 			$complete = true;
 			foreach ( $this->plugins as $slug => $plugin ) {
-				if ( ! $this->is_plugin_activated( $slug ) || false !== $this->does_plugin_have_update( $slug ) ) {
+				if ( ! $this->is_plugin_active( $slug ) || false !== $this->does_plugin_have_update( $slug ) ) {
 					$complete = false;
 					break;
 				}
@@ -1792,7 +1796,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		 * @param string $slug Plugin slug.
 		 * @return bool True if active, false otherwise.
 		 */
-		public function is_plugin_activated( $slug ) {
+		public function is_plugin_active( $slug ) {
 			return ( ( ! empty( $this->plugins[ $slug ]['is_callable'] ) && is_callable( $this->plugins[ $slug ]['is_callable'] ) ) || fusion_is_plugin_activated( $this->plugins[ $slug ]['file_path'] ) );
 		}
 
@@ -1848,7 +1852,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		 * @return bool True if OK to activate, false otherwise.
 		 */
 		public function can_plugin_activate( $slug ) {
-			return ( ! $this->is_plugin_activated( $slug ) && ! $this->does_plugin_require_update( $slug ) );
+			return ( ! $this->is_plugin_active( $slug ) && ! $this->does_plugin_require_update( $slug ) );
 		}
 
 		/**
@@ -2062,7 +2066,7 @@ if ( ! class_exists( 'Avada_TGM_Plugin_Activation' ) ) {
 		 * @since 2.5.0
 		 */
 		function load_avada_tgm_plugin_activation() {
-			$GLOBALS['tgmpa'] = Avada_TGM_Plugin_Activation::get_instance();
+			$GLOBALS['avada_tgmpa'] = Avada_TGM_Plugin_Activation::get_instance();
 		}
 	}
 
@@ -2084,7 +2088,7 @@ if ( ! function_exists( 'avada_tgmpa' ) ) {
 	 * @param array $config  Optional. An array of configuration values.
 	 */
 	function avada_tgmpa( $plugins, $config = array() ) {
-		$instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+		$instance = call_user_func( array( get_class( $GLOBALS['avada_tgmpa'] ), 'get_instance' ) );
 
 		foreach ( $plugins as $plugin ) {
 			call_user_func( array( $instance, 'register' ), $plugin );
@@ -2179,7 +2183,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * @since 2.2.0
 		 */
 		public function __construct() {
-			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+			$this->tgmpa = call_user_func( array( get_class( $GLOBALS['avada_tgmpa'] ), 'get_instance' ) );
 
 			parent::__construct(
 				array(
@@ -2281,7 +2285,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			);
 
 			foreach ( $this->tgmpa->plugins as $slug => $plugin ) {
-				if ( $this->tgmpa->is_plugin_activated( $slug ) && false === $this->tgmpa->does_plugin_have_update( $slug ) ) {
+				if ( $this->tgmpa->is_plugin_active( $slug ) && false === $this->tgmpa->does_plugin_have_update( $slug ) ) {
 					// No need to display plugins if they are installed, up-to-date and active.
 					continue;
 				} else {
@@ -2372,7 +2376,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				return __( 'Not Installed', 'Avada' );
 			}
 
-			if ( ! $this->tgmpa->is_plugin_activated( $slug ) ) {
+			if ( ! $this->tgmpa->is_plugin_active( $slug ) ) {
 				$install_status = __( 'Installed But Not Activated', 'Avada' );
 			} else {
 				$install_status = __( 'Active', 'Avada' );
@@ -3119,12 +3123,12 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 	 */
 	function tgmpa_load_bulk_installer() {
 		// Silently fail if 2.5+ is loaded *after* an older version.
-		if ( ! isset( $GLOBALS['tgmpa'] ) ) {
+		if ( ! isset( $GLOBALS['avada_tgmpa'] ) ) {
 			return;
 		}
 
 		// Get TGMPA class instance.
-		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+		$tgmpa_instance = call_user_func( array( get_class( $GLOBALS['avada_tgmpa'] ), 'get_instance' ) );
 
 		if ( isset( $_GET['page'] ) && $tgmpa_instance->menu === $_GET['page'] ) {
 			if ( ! class_exists( 'Plugin_Upgrader', false ) ) {
@@ -3195,7 +3199,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 */
 					public function __construct( $skin = null ) {
 						// Get TGMPA class instance.
-						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['avada_tgmpa'] ), 'get_instance' ) );
 
 						parent::__construct( $skin );
 
@@ -3526,7 +3530,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 					 */
 					public function __construct( $args = array() ) {
 						// Get TGMPA class instance.
-						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+						$this->tgmpa = call_user_func( array( get_class( $GLOBALS['avada_tgmpa'] ), 'get_instance' ) );
 
 						// Parse default and new args.
 						$defaults = array(

@@ -109,6 +109,10 @@ class Fusion_Cache {
 				'_site_transient_timeout_avada_%',
 				'_site_transient_timeout_fusion_wordpress_org_plugins',
 				'_transient_fusion_fontawesome%',
+				'_transient_fusion_subsets_preload_tags%',
+				'_transient_fusion_custom_icons_preload_tags%',
+				'_transient_fusion_gfonts_preload_tags%',
+				'_transient_fusion_local_subsets_preload_tags%',
 				'_site_transient_avada_welcome_video_url_%',
 			];
 			global $wpdb;
@@ -136,6 +140,7 @@ class Fusion_Cache {
 				'fusion_tos',
 				'fusion_fb_tos',
 				'fusion_tos_flat',
+				'avada_dashboard_data',
 			];
 			foreach ( $transients as $transient ) {
 				delete_transient( $transient );

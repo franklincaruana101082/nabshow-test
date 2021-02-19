@@ -113,7 +113,7 @@ class Avada_Layout {
 					'position'  => Avada()->settings->get( 'bbpress_sidebar_position' ),
 				];
 			}
-		} elseif ( Avada_Helper::is_buddypress() ) {
+		} elseif ( Fusion_Helper::is_buddypress() ) {
 			$sidebars = [
 				'global'    => Avada()->settings->get( 'bbpress_global_sidebar' ),
 				'sidebar_1' => Avada()->settings->get( 'ppbress_sidebar' ),

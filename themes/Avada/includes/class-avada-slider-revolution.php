@@ -42,11 +42,10 @@ class Avada_Slider_Revolution {
 	 * @return void
 	 */
 	public function add_custom_slider_styles() {
-		global $wpdb, $revSliderVersion; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
-		$plugin_version = $revSliderVersion; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+		global $wpdb; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 
-		$table_name = $wpdb->prefix . 'revslider_css';
-		if ( shortcode_exists( 'rev_slider' ) && get_option( 'avada_revslider_version' ) !== $plugin_version ) {
+		if ( defined( 'RS_REVISION' ) && get_option( 'avada_revslider_version' ) !== RS_REVISION ) {
+			$table_name = $wpdb->prefix . 'revslider_css';
 
 			$old_styles = [ '.avada_huge_white_text', '.avada_huge_black_text', '.avada_big_black_text', '.avada_big_white_text', '.avada_big_black_text_center', '.avada_med_green_text', '.avada_small_gray_text', '.avada_small_white_text', '.avada_block_black', '.avada_block_green', '.avada_block_white', '.avada_block_white_trans' ];
 
@@ -98,7 +97,7 @@ class Avada_Slider_Revolution {
 					);
 				}
 			}
-			update_option( 'avada_revslider_version', $plugin_version );
+			update_option( 'avada_revslider_version', RS_REVISION );
 		}
 	}
 

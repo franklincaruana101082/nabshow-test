@@ -103,6 +103,16 @@ class Fusion {
 	public $mq_scripts;
 
 	/**
+	 * An instance of the Fusion_WooCommerce class.
+	 *
+	 * @access public
+	 * @since 3.2
+	 * @var Fusion_WooCommerce
+	 */
+	public $woocommerce;
+	
+
+	/**
 	 * The class constructor
 	 */
 	private function __construct() {
@@ -119,6 +129,10 @@ class Fusion {
 		$this->mq_scripts     = new Fusion_Media_Query_Scripts();
 		$this->fa             = new Fusion_Font_Awesome();
 		$this->social_sharing = new Fusion_Social_Sharing();
+
+		if ( class_exists( 'Fusion_Cache' ) ) {
+			$this->woocommerce = new Fusion_WooCommerce();
+		}
 
 		if ( $this->supported_plugins_changed() && class_exists( 'Fusion_Cache' ) ) {
 			$fusion_cache = new Fusion_Cache();

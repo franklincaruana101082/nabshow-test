@@ -41,6 +41,7 @@ class Fusion_Searchform {
 		];
 
 		$args = wp_parse_args( $args, $defaults );
+		$args = apply_filters( 'search_form_after_fields', $args );
 
 		$class = '';
 
@@ -65,14 +66,14 @@ class Fusion_Searchform {
 				<div class="fusion-search-field search-field">
 					<label><span class="screen-reader-text"><?php esc_html_e( 'Search for:', 'Avada' ); ?></span>
 						<?php if ( $is_live_search ) : ?>
-							<input type="search" class="s fusion-live-search-input" name="s" id="fusion-live-search-input" autocomplete="off" placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>" required aria-required="true" aria-label="<?php esc_attr( $args['placeholder'] ); ?>"/>
+							<input type="search" class="s fusion-live-search-input" name="s" id="fusion-live-search-input" autocomplete="off" placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>" required aria-required="true" aria-label="<?php echo esc_attr( $args['placeholder'] ); ?>"/>
 						<?php else : ?>
-							<input type="search" value="<?php echo get_search_query(); ?>" name="s" class="s" placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>" required aria-required="true" aria-label="<?php esc_attr( $args['placeholder'] ); ?>"/>
+							<input type="search" value="<?php echo get_search_query(); ?>" name="s" class="s" placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>" required aria-required="true" aria-label="<?php echo esc_attr( $args['placeholder'] ); ?>"/>
 						<?php endif; ?>
 					</label>
 				</div>
 				<div class="fusion-search-button search-button">
-					<input type="submit" class="fusion-search-submit searchsubmit" value="&#xf002;" />
+					<input type="submit" class="fusion-search-submit searchsubmit" aria-label="<?php esc_html_e( 'Search', 'Avada' ); ?>" value="&#xf002;" />
 					<?php if ( $is_live_search ) : ?>
 					<div class="fusion-slider-loading"></div>
 					<?php endif; ?>

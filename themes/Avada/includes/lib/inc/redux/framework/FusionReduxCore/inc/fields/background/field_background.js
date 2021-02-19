@@ -164,7 +164,7 @@
 				};
 
 				var select3_handle = el.find( '.select3_params' );
-				if ( select3_handle.size() > 0 ) {
+				if ( select3_handle.length > 0 ) {
 					var select3_params = select3_handle.val();
 
 					select3_params = JSON.parse( select3_params );

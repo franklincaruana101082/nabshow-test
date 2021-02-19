@@ -186,6 +186,11 @@ class Fusion_Breadcrumbs {
 			$this->html_markup = yoast_breadcrumb( '', '', false );
 		}
 
+		// Support for RankMath breadcrumbs.
+		if ( empty( $this->html_markup ) && function_exists( 'rank_math_get_breadcrumbs' ) ) {
+			$this->html_markup = rank_math_get_breadcrumbs( [] );
+		}
+
 		// ThemeFusion Breadcrumbs.
 		if ( empty( $this->html_markup ) ) {
 			$this->prepare_breadcrumb_data();
@@ -209,6 +214,11 @@ class Fusion_Breadcrumbs {
 		if ( function_exists( 'yoast_breadcrumb' ) ) {
 			$this->html_markup = yoast_breadcrumb( '', '', false );
 		}
+
+		// Support for RankMath breadcrumbs.
+		if ( empty( $this->html_markup ) && function_exists( 'rank_math_get_breadcrumbs' ) ) {
+			$this->html_markup = rank_math_get_breadcrumbs( [] );
+		}       
 
 		// ThemeFusion Breadcrumbs.
 		if ( empty( $this->html_markup ) ) {

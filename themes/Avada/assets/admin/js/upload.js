@@ -202,14 +202,4 @@ function calcElementHeights() {
 			} );
 		}
 	} );
-
-	// Set height of upload buttons to correspond with text field height.
-	jQuery( '.pyre_field .fusion_upload_button' ).each( function() {
-		var inputHeight  = jQuery( this ).closest( '.pyre_upload' ).find( 'input' ).outerHeight(),
-			buttonHeight = jQuery( this ).outerHeight();
-
-		if ( inputHeight !== buttonHeight && 0 < inputHeight ) {
-			jQuery( this ).css( 'height', inputHeight );
-		}
-	} );
 }

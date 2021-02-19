@@ -44,7 +44,7 @@ function avada_options_section_privacy( $sections ) {
 			'gfonts_load_method'             => [
 				'id'          => 'gfonts_load_method',
 				'label'       => esc_html__( 'Google & Font Awesome Fonts Mode', 'Avada' ),
-				'description' => esc_html__( 'When set to "Local", the Google and Font Awesome fonts set in Theme Options will be downloaded to your server. Set to "CDN" to use the Google and FontAwesome CDNs.', 'Avada' ),
+				'description' => esc_html__( 'When set to "Local", the Google and Font Awesome fonts set in Global Options will be downloaded to your server. Set to "CDN" to use the Google and FontAwesome CDNs.', 'Avada' ),
 				'type'        => 'radio-buttonset',
 				'default'     => 'cdn',
 				'choices'     => [

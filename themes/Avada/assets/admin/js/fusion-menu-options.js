@@ -190,7 +190,7 @@ function fusionIconPicker( value, id, container, search ) {
 
 }
 
-jQuery( window ).load( function() {
+jQuery( window ).on( 'load', function() {
 
 	var $wrapEl,
 		itemWrapEl;
@@ -303,6 +303,10 @@ jQuery( window ).load( function() {
 
 		}
 
+		// Trigger special links.
+		jQuery( $modal ).find( '.fusion-megamenu-special-link' ).trigger( 'change' );
+		jQuery( $modal ).find( '.edit-menu-item-megamenu-show-woo-cart-counter .button-set-value' ).trigger( 'change' );
+
 	} );
 
 	// On cancel.
@@ -402,6 +406,8 @@ jQuery( window ).load( function() {
 		jQuery( '.fusion_builder_modal_overlay' ).hide();
 		jQuery( 'body' ).removeClass( 'fusion_builder_no_scroll' );
 		jQuery( '.fusion-menu-clone' ).html( '' );
+
+		fusionMenuOptionsResetWooFragments();
 
 	} );
 
@@ -507,7 +513,7 @@ jQuery( document ).ready( function() {
 
 			_.each( icon[ 1 ], function( iconSubset ) {
 				if ( -1 !== fusionMenuConfig.fontawesomesubsets.indexOf( iconSubset ) ) {
-					outputSets[ iconSubset ] += '<span class="icon_preview ' + key + '" title="' + key + ' - ' + iconSubsets[ iconSubset ] + '"><i class="' + icon[ 0 ] + ' ' + iconSubset + '" data-name="' + icon[ 0 ].substr( 3 ) + '"></i></span>';
+					outputSets[ iconSubset ] += '<span class="icon_preview ' + key + '" title="' + key + ' - ' + iconSubsets[ iconSubset ] + '"><i class="' + icon[ 0 ] + ' ' + iconSubset + '" data-name="' + icon[ 0 ].substr( 3 ) + '" aria-hidden="true"></i></span>';
 				}
 			} );
 		} );
@@ -531,7 +537,7 @@ jQuery( document ).ready( function() {
 					fusionIconSearch.push( { name: icon } );
 				}
 
-				output += '<span class="icon_preview ' + icon + '" title="' + iconSet.css_prefix + icon + '"><i class="' + iconSet.css_prefix + icon + '" data-name="' + icon + '"></i></span>';
+				output += '<span class="icon_preview ' + icon + '" title="' + iconSet.css_prefix + icon + '"><i class="' + iconSet.css_prefix + icon + '" data-name="' + icon + '" aria-hidden="true"></i></span>';
 			} );
 			output += '</div>';
 		} );
@@ -543,3 +549,13 @@ jQuery( document ).ready( function() {
 
 	}() );
 } );
+
+// Delete cart fragments.
+function fusionMenuOptionsResetWooFragments() {
+	var keys = Object.keys( window.sessionStorage );
+	jQuery( keys ).each( function( i, key ) {
+		if ( -1 < key.indexOf( 'wc_fragments_' ) ) {
+			window.sessionStorage.removeItem( key );
+		}
+	} );
+}

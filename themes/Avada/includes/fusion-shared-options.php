@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains filters to override Fusion Builder global options.
+ * This file contains filters to override Avada Builder global options.
  *
  * @author     ThemeFusion
  * @link       https://theme-fusion.com
@@ -78,7 +78,7 @@ function avada_set_builder_classes( $default_elements, $class ) {
 		$elements[] = ' .page-tribe-attendee-registration button';
 		$elements[] = ' #tribe-events .tribe-events-list .tribe-events-event-cost form .tribe-button';
 		$elements[] = ' .avada-ec-views-v1 #tribe_events_filters_wrapper .tribe-events-filters-mobile-controls button';
-		$elements[] = ' .tribe-common .tribe-events-c-search__button';
+		$elements[] = '.fusion-body .tribe-common .tribe-events-c-search__button';
 		$elements[] = ' .tribe-events .tribe-events-c-ical > a';
 		$elements[] = ' .tribe-block__events-link .tribe-block__btn--link > a';
 		$elements[] = ' .tribe-block__event-website a';

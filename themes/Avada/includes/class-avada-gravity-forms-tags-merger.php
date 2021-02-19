@@ -356,7 +356,7 @@ class Avada_Gravity_Forms_Tags_Merger {
 			return true;
 		}
 
-		if ( is_array( $auto_append_eid ) && in_array( $form['id'], $auto_append_eid ) ) {
+		if ( is_array( $auto_append_eid ) && in_array( $form['id'], $auto_append_eid ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return true;
 		}
 

@@ -22,11 +22,11 @@ jQuery( document ).ready( function() {
 		return false;
 	} );
 
-	jQuery( 'a.debug-report' ).click( function() {
+	jQuery( '.debug-report-button' ).click( function() {
 
 		var report = '';
 
-		jQuery( '.avada-system-status table:not(.fusion-system-status-debug) thead, .avada-system-status:not(.fusion-system-status-debug) tbody' ).each( function() {
+		jQuery( '.avada-db-status h2:not(.avada-status-no-export), .avada-db-status table:not(.avada-status-no-export) tbody' ).each( function() {
 
 			var label,
 				theName,
@@ -35,9 +35,9 @@ jQuery( document ).ready( function() {
 				valueArray,
 				tempLine;
 
-			if ( jQuery( this ).is( 'thead' ) ) {
+			if ( jQuery( this ).is( 'h2' ) ) {
 
-				label = jQuery( this ).find( 'th:eq(0)' ).data( 'export-label' ) || jQuery( this ).text();
+				label = jQuery( this ).data( 'export-label' ) || jQuery( this ).text();
 				report = report + '\n### ' + jQuery.trim( label ) + ' ###\n\n';
 
 			} else {
@@ -73,8 +73,8 @@ jQuery( document ).ready( function() {
 		} );
 
 		try {
-			jQuery( '#debug-report' ).slideDown();
-			jQuery( '#debug-report textarea' ).val( report ).focus().select();
+			jQuery( '.debug-report' ).slideDown();
+			jQuery( '.debug-report textarea' ).val( report ).focus().select();
 			jQuery( this ).parent().fadeOut();
 			return false;
 		} catch ( e ) {} // eslint-disable-line no-empty
@@ -94,15 +94,16 @@ jQuery( document ).ready( function() {
 	} );
 
 	copyDebugReport = function() {
-		var debugReportTextarea = document.getElementById( 'debug-report-textarea' );
-		jQuery( debugReportTextarea ).select();
-		document.execCommand( 'Copy', false, null );
+		jQuery( '.debug-report textarea' ).select();
+		document.execCommand( 'copy' );
 	};
 } );
 
 jQuery( document ).ready( function() {
 
 	var importedLabel,
+		tags,
+		importedFilter,
 		importStagesLength,
 		removeStagesLength,
 		demoType,
@@ -115,7 +116,7 @@ jQuery( document ).ready( function() {
 		removeDemo,
 		importReport;
 
-	if ( jQuery( 'body' ).hasClass( 'avada_page_avada-demos' ) ) {
+	if ( jQuery( 'body' ).hasClass( 'avada_page_avada-prebuilt-websites' ) ) {
 
 		// If clicked on import data button.
 		jQuery( '.button-install-demo' ).on( 'click', function( e ) {
@@ -229,6 +230,12 @@ jQuery( document ).ready( function() {
 
 						importedLabel.show();
 						jQuery( '#theme-demo-' + demoType + ' .button-install-open-modal' ).html( avadaAdminL10nStrings.modify );
+
+						if ( -1 === tags.indexOf( 'imported' ) ) {
+							jQuery( '#theme-demo-' + demoType ).parent().data( 'tags', tags + ',imported' );
+							importedFilter.data( 'count', importedFilter.data( 'count' ) + 1 );
+							importedFilter.children( '.count' ).html( '(' + importedFilter.data( 'count' ) + ')' );
+						}
 					}, 4000 );
 				}
 			} ).fail( function( xhr, textStatus, errorThrown ) {
@@ -269,8 +276,9 @@ jQuery( document ).ready( function() {
 				importArray,
 				importContentArray;
 
-			importedLabel = jQuery( '#theme-demo-' + demoType + ' .plugin-premium' );
-
+			importedLabel      = jQuery( '#theme-demo-' + demoType + ' .plugin-premium' );
+			tags               = jQuery( '#theme-demo-' + demoType ).parent().data( 'tags' );
+			importedFilter     = jQuery( '.avada-db-demos-filter-imported' );
 			importArray        = [ 'download' ];
 			importContentArray = [];
 
@@ -369,6 +377,10 @@ jQuery( document ).ready( function() {
 					importedLabel.hide();
 					jQuery( '#theme-demo-' + demoType + ' .button-install-open-modal' ).html( avadaAdminL10nStrings[ 'import' ] );
 
+					jQuery( '#theme-demo-' + demoType ).parent().data( 'tags', tags.replace( ',imported', '' ) );
+					importedFilter.data( 'count', importedFilter.data( 'count' ) - 1 );
+					importedFilter.children( '.count' ).html( '(' + importedFilter.data( 'count' ) + ')' );
+
 					jQuery( '#import-' + demoType + ' input[type="checkbox"][value="all"]' ).prop( 'checked', false );
 					jQuery( '#import-' + demoType + ' input[type="checkbox"]:not(:checked)' ).prop( 'disabled', false );
 					jQuery( '#demo-modal-' + demoType + ' input[type="checkbox"][value="uninstall"]' ).prop( 'disabled', true );
@@ -385,7 +397,10 @@ jQuery( document ).ready( function() {
 			var data,
 				removeArray = [];
 
-			importedLabel = jQuery( '#theme-demo-' + demoType + ' .plugin-premium' );
+			importedLabel  = jQuery( '#theme-demo-' + demoType + ' .plugin-premium' );
+			tags           = jQuery( '#theme-demo-' + demoType ).parent().data( 'tags' );
+			importedFilter = jQuery( '.avada-db-demos-filter-imported' );
+
 			jQuery( '#remove-' + demoType + ' input:checkbox:checked' ).each( function() {
 
 				if ( 'content' === this.getAttribute( 'data-type' ) ) {
@@ -558,7 +573,7 @@ jQuery( document ).ready( function() {
 		} );
 
 		jQuery( '.avada-importer-tags-selector button' ).on( 'click', function( e ) {
-			var demos = jQuery( '.avada-demo-themes' ).find( '.fusion-admin-box' ),
+			var demos = jQuery( '.avada-db-demos-themes' ).find( '.fusion-admin-box' ),
 				value = this.getAttribute( 'data-tag' );
 
 			e.preventDefault();
@@ -584,7 +599,7 @@ jQuery( document ).ready( function() {
 		} );
 
 		jQuery( '#avada-demos-search' ).on( 'change keyup', function( e ) {
-			var demos = jQuery( '.avada-demo-themes' ).find( '.fusion-admin-box' ),
+			var demos = jQuery( '.avada-db-demos-themes' ).find( '.fusion-admin-box' ),
 				value = this.getAttribute( 'data-tag' );
 
 			e.preventDefault();
@@ -642,7 +657,7 @@ jQuery( document ).ready( function() {
 			var href              = jQuery( this ).attr( 'href' ),
 				hrefHash          = href.substr( href.indexOf( '#' ) ).slice( 1 ),
 				target            = jQuery( '#' + hrefHash ),
-				adminbarHeight    = jQuery( '#wpadminbar' ).height(),
+				adminbarHeight    = jQuery( '#wpadminbar' ).length ? jQuery( '#wpadminbar' ).height() : 0,
 				newScrollPosition = target.offset().top - adminbarHeight;
 
 			e.preventDefault();
@@ -838,3 +853,159 @@ function avadaPluginsManager() {
 		} );
 	} );
 }
+
+// Avada Dashboard.
+jQuery( document ).ready( function() {
+
+	// Welcome Setup Toggle.
+	jQuery( '.avada-db-welcome-setup-completed .avada-db-more-info' ).on( 'click', function( e ) {
+		e.preventDefault();
+
+		jQuery( this ).parent().removeClass( 'avada-db-welcome-setup-completed' ).addClass( 'avada-db-welcome-setup-completed-toggled' );
+	} );
+
+	jQuery( '.avada-db-welcome-setup-completed .notice-dismiss' ).on( 'click', function( e ) {
+		e.preventDefault();
+
+		jQuery( this ).parent().removeClass( 'avada-db-welcome-setup-completed-toggled' ).addClass( 'avada-db-welcome-setup-completed' );
+	} );
+
+
+	// Welcome Video expand.
+	jQuery( '.avada-db-welcome-video' ).on( 'click', function( e ) {
+		e.preventDefault();
+
+		jQuery( '.avada-db-welcome-video-container' ).toggleClass( 'avada-db-active' );
+	} );
+
+
+	// Scroll to the registration form.
+	jQuery( '.avada-db-step-one' ).on( 'click', function( e ) {
+		var href               = jQuery( this ).attr( 'href' ),
+			target             = jQuery( href ),
+			animationRoot      = ( jQuery( 'html' ).hasClass( 'ua-edge' ) || jQuery( 'html' ).hasClass( 'ua-safari-12' ) || jQuery( 'html' ).hasClass( 'ua-safari-11' ) || jQuery( 'html' ).hasClass( 'ua-safari-10' ) ) ? 'body' : 'html',
+			adminbarHeight     = jQuery( '#wpadminbar' ).length ? jQuery( '#wpadminbar' ).height() : 0,
+			stickyHeaderHeight = jQuery( '.avada-db-header-sticky' ).height(),
+			newScrollPosition  = target.offset().top - adminbarHeight - stickyHeaderHeight;
+
+		e.preventDefault();
+
+		jQuery( animationRoot ).animate( {
+			scrollTop: newScrollPosition
+		}, 400 );
+	} );
+
+	// Toggle the how to instructions for the registration.
+	jQuery( 'body' ).on( 'click', '.avada-db-card-heading-badge-howto', function( e ) {
+		e.preventDefault();
+
+		jQuery( '.avada-db-reg-howto' ).slideToggle();
+	} );
+
+	jQuery( 'body' ).on( 'submit', '.avada-db-reg-form', function( e ) {
+		var form = jQuery( this );
+
+		// No AJAX registration.
+		if ( form.find( 'input[name="no_ajax_reg"]' ).length ) {
+			return true;
+		}
+
+		e.preventDefault();
+
+		form.find( '.avada-db-reg-loader' ).show();
+		form.find( '.avada-db-reg-input-icon' ).hide();
+
+		jQuery.post(
+			ajaxurl,
+			form.serialize(),
+			function( response ) {
+				form.closest( '#avada-db-registration' ).html( response );
+
+				// Registered.
+				if ( jQuery( '#avada-db-registration' ).find( '.avada-db-reg-heading i' ).hasClass( 'fusiona-verified' ) ) {
+					jQuery( '.avada-db-menu-sticky-label' ).addClass( 'completed' );
+					jQuery( '.avada-db-step-one' ).addClass( 'avada-db-completed' );
+					jQuery( '#avada-db-registration' ).addClass( 'avada-db-completed' );
+				} else {
+
+					// Unregistered.
+					jQuery( '.avada-db-menu-sticky-label' ).removeClass( 'completed' );
+					jQuery( '.avada-db-step-one' ).removeClass( 'avada-db-completed' );
+					jQuery( '#avada-db-registration' ).removeClass( 'avada-db-completed' );
+				}
+
+				// Remove the all completed class from the steps card.
+				if ( 3 > jQuery( '.avada-db-setup-step.avada-db-completed' ).length ) {
+					jQuery( '.avada-db-welcome-setup' ).removeClass( 'avada-db-welcome-setup-completed' );
+				}
+			}
+		);
+		return false;
+	} );
+} );
+
+// System status page.
+jQuery( document ).ready( function() {
+
+	// API Check.
+	jQuery( '.fusion-check-api-status' ).on( 'click', function( event ) {
+		var $this = jQuery( this ),
+			statusCell = $this.closest( 'tr' ).find( 'td:nth-child(3)' ),
+			data = {
+			action: 'fusion_check_api_status',
+			nonce: jQuery( '#fusion-system-status-nonce' ).val()
+		};
+
+		event.preventDefault();
+
+		if ( 'undefined' === typeof jQuery( this ).data( 'api_type' ) ) {
+			return;
+		}
+
+		statusCell.html( '' );
+		$this.closest( 'tr' ).find( '.fusion-system-status-spinner' ).css( 'display', 'inline-block' );
+
+		data.api_type = jQuery( this ).data( 'api_type' );
+
+		jQuery.get( ajaxurl, data, function( response ) {
+
+			if ( 200 === response.code ) {
+				statusCell.removeClass( 'fusion-api-status-error' );
+				statusCell.addClass( 'fusion-api-status-ok' );
+				jQuery( '#fusion-check-api-textarea' ).css( 'display', 'none' );
+			} else {
+				statusCell.removeClass( 'fusion-api-status-ok' );
+				statusCell.addClass( 'fusion-api-status-error' );
+				jQuery( '#fusion-check-api-textarea' ).css( 'display', 'block' );
+			}
+
+			$this.closest( 'tr' ).find( '.fusion-system-status-spinner' ).css( 'display', 'none' );
+			statusCell.html( response.message );
+
+			jQuery( '#fusion-check-api-textarea' ).html( response.api_response );
+		}, 'json' );
+
+	} );
+
+	// Form tables.
+	jQuery( '.fusion-create-forms-tables' ).on( 'click', function( event ) {
+		var $this = jQuery( this ),
+			statusCell = $this.closest( 'tr' ).find( 'td:nth-child(3)' ),
+			data = {
+			action: 'fusion_create_forms_tables',
+			nonce: jQuery( '#fusion-system-status-nonce' ).val()
+		};
+
+		event.preventDefault();
+
+		statusCell.html( '' );
+		$this.closest( 'tr' ).find( '.fusion-system-status-spinner' ).css( 'display', 'inline-block' );
+
+		jQuery.get( ajaxurl, data, function( response ) {
+
+			$this.closest( 'tr' ).find( '.fusion-system-status-spinner' ).css( 'display', 'none' );
+			statusCell.html( response.message );
+		}, 'json' );
+
+	} );
+} );

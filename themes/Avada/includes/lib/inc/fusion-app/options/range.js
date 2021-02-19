@@ -40,7 +40,7 @@ FusionPageBuilder.options.fusionRangeField = {
 				$rangeCheck   = 1 === jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-with-default' ).length,
 				$rangeDefault = jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-panel-options .fusion-range-default' ).length ? jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-panel-options .fusion-range-default' ) : false,
 				$hiddenValue  = ( $rangeCheck ) ? jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-hidden-value' ) : false,
-				$defaultValue = ( $rangeCheck ) ? jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-range-default' ).data( 'default' ) : jQuery( this ).data( 'value' );
+				$defaultValue = ( $rangeCheck ) ? jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-range-default' ).attr( 'data-default' ) : jQuery( this ).data( 'value' );
 
 			self.$rangeSlider[ $targetId ] = jQuery( this )[ 0 ];
 
@@ -48,7 +48,7 @@ FusionPageBuilder.options.fusionRangeField = {
 			if ( 'undefined' !== typeof self.parentValues && 'undefined' !== typeof self.parentValues[ $targetId ] && $rangeDefault ) {
 
 				//  Set default values to new value.
-				jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-range-default' ).data( 'default', self.parentValues[ $targetId ] );
+				jQuery( this ).closest( '.fusion-builder-option' ).find( '.fusion-range-default' ).attr( 'data-default', self.parentValues[ $targetId ] );
 				$defaultValue = self.parentValues[ $targetId ];
 
 				// If no current value is set, also update $value as representation on load.
@@ -91,7 +91,7 @@ FusionPageBuilder.options.fusionRangeField = {
 		if ( $rangeDefault ) {
 			$rangeDefault.on( 'click', function( e ) {
 				e.preventDefault();
-				self.$rangeSlider[ $targetId ].noUiSlider.set( $defaultValue );
+				self.$rangeSlider[ $targetId ].noUiSlider.set( jQuery( this ).attr( 'data-default' ) );
 				$hiddenValue.val( '' ).trigger( 'fusion-change' );
 				jQuery( this ).parent().addClass( 'checked' );
 			} );

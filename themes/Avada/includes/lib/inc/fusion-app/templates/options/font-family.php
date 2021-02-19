@@ -45,35 +45,6 @@
 	</div>
 
 	<#
-	var subsetId      = 'fusion_font_subset_' + param.param_name,
-		subsetDefault = 'object' === typeof param.default && 'undefined' !== typeof param.default['font-subset'] ? param.default['font-subset'] : '';
-		subsetValue   = 'undefined' !== typeof atts && 'undefined' !== typeof atts.params[ subsetId ] ? atts.params[ subsetId ] : subsetDefault;
-	#>
-	<div class="subsets hide-on-standard-fonts fusion-subsets-wrapper" style="display:none">
-		<h5><?php esc_html_e( 'Subset', 'Avada' ); ?></h5>
-		<#
-			var subsetLabel = '<?php esc_attr_e( 'Select Font Subset', 'Avada' ); ?>';
-
-			if ( 'string' === typeof subsetValue && '' !== subsetValue ) {
-				subsetLabel = subsetValue.replace( 'ext', 'Extended' ).replace( '-', ' ' ).replace( /\w\S*/g, function( txt ) {
-					return txt.charAt( 0 ).toUpperCase() + txt.substr( 1 ).toLowerCase();
-				} );
-			}
-		#>
-		<div class="fusion-typography-select-wrapper">
-			<# if ( 'undefined' !== typeof FusionApp ) { #>
-				<select name="{{ subsetId }}" class="input-subsets subset" id="{{ subsetId }}" data-default="{{ subsetDefault }}">
-					<option value="" selected disabled hidden>{{ subsetLabel }}</option>
-				</select>
-				<div class="fusiona-arrow-down"></div>
-			<# } else { #>
-				<div class="select_arrow"></div>
-				<select id="{{ subsetId }}" name="{{ subsetId }}" class="input-subsets fusion-select-field< fusion-skip-init?php echo ( is_rtl() ) ? ' fusion-select-field-rtl' : ''; ?>" data-default="{{ subsetDefault }}" data-value="{{ subsetValue }}"></select>
-			<# } #>
-		</div>
-	</div>
-
-	<#
 	var variantId      = 'fusion_font_variant_' + param.param_name,
 		variantDefault = 'object' === typeof param.default && 'undefined' !== typeof param.default['font-variant'] ? param.default['font-variant'] : '';
 		variantValue   = 'undefined' !== typeof atts && 'undefined' !== typeof atts.params[ variantId ] ? atts.params[ variantId ] : variantDefault;

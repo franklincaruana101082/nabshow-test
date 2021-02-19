@@ -18,6 +18,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			events: {
 				'click .trigger-submenu-toggling': 'toggleSubMenu',
 				'click .fusion-builder-preview-viewport .toggle-viewport': 'previewViewport',
+				'click .fusion-builder-preview-viewport .toggle-viewport-breakpoints': 'toggleViewportBreakpoints',
 				'click #fusion-frontend-builder-toggle-global-panel': 'togglePanel',
 				'click .fusion-exit-builder-list a': 'exitBuilder',
 				'click [data-link]': 'languageSwitch',
@@ -58,6 +59,9 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				this.listenTo( FusionEvents, 'fusion-reconnected', this.removeWarningColor );
 				this.listenTo( FusionEvents, 'fusion-sidebar-toggled', this.setActiveStyling );
 				this.listenTo( FusionEvents, 'fusion-app-setup', this.reEnablePreviewMode );
+
+				// Debounced event trigger.
+				this._triggerEvent = _.debounce( _.bind( this.triggerEvent, this ), 300 );
 			},
 
 			/**
@@ -98,6 +102,8 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				if ( event ) {
 					event.preventDefault();
 					this.viewport = jQuery( event.currentTarget ).attr( 'data-viewport' );
+
+					FusionApp.setPreviewWindowSize( this.viewport );
 				}
 
 				// Change the indicator icon depending on the active viewport.
@@ -117,6 +123,48 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				jQuery( window ).trigger( 'resize' );
 				jQuery( '#fb-preview' )[ 0 ].contentWindow.jQuery( 'body' ).trigger( 'resize' );
 				jQuery( '#fb-preview' ).attr( 'data-viewport', self.viewport );
+
+				// For responsive element options.
+				this.responsiveOptions( self.viewport );
+
+				this._triggerEvent();
+			},
+
+			/**
+			 * Trigger viewport update event.
+			 *
+			 * @since 3.0
+			 * @return {void}
+			 */
+			triggerEvent: function() {
+				FusionEvents.trigger( 'fusion-preview-viewport-update' );
+			},
+
+			/**
+			 * Toggles predefined / custom viewport breakpoints.
+			 *
+			 * @since 2.0.0
+			 * @param {Object} event - The event.
+			 * @return {void}
+			 */
+			toggleViewportBreakpoints: function( event ) {
+				var $target,
+					$parent;
+
+				if ( ! event ) {
+					return;
+				}
+
+				event.preventDefault();
+
+				$target = jQuery( event.target );
+				$parent = $target.closest( 'li' );
+
+				$target.siblings().removeClass( 'active-breakpoints' );
+				$target.addClass( 'active-breakpoints' );
+
+				$parent.find( '> ul' ).attr( 'aria-expanded', 'false' );
+				$parent.find( '> #' + $target.data( 'viewport-breakpoints' ) ).attr( 'aria-expanded', 'true' );
 			},
 
 			/**
@@ -646,6 +694,27 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				var postStatus = this.$el.find( '.save-wrapper .post-status input:checked' ).length ? this.$el.find( '.save-wrapper .post-status input:checked' ).val() : FusionApp.getPost( 'post_status' );
 				FusionApp.setPost( 'post_status', postStatus );
 				FusionApp.contentChange( 'page', 'page-setting' );
+			},
+
+			/**
+			 * Adds data for responsive options.
+			 *
+			 * @since 3.0
+			 * @param {String} viewport - The selected viewport.
+			 * @return {void}
+			 */
+			responsiveOptions: function( viewport ) {
+				var viewPorts = {
+					'desktop': 'large',
+					'tablet-portrait-custom': 'medium',
+					'mobile-portrait-custom': 'small'
+				};
+
+				jQuery( 'body' ).removeClass( function ( index, className ) {
+					return ( className.match( /(^|\s)fusion-builder-module-settings-\S+/g ) || [] ).join( ' ' );
+				} );
+
+				jQuery( 'body' ).addClass( 'fusion-builder-module-settings-' + viewPorts[ viewport ] );
 			}
 
 		} );

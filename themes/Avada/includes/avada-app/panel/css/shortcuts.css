@@ -15,10 +15,8 @@ body:not(.avada-footer-fx-parallax-effect) .fusion-panel-customizable.fusion-pan
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99999;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
   opacity: 0;
   pointer-events: none;
 }
@@ -41,7 +39,6 @@ body:not(.avada-footer-fx-parallax-effect) .fusion-panel-customizable.fusion-pan
   pointer-events: auto;
 }
 .fusion-panel-customizable .fusion-panel-shortcuts {
-  display: -ms-flexbox;
   display: flex;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
 }
@@ -151,6 +148,20 @@ header .fusion-header .fusion-panel-shortcut:hover:after {
   top: 43px;
 }
 header .fusion-header .fusion-panel-shortcut:hover:before {
+  top: 33px;
+}
+.fusion-tb-header .fusion-panel-shortcut:after {
+  top: 32px;
+}
+.fusion-tb-header .fusion-panel-shortcut:before {
+  border-top-color: transparent;
+  border-bottom-color: #1d2226;
+  top: 22px;
+}
+.fusion-tb-header .fusion-panel-shortcut:hover:after {
+  top: 43px;
+}
+.fusion-tb-header .fusion-panel-shortcut:hover:before {
   top: 33px;
 }
 #side-header .fusion-panel-shortcuts-wrapper,
@@ -289,7 +300,6 @@ header .fusion-header .fusion-panel-shortcut:hover:before {
 #sliders-container:hover #fusion-builder-slider-actions,
 .fusion-page-title-bar:hover #fusion-builder-ptb-actions,
 #sliders-container:hover #fusion-builder-ptb-actions {
-  display: -ms-flexbox;
   display: flex;
 }
 .fusion-builder-live.fusion-hide-all-tooltips .has-ptb .has-tooltip:after,

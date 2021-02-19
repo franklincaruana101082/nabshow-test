@@ -6,6 +6,9 @@
 .fusion-sliding-bar .tagcloud a:hover {
   background-color: var(--slidingbar_link_color_hover);
 }
+#slidingbar-area .fusion-sliding-bar .tagcloud a:hover {
+  border-color: var(--slidingbar_link_color_hover);
+}
 .fusion-sliding-bar .price_slider_wrapper .ui-slider .ui-slider-range,
 .fusion-sliding-bar .price_slider_wrapper .price_slider_amount button,
 .fusion-sliding-bar .price_slider_wrapper .price_slider_amount button:hover {

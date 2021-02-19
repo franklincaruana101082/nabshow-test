@@ -204,7 +204,6 @@ function avada_options_section_layout( $sections ) {
 				'choices'     => [
 					'top'    => true,
 					'bottom' => true,
-					'units'  => [ 'px', '%' ],
 				],
 				'default'     => [
 					'top'    => '0px',
@@ -374,7 +373,6 @@ function avada_options_section_layout( $sections ) {
 				'choices'     => [
 					'top'    => true,
 					'bottom' => true,
-					'units'  => [ 'px', '%' ],
 				],
 				'default'     => [
 					'top'    => '60px',
@@ -399,7 +397,7 @@ function avada_options_section_layout( $sections ) {
 			],
 			'hundredp_padding'            => [
 				'label'       => esc_html__( '100% Width Padding', 'Avada' ),
-				'description' => esc_html__( 'Controls the left and right padding for page content when using 100% site width, 100% width page template or 100% width post option. This does not affect Fusion Builder containers.', 'Avada' ),
+				'description' => esc_html__( 'Controls the left and right padding for page content when using 100% site width, 100% width page template or 100% width post option. This does not affect Avada Builder containers.', 'Avada' ),
 				'id'          => 'hundredp_padding',
 				'default'     => '30px',
 				'type'        => 'dimension',
@@ -411,6 +409,10 @@ function avada_options_section_layout( $sections ) {
 					[
 						'name'     => '--hundredp_padding-fallback_to_zero',
 						'callback' => 'fallback_to_zero',
+					],
+					[
+						'name'     => '--hundredp_padding-fallback_to_zero_px',
+						'callback' => [ 'fallback_to_value_if_empty', '0px' ],
 					],
 					[
 						'name'     => '--hundredp_padding-hundred_percent_negative_margin',

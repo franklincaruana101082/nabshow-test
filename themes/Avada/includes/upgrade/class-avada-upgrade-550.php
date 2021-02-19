@@ -97,8 +97,8 @@ class Avada_Upgrade_550 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.0
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	private function set_masonry_default_options( $options ) {
 		$options['masonry_grid_ratio']   = 0.8;
@@ -112,8 +112,8 @@ class Avada_Upgrade_550 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.0
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	private function set_sliding_bar_paddings( $options ) {
 
@@ -145,8 +145,8 @@ class Avada_Upgrade_550 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.0
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	private function set_post_titles_typography_options( $options ) {
 
@@ -205,8 +205,8 @@ class Avada_Upgrade_550 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.0
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	private function set_page_background_options( $options ) {
 
@@ -229,8 +229,8 @@ class Avada_Upgrade_550 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.0
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	private function set_masonry_grid_ratio( $options ) {
 
@@ -244,8 +244,8 @@ class Avada_Upgrade_550 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.0
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	private function set_blog_archive_grid_options( $options ) {
 

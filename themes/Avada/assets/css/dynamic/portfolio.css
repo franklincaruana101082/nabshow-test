@@ -1,4 +1,19 @@
 /* stylelint-disable no-descending-specificity */
+.fusion-portfolio-boxed .fusion-portfolio-unboxed .fusion-portfolio-content {
+  padding: 0;
+  margin: 20px 0;
+}
+.fusion-portfolio-boxed .fusion-portfolio-unboxed .fusion-portfolio-content-wrapper {
+  border: none;
+}
+.fusion-portfolio-layout-masonry .fusion-portfolio-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  margin: 0;
+}
 .fusion-portfolio-content-wrapper .fusion-portfolio-content {
   text-align: var(--portfolio_archive_text_alignment);
 }

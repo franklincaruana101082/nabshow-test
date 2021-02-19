@@ -22,7 +22,7 @@ if ( isset( $_SERVER['QUERY_STRING'] ) ) {
 	}
 }
 
-$separator_styles_array = explode( '|', Avada()->settings->get( 'grid_separator_style_type' ) );
+$separator_styles_array = explode( '|', apply_filters( 'avada_grid_separator_style_types', Avada()->settings->get( 'grid_separator_style_type' ) ) );
 $separator_styles       = '';
 
 foreach ( $separator_styles_array as $separator_style ) {
