@@ -11,8 +11,6 @@
 		justify-content: space-between;
 	}
 	&__feature {
-		margin-top: rem(20);
-		margin-bottom: rem(50);
 		border-top: 4px solid $color__purple;
 		border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
 		@include bp-768 {
