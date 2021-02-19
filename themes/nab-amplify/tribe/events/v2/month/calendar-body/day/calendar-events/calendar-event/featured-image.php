@@ -17,10 +17,10 @@
  *
  */
 
-$event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
-$featured_image   = nab_amplify_get_featured_image( $post_id );
+$event_url = tribe_get_event_meta( $event->ID, '_EventURL', true );
+$featured_image   = nab_amplify_get_featured_image( $event->ID );
 
-if ( empty( $featured_image ) ) {
+if ( empty( $featured_image ) || null === $featured_image ) {
 	return;
 }
 ?>

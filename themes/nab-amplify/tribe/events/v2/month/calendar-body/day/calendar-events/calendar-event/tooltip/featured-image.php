@@ -16,12 +16,13 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-if ( ! $event->thumbnail->exists ) {
+$event_url = tribe_get_event_meta( $event->ID, '_EventURL', true );
+$featured_image   = nab_amplify_get_featured_image( $event->ID );
+
+if ( empty( $featured_image ) || null === $featured_image ) {
 	return;
 }
 
-$event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
-$featured_image   = nab_amplify_get_featured_image( $post_id );
 ?>
 <div class="ne-check01 tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
 	<a
