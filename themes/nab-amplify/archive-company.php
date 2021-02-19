@@ -13,7 +13,7 @@ get_header();
 <main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
 			<div class="search-result-filter">
-<?php			
+<?php
 $company_args = array(
 	'post_type'			=> 'company',
 	'post_status'		=> 'publish',
@@ -28,7 +28,7 @@ if ( $company_query->have_posts() ) {
 	?>
 	<div class="search-view-top-head">
 		<h2>COMPANIES</h2>
-		
+
 	</div>
 	<div class="search-section search-company-section">
 		<div class="search-section-details" id="search-company-list">
@@ -47,7 +47,7 @@ if ( $company_query->have_posts() ) {
 				$cover_image        = get_field( 'cover_image' );
 				$profile_picture    = get_field( 'profile_picture' );
 				$cover_image        = ! empty( $cover_image ) ? $cover_image[ 'url' ] : $default_company_cover;
-				$featured_image   	= get_the_post_thumbnail_url();  
+				$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 				$profile_picture  	= $featured_image;
 				$company_url		= get_the_permalink();
 				?>
@@ -60,7 +60,7 @@ if ( $company_query->have_posts() ) {
 							<div class="search-item-avtar">
 								<a href="<?php echo esc_url( $company_url ); ?>">
 									<?php if ($profile_picture) { ?>
-	                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Compnay Profile Picture" />
+	                                    <img src="<?php echo esc_url($profile_picture); ?>" alt="Company Profile Picture" />
 	                                <?php } else { ?>
 	                                    <div class="no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
 	                                <?php } ?>

@@ -304,6 +304,42 @@
     60
   )
 
+  // Add a popup function if not exists.
+  if ('function' !== typeof nabAddPopup) {
+    /**
+     * Add a blank popup.
+     *
+     * @param ID Main modal ID.
+     */
+    function nabAddPopup (ID) {
+      let nabModal = document.createElement('div')
+      nabModal.setAttribute('class', 'nab-modal')
+      nabModal.setAttribute('id', ID)
+
+      let nabModalInner = document.createElement('div')
+      nabModalInner.setAttribute('class', 'nab-modal-inner')
+      nabModal.appendChild(nabModalInner)
+
+      let nabModalContent = document.createElement('div')
+      nabModalContent.setAttribute('class', 'modal-content')
+      nabModalInner.appendChild(nabModalContent)
+
+      let nabModalClose = document.createElement('span')
+      nabModalClose.setAttribute(
+        'class',
+        'nab-modal-close fa fa-times confirmed-answer'
+      )
+      nabModalClose.setAttribute('id', 'confirmed-no')
+      nabModalContent.appendChild(nabModalClose)
+
+      let nabModalContentWrap = document.createElement('div')
+      nabModalContentWrap.setAttribute('class', 'modal-content-wrap')
+      nabModalContent.appendChild(nabModalContentWrap)
+
+      jQuery('body').append(nabModal)
+    }
+  }
+
   function charcount (event, tag, counttag, limit) {
     jQuery(document).on(event, tag, function (e) {
       var len = jQuery(this).val().length
@@ -2828,7 +2864,10 @@
     }
   )
 
-  $(document).on('click', '.confirmed-answer', function () {
+  $(document).on(
+    'click',
+    '#unfriend-confirmation .confirmed-answer',
+    function () {
     if ('confirmed-yes' === $(this).attr('id')) {
       window.location.href = $('.popup-shown').attr('href')
     } else {

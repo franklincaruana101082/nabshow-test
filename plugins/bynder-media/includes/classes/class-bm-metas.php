@@ -22,8 +22,9 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 		}
 
 		public function bm_add_metaboxes() {
-			$screens = [ 'post', 'page' ];
-			foreach ( $screens as $screen ) {
+			$screen = null;
+			/*$screens = [ 'post', 'page' ];
+			foreach ( $screens as $screen ) {*/
 				add_meta_box(
 					'bm_metabox_meta', // Unique ID
 					'Bynder Media',
@@ -31,7 +32,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 					$screen,
 					'side'
 				);
-			}
+			//}
 		}
 
 		// Callback for Custom Meta Box
@@ -40,7 +41,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			wp_nonce_field( 'bm_metabox_submit', 'bm_metabox_nonce' );
 
 			// Add Featured Image.
-			$bm_meta_featured_image = get_post_meta( $post->ID, '_bm_meta_featured_image', true );
+			$bm_meta_featured_image = get_post_meta( $post->ID, 'profile_picture', true );
 			if ( $bm_meta_featured_image ) {
 				$bm_featured_action = 'Replace';
 				$bm_image_class     = 'selected';
@@ -71,12 +72,12 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			}
 
 			// Post values.
-			$bm_meta_featured_image = filter_input( INPUT_POST, “bm_meta_featured_image”, FILTER_SANITIZE_STRING );
+			$bm_meta_featured_image = filter_input( INPUT_POST, "bm_meta_featured_image", FILTER_SANITIZE_STRING );
 
 			//if ( $bm_meta_featured_image ) {
 				update_post_meta(
 					$post_id,
-					'_bm_meta_featured_image',
+					'profile_picture',
 					$bm_meta_featured_image
 				);
 			//}

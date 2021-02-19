@@ -50,7 +50,7 @@ if ( bp_is_my_profile() ) {
 	<?php
 }
 ?>
-<div class="member-front-page">		
+<div class="member-front-page">
 	<div class="member-connections">
 
 		<?php if ( bp_has_members( $members_filter ) ) :
@@ -132,7 +132,7 @@ if ( bp_is_my_profile() ) {
 						<strong>Connections</strong>
 						<span>(0 RESULTS)</span>
 					</h3>
-					<div class="amp-view-more">						
+					<div class="amp-view-more">
 						<a href="<?php echo esc_url( $find_new_connection_link ) ?>" class="view-more-arrow">Find New Connections</a>
 					</div>
 				</div>
@@ -190,7 +190,7 @@ if ( bp_is_my_profile() ) {
 								$purchased_events->the_post();
 
 								$event_id   = get_the_ID();
-								$event_img  = has_post_thumbnail() ? get_the_post_thumbnail_url() : $event_default_img;
+								$event_img  = nab_amplify_get_featured_image( get_the_ID(), true, $event_default_img );
 								$event_date = get_field( 'show_date', $event_id );
 								$event_url  = get_field( 'show_url', $event_id );
 
@@ -264,7 +264,7 @@ if ( bp_is_my_profile() ) {
 								$bookmark_query->the_post();
 
 								$bookmark_id        = get_the_ID();
-								$bookmark_thumbnail = has_post_thumbnail() ? get_the_post_thumbnail_url() : $bookmark_img;
+								$bookmark_thumbnail = nab_amplify_get_featured_image( $bookmark_id, true, $bookmark_img );
 								$bookmark_link      = get_the_permalink();
 
 								?>
