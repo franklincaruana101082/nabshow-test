@@ -106,7 +106,7 @@
 							*/ ?>
 						</li>
 					<?php } else { ?>
-						<li class="menu__item"><a href="#" class="menu__link"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a></li>
+						<li class="menu__item"><a href="<?php echo esc_url( wc_get_page_permalink( 'sign-up' ) ); ?>" class="menu__link"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a></li>
 						<li class="menu__item">
 							<a class="menu__link _login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Log In', 'nab-amplify' ); ?></a>
 						</li>
