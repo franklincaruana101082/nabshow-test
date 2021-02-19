@@ -107,22 +107,17 @@
 										<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e($category_limit['search']); ?>">
 											<option value=""></option>
 											<?php
+											foreach ($terms as $current_term) {
 
-                                            foreach ($company_data['company_admins'] as $user) {
-                                                $comp_admin = get_user_by('ID', $user);
+												$selected_term = '';
 
-                                                if ($comp_admin) {
-                                                    $user_name		= $comp_admin->user_login;
-                                                    $user_full_name	= get_user_meta($comp_admin->ID, 'first_name', true) . ' ' . get_user_meta($comp_admin->ID, 'last_name', true);
-
-                                                    if (! empty(trim($user_full_name))) {
-                                                        $user_name .= ' (' . $user_full_name . ')';
-                                                    } ?>
-													<option value="<?php echo esc_attr($comp_admin->ID); ?>" selected><?php echo esc_html($user_name); ?></option>
-													<?php
-                                                }
-                                            }	
-												
+												if (is_array($company_data['search_product_categories']) && in_array($current_term->term_id, $company_data['search_product_categories'], true)) {
+													$selected_term = $current_term->term_id;
+												}
+											?>
+												<option value="<?php echo esc_attr($current_term->term_id); ?>" <?php selected($selected_term, $current_term->term_id); ?>><?php echo esc_html($current_term->name); ?></option>
+											<?php
+											}
 											?>
 										</select>
 									</div>
