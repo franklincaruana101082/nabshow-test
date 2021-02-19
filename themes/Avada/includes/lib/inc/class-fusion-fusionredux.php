@@ -393,6 +393,8 @@ class Fusion_FusionRedux {
 			'subsection' => true,
 			'desc'       => ( isset( $subsection['description'] ) ) ? $subsection['description'] : '',
 			'highlight'  => ( isset( $subsection['highlight'] ) ) ? $subsection['highlight'] : '',
+			'class'      => ( isset( $subsection['class'] ) ) ? $subsection['class'] : '',
+			'hidden'     => ( isset( $subsection['hidden'] ) ) ? $subsection['hidden'] : false,
 		];
 
 		// Ability to hide sub sections via a filter.
@@ -426,6 +428,10 @@ class Fusion_FusionRedux {
 			'required'    => [],
 			'output'      => [],
 		];
+
+		if ( isset( $field['hidden'] ) && $field['hidden'] ) {
+			$args['class'] .= ' hidden';
+		}
 
 		if ( isset( $field['required'] ) && is_array( $field['required'] ) && ! empty( $field['required'] ) ) {
 			foreach ( $field['required'] as $requirement ) {
@@ -692,7 +698,6 @@ class Fusion_FusionRedux {
 				$args['font-weight']    = ( isset( $args['default']['font-weight'] ) || ( isset( $field['choices']['font-weight'] ) && $field['choices']['font-weight'] ) ) ? true : false;
 				$args['font-size']      = ( isset( $args['default']['font-size'] ) || ( isset( $field['choices']['font-size'] ) && $field['choices']['font-size'] ) ) ? true : false;
 				$args['font-family']    = ( isset( $args['default']['font-family'] ) || ( isset( $field['choices']['font-family'] ) && $field['choices']['font-family'] ) ) ? true : false;
-				$args['subsets']        = ( isset( $args['default']['font-family'] ) || ( isset( $field['choices']['font-family'] ) && $field['choices']['font-family'] ) ) ? true : false;
 				$args['line-height']    = ( isset( $args['default']['line-height'] ) || ( isset( $field['choices']['line-height'] ) && $field['choices']['line-height'] ) ) ? true : false;
 				$args['word-spacing']   = ( isset( $args['default']['word-spacing'] ) || ( isset( $field['choices']['word-spacing'] ) && $field['choices']['word-spacing'] ) ) ? true : false;
 				$args['letter-spacing'] = ( isset( $args['default']['word-spacing'] ) || ( isset( $field['choices']['letter-spacing'] ) && $field['choices']['letter-spacing'] ) ) ? true : false;
@@ -877,8 +882,8 @@ class Fusion_FusionRedux {
 			'fusionReduxResetCaches',
 			[
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'confirm' => esc_attr__( 'Are you sure you want to reset all Fusion caches?', 'Avada' ),
-				'success' => esc_attr__( 'All Fusion caches have been reset.', 'Avada' ),
+				'confirm' => esc_html__( 'Are you sure you want to reset all Avada caches?', 'Avada' ),
+				'success' => esc_html__( 'All Avada caches have been reset.', 'Avada' ),
 			]
 		);
 	}
@@ -994,7 +999,9 @@ class Fusion_FusionRedux {
 				$main_colors['color_back_1']                = '#32373c';
 				$main_colors['color_back_2']                = '#23282d';
 				$main_colors['color_back_top_level_hover']  = '#191e23';
-				$main_colors['color_back_top_level_active'] = '#0073aa';
+				$main_colors['color_back_top_level_active'] = '#198FD9';
+				$main_colors['color_accent_1']              = '#0e7abd';
+				$main_colors['color_accent_2']              = '#198FD9';
 				break;
 			case 'light':
 				$main_colors['color_back_1']                = '#fff';
@@ -1065,8 +1072,8 @@ class Fusion_FusionRedux {
 			case 'fresh':
 				$text_colors['menu_top_level']        = '#eee';
 				$text_colors['menu_sub_level']        = 'rgba(240, 245, 250, 0.7)';
-				$text_colors['menu_top_level_hover']  = '#00b9eb';
-				$text_colors['menu_sub_level_hover']  = '#00b9eb';
+				$text_colors['menu_top_level_hover']  = '#198FD9';
+				$text_colors['menu_sub_level_hover']  = '#198FD9';
 				$text_colors['menu_top_level_active'] = '#fff';
 				$text_colors['menu_sub_level_active'] = '#fff';
 				break;
@@ -1074,7 +1081,7 @@ class Fusion_FusionRedux {
 				$text_colors['menu_top_level']        = '#333';
 				$text_colors['menu_sub_level']        = '#686868';
 				$text_colors['menu_top_level_hover']  = '#fff';
-				$text_colors['menu_sub_level_hover']  = '#00b9eb';
+				$text_colors['menu_sub_level_hover']  = '#198FD9';
 				$text_colors['menu_top_level_active'] = '#fff';
 				$text_colors['menu_sub_level_active'] = '#333';
 				break;
@@ -1303,7 +1310,7 @@ class Fusion_FusionRedux {
 
 		return $localize_data;
 	}
-	
+
 
 	/**
 	 * Modify the FusionRedux reset message (global).
@@ -1409,21 +1416,20 @@ class Fusion_FusionRedux {
 			return;
 		}
 		?>
-		<div id="remote-media-found-in-fusion-options" class="notice notice-error" style="position:relative;">
-			<p><?php esc_html_e( 'Media fields using remote URLs were detected in your theme options:', 'Avada' ); ?></p>
-			<ul style="list-style:disc outside none;">
+		<div id="remote-media-found-in-fusion-options" class="notice notice-error avada-db-card avada-db-notice">
+			<h2><?php esc_html_e( 'Media fields using remote URLs were detected in your Global Options', 'Avada' ); ?></h2>
+			<ul>
 				<?php foreach ( $this->media_fields as $field ) : ?>
-					<li style="margin-left:1.5em;"><?php echo esc_html( $field['label'] ); ?></li>
+					<li><span><?php echo esc_html( $field['label'] ); ?></span></li>
 				<?php endforeach; ?>
 			</ul>
-			<p><?php esc_html_e( 'Please replace them with locally-imported files from your media-library', 'Avada' ); ?></p>
+			<p><?php esc_html_e( 'Please replace them with locally-imported files from your media library.', 'Avada' ); ?></p>
 			<span id="fusion-redux-remote-media-ajax-notification-nonce" class="hidden">
 				<?php echo esc_attr( wp_create_nonce( 'avada-redux-ajax-notification-nonce' ) ); ?>
 			</span>
-			<a href="javascript:;" id="dismiss-fusion-redux-ajax-notification" style="position:absolute;top:5px;right:5px;color:#dc3232;text-decoration:none;">
-				<span class="dashicons dashicons-dismiss" style="font-size:1rem;"></span>
+			<button id="dismiss-fusion-redux-ajax-notification" class="notice-dismiss">
 				<span class="screen-reader-text"><?php esc_html_e( 'Dismiss Message', 'Avada' ); ?></span>
-			</a>
+			</button>
 		</div>
 		<?php
 	}

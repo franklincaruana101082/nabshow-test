@@ -81,7 +81,7 @@ function avada_options_section_sliding_bar( $sections ) {
 			],
 			'mobile_slidingbar_widgets'    => [
 				'label'       => esc_html__( 'Sliding Bar On Mobile', 'Avada' ),
-				'description' => __( 'Turn on to display the sliding bar on mobiles. <strong>Important:</strong> Due to mobile screen sizes and overlapping issues, when this option is enabled the triangle toggle style in the top right position will be forced for square and circle desktop styles.', 'Avada' ),
+				'description' => __( 'Turn on to display the sliding bar on mobiles. <strong>IMPORTANT:</strong> Due to mobile screen sizes and overlapping issues, when this option is enabled the triangle toggle style in the top right position will be forced for square and circle desktop styles.', 'Avada' ),
 				'id'          => 'mobile_slidingbar_widgets',
 				'default'     => '0',
 				'type'        => 'switch',

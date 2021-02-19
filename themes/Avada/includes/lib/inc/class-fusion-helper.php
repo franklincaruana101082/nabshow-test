@@ -126,7 +126,7 @@ final class Fusion_Helper {
 	 *
 	 * @static
 	 * @access public
-	 * @since 6.2
+	 * @since 2.2
 	 * @return bool
 	 */
 	public static function is_woocommerce() {
@@ -143,7 +143,7 @@ final class Fusion_Helper {
 	 *
 	 * @static
 	 * @access public
-	 * @since 6.2
+	 * @since 2.2
 	 * @return bool
 	 */
 	public static function is_bbpress() {
@@ -160,7 +160,7 @@ final class Fusion_Helper {
 	 *
 	 * @static
 	 * @access public
-	 * @since 5.1.0
+	 * @since 1.1.0
 	 * @return bool
 	 */
 	public static function bbp_is_forum_archive() {
@@ -175,7 +175,7 @@ final class Fusion_Helper {
 	 *
 	 * @static
 	 * @access public
-	 * @since 6.2
+	 * @since 2.2
 	 * @return bool
 	 */
 	public static function bbp_is_topic_archive() {
@@ -192,7 +192,7 @@ final class Fusion_Helper {
 	 *
 	 * @static
 	 * @access public
-	 * @since 6.2
+	 * @since 2.2
 	 * @return bool
 	 */
 	public static function bbp_is_search() {
@@ -205,11 +205,45 @@ final class Fusion_Helper {
 	}
 
 	/**
+	 * Check if we're on a bbPress tag archive page.
+	 *
+	 * @static
+	 * @access public
+	 * @since 3.0
+	 * @return bool
+	 */
+	public static function bbp_is_topic_tag() {
+
+		if ( function_exists( 'bbp_is_topic_tag' ) ) {
+			return (bool) bbp_is_topic_tag();
+		}
+		return false;
+
+	}
+
+	/**
+	 * Check if we're on a buddyPress page.
+	 *
+	 * @static
+	 * @access public
+	 * @since 3.0
+	 * @return bool
+	 */
+	public static function is_buddypress() {
+
+		if ( function_exists( 'is_buddypress' ) ) {
+			return (bool) is_buddypress();
+		}
+		return false;
+
+	}   
+
+	/**
 	 * Check if we're on an Event post.
 	 *
 	 * @static
 	 * @access public
-	 * @since 6.2
+	 * @since 2.2
 	 * @param int|null $post_id The post ID.
 	 * @return bool
 	 */
@@ -223,8 +257,9 @@ final class Fusion_Helper {
 	/**
 	 * Check if we're in an events archive.
 	 *
-	 * @access public
 	 * @static
+	 * @access public
+	 * @since 2.2
 	 * @param int|null $post_id The post ID.
 	 * @return bool
 	 */
@@ -240,7 +275,7 @@ final class Fusion_Helper {
 	 *
 	 * @static
 	 * @access public
-	 * @since 6.2
+	 * @since 2.2
 	 * @return bool
 	 */
 	public static function tribe_is_v2_views_enabled() {
@@ -253,6 +288,8 @@ final class Fusion_Helper {
 	/**
 	 * Get the contents of the title bar.
 	 *
+	 * @static
+	 * @access public
 	 * @param  int  $post_id               The post ID.
 	 * @param  bool $get_secondary_content Determine if we want secondary content.
 	 * @return array

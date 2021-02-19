@@ -89,12 +89,12 @@ class Avada_Upgrade_591 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate the search page Theme Options.
+	 * Migrate the search page Global Options.
 	 *
 	 * @access private
 	 * @since 5.9.1
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_search_options( $options ) {
 
@@ -104,12 +104,12 @@ class Avada_Upgrade_591 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate old color Theme Options where the default was set inside the options.
+	 * Migrate old color Global Options where the default was set inside the options.
 	 *
 	 * @access private
 	 * @since 5.9.1
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_old_color_options( $options ) {
 
@@ -153,8 +153,8 @@ class Avada_Upgrade_591 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.9.1
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_megamenu_width( $options ) {
 
@@ -173,12 +173,12 @@ class Avada_Upgrade_591 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate the to top Theme Options.
+	 * Migrate the to top Global Options.
 	 *
 	 * @access private
 	 * @since 5.9.1
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_totop_options( $options ) {
 		if ( '1' === $options['status_totop'] ) {

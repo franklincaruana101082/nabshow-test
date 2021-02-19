@@ -5,7 +5,7 @@
  * Plugin Name: Fusion Library
  *
  * @package Fusion-Library
- * @version 2.2.3
+ * @version 3.2.1
  */
 
 // Do not allow directly accessing this file.
@@ -18,7 +18,7 @@ if ( ! defined( 'FUSION_LIBRARY_DEV_MODE' ) ) {
 }
 
 // Don't use a constant, we need this as a simple var.
-$current_version = '2.2.3';
+$current_version = '3.2.1';
 global $fusion_library_latest_version;
 if ( ! $fusion_library_latest_version ) {
 	$fusion_library_latest_version = $current_version;

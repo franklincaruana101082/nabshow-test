@@ -15,6 +15,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Direct script access denied.' );
 }
 
+
+/**
+ * The Avada_Nav_Walker class was deprecated in v7.0
+ * and moved to Fusion-Library as Fusion_Nav_Walker.
+ */
+class_alias( 'Fusion_Nav_Walker', 'Avada_Nav_Walker' );
+class_alias( 'Fusion_Nav_Walker', 'FusionCoreFrontendWalker' );
+
 /**
  * How comments are displayed
  * This is simply a wrapper for the comment_template method in the Avada_Template class
@@ -200,12 +208,6 @@ class FusionMegaMenuFramework extends Avada_Megamenu_Framework {}
  * Kept for child-themes compatibility.
  */
 class FusionMegaMenu extends Avada_Megamenu {}
-
-/**
- * Alias for the Avada_Nav_Walker class.
- * Kept for child-themes compatibility.
- */
-class FusionCoreFrontendWalker extends Avada_Nav_Walker {}
 
 /**
  * Alias for the Avada_Nav_Walker_Megamenu class.

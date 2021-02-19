@@ -27,7 +27,7 @@ function fusion_builder_redux_shortcode_styling( $sections ) {
 
 	if ( class_exists( 'FusionBuilder' ) ) {
 		$sections['shortcode_styling'] = [
-			'label'    => esc_html__( 'Fusion Builder Elements', 'Avada' ),
+			'label'    => esc_html__( 'Avada Builder Elements', 'Avada' ),
 			'id'       => 'fusion_builder_elements',
 			'is_panel' => true,
 			'priority' => 14,
@@ -36,7 +36,7 @@ function fusion_builder_redux_shortcode_styling( $sections ) {
 				'shortcode_styling' => [
 					'label'       => '',
 					/* translators: URL. */
-					'description' => '<div class="fusion-redux-important-notice">' . sprintf( __( '<strong>IMPORTANT NOTE:</strong> Fusion Builder Elements settigns are moved to Fusion Builder Elements options panel <a href="%s" target="_blank">here</a>.', 'Avada' ), admin_url( 'admin.php?page=fusion-element-options' ) ) . '</div>',
+					'description' => '<div class="fusion-redux-important-notice">' . sprintf( __( '<strong>IMPORTANT NOTE:</strong> Avada Builder Elements settigns are moved to Avada Builder Elements options panel <a href="%s" target="_blank">here</a>.', 'Avada' ), admin_url( 'admin.php?page=fusion-element-options' ) ) . '</div>',
 					'id'          => 'shortcode_styling',
 					'type'        => 'custom',
 					'option_name' => $option_name,

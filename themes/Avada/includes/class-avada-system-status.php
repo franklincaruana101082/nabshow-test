@@ -29,7 +29,11 @@ class Avada_System_Status {
 	 */
 	public function __construct() {
 
+		// Check update server API status.
 		add_action( 'wp_ajax_fusion_check_api_status', [ $this, 'check_api_status' ] );
+
+		// Re-create Avada Forms DB tables.
+		add_action( 'wp_ajax_fusion_create_forms_tables', [ $this, 'create_forms_tables' ] );
 	}
 
 	/**
@@ -39,7 +43,7 @@ class Avada_System_Status {
 	 */
 	public function check_api_status() {
 
-		if ( ! isset( $_GET['api_type'] ) || ! check_ajax_referer( 'fusion_check_api_status_nonce', 'nonce', false ) ) {
+		if ( ! isset( $_GET['api_type'] ) || ! check_ajax_referer( 'fusion_system_status_nonce', 'nonce', false ) ) {
 			echo wp_json_encode(
 				[
 					'code'         => 200,
@@ -118,6 +122,28 @@ class Avada_System_Status {
 	 */
 	private function check_envato_status( $headers_data = false ) {
 		return Avada()->registration->envato_api()->request( 'https://api.envato.com/v2/market/buyer/download?item_id=2833226', [ 'headers_data' => $headers_data ] );
+	}
+
+	/**
+	 * Ajax callback for creating Avada Forms database tables.
+	 *
+	 * @access public
+	 */
+	public function create_forms_tables() {
+
+		$response = [ 'message' => __( 'Creating database tables failed.' ) ];
+
+		if ( ! check_ajax_referer( 'fusion_system_status_nonce', 'nonce', false ) ) {
+			$response = [ 'message' => __( 'Security check failed.' ) ];
+		}
+
+		if ( function_exists( 'Fusion_Form_Builder' ) ) {
+			Fusion_Form_Builder()->create_db_tables();
+			$response = [ 'message' => __( 'Database tables are created successfully.' ) ];
+		}
+
+		echo wp_json_encode( $response );
+		die();
 	}
 }
 

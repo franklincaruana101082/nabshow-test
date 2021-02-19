@@ -99,7 +99,7 @@ class Avada_Upgrade {
 		$this->current_theme_version  = Avada::get_theme_version();
 		$this->current_theme_version  = Avada_Helper::normalize_version( $this->current_theme_version );
 
-		// Check through all options names that were available for Theme Options in databse.
+		// Check through all options names that were available for Global Options in databse.
 		$theme_options = get_option( Avada::get_option_name(), get_option( 'avada_theme_options', get_option( 'Avada_options', false ) ) );
 
 		// If no old version is in database or there are no saved options,
@@ -158,6 +158,14 @@ class Avada_Upgrade {
 			'621' => [ '6.2.1', false ],
 			'622' => [ '6.2.2', false ],
 			'623' => [ '6.2.3', false ],
+			'700' => [ '7.0.0', false ],
+			'701' => [ '7.0.1', false ],
+			'702' => [ '7.0.2', false ],
+			'710' => [ '7.1.0', false ],
+			'711' => [ '7.1.1', false ],
+			'712' => [ '7.1.2', false ],
+			'720' => [ '7.2.0', false ],
+			'721' => [ '7.2.1', false ],
 		];
 
 		$upgraded = false;
@@ -181,7 +189,7 @@ class Avada_Upgrade {
 
 		// Manual migration rerun.
 		if ( is_admin() && current_user_can( 'switch_themes' ) && isset( $_GET['migrate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$classname = 'Avada_Upgrade_' . str_replace( '.', '', sanitize_text_field( wp_unslash( $_GET['migrate'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			$classname = 'Avada_Upgrade_' . str_replace( '.', '', Avada_Helper::normalize_version( sanitize_text_field( wp_unslash( $_GET['migrate'] ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			if ( class_exists( $classname ) ) {
 				new $classname( true );
@@ -328,7 +336,7 @@ class Avada_Upgrade {
 	public function upgrade_notice() {
 		/* Check that the user hasn't already clicked to ignore the message */
 		if ( $this->previous_theme_version && current_user_can( 'switch_themes' ) && ! get_user_meta( $this->current_user->ID, 'avada_update_notice', true ) ) {
-			echo '<div class="updated error fusion-upgrade-notices">';
+			echo '<div class="avada-db-card avada-db-notice updated error fusion-upgrade-notices">';
 			if ( version_compare( $this->previous_theme_version, '3.8.5', '<' ) ) {
 				?>
 				<p><strong>The following important changes were made to Avada 3.8.5:</strong></p>
@@ -353,9 +361,9 @@ class Avada_Upgrade {
 				<ol>
 					<li><strong>REMOVED:</strong> Fixed Mode for iPad is removed as a theme option. Fixed Mode is moved into a free plugin. <a href="https://theme-fusion.com/documentation/avada/fixed-mode-for-ipad-portrait/" target="_blank" rel="noopener noreferrer">Download</a>.</li>
 					<li><strong>CHANGED:</strong> The left/right padding for the 100% Width Page Template &amp; 100% Full Width Container Now Applies To Mobile.</li>
-					<li><strong>CHANGED:</strong> <strong><em>Theme Options -> Header Content Options -> Side Header Responsive Breakpoint</em></strong> was replaced by <strong>Mobile Header Responsive Breakpoint</strong>. It can now be used to control the side header breakpoint as well as the mobile header break point for top headers.</li>
-					<li><strong>CHANGED:</strong> <strong><em>Theme Options -> Menu Options -> Menu Text Align</em></strong> will be followed by header 5. If your menu is no longer in center, please use that option to change the position of the menu.</li>
-					<li><strong>CHANGED:</strong> <strong><em>Theme Options -> Search Page -> Search Field Height</em></strong> was removed and combined with the new <strong>Form Input and Select Height</strong> option in the Extra tab. All form inputs and selects can be controlled with the new option.</li>
+					<li><strong>CHANGED:</strong> <strong><em>Global Options > Header Content Options > Side Header Responsive Breakpoint</em></strong> was replaced by <strong>Mobile Header Responsive Breakpoint</strong>. It can now be used to control the side header breakpoint as well as the mobile header break point for top headers.</li>
+					<li><strong>CHANGED:</strong> <strong><em>Global Options > Menu Options > Menu Text Align</em></strong> will be followed by header 5. If your menu is no longer in center, please use that option to change the position of the menu.</li>
+					<li><strong>CHANGED:</strong> <strong><em>Global Options > Search Page > Search Field Height</em></strong> was removed and combined with the new <strong>Form Input and Select Height</strong> option in the Extra tab. All form inputs and selects can be controlled with the new option.</li>
 				</ol>
 				<?php
 			}

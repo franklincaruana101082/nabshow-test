@@ -391,13 +391,13 @@ var FusionPageBuilder = FusionPageBuilder || {},
 
 	var avadaPTBAndSlider = {
 		iconsHTML: {
-			editPTBLayoutSection: '<a href="#" class="edit-template has-tooltip" aria-label="' + avadaPTBSlidersL10n.editPTBLayoutSection + '" target="_top"><i class="fusiona-page_title"></i></a>',
-			editPTB: '<a href="#" id="fusion-edit-ptb-to-action-button" class="edit has-tooltip" aria-label="' + avadaPTBSlidersL10n.editPTB + '"><i class="fusiona-cog"></i></a>',
-			editPTBOptions: '<a href="#" id="fusion-edit-ptb-action-button" class="edit-options has-tooltip" aria-label="' + avadaPTBSlidersL10n.editPTBOptions + '"><i class="fusiona-settings"></i></a>',
-			removePTB: '<a href="#" id="fusion-remove-ptb-action-button" class="remove has-tooltip" aria-label="' + avadaPTBSlidersL10n.removePTB + '"><i class="fusiona-trash-o"></i></a>',
-			editSlider: '<a href="#" id="fusion-edit-slider-action-button" class="edit has-tooltip" aria-label="' + avadaPTBSlidersL10n.editSlider + '"><i class="fusiona-pen"></i></a>',
-			editSliderOptions: '<a href="#" id="fusion-edit-slider-options-action-button" class="edit-options has-tooltip" aria-label="' + avadaPTBSlidersL10n.editSliderOptions + '"><i class="fusiona-cog"></i></a>',
-			removeSlider: '<a href="#" id="fusion-remove-slider" class="remove has-tooltip" aria-label="' + avadaPTBSlidersL10n.removeSlider + '"><i class="fusiona-trash-o"></i></a>'
+			editPTBLayoutSection: '<a href="#" class="edit-template has-tooltip" aria-label="' + avadaPTBSlidersL10n.editPTBLayoutSection + '" target="_top"><i class="fusiona-page_title" aria-hidden="true"></i></a>',
+			editPTB: '<a href="#" id="fusion-edit-ptb-to-action-button" class="edit has-tooltip" aria-label="' + avadaPTBSlidersL10n.editPTB + '"><i class="fusiona-cog" aria-hidden="true"></i></a>',
+			editPTBOptions: '<a href="#" id="fusion-edit-ptb-action-button" class="edit-options has-tooltip" aria-label="' + avadaPTBSlidersL10n.editPTBOptions + '"><i class="fusiona-settings" aria-hidden="true"></i></a>',
+			removePTB: '<a href="#" id="fusion-remove-ptb-action-button" class="remove has-tooltip" aria-label="' + avadaPTBSlidersL10n.removePTB + '"><i class="fusiona-trash-o" aria-hidden="true"></i></a>',
+			editSlider: '<a href="#" id="fusion-edit-slider-action-button" class="edit has-tooltip" aria-label="' + avadaPTBSlidersL10n.editSlider + '"><i class="fusiona-pen" aria-hidden="true"></i></a>',
+			editSliderOptions: '<a href="#" id="fusion-edit-slider-options-action-button" class="edit-options has-tooltip" aria-label="' + avadaPTBSlidersL10n.editSliderOptions + '"><i class="fusiona-cog" aria-hidden="true"></i></a>',
+			removeSlider: '<a href="#" id="fusion-remove-slider" class="remove has-tooltip" aria-label="' + avadaPTBSlidersL10n.removeSlider + '"><i class="fusiona-trash-o" aria-hidden="true"></i></a>'
 		},
 
 		/**
@@ -934,7 +934,7 @@ var FusionPageBuilder = FusionPageBuilder || {},
 		}
 	};
 
-	if ( 'undefined' === typeof window.parent.FusionApp.data.template_category ) {
+	if ( 'undefined' !== typeof window.parent.FusionApp && 'undefined' === typeof window.parent.FusionApp.data.template_category ) {
 		avadaPTBAndSlider.init();
 
 		jQuery( window ).on( 'resize fusion-ptb-refreshed fusion-partial-slider_type fusion-partial-wooslider fusion-partial-fusion_tax_wooslider fusion-partial-slider fusion-partial-fusion_tax_slider fusion-partial-revslider fusion-partial-fusion_tax_revslider fusion-partial-elasticslider fusion-partial-fusion_tax_elasticslider', function() {
@@ -947,7 +947,7 @@ var FusionPageBuilder = FusionPageBuilder || {},
 				}, 60 );
 			}
 		} );
-	} else if ( 'undefined' !== typeof window.parent.FusionApp.data.template_category && 'page_title_bar' === window.parent.FusionApp.data.template_category ) {
+	} else if ( 'undefined' !== typeof window.parent.FusionApp && 'undefined' !== typeof window.parent.FusionApp.data.template_category && 'page_title_bar' === window.parent.FusionApp.data.template_category ) {
 		jQuery( '.avada-footer-fx-parallax-effect .fusion-tb-page-title-bar' ).on( 'mouseenter', function() {
 			var $pageTitleBar = jQuery( this ).closest( '.fusion-page-title-bar' );
 

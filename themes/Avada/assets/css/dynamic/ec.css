@@ -15,12 +15,12 @@
 .tribe-events-tickets .tickets_price .amount,
 .page-tribe-attendee-registration .tribe-block__tickets__registration__back__to__cart:hover,
 .tribe-block__tickets__registration__back__to__cart:hover:before,
-.single-tribe_events .fusion-content-widget-area a:hover,
-.single-tribe_events .fusion-content-widget-area a:hover:before,
-.single-tribe_events .fusion-content-widget-area a:hover:after,
-.single-tribe_events .fusion-content-widget-area .widget li a:hover,
-.single-tribe_events .fusion-content-widget-area .widget li a:hover:before,
-.single-tribe_events .fusion-content-widget-area .widget li a:hover:after,
+.single-tribe_events main .fusion-content-widget-area a:hover,
+.single-tribe_events main .fusion-content-widget-area a:hover:before,
+.single-tribe_events main .fusion-content-widget-area a:hover:after,
+.single-tribe_events main .fusion-content-widget-area .widget li a:hover,
+.single-tribe_events main .fusion-content-widget-area .widget li a:hover:before,
+.single-tribe_events main .fusion-content-widget-area .widget li a:hover:after,
 .tribe-events-viewmore > a:hover:after,
 .rtl .tribe-events-viewmore > a:hover:before {
   color: var(--primary_color);
@@ -311,53 +311,53 @@ body.has-sidebar.single-tribe_events.double-sidebars #main #sidebar-2 {
 .single-tribe_events #main .fusion-content-widget-area {
   padding: var(--ec_sidebar_padding);
 }
-.single-tribe_events .fusion-content-widget-area {
+.single-tribe_events main .fusion-content-widget-area {
   font-size: var(--ec_text_font_size);
   color: var(--ec_sidebar_text_color);
 }
-.single-tribe_events .fusion-content-widget-area .widget .widget-title,
-.single-tribe_events .fusion-content-widget-area .tribe-events-single-section-title,
-.single-tribe_events .fusion-content-widget-area .tribe-events-tickets-title {
+.single-tribe_events main .fusion-content-widget-area .widget .widget-title,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-single-section-title,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-tickets-title {
   font-size: var(--ec_sidew_font_size);
   background-color: var(--ec_sidebar_widget_bg_color);
 }
-.single-tribe_events .fusion-content-widget-area .widget .heading .widget-title {
+.single-tribe_events main .fusion-content-widget-area .widget .heading .widget-title {
   background-color: var(--ec_sidebar_widget_bg_color);
 }
-.single-tribe_events .fusion-content-widget-area .widget .widget-title,
-.single-tribe_events .fusion-content-widget-area .widget .heading h4,
-.single-tribe_events .fusion-content-widget-area .tribe-events-single-section-title,
-.single-tribe_events .fusion-content-widget-area .tribe-events-tickets-title {
+.single-tribe_events main .fusion-content-widget-area .widget .widget-title,
+.single-tribe_events main .fusion-content-widget-area .widget .heading h4,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-single-section-title,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-tickets-title {
   color: var(--ec_sidebar_heading_color);
 }
-.single-tribe_events .fusion-content-widget-area a,
-.single-tribe_events .fusion-content-widget-area a:before,
-.single-tribe_events .fusion-content-widget-area a:after,
-.single-tribe_events .fusion-content-widget-area .widget li a,
-.single-tribe_events .fusion-content-widget-area .widget li a:before,
-.single-tribe_events .fusion-content-widget-area .widget li a:after {
+.single-tribe_events main .fusion-content-widget-area a,
+.single-tribe_events main .fusion-content-widget-area a:before,
+.single-tribe_events main .fusion-content-widget-area a:after,
+.single-tribe_events main .fusion-content-widget-area .widget li a,
+.single-tribe_events main .fusion-content-widget-area .widget li a:before,
+.single-tribe_events main .fusion-content-widget-area .widget li a:after {
   color: var(--ec_sidebar_link_color);
 }
-.single-tribe_events .fusion-content-widget-area .widget_nav_menu li,
-.single-tribe_events .fusion-content-widget-area .widget_meta li,
-.single-tribe_events .fusion-content-widget-area .widget_recent_entries li,
-.single-tribe_events .fusion-content-widget-area .widget_archive li,
-.single-tribe_events .fusion-content-widget-area .widget_pages li,
-.single-tribe_events .fusion-content-widget-area .widget_links li,
-.single-tribe_events .fusion-content-widget-area .widget li a,
-.single-tribe_events .fusion-content-widget-area .widget .recentcomments,
-.single-tribe_events .fusion-content-widget-area .widget_categories li,
-.single-tribe_events .fusion-content-widget-area .fusion-tabs-widget .fusion-tabs-classic,
-.single-tribe_events .fusion-content-widget-area .fusion-tabs-widget .fusion-tabs-widget-content .fusion-tabs-widget-items li,
-.single-tribe_events .fusion-content-widget-area .tagcloud a,
-.single-tribe_events .fusion-content-widget-area .tribe-events-meta-group dd,
-.single-tribe_events .fusion-content-widget-area .tribe-mini-calendar-event,
-.single-tribe_events .fusion-content-widget-area .tribe-events-list-widget ol li,
-.single-tribe_events .fusion-content-widget-area .tribe-events-venue-widget li,
-.single-tribe_events .fusion-content-widget-area .tribe-events-tickets td {
+.single-tribe_events main .fusion-content-widget-area .widget_nav_menu li,
+.single-tribe_events main .fusion-content-widget-area .widget_meta li,
+.single-tribe_events main .fusion-content-widget-area .widget_recent_entries li,
+.single-tribe_events main .fusion-content-widget-area .widget_archive li,
+.single-tribe_events main .fusion-content-widget-area .widget_pages li,
+.single-tribe_events main .fusion-content-widget-area .widget_links li,
+.single-tribe_events main .fusion-content-widget-area .widget li a,
+.single-tribe_events main .fusion-content-widget-area .widget .recentcomments,
+.single-tribe_events main .fusion-content-widget-area .widget_categories li,
+.single-tribe_events main .fusion-content-widget-area .fusion-tabs-widget .fusion-tabs-classic,
+.single-tribe_events main .fusion-content-widget-area .fusion-tabs-widget .fusion-tabs-widget-content .fusion-tabs-widget-items li,
+.single-tribe_events main .fusion-content-widget-area .tagcloud a,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-meta-group dd,
+.single-tribe_events main .fusion-content-widget-area .tribe-mini-calendar-event,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-list-widget ol li,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-venue-widget li,
+.single-tribe_events main .fusion-content-widget-area .tribe-events-tickets td {
   border-color: var(--ec_sidebar_divider_color);
 }
-.single-tribe_events .tribe-events-event-meta {
+.single-tribe_events main .tribe-events-event-meta {
   font-size: var(--ec_text_font_size);
 }
 .single-tribe_events #main .sidebar.fusion-sticky-sidebar .fusion-sidebar-inner-content {
@@ -385,7 +385,7 @@ body.has-sidebar.single-tribe_events.double-sidebars #main #sidebar-2 {
   background-color: var(--form_bg_color);
   font-size: var(--form_text_size);
   color: var(--form_text_color);
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
   border-color: var(--form_border_color);
   border-radius: var(--form_border_radius);
 }
@@ -421,7 +421,7 @@ body.has-sidebar.single-tribe_events.double-sidebars #main #sidebar-2 {
 }
 .fusion-body .tribe-events-tickets .quantity,
 .quantity .tribe-ticket-quantity {
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
 }
 .fusion-footer-widget-area .tribe-mini-calendar-event,
 .fusion-footer-widget-area .tribe-events-list-widget ol li,
@@ -447,8 +447,7 @@ body.has-sidebar.double-sidebars.single-tribe_events #main #sidebar-2 {
   background-color: var(--ec_bar_bg_color-15l);
 }
 #tribe-bar-form.tribe-bar-collapse {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 #tribe-bar-form.tribe-bar-collapse:before,
 #tribe-bar-form.tribe-bar-collapse:after,

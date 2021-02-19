@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endif; ?>
 				<div class="<?php echo esc_attr( $sliding_bar_columns_wrapper_class ); ?>">
 
-					<?php // Render as many widget columns as have been chosen in Theme Options. ?>
+					<?php // Render as many widget columns as have been chosen in Global Options. ?>
 					<?php for ( $i = 1; $i < 7; $i++ ) : ?>
 						<?php if ( $i <= $sliding_bar_columns ) : ?>
 							<?php

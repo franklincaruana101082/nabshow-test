@@ -36,11 +36,14 @@ class Avada_Multiple_Featured_Images {
 	 * @access  public
 	 */
 	public function generate() {
-		$post_types = [
-			'post',
-			'page',
-			'avada_portfolio',
-		];
+		$post_types = apply_filters(
+			'avada_multiple_featured_images_post_types',
+			[
+				'post',
+				'page',
+				'avada_portfolio',
+			]
+		);
 
 		$i = 2;
 

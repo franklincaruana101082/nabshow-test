@@ -89,7 +89,7 @@ class PyreThemeFrameworkMetaboxes {
 	public function admin_script_loader() {
 
 		$screen = get_current_screen();
-		if ( isset( $screen->post_type ) && in_array( $screen->post_type, apply_filters( 'avada_hide_page_options', [] ) ) ) {
+		if ( isset( $screen->post_type ) && in_array( $screen->post_type, apply_filters( 'avada_hide_page_options', [] ) ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return;
 		}
 		$theme_info = wp_get_theme();
@@ -180,6 +180,7 @@ class PyreThemeFrameworkMetaboxes {
 			false
 		);
 
+		do_action( 'avada_page_option_scripts', $screen->post_type );
 	}
 
 	/**
@@ -198,6 +199,8 @@ class PyreThemeFrameworkMetaboxes {
 			'product'           => [ 'page', 'header', 'sliders', 'pagetitlebar', 'content', 'sidebars', 'footer' ],
 			'tribe_events'      => [ 'page', 'header', 'sliders', 'pagetitlebar', 'content', 'sidebars', 'footer' ],
 			'fusion_tb_section' => [ 'template', 'content', 'sidebars' ],
+			'fusion_form'       => [ 'form_appearance', 'form_submission', 'form_confirmation', 'form_privacy' ],
+			'fusion_element'    => [],
 		];
 
 		$pagetype_data = apply_filters( 'fusion_pagetype_data', $pagetype_data, $posttype );
@@ -253,25 +256,30 @@ class PyreThemeFrameworkMetaboxes {
 			]
 		);
 
-		$disallowed = [ 'page', 'post', 'attachment', 'avada_portfolio', 'themefusion_elastic', 'product', 'wpsc-product', 'slide', 'tribe_events', 'fusion_tb_section' ];
+		$disallowed = [ 'page', 'post', 'attachment', 'avada_portfolio', 'themefusion_elastic', 'product', 'wpsc-product', 'slide', 'tribe_events', 'fusion_tb_section', 'fusion_form' ];
 
 		$disallowed = array_merge( $disallowed, apply_filters( 'avada_hide_page_options', [] ) );
 		foreach ( $post_types as $post_type ) {
-			if ( in_array( $post_type, $disallowed ) ) {
+			if ( in_array( $post_type, $disallowed, true ) ) {
 				continue;
 			}
-			$this->add_meta_box( 'post_options', 'Avada Options', $post_type );
+			$this->add_meta_box(
+				'post_options',
+				apply_filters( 'avada_page_options_metabox_title', esc_html__( 'Avada Options', 'Avada' ) ),
+				$post_type
+			);
 		}
 
-		$this->add_meta_box( 'post_options', esc_html__( 'Fusion Page Options', 'Avada' ), 'avada_faq' );
-		$this->add_meta_box( 'post_options', esc_html__( 'Fusion Page Options', 'Avada' ), 'post' );
-		$this->add_meta_box( 'page_options', esc_html__( 'Fusion Page Options', 'Avada' ), 'page' );
-		$this->add_meta_box( 'portfolio_options', esc_html__( 'Fusion Page Options', 'Avada' ), 'avada_portfolio' );
+		$this->add_meta_box( 'post_options', esc_html__( 'Avada Page Options', 'Avada' ), 'avada_faq' );
+		$this->add_meta_box( 'post_options', esc_html__( 'Avada Page Options', 'Avada' ), 'post' );
+		$this->add_meta_box( 'page_options', esc_html__( 'Avada Page Options', 'Avada' ), 'page' );
+		$this->add_meta_box( 'portfolio_options', esc_html__( 'Avada Page Options', 'Avada' ), 'avada_portfolio' );
 		$this->add_meta_box( 'es_options', esc_html__( 'Elastic Slide Options', 'Avada' ), 'themefusion_elastic' );
-		$this->add_meta_box( 'woocommerce_options', esc_html__( 'Fusion Page Options', 'Avada' ), 'product' );
+		$this->add_meta_box( 'woocommerce_options', esc_html__( 'Avada Page Options', 'Avada' ), 'product' );
 		$this->add_meta_box( 'slide_options', esc_html__( 'Slide Options', 'Avada' ), 'slide' );
 		$this->add_meta_box( 'events_calendar_options', esc_html__( 'Events Calendar Options', 'Avada' ), 'tribe_events' );
 		$this->add_meta_box( 'fusion_tb_section', esc_html__( 'Layout Section Options', 'Avada' ), 'fusion_tb_section' );
+		$this->add_meta_box( 'fusion_form', esc_html__( 'Form Options', 'Avada' ), 'fusion_form' );
 	}
 
 	/**
@@ -283,6 +291,9 @@ class PyreThemeFrameworkMetaboxes {
 	 * @param string $post_type The post-type.
 	 */
 	public function add_meta_box( $id, $label, $post_type ) {
+
+		$label = '<span class="avada-logo-wrapper"><span class="avada-logo fusiona-avada-logo"></span><span class="avada-option-title">' . esc_html( $label ) . '</span></span>';
+
 		add_meta_box( 'pyre_' . $id, $label, [ $this, $id ], $post_type, 'advanced', 'high' );
 	}
 
@@ -392,6 +403,15 @@ class PyreThemeFrameworkMetaboxes {
 	}
 
 	/**
+	 * Handle rendering options for events.
+	 *
+	 * @access public
+	 */
+	public function fusion_form() {
+		$this->render_option_tabs( $this::get_pagetype_tab( 'fusion_form' ) );
+	}
+
+	/**
 	 * Render fields within tab.
 	 *
 	 * @access public
@@ -459,6 +479,9 @@ class PyreThemeFrameworkMetaboxes {
 				case 'sortable':
 					$this->sortable( $field['id'], $field['label'], $field['choices'], $field['description'], $field['dependency'], $field['default'] );
 					break;
+				case 'hubspot_map':
+					$this->hubspot_map( $field['id'], $field['label'], $field['choices'], $field['description'], $field['dependency'], $field['default'] );
+					break;
 				case 'repeater':
 					$labels = [
 						'row_add'   => $field['row_add'],
@@ -481,17 +504,21 @@ class PyreThemeFrameworkMetaboxes {
 		$screen = get_current_screen();
 
 		$tabs_names = [
-			'sliders'        => esc_html__( 'Sliders', 'Avada' ),
-			'page'           => esc_html__( 'Layout', 'Avada' ),
-			'post'           => ( 'avada_faq' === $screen->post_type ) ? esc_html__( 'FAQ', 'Avada' ) : esc_html__( 'Post', 'Avada' ),
-			'header'         => esc_html__( 'Header', 'Avada' ),
-			'content'        => esc_html__( 'Content', 'Avada' ),
-			'sidebars'       => esc_html__( 'Sidebars', 'Avada' ),
-			'pagetitlebar'   => esc_html__( 'Page Title Bar', 'Avada' ),
-			'portfolio_post' => esc_html__( 'Portfolio', 'Avada' ),
-			'product'        => esc_html__( 'Product', 'Avada' ),
-			'template'       => esc_html__( 'Layout Section', 'Avada' ),
-			'footer'         => esc_html__( 'Footer', 'Avada' ),
+			'sliders'           => esc_html__( 'Sliders', 'Avada' ),
+			'page'              => esc_html__( 'Layout', 'Avada' ),
+			'post'              => ( 'avada_faq' === $screen->post_type ) ? esc_html__( 'FAQ', 'Avada' ) : esc_html__( 'Post', 'Avada' ),
+			'header'            => esc_html__( 'Header', 'Avada' ),
+			'content'           => esc_html__( 'Content', 'Avada' ),
+			'sidebars'          => esc_html__( 'Sidebars', 'Avada' ),
+			'pagetitlebar'      => esc_html__( 'Page Title Bar', 'Avada' ),
+			'portfolio_post'    => esc_html__( 'Portfolio', 'Avada' ),
+			'product'           => esc_html__( 'Product', 'Avada' ),
+			'template'          => esc_html__( 'Layout Section', 'Avada' ),
+			'form_submission'   => esc_html__( 'Submission', 'Avada' ),
+			'form_confirmation' => esc_html__( 'Confirmation', 'Avada' ),
+			'form_appearance'   => esc_html__( 'Appearance', 'Avada' ),
+			'form_privacy'      => esc_html__( 'Privacy', 'Avada' ),
+			'footer'            => esc_html__( 'Footer', 'Avada' ),
 		];
 
 		$tabs = [
@@ -522,7 +549,9 @@ class PyreThemeFrameworkMetaboxes {
 				<div class="pyre_metabox_tab" id="pyre_tab_<?php echo esc_attr( $tab_name ); ?>">
 				<?php
 				$path = ! empty( $tabs['tabs_path'][ $tab_name ] ) ? $tabs['tabs_path'][ $tab_name ] : dirname( __FILE__ ) . '/tabs/tab_' . $tab_name . '.php';
-				require_once wp_normalize_path( $path );
+				if ( $path && file_exists( wp_normalize_path( $path ) ) ) {
+					require_once wp_normalize_path( $path );
+				}
 				if ( function_exists( 'avada_page_options_tab_' . $tab_name ) ) {
 					$tab_data = call_user_func( 'avada_page_options_tab_' . $tab_name, [] );
 					$this->render_tab_fields( $tab_data[ $tab_name ], false );
@@ -664,7 +693,7 @@ class PyreThemeFrameworkMetaboxes {
 	 * @param string|int|float $value      The value.
 	 * @param array            $dependency The dependencies array.
 	 */
-	public function range( $id, $label, $desc = '', $min, $max, $step, $default, $value, $dependency = [] ) {
+	public function range( $id, $label, $desc = '', $min = 0, $max = 0, $step = 1, $default = 0, $value = '', $dependency = [] ) {
 		global $post;
 		if ( isset( $default ) && '' !== $default ) {
 			$desc .= '  <span class="pyre-default-reset"><a href="#" id="default-' . $id . '" class="fusion-range-default fusion-hide-from-atts" type="radio" name="' . $id . '" value="" data-default="' . $default . '">' . esc_attr__( 'Reset to default.', 'Avada' ) . '</a><span>' . esc_attr__( 'Using default value.', 'Avada' ) . '</span></span>';
@@ -777,19 +806,20 @@ class PyreThemeFrameworkMetaboxes {
 		?>
 
 		<div class="pyre_metabox_field">
-			<?php $ids = ( ! isset( $ids[0] ) && is_array( $ids ) ) ? array_keys( $ids ) : $ids; ?>
 			<?php // No need to sanitize this, we already know what's in here. ?>
 			<?php echo $this->dependency( $dependency ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			<div class="pyre_desc">
-				<label for="pyre_<?php echo esc_attr( $ids[0] ); ?>"><?php echo $label; // phpcs:ignore WordPress.Security.EscapeOutput ?></label>
+				<label for="pyre_<?php echo esc_attr( array_key_first( $ids ) ); ?>"><?php echo $label; // phpcs:ignore WordPress.Security.EscapeOutput, PHPCompatibility.FunctionUse.NewFunctions.array_key_firstFound ?></label>
 				<?php if ( $desc ) : ?>
 					<p><?php echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
 				<?php endif; ?>
 			</div>
 			<div class="pyre_field avada-dimension">
-				<?php foreach ( $ids as $field_id ) : ?>
+				<?php foreach ( $ids as $field_id => $default ) : ?>
 					<?php
-					$icon_class = 'fusiona-expand width';
+					$display_value = $this->get_value( "{$main_id}[{$field_id}]" );
+					$display_value = ( ( '' == $display_value ) ? $default : $display_value ); // phpcs:ignore WordPress.PHP.StrictComparisons
+					$icon_class    = 'fusiona-expand width';
 					if ( false !== strpos( $field_id, 'height' ) ) {
 						$icon_class = 'fusiona-expand  height';
 					}
@@ -807,8 +837,8 @@ class PyreThemeFrameworkMetaboxes {
 					}
 					?>
 					<div class="fusion-builder-dimension">
-						<span class="add-on"><i class="<?php echo esc_attr( $icon_class ); ?>"></i></span>
-						<input type="text" name="<?php echo esc_attr( $this->format_option_name( "{$main_id}[{$field_id}]" ) ); ?>" id="pyre_<?php echo esc_attr( $field_id ); ?>" value="<?php echo esc_attr( $this->get_value( "{$main_id}[{$field_id}]" ) ); ?>" />
+						<span class="add-on"><i class="<?php echo esc_attr( $icon_class ); ?>" aria-hidden="true"></i></span>
+						<input type="text" name="<?php echo esc_attr( $this->format_option_name( "{$main_id}[{$field_id}]" ) ); ?>" id="pyre_<?php echo esc_attr( $field_id ); ?>" value="<?php echo esc_attr( $display_value ); ?>" />
 					</div>
 				<?php endforeach; ?>
 			</div>
@@ -852,9 +882,9 @@ class PyreThemeFrameworkMetaboxes {
 					<select multiple="multiple" data-max-input="<?php echo esc_attr( $max_input ); ?>" data-placeholder="<?php echo esc_attr( $placeholder ); ?>" <?php echo 'data-ajax="' . esc_attr( $ajax ) . '"'; ?>id="pyre_<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $this->format_option_name( "{$repeater}_{$id}" ) ); ?>[]">
 					</select>
 				<?php else : ?>
-					<select multiple="multiple" id="pyre_<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $this->format_option_name( "{$repeater}_{$id}" ) ); ?>[]">
+					<select multiple="multiple" id="pyre_<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $this->format_option_name( "{$repeater}_{$id}" ) ); ?>[]" style="width:100%;">
 						<?php foreach ( $options as $key => $option ) : ?>
-							<?php $selected = ( is_array( $this->get_value( $id ) ) && in_array( $key, $this->get_value( $id ) ) ) ? 'selected="selected"' : ''; ?>
+							<?php $selected = ( is_array( $this->get_value( $id ) ) && in_array( $key, $this->get_value( $id ) ) ) ? 'selected="selected"' : ''; // phpcs:ignore WordPress.PHP.StrictInArray ?>
 							<option <?php echo esc_attr( $selected ); ?> value="<?php echo esc_attr( $key ); ?>"><?php echo esc_attr( $option ); ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -1065,6 +1095,47 @@ class PyreThemeFrameworkMetaboxes {
 	}
 
 	/**
+	 * HubSpot map control.
+	 *
+	 * @since 7.1
+	 * @access public
+	 * @param string       $id         The ID.
+	 * @param string       $label      The label.
+	 * @param array        $options    The options array.
+	 * @param string       $desc       The description.
+	 * @param array        $dependency The dependencies array.
+	 * @param string|array $default    The default value.
+	 */
+	public function hubspot_map( $id, $label, $options, $desc = '', $dependency = [], $default = '' ) {
+		$value = $this->get_value( $id );
+		if ( is_array( $value ) ) {
+			$value = wp_json_encode( $value );
+		}
+		?>
+
+		<div class="pyre_metabox_field fusion-hubspot-option">
+			<?php // No need to sanitize this, we already know what's in here. ?>
+			<?php echo $this->dependency( $dependency ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+			<div class="pyre_desc">
+				<label for="pyre_<?php echo esc_attr( $id ); ?>"><?php echo esc_textarea( $label ); ?></label>
+				<?php if ( $desc ) : ?>
+					<p><?php echo $desc; // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+				<?php endif; ?>
+			</div>
+			<div class="pyre_field">
+				<div class="hubspot-map-holder">
+					<div class="fusion-mapping">
+						<span><?php esc_attr_e( 'No form fields or HubSpot properties found.', 'Avada' ); ?></span>
+					</div>
+				</div>
+				<input type="hidden" id="pyre_<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $this->format_option_name( $id ) ); ?>" value="<?php echo esc_attr( $value ); ?>">
+			</div>
+		</div>
+		<?php
+
+	}
+
+	/**
 	 * Dependency markup.
 	 *
 	 * @since 5.0.0
@@ -1131,7 +1202,7 @@ class PyreThemeFrameworkMetaboxes {
 
 global $pagenow;
 
-if ( is_admin() && ( ( in_array( $pagenow, [ 'post-new.php', 'post.php' ] ) ) || ! isset( $pagenow ) || apply_filters( 'fusion_page_options_init', false ) ) ) {
+if ( is_admin() && ( ( in_array( $pagenow, [ 'post-new.php', 'post.php' ], true ) ) || ! isset( $pagenow ) || apply_filters( 'fusion_page_options_init', false ) ) ) {
 	if ( ! PyreThemeFrameworkMetaboxes::$instance ) {
 		$metaboxes = new PyreThemeFrameworkMetaboxes();
 	}

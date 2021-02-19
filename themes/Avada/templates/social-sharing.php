@@ -39,7 +39,7 @@ if ( fusion_get_option( $setting_name ) ) {
 		'pinterest_image'   => ( $full_image ) ? $full_image[0] : '',
 	];
 	?>
-	<div class="fusion-sharing-box fusion-single-sharing-box share-box">
+	<div class="fusion-theme-sharing-box fusion-single-sharing-box share-box">
 		<h4><?php echo apply_filters( 'fusion_sharing_box_tagline', Avada()->settings->get( 'sharing_social_tagline' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?></h4>
 		<?php echo fusion_library()->social_sharing->render_social_icons( $sharingbox_social_icon_options ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	</div>

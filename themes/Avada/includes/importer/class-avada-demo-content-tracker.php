@@ -131,7 +131,7 @@ class Avada_Demo_Content_Tracker {
 		$data = $this->get_import_stage_data( $import_stage );
 
 		// Add demo if it's not already added.
-		if ( ! in_array( $this->demo_type, $data ) ) {
+		if ( ! in_array( $this->demo_type, $data ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			$data[] = $this->demo_type;
 		}
 
@@ -148,7 +148,7 @@ class Avada_Demo_Content_Tracker {
 	public function reset_stage( $stage ) {
 
 		$data = $this->get_import_stage_data( $stage );
-		$key  = array_search( $this->demo_type, $data );
+		$key  = array_search( $this->demo_type, $data ); // phpcs:ignore WordPress.PHP.StrictInArray
 		if ( is_array( $data ) && false !== $key ) {
 			unset( $data[ $key ] );
 		}
@@ -170,7 +170,7 @@ class Avada_Demo_Content_Tracker {
 	}
 
 	/**
-	 * Adds Theme Options backup to demo history.
+	 * Adds Global Options backup to demo history.
 	 *
 	 * @access public
 	 * @since 5.2
@@ -187,6 +187,17 @@ class Avada_Demo_Content_Tracker {
 	 */
 	public function set_avada_layout() {
 		$this->demo_history[ $this->demo_type ]['fusion_tb_layout_default'] = get_option( 'fusion_tb_layout_default' );
+	}
+
+	/**
+	 * Saves imported Woo attributes to demo history.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param array $attr_ids Imported Woo attribute IDs.
+	 */
+	public function set_woo_attributes( $attr_ids ) {
+		$this->demo_history[ $this->demo_type ]['woo_attributes'] = $attr_ids;
 	}
 
 	/**
@@ -269,7 +280,7 @@ class Avada_Demo_Content_Tracker {
 	}
 
 	/**
-	 * Adds Fusion Sliders to demo history.
+	 * Adds Avada Sliders to demo history.
 	 *
 	 * @access public
 	 * @since 5.2

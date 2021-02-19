@@ -2,6 +2,9 @@
   /* TinyMCE */
   /* Loader */
 }
+.fusion-builder-live #boxed-wrapper {
+  overflow: visible;
+}
 .fusion-builder-live a:focus,
 .fusion-builder-live input:focus,
 .fusion-builder-live select:focus {
@@ -11,7 +14,13 @@
 .fusion-builder-live:not(.fusion-builder-ui-wireframe) .fusion-column-wrapper:not(.fusion-column-has-shadow),
 .fusion-builder-live:not(.fusion-builder-ui-wireframe) .fusion-fullwidth {
   box-shadow: inset 0 0 0 2px rgba(60, 185, 240, 0) !important;
+}
+.fusion-builder-live:not(.fusion-builder-ui-wireframe) .fusion-column-wrapper:not(.fusion-column-has-shadow),
+.fusion-builder-live:not(.fusion-builder-ui-wireframe) .fusion-fullwidth:not(.fusion-sticky-container) {
   transition: box-shadow 0.2s ease, filter 0.3s ease;
+}
+.fusion-builder-live:not(.fusion-builder-ui-wireframe) .fusion-fullwidth.fusion-builder-row-live-1.fusion-sticky-transition .fusion_builder_row > .fusion-builder-row {
+  transition: min-height 0.3s ease;
 }
 .fusion-builder-live:not(.fusion-builder-ui-wireframe) .fusion-layout-column.fusion-column-liftup-border .fusion-column-wrapper:not(.fusion-column-has-shadow) {
   box-shadow: inset 0 0 0 2px rgba(60, 185, 240, 0) !important;
@@ -60,30 +69,36 @@
 .fusion-builder-live.do-animate .fusion-animated {
   visibility: visible;
 }
+.fusion-builder-live .width-100 .post-content > .fusion-builder-live-editor > #fusion_builder_container > .fusion-builder-flex-container {
+  margin-left: var(--hundredp_padding-hundred_percent_negative_margin);
+  margin-right: var(--hundredp_padding-hundred_percent_negative_margin);
+}
+.fusion-builder-live .width-100 .post-content > .fusion-builder-live-editor > #fusion_builder_container > .fusion-builder-flex-container .fusion-fullwidth,
+.fusion-builder-live .width-100 .post-content > .fusion-builder-live-editor > #fusion_builder_container > .fusion-builder-flex-container .nonhundred-percent-fullwidth {
+  margin-left: 0;
+  margin-right: 0;
+}
 .fusion-builder-column-inner {
   position: relative;
 }
 @media only screen and (min-width: 800px) {
   .fusion-builder-live-editor .fusion-tabs .nav-tabs.nav-justified {
-    display: -ms-flexbox !important;
     display: flex !important;
   }
   .fusion-builder-live-editor .fusion-tabs .nav-tabs.nav-justified > li {
-    -ms-flex: 1 1 0px;
-        flex: 1 1 0;
+    flex: 1 1 0;
   }
 }
 .fusion-builder-blank-page {
+  display: flex;
+  flex-wrap: wrap;
   text-align: center;
   border: 2px dashed #e6e6e6;
-  float: left;
-  width: 100%;
   margin-bottom: 2em;
 }
 .fusion-builder-blank-page .fusion-builder-blank-page-content {
+  flex: 1 1 100%;
   margin: 5em 0;
-  float: left;
-  width: 100%;
   padding: 25px;
 }
 .fusion-builder-blank-page .fusion-builder-blank-page-content h1.title {
@@ -188,12 +203,9 @@
   line-height: 54px;
   background: #b1b7bc;
   color: #fff;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: center;
-      justify-content: center;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
   border-radius: 50%;
   box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.6);
@@ -206,13 +218,17 @@
   font-family: "Noto Sans", Roboto, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
   font-size: 14px;
   color: #198fd9;
+  transition: color 0.2s ease;
 }
 .fusion-builder-blank-page .fusion-builder-blank-page-info .fusion-builder-submit-button span {
   padding-left: 10px;
+  transition: padding 0.2s ease;
 }
 .fusion-builder-blank-page .fusion-builder-blank-page-info .fusion-builder-submit-button:hover {
   color: #1081c7;
-  text-decoration: underline;
+}
+.fusion-builder-blank-page .fusion-builder-blank-page-info .fusion-builder-submit-button:hover span {
+  padding-left: 15px;
 }
 .fusion-builder-blank-page.fusion-builder-scheme-dark {
   border-color: rgba(255, 255, 255, 0.3);
@@ -307,7 +323,6 @@
   font-family: "Noto Sans", Roboto, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 }
 .fusion-builder-live .fusion-builder-module-controls-container .fusion-builder-module-controls {
-  display: -ms-flexbox;
   display: flex;
 }
 .fusion-builder-live .fusion-builder-module-controls-container a {
@@ -402,14 +417,26 @@
   display: none !important;
 }
 .rtl.fusion-builder-live .fusion-builder-module-controls-container.fusion-builder-module-controls-type-column {
-  right: 0;
-  left: auto;
+  right: 1.92%;
+  left: auto !important;
 }
 .rtl.fusion-builder-live .fusion-builder-container:hover .fusion-builder-module-controls-container-wrapper .fusion-builder-module-controls-container {
   right: auto;
   left: 15px;
   float: left;
   margin: 15px 0 0 15px;
+}
+.rtl.fusion-builder-live.fusion-builder-ui-wireframe .fusion-builder-row-container .fusion-builder-column .fusion-builder-module-controls-container:not(.fusion-builder-module-controls-type-column-nested) .column-sizes {
+  left: auto;
+  right: 0;
+}
+.rtl.fusion-builder-live.fusion-builder-ui-wireframe .fusion-builder-row-container .fusion-builder-column .fusion-builder-module-controls-container:not(.fusion-builder-module-controls-type-column-nested) .fusion-builder-controls .fusion-builder-module-controls-inner {
+  display: inline-flex;
+  border-left: 1px solid #dedede;
+  border-radius: 0 0 0 4px;
+}
+.rtl.fusion-builder-live.fusion-builder-ui-wireframe .fusion-builder-row-container .fusion-builder-column .fusion-builder-module-controls-container:not(.fusion-builder-module-controls-type-column-nested) .fusion-builder-controls .fusion-builder-module-controls-inner a:first-child {
+  border-right: 0;
 }
 .rtl .fusion-panel-customizable .fusion-panel-shortcut.fusion-shortcut-last,
 .rtl .fusion-panel-customizable .fusion-panel-shortcut:last-child {
@@ -621,14 +648,12 @@
 .fusion-builder-live .medium-editor-toolbar ul {
   margin: 0;
   padding: 0;
-  display: -ms-flexbox;
   display: flex;
 }
 .fusion-builder-live .medium-editor-toolbar ul li {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   cursor: pointer;
 }
@@ -640,8 +665,7 @@
 }
 .fusion-builder-live .medium-editor-toolbar-actions li {
   width: 32px;
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
 }
 .fusion-builder-live .medium-editor-toolbar-actions li:nth-last-child(2) {
   margin-right: 6px;
@@ -650,12 +674,10 @@
   display: none;
 }
 .fusion-builder-live .medium-editor-toolbar-actions li:nth-child(-n+7) {
-  display: -ms-inline-flexbox;
   display: inline-flex;
 }
 .fusion-builder-live .medium-editor-toolbar-actions li:nth-last-child(2),
 .fusion-builder-live .medium-editor-toolbar-actions li:last-child {
-  display: -ms-inline-flexbox !important;
   display: inline-flex !important;
 }
 .fusion-builder-live .medium-editor-toolbar-actions li:first-child {
@@ -676,8 +698,7 @@
   padding: 0 10px;
   transition: background-color 0.1s ease, color 0.1s ease;
   cursor: pointer;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
 }
 .fusion-builder-live .medium-editor-toolbar-actions li button:focus {
   outline: none;
@@ -701,8 +722,7 @@
   border-top-right-radius: 3px;
   background: #198fd9;
   width: 40px;
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
   color: #fff;
   transition: background-color 0.1s ease;
 }
@@ -713,7 +733,6 @@
   border-radius: 50%;
   width: 12px;
   height: 12px;
-  display: -ms-flexbox;
   display: flex;
   border: 2px solid white;
   transition: border-color 0.1s ease;
@@ -722,7 +741,6 @@
   margin-left: 6px;
 }
 .fusion-builder-live .medium-editor-toolbar-actions.alternative-active li:nth-child(n+8) {
-  display: -ms-inline-flexbox;
   display: inline-flex;
 }
 .fusion-builder-live .medium-editor-toolbar-actions.alternative-active li:nth-child(-n+7) {
@@ -832,13 +850,10 @@
 }
 .fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-typography .typography-tags {
   padding: 16px;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
+  justify-content: space-between;
   line-height: 14px;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   border-bottom: 1px solid #f2f3f5;
   height: 47px;
 }
@@ -1067,9 +1082,6 @@
 .fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-typography [data-id="family"] .typography-family-options > div .fusion-options-wrapper .fuson-options-holder .fusion-select:after {
   display: none;
 }
-.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-typography [data-id="family"] .typography-family-options > div:first-child {
-  border-bottom: 1px solid #f2f3f5;
-}
 .fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-typography [data-id="family"] .typography-family-options > div label {
   font-size: 12px;
   font-weight: 700;
@@ -1294,6 +1306,25 @@
   width: auto;
   background-color: transparent;
 }
+.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap label {
+  padding: 8px;
+  width: 100%;
+}
+.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap label input {
+  width: 100% !important;
+  border: 1px solid #e0e3e7;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #2a3035;
+}
+.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap input.wp-picker-clear {
+  right: 14px;
+  width: 29px;
+  background: transparent !important;
+}
+.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap .wp-picker-clear-button {
+  right: 14px;
+}
 .fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-color-result,
 .fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .iris-palette-container {
   display: none;
@@ -1314,25 +1345,6 @@
   font-family: "Noto Sans", Roboto, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
   padding: 0 16px;
   font-size: 13px;
-}
-.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap label {
-  padding: 8px;
-  width: 100%;
-}
-.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap label input {
-  width: 100% !important;
-  border: 1px solid #e0e3e7;
-  border-radius: 4px;
-  font-size: 13px;
-  color: #2a3035;
-}
-.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap input.wp-picker-clear {
-  right: 14px;
-  width: 29px;
-  background: transparent !important;
-}
-.fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .wp-picker-container.wp-picker-alpha-container .wp-picker-input-wrap .wp-picker-clear-button {
-  right: 14px;
 }
 .fusion-builder-live .medium-editor-extensions .medium-editor-toolbar-form.fusion-inline-color-picker .fusion-inline-editor-close {
   top: 8px;
@@ -1364,8 +1376,7 @@
   border-radius: 0 4px 4px 0;
   color: #fff;
   background: #198fd9;
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
 }
 .fusion-builder-live .medium-editor-extensions .medium-editor-dropdown-toolbar {
   display: block !important;

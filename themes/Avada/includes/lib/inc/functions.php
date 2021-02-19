@@ -46,11 +46,18 @@ if ( ! function_exists( 'fusion_get_option' ) ) {
 		$id          = Fusion::get_instance()->get_page_id();
 		$is_archive  = ( false !== strpos( $id, 'archive' ) || false === $id );
 		$map         = Fusion_Options_Map::get_option_map();
+		$edit_post   = false;
+
+		// Admin check for edit post screen.
+		if ( is_admin() && false === $id && isset( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$id        = (int) sanitize_text_field( wp_unslash( $_GET['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			$edit_post = true;
+		}
 
 		/**
 		 * Tweak for the "mobile_header_bg_color" option.
 		 */
-		if ( 'mobile_archive_header_bg_color' === $option_name && ! is_archive() ) {
+		if ( 'mobile_archive_header_bg_color' === $option_name && ( ! is_archive() || fusion_is_shop( $id ) ) ) {
 			$option_name = 'mobile_header_bg_color';
 		}
 
@@ -83,7 +90,7 @@ if ( ! function_exists( 'fusion_get_option' ) ) {
 			}
 		}
 
-		$post_id = ( $post_id ) ? $post_id : $id;
+		$post_id = apply_filters( 'fusion_get_option_post_id', ( $post_id ) ? $post_id : $id );
 
 		// If $post_id is not set that means there is a call for a TO and it is still to early for post ID to be set.
 		if ( false === $post_id ) {
@@ -104,7 +111,7 @@ if ( ! function_exists( 'fusion_get_option' ) ) {
 		 * Get page options.
 		 * Overrides theme-option.
 		 */
-		$get_page_option = apply_filters( 'fusion_should_get_page_option', ( is_singular() || fusion_is_shop( $post_id ) || ( is_home() && ! is_front_page() ) ) );
+		$get_page_option = apply_filters( 'fusion_should_get_page_option', ( is_singular() || fusion_is_shop( $post_id ) || ( is_home() && ! is_front_page() ) || $edit_post ) );
 
 		if ( ! $value_found && ! $skip && $get_page_option ) {
 
@@ -209,7 +216,7 @@ if ( ! function_exists( 'fusion_get_page_option' ) ) {
 	 *
 	 * @param  string  $page_option ID of page option.
 	 * @param  integer $post_id     Post/Page ID.
-	 * @return string               Value of page option.
+	 * @return mixed                Value of page option.
 	 */
 	function fusion_get_page_option( $page_option, $post_id = null ) {
 
@@ -332,7 +339,9 @@ if ( ! function_exists( 'fusion_render_post_metadata' ) ) {
 			if ( $settings['post_meta_date'] ) {
 				$metadata .= fusion_render_rich_snippets_for_pages( false, false, true );
 
-				$formatted_date = get_the_time( fusion_library()->get_option( 'date_format' ) );
+				$date_format    = fusion_library()->get_option( 'date_format' );
+				$date_format    = $date_format ? $date_format : get_option( 'date_format' );
+				$formatted_date = get_the_time( $date_format );
 				$date_markup    = '<span>' . $formatted_date . '</span><span class="fusion-inline-sep">|</span>';
 				$metadata      .= apply_filters( 'fusion_post_metadata_date', $date_markup, $formatted_date );
 			} else {
@@ -477,6 +486,46 @@ if ( ! function_exists( 'fusion_hex2rgb' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'avada_first_featured_image_markup' ) ) {
+	/**
+	 * Render the full markup of the first featured image, incl. image wrapper and rollover.
+	 *
+	 * @param  array $args All arguments for render.
+	 * @return string Full HTML markup of the first featured image.
+	 */
+	function avada_first_featured_image_markup( $args = [] ) {
+		$defaults = [
+			'post_id'                   => 0,
+			'post_featured_image_size'  => '',
+			'post_permalink'            => '',
+			'display_placeholder_image' => false,
+			'display_woo_price'         => false,
+			'display_woo_buttons'       => false,
+			'display_post_categories'   => 'default',
+			'display_post_title'        => 'default',
+			'type'                      => '',
+			'gallery_id'                => '',
+			'display_rollover'          => 'yes',
+			'display_woo_rating'        => false,
+			'display_woo_sale'          => false,
+			'attributes'                => [],
+		];
+
+		$args = wp_parse_args( $args, $defaults );
+
+		extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract
+
+		// Add a class for fixed image size, to restrict the image rollovers to the image width.
+		$image_size_class = ( 'full' !== $post_featured_image_size ) ? ' fusion-image-size-fixed' : '';
+		$image_size_class = ( ( ! has_post_thumbnail( $post_id ) && fusion_data()->post_meta( $post_id )->get( 'video' ) ) || ( is_home() && 'blog-large' === $post_featured_image_size ) ) ? '' : $image_size_class;
+
+		ob_start();
+		include FUSION_LIBRARY_PATH . '/inc/templates/featured-image-first.php';
+		return ob_get_clean();
+	}
+}
+
 if ( ! function_exists( 'fusion_render_first_featured_image_markup' ) ) {
 	/**
 	 * Render the full markup of the first featured image, incl. image wrapper and rollover.
@@ -501,6 +550,7 @@ if ( ! function_exists( 'fusion_render_first_featured_image_markup' ) ) {
 		// Add a class for fixed image size, to restrict the image rollovers to the image width.
 		$image_size_class = ( 'full' !== $post_featured_image_size ) ? ' fusion-image-size-fixed' : '';
 		$image_size_class = ( ( ! has_post_thumbnail( $post_id ) && fusion_data()->post_meta( $post_id )->get( 'video' ) ) || ( is_home() && 'blog-large' === $post_featured_image_size ) ) ? '' : $image_size_class;
+		$display_woo_sale = false;
 
 		ob_start();
 		/**
@@ -668,7 +718,7 @@ if ( ! function_exists( 'fusion_get_post_content_excerpt' ) ) {
 	 * @param  string  $page_id    The id of the current page or post.
 	 * @return string               The custom excerpt.
 	 **/
-	function fusion_get_post_content_excerpt( $limit = 285, $strip_html, $page_id = '' ) {
+	function fusion_get_post_content_excerpt( $limit = 285, $strip_html = false, $page_id = '' ) {
 		global $more;
 
 		// Init variables, cast to correct types.
@@ -1014,11 +1064,11 @@ if ( ! function_exists( 'fusion_pagination' ) ) {
 	 * Number based pagination.
 	 *
 	 * @since 1.3
-	 * @param string|int $max_pages       Maximum number of pages.
-	 * @param integer    $range           How many page numbers to display to either side of the current page.
-	 * @param string     $current_query   The current query.
-	 * @param bool       $infinite_scroll Whether we want infinite scroll or not.
-	 * @param bool       $is_element      Whether pagination is definitely only set for a specific element.
+	 * @param string|int    $max_pages       Maximum number of pages.
+	 * @param integer       $range           How many page numbers to display to either side of the current page.
+	 * @param string|Object $current_query   The current query.
+	 * @param bool          $infinite_scroll Whether we want infinite scroll or not.
+	 * @param bool          $is_element      Whether pagination is definitely only set for a specific element.
 	 * @return string                     The pagination markup.
 	 */
 	function fusion_pagination( $max_pages = '', $range = 1, $current_query = '', $infinite_scroll = false, $is_element = false ) {
@@ -1065,7 +1115,7 @@ if ( ! function_exists( 'fusion_pagination' ) ) {
 			}
 
 			if ( 1 < $current_page ) {
-				$output .= '<a class="pagination-prev" href="' . esc_url( get_pagenum_link( $current_page - 1 ) ) . '">';
+				$output .= '<a class="pagination-prev" rel="prev" href="' . esc_url( get_pagenum_link( $current_page - 1 ) ) . '">';
 				$output .= '<span class="page-prev"></span>';
 				$output .= '<span class="page-text">' . esc_html__( 'Previous', 'Avada' ) . '</span>';
 				$output .= '</a>';
@@ -1112,7 +1162,7 @@ if ( ! function_exists( 'fusion_pagination' ) ) {
 					}
 				}
 
-				$output .= '<a class="pagination-next" href="' . esc_url( get_pagenum_link( $current_page + 1 ) ) . '">';
+				$output .= '<a class="pagination-next" rel="next" href="' . esc_url( get_pagenum_link( $current_page + 1 ) ) . '">';
 				$output .= '<span class="page-text">' . esc_html__( 'Next', 'Avada' ) . '</span>';
 				$output .= '<span class="page-next"></span>';
 				$output .= '</a>';
@@ -1203,6 +1253,12 @@ if ( ! function_exists( 'fusion_is_shop' ) ) {
 	 * @return bool Theme option or page option value.
 	 */
 	function fusion_is_shop( $current_page_id ) {
+
+		// Early exit if WooCommerce is not active.
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return false;
+		}
+
 		$current_page_id      = (int) $current_page_id;
 		$front_page_id        = (int) get_option( 'page_on_front' );
 		$shop_page_id         = (int) apply_filters( 'woocommerce_get_shop_page_id', get_option( 'woocommerce_shop_page_id' ) );
@@ -1287,13 +1343,17 @@ if ( ! function_exists( 'fusion_reset_all_caches' ) ) {
 
 if ( ! function_exists( 'fusion_is_plugin_activated' ) ) {
 	/**
-	 * Reset all Fusion Caches.
+	 * Checks if plugin is activated.
 	 *
 	 * @since 1.9.2
 	 * @param string $plugin Name of the plugin that should be checked.
 	 * @return bool If plugin is active or not.
 	 */
 	function fusion_is_plugin_activated( $plugin ) {
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		return in_array( $plugin, (array) get_option( 'active_plugins', [] ), true ) || is_plugin_active_for_network( $plugin );
 	}
 }
@@ -1434,3 +1494,203 @@ if ( ! function_exists( 'fusion_element_attributes' ) ) {
 	}
 }
 
+if ( ! function_exists( 'fusion_is_singular' ) ) {
+	/**
+	 * Checks if we are on a single post of any post type.
+	 *
+	 * @since 2.2.2
+	 * @param int $post_id The post ID.
+	 * @return bool        True if post is single, false otherwise.
+	 */
+	function fusion_is_singular( $post_id = 0 ) {
+		global $pagenow;
+
+		if ( ! $post_id ) {
+			$is_single = false;
+		} elseif ( is_admin() ) {
+			$is_single = ( 'post-new.php' === $pagenow || 'post.php' === $pagenow ) ? true : false;
+		} else {
+			$is_single = ( is_single( $post_id ) || is_page( $post_id ) ) ? true : false;
+		}
+
+		return $is_single;
+	}
+}
+
+if ( ! function_exists( 'fusion_add_responsive_image_markup' ) ) {
+	/**
+	 * Checks which WP native function is available invokes it to add responsive image markup.
+	 *
+	 * @since 3.0
+	 * @param string $content The content to which img tags responsive image attributes as "srcset" and "sizes" need to be added.
+	 * @return string The changed content.
+	 */
+	function fusion_add_responsive_image_markup( $content ) {
+		if ( function_exists( 'wp_filter_content_tags' ) ) {
+			$content = wp_filter_content_tags( $content );
+		} elseif ( function_exists( 'wp_make_content_images_responsive' ) ) {
+			$content = wp_make_content_images_responsive( $content );
+		}
+
+		return $content;
+	}
+}
+
+if ( ! function_exists( 'avada_menu_element_woo_cart' ) ) {
+	/**
+	 * Woo Cart Dropdown for new menu setup.
+	 *
+	 * @param array $args An array of arguments.
+	 * @return string HTML of Dropdown
+	 */
+	function avada_menu_element_woo_cart( $args = [] ) {
+
+		if ( ! class_exists( 'WooCommerce' ) || is_null( WC()->cart ) ) {
+			return '';
+		}
+
+		$output              = '';
+		$dropdown_class      = 'avada-custom-menu-item-contents-empty';
+		$cart_contents_count = WC()->cart->get_cart_contents_count();
+
+		if ( 0 < $cart_contents_count ) {
+			$checkout_link      = wc_get_checkout_url();
+			$woo_cart_page_link = wc_get_cart_url();
+			$dropdown_class     = '';
+
+			foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+				$_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+				$product_link = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
+				$thumbnail_id = ( $cart_item['variation_id'] && has_post_thumbnail( $cart_item['variation_id'] ) ) ? $cart_item['variation_id'] : $cart_item['product_id'];
+
+				if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
+					$output .= '<li class="menu-item fusion-menu-cart-item">';
+					$output .= '<a href="' . $product_link . '">';
+					$output .= get_the_post_thumbnail( $thumbnail_id, 'recent-works-thumbnail' );
+
+					$output .= '<div class="fusion-menu-cart-item-details">';
+					$output .= '<span class="fusion-menu-cart-item-title">' . $_product->get_name() . '</span>';
+
+					$product_price = apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
+					if ( '' !== $product_price ) {
+						$product_price = ' x ' . $product_price;
+					}
+					$output .= '<span class="fusion-menu-cart-item-quantity">' . $cart_item['quantity'] . $product_price . '</span>';
+					$output .= '</div>';
+					$output .= '</a>';
+					$output .= '</li>';
+				}
+			}
+			$output .= '<li class="fusion-menu-cart-checkout">';
+			$output .= '<div class="fusion-menu-cart-link"><a href="' . $woo_cart_page_link . '"><span>' . esc_html__( 'View Cart', 'Avada' ) . '</span></a></div>';
+			$output .= '<div class="fusion-menu-cart-checkout-link"><a href="' . $checkout_link . '"><span>' . esc_html__( 'Checkout', 'Avada' ) . '</span></a></div>';
+			$output .= '</li>';
+		}
+
+		return '<ul class="sub-menu avada-custom-menu-item-contents fusion-menu-cart-items ' . esc_attr( $dropdown_class ) . '">' . $output . '</ul>';
+	}
+}
+
+if ( ! function_exists( 'fusion_menu_element_add_woo_cart_to_widget_html' ) ) {
+	/**
+	 * Adds cart HTML to widget.
+	 *
+	 * @param array $args Array of woo cart arguments, (mostly) used with custom menu items.
+	 * @return string The final HTML.
+	 */
+	function fusion_menu_element_add_woo_cart_to_widget_html( $args = [] ) {
+		$output = '';
+
+		$args = wp_parse_args(
+			$args,
+			[
+				'link_classes'       => '',
+				'text_title'         => '',
+				'after_title_inside' => '',
+				'after_title'        => '',
+				'show_counter'       => false,
+				'counter_style'      => '',
+			]
+		);
+
+		if ( class_exists( 'WooCommerce' ) && ( ! is_admin() || fusion_doing_ajax() ) ) {
+			$cart_contents_count = WC()->cart->get_cart_contents_count();
+
+			$output .= '<a href="' . get_permalink( get_option( 'woocommerce_cart_page_id' ) ) . '" class="' . esc_attr( $args['link_classes'] ) . '">';
+
+			// Add text.
+			$output .= $args['text_title'];
+
+			// Add counter.
+			if ( true === $args['show_counter'] ) {
+				$output .= '<span class="fusion-widget-cart-number" style="' . esc_attr( $args['counter_style'] ) . '" data-cart-count="' . esc_attr( $cart_contents_count ) . '">' . $cart_contents_count . '</span>';
+			}
+
+			$output .= $args['after_title_inside'] . '</a>' . $args['after_title'];
+		}
+		return $output;
+	}
+}
+
+if ( ! function_exists( 'avada_menu_element_add_login_box_to_nav' ) ) {
+	/**
+	 * Add woocommerce cart to main navigation or top navigation.
+	 *
+	 * @param  array $args  Arguments for the WP menu.
+	 * @return string
+	 */
+	function avada_menu_element_add_login_box_to_nav( $args ) {
+
+		$output = '';
+
+		if ( class_exists( 'WooCommerce' ) ) {
+			$woo_account_page_link = wc_get_page_permalink( 'myaccount' );
+
+			if ( $woo_account_page_link ) {
+
+				$output .= '<a href="' . $woo_account_page_link . '" aria-haspopup="true" class="' . esc_attr( $args['link_classes'] ) . '">' . $args['menu_item_content'];
+
+				$output .= $args['after_content_inside'] . '</a>' . $args['after_content'];
+
+				if ( ! is_user_logged_in() ) {
+					$referer = fusion_get_referer();
+					$referer = ( $referer ) ? $referer : '';
+
+					$output .= '<ul class="sub-menu avada-custom-menu-item-contents"><li class="menu-item">';
+
+					if ( isset( $_GET['login'] ) && 'failed' === $_GET['login'] ) { // phpcs:ignore WordPress.Security.NonceVerification
+						$output .= '<p class="fusion-menu-login-box-error">' . esc_html__( 'Login failed, please try again.', 'Avada' ) . '</p>';
+					}
+					$output .= '<form action="' . esc_attr( site_url( 'wp-login.php', 'login_post' ) ) . '" name="loginform" method="post">';
+					$output .= '<p><label class="screen-reader-text hidden" for="username">' . esc_html__( 'Username:', 'Avada' ) . '</label><input type="text" class="input-text" name="log" id="username" value="" placeholder="' . esc_html__( 'Username', 'Avada' ) . '" /></p>';
+					$output .= '<p><label class="screen-reader-text hidden" for="password">' . esc_html__( 'Password:', 'Avada' ) . '</label><input type="password" class="input-text" name="pwd" id="password" value="" placeholder="' . esc_html__( 'Password', 'Avada' ) . '" /></p>';
+					$output .= '<p class="fusion-remember-checkbox"><label for="fusion-menu-login-box-rememberme"><input name="rememberme" type="checkbox" id="fusion-menu-login-box-rememberme" value="forever"> ' . esc_html__( 'Remember Me', 'Avada' ) . '</label></p>';
+					$output .= '<input type="hidden" name="fusion_woo_login_box" value="true" />';
+					$output .= '<p class="fusion-login-box-submit">';
+					$output .= '<input type="submit" name="wp-submit" id="wp-submit" class="button button-small default comment-submit" value="' . esc_html__( 'Log In', 'Avada' ) . '">';
+					$output .= '<input type="hidden" name="redirect" value="' . esc_url( $referer ) . '">';
+					$output .= '</p>';
+					$output .= '</form>';
+					$output .= '<div><a class="fusion-menu-login-box-register" href="' . get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) . '" title="' . esc_attr__( 'Register', 'Avada' ) . '">' . esc_attr__( 'Register', 'Avada' ) . '</a></div>';
+
+					$output .= '</li></ul>';
+				} else {
+					$account_endpoints = wc_get_account_menu_items();
+					unset( $account_endpoints['dashboard'] );
+
+					$output .= '<ul class="sub-menu">';
+					foreach ( $account_endpoints as $endpoint => $label ) {
+						$active_classes = ( is_wc_endpoint_url( $endpoint ) ) ? ' current-menu-item current_page_item' : '';
+
+						$output .= '<li class="menu-item fusion-dropdown-submenu' . $active_classes . '">';
+						$output .= '<a href="' . esc_url( wc_get_account_endpoint_url( $endpoint ) ) . '">' . esc_html( $label ) . '</a>';
+						$output .= '</li>';
+					}
+					$output .= '</ul>';
+				}
+			}
+		}
+
+		return $output;
+	}
+}

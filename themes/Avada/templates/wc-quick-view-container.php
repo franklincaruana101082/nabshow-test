@@ -12,7 +12,7 @@
 
 ?>
 <div class="fusion-woocommerce-quick-view-overlay"></div>
-<div class="fusion-woocommerce-quick-view-container woocommerce">
+<div class="fusion-woocommerce-quick-view-container quick-view woocommerce">
 	<script type="text/javascript">
 		var quickViewNonce =  '<?php echo esc_html( wp_create_nonce( 'fusion_quick_view_nonce' ) ); ?>';
 	</script>

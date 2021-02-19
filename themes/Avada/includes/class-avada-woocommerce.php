@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Avada_Woocommerce {
 
 	/**
-	 * Holds info if currently product elements are looped..
+	 * Holds info if currently product elements are looped.
 	 *
 	 * @access private
 	 * @var bool
@@ -29,11 +29,38 @@ class Avada_Woocommerce {
 	private $in_product_elements = false;
 
 	/**
+	 * Sale badge text.
+	 *
+	 * @access private
+	 * @var string
+	 */
+	private $sale_text = '';
+
+	/**
+	 * Cache which placeholders are used.
+	 *
+	 * @access private
+	 * @var arrray
+	 */
+	private $used_sale_text_placeholders = [
+		'percentage' => false,
+		'value'      => false,
+	];
+
+	/**
 	 * Constructor.
 	 *
 	 * @access public
 	 */
 	public function __construct() {
+
+		// Runs after we know of layout section overrides.
+		add_action( 'wp', [ $this, 'wp' ], 20 );
+		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'remove_woo_assets' ], 20 );
+
+		add_filter( 'avada_woocommerce_product_images_layout', [ $this, 'avada_woocommerce_product_images_layout' ], 10 );
+		add_filter( 'woocommerce_product_thumbnails_columns', [ $this, 'product_thumbnails_columns' ], 10 );
 
 		add_filter( 'woocommerce_show_page_title', [ $this, 'shop_title' ], 10 );
 
@@ -51,6 +78,11 @@ class Avada_Woocommerce {
 		remove_action( 'woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10 );
 		remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
 		remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
+
+		add_action( 'woocommerce_before_shop_loop_item', [ $this, 'before_shop_loop_item' ] );
+		add_action( 'woocommerce_after_shop_loop_item', [ $this, 'after_shop_loop_item' ], 30 );
+		add_action( 'woocommerce_before_subcategory', [ $this, 'before_shop_loop_item' ], 5 );
+		add_action( 'woocommerce_after_subcategory', [ $this, 'after_shop_loop_item' ], 30 );
 
 		add_action( 'woocommerce_before_shop_loop_item_title', [ $this, 'add_product_wrappers_open' ], 30 );
 		add_action( 'woocommerce_shop_loop_item_title', [ $this, 'product_title' ], 10 );
@@ -80,14 +112,6 @@ class Avada_Woocommerce {
 
 		add_action( 'woocommerce_after_shop_loop_item', [ $this, 'after_shop_item_buttons' ], 20 );
 
-		// Single Product Page.
-		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
-		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
-		add_action( 'woocommerce_single_product_summary', [ $this, 'add_product_border' ], 19 );
-		add_action( 'woocommerce_single_product_summary', [ $this, 'template_single_title' ], 5 );
-		add_action( 'woocommerce_single_product_summary', [ $this, 'stock_html' ], 10 );
-		add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 11 );
-
 		// Add product-title class to the cart item name link.
 		add_filter( 'woocommerce_cart_item_name', [ $this, 'cart_item_name' ], 10 );
 
@@ -102,23 +126,6 @@ class Avada_Woocommerce {
 		// Filter the pagination.
 		add_filter( 'woocommerce_pagination_args', [ $this, 'change_pagination' ] );
 		add_filter( 'woocommerce_comment_pagination_args', [ $this, 'change_pagination' ] );
-
-		add_action( 'woocommerce_before_single_product_summary', [ $this, 'before_single_product_summary_open' ], 5 );
-		add_action( 'woocommerce_before_single_product_summary', [ $this, 'before_single_product_summary_close' ], 30 );
-
-		add_filter( 'woocommerce_single_product_carousel_options', [ $this, 'single_product_carousel_options' ], 10 );
-		add_filter( 'woocommerce_product_thumbnails_columns', [ $this, 'product_thumbnails_columns' ], 10 );
-
-		if ( fusion_get_option( 'disable_woo_gallery' ) ) {
-			add_filter( 'woocommerce_single_product_image_gallery_classes', [ $this, 'single_product_image_gallery_classes' ], 10 );
-			add_filter( 'woocommerce_single_product_image_thumbnail_html', [ $this, 'single_product_image_thumbnail_html' ], 10, 2 );
-		}
-
-		// Checkout page.
-		add_filter( 'woocommerce_order_button_html', [ $this, 'order_button_html' ] );
-
-		add_action( 'woocommerce_checkout_terms_and_conditions', [ $this, 'change_allowed_post_tags_before_terms' ], 15 );
-		add_action( 'woocommerce_checkout_terms_and_conditions', [ $this, 'change_allowed_post_tags_after_terms' ], 35 );
 
 		// Account Page.
 		add_action( 'woocommerce_account_dashboard', [ $this, 'account_dashboard' ], 5 );
@@ -136,7 +143,9 @@ class Avada_Woocommerce {
 		add_action( 'wp_loaded', [ $this, 'wpml_fix' ], 30 );
 
 		add_action( 'woocommerce_checkout_after_order_review', [ $this, 'checkout_after_order_review' ], 20 );
-		add_filter( 'post_class', [ $this, 'change_product_class' ] );
+		add_filter( 'woocommerce_post_class', [ $this, 'change_product_class' ] );
+		add_filter( 'product_cat_class', [ $this, 'change_product_cats_class' ] );
+		
 		remove_action( 'woocommerce_thankyou', 'woocommerce_order_details_table', 10 );
 		add_action( 'woocommerce_after_customer_login_form', [ $this, 'after_customer_login_form' ] );
 		add_action( 'woocommerce_before_customer_login_form', [ $this, 'before_customer_login_form' ] );
@@ -167,6 +176,339 @@ class Avada_Woocommerce {
 		remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 		add_action( 'woocommerce_cart_collaterals', [ $this, 'cross_sell_display' ], 5 );
 
+		// Checkout page hooks.
+		$this->checkout_init();
+
+		// Make sure that the single product shortcode does not use default column amount.
+		add_filter( 'shortcode_atts_product', [ $this, 'change_product_shortcode_atts' ], 20, 4 );
+
+		// Quick view hooks.
+		if ( Avada()->settings->get( 'woocommerce_enable_quick_view' ) ) {
+			$this->quick_view_init();
+		}
+
+		// Remove WC customizer options.
+		add_filter( 'loop_shop_columns', [ $this, 'remove_woo_customizer_columns' ] );
+
+		// Add notice to WC customizer panel.
+		add_action( 'customize_register', [ $this, 'add_woocommerce_customizer_notice' ] );
+
+		add_action( 'fusion_woocommerce_after_shop_loop_item', [ $this, 'woocommerce_after_shop_loop_item' ] );
+
+		add_filter( 'woocommerce_default_catalog_orderby', [ $this, 'woocommerce_default_catalog_orderby' ], 99999 );
+	}
+
+	/**
+	 * WP hook calls to delay.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function wp() {
+		$version        = Avada::get_theme_version();
+		$layout_product = function_exists( 'Fusion_Builder_WooCommerce' ) && Fusion_Builder_WooCommerce()->is_layout_product();
+
+		if ( ! $layout_product ) {
+			$this->single_product_init();
+		}
+
+		$this->assets_init( $layout_product );
+
+		// This filter needs to be registered before 'wp_enqueue_scripts'.
+		add_filter( 'woocommerce_enqueue_styles', [ $this, 'remove_woo_scripts' ] );
+	}
+
+	/**
+	 * WP hook calls to delay.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function wp_loaded() {
+		$this->prepare_sale_flash();
+	}
+
+	/**
+	 * Enqueue and dequeue assets.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param bool $layout_product Whether its a single product with content layout or not.
+	 * @return void
+	 */
+	public function assets_init( $layout_product = false ) {
+		$version          = Avada::get_theme_version();
+		$js_folder_suffix = AVADA_DEV_MODE ? '/assets/js' : '/assets/min/js';
+		$js_folder_url    = Avada::$template_dir_url . $js_folder_suffix;
+		$js_folder_path   = Avada::$template_dir_path . $js_folder_suffix;
+
+		// Main shared
+		Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woocommerce.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocomerce/woocommerce.min.css' );
+
+		// Quick view only if enabled.
+		if ( Avada()->settings->get( 'woocommerce_enable_quick_view' ) ) {
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-quick-view.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-quick-view.min.css' );
+
+			Fusion_Media_Query_Scripts::$media_query_assets[] = [
+				'avada-max-sh-cbp-woo-quick-view',
+				get_template_directory_uri() . '/assets/css/media/max-sh-cbp-woo-quick-view.min.css',
+				[],
+				$version,
+				Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-max-sh-cbp' ),
+			];
+
+			Fusion_Media_Query_Scripts::$media_query_assets[] = [
+				'avada-min-sh-cbp-woo-quick-view',
+				get_template_directory_uri() . '/assets/css/media/min-sh-cbp-woo-quick-view.min.css',
+				[],
+				$version,
+				Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-min-sh-cbp' ),
+			];
+		}
+
+		// If we are not on a single product layout.
+		if ( ! $layout_product ) {
+
+			// We only need these on legacy single produt.
+			if ( is_product() ) {
+
+				// Additional info.
+				Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-additional-info.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-additional-info.min.css' );
+			}
+
+			// Legacy product CSS.
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-legacy-product.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-legacy-product.min.css' );
+
+			// Woo notices can be on any Woo page.
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-notices.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-notices.min.css' );
+
+			// Gallery can be in quick view.
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-product-images.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-product-images.min.css' );
+
+			// Check if can be moved to single product only.
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-tabs.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-tabs.min.css' );
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-reviews.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-reviews.min.css' );
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-additional-info.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-additional-info.min.css' );
+
+			Fusion_Dynamic_CSS::enqueue_style( Avada::$template_dir_path . '/assets/css/dynamic/woocommerce/woo-products.min.css', Avada::$template_dir_url . '/assets/css/dynamic/woocommerce/woo-products.min.css' );
+
+			Fusion_Media_Query_Scripts::$media_query_assets[] = [
+				'avada-max-sh-cbp-woo-tabs',
+				get_template_directory_uri() . '/assets/css/media/max-sh-cbp-woo-tabs.min.css',
+				[],
+				$version,
+				Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-max-sh-cbp' ),
+			];
+
+			// JS scripts.
+			Fusion_Dynamic_JS::enqueue_script(
+				'avada-woo-product-images',
+				$js_folder_url . '/general/avada-woo-product-images.js',
+				$js_folder_path . '/general/avada-woo-product-images.js',
+				[ 'jquery', 'fusion-lightbox' ],
+				$version,
+				true
+			);
+
+			Fusion_Dynamic_JS::register_script(
+				'avada-woo-products',
+				$js_folder_url . '/general/avada-woo-products.js',
+				$js_folder_path . '/general/avada-woo-products.js',
+				[ 'jquery', 'fusion-lightbox', 'fusion-flexslider' ],
+				$version,
+				true
+			);
+
+			Fusion_Dynamic_JS::enqueue_script(
+				'avada-woocommerce',
+				$js_folder_url . '/general/avada-woocommerce.js',
+				$js_folder_path . '/general/avada-woocommerce.js',
+				[ 'jquery', 'modernizr', 'fusion-equal-heights', 'fusion-lightbox', 'avada-woo-products' ],
+				$version,
+				true
+			);
+
+			Fusion_Dynamic_JS::localize_script(
+				'avada-woocommerce',
+				'avadaWooCommerceVars',
+				self::get_avada_wc_vars()
+			);
+		}
+
+		Fusion_Media_Query_Scripts::$media_query_assets[] = [
+			'avada-min-768-max-1024-woo',
+			get_template_directory_uri() . '/assets/css/media/min-768-max-1024-woo.min.css',
+			[],
+			$version,
+			Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-min-768-max-1024' ),
+		];
+
+		Fusion_Media_Query_Scripts::$media_query_assets[] = [
+			'avada-max-sh-640-woo',
+			get_template_directory_uri() . '/assets/css/media/max-sh-640-woo.min.css',
+			[],
+			$version,
+			Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-max-sh-640' ),
+		];
+
+		Fusion_Media_Query_Scripts::$media_query_assets[] = [
+			'avada-max-sh-cbp-woo',
+			get_template_directory_uri() . '/assets/css/media/max-sh-cbp-woo.min.css',
+			[],
+			$version,
+			Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-max-sh-cbp' ),
+		];
+
+		Fusion_Media_Query_Scripts::$media_query_assets[] = [
+			'avada-min-sh-cbp-woo',
+			get_template_directory_uri() . '/assets/css/media/min-sh-cbp-woo.min.css',
+			[],
+			$version,
+			Fusion_Media_Query_Scripts::get_media_query_from_key( 'fusion-min-sh-cbp' ),
+		];
+	}
+
+	/**
+	 * Init single product.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function single_product_init() {
+		add_filter( 'avada_single_product_images_wrapper_classes', [ $this, 'add_single_product_images_wrapper_classes' ], 10 );
+
+		// Remove zoom and lightbox scripts, if not used on single product pages.
+		if ( ! Avada()->settings->get( 'woocommerce_product_images_zoom' ) ) {
+			remove_theme_support( 'wc-product-gallery-zoom' );
+		}
+
+		if ( 'avada' === apply_filters( 'avada_woocommerce_product_images_layout', 'avada' ) ) {
+			remove_theme_support( 'wc-product-gallery-lightbox' );
+		}
+
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
+		add_action( 'woocommerce_single_product_summary', [ $this, 'add_product_border' ], 19 );
+		add_action( 'woocommerce_single_product_summary', [ $this, 'template_single_title' ], 5 );
+		add_action( 'woocommerce_single_product_summary', [ $this, 'stock_html' ], 10 );
+		add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 11 );
+	}
+
+	/**
+	 * Remove WooCommerce core assets, since we add our own.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function remove_woo_assets() {
+		if ( Avada()->settings->get( 'status_lightbox' ) ) {
+			wp_dequeue_script( 'prettyPhoto' );
+			wp_dequeue_script( 'prettyPhoto-init' );
+			wp_dequeue_style( 'woocommerce_prettyPhoto_css' );
+		}
+
+		// Dequeue flexslider since we already enquque our own (jquery-flexslider).
+		if ( is_product() ) {
+			wp_dequeue_script( 'flexslider' );
+		}
+	}
+
+	/**
+	 * Removes WooCommerce scripts.
+	 *
+	 * @access public
+	 * @since 5.0.0
+	 * @param array $scripts The WooCommerce scripts.
+	 * @return array
+	 */
+	public function remove_woo_scripts( $scripts ) {
+
+		if ( isset( $scripts['woocommerce-layout'] ) ) {
+			unset( $scripts['woocommerce-layout'] );
+		}
+		if ( isset( $scripts['woocommerce-smallscreen'] ) ) {
+			unset( $scripts['woocommerce-smallscreen'] );
+		}
+		if ( isset( $scripts['woocommerce-general'] ) ) {
+			unset( $scripts['woocommerce-general'] );
+		}
+		return $scripts;
+
+	}
+
+	/**
+	 * Init quick view.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function quick_view_init() {
+		add_action( 'avada_after_main_content', [ $this, 'quick_view_load_container' ] );
+		add_action( 'wp_ajax_fusion_quick_view_load', [ $this, 'quick_view_load_product' ] );
+		add_action( 'wp_ajax_nopriv_fusion_quick_view_load', [ $this, 'quick_view_load_product' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'quick_view_enqueue_scripts' ] );
+		add_action( 'fusion_quick_view_summary_content', [ $this, 'template_single_title' ], 5 );
+		add_action( 'fusion_quick_view_summary_content', [ $this, 'stock_html' ], 10 );
+		add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_price', 10 );
+		add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_rating', 11 );
+		add_action( 'fusion_quick_view_summary_content', [ $this, 'add_product_border' ], 19 );
+		add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_excerpt', 20 );
+		add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_add_to_cart', 30 );
+		/**
+		 * WIP
+		add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_meta', 40 );
+		add_action( 'fusion_quick_view_summary_content', [ $this, 'after_single_product_summary' ], 50 );
+		 */
+	}
+
+	/**
+	 * Add special class for the single product images wrapper.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param string $classes The single product images wrapper classes.
+	 * @return string The filtered classes.
+	 */
+	public function add_single_product_images_wrapper_classes( $classes ) {
+		$classes .= ' avada-product-images-global';
+
+		if ( 'avada' === apply_filters( 'avada_woocommerce_product_images_layout', 'avada' ) ) {
+			$classes .= ' avada-product-images-thumbnails-' . Avada()->settings->get( 'woocommerce_product_images_thumbnail_position' );
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Set the product image layout.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param string $layout The product thumbnails layout.
+	 * @return string The filtered layout.
+	 */
+	public function avada_woocommerce_product_images_layout( $layout ) {
+		return Avada()->settings->get( 'woocommerce_product_images_layout' );
+	}
+
+	/**
+	 * Init checkout page.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function checkout_init() {
+		add_filter( 'woocommerce_order_button_html', [ $this, 'order_button_html' ] );
+
+		add_action( 'woocommerce_checkout_terms_and_conditions', [ $this, 'change_allowed_post_tags_before_terms' ], 15 );
+		add_action( 'woocommerce_checkout_terms_and_conditions', [ $this, 'change_allowed_post_tags_after_terms' ], 35 );
+
 		remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
 		add_action( 'woocommerce_before_checkout_form', [ $this, 'checkout_coupon_form' ], 10 );
 
@@ -180,38 +522,6 @@ class Avada_Woocommerce {
 		add_action( 'woocommerce_checkout_billing', [ $this, 'checkout_billing' ], 20 );
 		add_action( 'woocommerce_checkout_shipping', [ $this, 'checkout_shipping' ], 20 );
 		add_filter( 'woocommerce_enable_order_notes_field', [ $this, 'enable_order_notes_field' ] );
-
-		// Make sure that the single product shortcode does not use default column amount.
-		add_filter( 'shortcode_atts_product', [ $this, 'change_product_shortcode_atts' ], 20, 4 );
-
-		if ( Avada()->settings->get( 'woocommerce_enable_quick_view' ) ) {
-			add_action( 'avada_after_main_content', [ $this, 'quick_view_load_container' ] );
-			add_action( 'wp_ajax_fusion_quick_view_load', [ $this, 'quick_view_load_product' ] );
-			add_action( 'wp_ajax_nopriv_fusion_quick_view_load', [ $this, 'quick_view_load_product' ] );
-			add_action( 'wp_enqueue_scripts', [ $this, 'quick_view_enqueue_scripts' ] );
-			add_action( 'fusion_quick_view_summary_content', [ $this, 'template_single_title' ], 5 );
-			add_action( 'fusion_quick_view_summary_content', [ $this, 'stock_html' ], 10 );
-			add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_price', 10 );
-			add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_rating', 11 );
-			add_action( 'fusion_quick_view_summary_content', [ $this, 'add_product_border' ], 19 );
-			add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_excerpt', 20 );
-			add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_add_to_cart', 30 );
-			/**
-			 * WIP
-			add_action( 'fusion_quick_view_summary_content', 'woocommerce_template_single_meta', 40 );
-			add_action( 'fusion_quick_view_summary_content', [ $this, 'after_single_product_summary' ], 50 );
-			 */
-		}
-
-		// Remove WC customizer options.
-		add_filter( 'loop_shop_columns', [ $this, 'remove_woo_customizer_columns' ] );
-
-		// Add notice to WC customizer panel.
-		add_action( 'customize_register', [ $this, 'add_woocommerce_customizer_notice' ] );
-
-		add_action( 'fusion_woocommerce_after_shop_loop_item', [ $this, 'woocommerce_after_shop_loop_item' ] );
-
-		add_filter( 'woocommerce_default_catalog_orderby', [ $this, 'woocommerce_default_catalog_orderby' ], 99999 );
 	}
 
 	/**
@@ -293,7 +603,7 @@ class Avada_Woocommerce {
 	 * @param array $sidebar_order Array of selectors.
 	 */
 	public function responsive_sidebar_order( $sidebar_order ) {
-		$key = array_search( 'content', $sidebar_order );
+		$key = array_search( 'content', $sidebar_order, true );
 		if ( false !== $key ) {
 			$sidebar_order[ $key ] .= ', .woocommerce-container';
 		}
@@ -350,32 +660,34 @@ class Avada_Woocommerce {
 
 		if ( ! $this->in_product_elements ) {
 
-			if ( $product && ( ( $product->is_purchasable() && $product->is_in_stock() ) || $product->is_type( 'external' ) ) ) {
-
-				$filtered_classes = array_filter(
-					[
-						'button',
-						'product_type_' . $product->get_type(),
-						$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
-						$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
-					]
-				);
+			if ( $product && ( ( $product->is_purchasable() && $product->is_in_stock() ) || $product->is_type( 'external' ) || $product->is_type( 'auction' ) ) ) {
 
 				$defaults = [
-					'quantity' => 1,
-					'class'    => implode( ' ', $filtered_classes ),
-				];
-
-				if ( version_compare( self::get_wc_version(), '3.3', '>=' ) ) {
-					$defaults['attributes'] = [
+					'quantity'   => 1,
+					'class'      => implode(
+						' ',
+						array_filter(
+							[
+								'button',
+								'product_type_' . $product->get_type(),
+								$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
+								$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
+							]
+						)
+					),
+					'attributes' => [
 						'data-product_id'  => $product->get_id(),
 						'data-product_sku' => $product->get_sku(),
 						'aria-label'       => $product->add_to_cart_description(),
 						'rel'              => 'nofollow',
-					];
-				}
+					],
+				];
 
 				$args = apply_filters( 'woocommerce_loop_add_to_cart_args', wp_parse_args( $args, $defaults ), $product );
+
+				if ( isset( $args['attributes']['aria-label'] ) ) {
+					$args['attributes']['aria-label'] = wp_strip_all_tags( $args['attributes']['aria-label'] );
+				}
 
 				wc_get_template( 'loop/add-to-cart.php', $args );
 			}
@@ -443,56 +755,6 @@ class Avada_Woocommerce {
 	}
 
 	/**
-	 * Add wrapping container opening for single product image gallery.
-	 *
-	 * @since 5.1
-	 * @access public
-	 * @return void
-	 */
-	public function before_single_product_summary_open() {
-		get_template_part( 'templates/wc-before-single-product-summary-open' );
-	}
-
-	/**
-	 * Add wrapping container closing for single product image gallery.
-	 *
-	 * @since 5.1
-	 * @access public
-	 * @return void
-	 */
-	public function before_single_product_summary_close() {
-		get_template_part( 'templates/wc-before-single-product-summary-close' );
-	}
-
-	/**
-	 * Filters single product page image flexslider options.
-	 *
-	 * @since 5.1
-	 * @access public
-	 * @param array $flexslider_options Holds the default options for setting up the flexslider object.
-	 * @return array The altered flexslider options.
-	 */
-	public function single_product_carousel_options( $flexslider_options ) {
-		global $post;
-
-		$flexslider_options['directionNav'] = true;
-
-		$product = wc_get_product( $post );
-
-		if ( is_object( $product ) ) {
-
-			$attachment_ids = $product->get_gallery_image_ids();
-
-			if ( fusion_get_option( 'disable_woo_gallery' ) && 0 < count( $attachment_ids ) ) {
-				$flexslider_options['animationLoop'] = true;
-				$flexslider_options['smoothHeight']  = true;
-			}
-		}
-
-		return $flexslider_options;
-	}
-
-	/**
 	 * Filters single product gallery thumbnail columns.
 	 *
 	 * @since 5.1
@@ -505,53 +767,38 @@ class Avada_Woocommerce {
 	}
 
 	/**
-	 * Filters single product page image gallery classes.
-	 *
-	 * @since 5.1
-	 * @access public
-	 * @param string $classes Holds the single product image gallery classes.
-	 * @return array The altered classes.
-	 */
-	public function single_product_image_gallery_classes( $classes ) {
-
-		$classes[] = 'avada-product-gallery';
-		return $classes;
-
-	}
-
-	/**
-	 * Filters single product image thumbnail html.
-	 *
-	 * @since 5.1
-	 * @access public
-	 * @param string $html Holds the single product image thumbnail html.
-	 * @param number $attachment_id The attachment id for single product image.
-	 * @return array The altered html markup.
-	 */
-	public function single_product_image_thumbnail_html( $html, $attachment_id ) {
-		global $post, $product;
-
-		$attachment_count = count( $product->get_gallery_image_ids() );
-		$full_size_image  = wp_get_attachment_image_src( $attachment_id, 'full' );
-		$attachment_data  = fusion_library()->images->get_attachment_data( $attachment_id, 'none' );
-
-		$gallery = '[]';
-		if ( $attachment_count > 0 ) {
-			$gallery = '[product-gallery]';
-		}
-
-		$html = str_replace( '</div>', '<a class="avada-product-gallery-lightbox-trigger" href="' . esc_url( $full_size_image[0] ) . '" data-rel="iLightbox' . $gallery . '" alt="' . $attachment_data['alt'] . '" data-title="' . $attachment_data['title_attribute'] . '" data-caption="' . $attachment_data['caption_attribute'] . '"></a></div>', $html );
-
-		return $html;
-	}
-
-	/**
 	 * Open wrapper divs.
 	 *
 	 * @access public
 	 */
 	public function add_product_wrappers_open() {
 		get_template_part( 'templates/wc-add-product-wrappers-open' );
+	}
+
+	/**
+	 * Adds wrapper to the single products in product loop.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function before_shop_loop_item() {
+		if ( ! $this->in_product_elements ) {
+			get_template_part( 'templates/wc-open-product-main-wrapper' );
+		}
+	}
+
+	/**
+	 * Closes wrapper addedto the single products in product loop.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */ 
+	public function after_shop_loop_item() {
+		if ( ! $this->in_product_elements ) {
+			get_template_part( 'templates/wc-close-product-main-wrapper' );
+		}
 	}
 
 	/**
@@ -723,7 +970,7 @@ class Avada_Woocommerce {
 		.woocommerce-MyAccount-content > p:first-child { display: none; }
 		</style>
 		<?php
-		self::before_account_content_heading();
+		$this->before_account_content_heading();
 	}
 
 	/**
@@ -912,16 +1159,27 @@ class Avada_Woocommerce {
 	 * @return array $classes An array containing additional class 'product-list-view' if the product view is set to list.
 	 */
 	public function change_product_class( $classes ) {
-
-		if ( 'product' !== get_post_type() || is_product() ) {
-			return $classes;
-		}
-
 		if ( isset( $_SERVER['QUERY_STRING'] ) ) {
 			parse_str( sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ), $params );
 			$product_view = ( isset( $params['product_view'] ) ) ? $params['product_view'] : Avada()->settings->get( 'woocommerce_product_view' );
 			$classes[]    = 'product-' . $product_view . '-view';
+		} else {
+			$classes[] = 'product-grid-view';
 		}
+		return $classes;
+	}
+
+	/**
+	 * Function to add 'product-list-view' class to product categories.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param array $classes An array containing class names for the particular product archive.
+	 * @return array $classes An array containing additional class 'product-list-view'.
+	 */
+	public function change_product_cats_class( $classes ) {
+		$classes[] = 'product-grid-view';
+
 		return $classes;
 	}
 
@@ -1020,8 +1278,8 @@ class Avada_Woocommerce {
 				break;
 			case 'price':
 			case 'price-desc':
-				$meta_key = '_price';
-				$orderby  = 'meta_value_num ID';
+				$callback = 'DESC' === $order ? 'order_by_price_desc_post_clauses' : 'order_by_price_asc_post_clauses';
+				add_filter( 'posts_clauses', [ WC()->query, $callback ] );
 				break;
 			case 'relevance':
 				$orderby = 'relevance';
@@ -1052,27 +1310,6 @@ class Avada_Woocommerce {
 	}
 
 	/**
-	 * The order_by_price_post_clauses method.
-	 *
-	 * @access public
-	 * @since 5.2.2
-	 * @param array $args The arguments array.
-	 * @return array The altered arguments array.
-	 */
-	public function order_by_price_post_clauses( $args ) {
-		global $wpdb;
-		if ( isset( $_SERVER['QUERY_STRING'] ) ) {
-			parse_str( sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ), $params );
-		}
-
-		$order           = empty( $params['product_order'] ) ? 'ASC' : strtoupper( $params['product_order'] );
-		$min_max         = ( 'DESC' === $order ) ? 'max' : 'min';
-		$args['join']   .= " INNER JOIN ( SELECT post_id, {$min_max}( meta_value+0 ) price FROM $wpdb->postmeta WHERE meta_key='_price' GROUP BY post_id ) as fusion_price_query ON $wpdb->posts.ID = fusion_price_query.post_id ";
-		$args['orderby'] = " fusion_price_query.price {$order} ";
-		return $args;
-	}
-
-	/**
 	 * The order_by_popularity_post_clauses method.
 	 *
 	 * @access public
@@ -1086,7 +1323,10 @@ class Avada_Woocommerce {
 			parse_str( sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ), $params );
 		}
 
-		$order = empty( $params['product_order'] ) ? 'DESC' : strtoupper( $params['product_order'] );
+		$order = 'DESC';
+		if ( ! empty( $params['product_order'] ) && 'ASC' === strtoupper( $params['product_order'] ) ) {
+			$order = 'ASC';
+		}
 
 		$join_sql = $args['join'];
 		if ( ! strstr( $join_sql, 'wc_product_meta_lookup' ) ) {
@@ -1099,13 +1339,12 @@ class Avada_Woocommerce {
 	}
 
 	/**
-	 * Removes the order_by_price_post_clauses and order_by_popularity_post_clauses filters.
+	 * Removes the order_by_popularity_post_clauses filters.
 	 *
 	 * @access public
 	 * @since 5.0.4
 	 */
 	public function remove_ordering_args_filters() {
-		remove_filter( 'posts_clauses', [ $this, 'order_by_price_post_clauses' ] );
 		remove_filter( 'posts_clauses', [ $this, 'order_by_popularity_post_clauses' ] );
 	}
 
@@ -1148,8 +1387,8 @@ class Avada_Woocommerce {
 	 *
 	 * @access public
 	 * @since 5.1.0
-	 * @param string $items The menu items.
-	 * @param array  $args  The menu arguments.
+	 * @param string       $items The menu items.
+	 * @param array|Object $args  The menu arguments.
 	 * @return string
 	 */
 	public function add_woo_cart_to_widget( $items, $args ) {
@@ -1177,19 +1416,81 @@ class Avada_Woocommerce {
 	 * @return array
 	 */
 	public function header_add_to_cart_fragment( $fragments ) {
-		global $woocommerce;
+		global $wpdb;
 
 		$header_top_cart                          = avada_nav_woo_cart( 'secondary' );
 		$fragments['.fusion-secondary-menu-cart'] = $header_top_cart;
 
-		$header_cart                         = avada_nav_woo_cart( 'main' );
-		$fragments['.fusion-main-menu-cart'] = $header_cart;
+		$header_cart = avada_nav_woo_cart( 'main' );
+		$fragments['.fusion-main-menu-cart:not(.menu-item-type-custom)'] = $header_cart;
 
 		$flyout_menu_cart                         = avada_flyout_menu_woo_cart();
 		$fragments['.fusion-flyout-cart-wrapper'] = $flyout_menu_cart;
 
-		$widget_cart                      = fusion_add_woo_cart_to_widget_html();
-		$fragments['.fusion-widget-cart'] = $widget_cart;
+		// Get cart contents count.
+		$cart_contents_count = WC()->cart->get_cart_contents_count();
+
+		// Get meta only for cart-menu special links.
+		$meta_rows = wp_cache_get( 'avada_woo_nav_items', 'avada' );
+		if ( false === $meta_rows ) {
+			$meta_rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				"SELECT postmeta.post_id, postmeta.meta_value, posts.post_title FROM $wpdb->postmeta AS postmeta
+				INNER JOIN $wpdb->posts AS posts ON postmeta.post_id = posts.ID
+				WHERE postmeta.meta_key = '_menu_item_fusion_megamenu' AND postmeta.meta_value LIKE '%fusion-woo-cart%'",
+				OBJECT
+			);
+			wp_cache_set( 'avada_woo_nav_items', $meta_rows, 'avada' );
+		}
+
+		$legacy_nav_fragment_selector = '.fusion-widget-cart';
+		$menu_el_nav_fragments        = [];
+		foreach ( $meta_rows as $meta_row ) {
+			$menu_item_meta = maybe_unserialize( $meta_row->meta_value );
+			if ( is_array( $menu_item_meta ) && isset( $menu_item_meta['special_link'] ) && 'fusion-woo-cart' === $menu_item_meta['special_link'] ) {
+				$legacy_nav_fragment_selector .= ':not(.menu-item-' . $meta_row->post_id . ')';
+				$menu_el_nav_fragments[]       = [
+					'item' => [
+						'post_id'    => $meta_row->post_id,
+						'post_title' => $meta_row->post_title,
+					],
+					'meta' => $menu_item_meta,
+				];
+			}
+		}
+
+		// Add legacy-headers fragment.
+		$fragments[ $legacy_nav_fragment_selector ] = fusion_add_woo_cart_to_widget_html();
+
+		// Add menu special-links fragments.
+		foreach ( $menu_el_nav_fragments as $menu_item ) {
+
+			// Cart counter.
+			if ( isset( $menu_item['meta']['show_woo_cart_counter'] ) && 'yes' === $menu_item['meta']['show_woo_cart_counter'] ) {
+
+				// Check for custom styling.
+				$counter_style = '';
+				if ( isset( $menu_item['meta']['highlight_label_background'] ) && ! empty( $menu_item['meta']['highlight_label_background'] ) ) {
+					$counter_style .= 'background-color:' . $menu_item['meta']['highlight_label_background'] . ';';
+				}
+
+				if ( isset( $menu_item['meta']['highlight_label_border_color'] ) && ! empty( $menu_item['meta']['highlight_label_border_color'] ) ) {
+					$counter_style .= 'border-color:' . $menu_item['meta']['highlight_label_border_color'] . ';';
+				}
+
+				if ( isset( $menu_item['meta']['highlight_label_color'] ) && ! empty( $menu_item['meta']['highlight_label_color'] ) ) {
+					$counter_style .= 'color:' . $menu_item['meta']['highlight_label_color'] . ';';
+				}
+				$counter_style = '' === $counter_style ? '' : ' style="' . $counter_style . '"';
+
+				// Output with custom styling.
+				$fragments[ '.menu-item-' . $menu_item['item']['post_id'] . ' > a .fusion-widget-cart-number' ] = '<span class="fusion-widget-cart-number"' . $counter_style . ' data-cart-count="' . esc_attr( $cart_contents_count ) . '">' . $cart_contents_count . '</span>';
+			}
+
+			// Dropdown.
+			if ( isset( $menu_item['meta']['show_woo_cart_contents'] ) && 'yes' === $menu_item['meta']['show_woo_cart_contents'] ) {
+				$fragments[ '.menu-item-' . $menu_item['item']['post_id'] . ' > .sub-menu' ] = avada_menu_element_woo_cart();
+			}
+		}
 
 		return $fragments;
 	}
@@ -1234,8 +1535,12 @@ class Avada_Woocommerce {
 		global $post;
 
 		$number_of_columns = fusion_get_page_option( 'number_of_related_products', $post->ID );
-		if ( in_array( $number_of_columns, [ 'default', '' ] ) || ! $number_of_columns ) {
+		if ( in_array( $number_of_columns, [ 'default', '' ] ) || ! $number_of_columns ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			$number_of_columns = Avada()->settings->get( 'woocommerce_related_columns' );
+		}
+
+		if ( '0' === $number_of_columns ) {
+			return;
 		}
 
 		$args = [
@@ -1264,12 +1569,16 @@ class Avada_Woocommerce {
 			return;
 		}
 
-		echo '<div class="fusion-clearfix"></div>';
-
 		$number_of_columns = fusion_get_page_option( 'number_of_related_products', $post->ID );
-		if ( in_array( $number_of_columns, [ 'default', '' ] ) || ! $number_of_columns ) {
+		if ( in_array( $number_of_columns, [ 'default', '' ] ) || ! $number_of_columns ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			$number_of_columns = Avada()->settings->get( 'woocommerce_related_columns' );
 		}
+
+		if ( '0' === $number_of_columns ) {
+			return;
+		}
+
+		echo '<div class="fusion-clearfix"></div>';
 		woocommerce_upsell_display( - 1, $number_of_columns );
 	}
 
@@ -1281,11 +1590,10 @@ class Avada_Woocommerce {
 	 * @param array $args Not really used here.
 	 */
 	public function before_cart_table( $args ) {
-		global $woocommerce;
 		?>
 		<div class="woocommerce-content-box full-width clearfix">
 				<?php /* translators: Number. */ ?>
-				<h2><?php printf( esc_attr( _n( 'You Have %s Item In Your Cart', 'You Have %s Items In Your Cart', $woocommerce->cart->get_cart_contents_count(), 'Avada' ) ), esc_html( number_format_i18n( $woocommerce->cart->get_cart_contents_count() ) ) ); ?></h2>
+				<h2><?php printf( esc_attr( _n( 'You Have %s Item In Your Cart', 'You Have %s Items In Your Cart', WC()->cart->get_cart_contents_count(), 'Avada' ) ), esc_html( number_format_i18n( WC()->cart->get_cart_contents_count() ) ) ); ?></h2>
 			<?php
 	}
 
@@ -1318,15 +1626,12 @@ class Avada_Woocommerce {
 	 * @since 5.1.0
 	 */
 	public function cross_sell_display() {
-		global $product, $post;
+		$crosssells        = WC()->cart->get_cross_sells();
+		$number_of_columns = Avada()->settings->get( 'woocommerce_related_columns' );
 
-		$crosssells = WC()->cart->get_cross_sells();
-
-		if ( 0 === count( $crosssells ) ) {
+		if ( 0 === count( $crosssells ) || '0' === $number_of_columns ) {
 			return;
 		}
-
-		$number_of_columns = Avada()->settings->get( 'woocommerce_related_columns' );
 
 		woocommerce_cross_sell_display( apply_filters( 'woocommerce_cross_sells_total', - 1 ), $number_of_columns );
 	}
@@ -1464,7 +1769,7 @@ class Avada_Woocommerce {
 	 *
 	 * @access public
 	 * @since 5.4.2
-	 * @param array $wp_customize Customizer object.
+	 * @param Object $wp_customize Customizer object.
 	 * @return void
 	 */
 	public function add_woocommerce_customizer_notice( $wp_customize ) {
@@ -1553,6 +1858,9 @@ class Avada_Woocommerce {
 	 */
 	public function quick_view_enqueue_scripts() {
 		wp_enqueue_script( 'wc-add-to-cart-variation' );
+
+		// WooCommerce Bundled Products plugin, load scripts and styles.
+		do_action( 'wc_quick_view_enqueue_scripts' );
 	}
 
 	/**
@@ -1560,7 +1868,7 @@ class Avada_Woocommerce {
 	 *
 	 * @access public
 	 * @since 6.2.2
-	 * 
+	 *
 	 * @param string $default_order The default order.
 	 * @return string The filtered default oder.
 	 */
@@ -1570,6 +1878,82 @@ class Avada_Woocommerce {
 		}
 
 		return $default_order;
+	}
+
+	/**
+	 * Get avada WC localize script vars.
+	 *
+	 * @access public
+	 * @since 7.2
+	 *
+	 * @return array The localize WC vars.
+	 */
+	public static function get_avada_wc_vars() {
+		$shop_page_bg_color = fusion_get_option( 'content_bg_color', 'content_bg_color', get_option( 'woocommerce_shop_page_id' ) );
+
+		return [
+			'order_actions'                 => __( 'Details', 'Avada' ),
+			'title_style_type'              => Avada()->settings->get( 'title_style_type' ),
+			'woocommerce_shop_page_columns' => Avada()->settings->get( 'woocommerce_shop_page_columns' ),
+			'woocommerce_checkout_error'    => esc_attr__( 'Not all fields have been filled in correctly.', 'Avada' ),
+			'related_products_heading_size' => ( false === avada_is_page_title_bar_enabled( get_the_ID() ) ? '2' : '3' ),
+			'ajaxurl'                       => admin_url( 'admin-ajax.php' ),
+			'shop_page_bg_color'            => $shop_page_bg_color,
+			'shop_page_bg_color_lightness'  => Fusion_Color::new_color( $shop_page_bg_color )->lightness,
+			'post_title_font_size'          => Fusion_Sanitize::convert_font_size_to_px( Avada()->settings->get( 'post_title_typography', 'font-size' ), Avada()->settings->get( 'post_title_typography', 'font-size' ) ),
+		];
+	}
+
+	/**
+	 * Does stuff necessary for sale badge text filtering.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function prepare_sale_flash() {
+
+		$this->sale_text = Avada()->settings->get( 'woo_sale_badge_text' );
+
+		if ( '' !== $this->sale_text ) {
+
+			if ( false !== strpos( $this->sale_text, '[percentage]' ) ) {
+				$this->used_sale_text_placeholders['percentage'] = true;
+			}
+
+			if ( false !== strpos( $this->sale_text, '[value]' ) ) {
+				$this->used_sale_text_placeholders['value'] = true;
+			}
+
+			add_filter( 'woocommerce_sale_flash', [ $this, 'modify_sale_badge' ], 20, 3 );
+		}
+	}
+
+	/**
+	 * Filter sale flash.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param string $html    The badge html.
+	 * @param object $post    The post object.
+	 * @param object $product The product object.
+	 * @return string
+	 */
+	public function modify_sale_badge( $html, $post, $product ) {
+
+		$sale_text = $this->sale_text;
+
+		// Calc percentage.
+		if ( true === $this->used_sale_text_placeholders['percentage'] ) {
+			$sale_text = str_replace( '[percentage]', fusion_library()->woocommerce->calc_product_discount( $product ), $sale_text );
+		}
+
+		// Calc value.
+		if ( true === $this->used_sale_text_placeholders['value'] ) {
+			$sale_text = str_replace( '[value]', fusion_library()->woocommerce->calc_product_discount( $product, 'value' ), $sale_text );
+		}
+
+		return '<span class="onsale">' . $sale_text . '</span>';
 	}
 
 }

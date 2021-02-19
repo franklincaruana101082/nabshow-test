@@ -87,8 +87,8 @@ class Avada_Upgrade_622 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.2
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_scroll_section_sensitivity_option( $options ) {
 		$sensitivity = isset( $options['container_hundred_percent_scroll_sensitivity'] ) ? (int) $options['container_hundred_percent_scroll_sensitivity'] : 100;

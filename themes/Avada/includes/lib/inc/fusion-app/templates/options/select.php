@@ -51,7 +51,7 @@ var fieldId      = 'undefined' === typeof param.param_name ? param.id : param.pa
 </div>
 <# } else { #>
 <div class="select_arrow"></div>
-<select id="{{ fieldId }}" name="{{ fieldId }}" class="fusion-select-field<# if ( skipDebounce ) { #> fusion-skip-debounce<# } #><?php echo ( is_rtl() ) ? ' fusion-select-field-rtl' : ''; ?>">
+<select id="{{ fieldId }}" name="{{ fieldId }}" class="fusion-select-field<# if ( skipDebounce ) { #> fusion-skip-debounce<# } #><?php echo ( is_rtl() ) ? ' fusion-select-field-rtl' : ''; ?>"<?php echo ( is_rtl() ) ? ' data-dir="rtl"' : ''; ?>>
 <# _.each( choices, function( name, value ) { #>
 	<#
 		name = 'object' === typeof name ? name[0] : name;

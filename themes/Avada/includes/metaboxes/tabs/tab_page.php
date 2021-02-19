@@ -16,7 +16,7 @@
  * @return array
  */
 function avada_page_options_tab_page( $sections ) {
-	$override = function_exists( 'Fusion_Template_Builder' ) ? Fusion_Template_Builder()->get_override( 'layout' ) : false;
+	$override = function_exists( 'Fusion_Template_Builder' ) ? Fusion_Template_Builder()->get_override( 'content' ) : false;
 	$override = ( $override && 'global' === $override->ID ) ? false : $override;
 
 	$page_bg_color = Fusion_Color::new_color(
@@ -39,7 +39,7 @@ function avada_page_options_tab_page( $sections ) {
 			'id'          => 'content_info',
 			'label'       => '',
 			/* translators: The edit link. Text of link is the title. */
-			'description' => '<div class="fusion-redux-important-notice">' . Fusion_Template_Builder()->get_override_text( $override, 'layout' ) . '</div>',
+			'description' => '<div class="fusion-redux-important-notice">' . Fusion_Template_Builder()->get_override_text( $override, 'content' ) . '</div>',
 			'dependency'  => [],
 			'type'        => 'custom',
 		];

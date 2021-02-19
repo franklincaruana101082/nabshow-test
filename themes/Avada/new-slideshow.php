@@ -26,9 +26,6 @@ if ( is_archive() ) {
 $featured_image_width  = fusion_data()->post_meta( $post->ID )->get( 'fimg[width]', true );
 $featured_image_height = fusion_data()->post_meta( $post->ID )->get( 'fimg[height]', true );
 
-?>
-
-<?php
 if ( 'grid' !== $layout && 'masonry' !== $layout && 'timeline' !== $layout ) {
 	$styles = '';
 
@@ -142,11 +139,7 @@ $video = apply_filters( 'privacy_iframe_embed', fusion_get_page_option( 'video',
 									$image_markup = '<img src="' . $attachment_image[0] . '" alt="' . $attachment_data['alt'] . '" class="wp-image-' . $attachment_id . '" role="presentation"/>';
 									$image_markup = Avada()->images->edit_grid_image_src( $image_markup, get_the_ID(), $attachment_id, $size );
 									?>
-									<?php if ( function_exists( 'wp_make_content_images_responsive' ) ) : ?>
-										<?php echo wp_make_content_images_responsive( $image_markup ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-									<?php else : ?>
-										<?php echo $image_markup; // phpcs:ignore WordPress.Security.EscapeOutput ?>
-									<?php endif; ?>
+									<?php echo fusion_add_responsive_image_markup( $image_markup ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 								</a>
 								<a style="display:none;" href="<?php echo esc_url_raw( $attachment_data['url'] ); ?>" data-rel="iLightbox[gallery<?php echo (int) $post->ID; ?>]"  title="<?php echo esc_attr( $attachment_data['caption_attribute'] ); ?>" data-title="<?php echo esc_attr( $attachment_data['title_attribute'] ); ?>" data-caption="<?php echo esc_attr( $attachment_data['caption_attribute'] ); ?>">
 									<?php if ( $attachment_data['alt'] ) : ?>

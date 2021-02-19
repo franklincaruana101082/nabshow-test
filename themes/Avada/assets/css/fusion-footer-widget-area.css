@@ -1,15 +1,4 @@
 /* stylelint-disable no-descending-specificity */
-.group {
-  zoom: 1;
-}
-.group:before,
-.group:after {
-  content: " ";
-  display: table;
-}
-.group:after {
-  clear: both;
-}
 .fusion-footer-widget-area {
   position: relative;
   padding: var(--footer_area_padding-top) 10px var(--footer_area_padding-bottom);

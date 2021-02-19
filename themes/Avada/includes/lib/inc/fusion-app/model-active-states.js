@@ -90,7 +90,7 @@ FusionPageBuilder.fusionActiveStates = {
 
 		if ( 'string' === typeof data.selector && -1 !== data.selector.indexOf( '$el' ) ) {
 			$target = $targetEl;
-		} else if ( $targetEl.hasClass( 'fusion-builder-column' ) ) {
+		} else if ( $targetEl.hasClass( 'fusion-builder-column' ) || $targetEl.hasClass( 'fusion-builder-container' ) ) {
 			$target = $targetEl.find( data.selector );
 		} else if ( $targetEl.hasClass( 'fusion-builder-live-element' ) ) {
 			$target = $targetEl.find( '.fusion-builder-element-content ' + data.selector );

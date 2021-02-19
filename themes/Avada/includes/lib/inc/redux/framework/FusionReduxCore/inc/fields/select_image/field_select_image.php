@@ -23,7 +23,7 @@ if ( ! class_exists( 'FusionReduxFramework_select_image' ) ) {
 		 *
 		 * @since FusionReduxFramework 1.0.0
 		 */
-		function __construct( $field = array(), $value = '', $parent ) {
+		function __construct( $field = array(), $value = '', $parent = null ) {
 			$this->parent = $parent;
 			$this->field  = $field;
 			$this->value  = $value;

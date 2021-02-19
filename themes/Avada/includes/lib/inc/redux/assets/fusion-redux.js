@@ -1,7 +1,8 @@
 jQuery( document ).ready( function() {
-
 	var $parentElement,
-	    $fusionMenu;
+		$fusionMenu;
+
+	jQuery( '.fusionredux-action_bar .spinner' ).addClass( 'avada-db-loader' );
 
 	jQuery( '.custom_color_save_button' ).on( 'click', function( e ) {
 
@@ -103,25 +104,25 @@ jQuery( document ).ready( function() {
 			data: {
 				action: 'custom_colors_ajax_save',
 				data: { name: $colorName, values: $data, type: $type }
-			},
-			error: function( response ) {
-				jQuery( '.fusionredux-action_bar input' ).removeAttr( 'disabled' );
-				overlay.fadeOut( 'fast' );
-				jQuery( '.fusionredux-action_bar .spinner' ).removeClass( 'is-active' );
-			},
-			success: function( response ) {
-				var $interval;
-				jQuery( '#fusionredux_save' ).trigger( 'click' );
+			}
+		} )
+		.fail( function( response ) {
+			jQuery( '.fusionredux-action_bar input' ).removeAttr( 'disabled' );
+			overlay.fadeOut( 'fast' );
+			jQuery( '.fusionredux-action_bar .spinner' ).removeClass( 'is-active' );
+		} )
+		.done( function( response ) {
+			var $interval;
+			jQuery( '#fusionredux_save' ).trigger( 'click' );
 
-				$interval = setInterval( afterSave, 500 );
-				function afterSave() {
-					if ( ! overlay.is( ':visible' ) ) {
-						clearInterval( $interval );
-						location.reload( true );
-					}
+			$interval = setInterval( afterSave, 500 );
+			function afterSave() {
+				if ( ! overlay.is( ':visible' ) ) {
+					clearInterval( $interval );
+					location.reload( true );
 				}
 			}
-		});
+		} );
 		return false;
 	});
 
@@ -197,25 +198,25 @@ jQuery( document ).ready( function() {
 				data: {
 					action: 'custom_colors_ajax_delete',
 					data: { names: $schemeNames }
-				},
-				error: function( response ) {
-					jQuery( '.fusionredux-action_bar input' ).removeAttr( 'disabled' );
-					overlay.fadeOut( 'fast' );
-					jQuery( '.fusionredux-action_bar .spinner' ).removeClass( 'is-active' );
-				},
-				success: function( response ) {
-					var $interval;
-					jQuery( '#fusionredux_save' ).trigger( 'click' );
+				}
+			} )
+			.fail( function( response ) {
+				jQuery( '.fusionredux-action_bar input' ).removeAttr( 'disabled' );
+				overlay.fadeOut( 'fast' );
+				jQuery( '.fusionredux-action_bar .spinner' ).removeClass( 'is-active' );
+			} )
+			.done( function( response ) {
+				var $interval;
+				jQuery( '#fusionredux_save' ).trigger( 'click' );
 
-					$interval = setInterval( afterSave, 500 );
-					function afterSave() {
-						if ( ! overlay.is( ':visible' ) ) {
-							clearInterval( $interval );
-							location.reload( true );
-						}
+				$interval = setInterval( afterSave, 500 );
+				function afterSave() {
+					if ( ! overlay.is( ':visible' ) ) {
+						clearInterval( $interval );
+						location.reload( true );
 					}
 				}
-			});
+			} );
 		} else {
 			alert( $noSelection );
 			jQuery( '.fusionredux-action_bar input' ).removeAttr( 'disabled' );
@@ -241,24 +242,24 @@ jQuery( document ).ready( function() {
 				action: 'custom_option_import_code',
  					security: jQuery( '#ajaxsecurity' ).val(),
  					data: { import_code: jQuery( '#import-code-value' ).val(), import_link: jQuery( '#import-link-value' ).val() }
-			},
-			success: function( result ) {
-				if ( 'success' == result.status ) {
-					jQuery.ajax({
-						type:     'post',
-						dataType: 'json',
-						url:       ajaxurl,
-						data: {
-							action: 'custom_option_import',
-							data: jQuery( '#import-code-value' ).val()
-						},
-						success: function() {
-							window.location = window.location;
-						}
-					});
-				}
 			}
-		});
+		} )
+		.done( function( result ) {
+			if ( 'success' == result.status ) {
+				jQuery.ajax({
+					type:     'post',
+					dataType: 'json',
+					url:       ajaxurl,
+					data: {
+						action: 'custom_option_import',
+						data: jQuery( '#import-code-value' ).val()
+					}
+				} )
+				.done( function() {
+					window.location = window.location;
+				} );
+			}
+		} );
 	});
 
 	// Style the update selections.
@@ -478,7 +479,7 @@ jQuery( document ).ready( function() {
 
 });
 
-jQuery( window ).load(function() {
+jQuery( window ).on( 'load', function() {
 
 	// If search field is not empty, make sidebar accessible again when an item is clicked and clear the search field
 	jQuery( '.fusionredux-sidebar a' ).click( function() {
@@ -586,64 +587,95 @@ jQuery.fn.set_social_media_repeater_custom_field_logic = function() {
 	});
 };
 
-jQuery( window ).load( function() {
-
-	var $hrefTarget,
-	    $optionTarget,
+function fusionOpenOption( $hrefTarget ) {
+	var $optionTarget,
 	    $tabTarget,
 	    $adminbarHeight,
 	    $theTarget;
+
+	 if ( 'object' === typeof $hrefTarget ) {
+	 	$hrefTarget = $hrefTarget[1];
+	 }
+	// If it doesn't contains tab- then assume as option.
+	if ($hrefTarget.indexOf( 'tab-' ) == -1 ) {
+		$optionTarget   = '.fusion_theme_options-' + $hrefTarget;
+		$tabTarget      = jQuery( $optionTarget ).parents( '.fusionredux-group-tab' ).data( 'rel' );
+		$adminbarHeight = 0;
+
+		if ( $tabTarget ) {
+
+			// Check if target element exists.
+			$theTarget = jQuery( 'a[data-key="' + $tabTarget + '"]' );
+			if ( $theTarget ) {
+				setTimeout( function() {
+
+					// Open desired tab.
+					jQuery( 'a[data-key="' + $tabTarget + '"]' ).click();
+					if ( 'heading_shortcode_styling' == $theTarget.data( 'css-id' ) || 'fusion_builder_elements' == $theTarget.data( 'css-id' ) || 'fusion_builder_addons' == $theTarget.data( 'css-id' ) ) {
+						jQuery( $optionTarget ).parents( '.fusionredux-accordian-wrap' ).prev( 'div' ).click();
+					}
+					setTimeout( function() {
+
+						// Scroll to the desired option.
+						if ( jQuery( '#wpadminbar' ).length ) {
+							$adminbarHeight = parseInt( jQuery( '#wpadminbar' ).outerHeight() );
+						}
+						jQuery( 'html, body' ).animate({
+							scrollTop: jQuery( $optionTarget ).closest( 'tr' ).offset().top - $adminbarHeight }, 450
+						);
+					}, 200 );
+				}, 100 );
+			}
+
+		}
+	} else {
+		$tabTarget = $hrefTarget.split( '-' );
+		$theTarget = jQuery( 'a[data-css-id="' + $hrefTarget + '"]' );
+
+		// Check if desired tab exists.
+		if ( $theTarget.length ) {
+
+			// Open desired tab.
+			setTimeout( function() {
+				$theTarget.click();
+			}, 100 );
+		}
+	}
+}
+
+jQuery( window ).on( 'load', function() {
+
+	var $hrefTarget;
 
 	// Check option name and open relevant tab.
 	if ( location.hash ) {
 		$hrefTarget = window.location.href.split( '#' );
 
-		// If it doesn't contains tab- then assume as option.
-		if ( $hrefTarget[1].indexOf( 'tab-' ) == -1 ) {
-			$optionTarget   = '.fusion_theme_options-' + $hrefTarget[1];
-			$tabTarget      = jQuery( $optionTarget ).parents( '.fusionredux-group-tab' ).data( 'rel' );
-			$adminbarHeight = 0;
-
-			if ( $tabTarget ) {
-
-				// Check if target element exists.
-				$theTarget = jQuery( 'a[data-key="' + $tabTarget + '"]' );
-				if ( $theTarget ) {
-					setTimeout( function() {
-
-						// Open desired tab.
-						jQuery( 'a[data-key="' + $tabTarget + '"]' ).click();
-						if ( 'heading_shortcode_styling' == $theTarget.data( 'css-id' ) || 'fusion_builder_elements' == $theTarget.data( 'css-id' ) || 'fusion_builder_addons' == $theTarget.data( 'css-id' ) ) {
-							jQuery( $optionTarget ).parents( '.fusionredux-accordian-wrap' ).prev( 'div' ).click();
-						}
-						setTimeout( function() {
-
-							// Scroll to the desired option.
-							if ( jQuery( '#wpadminbar' ).length ) {
-								$adminbarHeight = parseInt( jQuery( '#wpadminbar' ).outerHeight() );
-							}
-							jQuery( 'html, body' ).animate({
-								scrollTop: jQuery( $optionTarget ).parents( 'tr' ).offset().top - $adminbarHeight }, 450
-							);
-						}, 200 );
-					}, 100 );
-				}
-
-			}
-		} else {
-			$tabTarget = $hrefTarget[1].split( '-' );
-			$theTarget = jQuery( 'a[data-css-id="' + $tabTarget[1] + '"]' );
-
-			// Check if desired tab exists.
-			if ( $theTarget.length ) {
-
-				// Open desired tab.
-				setTimeout( function() {
-					$theTarget.click();
-				}, 100 );
-			}
-		}
+		fusionOpenOption( $hrefTarget );
 	}
+
+	jQuery( '.fusionredux-container' ).on( 'click', '.fusion-quick-option', function( event ) {
+		var option = jQuery( event.target ).data( 'fusion-option' );
+
+		event.preventDefault();
+
+		fusionOpenOption( option );
+	} );
+
+	// If we are in a modern browser cleanup HubSpot API parameters.
+	if ( 'function' === typeof URL && 'function' === typeof URLSearchParams && window.location.href.includes( 'hubspot' ) ) {
+		let url    = new URL( window.location.href  );
+		let params = new URLSearchParams( url.search.slice( 1 ) );
+
+		params.delete( 'revoke_hubspot' );
+		params.delete( 'hubspot' );
+		params.delete( 'token' );
+		params.delete( 'refresh' );
+		params.delete( 'expires' );
+		params.delete( 'error' );
+		window.history.replaceState({}, document.title, window.location.pathname + '?' + params.toString() );
+	}
+
 });
 
 jQuery( document ).ready( function() {

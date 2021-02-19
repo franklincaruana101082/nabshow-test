@@ -110,13 +110,16 @@ class Avada_Privacy_Embeds {
 			add_filter( 'do_shortcode_tag', [ $this, 'shortcode_replace' ], 20, 4 );
 			add_filter( 'the_content', [ $this, 'replace' ], 99999 );
 			add_filter( 'privacy_iframe_embed', [ $this, 'replace' ], 20 );
-			add_filter( 'script_loader_tag', [ $this, 'replace_script_loader_tag' ], 20, 3 );
 			add_filter( 'privacy_script_embed', [ $this, 'script_block' ], 20, 5 );
 			add_filter( 'privacy_image_embed', [ $this, 'image_block' ], 20, 5 );
 			add_filter( 'fusion_attr_google-map-shortcode', [ $this, 'hide_google_map' ] );
 			add_filter( 'fusion_attr_avada-google-map', [ $this, 'hide_google_map' ] );
 			add_filter( 'fusion_google_analytics', [ $this, 'tracking_script_replace' ], 20 );
-			add_filter( 'wp_video_shortcode', [ $this, 'video_widget' ], 20, 5 );
+
+			if ( ! is_admin() ) {
+				add_filter( 'script_loader_tag', [ $this, 'replace_script_loader_tag' ], 20, 3 );
+				add_filter( 'wp_video_shortcode', [ $this, 'video_widget' ], 20, 5 );
+			}
 		}
 
 		if ( $this->options['privacy_embeds'] ) {
@@ -430,12 +433,12 @@ class Avada_Privacy_Embeds {
 		$defaults = $this->get_default_consents();
 
 		// If consent has been given.
-		if ( in_array( $type, $consents ) ) {
+		if ( in_array( $type, $consents ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return true;
 		}
 
 		// No consent but is within default selection.
-		if ( empty( $consents ) && in_array( $type, $defaults ) ) {
+		if ( empty( $consents ) && in_array( $type, $defaults ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return true;
 		}
 
@@ -524,7 +527,7 @@ class Avada_Privacy_Embeds {
 		if ( ! array_key_exists( $key, $this->embed_types ) && 'consent' !== $key ) {
 			return true;
 		}
-		return in_array( $key, $this->consents );
+		return in_array( $key, $this->consents ); // phpcs:ignore WordPress.PHP.StrictInArray
 	}
 
 	/**

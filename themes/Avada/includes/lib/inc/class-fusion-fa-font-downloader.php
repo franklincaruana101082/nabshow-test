@@ -84,6 +84,36 @@ class Fusion_FA_Font_Downloader {
 	}
 
 	/**
+	 * Gets the preload tags for all variants this font-family contains.
+	 *
+	 * @access public
+	 * @since 3.2
+	 * @param array $variants The variants we want to get.
+	 * @return string
+	 */
+	public function get_preload_tags( $variants = [] ) {
+		if ( ! $this->font ) {
+			return;
+		}
+		$tags = '';
+
+		// If $variants is empty then use all variants available.
+		if ( empty( $variants ) ) {
+			$variants = $this->font['variants'];
+		}
+
+		// Download files.
+		$this->download_font_family( $variants );
+
+		// Create the tag.
+		foreach ( $variants as $variant ) {
+			$tags .= $this->get_variant_preload_tag( $variant );
+		}
+
+		return $tags;
+	}
+
+	/**
 	 * Get the @font-face CSS for a specific variant in this font-family.
 	 *
 	 * @access public
@@ -113,6 +143,21 @@ class Fusion_FA_Font_Downloader {
 		$font_face .= '.' . $this->subset . "{font-family:'" . $this->font['family'] . "';font-weight:" . $variant . '}';
 
 		return $font_face;
+	}
+
+	/**
+	 * Get the preload tag for a specific variant in this font-family.
+	 *
+	 * @access public
+	 * @since 3.2
+	 * @param string $variant The variant.
+	 * @return string
+	 */
+	public function get_variant_preload_tag( $variant ) {
+		$font_url = str_replace( [ 'http://', 'https://' ], '//', $this->get_variant_local_url( $variant ) );
+		$tag      = '<link rel="preload" href="' . $font_url . '" as="font" type="font/woff2" crossorigin>';
+
+		return $tag;
 	}
 
 	/**

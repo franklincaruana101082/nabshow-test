@@ -87,8 +87,8 @@ class Avada_Upgrade_581 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.8.1
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_form_focus_border_color( $options ) {
 

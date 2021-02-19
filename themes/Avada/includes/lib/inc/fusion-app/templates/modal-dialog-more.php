@@ -31,7 +31,7 @@
 			<ul class="dialog-more-menu-items">
 
 				<# if ( '' !== elementOption ) { #>
-				<li class="dialog-more-menu-item fusion-panel-shortcut" data-fusion-option="{{ elementOption }}"><span class="fas fa-cog"></span><?php esc_html_e( 'Theme Options', 'fusion-builder' ); ?></li>
+				<li class="dialog-more-menu-item fusion-panel-shortcut" data-fusion-option="{{ elementOption }}"><span class="fas fa-cog"></span><?php esc_html_e( 'Global Options', 'fusion-builder' ); ?></li>
 				<# } #>
 
 				<li class="dialog-more-menu-item fusion-reset-default"><span class="fusiona-undo"></span><?php esc_html_e( 'Reset to Default', 'fusion-builder' ); ?></li>

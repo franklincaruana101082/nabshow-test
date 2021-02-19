@@ -87,8 +87,8 @@ class Avada_Upgrade_611 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.1.1
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_css_animation_options( $options ) {
 		$option_value = '';

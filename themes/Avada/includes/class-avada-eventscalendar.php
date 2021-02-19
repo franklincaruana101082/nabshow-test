@@ -322,8 +322,8 @@ class Avada_EventsCalendar {
 	 *
 	 * @since 5.5.0
 	 * @access public
-	 * @param string $html The notice markup.
-	 * @param string $notices The actual notices.
+	 * @param string $html    The notice markup.
+	 * @param array  $notices The actual notices.
 	 * @return string The newly styled notice markup.
 	 */
 	public function style_notices( $html, $notices ) {

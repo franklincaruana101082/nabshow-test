@@ -11,22 +11,23 @@
 	<div class="fusion-builder-live-toolbar fusion-top-frame">
 		<ul class="fusion-toolbar-nav">
 			<li class="fusion-branding">
-				<div class="fusion-builder-logo-wrapper has-tooltip" aria-label="<?php echo esc_attr( 'v' . FUSION_BUILDER_VERSION ); ?>">
-					<img src="{{{ fusionAppConfig.fusion_library_url }}}/assets/images/fusion-builder-logo-trans.png">
+				<?php $version = defined( 'AVADA_VERSION' ) ? 'v' . AVADA_VERSION : 'v' . FUSION_BUILDER_VERSION; ?>		
+				<div class="fusion-builder-logo-wrapper has-tooltip" aria-label="<?php echo esc_attr( apply_filters( 'avada_db_version', $version ) ); ?>">
+					<i class="fusiona-avada-logo"></i>
 				</div>
 			</li>
 
 			<li class="admin-tools">
 				<ul class="global-options">
 					<li>
-						<a class="has-tooltip open-panel<# if ( sidebarOpen ) { #> active<# } #>" id="fusion-frontend-builder-toggle-global-panel" data-context="global-settings" href="#" aria-label="<?php esc_attr_e( 'Toggle Sidebar', 'Avada' ); ?>"><i class="fusiona-sidebar-icon"></i></a>
+						<a class="has-tooltip open-panel<# if ( sidebarOpen ) { #> active<# } #>" id="fusion-frontend-builder-toggle-global-panel" data-context="global-settings" href="#" aria-label="<?php esc_attr_e( 'Toggle Sidebar', 'Avada' ); ?>"><i class="fusiona-sidebar-icon" aria-hidden="true"></i></a>
 					</li>
 				</ul>
 			</li>
 
 			<li class="fusion-exit-builder has-submenu">
 				<a class="has-tooltip trigger-submenu-toggling" aria-label="<?php esc_attr_e( 'Exit', 'fusion-builder' ); ?>">
-					<i class="fusiona-close-fb"></i>
+					<i class="fusiona-close-fb" aria-hidden="true"></i>
 				</a>
 
 				<ul class="fusion-exit-builder-list submenu-trigger-target" aria-expanded="false">
@@ -37,7 +38,8 @@
 						<a href="<?php echo esc_url( admin_url( 'post.php?post=' . get_the_ID() . '&action=edit' ) ); ?>" data-admin-url="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" target="_self"><?php esc_html_e( 'Exit to page back-end', 'fusion-builder' ); ?></a>
 					</li>
 					<li class="exit-to-dashboard">
-						<a href="<?php echo esc_url( admin_url() ); ?>" target="_self"><?php esc_html_e( 'Exit to dashboard', 'fusion-builder' ); ?></a>
+						<?php $dashboard_url = current_user_can( 'switch_themes' ) ? 'admin.php?page=avada' : ''; ?>
+						<a href="<?php echo esc_url( admin_url( $dashboard_url ) ); ?>" target="_self"><?php esc_html_e( 'Exit to dashboard', 'fusion-builder' ); ?></a>
 					</li>
 				</ul>
 			</li>
@@ -53,16 +55,16 @@
 							<span class="option">
 								<# var checked = ( 'draft' !== postStatus ) ? 'checked' : ''; #>
 								<input id="fusion-post-status-publish" type="radio" name="post-status" value="publish" {{ checked }}>
-								<label class="has-tooltip" for="fusion-post-status-publish" aria-label="<?php esc_html_e( 'Publish', 'fusion-builder' ); ?>">
-									<i class="fusiona-published"></i>
+								<label class="has-tooltip" for="fusion-post-status-publish" aria-label="<?php esc_attr_e( 'Publish', 'fusion-builder' ); ?>">
+									<i class="fusiona-published" aria-hidden="true"></i>
 									<span class="screen-reader-text"><?php esc_html_e( 'Publish', 'fusion-builder' ); ?></span>
 								</label>
 							</span>
 							<span class="option">
 								<# var checked = ( 'draft' === postStatus ) ? 'checked' : ''; #>
 								<input id="fusion-post-status-draft" type="radio" name="post-status" value="draft" {{ checked }}>
-								<label class="has-tooltip" for="fusion-post-status-draft" aria-label="<?php esc_html_e( 'Draft', 'fusion-builder' ); ?>">
-									<i class="fusiona-draft"></i>
+								<label class="has-tooltip" for="fusion-post-status-draft" aria-label="<?php esc_attr_e( 'Draft', 'fusion-builder' ); ?>">
+									<i class="fusiona-draft" aria-hidden="true"></i>
 									<span class="screen-reader-text"><?php esc_html_e( 'Draft', 'fusion-builder' ); ?></span>
 								</label>
 							</span>
@@ -70,18 +72,17 @@
 					</li>
 					<# } #>
 					<li>
-
-						<# if ( postChanged ) {
+						<# 
+						if ( postChanged ) {
 							var disabledButton = 'false';
 						} else {
 							var disabledButton = 'true';
 						}
-
 						#>
 						<a href="#" class="fusion-builder-save-page" data-disabled="{{{ disabledButton }}}">
 							<span class="save-label"><?php esc_html_e( 'Save', 'fusion-builder' ); ?></span>
-							<span class="success-icon"><i class="fusiona-check"></i></span>
-							<span class="failed-icon"><i class="fusiona-exclamation-triangle"></i></span>
+							<span class="success-icon"><i class="fusiona-check" aria-hidden="true"></i></span>
+							<span class="failed-icon"><i class="fusiona-exclamation-triangle" aria-hidden="true"></i></span>
 						</a>
 					</li>
 				</ul>
@@ -90,36 +91,36 @@
 			<li class="additional-tools">
 				<ul>
 					<li class="toolbar-toggle">
-						<a href="#" aria-label="<?php esc_html_e( 'Toggle Toolbar', 'Avada' ); ?>">
+						<a href="#" aria-label="<?php esc_attr_e( 'Toggle Toolbar', 'Avada' ); ?>">
 							<span class="screen-reader-text"><?php esc_html_e( 'Toggle Toolbar', 'Avada' ); ?></span>
 							<span class="up">
-								<i class="fusiona-arrow-up-alt"></i>
+								<i class="fusiona-arrow-up-alt" aria-hidden="true"></i>
 							</span>
 							<span class="down">
-								<i class="fusiona-arrow-down-alt"></i>
+								<i class="fusiona-arrow-down-alt" aria-hidden="true"></i>
 							</span>
 						</a>
 					</li>
 					<li class="support has-submenu">
 						<a href="#" class="fusion-builder-support trigger-submenu-toggling has-tooltip" aria-label="<?php esc_attr_e( 'Support', 'fusion-builder' ); ?>">
-							<i class="fusiona-question-circle"></i>
+							<i class="fusiona-question-circle" aria-hidden="true"></i>
 						</a>
 						<ul class="submenu-trigger-target" aria-expanded="false">
 							<li>
 								<a href="https://theme-fusion.com/support/starter-guide/" target="_blank">
-									<span class="icon-big"><i class="fusiona-play-circle"></i></span>
+									<span class="icon-big"><i class="fusiona-play-circle" aria-hidden="true"></i></span>
 									<span class="label"><?php esc_html_e( 'Get Started', 'Avada' ); ?></span>
 								</a>
 							</li>
 							<li>
 								<a href="https://theme-fusion.com/support/" target="_blank">
-									<span class="icon-big"><i class="fusiona-file-alt-solid"></i></span>
+									<span class="icon-big"><i class="fusiona-file-alt-solid" aria-hidden="true"></i></span>
 									<span class="label"><?php esc_html_e( 'Help Center', 'Avada' ); ?></span>
 								</a>
 							</li>
 							<li>
 								<a href="#" class="fusion-builder-keyboard-shortcuts">
-									<span class="icon-big"><i class="fusiona-keyboard"></i></span>
+									<span class="icon-big"><i class="fusiona-keyboard" aria-hidden="true"></i></span>
 									<span class="label"><?php esc_html_e( 'Shortcuts', 'Avada' ); ?></span>
 								</a>
 							</li>
@@ -127,35 +128,27 @@
 					</li>
 					<li class="fusion-builder-preview-viewport has-submenu">
 						<a class="viewport-indicator trigger-submenu-toggling has-tooltip" aria-label="<?php esc_attr_e( 'Responsive', 'Avada' ); ?>">
-							<span class="active" data-indicate-viewport="desktop"><i class="fusiona-desktop"></i></span>
-							<span class="portrait" data-indicate-viewport="tablet-portrait"><i class="fusiona-tablet"></i></span>
-							<span class="landscape" data-indicate-viewport="tablet-landscape"><i class="fusiona-tablet"></i></span>
-							<span class="portrait" data-indicate-viewport="mobile-portrait"><i class="fusiona-mobile"></i></span>
-							<span class="landscape" data-indicate-viewport="mobile-landscape"><i class="fusiona-mobile"></i></span>
+							<span class="active" data-indicate-viewport="desktop"><i class="fusiona-desktop" aria-hidden="true"></i></span>
+							<span class="portrait" data-indicate-viewport="tablet-portrait-custom"><i class="fusiona-tablet" aria-hidden="true"></i></span>
+							<span class="portrait" data-indicate-viewport="mobile-portrait-custom"><i class="fusiona-mobile" aria-hidden="true"></i></span>
 						</a>
 						<ul class="submenu-trigger-target" aria-expanded="false">
 							<li>
-								<a href="#" class="toggle-viewport fusion-builder-preview-desktop" data-viewport="desktop" aria-label=<?php esc_attr_e( 'Preview Desktop', 'Avada' ); ?>><i class="fusiona-desktop"></i></a>
+								<a href="#" class="toggle-viewport fusion-builder-preview-mobile portrait" data-viewport="mobile-portrait-custom" aria-label="<?php esc_attr_e( 'Preview Mobile - Portrait Mode', 'Avada' ); ?>"><i class="fusiona-mobile" aria-hidden="true"></i></a>
 							</li>
 							<li>
-								<a href="#" class="toggle-viewport fusion-builder-preview-tablet portrait" data-viewport="tablet-portrait" aria-label=<?php esc_attr_e( 'Preview Tablet - Portrait Mode', 'Avada' ); ?>><i class="fusiona-tablet"></i></a>
+								<a href="#" class="toggle-viewport fusion-builder-preview-tablet portrait" data-viewport="tablet-portrait-custom" aria-label="<?php esc_attr_e( 'Preview Tablet - Portrait Mode', 'Avada' ); ?>"><i class="fusiona-tablet" aria-hidden="true"></i></a>
 							</li>
 							<li>
-								<a href="#" class="toggle-viewport fusion-builder-preview-tablet landscape" data-viewport="tablet-landscape" aria-label=<?php esc_attr_e( 'Preview Tablet - Landscape Mode', 'Avada' ); ?>><i class="fusiona-tablet"></i></a>
-							</li>
-							<li>
-								<a href="#" class="toggle-viewport fusion-builder-preview-mobile portrait" data-viewport="mobile-portrait" aria-label=<?php esc_attr_e( 'Preview Mobile - Portrait Mode', 'Avada' ); ?>><i class="fusiona-mobile"></i></a>
-							</li>
-							<li>
-								<a href="#" class="toggle-viewport fusion-builder-preview-mobile landscape" data-viewport="mobile-landscape" aria-label=<?php esc_attr_e( 'Preview Mobile - Landscape Mode', 'Avada' ); ?>><i class="fusiona-mobile"></i></a>
+								<a href="#" class="toggle-viewport fusion-builder-preview-desktop" data-viewport="desktop" aria-label=<?php esc_attr_e( 'Preview Desktop', 'Avada' ); ?>><i class="fusiona-desktop" aria-hidden="true"></i></a>
 							</li>
 						</ul>
 					</li>
 
 					<li class="preview">
 						<a href="#" class="has-tooltip" aria-label="<?php esc_attr_e( 'Preview', 'Avada' ); ?>">
-							<span class="on"><i class="fusiona-eye"></i></span>
-							<span class="off"><i class="fusiona-eye-slash"></i></span>
+							<span class="on"><i class="fusiona-eye" aria-hidden="true"></i></span>
+							<span class="off"><i class="fusiona-eye-slash" aria-hidden="true"></i></span>
 						</a>
 					</li>
 				</ul>
@@ -195,7 +188,7 @@
 	<div id="fusion-builder-confirmation-modal-dark-overlay"></div>
 	<div id="fusion-builder-confirmation-modal" style="display:none;">
 		<div class="inner">
-			<span class="icon"></i></span>
+			<span class="icon"></span>
 			<h3 class="title"></h3>
 			<span class="content"></span>
 		</div>

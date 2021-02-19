@@ -14,7 +14,7 @@ if ( ! class_exists( 'FusionReduxFramework_spinner' ) ) {
 		 *
 		 * @since FusionReduxFramework 3.0.0
 		 */
-		function __construct( $field = array(), $value = '', $parent ) {
+		function __construct( $field = array(), $value = '', $parent = null ) {
 			$this->parent = $parent;
 			$this->field  = $field;
 			$this->value  = $value;

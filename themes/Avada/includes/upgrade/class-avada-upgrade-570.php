@@ -92,8 +92,8 @@ class Avada_Upgrade_570 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.6.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function set_mobile_header( $options ) {
 		if ( isset( $options['mobile_header_bg_color'] ) ) {
@@ -116,8 +116,8 @@ class Avada_Upgrade_570 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.7.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function set_page_title_subheader_text_color( $options ) {
 		if ( isset( $options['page_title_color'] ) ) {
@@ -132,8 +132,8 @@ class Avada_Upgrade_570 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.7.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function set_title_separator_theme_option_default( $options ) {
 		if ( isset( $options['title_style_type'] ) && '' === $options['title_style_type'] ) {
@@ -144,7 +144,7 @@ class Avada_Upgrade_570 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate Fusion Slider options to term meta table.
+	 * Migrate Avada Slider options to term meta table.
 	 *
 	 * @access public
 	 * @since 5.7.0

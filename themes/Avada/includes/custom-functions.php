@@ -183,7 +183,7 @@ if ( ! function_exists( 'avada_backend_check_new_bbpress_post' ) ) {
 	 */
 	function avada_backend_check_new_bbpress_post() {
 		global $pagenow, $post_type;
-		return ( 'post-new.php' === $pagenow && in_array( $post_type, array( 'forum', 'topic', 'reply' ) ) ) ? true : false;
+		return ( 'post-new.php' === $pagenow && in_array( $post_type, [ 'forum', 'topic', 'reply' ], true ) ) ? true : false;
 	}
 }
 
@@ -268,6 +268,8 @@ if ( ! function_exists( 'avada_singular_featured_image' ) ) {
 		if ( 0 === get_the_ID() || false === $context ) {
 			return;
 		}
+
+		Fusion_Dynamic_JS::enqueue_script( 'fusion-flexslider' );
 
 		if ( 'tribe_events' !== $context && ( function_exists( 'fusion_is_preview_frame' ) && fusion_is_preview_frame() || fusion_doing_ajax() ) ) {
 			echo '<div class="fusion-featured-image-wrapper">';

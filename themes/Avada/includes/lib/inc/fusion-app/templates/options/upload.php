@@ -19,7 +19,7 @@ var textInputType = 'image' === dataType ? 'hidden' : 'text';
 			<img src="" alt="">
 			<ul class="fusion-uploded-image-options">
 				<li><a class="upload-image-remove" href="JavaScript:void(0);">{{ fusionBuilderText.remove }}</a></li>
-				<li><a class="fusion-builder-upload-button fusion-upload-btn" href="JavaScript:void(0);" data-type="{{ dataType }}">{{ fusionBuilderText.edit }}</a></li>
+				<li><a class="fusion-builder-upload-button fusion-upload-btn" href="JavaScript:void(0);" data-param="{{ fieldId }}" data-type="{{ dataType }}">{{ fusionBuilderText.edit }}</a></li>
 			</ul>
 		</div>
 	</div>

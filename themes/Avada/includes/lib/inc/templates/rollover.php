@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $product, $woocommerce;
 
-// Set defaults for Fusion Builder ( Fusion Page Options ).
+// Set defaults for Avada Builder ( Avada Page Options ).
 $image_rollover_icons = apply_filters( 'fusion_builder_image_rollover_icons', fusion_get_option( 'image_rollover_icons', false, $post_id ) );
 
 // Portfolio defaults.
@@ -26,9 +26,10 @@ $video_url        = apply_filters( 'fusion_builder_video_url', '', $post_id );
 $link_icon_url     = apply_filters( 'fusion_builder_link_icon_url', '', $post_id );
 $post_links_target = apply_filters( 'fusion_builder_post_links_target', '', $post_id );
 
-// Set defaults for Fusion Builder ( Theme Options ).
+// Set defaults for Avada Builder ( Global Options ).
 $cats_image_rollover  = apply_filters( 'fusion_builder_cats_image_rollover', false );
 $title_image_rollover = apply_filters( 'fusion_builder_title_image_rollover', false );
+
 // Portfolio defaults.
 $portfolio_link_icon_target = apply_filters( 'fusion_builder_portfolio_link_icon_target', false, $post_id );
 
@@ -67,7 +68,7 @@ if ( null != $link_icon_url ) { // phpcs:ignore WordPress.PHP.StrictComparisons.
 }
 
 // Set the link target to blank if the option is set.
-$link_target = ( 'yes' === $link_icon_target || 'yes' === $post_links_target || ( 'avada_portfolio' === get_post_type() && $portfolio_link_icon_target && ( '' === $link_icon_target || 'default' === $link_icon_target ) ) ) ? ' target="_blank"' : '';
+$link_target = ( 'yes' === $link_icon_target || 'yes' === $post_links_target || ( 'avada_portfolio' === get_post_type() && $portfolio_link_icon_target ) ) ? ' target="_blank"' : '';
 ?>
 <div class="fusion-rollover">
 	<div class="fusion-rollover-content">
@@ -196,7 +197,7 @@ $link_target = ( 'yes' === $link_icon_target || 'yes' === $post_links_target || 
 			<?php $icon_class = ( $in_cart ) ? 'fusion-icon-check-square-o' : 'fusion-icon-spinner'; ?>
 			<div class="cart-loading">
 				<a href="<?php echo esc_url_raw( wc_get_cart_url() ); ?>">
-					<i class="<?php echo esc_attr( $icon_class ); ?>"></i>
+					<i class="<?php echo esc_attr( $icon_class ); ?>" aria-hidden="true"></i>
 					<div class="view-cart"><?php esc_html_e( 'View Cart', 'Avada' ); ?></div>
 				</a>
 			</div>

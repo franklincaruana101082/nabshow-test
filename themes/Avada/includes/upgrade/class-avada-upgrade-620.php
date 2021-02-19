@@ -102,8 +102,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_separator_options( $options ) {
 		if ( isset( $options['body_typography'] ) && isset( $options['body_typography']['font-size'] ) ) {
@@ -117,8 +117,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_load_more_options( $options ) {
 
@@ -182,8 +182,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_first_featured_image_options( $options ) {
 		if ( isset( $options['portfolio_disable_first_featured_image'] ) ) {
@@ -198,8 +198,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Optionsgs array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_responsive_typography_options( $options ) {
 
@@ -279,8 +279,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_icon_element_options( $options ) {
 		if ( isset( $options['icon_color'] ) ) {
@@ -301,8 +301,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_countdown_options( $options ) {
 		if ( isset( $options['countdown_counter_text_color'] ) ) {
@@ -317,8 +317,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_rollover_options( $options ) {
 		$link_image_rollover = ( ! isset( $options['link_image_rollover'] ) || '1' === $options['link_image_rollover'] || 1 === $options['link_image_rollover'] || true === $options['link_image_rollover'] );
@@ -341,8 +341,8 @@ class Avada_Upgrade_620 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 6.2.0
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_load_block_styles_option( $options ) {
 		if ( ! isset( $options['load_block_styles'] ) ) {

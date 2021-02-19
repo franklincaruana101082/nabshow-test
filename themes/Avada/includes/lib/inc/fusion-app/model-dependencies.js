@@ -1,4 +1,4 @@
-/* global FusionApp, fusionAllElements, FusionEvents */
+/* global FusionApp, fusionAllElements, FusionEvents, FusionPageBuilderViewManager, FusionPageBuilderApp */
 /* jshint -W024, -W098*/
 var FusionPageBuilder = FusionPageBuilder || {};
 
@@ -20,6 +20,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			this.repeaterFields = 'undefined' !== typeof repeaterFields ? repeaterFields : false;
 			this.$parentEl      = 'undefined' !== typeof $parentEl ? $parentEl : this.$targetEl;
 			this.type           = view.type;
+			this.elementView    = view;
 
 			// Dependency object key names
 			switch ( this.type ) {
@@ -129,7 +130,9 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					hasParent   = -1 !== setting.indexOf( 'parent_' ),
 					parentValue = self.repeaterFields && hasParent ? self.$parentEl.find( '#' + setting.replace( 'parent_', '' ) ).val() : self.$targetEl.find( '#' + setting ).val(),
 					element     = self.repeaterFields && hasParent ? self.$parentEl.find( '.fusion-builder-module-settings' ).data( 'element' ) : self.$targetEl.find( '.fusion-builder-module-settings' ).data( 'element' ),
-					result      = false;
+					result      = false,
+					containerView,
+					containerParams;
 
 				if ( 'undefined' === typeof parentValue ) {
 					if ( 'TO' === self.type ) {
@@ -152,6 +155,33 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				// Get from element defaults.
 				if ( ( 'undefined' === typeof parentValue || '' === parentValue ) && 'EO' === self.type && 'undefined' !== typeof fusionAllElements[ element ] && 'undefined' !== typeof fusionAllElements[ element ].defaults && 'undefined' !== typeof fusionAllElements[ element ].defaults[ setting ] ) {
 					parentValue = fusionAllElements[ element ].defaults[ setting ];
+				}
+
+				// Hide 'flex / legacy' choice for containers when Header layout section is edited.
+				if ( 'EO' === self.type && 'fusion_builder_container' === element && 'template_type' === setting && 'undefined' !== typeof FusionApp.data.template_category && 'header' === FusionApp.data.template_category ) {
+					$passedArray.push( false );
+					return;
+				}
+
+				// Hide or show 'flex / legacy' choice based on TO setting.
+				if ( 'EO' === self.type && 'fusion_builder_container' === element && 'template_type' === setting ) {
+					$passedArray.push( 'undefined' !== typeof FusionApp.settings.container_legacy_support && '1' === FusionApp.settings.container_legacy_support );
+					return;
+				}
+
+				// Special check for parent container type.
+				if ( 'EO' === self.type && 'fusion_builder_container' === setting && 'object' === typeof self.elementView ) {
+					containerView = FusionPageBuilderViewManager.getView( self.elementView.model.get( 'parent' ) );
+
+					if ( 'object' === typeof containerView ) {
+						containerView = FusionPageBuilderApp.getParentContainer( containerView.model.get( 'parent' ) );
+						if ( 'object' === typeof containerView ) {
+							containerParams = 'object' === typeof containerView.values ? containerView.values : containerView.model.get( 'params' );
+							parentValue     = containerParams[ ( 'undefined' !== typeof dependency.param ? dependency.param : 'type' ) ];
+							$passedArray.push( self.doesTestPass( parentValue, value, operator ) );
+							return;
+						}
+					}
 				}
 
 				if ( 'undefined' !== typeof parentValue ) {
@@ -814,6 +844,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			var thisEl = view.$el,
 				toValue,
 				poValue,
+				subset,
 				type = '',
 				option;
 
@@ -825,12 +856,14 @@ var FusionPageBuilder = FusionPageBuilder || {};
 					poValue = option.val();
 
 					if ( option.length ) {
-						type = jQuery( option ).attr( 'class' ).split( ' ' ).pop();
+						type = jQuery( option ).attr( 'class' ).replace( /\s+$/, '' ).split( ' ' ).pop();
 					}
+
+					subset = jQuery( option ).data( 'subset' );
 
 					if ( 'default' !== poValue ) {
 
-						toValue = FusionApp.sidebarView.fixToValueName( to, toValue, type );
+						toValue = FusionApp.sidebarView.fixToValueName( to, toValue, type, subset );
 
 						option.find( '.description a' ).html( toValue );
 					}

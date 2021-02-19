@@ -32,10 +32,11 @@ class Avada_Init {
 		add_action( 'after_setup_theme', [ $this, 'add_image_size' ] );
 		add_action( 'after_setup_theme', [ $this, 'init_fb_demos_importer' ], 20 );
 		add_action( 'wp_ajax_fusion_builder_load_demo', [ $this, 'init_fb_demos_importer' ], 20 );
+		add_action( 'wp_ajax_fusion_builder_load_demo_layout', [ $this, 'init_fb_demos_importer' ], 20 );
 		add_filter( 'image_size_names_choose', [ $this, 'add_image_sizes_to_media_library_dialog' ] );
 		add_action( 'init', [ $this, 'init' ] );
 
-		if ( class_exists( 'BuddyPress' ) && ! Avada_Helper::is_buddypress() ) {
+		if ( class_exists( 'BuddyPress' ) && ! Fusion_Helper::is_buddypress() ) {
 			add_action( 'init', [ $this, 'remove_buddypress_redirection' ], 5 );
 		}
 
@@ -76,6 +77,7 @@ class Avada_Init {
 			add_filter( 'pre_get_posts', [ $this, 'modify_search_filter' ] );
 			add_filter( 'pre_get_posts', [ $this, 'empty_search_filter' ] );
 			add_filter( 'posts_search', [ $this, 'limit_search_to_title_only' ], 500, 2 );
+			add_filter( 'search_form_after_fields', [ $this, 'force_product_archive_load' ] );
 		}
 
 		// Check if we've got a task to remove backup data.
@@ -167,7 +169,14 @@ class Avada_Init {
 	public function init_fb_demos_importer() {
 		$post_type = false;
 
-		if ( ( ! Avada_Helper::is_post_admin_screen() && ( function_exists( 'fusion_is_preview_frame' ) && ( function_exists( 'fusion_is_preview_frame' ) && ! fusion_is_preview_frame() ) ) && ! fusion_is_builder_frame() ) || ! current_theme_supports( 'fusion-builder-demos' ) || ! Avada()->registration->is_registered() || ! defined( 'FUSION_BUILDER_PLUGIN_DIR' ) || ( fusion_doing_ajax() && ! isset( $_POST['page_name'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( ( ! Avada_Helper::is_post_admin_screen()
+				&& ( function_exists( 'fusion_is_preview_frame' ) && ( function_exists( 'fusion_is_preview_frame' ) && ! fusion_is_preview_frame() ) )
+				&& ! fusion_is_builder_frame() )
+			|| ! current_theme_supports( 'fusion-builder-demos' )
+			|| ! Avada()->registration->is_registered()
+			|| ! defined( 'FUSION_BUILDER_PLUGIN_DIR' )
+			|| ( fusion_doing_ajax()
+				&& ( ! isset( $_POST['page_name'] ) && ! isset( $_POST['layout_name'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -183,8 +192,10 @@ class Avada_Init {
 			$post_type = sanitize_text_field( wp_unslash( $_GET['post_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
-		// Fusion Builder is enabled for this post type.
-		if ( in_array( $post_type, FusionBuilder::allowed_post_types(), true ) || ( fusion_doing_ajax() && isset( $_POST['page_name'] ) ) || ( function_exists( 'Fusion_App' ) && Fusion_App()->get_builder_status() ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		// Avada Builder is enabled for this post type.
+		if ( in_array( $post_type, FusionBuilder::allowed_post_types(), true )
+			|| ( fusion_doing_ajax() && ( isset( $_POST['page_name'] ) || isset( $_POST['layout_name'] ) ) ) // phpcs:ignore WordPress.Security.NonceVerification
+			|| ( function_exists( 'Fusion_App' ) && Fusion_App()->get_builder_status() ) ) {
 			$fusion_builder_demo_importer = new Fusion_Builder_Demos_Importer();
 		}
 	}
@@ -198,31 +209,39 @@ class Avada_Init {
 
 		// Default WP generated title support.
 		add_theme_support( 'title-tag' );
+
 		// Default RSS feed links.
 		add_theme_support( 'automatic-feed-links' );
+
 		// Default custom header.
 		add_theme_support( 'custom-header' );
+
 		// Default custom backgrounds.
 		add_theme_support( 'custom-background' );
-		// Woocommerce Support.
-		add_theme_support( 'woocommerce' );
 
+		/**
+		 * WooCommerce Support.
+		 * Add theme support for zoom and lightbox generally.
+		 * For legacy layouts it is disabled in class-avada-woocommerce.php.
+		 * For layout section products it is in class-fusion-woocommerce.php and in the element file.
+		 */
+		add_theme_support(
+			'woocommerce',
+			[
+				'gallery_thumbnail_image_width' => (int) Avada()->settings->get( 'woocommerce_gallery_thumbnail_width' ),
+			]
+		);
+
+		add_theme_support( 'wc-product-gallery-zoom' );
 		add_theme_support( 'wc-product-gallery-slider' );
-
-		if ( '1' === Avada()->settings->get( 'enable_woo_gallery_zoom' ) ) {
-			add_theme_support( 'wc-product-gallery-zoom' );
-		}
-
-		if ( ! fusion_get_option( 'disable_woo_gallery' ) ) {
-			add_theme_support( 'wc-product-gallery-lightbox' );
-		}
+		add_theme_support( 'wc-product-gallery-lightbox' );
 
 		// Post Formats.
 		add_theme_support( 'post-formats', [ 'gallery', 'link', 'image', 'quote', 'video', 'audio', 'chat' ] );
 		// Add post thumbnail functionality.
 		add_theme_support( 'post-thumbnails' );
 
-		// Add Fusion Builder Demos support.
+		// Add Avada Builder Demos support.
 		add_theme_support( 'fusion-builder-demos' );
 
 	}
@@ -504,9 +523,9 @@ class Avada_Init {
 		$args = apply_filters(
 			'fusion_live_search_query_args',
 			[
-				's'                   => trim( esc_attr( strip_tags( $_POST['search'] ) ) ), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput, WordPress.Security.NonceVerification, WordPress.WP.AlternativeFunctions
+				's'                   => trim( strip_tags( $_POST['search'] ) ), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput, WordPress.Security.NonceVerification, WordPress.WP.AlternativeFunctions
 				'post_type'           => isset( $_POST['post_type'] ) ? $_POST['post_type'] : $this->get_search_results_post_types(), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput, WordPress.Security.NonceVerification
-				'posts_per_page'      => isset( $_POST['per_page'] ) ? (int) wp_unslash( $_POST['per_page'] ) : 100, // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput
+				'posts_per_page'      => isset( $_POST['per_page'] ) ? (int) wp_unslash( $_POST['per_page'] ) : 10, // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput, WPThemeReview.CoreFunctionality.PostsPerPage.posts_per_page_posts_per_page
 				'post_status'         => 'publish',
 				'ignore_sticky_posts' => 1,
 			]
@@ -625,7 +644,7 @@ class Avada_Init {
 	 * @return object $query The modified search query.
 	 */
 	public function modify_search_filter( $query ) {
-		if ( is_search() && $query->is_search ) {
+		if ( is_search() && $query->is_search && ! empty( $query->query['s'] ) ) {
 			if ( isset( $_GET ) && ( 2 < count( $_GET ) || ( 2 === count( $_GET ) && ! isset( $_GET['lang'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				return $query;
 			}
@@ -633,6 +652,22 @@ class Avada_Init {
 			$query->set( 'post_type', $this->get_search_results_post_types() );
 		}
 		return $query;
+	}
+
+	/**
+	 *  Adds hidden input field when 'Search Results Content' has only Products post type to force Woo archive load.
+	 *
+	 * @access public
+	 * @since 7.2
+	 * @param array $args Search form args.
+	 * @return array
+	 */
+	public function force_product_archive_load( $args ) {
+		$search_post_types = $this->get_search_results_post_types();
+		if ( is_array( $search_post_types ) && 1 === count( $search_post_types ) && 'product' === $search_post_types[0] ) {
+			$args['after_fields'] .= '<input type="hidden" value="product" name="post_type" />';
+		}
+		return $args;
 	}
 
 	/**
@@ -661,7 +696,7 @@ class Avada_Init {
 	 */
 	public function add_wp_footer_scripts() {
 		/**
-		 * Echo the scripts added to the "before </body>" field in Theme Options.
+		 * Echo the scripts added to the "before </body>" field in Global Options.
 		 * The 'space_body' setting is not sanitized.
 		 * In order to be able to take advantage of this,
 		 * a user would have to gain access to the database
