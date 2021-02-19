@@ -174,7 +174,7 @@
     })
 
     /* close popup */
-    jQuery(document).on('click', '.nab-modal-close', function () {
+    jQuery(document).on('click', '.nab-modal-close, .nab-modal-remove', function () {
       if (
         $(this)
           .parents('.nab-modal')
@@ -990,7 +990,7 @@
       }else{
         fd.append('instagram_profile', jQuery('#instagram_profile').val())
       }
-      
+
     }
     if (jQuery('#linkedin_profile').length) {
       if(!validateURL(jQuery('#linkedin_profile').val())){
@@ -999,7 +999,7 @@
       }else{
         fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
       }
-      
+
     }
     if (jQuery('#facebook_profile').length) {
       if(!validateURL(jQuery('#facebook_profile').val())){
@@ -1008,7 +1008,7 @@
       }else{
         fd.append('facebook_profile', jQuery('#facebook_profile').val())
       }
-      
+
     }
     if (jQuery('#twitter_profile').length) {
       if(!validateURL(jQuery('#twitter_profile').val())){
@@ -1017,7 +1017,7 @@
       }else{
         fd.append('twitter_profile', jQuery('#twitter_profile').val())
       }
-      
+
     }
     if (jQuery('#company_about').length) {
       if (jQuery('#company_about').val().length > 2000) {
@@ -1043,7 +1043,7 @@
       }else{
         fd.append('company_website', jQuery('#company_website').val())
       }
-      
+
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
@@ -1106,8 +1106,8 @@
       }else{
         fd.append('company_youtube', jQuery('#company_youtube').val())
       }
-      
-    }   
+
+    }
 
     jQuery.ajax({
       type: 'POST',
@@ -3836,7 +3836,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
             companyProfile.setAttribute('class', 'no-image-avtar');
             companyProfile.innerText = value.no_pic;
           }
-          
+
           avatarLink.appendChild(companyProfile)
           searchItemProfile.appendChild(avatarLink)
           searchItemInfo.appendChild(searchItemProfile)
