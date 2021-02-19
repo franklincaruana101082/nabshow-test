@@ -10,6 +10,8 @@
 get_header();
 ?>
 
+<!-- START legacy-template: archive-company -->
+<div class="container">
 <main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
 			<div class="search-result-filter">
@@ -117,5 +119,7 @@ wp_reset_postdata();
 			</div>
 </div>
 </main>
+</div><!-- .container -->
+<!-- END legacy-template -->
 <?php
 get_footer();
