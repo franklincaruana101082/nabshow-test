@@ -11,4 +11,11 @@
 
 @media (max-width:600px){
 	#cropper-board.nab-modal .modal-content-wrap{max-height:60vh}
+	#cropper-board .bm-adjust-crop-actions{padding:8px;}
+	#cropper-board .bm-adjust-crop-actions a{width:30px;height:30px;font-size:14px;}
+}
+
+@media (max-width:480px){
+	#cropper-board .bm-adjust-crop-actions{padding:6px;}
+	#cropper-board .bm-adjust-crop-actions a{width:27px;height:27px;font-size:12px;}
 }
