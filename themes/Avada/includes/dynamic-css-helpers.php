@@ -157,7 +157,6 @@ function avada_get_body_typography_elements() {
 		'.title-row',
 		'.fusion-rollover .price .amount',
 		'.fusion-blog-timeline-layout .fusion-timeline-date',
-		'#reviews #comments > h2',
 		'.sidebar .widget_nav_menu li',
 		'.sidebar .widget_categories li',
 		'.sidebar .widget_product_categories li',
@@ -191,7 +190,6 @@ function avada_get_body_typography_elements() {
 		'.ei-title h3',
 		'.comment-form input[type="submit"]',
 		'.fusion-page-title-bar h3',
-		'#reviews #comments > h2',
 		'.fusion-image-wrapper .fusion-rollover .fusion-rollover-content .fusion-rollover-title',
 		'.fusion-image-wrapper .fusion-rollover .fusion-rollover-content .fusion-rollover-categories',
 		'.fusion-image-wrapper .fusion-rollover .fusion-rollover-content a',
@@ -226,7 +224,6 @@ function avada_get_body_typography_elements() {
 		'.ei-title h3',
 		'.comment-form input[type="submit"]',
 		'.fusion-page-title-bar h3',
-		'#reviews #comments > h2',
 		'.fusion-image-wrapper .fusion-rollover .fusion-rollover-content .fusion-rollover-title',
 		'.fusion-image-wrapper .fusion-rollover .fusion-rollover-content .fusion-rollover-categories',
 		'.fusion-image-wrapper .fusion-rollover .fusion-rollover-content a',
@@ -409,6 +406,11 @@ function avada_get_h3_typography_elements() {
 		'.fusion-tb-footer h3',
 	];
 
+	// CSS classes that inherit body font.
+	$typography_elements['line-height'] = [
+		'#tab-reviews #reviews #comments > h2',
+	];
+
 	return $typography_elements;
 }
 
@@ -427,7 +429,7 @@ function avada_get_h4_typography_elements() {
 		'.fusion-rollover .fusion-rollover-content .fusion-rollover-title',
 		'.fusion-carousel-title',
 		'.fusion-tabs-widget .fusion-tabs-nav ul li a',
-		'#reviews #comments > h2',
+		'.fusion-theme-sharing-box h4',
 		'.fusion-sharing-box h4',
 		'.fusion-tabs .nav-tabs > li .fusion-tab-heading',
 		'.fusion-modal h4',
@@ -650,6 +652,7 @@ function avada_get_post_title_extras_typography_elements() {
 		'#wrapper #main .related-posts .fusion-title h2',
 		'#wrapper #main .related.products .fusion-title h2',
 		'.single-product .woocommerce-tabs .fusion-woocommerce-tab-title',
+		'#tab-reviews #reviews #comments > h2',
 	];
 	// CSS classes that inherit post title extra color.
 	$typography_elements['color'] = [
@@ -665,6 +668,7 @@ function avada_get_post_title_extras_typography_elements() {
 		'#wrapper #main .related-posts .fusion-title h2',
 		'#wrapper #main .related.products .fusion-title h2',
 		'.single-product .woocommerce-tabs .fusion-woocommerce-tab-title',
+		'#tab-reviews #reviews #comments > h2',
 	];
 	// CSS classes that inherit post title extra font family.
 	$typography_elements['family'] = [
@@ -680,6 +684,7 @@ function avada_get_post_title_extras_typography_elements() {
 		'#wrapper #main .related-posts .fusion-title h2',
 		'#wrapper #main .related.products .fusion-title h2',
 		'.single-product .woocommerce-tabs .fusion-woocommerce-tab-title',
+		'#tab-reviews #reviews #comments > h2',
 	];
 
 	return $typography_elements;

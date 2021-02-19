@@ -49,34 +49,36 @@ class Fusion_Social_Sharing extends Fusion_Social_Icon {
 			$per_icon_colors = ( 'brand' === fusion_library()->get_option( 'sharing_social_links_color_type' ) ) ? true : false;
 		}
 		$number_of_social_networks = count( $social_networks );
-		foreach ( $social_networks as $network => $icon_args ) {
 
-			$icon_options = [
-				'social_network' => $network,
-				'social_link'    => $icon_args['url'],
-			];
+		if ( ! empty( $social_networks ) ) {
+			foreach ( $social_networks as $network => $icon_args ) {
 
-			if ( $per_icon_colors ) {
-				$network_for_colors = str_replace( 'sharing_', '', $network );
-				if ( parent::$args['icon_boxed'] ) {
-					$icon_options['icon_color'] = '#ffffff';
-					$icon_options['box_color']  = $social_networks_full_array[ $network_for_colors ]['color'];
+				$icon_options = [
+					'social_network' => $network,
+					'social_link'    => $icon_args['url'],
+				];
+
+				if ( $per_icon_colors ) {
+					$network_for_colors = str_replace( 'sharing_', '', $network );
+					if ( parent::$args['icon_boxed'] ) {
+						$icon_options['icon_color'] = '#ffffff';
+						$icon_options['box_color']  = $social_networks_full_array[ $network_for_colors ]['color'];
+					} else {
+						$icon_options['icon_color'] = $social_networks_full_array[ $network_for_colors ]['color'];
+						$icon_options['box_color']  = '#ffffff';
+					}
 				} else {
-					$icon_options['icon_color'] = $social_networks_full_array[ $network_for_colors ]['color'];
-					$icon_options['box_color']  = '#ffffff';
+					$icon_options['icon_color'] = 'var(--sharing_social_links_icon_color)';
+					$icon_options['box_color']  = 'var(--sharing_social_links_box_color)';
 				}
-			} else {
-				$icon_options['icon_color'] = 'var(--sharing_social_links_icon_color)';
-				$icon_options['box_color']  = 'var(--sharing_social_links_box_color)';
+
+				// Check if are on the last social icon;
+				// $i needs to be incremented first to make it match the count() value.
+				$i++;
+				$icon_options['last'] = ( $i === $number_of_social_networks );
+
+				$icons .= parent::get_markup( $icon_options );
 			}
-
-			// Check if are on the last social icon;
-			// $i needs to be incremented first to make it match the count() value.
-			$i++;
-			$icon_options['last'] = ( $i === $number_of_social_networks );
-
-			$icons .= parent::get_markup( $icon_options );
-
 		}
 
 		if ( ! empty( $icons ) ) {
@@ -106,64 +108,28 @@ class Fusion_Social_Sharing extends Fusion_Social_Icon {
 	 * @return array  The social links array containing the social media and links to them.
 	 */
 	public function get_sharingbox_social_links_array( $args ) {
+		$social_links_output = [];
+		$social_networks     = fusion_library()->get_option( 'social_sharing' );
+		$social_links_array  = [
+			'facebook'  => 'https://www.facebook.com/sharer.php?u=' . rawurlencode( $args['link'] ) . '&t=' . rawurlencode( $args['title'] ),
+			'twitter'   => 'https://twitter.com/share?text=' . rawurlencode( html_entity_decode( $args['title'], ENT_COMPAT, 'UTF-8' ) ) . '&url=' . rawurlencode( $args['link'] ),
+			'linkedin'  => 'https://www.linkedin.com/shareArticle?mini=true&url=' . rawurlencode( $args['link'] ) . '&title=' . rawurlencode( $args['title'] ) . '&summary=' . rawurlencode( mb_substr( html_entity_decode( $args['description'], ENT_QUOTES, 'UTF-8' ), 0, 256 ) ),
+			'reddit'    => 'http://reddit.com/submit?url=' . $args['link'] . '&amp;title=' . rawurlencode( $args['title'] ),
+			'whatsapp'  => 'https://api.whatsapp.com/send?text=' . rawurlencode( $args['link'] ),
+			'tumblr'    => 'http://www.tumblr.com/share/link?url=' . rawurlencode( $args['link'] ) . '&amp;name=' . rawurlencode( $args['title'] ) . '&amp;description=' . rawurlencode( $args['description'] ),
+			'pinterest' => 'http://pinterest.com/pin/create/button/?url=' . rawurlencode( $args['link'] ) . '&amp;description=' . rawurlencode( $args['description'] ) . '&amp;media=' . rawurlencode( $args['pinterest_image'] ),
+			'vk'        => 'http://vkontakte.ru/share.php?url=' . rawurlencode( $args['link'] ) . '&amp;title=' . rawurlencode( $args['title'] ) . '&amp;description=' . rawurlencode( $args['description'] ),
+			'xing'      => 'https://www.xing.com/social_plugins/share/new?sc_p=xing-share&amp;h=1&amp;url=' . rawurlencode( $args['link'] ),
+			'email'     => 'mailto:?subject=' . rawurlencode( $args['title'] ) . '&body=' . $args['link'],
+		];      
 
-		$social_links_array = [];
-
-		if ( fusion_library()->get_option( 'sharing_facebook' ) ) {
-			$social_links_array['facebook'] = [
-				'url' => 'https://www.facebook.com/sharer.php?u=' . rawurlencode( $args['link'] ) . '&t=' . rawurlencode( $args['title'] ),
-			];
+		if ( is_array( $social_networks ) ) {
+			foreach ( $social_networks as $index => $network ) {
+				$social_links_output[ $network ] = [ 'url' => $social_links_array[ $network ] ];
+			}
 		}
 
-		if ( fusion_library()->get_option( 'sharing_twitter' ) ) {
-			$social_links_array['twitter'] = [
-				'url' => 'https://twitter.com/share?text=' . rawurlencode( html_entity_decode( $args['title'], ENT_COMPAT, 'UTF-8' ) ) . '&url=' . rawurlencode( $args['link'] ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_linkedin' ) ) {
-			$social_links_array['linkedin'] = [
-				'url' => 'https://www.linkedin.com/shareArticle?mini=true&url=' . rawurlencode( $args['link'] ) . '&title=' . rawurlencode( $args['title'] ) . '&summary=' . rawurlencode( mb_substr( html_entity_decode( $args['description'], ENT_QUOTES, 'UTF-8' ), 0, 256 ) ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_reddit' ) ) {
-			$social_links_array['reddit'] = [
-				'url' => 'http://reddit.com/submit?url=' . $args['link'] . '&amp;title=' . rawurlencode( $args['title'] ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_whatsapp' ) ) {
-			$social_links_array['whatsapp'] = [
-				'url' => 'https://api.whatsapp.com/send?text=' . rawurlencode( $args['link'] ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_tumblr' ) ) {
-			$social_links_array['tumblr'] = [
-				'url' => 'http://www.tumblr.com/share/link?url=' . rawurlencode( $args['link'] ) . '&amp;name=' . rawurlencode( $args['title'] ) . '&amp;description=' . rawurlencode( $args['description'] ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_pinterest' ) ) {
-			$social_links_array['pinterest'] = [
-				'url' => 'http://pinterest.com/pin/create/button/?url=' . rawurlencode( $args['link'] ) . '&amp;description=' . rawurlencode( $args['description'] ) . '&amp;media=' . rawurlencode( $args['pinterest_image'] ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_vk' ) ) {
-			$social_links_array['vk'] = [
-				'url' => 'http://vkontakte.ru/share.php?url=' . rawurlencode( $args['link'] ) . '&amp;title=' . rawurlencode( $args['title'] ) . '&amp;description=' . rawurlencode( $args['description'] ),
-			];
-		}
-
-		if ( fusion_library()->get_option( 'sharing_email' ) ) {
-			$social_links_array['email'] = [
-				'url' => 'mailto:?subject=' . rawurlencode( $args['title'] ) . '&body=' . $args['link'],
-			];
-		}
-
-		return $social_links_array;
+		return $social_links_output;
 
 	}
 

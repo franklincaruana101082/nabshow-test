@@ -384,7 +384,7 @@ class Fusion_Custom_Icon_Set {
 		if ( isset( $icon_set['css_prefix'] ) && true === $this->is_duplicate_prefix( $icon_set['css_prefix'] ) && class_exists( 'Fusion_Admin_Notice' ) ) {
 			new Fusion_Admin_Notice(
 				'fusion-custom-icons-notice',
-				'<p>' . esc_html__( 'Icon set with same CSS prefix already exists! Please use unique prefix in order to avoid conflicts.', 'Avada' ) . '</p>',
+				'<h2>' . esc_html__( 'Icon set with same CSS prefix already exists!', 'Avada' ) . '</h2><p>' . esc_html__( 'Icon set with same CSS prefix already exists! Please use unique prefix in order to avoid conflicts.', 'Avada' ) . '</p>',
 				true,
 				'error',
 				true,
@@ -499,7 +499,7 @@ class Fusion_Custom_Icon_Set {
 				<input type="hidden" id="fusion-custom-icons-update" name="fusion-custom-icons[icon_set_update]" value="">
 				<div class="fusion-custom-icons-top-bar">
 					<a href="#" id="fusion-custom-icons-upload" data-title="<?php echo esc_attr( $buton_label ); ?>">
-						<i class="fusiona-file-upload-solid"></i>
+						<i class="fusiona-file-upload-solid" aria-hidden="true"></i>
 						<?php echo esc_html( $buton_label ); ?>
 					</a>
 
@@ -580,7 +580,7 @@ class Fusion_Custom_Icon_Set {
 	public function process_upload( $post_id ) {
 
 		// Early exit if post ID is not valid.
-		if ( ! $post_id ) {
+		if ( ! $post_id || ( isset( $_POST['fusion-custom-icons']['icon_set_update'] ) && 'true' !== $_POST['fusion-custom-icons']['icon_set_update'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -869,7 +869,7 @@ class Fusion_Custom_Icon_Set {
 
 		$html = '';
 		foreach ( $icon_set['icons'] as $icon ) {
-			$html .= '<span class="fusion-custom-icon-preview" title="' . esc_attr( $icon ) . '"><i class="' . esc_attr( $icon_set['css_prefix'] . $icon ) . '"></i><span class="fusion-custom-icon-preview-name">' . esc_html( $icon ) . '</span></span>';
+			$html .= '<span class="fusion-custom-icon-preview" title="' . esc_attr( $icon ) . '"><i class="' . esc_attr( $icon_set['css_prefix'] . $icon ) . '" aria-hidden="true"></i><span class="fusion-custom-icon-preview-name">' . esc_html( $icon ) . '</span></span>';
 		}
 
 		return $html;

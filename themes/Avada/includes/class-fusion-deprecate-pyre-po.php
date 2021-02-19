@@ -44,7 +44,7 @@ class Fusion_Deprecate_Pyre_PO {
 	 *
 	 * @access protected
 	 * @since 6.2.0
-	 * @var int
+	 * @var array
 	 */
 	protected $post_meta;
 
@@ -186,7 +186,7 @@ class Fusion_Deprecate_Pyre_PO {
 				} elseif ( 'forum' === $this->post_type || 'topic' === $this->post_type || 'reply' === $this->post_type ) {
 					return 'ppbress_sidebar';
 				}
-				return false; // Don't migrate if none of the above cases.
+				return 'posts_sidebar'; // Migrate to post option naming for CPT.
 
 			case 'sbg_selected_sidebar_2_replacement':
 				if ( 'page' === $this->post_type ) {
@@ -202,10 +202,12 @@ class Fusion_Deprecate_Pyre_PO {
 				} elseif ( 'forum' === $this->post_type || 'topic' === $this->post_type || 'reply' === $this->post_type ) {
 					return 'ppbress_sidebar_2';
 				}
-				return false; // Don't migrate if none of the above cases.
+				return 'posts_sidebar_2'; // Migrate to post option naming for CPT.
 
 			case 'sidebar_position':
-				if ( 'post' === $this->post_type || 'avada_faq' === $this->post_type ) {
+				if ( 'page' === $this->post_type ) {
+					return 'default_sidebar_pos';
+				} elseif ( 'post' === $this->post_type || 'avada_faq' === $this->post_type ) {
 					return 'blog_sidebar_position';
 				} elseif ( 'avada_portfolio' === $this->post_type ) {
 					return 'portfolio_sidebar_position';
@@ -216,7 +218,7 @@ class Fusion_Deprecate_Pyre_PO {
 				} elseif ( 'forum' === $this->post_type || 'topic' === $this->post_type || 'reply' === $this->post_type ) {
 					return 'bbpress_sidebar_position';
 				}
-				return 'default_sidebar_pos';
+				return 'blog_sidebar_position';
 
 			case 'page_bg_layout':
 				return 'layout';
@@ -426,7 +428,7 @@ class Fusion_Deprecate_Pyre_PO {
 
 					$post_meta['combined_header_bg_color'] = $post_meta['header_bg_color'];
 					if ( 1 > $alpha ) {
-						$post_meta['combined_header_bg_color'] = Fusion_Color::new_color( $header_bg_color )->getNew( 'alpha', $header_bg_alpha )->toCSS( 'rgba' );
+						$post_meta['combined_header_bg_color'] = Fusion_Color::new_color( $color )->getNew( 'alpha', $alpha )->toCSS( 'rgba' );
 					}
 				}
 			}

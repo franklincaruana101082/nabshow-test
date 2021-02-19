@@ -127,7 +127,7 @@ class Fusion_Builder_Demos_Theme_Options {
 
 		asort( $demo_choices );
 
-		$default_choice = [ '' => esc_attr__( 'Select Demo', 'fusion-builder' ) ];
+		$default_choice = [ '' => esc_attr__( 'Select Prebuilt Website', 'Avada' ) ];
 
 		return $default_choice + $demo_choices;
 	}

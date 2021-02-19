@@ -8,6 +8,8 @@
 get_header();
 
 ?>
+	<!-- START legacy-template: template-nab-products -->
+	<div class="container">
     <main id="primary" class="site-main php_template_nab_products">
         <div class="nab-search-result-wrapper">
 			<?php
@@ -39,7 +41,7 @@ get_header();
 
 							$product_query->the_post();
 
-							$thumbnail_url = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
 							$product_link  = get_the_permalink();
 							?>
                             <div class="search-item">
@@ -89,5 +91,7 @@ get_header();
 			?>
         </div>
     </main>
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 <?php
 get_footer();

@@ -89,8 +89,8 @@ class Avada_Upgrade_551 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.1
-	 * @param array $options Theme Options.
-	 * @return array The updated Theme Options array.
+	 * @param array $options Global Options.
+	 * @return array The updated Global Options array.
 	 */
 	private function correct_chart_default_value( $options ) {
 
@@ -106,8 +106,8 @@ class Avada_Upgrade_551 extends Avada_Upgrade_Abstract {
 	 *
 	 * @access private
 	 * @since 5.5.1
-	 * @param array $options Theme Options.
-	 * @return array The updated Theme Options array.
+	 * @param array $options Global Options.
+	 * @return array The updated Global Options array.
 	 */
 	private function page_title_bar_hover( $options ) {
 

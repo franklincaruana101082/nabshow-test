@@ -41,7 +41,6 @@
 }
 .fusion-builder-panel-main.expanded #customize-controls[data-context="page-settings"] .fusion-page-options,
 .fusion-builder-panel-main.expanded #customize-controls[data-context="page-settings"] .fusion-page-settings {
-  display: -ms-flexbox;
   display: flex;
 }
 .fusion-builder-panel-main.expanded #customize-controls[data-context="page-settings"] .fusion-theme-options,
@@ -61,10 +60,8 @@
   background: #f2f3f5 !important;
   color: #616970;
   height: 50px;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -120,10 +117,8 @@
   font-size: 18px;
   padding: 15px 15.5px;
   font-family: "Noto Sans", Roboto, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   border-bottom: 1px solid #f2f3f5;
   background: #fff;
 }
@@ -149,10 +144,8 @@
   width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
 }
 #customize-controls #fusion-builder-sections-eo .ui-dialog-titlebar h2 .fusion-builder-go-back {
   text-decoration: none;
@@ -194,16 +187,23 @@
   list-style: none;
   clear: both;
   margin: 0;
-  display: -ms-flexbox;
   display: flex;
 }
 #customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li {
-  display: -ms-inline-flexbox;
   display: inline-flex;
   position: relative;
+  flex-grow: 1;
+  flex-basis: 0;
+  border-right: 1px solid #0e7abd;
+}
+#customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li:last-child {
+  border-right: none;
 }
 #customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li a {
-  display: block;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   padding: 0.8em 1.1em;
   color: #fff;
   font-weight: 600;
@@ -216,22 +216,31 @@
   outline: none;
 }
 #customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li a:hover {
-  background: #0e7abd;
+  background: #1485cb;
+}
+#customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li a > span:first-child {
+  font-size: 20px;
+}
+#customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li a > span:last-child {
+  display: none;
 }
 #customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li.current a {
   background: #0e7abd;
 }
+#customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li.current a > span:first-child {
+  display: none;
+}
+#customize-controls #fusion-builder-sections-eo .fusion-builder-modal-top-container .fusion-tabs-menu li.current a > span:last-child {
+  display: block;
+}
 #customize-controls #fusion-builder-sections-eo .fusion-empty-section {
   display: none;
   height: calc(100% - 54px);
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: center;
-      justify-content: center;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 #customize-controls #fusion-builder-sections-eo .fusion-empty-section:first-child:last-child {
-  display: -ms-flexbox;
   display: flex;
 }
 #customize-controls #fusion-builder-sections-eo .fusion-empty-section i {
@@ -256,10 +265,8 @@
   margin-top: 0;
 }
 #customize-controls .fusion-panel-section-header-wrapper {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   background: #fff;
   height: 62px;
   border-bottom: 1px solid #f2f3f5;
@@ -285,16 +292,13 @@
 }
 #customize-controls .fusion-builder-toggles {
   overflow: hidden;
-  display: -ms-flexbox;
   display: flex;
   font-size: 14px;
   border-bottom: 1px solid #f2f3f5;
 }
 #customize-controls .fusion-builder-toggles a {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   text-align: center;
   background: #fff;
   padding: 10px 0;
@@ -442,10 +446,8 @@
   transition: all 0.1ms ease;
 }
 .fusion-sidebar-section .fusion-builder-custom-panel ul .fusion-panel-link {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   font-size: 14px;
   padding: 16px 18px;
   color: #333;

@@ -498,6 +498,7 @@ FusionPageBuilder.options.fusionOptionUpload = {
 			$removeBtn   = $uploadButton.siblings( '.upload-image-remove' ),
 			imageFormats = [ 'gif', 'jpg', 'jpeg', 'png', 'tiff' ],
 			imagePreview,
+			imageIDField,
 			fileType,
 			attachment,
 			imageURL,
@@ -571,8 +572,15 @@ FusionPageBuilder.options.fusionOptionUpload = {
 				$removeBtn.remove();
 			}
 
-			if ( $uploadButton.closest( '.fusion-builder-module-settings' ).find( '#image_id' ).length ) {
-				$uploadButton.closest( '.fusion-builder-module-settings' ).find( '#image_id' ).val( '' ).trigger( 'change' );
+			// Remove image ID if image preview is empty.
+			imageIDField = $uploadButton.closest( '.fusion-builder-module-settings' ).find( '#' + $uploadButton.data( 'param' ) + '_id' );
+
+			if ( 'element_content' === $uploadButton.data( 'param' ) ) {
+				imageIDField = $uploadButton.closest( '.fusion-builder-module-settings' ).find( '#image_id' );
+			}
+
+			if ( imageIDField.length ) {
+				imageIDField.val( '' ).trigger( 'change' );
 			}
 
 			return;

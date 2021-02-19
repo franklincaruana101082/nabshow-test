@@ -124,6 +124,10 @@ final class Fusion_Updater {
 	 * @return object
 	 */
 	public function update_themes( $transient ) {
+		if ( ! is_object( $transient ) ) {
+			return $transient;
+		}
+
 		// Process Avada updates.
 		if ( isset( $transient->checked ) && class_exists( 'Avada' ) ) {
 
@@ -147,14 +151,20 @@ final class Fusion_Updater {
 				}
 			}
 
+			$_theme = [
+				'theme'       => $latest_avada['name'],
+				'new_version' => $latest_avada['version'],
+				'url'         => 'https://theme-fusion.com/avada-documentation/changelog.txt',
+				'package'     => '',
+			];
+
 			if ( version_compare( $current_avada_version, Fusion_Helper::normalize_version( $latest_avada['version'] ), '<' ) ) {
-				$transient->response[ $latest_avada['name'] ] = [
-					'theme'       => $latest_avada['name'],
-					'new_version' => $latest_avada['version'],
-					'url'         => 'https://theme-fusion.com/avada-documentation/changelog.txt',
-					'package'     => $this->deferred_download( $latest_avada['id'] ),
-				];
-			}
+				$_theme['package'] = $this->deferred_download( $latest_avada['id'] );
+
+				$transient->response[ $latest_avada['name'] ] = $_theme;
+			} else {
+				$transient->no_update[ $latest_avada['name'] ] = $_theme;  
+			}           
 		}
 
 		return $transient;
@@ -168,6 +178,9 @@ final class Fusion_Updater {
 	 * @return object
 	 */
 	public function update_plugins( $transient ) {
+		if ( ! is_object( $transient ) ) {
+			return $transient;
+		}
 
 		// Get the array of arguments.
 		$bundled_plugins = [];
@@ -183,24 +196,27 @@ final class Fusion_Updater {
 			$plugins = get_plugins();
 		}
 
-		/**
-		 * WIP
-		 * Get an array of premium plugins from the Envato API.
-		$premiums = $this->registration->envato_api()->plugins();
-		*/
-
 		// Loop available plugins.
 		if ( isset( $plugins ) && ! empty( $plugins ) && isset( $bundled_plugins ) && ! empty( $bundled_plugins ) ) {
 			foreach ( $plugins as $plugin_file => $plugin ) {
+
+				if ( 'Fusion Core' === $plugin['Name'] ) {
+					$plugin['Name'] = 'Avada Core';
+				} elseif ( 'Fusion Builder' === $plugin['Name'] ) {
+					$plugin['Name'] = 'Avada Builder';
+				}
+
 				// Process bundled plugin updates.
 				foreach ( $bundled_plugins as $bundled_plugin_slug => $bundled_plugin_name ) {
-					if ( $plugin['Name'] === $bundled_plugin_name && isset( $plugins_info[ $bundled_plugin_slug ] ) && version_compare( $plugin['Version'], $plugins_info[ $bundled_plugin_slug ]['version'], '<' ) && class_exists( 'Avada' ) ) {
+					if ( $plugin['Name'] === $bundled_plugin_name && isset( $plugins_info[ $bundled_plugin_slug ] ) && class_exists( 'Avada' ) ) {
+
 						$_plugin = [
+							'id'          => $plugin_file,
 							'slug'        => dirname( $plugin_file ),
-							'plugin'      => $plugin,
+							'plugin'      => $plugin_file,
 							'new_version' => $plugins_info[ $bundled_plugin_slug ]['version'],
 							'url'         => '',
-							'package'     => Avada()->remote_install->get_package( $bundled_plugin_name ),
+							'package'     => '',
 							'icons'       => [
 								'1x' => esc_url_raw( $plugins_info[ $bundled_plugin_slug ]['icon'] ),
 								'2x' => esc_url_raw( $plugins_info[ $bundled_plugin_slug ]['icon'] ),
@@ -212,9 +228,23 @@ final class Fusion_Updater {
 								'default' => esc_url_raw( $plugins_info[ $bundled_plugin_slug ]['banner'] ),
 							];
 						}
-						$transient->response[ $plugin_file ] = (object) $_plugin;
+
+						if ( version_compare( $plugin['Version'], $plugins_info[ $bundled_plugin_slug ]['version'], '<' ) ) {
+							$_plugin['package'] = Avada()->remote_install->get_package( $bundled_plugin_name );
+
+							$transient->response[ $plugin_file ] = (object) $_plugin;
+						} else {
+							$transient->no_update[ $plugin_file ] = (object) $_plugin;  
+						}
 					}
 				}
+
+
+				/**
+				 * WIP
+				 * Get an array of premium plugins from the Envato API.
+				$premiums = $this->registration->envato_api()->plugins();
+				*/              
 
 				/**
 				 * WIP

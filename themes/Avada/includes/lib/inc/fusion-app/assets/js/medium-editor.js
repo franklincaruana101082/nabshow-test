@@ -6152,6 +6152,9 @@ if (!("classList" in document.createElement("_"))) {
 				if (!this.isDisplayed()) {
 					this.getToolbarElement().classList.add('medium-editor-toolbar-active');
 					this.trigger('showToolbar', {}, this.base.getFocusedElement());
+
+					// ThemeFusion Edit. Add Class.
+					jQuery( 'body' ).addClass( 'fusion-medium-editor-active' );
 				}
 			},
 
@@ -6160,8 +6163,11 @@ if (!("classList" in document.createElement("_"))) {
 					this.getToolbarElement().classList.remove('medium-editor-toolbar-active');
 					this.trigger('hideToolbar', {}, this.base.getFocusedElement());
 
-					// Theme Fusion Edit.
+					// ThemeFusion Edit.
 					this.hideExtensionForms();
+
+					// ThemeFusion Edit. Remove Class.
+					jQuery( 'body' ).removeClass( 'fusion-medium-editor-active' );
 				}
 			},
 

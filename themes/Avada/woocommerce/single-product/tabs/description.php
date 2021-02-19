@@ -11,14 +11,14 @@
  	exit; // Exit if accessed directly
  }
 
-global $woocommerce, $post;
+global $post;
 
-$heading = esc_html( apply_filters( 'woocommerce_product_description_heading', esc_html__( 'Description', 'woocommerce' ) ) );
+$heading = apply_filters( 'woocommerce_product_description_heading', __( 'Description', 'woocommerce' ) );
 ?>
 
 <div class="post-content">
 	<?php if ( $heading ): ?>
-	  <h3 class="fusion-woocommerce-tab-title"><?php echo $heading; ?></h3>
+	  <h3 class="fusion-woocommerce-tab-title"><?php echo esc_html( $heading ); ?></h3>
 	<?php endif; ?>
 
 	<?php the_content(); ?>

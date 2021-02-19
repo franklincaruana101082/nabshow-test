@@ -174,7 +174,7 @@
     })
 
     /* close popup */
-    jQuery(document).on('click', '.nab-modal-close', function () {
+    jQuery(document).on('click', '.nab-modal-close, .nab-modal-remove', function () {
       if (
         $(this)
           .parents('.nab-modal')
@@ -303,6 +303,42 @@
     '#character-count-featured-btnlabel',
     60
   )
+
+  // Add a popup function if not exists.
+  if ('function' !== typeof nabAddPopup) {
+    /**
+     * Add a blank popup.
+     *
+     * @param ID Main modal ID.
+     */
+    function nabAddPopup (ID) {
+      let nabModal = document.createElement('div')
+      nabModal.setAttribute('class', 'nab-modal')
+      nabModal.setAttribute('id', ID)
+
+      let nabModalInner = document.createElement('div')
+      nabModalInner.setAttribute('class', 'nab-modal-inner')
+      nabModal.appendChild(nabModalInner)
+
+      let nabModalContent = document.createElement('div')
+      nabModalContent.setAttribute('class', 'modal-content')
+      nabModalInner.appendChild(nabModalContent)
+
+      let nabModalClose = document.createElement('span')
+      nabModalClose.setAttribute(
+        'class',
+        'nab-modal-close fa fa-times confirmed-answer'
+      )
+      nabModalClose.setAttribute('id', 'confirmed-no')
+      nabModalContent.appendChild(nabModalClose)
+
+      let nabModalContentWrap = document.createElement('div')
+      nabModalContentWrap.setAttribute('class', 'modal-content-wrap')
+      nabModalContent.appendChild(nabModalContentWrap)
+
+      jQuery('body').append(nabModal)
+    }
+  }
 
   function charcount (event, tag, counttag, limit) {
     jQuery(document).on(event, tag, function (e) {
@@ -936,7 +972,7 @@
       .hide()
 
     if ( 0 < featuredSelector.length && null !== featuredSelector.val() ) {
-      if (0 === featuredMax) {
+      if (0 === featuredMax && 0 < featuredSelector.val().length ) {
         nabMembershipCategoryNotice(
           featuredSelector,
           "You can't add featured product categories without membership."
@@ -990,7 +1026,7 @@
       }else{
         fd.append('instagram_profile', jQuery('#instagram_profile').val())
       }
-      
+
     }
     if (jQuery('#linkedin_profile').length) {
       if(!validateURL(jQuery('#linkedin_profile').val())){
@@ -999,7 +1035,7 @@
       }else{
         fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
       }
-      
+
     }
     if (jQuery('#facebook_profile').length) {
       if(!validateURL(jQuery('#facebook_profile').val())){
@@ -1008,7 +1044,7 @@
       }else{
         fd.append('facebook_profile', jQuery('#facebook_profile').val())
       }
-      
+
     }
     if (jQuery('#twitter_profile').length) {
       if(!validateURL(jQuery('#twitter_profile').val())){
@@ -1017,7 +1053,7 @@
       }else{
         fd.append('twitter_profile', jQuery('#twitter_profile').val())
       }
-      
+
     }
     if (jQuery('#company_about').length) {
       if (jQuery('#company_about').val().length > 2000) {
@@ -1043,7 +1079,7 @@
       }else{
         fd.append('company_website', jQuery('#company_website').val())
       }
-      
+
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
@@ -1106,8 +1142,8 @@
       }else{
         fd.append('company_youtube', jQuery('#company_youtube').val())
       }
-      
-    }   
+
+    }
 
     jQuery.ajax({
       type: 'POST',
@@ -1149,7 +1185,11 @@
       data: fd,
       contentType: false,
       processData: false,
+      beforeSend:function(){
+        $('body').addClass('is-loading');
+      },
       success: function (data) {
+        $('body').removeClass('is-loading');
         if (jQuery('#addProductModal').length === 0) {
           jQuery('body').append(data)
           jQuery('#addProductModal')
@@ -2824,7 +2864,10 @@
     }
   )
 
-  $(document).on('click', '.confirmed-answer', function () {
+  $(document).on(
+    'click',
+    '#unfriend-confirmation .confirmed-answer',
+    function () {
     if ('confirmed-yes' === $(this).attr('id')) {
       window.location.href = $('.popup-shown').attr('href')
     } else {
@@ -3832,7 +3875,7 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
             companyProfile.setAttribute('class', 'no-image-avtar');
             companyProfile.innerText = value.no_pic;
           }
-          
+
           avatarLink.appendChild(companyProfile)
           searchItemProfile.appendChild(avatarLink)
           searchItemInfo.appendChild(searchItemProfile)

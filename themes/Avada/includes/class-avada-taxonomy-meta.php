@@ -34,7 +34,7 @@ class Avada_Taxonomy_Meta {
 	 * @since 5.3
 	 * @var array
 	 */
-	protected $meta_fields;
+	protected $meta_fields = [];
 
 	/**
 	 * Type of form; edit or new term.
@@ -77,6 +77,12 @@ class Avada_Taxonomy_Meta {
 	 */
 	public static function avada_taxonomy_map() {
 
+		// Allow regular logic to be skipped.
+		$custom_options = apply_filters( 'before_avada_taxonomy_map', [] );
+		if ( ! empty( $custom_options ) || false === $custom_options ) {
+			return $custom_options;
+		}
+
 		// Regular PTB TO.
 		$page_title_option_name = 'page_title_bar';
 
@@ -91,7 +97,6 @@ class Avada_Taxonomy_Meta {
 		}
 
 		$page_title_option = Avada()->settings->get( $page_title_option_name );
-
 
 		// Check if we have a template override.
 		$template_override = false;
@@ -153,7 +158,7 @@ class Avada_Taxonomy_Meta {
 		];
 
 		if ( function_exists( 'fusion_is_preview_frame' ) && fusion_is_preview_frame() ) {
-			// Click here for Fusion Slider, Revolution Slider or Layer Slider.
+			// Click here for Avada Slider, Revolution Slider or Layer Slider.
 			$sections['taxonomy_options']['fields']['sliders_note'] = [
 				'label'       => '',
 				'description' => '<div class="fusion-redux-important-notice">' . avada_get_sliders_note( $sliders_array, $active_slider_types ) . '</div>',
@@ -209,7 +214,7 @@ class Avada_Taxonomy_Meta {
 		if ( method_exists( 'FusionCore_Plugin', 'get_fusion_sliders' ) ) {
 			$sections['taxonomy_options']['fields']['wooslider'] = [
 				'id'              => 'wooslider',
-				'label'           => __( 'Select Fusion Slider ', 'Avada' ),
+				'label'           => __( 'Select Avada Slider ', 'Avada' ),
 				'choices'         => $sliders_array['fusion_sliders'],
 				'default'         => 0,
 				'class'           => 'avada-sliders-group avada-flex-slider',
@@ -505,28 +510,26 @@ class Avada_Taxonomy_Meta {
 
 		// Add resources on required screens only.
 		if ( 'edit-tags' === $screen->base || 'term' === $screen->base ) {
+			$ver = Avada::get_theme_version();
+
 			// Enqueu built-in script and style for color picker.
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
 
-			if ( defined( 'FUSION_LIBRARY_URL' ) ) {
-				wp_enqueue_script(
-					'wp-color-picker-alpha',
-					trailingslashit( FUSION_LIBRARY_URL ) . 'inc/redux/custom-fields/color_alpha/wp-color-picker-alpha.js',
-					[ 'wp-color-picker' ],
-					'1.2',
-					false
-				);
-			}
+			wp_enqueue_script(
+				'wp-color-picker-alpha',
+				Avada::$template_dir_url . '/assets/admin/js/wp-color-picker-alpha.js',
+				[ 'wp-color-picker' ],
+				$ver,
+				false
+			);
 
 			// Enqueu built-in script and styles for media JavaScript APIs.
 			wp_enqueue_media();
 
-			$ver = Avada::get_theme_version();
-
 			wp_enqueue_script(
 				'avada-tax-meta-js',
-				trailingslashit( Avada::$template_dir_url ) . 'assets/admin/js/avada-tax-meta.js',
+				Avada::$template_dir_url . '/assets/admin/js/avada-tax-meta.js',
 				[ 'jquery' ],
 				$ver,
 				true
@@ -534,27 +537,25 @@ class Avada_Taxonomy_Meta {
 
 			wp_enqueue_style(
 				'avada-tax-meta-css',
-				trailingslashit( Avada::$template_dir_url ) . 'assets/admin/css/avada-tax-meta.css',
+				Avada::$template_dir_url . '/assets/admin/css/avada-tax-meta.css',
 				[],
 				$ver
 			);
 
-			if ( class_exists( 'Avada' ) ) {
-				wp_enqueue_script(
-					'selectwoo-js',
-					Avada::$template_dir_url . '/assets/admin/js/selectWoo.full.min.js',
-					[ 'jquery' ],
-					'1.0.2',
-					false
-				);
-				wp_enqueue_style(
-					'select2-css',
-					Avada::$template_dir_url . '/assets/admin/css/select2.css',
-					[],
-					'4.0.3',
-					'all'
-				);
-			}
+			wp_enqueue_script(
+				'selectwoo-js',
+				Avada::$template_dir_url . '/assets/admin/js/selectWoo.full.min.js',
+				[ 'jquery' ],
+				'1.0.2',
+				false
+			);
+			wp_enqueue_style(
+				'select2-css',
+				Avada::$template_dir_url . '/assets/admin/css/select2.css',
+				[],
+				'4.0.3',
+				'all'
+			);
 		}
 	}
 
@@ -610,13 +611,15 @@ class Avada_Taxonomy_Meta {
 			// Check if we have a template override.
 			$template_override = false;
 			$ptb_override      = false;
+			$header_override   = false;
 			if ( class_exists( 'Fusion_Template_Builder' ) ) {
 				$template_override = Fusion_Template_Builder::get_instance()->get_override( 'content' );
 				$ptb_override      = Fusion_Template_Builder::get_instance()->get_override( 'page_title_bar' );
+				$header_override   = Fusion_Template_Builder::get_instance()->get_override( 'header' );
 			}
 			?>
 
-			<?php if ( $template_override || $ptb_override ) : ?>
+			<?php if ( $template_override || $ptb_override || $header_override ) : ?>
 				<div class="notice notice-info">
 					<p><?php esc_html_e( 'This term uses a custom template for:', 'Avada' ); ?></p>
 					<ul style="padding-left:1em;">
@@ -625,6 +628,9 @@ class Avada_Taxonomy_Meta {
 						<?php endif; ?>
 						<?php if ( $ptb_override ) : ?>
 							<li style="list-style-type:disc;"><?php echo esc_html( Fusion_Template_Builder::get_instance()->types['page_title_bar']['label'] ); ?></li>
+						<?php endif; ?>
+						<?php if ( $header_override ) : ?>
+							<li style="list-style-type:disc;"><?php echo esc_html( Fusion_Template_Builder::get_instance()->types['header']['label'] ); ?></li>
 						<?php endif; ?>
 					</ul>
 				</div>
@@ -685,7 +691,7 @@ class Avada_Taxonomy_Meta {
 		}
 
 		// Check revision, nonce, current taxonomy type, support of current taxonomy type and permission.
-		if ( ! isset( $term_id ) || ( ! check_admin_referer( basename( __FILE__ ), 'fusion_taxnonomy_meta_nonce' ) ) || ( ! isset( $_POST['taxonomy'] ) ) || ( ! in_array( wp_unslash( $_POST['taxonomy'] ), $this->fusion_meta_box['screens'] ) ) || ( ! current_user_can( 'manage_categories' ) ) ) {
+		if ( ! isset( $term_id ) || ( ! check_admin_referer( basename( __FILE__ ), 'fusion_taxnonomy_meta_nonce' ) ) || ( ! isset( $_POST['taxonomy'] ) ) || ( ! in_array( wp_unslash( $_POST['taxonomy'] ), $this->fusion_meta_box['screens'] ) ) || ( ! current_user_can( 'manage_categories' ) ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return $term_id;
 		}
 
@@ -962,7 +968,7 @@ class Avada_Taxonomy_Meta {
 					$meta[ $key ] = isset( $meta[ $key ] ) ? (string) $meta[ $key ] : '';
 					?>
 					<div class="fusion-builder-dimension">
-						<span class="add-on"><i class="<?php echo esc_attr( $icon_class ); ?>"></i></span>
+						<span class="add-on"><i class="<?php echo esc_attr( $icon_class ); ?>" aria-hidden="true"></i></span>
 						<input type="text" name="<?php echo esc_attr( "{$field['id']}[{$key}]" ); ?>" id="pyre_<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $meta[ $key ] ); ?>" />
 					</div>
 				<?php endforeach; ?>
@@ -992,7 +998,7 @@ class Avada_Taxonomy_Meta {
 		<?php
 		foreach ( $field['options'] as $key => $value ) :
 			?>
-			<option value="<?php echo esc_attr( $key ); ?>" <?php echo selected( in_array( $key, $meta ), true, false ); ?>><?php echo esc_attr( $value ); ?></option>
+			<option value="<?php echo esc_attr( $key ); ?>" <?php echo selected( in_array( $key, $meta ), true, false ); // phpcs:ignore WordPress.PHP.StrictInArray ?>><?php echo esc_attr( $value ); ?></option>
 		<?php endforeach; ?>
 		</select>
 		<?php
@@ -1131,7 +1137,7 @@ class Avada_Taxonomy_Meta {
 		}
 		?>
 
-		<?php if ( 'color' === $field['type'] ) : ?>
+		<?php if ( 'color' === $field['type'] && isset( $field['default'] ) && '' !== $field['default'] ) : ?>
 			<span class="tax-meta-default-reset">
 				<a href="#" id="default-<?php echo esc_attr( $field['id'] ); ?>" class="avada-range-default avada-hide-from-atts" type="radio" name="<?php echo esc_attr( $field['id'] ); ?>" value="" data-default="<?php echo esc_attr( $field['default'] ); ?>">
 					<?php esc_attr_e( 'Reset to default.', 'Avada' ); ?>

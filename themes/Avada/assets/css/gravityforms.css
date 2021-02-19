@@ -1,15 +1,4 @@
 /* stylelint-disable no-descending-specificity */
-.group {
-  zoom: 1;
-}
-.group:before,
-.group:after {
-  content: " ";
-  display: table;
-}
-.group:after {
-  clear: both;
-}
 .gform_wrapper {
   margin-bottom: 50px;
 }
@@ -29,7 +18,7 @@
 .gform_wrapper .gfield select {
   font-size: var(--form_text_size);
   color: var(--form_text_color);
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
   border-color: var(--form_border_color);
   border-radius: var(--form_border_radius);
 }
@@ -189,7 +178,7 @@
   background-color: var(--form_bg_color);
   font-size: var(--form_text_size);
   color: var(--form_text_color);
-  border-width: var(--form_border_width);
+  border-width: var(--form_border_width-top) var(--form_border_width-right) var(--form_border_width-bottom) var(--form_border_width-left);
   border-color: var(--form_border_color);
   border-radius: var(--form_border_radius);
   padding-top: 0;

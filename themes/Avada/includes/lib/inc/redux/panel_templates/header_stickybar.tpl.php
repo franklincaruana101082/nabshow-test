@@ -20,8 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="dashicons dashicons-editor-ul"></span><?php esc_html_e( 'Expand Options', 'Avada' ); ?>
 		</a>
 
-		<a href="<?php echo esc_url_raw( add_query_arg( 'fb-edit', '1', get_home_url() ) ); ?>" id="fusion-edit-on-front-end" class="button button-primary"><?php esc_html_e( 'Edit Live', 'Avada' ); ?></a>
-
 		<div class="fusionredux-action_bar">
 			<span class="spinner"></span>
 			<?php
@@ -36,8 +34,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 		</div>
 
-		<div class="fusion-support-links">
-			<a href="https://theme-fusion.com/support" aria-label="Go to Support Center" title="Go to Support Center" target="_blank"><span class="el el-question"></span></a>
+		<div class="fusion-support-links avada-db-tooltip">
+			<a href="https://theme-fusion.com/support" aria-label="Go To Support Center" target="_blank">
+				<span class="fusiona-help-outlined"></span>
+			</a>
 		</div>
 
 		<div class="fusionredux-ajax-loading" alt="<?php esc_attr_e( 'Working...', 'Avada' ) ?>">&nbsp;</div>

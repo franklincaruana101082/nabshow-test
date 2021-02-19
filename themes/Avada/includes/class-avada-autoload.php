@@ -155,7 +155,6 @@ class Avada_Autoload {
 			'Fusion_Dynamic_CSS_From_Options' => $template_dir_path . '/includes/class-fusion-dynamic-css-from-options.php',
 			'Avada_Megamenu_Framework'        => $template_dir_path . '/includes/class-avada-megamenu-framework.php',
 			'Avada_Megamenu'                  => $template_dir_path . '/includes/class-avada-megamenu.php',
-			'Avada_Nav_Walker'                => $template_dir_path . '/includes/class-avada-nav-walker.php',
 			'Avada_Nav_Walker_Megamenu'       => $template_dir_path . '/includes/class-avada-nav-walker-megamenu.php',
 			'Avada_Dynamic_CSS'               => $template_dir_path . '/includes/class-avada-dynamic-css.php',
 			'Avada_Options'                   => $template_dir_path . '/includes/class-avada-options.php',

@@ -98,7 +98,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</h4>
 
 								<div class="fusion-carousel-meta">
-									<span class="fusion-date"><?php echo esc_attr( get_the_time( Avada()->settings->get( 'date_format' ), $post_id ) ); ?></span>
+									<?php
+									$date_format = Avada()->settings->get( 'date_format' );
+									$date_format = $date_format ? $date_format : get_option( 'date_format' );
+									?>
+
+									<span class="fusion-date"><?php echo esc_attr( get_the_time( $date_format, $post_id ) ); ?></span>
 
 									<?php if ( comments_open( $post_id ) ) : ?>
 										<span class="fusion-inline-sep">|</span>

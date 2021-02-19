@@ -29,7 +29,7 @@ function avada_page_options_tab_sliders( $sections ) {
 	];
 
 	if ( function_exists( 'fusion_is_preview_frame' ) && fusion_is_preview_frame() ) {
-		// Click here for Fusion Slider, Revolution Slider or Layer Slider.
+		// Click here for Avada Slider, Revolution Slider or Layer Slider.
 		$sections['sliders']['fields']['sliders_note'] = [
 			'label'       => '',
 			'description' => '<div class="fusion-redux-important-notice">' . avada_get_sliders_note( $sliders_array, $active_slider_types ) . '</div>',
@@ -85,7 +85,7 @@ function avada_page_options_tab_sliders( $sections ) {
 
 		$sections['sliders']['fields']['wooslider'] = [
 			'id'              => 'wooslider',
-			'label'           => esc_attr__( 'Select Fusion Slider', 'Avada' ),
+			'label'           => esc_attr__( 'Select Avada Slider', 'Avada' ),
 			'description'     => esc_html__( 'Select the unique name of the slider.', 'Avada' ),
 			'choices'         => $sliders_array['fusion_sliders'],
 			'dependency'      => [

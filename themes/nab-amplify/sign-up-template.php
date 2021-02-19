@@ -45,6 +45,8 @@ if ( empty( $redirect_url ) ) {
 }
 ?>
 
+	<!-- START legacy-template: sign-up-template -->
+	<div class="container">
 	<main id="primary" class="site-main">
 
 		<?php
@@ -209,6 +211,8 @@ if ( empty( $redirect_url ) ) {
 		?>
 
 	</main><!-- #main -->
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 
 <?php
 

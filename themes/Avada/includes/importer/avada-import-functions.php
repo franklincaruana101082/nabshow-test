@@ -159,7 +159,7 @@ function fusion_get_new_widget_name( $widget_name, $widget_index ) {
 			}
 		}
 	}
-	while ( in_array( $widget_name . '-' . $widget_index, $all_widget_array ) ) {
+	while ( in_array( $widget_name . '-' . $widget_index, $all_widget_array, true ) ) {
 		$widget_index++;
 	}
 	$new_widget_name = $widget_name . '-' . $widget_index;
@@ -195,7 +195,7 @@ function fusion_fs_importer_replace_url( $matches ) {
 				$meta_arr = maybe_unserialize( $match );
 				if ( false !== $meta_arr && is_array( $meta_arr ) ) {
 					foreach ( $meta_arr as $k => $v ) {
-						if ( false !== strpos( $v, 'wp-content/uploads/sites/' ) ) {
+						if ( is_string( $v ) && false !== strpos( $v, 'wp-content/uploads/sites/' ) ) {
 							$parts = explode( 'wp-content/uploads/sites/', $v );
 							if ( isset( $parts[1] ) ) {
 								$sub_parts = explode( '/', $parts[1] );

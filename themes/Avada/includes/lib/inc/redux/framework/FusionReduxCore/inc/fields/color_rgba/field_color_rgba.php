@@ -45,7 +45,7 @@ if( !class_exists( 'FusionReduxFramework_color_rgba' ) ) {
 			 * @param       array $parent Parent object.
 			 * @return      void
 			 */
-				public function __construct( $field = array(), $value ='', $parent ) {
+				public function __construct( $field = array(), $value ='', $parent = null ) {
 
 						// Set required variables
 						$this->parent   = $parent;

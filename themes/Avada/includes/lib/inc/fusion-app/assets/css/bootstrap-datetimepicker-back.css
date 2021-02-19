@@ -86,7 +86,7 @@
 }
 [class^="bdticon-"], [class*=" bdticon-"] {
 	font-family: 'count-down-timer';
-	speak: none;
+	speak: never;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;

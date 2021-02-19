@@ -35,7 +35,8 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			'click .upload-image-remove': 'removeImage',
 			'click .option-preview-toggle': 'previewToggle',
 			'click .fusion-panel-description': 'showHideDescription',
-			'click .fusion-panel-shortcut': 'defaultPreview'
+			'click .fusion-panel-shortcut': 'defaultPreview',
+			'click .fusion-quick-option': 'quickOption'
 		},
 
 		/**
@@ -88,6 +89,21 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			this.initOptions();
 			FusionApp.sidebarView.$el.find( '.fusion-sidebar-section:visible' ).scrollTop( 0 );
 			return this;
+		},
+
+		/**
+		 * Navigates to a separate tab.
+		 *
+		 * @since 7.0
+		 * @param object event The click event.
+		 * @return {void}
+		 */
+		quickOption: function( event ) {
+			var $trigger = jQuery( event.target );
+
+			event.preventDefault();
+
+			FusionApp.sidebarView.openOption( $trigger.data( 'fusion-option' ) );
 		},
 
 		/**
@@ -175,7 +191,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			if ( FusionApp.sidebarView ) {
 				jQuery( '.fusion-builder-toggles a' ).first().trigger( 'click' );
-				FusionApp.sidebarView.openOption( $element.data( 'fusion-option' ) );
+				FusionApp.sidebarView.openOption( $element.data( 'fusion-option' ), 'to' );
 			}
 		},
 
@@ -207,6 +223,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			this.optionColorPalette( $thisEl );
 			this.optionRaw( $thisEl );
 			this.optionLinkSelector( $thisEl );
+			this.optionHubSpotMap( $thisEl );
 
 			if ( 'undefined' === typeof $element ) {
 				this.optionRepeater( this.type );
@@ -550,21 +567,32 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			this.saveChange( $target, value, saveId, save, type );
 
-			if ( 'TO' === type || 'FBE' === type ) {
+			if ( 'TO' === type || 'FBE' === type || 'PO' === type ) {
 				FusionApp.createMapObjects();
 				if ( 'object' === typeof save[ saveId ] ) {
 					this.updateSettingsToParams( id + '[' + $target.attr( 'name' ) + ']', value );
 					this.updateSettingsToExtras( id + '[' + $target.attr( 'name' ) + ']', value );
 					this.updateSettingsToParams( id, save[ saveId ] );
 					this.updateSettingsToExtras( id, save[ saveId ] );
-					this.updateSettingsToPo( id, save[ saveId ] );
+					if ( 'TO' === type || 'FBE' === type ) {
+						this.updateSettingsToPo( id, save[ saveId ] );
+					}
 				} else {
 					this.updateSettingsToParams( id, value );
 					this.updateSettingsToExtras( id, value );
-					this.updateSettingsToPo( id, value );
+					if ( 'TO' === type || 'FBE' === type ) {
+						this.updateSettingsToPo( id, value );
+					}
 				}
 
 				FusionEvents.trigger( 'fusion-preview-update', id, value );
+			}
+
+			// Custom events defined.
+			if ( 'object' === typeof fields[ id ].events ) {
+				_.each( fields[ id ].events, function( customEvent ) {
+					FusionEvents.trigger( customEvent, id, value );
+				} );
 			}
 
 			// Check update_callback args.
@@ -601,6 +629,11 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 			if ( fields[ id ].id && '_fusion_builder_custom_css' === fields[ id ].id ) {
 				avadaPanelIFrame.liveUpdatePageCustomCSS( value );
+				return;
+			}
+
+			if ( fields[ id ].id && ( 'visibility_small' === fields[ id ].id || 'visibility_medium' === fields[ id ].id ) ) {
+				jQuery( '#fusion-parent-window-css-vars' ).html( ':root{--small_screen_width:' + FusionApp.settings.visibility_small + 'px;}:root{--medium_screen_width:' + FusionApp.settings.visibility_medium + 'px;}' );
 				return;
 			}
 
@@ -735,8 +768,9 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		updateSettingsToParams: function( id, value, skipRender ) {
 			var self         = this,
 				initialValue = self.cloneValue( value ),
-				$colorPicker,
+				$target,
 				defaultText,
+				args,
 				type;
 
 			skipRender = 'undefined' === typeof skipRender ? false : skipRender;
@@ -748,7 +782,12 @@ var FusionPageBuilder = FusionPageBuilder || {};
 
 				if ( ! _.isUndefined( fusionAllElements[ rule.element ] ) ) {
 					if ( rule.callback ) {
-						value = avadaPanelIFrame.applyCallback( initialValue, rule.callback, false );
+
+						args = {
+							id: id,
+							type: self.model.get( 'type' )
+						};
+						value = avadaPanelIFrame.applyCallback( initialValue, rule.callback, args );
 					}
 
 					// Update default for element render.
@@ -759,19 +798,10 @@ var FusionPageBuilder = FusionPageBuilder || {};
 						// Only option that uses visual default value should update.
 						if ( 'colorpickeralpha' === fusionAllElements[ rule.element ].params[ rule.param ].type || 'color' === fusionAllElements[ rule.element ].params[ rule.param ].type || 'range' === fusionAllElements[ rule.element ].params[ rule.param ].type ) {
 							fusionAllElements[ rule.element ].params[ rule.param ][ 'default' ] = value;
-						}
+							$target = jQuery( '.' + rule.element + ' [data-option-id="' + rule.param + '"]' );
 
-						// If option exists on page right now, need to update.
-						if ( 'colorpickeralpha' === fusionAllElements[ rule.element ].params[ rule.param ].type || 'color' === fusionAllElements[ rule.element ].params[ rule.param ].type ) {
-							$colorPicker = jQuery( '.' + rule.element + ' [data-option-id="' + rule.param + '"] .fusion-builder-color-picker-hex' );
-							if ( 1 === $colorPicker.length ) {
-								$colorPicker.data( 'default', value ).trigger( 'change' );
-								if ( '' === $colorPicker.val() ) {
-									$colorPicker.addClass( 'fusion-default-changed' );
-									if ( $colorPicker.hasClass( 'wp-color-picker' ) ) {
-										$colorPicker.wpColorPicker( 'color', value );
-									}
-								}
+							if ( 1 === $target.length ) {
+								FusionEvents.trigger( 'fusion-default-changed-' + $target.closest( '.fusion-builder-module-settings' ).attr( 'data-element-cid' ), rule.param, value );
 							}
 						}
 
@@ -999,6 +1029,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionColorPalette );
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionRawField );
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionLinkSelector );
+	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.options.fusionHubSpotMap );
 
 	// Active states.
 	_.extend( FusionPageBuilder.TabView.prototype, FusionPageBuilder.fusionActiveStates );

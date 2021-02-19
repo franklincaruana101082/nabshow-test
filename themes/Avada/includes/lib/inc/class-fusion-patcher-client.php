@@ -60,12 +60,23 @@ class Fusion_Patcher_Client {
 	 */
 	private function query_patch_server() {
 		global $is_apache, $is_IIS, $wp_version;
-		$args = [];
-		if ( ! empty( $this->args ) ) {
-			$id                       = str_replace( '-', '_', $this->args['context'] );
-			$args[ $id . '_version' ] = $this->args['version'];
-			$args['limit']            = true;
+		$args = [
+			'limit' => true,
+		];
+
+		if ( defined( 'AVADA_VERSION' ) ) {
+			$args['avada_version'] = AVADA_VERSION;
 		}
+		if ( defined( 'FUSION_CORE_VERSION' ) ) {
+			$args['fusion_core_version'] = FUSION_CORE_VERSION;
+		}
+		if ( defined( 'FUSION_BUILDER_VERSION' ) ) {
+			$args['fusion_builder_version'] = FUSION_BUILDER_VERSION;
+		}
+
+		/**
+		 * WIP.
+		 * These lines were commented-out in Avada v7.0.
 		$site_url = site_url();
 		// EVERYTHING is anonymous.
 		$args['site_url'] = md5( $site_url );
@@ -83,7 +94,7 @@ class Fusion_Patcher_Client {
 			$args['php_version_id'] = PHP_VERSION_ID;
 		}
 		$args['wp_version'] = $wp_version;
-
+		*/
 		// Build the remote server URL using the provided version.
 		$url = add_query_arg( $args, self::$remote_patches_uri );
 
@@ -103,7 +114,7 @@ class Fusion_Patcher_Client {
 		}
 
 		// Return false if the response does not have a body.
-		if ( ! isset( $response['body'] ) ) {
+		if ( ! isset( $response['body'] ) || 200 !== $response['response']['code'] ) {
 			return false;
 		}
 		$json = $response['body'];
@@ -170,6 +181,5 @@ class Fusion_Patcher_Client {
 			$cache = new Fusion_Patcher_Cache();
 			$cache->set_cache( $this->args, self::$patches );
 		}
-
 	}
 }

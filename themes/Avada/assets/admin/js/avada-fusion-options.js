@@ -236,7 +236,7 @@ jQuery( document ).ready( function() {
 	}
 
 	jQuery( '.avada-dependency' ).filter( function() {
-		return ! jQuery( this ).closest( '.fusion-repeater-wrapper' ).length;
+		return ! jQuery( this ).closest( '.fusion-repeater-row' ).length;
 	} ).each( function() {
 		avadaLoopDependencies( jQuery( this ) );
 	} );
@@ -275,7 +275,7 @@ jQuery( document ).ready( function() {
 			$rangeDefault.on( 'click', function( e ) {
 				e.preventDefault();
 				$rangeSlider[ $slide ].noUiSlider.set( $defaultValue );
-				$hiddenValue.val( '' );
+				$hiddenValue.val( '' ).trigger( 'fusion-changed' );
 				jQuery( this ).parent().addClass( 'checked' );
 			} );
 		}
@@ -284,7 +284,7 @@ jQuery( document ).ready( function() {
 		$slider.on( 'update', function( values, handle ) {
 			if ( $rangeDefault && $notFirst ) {
 				$rangeDefault.parent().removeClass( 'checked' );
-				$hiddenValue.val( values[ handle ] );
+				$hiddenValue.val( values[ handle ] ).trigger( 'fusion-changed' );
 			}
 			$notFirst = true;
 			jQuery( this.target ).closest( '.fusion-slider-container' ).prev().val( values[ handle ] );
@@ -417,7 +417,7 @@ jQuery( document ).ready( function() {
 				titleBind  = $value.data( 'bind' );
 
 			$rows.empty();
-			if ( 'string' === typeof values ) {
+			if ( 'string' === typeof values && '' !== values ) {
 				try {
 					values = JSON.parse( values );
 					self.insertOptionsWithValues( $element, values, titleBind );
@@ -716,21 +716,20 @@ jQuery( document ).ready( function() {
 			jQuery.get( {
 				url: ajaxurl,
 				data: data,
-				dataType: 'json',
-				success: function( response ) {
-					var html;
+				dataType: 'json'
+			} ).done( function( response ) {
+				var html;
 
-					html  = '<option value="' + response.saved_po_dataset_id + '">';
-					html += response.saved_po_dataset_title;
-					html += '</option>';
+				html  = '<option value="' + response.saved_po_dataset_id + '">';
+				html += response.saved_po_dataset_title;
+				html += '</option>';
 
-					jQuery( '#fusion-saved-page-options-select' ).append( html );
+				jQuery( '#fusion-saved-page-options-select' ).append( html );
 
-					jQuery( '#fusion-new-page-options-name' ).val( '' );
+				jQuery( '#fusion-new-page-options-name' ).val( '' );
 
-					jQuery( '#fusion-page-options-loader' ).hide();
+				jQuery( '#fusion-page-options-loader' ).hide();
 
-				}
 			} );
 		},
 
@@ -749,13 +748,11 @@ jQuery( document ).ready( function() {
 			jQuery.get( {
 				url: ajaxurl,
 				data: data,
-				dataType: 'json',
-				success: function( response ) {
-					updatePOPanel( response.custom_fields );
-					jQuery( '#fusion-page-options-loader' ).hide();
-				}
+				dataType: 'json'
+			} ).done( function( response ) {
+				updatePOPanel( response.custom_fields );
+				jQuery( '#fusion-page-options-loader' ).hide();
 			} );
-
 		},
 
 		deleteSaved: function( e ) {
@@ -772,13 +769,12 @@ jQuery( document ).ready( function() {
 
 			jQuery.get( {
 				url: ajaxurl,
-				data: data,
-				success: function() {
-					jQuery( '#fusion-saved-page-options-select option[value="' +  savedPageOptionsDatasetID + '"]' ).remove();
-					jQuery( '#fusion-page-options-loader' ).hide();
+				data: data
+			} ).done( function() {
+				jQuery( '#fusion-saved-page-options-select option[value="' +  savedPageOptionsDatasetID + '"]' ).remove();
+				jQuery( '#fusion-page-options-loader' ).hide();
 
-					jQuery( '#fusion-page-options-buttons-wrap' ).fadeOut();
-				}
+				jQuery( '#fusion-page-options-buttons-wrap' ).fadeOut();
 			} );
 
 		},
@@ -825,12 +821,10 @@ jQuery( document ).ready( function() {
 				cache: false,
 				dataType: 'json',
 				processData: false, // Don't process the files
-				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-				success: function( response ) {
-					updatePOPanel( response.custom_fields );
-					jQuery( '#fusion-page-options-loader' ).hide();
-				}
-
+				contentType: false // Set content type to false as jQuery will tell the server its a query string request
+			} ).done( function( response ) {
+				updatePOPanel( response.custom_fields );
+				jQuery( '#fusion-page-options-loader' ).hide();
 			} );
 		},
 
@@ -879,6 +873,15 @@ jQuery( document ).ready( function() {
 				// Continue.
 				return true;
 			}
+
+			if ( $el.hasClass( 'upload_field' ) ) {
+
+				$el.val( value.url );
+
+				// Continue.
+				return true;
+			}
+
 
 			$el.val( value );
 

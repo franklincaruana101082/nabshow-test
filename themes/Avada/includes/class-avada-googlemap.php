@@ -83,7 +83,7 @@ class Avada_GoogleMap {
 	 */
 	public static function calc_color_brightness( $color ) {
 
-		if ( in_array( strtolower( $color ), [ 'black', 'navy', 'purple', 'maroon', 'indigo', 'darkslategray', 'darkslateblue', 'darkolivegreen', 'darkgreen', 'darkblue' ] ) ) {
+		if ( in_array( strtolower( $color ), [ 'black', 'navy', 'purple', 'maroon', 'indigo', 'darkslategray', 'darkslateblue', 'darkolivegreen', 'darkgreen', 'darkblue' ], true ) ) {
 			$brightness_level = 0;
 		} elseif ( 0 === strpos( $color, '#' ) ) {
 			$color            = fusion_hex2rgb( $color );
@@ -139,7 +139,7 @@ class Avada_GoogleMap {
 
 		if ( $address ) {
 			$addresses       = explode( '|', $address );
-			$infobox_content = ( ! in_array( $map_style, [ 'default', 'theme' ] ) ) ? html_entity_decode( $infobox_content ) : '';
+			$infobox_content = ( ! in_array( $map_style, [ 'default', 'theme' ], true ) ) ? html_entity_decode( $infobox_content ) : '';
 
 			$infobox_content_array = ( $infobox_content ) ? explode( '|', $infobox_content ) : '';
 			$icon_array            = ( $icon && 'default' !== $infobox ) ? explode( '|', $icon ) : '';
@@ -303,6 +303,15 @@ class Avada_GoogleMap {
 				$html = ob_get_clean() . '<div ' . $this->attributes( 'avada-google-map' ) . '></div>';
 			}
 		}
+
+		Fusion_Dynamic_JS::enqueue_script(
+			'fusion-google-map',
+			FUSION_LIBRARY_URL . '/assets/min/js/general/fusion-google-map.js',
+			FUSION_LIBRARY_PATH . '/assets/min/js/general/fusion-google-map.js',
+			[ 'jquery-fusion-maps' ],
+			'1',
+			true
+		);
 
 		return $html;
 	}

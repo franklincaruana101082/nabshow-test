@@ -5,6 +5,8 @@
 
 get_header();
     ?>
+	<!-- START legacy-template: template-without-title -->
+	<div class="container">
 	<main id="primary" class="site-main page_php">
 		<?php
 		while ( have_posts() ) :
@@ -22,5 +24,7 @@ get_header();
 		endwhile; // End of the loop.
 		?>
 	</main><!-- #main -->
+	</div><!-- .container -->
+	<!-- END legacy-template -->
     <?php
 get_footer();

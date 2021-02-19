@@ -164,8 +164,8 @@ class Fusion_Featured_Image {
 	 * @return void
 	 */
 	public function meta_box_info_content() {
-		/* translators: The "Fusion Theme Options" link. */
-		echo sprintf( esc_html__( 'To control the amount of featured image boxes, visit %s.', 'Avada' ), '<a href="' . esc_url_raw( admin_url( 'themes.php?page=avada_options#posts_slideshow_number' ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Fusion Theme Options', 'Avada' ) . '</a>' );
+		/* translators: The "Global Options" link. */
+		echo sprintf( esc_html__( 'To control the amount of featured image boxes, visit %s.', 'Avada' ), '<a href="' . esc_url_raw( admin_url( 'themes.php?page=avada_options#posts_slideshow_number' ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Global Options', 'Avada' ) . '</a>' );
 	}
 
 	/**

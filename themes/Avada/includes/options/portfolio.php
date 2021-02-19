@@ -335,7 +335,6 @@ function avada_options_section_portfolio( $sections ) {
 							'bottom' => true,
 							'left'   => true,
 							'right'  => true,
-							'units'  => [ 'px', '%' ],
 						],
 						'default'         => [
 							'top'    => '25px',
@@ -495,7 +494,7 @@ function avada_options_section_portfolio( $sections ) {
 		],
 	];
 
-	$sections['portfolio']['fields']['portfolio_single_post_page_options_subsection'] = ( $has_global_content ) ? [
+	$sections['portfolio']['fields']['portfolio_single_post_page_options_subsection'] = [
 		'label'       => esc_html__( 'Portfolio Single Post', 'Avada' ),
 		'description' => '',
 		'id'          => 'portfolio_single_post_page_options_subsection',
@@ -505,28 +504,22 @@ function avada_options_section_portfolio( $sections ) {
 			'portfolio_single_post_template_notice' => [
 				'id'          => 'portfolio_single_post_template_notice',
 				'label'       => '',
-				'description' => sprintf(
+				'hidden'      => ! $has_global_content,
+				'description' => class_exists( 'Fusion_Template_Builder' ) ? sprintf(
 					/* translators: 1: Content|Footer|Page Title Bar. 2: URL. */
 					'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are not available because a global %1$s override is currently used. To edit your global layout please visit <a href="%2$s" target="_blank">this page</a>.', 'Avada' ) . '</div>',
 					Fusion_Template_Builder::get_instance()->get_template_terms()['content']['label'],
-					admin_url( 'admin.php?page=fusion-layouts' )
-				),
+					admin_url( 'admin.php?page=avada-layouts' )
+				) : '',
 				'type'        => 'custom',
 			],
-		],
-	] : [
-		'label'       => esc_html__( 'Portfolio Single Post', 'Avada' ),
-		'description' => '',
-		'id'          => 'portfolio_single_post_page_options_subsection',
-		'icon'        => true,
-		'type'        => 'sub-section',
-		'fields'      => [
-			'portfolio_pn_nav'               => [
+			'portfolio_pn_nav'                      => [
 				'label'           => esc_html__( 'Previous/Next Pagination', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the previous/next post pagination for single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_pn_nav',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -535,12 +528,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_width_100'            => [
+			'portfolio_width_100'                   => [
 				'label'           => esc_html__( '100% Width Page', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display portfolio posts at 100% browser width according to the window size. Turn off to follow site width.', 'Avada' ),
 				'id'              => 'portfolio_width_100',
 				'default'         => '0',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -549,12 +543,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_featured_image_width' => [
+			'portfolio_featured_image_width'        => [
 				'label'           => esc_html__( 'Featured Image Column Size', 'Avada' ),
 				'description'     => esc_html__( 'Controls if the featured image is half or full width on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_featured_image_width',
 				'default'         => 'full',
 				'type'            => 'radio-buttonset',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'full' => esc_html__( 'Full Width', 'Avada' ),
 					'half' => esc_html__( 'Half Width', 'Avada' ),
@@ -574,12 +569,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_featured_images'      => [
+			'portfolio_featured_images'             => [
 				'label'           => esc_html__( 'Featured Image / Video on Single Post Page', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display featured images and videos on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_featured_images',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -588,12 +584,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'show_first_featured_image'      => [
+			'show_first_featured_image'             => [
 				'label'           => esc_html__( 'First Featured Image', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the 1st featured image on single portfolio posts.', 'Avada' ),
 				'id'              => 'show_first_featured_image',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'required'        => [
 					[
 						'setting'  => 'portfolio_featured_images',
@@ -610,12 +607,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_project_desc_title'   => [
+			'portfolio_project_desc_title'          => [
 				'label'           => esc_html__( 'Project Description Title', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to show the project description title on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_project_desc_title',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -624,12 +622,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_project_details'      => [
+			'portfolio_project_details'             => [
 				'label'           => esc_html__( 'Project Details', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to show the project details title and content on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_project_details',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -638,21 +637,23 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_link_icon_target'     => [
+			'portfolio_link_icon_target'            => [
 				'label'       => esc_html__( 'Open Portfolio Links In New Window', 'Avada' ),
 				'description' => esc_html__( 'Turn on to open the single post page, project url and copyright url links in a new window.', 'Avada' ),
 				'id'          => 'portfolio_link_icon_target',
 				'default'     => '0',
 				'type'        => 'switch',
+				'hidden'      => $has_global_content,
 				// Don't change anything since it's not relavant in builder mode.
 				'transport'   => 'postMessage',
 			],
-			'portfolio_author'               => [
+			'portfolio_author'                      => [
 				'label'           => esc_html__( 'Author', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the author name on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_author',
 				'default'         => '0',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -661,12 +662,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_social_sharing_box'   => [
+			'portfolio_social_sharing_box'          => [
 				'label'           => esc_html__( 'Social Sharing Box', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the social sharing box on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_social_sharing_box',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -675,12 +677,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_related_posts'        => [
+			'portfolio_related_posts'               => [
 				'label'           => esc_html__( 'Related Projects', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display related projects on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_related_posts',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',
@@ -689,12 +692,13 @@ function avada_options_section_portfolio( $sections ) {
 					],
 				],
 			],
-			'portfolio_comments'             => [
+			'portfolio_comments'                    => [
 				'label'           => esc_html__( 'Comments', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display comments on single portfolio posts.', 'Avada' ),
 				'id'              => 'portfolio_comments',
 				'default'         => '0',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_portfolio_single',

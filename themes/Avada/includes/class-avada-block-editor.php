@@ -81,7 +81,7 @@ class Avada_Block_Editor {
 	 */
 	public function enqueue_block_editor_assets() {
 		wp_enqueue_script( 'fusion-block-editor-scripts', Avada::$template_dir_url . '/assets/admin/js/block-editor.js', [ 'jquery' ], Avada::get_theme_version(), true );
-		wp_enqueue_style( 'fusion-block-editor-styles', Avada::$template_dir_url . '/assets/css/block-editor.min.css', [], Avada::get_theme_version() );
+		wp_enqueue_style( 'fusion-block-editor-styles', Avada::$template_dir_url . '/assets/css/dynamic/blocks.min.css', [], Avada::get_theme_version() );
 
 		if ( Avada()->settings->get( 'enable_block_editor_backend_styles' ) ) {
 			$this->add_admin_custom_css();
@@ -249,19 +249,22 @@ class Avada_Block_Editor {
 		$css_vars_string     = '';
 
 		$css_vars = [
-			'link_color'              => Fusion_Sanitize::color( Avada()->settings->get( 'link_color' ) ),
-			'primary_color'           => Fusion_Sanitize::color( Avada()->settings->get( 'primary_color' ) ),
-			'meta_font_size'          => Fusion_Sanitize::size( Avada()->settings->get( 'meta_font_size' ) ),
-			'form_input_height'       => Fusion_Sanitize::size( Avada()->settings->get( 'form_input_height' ) ),
-			'form_bg_color'           => Fusion_Sanitize::color( Avada()->settings->get( 'form_bg_color' ) ),
-			'form_border_color'       => Fusion_Sanitize::color( Avada()->settings->get( 'form_border_color' ) ),
-			'form_focus_border_color' => Fusion_Sanitize::color( Avada()->settings->get( 'form_focus_border_color' ) ),
-			'form_border_width'       => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_width' ) ),
-			'form_border_radius'      => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_radius' ), 'px' ),
-			'form_text_color'         => Fusion_Sanitize::color( Avada()->settings->get( 'form_text_color' ) ),
-			'form_text_size'          => Fusion_Sanitize::size( Avada()->settings->get( 'form_text_size' ) ),
-			'testimonial_bg_color'    => Fusion_Sanitize::color( Avada()->settings->get( 'testimonial_bg_color' ) ),
-			'sep_color'               => Fusion_Sanitize::color( Avada()->settings->get( 'sep_color' ) ),
+			'link_color'               => Fusion_Sanitize::color( Avada()->settings->get( 'link_color' ) ),
+			'primary_color'            => Fusion_Sanitize::color( Avada()->settings->get( 'primary_color' ) ),
+			'meta_font_size'           => Fusion_Sanitize::size( Avada()->settings->get( 'meta_font_size' ) ),
+			'form_input_height'        => Fusion_Sanitize::size( Avada()->settings->get( 'form_input_height' ) ),
+			'form_bg_color'            => Fusion_Sanitize::color( Avada()->settings->get( 'form_bg_color' ) ),
+			'form_border_color'        => Fusion_Sanitize::color( Avada()->settings->get( 'form_border_color' ) ),
+			'form_focus_border_color'  => Fusion_Sanitize::color( Avada()->settings->get( 'form_focus_border_color' ) ),
+			'form_border_width-top'    => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_width', 'top' ) ),
+			'form_border_width-right'  => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_width', 'right' ) ),
+			'form_border_width-bottom' => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_width', 'bottom' ) ),
+			'form_border_width-left'   => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_width', 'left' ) ),
+			'form_border_radius'       => Fusion_Sanitize::size( Avada()->settings->get( 'form_border_radius' ), 'px' ),
+			'form_text_color'          => Fusion_Sanitize::color( Avada()->settings->get( 'form_text_color' ) ),
+			'form_text_size'           => Fusion_Sanitize::size( Avada()->settings->get( 'form_text_size' ) ),
+			'testimonial_bg_color'     => Fusion_Sanitize::color( Avada()->settings->get( 'testimonial_bg_color' ) ),
+			'sep_color'                => Fusion_Sanitize::color( Avada()->settings->get( 'sep_color' ) ),
 		];
 
 		$css_button_vars = [

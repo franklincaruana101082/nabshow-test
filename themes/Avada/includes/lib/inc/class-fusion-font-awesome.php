@@ -17,7 +17,7 @@ class Fusion_Font_Awesome {
 	 * @access protected
 	 * @var string
 	 */
-	public static $fa_version = '5.12.0';
+	public static $fa_version = '5.15.0';
 
 	/**
 	 * Font Awesome URL.
@@ -59,6 +59,68 @@ class Fusion_Font_Awesome {
 
 		echo wp_json_encode( $response );
 		die();
+	}
+
+	/**
+	 * Generates local preload tags based on enabled subsets.
+	 *
+	 * @since 3.2
+	 * @return string
+	 */
+	public function get_local_subsets_tags() {
+		global $fusion_settings;
+
+		$transient_name = 'fusion_local_subsets_preload_tags';
+		$tags           = get_transient( $transient_name );
+
+		if ( ( ! self::is_fa_pro_enabled() && self::is_fa_enabled() ) || ! $tags ) {
+			$subsets = $fusion_settings->get( 'status_fontawesome' );
+			$tags    = '';
+
+			foreach ( $subsets as $subset ) {
+				$family = new Fusion_FA_Font_Downloader( $subset );
+				$tags  .= $family->get_preload_tags();
+			}
+
+			set_transient( $transient_name, $tags );
+		}
+
+		return $tags;
+	}
+
+	/**
+	 * Generates preload tags based on enabled subsets.
+	 *
+	 * @since 3.2
+	 * @return string
+	 */
+	public function get_subsets_tags() {
+		$transient_name = 'fusion_subsets_preload_tags';
+		$tags           = get_transient( $transient_name );
+		$subsets        = fusion_library()->get_option( 'status_fontawesome' );
+		$clean_url      = str_replace( [ 'http://', 'https://' ], '//', self::get_base_css_url() );
+
+		if ( ! $tags ) {
+			if ( is_array( $subsets ) && in_array( 'fab', $subsets, true ) ) {
+				$tags .= '<link rel="preload" href="' . $clean_url . '/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>';
+			}
+
+			if ( is_array( $subsets ) && in_array( 'far', $subsets, true ) ) {
+				$tags .= '<link rel="preload" href="' . $clean_url . '/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>';
+			}
+
+			if ( is_array( $subsets ) && in_array( 'fas', $subsets, true ) ) {
+				$tags .= '<link rel="preload" href="' . $clean_url . '/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>';
+			}
+
+			if ( true === self::is_fa_pro_enabled() && is_array( $subsets ) && in_array( 'fal', $subsets, true ) ) {
+				$tags .= '<link rel="preload" href="' . $clean_url . '/webfonts/fa-light-300.woff2" as="font" type="font/woff2" crossorigin>';
+			}
+
+			set_transient( $transient_name, $tags );
+		}
+
+		return $tags;
 	}
 
 	/**

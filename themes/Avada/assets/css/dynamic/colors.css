@@ -60,7 +60,7 @@ h5.toggle:hover a,
 .fusion-pagination .current,
 #nav ul li > a:hover,
 #sticky-nav ul li > a:hover,
-.tagcloud a:hover {
+#wrapper .tagcloud a:hover {
   border-color: var(--primary_color);
 }
 ul.circle-yes li:before,
@@ -82,7 +82,6 @@ ul.arrow li:before {
   border-right-color: var(--primary_color);
   border-left-color: var(--primary_color);
 }
-.fusion-header-v2 .fusion-secondary-header,
 .fusion-content-widget-area .fusion-tabs-widget .fusion-tabs-nav ul li.active a {
   border-top-color: var(--primary_color);
 }

@@ -98,7 +98,7 @@ class Fusion_Builder_Redux_Options {
 				'fusion_events'                   => 'Events',
 				'fusion_faq'                      => 'FAQ',
 				'fusion_flip_boxes'               => 'Flip Boxes',
-				'fusion_fusionslider'             => 'Fusion Slider',
+				'fusion_fusionslider'             => 'Avada Slider',
 				'fusion_map'                      => 'Google Map',
 				'fusion_fontawesome'              => 'Icon',
 				'fusion_images'                   => 'Image Carousel',

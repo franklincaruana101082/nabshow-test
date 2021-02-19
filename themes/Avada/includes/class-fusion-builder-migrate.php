@@ -1,7 +1,7 @@
 <?php
 /**
- * Converts shortcode names from Fusion Core
- * to a format that Fusion Builder will accept.
+ * Converts shortcode names from Avada Core
+ * to a format that Avada Builder will accept.
  *
  * @author     ThemeFusion
  * @copyright  (c) Copyright by ThemeFusion
@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Converts shortcode names from Fusion Core
- * to a format that Fusion Builder will accept.
+ * Converts shortcode names from Avada Core
+ * to a format that Avada Builder will accept.
  */
 class Fusion_Builder_Migrate {
 
@@ -55,7 +55,7 @@ class Fusion_Builder_Migrate {
 	private static $avada_database_version = '';
 
 	/**
-	 * The Avada Theme Options option name.
+	 * The Avada Global Options option name.
 	 *
 	 * @static
 	 * @access private
@@ -136,7 +136,7 @@ class Fusion_Builder_Migrate {
 	private static $theme_options_to_convert = 1;
 
 	/**
-	 * The post types that can have Fusion-Builder shortcodes
+	 * The post types that can have Avada-Builder shortcodes
 	 * from previous versions.
 	 *
 	 * @access private
@@ -1078,7 +1078,7 @@ class Fusion_Builder_Migrate {
 	private function get_migration_page_welcome_message() {
 		if ( ! self::$revert ) {
 			/* translators: Version number. */
-			printf( esc_html__( 'Avada 5.0 is an amazing update with new features, improvements and our brand new Fusion Builder. To enjoy Avada 5.0, conversion steps need to be performed. Please see below. Thank you for choosing Avada!', 'Avada' ), esc_attr( Avada()->get_theme_version() ) );
+			printf( esc_html__( 'Avada 5.0 is an amazing update with new features, improvements and our brand new Avada Builder. To enjoy Avada 5.0, conversion steps need to be performed. Please see below. Thank you for choosing Avada!', 'Avada' ), esc_attr( Avada()->get_theme_version() ) );
 		} else {
 			esc_html_e( 'This is the reversion process. Please see below for further information.', 'Avada' );
 		}
@@ -1124,7 +1124,7 @@ class Fusion_Builder_Migrate {
 	private function get_migration_page_current_action() {
 		if ( ! self::$revert ) {
 			if ( ! isset( $_GET['step'] ) ) {
-				esc_attr_e( 'IMPORTANT: Shortcode Conversion For Fusion Builder', 'Avada' );
+				esc_attr_e( 'IMPORTANT: Shortcode Conversion For Avada Builder', 'Avada' );
 			} elseif ( isset( $_GET['step'] ) && 'query' === $_GET['step'] ) {
 				esc_attr_e( 'Collect IDs of posts that need to be converted', 'Avada' );
 			} elseif ( isset( $_GET['step'] ) && 'convert' === $_GET['step'] ) {
@@ -1134,7 +1134,7 @@ class Fusion_Builder_Migrate {
 			}
 		} else {
 			if ( ! isset( $_GET['step'] ) ) {
-				esc_attr_e( 'IMPORTANT: Revert Shortcode Conversion For Fusion Builder', 'Avada' );
+				esc_attr_e( 'IMPORTANT: Revert Shortcode Conversion For Avada Builder', 'Avada' );
 			} elseif ( isset( $_GET['step'] ) && 'query' === $_GET['step'] ) {
 				esc_attr_e( 'Collect IDs of posts that need to be reverted', 'Avada' );
 			} elseif ( isset( $_GET['step'] ) && 'convert' === $_GET['step'] ) {
@@ -1156,7 +1156,7 @@ class Fusion_Builder_Migrate {
 		?>
 		<?php if ( ! isset( $_GET['step'] ) ) : ?>
 			<?php if ( ! self::$revert ) : ?>
-				<p><?php esc_html_e( 'Our newly built Fusion Builder is amazing and up to 5x faster. It needs to convert your old shortcodes to the new syntax. This will ensure all shortcodes use unique names, so there will be no conflicts with other plugins.', 'Avada' ); ?></p>
+				<p><?php esc_html_e( 'Our newly built Avada Builder is amazing and up to 5x faster. It needs to convert your old shortcodes to the new syntax. This will ensure all shortcodes use unique names, so there will be no conflicts with other plugins.', 'Avada' ); ?></p>
 				<p><?php esc_html_e( 'Avada will search through your posts and pages and collect IDs of all pages using the old shortcodes and convert them to our new syntax. A backup is created of those pages and posts, to ensure all your data is fully secure.', 'Avada' ); ?></p>
 				<p><strong><?php esc_html_e( 'The process can take time, please be patient during conversion and DO NOT CLOSE THIS SCREEN!', 'Avada' ); ?></strong></p>
 				<?php /* translators: Version number. */ ?>
@@ -1218,7 +1218,7 @@ class Fusion_Builder_Migrate {
 			<?php endif; ?>
 		<?php elseif ( isset( $_GET['step'] ) && 'done' === $_GET['step'] ) : ?>
 			<?php if ( ! self::$revert ) : ?>
-				<?php esc_attr_e( 'All needed posts have been converted to the new Fusion Builder syntax. You can now update Fusion Core and install Fusion Builder plugin.', 'Avada' ); ?>
+				<?php esc_attr_e( 'All needed posts have been converted to the new Avada Builder syntax. You can now update Avada Core and install Avada Builder plugin.', 'Avada' ); ?>
 			<?php else : ?>
 				<?php /* translators: "Avada 4.0.3" link & string. */ ?>
 				<?php printf( esc_attr__( 'All needed posts have been reverted to the previous syntax. You can now roll-back to %s.', 'Avada' ), '<a href="https://theme-fusion.com/forums/topic/downloading-avada-4-0-3/" target="_blank">' . esc_attr__( 'Avada 4.0.3', 'Avada' ) . '</a>' ); ?>
@@ -1843,7 +1843,7 @@ class Fusion_Builder_Migrate {
 	}
 
 	/**
-	 * Convert old Avada shortcode names to new Fusion Builder names.
+	 * Convert old Avada shortcode names to new Avada Builder names.
 	 *
 	 * @since 5.0.0
 	 * @param string $content Content of a specific post.
@@ -1859,7 +1859,7 @@ class Fusion_Builder_Migrate {
 	}
 
 	/**
-	 * Convert old Avada shortcode attributes to new Fusion Builder attributes.
+	 * Convert old Avada shortcode attributes to new Avada Builder attributes.
 	 *
 	 * @since 5.0.0
 	 * @param string $content Content of a specific post.
@@ -2168,7 +2168,7 @@ class Fusion_Builder_Migrate {
 							$separator_tag = str_replace( $top[0], '', $separator_tag );
 
 							if ( ! isset( $bottom[2] ) && isset( $stlye[2] ) && 'none' !== $style[2] ) {
-								$section_bottom_margin = self::validate_shortcode_attr_value( $top_[2], 'px' );
+								$section_bottom_margin = self::validate_shortcode_attr_value( $top[2], 'px' );
 							}
 						}
 
@@ -2397,7 +2397,7 @@ class Fusion_Builder_Migrate {
 	}
 
 	/**
-	 * Convert Fusion Slider post meta.
+	 * Convert Avada Slider post meta.
 	 *
 	 * @since 5.0.0
 	 * @return void

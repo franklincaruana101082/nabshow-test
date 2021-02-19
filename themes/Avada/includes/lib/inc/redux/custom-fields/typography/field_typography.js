@@ -155,7 +155,7 @@
                                 }
 
                                 var select3_handle = $( this ).find( '.select3_params' );
-                                if ( select3_handle.size() > 0 ) {
+                                if ( select3_handle.length > 0 ) {
                                     var select3_params = select3_handle.val();
 
                                     select3_params = JSON.parse( select3_params );
@@ -446,7 +446,6 @@
         var fontVariant = $( '#' + mainID + ' select.fusionredux-typography-font-variant' ).val();
         var decoration = $( '#' + mainID + ' select.fusionredux-typography-decoration' ).val();
         var style = $( '#' + mainID + ' select.fusionredux-typography-style' ).val();
-        var script = $( '#' + mainID + ' select.fusionredux-typography-subsets' ).val();
         var color = $( '#' + mainID + ' .fusionredux-typography-color' ).val();
         //console.log('here3');
         //console.log(color);
@@ -462,7 +461,6 @@
         // Page load. Speeds things up memory wise to offload to client
         if ( !$( '#' + mainID ).hasClass( 'typography-initialized' ) ) {
             style = $( '#' + mainID + ' select.fusionredux-typography-style' ).data( 'value' );
-            script = $( '#' + mainID + ' select.fusionredux-typography-subsets' ).data( 'value' );
 
             if ( style !== "" ) {
                 style = String( style );
@@ -489,10 +487,6 @@
                 '400italic': 'Normal 400 Italic',
                 '700italic': 'Bold 700 Italic'
             };
-        }
-
-        if ( $( selector ).hasClass( 'fusionredux-typography-subsets' ) ) {
-            $( '#' + mainID + ' input.typography-subsets' ).val( script );
         }
 
         // If we changed the font
@@ -528,36 +522,10 @@
                 $( '#' + mainID + ' .fusionredux-typography-style' ).select3( default_params );
 
 
-                // SUBSETS
-                selected = '';
-                html = '<option value=""></option>';
-
-                $.each(
-                    details.subsets, function( index, subset ) {
-                        selected = '';
-                        if ( subset === script || fusionredux.field_objects.typography.size( details.subsets ) === 1 ) {
-                            selected = ' selected="selected"';
-                            script = subset;
-                            $( '#' + mainID + ' input.typography-subsets' ).val( script );
-                        }
-                        html += '<option value="' + subset + '"' + selected + '>' + subset.replace( /\+/g, ' ' ) + '</option>';
-                    }
-                );
-
                 //if (typeof (familyBackup) !== "undefined" && familyBackup !== "") {
                 //    output += ', ' + familyBackup;
                 //}
 
-                // Destroy select3
-                $( '#' + mainID + ' .fusionredux-typography-subsets' ).select3( "destroy" );
-
-                // Inset new HTML
-                $( '#' + mainID + ' .fusionredux-typography-subsets' ).html( html );
-
-                // Init select3
-                $( '#' + mainID + ' .fusionredux-typography-subsets' ).select3( default_params );
-
-                $( '#' + mainID + ' .fusionredux-typography-subsets' ).parent().fadeIn( 'fast' );
                 $( '#' + mainID + ' .typography-family-backup' ).fadeIn( 'fast' );
             } else {
 				/**
@@ -601,7 +569,6 @@
                     $( '#' + mainID + ' .fusionredux-typography-style' ).select3( default_params );
 
                     // Prettify things
-                    $( '#' + mainID + ' .fusionredux-typography-subsets' ).parent().fadeOut( 'fast' );
                     $( '#' + mainID + ' .typography-family-backup' ).fadeOut( 'fast' );
                 }
             }
@@ -619,13 +586,6 @@
             $( '#' + mainID + ' select.fusionredux-typography-style' ).select3( 'val', style );
         }
 
-        // Handle empty subset select
-        if ( $( '#' + mainID + " select.fusionredux-typography-subsets option[value='" + script + "']" ).length === 0 ) {
-            script = "";
-            $( '#' + mainID + ' select.fusionredux-typography-subsets' ).select3( 'val', '' );
-            $( '#' + mainID + ' input.typography-subsets' ).val( script );
-        }
-
         var _linkclass = 'style_link_' + mainID;
 
         //remove other elements crested in <head>
@@ -641,10 +601,6 @@
 
                 if ( style && style !== "" ) {
                     link += ':' + style.replace( /\-/g, " " );
-                }
-
-                if ( script && script !== "" ) {
-                    link += '&subset=' + script;
                 }
 
                 if (isSelecting === false) {
@@ -768,7 +724,6 @@
             }
 
             $( '#' + mainID + ' .typography-style .select3-chosen' ).text( $( '#' + mainID + ' .fusionredux-typography-style option:selected' ).text() );
-            $( '#' + mainID + ' .typography-script .select3-chosen' ).text( $( '#' + mainID + ' .fusionredux-typography-subsets option:selected' ).text() );
 
             if ( align ) {
                 $( '#' + mainID + ' .typography-preview' ).css( 'text-align', align );

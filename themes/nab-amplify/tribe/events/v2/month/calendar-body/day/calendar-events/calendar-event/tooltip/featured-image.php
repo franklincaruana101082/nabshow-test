@@ -16,13 +16,15 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-if ( ! $event->thumbnail->exists ) {
+$event_url = tribe_get_event_meta( $event->ID, '_EventURL', true );
+$featured_image   = nab_amplify_get_featured_image( $event->ID );
+
+if ( empty( $featured_image ) || null === $featured_image ) {
 	return;
 }
 
-$event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
 ?>
-<div class="tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
+<div class="ne-check01 tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
 	<a
 		href="<?php echo esc_url( $event_url ); ?>"
 		target="_blank"
@@ -31,17 +33,7 @@ $event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
 		class="tribe-events-calendar-month__calendar-event-tooltip-featured-image-link"
 	>
 		<img
-			src="<?php echo esc_url( $event->thumbnail->full->url ); ?>"
-			<?php if ( ! empty( $event->thumbnail->srcset ) ) : ?>
-				srcset="<?php echo esc_attr( $event->thumbnail->srcset ); ?>"
-			<?php endif; ?>
-			<?php if ( ! empty( $event->thumbnail->alt ) ) : ?>
-				alt="<?php echo esc_attr( $event->thumbnail->alt ); ?>"
-			<?php endif; ?>
-			<?php if ( ! empty( $event->thumbnail->title ) ) : ?>
-				title="<?php echo esc_attr( $event->thumbnail->title ); ?>"
-			<?php endif; ?>
-			class="tribe-events-calendar-month__calendar-event-tooltip-featured-image"
+			src="<?php echo esc_url( $featured_image ); ?>" class="tribe-events-calendar-month__calendar-event-tooltip-featured-image"
 		/>
 	</a>
 </div>

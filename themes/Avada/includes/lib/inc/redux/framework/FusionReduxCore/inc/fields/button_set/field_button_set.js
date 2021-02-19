@@ -46,7 +46,8 @@
                             $( this ).find( '.buttonset-item' ).button();
                         }
 
-                        $( this ).buttonset();
+                        // ThemeFusion edit: make sure they work with jQuery UI 1.12+
+                        $( this ).buttonset( { items: 'input[type=button], input[type=submit], input[type=reset], button, a, input[type=checkbox], input[type=radio]' } );
                     }
                 );
             }

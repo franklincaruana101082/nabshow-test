@@ -138,14 +138,14 @@ FusionPageBuilder.options.fusionImportUpload = {
 				action: 'fusion_panel_import',
 				fusion_load_nonce: fusionAppConfig.fusion_load_nonce, // eslint-disable-line camelcase
 				toUrl: toUrl
-			},
-			success: function( response ) {
-				self.importCode( response, 'TO', $import );
-			},
-			error: function() {
-				$import.removeClass( 'partial-refresh-active' );
 			}
-		} );
+		} )
+			.done( function( response ) {
+				self.importCode( response, 'TO', $import );
+			} )
+			.fail( function() {
+				$import.removeClass( 'partial-refresh-active' );
+			} );
 	},
 
 	ajaxPOImport: function( poID, $import ) {
@@ -160,14 +160,14 @@ FusionPageBuilder.options.fusionImportUpload = {
 		jQuery.get( {
 			url: fusionAppConfig.ajaxurl,
 			data: data,
-			dataType: 'json',
-			success: function( response ) {
+			dataType: 'json'
+		} )
+			.done( function( response ) {
 				self.importCode( JSON.stringify( response.custom_fields ), 'PO', $import );
-			},
-			error: function() {
+			} )
+			.fail( function() {
 				$import.removeClass( 'partial-refresh-active' );
-			}
-		} );
+			} );
 	},
 
 	ajaxPODelete: function( poID, $import ) {
@@ -179,8 +179,9 @@ FusionPageBuilder.options.fusionImportUpload = {
 
 		jQuery.get( {
 			url: fusionAppConfig.ajaxurl,
-			data: data,
-			success: function() {
+			data: data
+		} )
+			.done( function() {
 				$import.find( '.fusion-select-label[data-value="' +  poID + '"]' ).closest( '.fusion-select-label' ).remove();
 				$import.find( '.fusion-select-preview' ).html( '' );
 				$import.removeClass( 'partial-refresh-active' );
@@ -191,11 +192,10 @@ FusionPageBuilder.options.fusionImportUpload = {
 						return false;
 					}
 				} );
-			},
-			error: function() {
+			} )
+			.fail( function() {
 				$import.removeClass( 'partial-refresh-active' );
-			}
-		} );
+			} );
 	},
 
 	updateValues: function( scheme ) {
@@ -265,11 +265,10 @@ FusionPageBuilder.options.fusionImportUpload = {
 			cache: false,
 			dataType: 'json',
 			processData: false, // Don't process the files
-			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			success: function( response ) {
+			contentType: false // Set content type to false as jQuery will tell the server its a query string request
+		} )
+			.done( function( response ) {
 				self.importCode( response, context, $import );
-			}
-
-		} );
+			} );
 	}
 };

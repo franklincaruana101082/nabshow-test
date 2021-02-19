@@ -4,7 +4,7 @@
 .avada-select-parent .select-arrow,
 .gravity-select-parent .select-arrow,
 .wpcf7-select-parent .select-arrow {
-  right: var(--form_border_width);
+  right: var(--form_border_width-right);
 }
 .select-arrow,
 .avada-select-parent .select-arrow,

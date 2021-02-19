@@ -135,8 +135,8 @@ function avada_options_section_logo( $sections ) {
 						'description' => esc_html__( 'Controls the top/right/bottom/left margins for the logo.', 'Avada' ),
 						'id'          => 'logo_margin',
 						'default'     => [
-							'top'    => '36px',
-							'bottom' => '36px',
+							'top'    => '34px',
+							'bottom' => '34px',
 							'left'   => '0px',
 							'right'  => '0px',
 						],
@@ -635,7 +635,7 @@ function avada_options_section_logo( $sections ) {
 				'fields'      => [
 					'favicon'            => [
 						'label'       => esc_html__( 'Favicon', 'Avada' ),
-						'description' => esc_html__( 'Favicon for your website at 16px x 16px or 32px x 32px.', 'Avada' ),
+						'description' => esc_html__( 'Favicon for your website at 32px x 32px or 64px x 64px.', 'Avada' ),
 						'id'          => 'favicon',
 						'default'     => '',
 						'type'        => 'media',
@@ -645,7 +645,7 @@ function avada_options_section_logo( $sections ) {
 					],
 					'iphone_icon'        => [
 						'label'       => esc_html__( 'Apple iPhone Icon Upload', 'Avada' ),
-						'description' => esc_html__( 'Favicon for Apple iPhone at 57px x 57px.', 'Avada' ),
+						'description' => esc_html__( 'Favicon for Apple iPhone at 120px x 120px.', 'Avada' ),
 						'id'          => 'iphone_icon',
 						'default'     => '',
 						'type'        => 'media',
@@ -655,7 +655,7 @@ function avada_options_section_logo( $sections ) {
 					],
 					'iphone_icon_retina' => [
 						'label'       => esc_html__( 'Apple iPhone Retina Icon Upload', 'Avada' ),
-						'description' => esc_html__( 'Favicon for Apple iPhone Retina Version at 114px x 114px.', 'Avada' ),
+						'description' => esc_html__( 'Favicon for Apple iPhone Retina Version at 180px x 180px.', 'Avada' ),
 						'id'          => 'iphone_icon_retina',
 						'default'     => '',
 						'type'        => 'media',
@@ -690,7 +690,7 @@ function avada_options_section_logo( $sections ) {
 					],
 					'ipad_icon'          => [
 						'label'       => esc_html__( 'Apple iPad Icon Upload', 'Avada' ),
-						'description' => esc_html__( 'Favicon for Apple iPad at 72px x 72px.', 'Avada' ),
+						'description' => esc_html__( 'Favicon for Apple iPad at 152px x 152px.', 'Avada' ),
 						'id'          => 'ipad_icon',
 						'default'     => '',
 						'type'        => 'media',
@@ -700,7 +700,7 @@ function avada_options_section_logo( $sections ) {
 					],
 					'ipad_icon_retina'   => [
 						'label'       => esc_html__( 'Apple iPad Retina Icon Upload', 'Avada' ),
-						'description' => esc_html__( 'Favicon for Apple iPad Retina Version at 144px x 144px.', 'Avada' ),
+						'description' => esc_html__( 'Favicon for Apple iPad Retina Version at 167px x 167px.', 'Avada' ),
 						'id'          => 'ipad_icon_retina',
 						'default'     => '',
 						'type'        => 'media',

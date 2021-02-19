@@ -102,13 +102,23 @@ foreach ( $attributes as $key => $value ) {
 <div <?php echo $image_wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput ?> aria-haspopup="true">
 	<?php $enable_rollover = apply_filters( 'fusion_builder_image_rollover', true ); ?>
 
+	<?php
+	if ( 'yes' === $display_woo_sale && function_exists( 'woocommerce_show_product_sale_flash' ) ) {
+		woocommerce_show_product_sale_flash();
+	}
+	?>
+
 	<?php if ( ( $enable_rollover && 'yes' === $display_rollover ) || 'force_yes' === $display_rollover ) : ?>
 
 		<?php echo $featured_image; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<?php do_action( 'avada_rollover', $post_id, $post_permalink, $display_woo_price, $display_woo_buttons, $display_post_categories, $display_post_title, $gallery_id, $display_woo_rating ); ?>
 
 	<?php else : ?>
-
+		<?php
+		// Set custom link.
+		$link_icon_url  = apply_filters( 'fusion_builder_link_icon_url', '', $post_id );
+		$post_permalink = '' !== $link_icon_url ? $link_icon_url : $post_permalink;
+		?>
 		<a href="<?php echo esc_url_raw( $post_permalink ); ?>" aria-label="<?php the_title_attribute(); ?>">
 			<?php echo $featured_image; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</a>

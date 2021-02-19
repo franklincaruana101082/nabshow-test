@@ -144,7 +144,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			if ( 'fusion_tb_section' === FusionApp.data.postDetails.post_type && 0 < $element.length ) {
 				$element.html( $element.data( 'layout' ) );
 			} else {
-				$element.html( $element.data( 'page' ) );
+				$element.html( $element.data( 'name' ) );
 			}
 		},
 
@@ -342,8 +342,16 @@ var FusionPageBuilder = FusionPageBuilder || {};
 			var self = this,
 				flatOptions,
 				tab,
+				poObject,
 				tabId;
 
+			// Unset context check if we have a PO first, otherwise will fallback to TO.
+			if ( 'undefined' === typeof context ) {
+				poObject = this.getFlatPoObject();
+				if ( 'undefined' !== typeof poObject[ option ] && 'object' === typeof FusionApp.data.postMeta._fusion && 'undefined' !== typeof FusionApp.data.postMeta._fusion[ option ] && '' !== FusionApp.data.postMeta._fusion[ option ] ) {
+					context = 'po';
+				}
+			}
 			context     = 'undefined' === typeof context || ! context ? 'to' : context;
 			flatOptions = 'po' !== context ? this.getFlatToObject() : this.getFlatPoObject();
 			tab         = flatOptions[ option ];
@@ -721,7 +729,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		},
 
 		/**
-		 * Add Fusion-Builder-Elements panels.
+		 * Add Avada-Builder-Elements panels.
 		 *
 		 * @since 2.0.0
 		 * @return {void}
@@ -1148,16 +1156,21 @@ var FusionPageBuilder = FusionPageBuilder || {};
 		 * @param {string} to - The theme-option name.
 		 * @param {mixed} value - The value.
 		 * @param {string} type - The option-type (yesno/showhide/reverseyesno etc).
+		 * @param {string} subset - The option subset.
 		 * @return {string} - Returns the value as a string.
 		 */
-		fixToValueName: function( to, value, type ) {
+		fixToValueName: function( to, value, type, subset ) {
 			var flatTo  = this.getFlatToObject();
 
 			if ( 'undefined' !== typeof flatTo[ to ] && 'undefined' !== typeof flatTo[ to ].choices && 'undefined' !== typeof flatTo[ to ].choices[ value ] && 'yesno' !== type ) {
 				return flatTo[ to ].choices[ value ];
 			}
 			if ( 'object' === typeof value ) {
-				value = _.values( value ).join( ', ' );
+				if ( !_.isEmpty( subset ) && 'undefined' !== typeof value[ subset ] ) {
+					value = value[ subset ];
+				} else {
+					value = _.values( value ).join( ', ' );
+				}
 			}
 
 			switch ( type ) {
@@ -1260,7 +1273,6 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				FusionApp.assets.webfonts.custom.push( {
 					family: name,
 					label: name,
-					subsets: [],
 					variants: []
 
 				} );

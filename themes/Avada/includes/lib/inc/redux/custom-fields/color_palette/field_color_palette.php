@@ -26,7 +26,7 @@ if ( ! class_exists( 'FusionReduxFramework_color_palette' ) ) {
 		 *
 		 * @since FusionRedux_Options 2.0.1
 		 */
-		public function __construct( $field = array(), $value = '', $parent ) {
+		public function __construct( $field = array(), $value = '', $parent = null ) {
 			$this->parent = $parent;
 			$this->field  = $field;
 			$this->value  = $value;
@@ -51,7 +51,9 @@ if ( ! class_exists( 'FusionReduxFramework_color_palette' ) ) {
 			</ul>
 
 			<div class="fusion-palette-colorpicker-container">
-				<input type="text" value="" class="color-palette-color-picker-hex fusion-color-palette-color-picker" data-alpha="true" />
+				<div class="fusion-colorpicker-container">
+					<input type="text" value="" class="color-palette-color-picker-hex fusion-builder-color-picker-hex fusion-color-palette-color-picker" data-alpha="true" />
+				</div>
 			</div>
 
 			<input

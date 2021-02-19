@@ -1,3 +1,6 @@
+/* eslint no-unused-vars: 0 */
+/* eslint array-callback-return: 0 */
+
 /*
  * Handler for Taxonomy meta fields.
  */
@@ -119,31 +122,53 @@
 				button: {
 					text: 'Use this media'
 				},
-				multiple: false
+				multiple: false,
+				frame: 'post'
 			} );
 
-			// When an image is selected in the media frame.
-			frame.on( 'select', function() {
+			frame.on( 'select insert', function() {
 
-				// Get media attachment details from the frame state.
-				var attachment = frame.state().get( 'selection' ).first().toJSON(),
-					imgDataObj = {
-						id: attachment.id,
-						url: attachment.url,
-						width: attachment.width,
-						height: attachment.height,
-						thumbnail: ''
-					};
+				var imageURL,
+					imageID,
+					imageIDs,
+					state = frame.state();
 
-				// Send the attachment id to our hidden input.
-				pContainer.find( imgIdInput ).val( JSON.stringify( imgDataObj ) ).trigger( 'change' );
-				pContainer.find( imgUrlInput ).val( imgDataObj.url ).trigger( 'change' );
+				if ( 'undefined' !== typeof state.get( 'selection' ) ) {
 
-				// Hide the add image link.
-				pContainer.find( addImgLink ).addClass( 'hidden' );
+					imageIDs = state.get( 'selection' ).map( function( scopedAttachment ) {
+						return scopedAttachment.id;
+					} );
 
-				// Unhide the remove image link.
-				pContainer.find( delImgLink ).removeClass( 'hidden' );
+					state.get( 'selection' ).map( function( scopedAttachment ) {
+						var element = scopedAttachment.toJSON(),
+							display = state.display( scopedAttachment ).toJSON(),
+							imgDataObj;
+
+						imageID = element.id;
+						if ( element.sizes && element.sizes[ display.size ] && element.sizes[ display.size ].url ) {
+							imageURL    = element.sizes[ display.size ].url;
+						} else if ( element.url ) {
+							imageURL    = element.url;
+						}
+						imgDataObj = {
+							id: element.id,
+							url: imageURL,
+							size: display.size,
+							width: element.width,
+							height: element.height
+						};
+
+						// Send the attachment id to our hidden input.
+						pContainer.find( imgIdInput ).val( JSON.stringify( imgDataObj ) ).trigger( 'change' );
+						pContainer.find( imgUrlInput ).val( imgDataObj.url ).trigger( 'change' );
+
+						// Hide the add image link.
+						pContainer.find( addImgLink ).addClass( 'hidden' );
+
+						// Unhide the remove image link.
+						pContainer.find( delImgLink ).removeClass( 'hidden' );
+					} );
+				}
 			} );
 
 			// Finally, open the modal on click.

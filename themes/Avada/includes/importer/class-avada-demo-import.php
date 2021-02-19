@@ -346,7 +346,7 @@ class Avada_Demo_Import {
 		}
 
 		// Map zip attachments to fusion_icons posts. Doing it here as it's probably shortest import stage.
-		if ( $this->import_all || in_array( 'fusion_icons', $this->import_content_types ) ) {
+		if ( $this->import_all || in_array( 'fusion_icons', $this->import_content_types, true ) ) {
 			$args = [
 				'posts_per_page' => -1, // phpcs:ignore WPThemeReview.CoreFunctionality.PostsPerPage
 				'post_type'      => 'fusion_icons',
@@ -377,7 +377,6 @@ class Avada_Demo_Import {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -391,6 +390,32 @@ class Avada_Demo_Import {
 		// Get remote files and save locally.
 		if ( ! $this->importer_files->remote_files_downloaded() ) {
 			$this->importer_files->download_remote_files();
+		}
+
+		// Allow attributes import.
+		// We want attributes taxonomies to be imported before the content, so they can be registered before XML file processing starts (otherwise terms will be skipped).
+		if ( $this->importer_files->is_shop() && class_exists( 'Avada_Woocommerce_Variations' ) && function_exists( 'wc_create_attribute' ) && ( $this->import_all || in_array( 'product', $this->import_content_types, true ) ) ) {
+
+			$product_attributes = $this->importer_files->get_woo_product_attributes();
+
+			if ( ! empty( $product_attributes ) ) {
+
+				// Add Avada attribute types.
+				add_filter( 'product_attributes_type_selector', [ Avada_Woocommerce_Variations::get_instance(), 'add_attribute_types' ] );
+
+				$imported_attribute_ids = [];
+
+				foreach ( $product_attributes as $args ) {
+					$attr_id = wc_create_attribute( $args );
+
+					if ( ! is_wp_error( $attr_id ) ) {
+						$imported_attribute_ids[] = $attr_id;
+					}
+				}
+
+				// Add imported attribute ids to demo tracker.
+				$this->content_tracker->set_woo_attributes( $imported_attribute_ids );
+			}
 		}
 	}
 
@@ -430,7 +455,7 @@ class Avada_Demo_Import {
 			add_filter( 'wxr_importer.pre_process.term', [ $this, 'skip_slide_taxonomy' ], 10, 2 );
 		}
 
-		if ( $this->import_all || in_array( 'avada_layout', $this->import_content_types ) ) {
+		if ( $this->import_all || in_array( 'avada_layout', $this->import_content_types, true ) ) {
 
 			// Make global layout backup, since they are part of 'content' stage need to be handled separately.
 			$this->content_tracker->set_avada_layout();
@@ -460,7 +485,7 @@ class Avada_Demo_Import {
 			remove_filter( 'wxr_importer.pre_process.term', [ $this, 'skip_slide_taxonomy' ], 10 );
 		}
 
-		if ( $this->import_all || in_array( 'avada_layout', $this->import_content_types ) ) {
+		if ( $this->import_all || in_array( 'avada_layout', $this->import_content_types, true ) ) {
 			remove_filter( 'wxr_importer.pre_process.post', [ $this, 'add_slashes_to_layout_content' ], 8, 4 );
 			remove_filter( 'wxr_importer.pre_process.post', [ $this, 'import_global_avada_layout' ], 9, 4 );
 		}
@@ -567,6 +592,17 @@ class Avada_Demo_Import {
 	}
 
 	/**
+	 * Allow importing fusion forms.
+	 *
+	 * @access public
+	 * @since 7.1
+	 */
+	public function allow_import_fusion_form() {
+
+		$this->allowed_post_types = array_merge( $this->allowed_post_types, [ 'fusion_form' ] );
+	}
+
+	/**
 	 * Allow importing a product.
 	 *
 	 * @access public
@@ -574,8 +610,16 @@ class Avada_Demo_Import {
 	 */
 	public function allow_import_product() {
 
-		$this->allowed_post_types = array_merge( $this->allowed_post_types, [ 'product', 'shop_order', 'shop_coupon' ] );
+		$this->allowed_post_types = array_merge( $this->allowed_post_types, [ 'product', 'shop_order', 'shop_coupon', 'product_variation' ] );
 		$this->allowed_taxonomies = array_merge( $this->allowed_taxonomies, [ 'product_cat', 'product_tag', 'product_visibility', 'product_type' ] );
+
+		// Allow attribute taxonomies to be imported as well.
+		$attribute_taxonomies = wc_get_attribute_taxonomies();
+		if ( $attribute_taxonomies ) {
+			foreach ( $attribute_taxonomies as $tax ) {
+				$this->allowed_taxonomies[] = wc_attribute_taxonomy_name( $tax->attribute_name );
+			}
+		}
 	}
 
 	/**
@@ -710,7 +754,7 @@ class Avada_Demo_Import {
 	 */
 	public function skip_not_allowed_post_types( $data, $meta, $comments, $terms ) {
 
-		if ( ! in_array( $data['post_type'], $this->allowed_post_types ) && ! $this->is_icon_package( $data, $meta ) ) {
+		if ( ! in_array( $data['post_type'], $this->allowed_post_types ) && ! $this->is_icon_package( $data, $meta ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return false;
 		}
 
@@ -748,7 +792,7 @@ class Avada_Demo_Import {
 	 */
 	private function is_icon_package( $data, $meta ) {
 
-		if ( 'attachment' !== $data['post_type'] || ! in_array( 'fusion_icons', $this->allowed_post_types ) ) {
+		if ( 'attachment' !== $data['post_type'] || ! in_array( 'fusion_icons', $this->allowed_post_types, true ) ) {
 			return false;
 		}
 
@@ -788,7 +832,7 @@ class Avada_Demo_Import {
 	 */
 	public function skip_not_allowed_taxonomies( $data, $meta ) {
 
-		if ( ! in_array( $data['taxonomy'], $this->allowed_taxonomies ) ) {
+		if ( ! in_array( $data['taxonomy'], $this->allowed_taxonomies ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			return false;
 		}
 		return $data;
@@ -857,7 +901,7 @@ class Avada_Demo_Import {
 			'_menu_item_fusion_menu_icononly',
 		];
 
-		if ( in_array( $meta_key, $meta_keys ) ) {
+		if ( in_array( $meta_key, $meta_keys, true ) ) {
 			return false;
 		}
 
@@ -931,7 +975,7 @@ class Avada_Demo_Import {
 					} else {
 
 						// Remove demo name and the suffix.
-						$demo_name    = ucwords( str_replace( '_', ' ', $demo_type ) ) . ' ';
+						$demo_name    = ucwords( str_replace( '_', ' ', $this->demo_type ) ) . ' ';
 						$op_menu_name = str_replace( [ $demo_name, ' One Page Menu' ], '', $menu->name );
 					}
 
@@ -947,11 +991,10 @@ class Avada_Demo_Import {
 		}
 
 		set_theme_mod( 'nav_menu_locations', $locations ); // Set menus to locations.
-
 	}
 
 	/**
-	 * Imports Theme Options.
+	 * Imports Global Options.
 	 *
 	 * @access private
 	 * @since 5.2
@@ -1027,9 +1070,15 @@ class Avada_Demo_Import {
 		$layersliders = $this->importer_files->get_layerslider();
 
 		// Import Layerslider.
-		if ( defined( 'LS_PLUGIN_VERSION' ) && file_exists( WP_PLUGIN_DIR . '/LayerSlider/classes/class.ls.importutil.php' ) && false !== $layersliders ) {
+		if ( defined( 'LS_PLUGIN_VERSION' ) && false !== $layersliders ) {
 			// Get importUtil.
-			include WP_PLUGIN_DIR . '/LayerSlider/classes/class.ls.importutil.php';
+			if ( version_compare( LS_PLUGIN_VERSION, '6.11.0', '>=' ) ) {
+				include WP_PLUGIN_DIR . '/LayerSlider/assets/classes/class.ls.importutil.php';
+			} elseif ( file_exists( WP_PLUGIN_DIR . '/LayerSlider/classes/class.ls.importutil.php' ) ) {
+				include WP_PLUGIN_DIR . '/LayerSlider/classes/class.ls.importutil.php';
+			} else {
+				return;
+			}
 
 			foreach ( $layersliders as $layer_file ) {
 				// Finally import rev slider data files.
@@ -1054,7 +1103,6 @@ class Avada_Demo_Import {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1111,7 +1159,7 @@ class Avada_Demo_Import {
 	 */
 	private function import_fusion_sliders() {
 
-		// Fusion Sliders Import.
+		// Avada Sliders Import.
 		if ( true === $this->fs_exists && class_exists( 'Fusion_Slider' ) && file_exists( $this->fs_url ) ) {
 
 			add_action( 'fusion_slider_import_image_attached', [ $this, 'add_fusion_slider_demo_import_meta' ], 10, 2 );
@@ -1119,7 +1167,6 @@ class Avada_Demo_Import {
 			$fusion_slider->import_sliders( $this->fs_url, $this->demo_type );
 			remove_action( 'fusion_slider_import_image_attached', [ $this, 'add_fusion_slider_demo_import_meta' ], 10 );
 		}
-
 	}
 
 	/**
@@ -1155,7 +1202,6 @@ class Avada_Demo_Import {
 		update_option( 'blogname', $site_title );
 
 		$this->content_tracker->set( 'general_data', 'imported' );
-
 	}
 
 	/**
@@ -1225,7 +1271,6 @@ class Avada_Demo_Import {
 				$this->add_cp_to_tracker( $module_name, $attachment_id );
 			}
 		}
-
 	}
 
 	/**
@@ -1250,7 +1295,6 @@ class Avada_Demo_Import {
 
 		// Remove zip from Media Library (we want to keep the file).
 		$wpdb->query( $wpdb->prepare( "DELETE $wpdb->posts, $wpdb->postmeta FROM $wpdb->posts INNER JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.ID = %d", $attachment_id ) );
-
 	}
 
 	/**

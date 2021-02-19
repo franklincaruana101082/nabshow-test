@@ -38,6 +38,10 @@ function fusion_customizer_front_options_loop( $params ) {
 		<# _.each( <?php echo $params; // phpcs:ignore WordPress.Security.EscapeOutput ?>, function( param, id ) { #>
 
 			<#
+			if ( param.hidden ) {
+				return;
+			}
+
 			// Port TO format to FB.
 			if ( 'select' === param.type && 'undefined' !== typeof param.multi && true === param.multi ) {
 				param.type  = 'multiple_select';
@@ -52,7 +56,7 @@ function fusion_customizer_front_options_loop( $params ) {
 				option_value = FusionApp.data.postMeta._fusion[ id ];
 			}
 
-			if ( -1 !== param.id.indexOf( '[' ) && ( 'PO' === option_type || 'TAXO' === option_type ) ) {
+			if ( 'undefined' !== typeof param.id && -1 !== param.id.indexOf( '[' ) && ( 'PO' === option_type || 'TAXO' === option_type ) ) {
 				if ( 'undefined' !== typeof FusionApp.data.postMeta._fusion && 'undefined' !== typeof FusionApp.data.postMeta._fusion[ param.id.split( '[' )[0] ] && 'undefined' !== typeof FusionApp.data.postMeta._fusion[ param.id.split( '[' )[0] ][ param.id.split( '[' )[1].replace( ']', '' ) ] ) {
 					option_value = FusionApp.data.postMeta._fusion[ param.id.split( '[' )[0] ][ param.id.split( '[' )[1].replace( ']', '' ) ];
 				} else if ( 'undefined' !== typeof FusionApp.data.postMeta[ param.id.split( '[' )[0] ] && 'undefined' !== typeof FusionApp.data.postMeta[ param.id.split( '[' )[0] ][ param.id.split( '[' )[1].replace( ']', '' ) ] ) {
@@ -82,9 +86,11 @@ function fusion_customizer_front_options_loop( $params ) {
 				txt.innerHTML = option_value;
 				option_value = txt.value;
 			}
+
+			subset = ( 'undefined' !== typeof param.to_default && 'undefined' !== typeof param.to_default.subset ) ? param.to_default.subset : '';
 			#>
 
-			<li data-option-id="{{ option_id }}" class="fusion-builder-option {{ param.type }} {{option_map}} {{option_class}}" data-type="{{ option_type }}">
+			<li data-option-id="{{ option_id }}" class="fusion-builder-option {{ param.type }} {{option_map}} {{option_class}}" data-type="{{ option_type }}" data-subset="{{ subset }}">
 
 				<div class="option-details">
 					<div class="option-details-inner">
@@ -92,13 +98,13 @@ function fusion_customizer_front_options_loop( $params ) {
 							<h3>{{{ param.label }}}</h3>
 							<ul class="fusion-panel-options">
 								<# if ( 'undefined' !== typeof param.description && 1 < param.description.length && 1 < param.label.length  ) { #>
-									<li> <a href="JavaScript:void(0);" class="fusion-panel-description"><i class="fusiona-question-circle"></i></a> <span class="fusion-elements-option-tooltip fusion-tooltip-description">{{ fusionBuilderText.fusion_panel_desciption_toggle }}</span></li>
+									<li> <a href="JavaScript:void(0);" class="fusion-panel-description"><i class="fusiona-question-circle" aria-hidden="true"></i></a> <span class="fusion-elements-option-tooltip fusion-tooltip-description">{{ fusionBuilderText.fusion_panel_desciption_toggle }}</span></li>
 								<# }; #>
-								<# if ( 'undefined' !== param.to_default && '' !== param.to_default && param.to_default ) { #>
-									<li><a href="JavaScript:void(0);"><span class="fusion-panel-shortcut" data-fusion-option="{{ param.to_default.id }}"><i class="fusiona-cog"></i></a><span class="fusion-elements-option-tooltip fusion-tooltip-global-settings"><?php esc_html_e( 'Theme Options', 'fusion-builder' ); ?></span></li>
+								<# if ( 'undefined' !== typeof param.to_default && '' !== param.to_default && param.to_default ) { #>
+									<li><a href="JavaScript:void(0);"><span class="fusion-panel-shortcut" data-fusion-option="{{ param.to_default.id }}"><i class="fusiona-cog" aria-hidden="true"></i></a><span class="fusion-elements-option-tooltip fusion-tooltip-global-settings"><?php esc_html_e( 'Global Options', 'fusion-builder' ); ?></span></li>
 								<# } #>
-								<# if( ( typeof( param.description ) !== 'undefined' ) && ( typeof( param.default ) !== 'undefined' ) && 'PO' === option_type && 'undefined' !== param.to_default && '' !== param.to_default && 'color-alpha' === param.type  ) { #>
-									<li class="fusion-builder-default-reset"> <a href="JavaScript:void(0);" class="fusion-range-default" data-default="{{ param.default }}"><i class="fusiona-undo"></i></a> <span class="fusion-elements-option-tooltip fusion-tooltip-reset-defaults"><?php esc_html_e( 'Reset To Default', 'fusion-builder' ); ?></span></li>
+								<# if( 'undefined' !== typeof( param.description ) && 'undefined' !== typeof( param.default ) && 'PO' === option_type && 'undefined' !== param.to_default && '' !== param.to_default && 'color-alpha' === param.type  ) { #>
+									<li class="fusion-builder-default-reset"> <a href="JavaScript:void(0);" class="fusion-range-default" data-default="{{ param.default }}"><i class="fusiona-undo" aria-hidden="true"></i></a> <span class="fusion-elements-option-tooltip fusion-tooltip-reset-defaults"><?php esc_html_e( 'Reset To Default', 'fusion-builder' ); ?></span></li>
 								<# } #>
 								<# if ( 'undefined' !== typeof param.preview ) { #>
 									<#
@@ -107,7 +113,7 @@ function fusion_customizer_front_options_loop( $params ) {
 										dataToggle   = 'undefined' !== typeof param.preview.toggle   ? param.preview.toggle     : '';
 										dataAppend   = 'undefined' !== typeof param.preview.append   ? param.preview.append     : '';
 									#>
-								<li><a class="option-preview-toggle" href="JavaScript:void(0);" aria-label="<?php esc_attr_e( 'Preview', 'fusion-builder' ); ?>" data-type="{{ dataType }}" data-selector="{{ dataSelector }}" data-toggle="{{ dataToggle }}" data-append="{{ dataAppend }}"><i class="fusiona-eye"></i></a><span class="fusion-elements-option-tooltip fusion-tooltip-preview"><?php esc_html_e( 'Preview', 'fusion-builder' ); ?></span></li>
+								<li><a class="option-preview-toggle" href="JavaScript:void(0);" aria-label="<?php esc_attr_e( 'Preview', 'fusion-builder' ); ?>" data-type="{{ dataType }}" data-selector="{{ dataSelector }}" data-toggle="{{ dataToggle }}" data-append="{{ dataAppend }}"><i class="fusiona-eye" aria-hidden="true"></i></a><span class="fusion-elements-option-tooltip fusion-tooltip-preview"><?php esc_html_e( 'Preview', 'fusion-builder' ); ?></span></li>
 								<# }; #>
 							</ul>
 
@@ -160,6 +166,7 @@ function fusion_customizer_front_options_loop( $params ) {
 						'sortable',
 						'color-palette',
 						'info',
+						'hubspot_map',
 					];
 
 					// Redux on left, template on right.

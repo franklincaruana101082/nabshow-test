@@ -18,7 +18,7 @@
 	<ul class="social-share clearfix">
 		<li class="facebook">
 			<a class="fusion-facebook-sharer-icon" href="https://www.facebook.com/sharer.php?u=<?php echo rawurlencode( get_permalink() ); ?>" target="_blank"<?php echo $nofollow; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<i class="fontawesome-icon medium circle-yes fusion-icon-facebook"></i>
+				<i class="fontawesome-icon medium circle-yes fusion-icon-facebook" aria-hidden="true"></i>
 				<div class="fusion-woo-social-share-text">
 					<span><?php esc_html_e( 'Share On Facebook', 'Avada' ); ?></span>
 				</div>
@@ -26,7 +26,7 @@
 		</li>
 		<li class="twitter">
 			<a href="https://twitter.com/share?text=<?php the_title_attribute(); ?>&amp;url=<?php echo rawurlencode( get_permalink() ); ?>" target="_blank"<?php echo $nofollow; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<i class="fontawesome-icon medium circle-yes fusion-icon-twitter"></i>
+				<i class="fontawesome-icon medium circle-yes fusion-icon-twitter" aria-hidden="true"></i>
 				<div class="fusion-woo-social-share-text">
 					<span><?php esc_html_e( 'Tweet This Product', 'Avada' ); ?></span>
 				</div>
@@ -35,7 +35,7 @@
 		<li class="pinterest">
 			<?php $full_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' ); ?>
 			<a href="http://pinterest.com/pin/create/button/?url=<?php echo rawurlencode( get_permalink() ); ?>&amp;description=<?php echo rawurlencode( the_title_attribute( [ 'echo' => false ] ) ); ?>&amp;media=<?php echo rawurlencode( $full_image[0] ); ?>" target="_blank"<?php echo $nofollow; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<i class="fontawesome-icon medium circle-yes fusion-icon-pinterest"></i>
+				<i class="fontawesome-icon medium circle-yes fusion-icon-pinterest" aria-hidden="true"></i>
 				<div class="fusion-woo-social-share-text">
 					<span><?php esc_html_e( 'Pin This Product', 'Avada' ); ?></span>
 				</div>
@@ -43,7 +43,7 @@
 		</li>
 		<li class="email">
 			<a href="mailto:?subject=<?php echo rawurlencode( html_entity_decode( the_title_attribute( [ 'echo' => false ] ), ENT_COMPAT, 'UTF-8' ) ); ?>&body=<?php echo esc_url_raw( get_permalink() ); ?>" target="_blank"<?php echo $nofollow; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-				<i class="fontawesome-icon medium circle-yes fusion-icon-mail"></i>
+				<i class="fontawesome-icon medium circle-yes fusion-icon-mail" aria-hidden="true"></i>
 				<div class="fusion-woo-social-share-text">
 					<span><?php echo esc_html_e( 'Email This Product', 'Avada' ); ?></span>
 				</div>

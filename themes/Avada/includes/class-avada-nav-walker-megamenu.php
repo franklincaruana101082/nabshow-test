@@ -160,7 +160,7 @@ if ( ! class_exists( 'Avada_Nav_Walker_Megamenu' ) ) {
 								|
 								<a href="<?php echo esc_url( $url2 ); ?>" class="item-move-down"><abbr title="<?php esc_attr_e( 'Move down', 'Avada' ); ?>">&#8595;</abbr></a>
 							</span>
-							<a class="item-edit" id="edit-<?php echo esc_attr( $item_id ); ?>" title="<?php esc_attr_e( 'Edit Menu Item', 'Avada' ); ?>" href="<?php echo esc_url( $url3 ); ?>"><?php esc_attr_e( 'Edit Menu Item', 'Avada' ); ?></a>
+							<a class="item-edit" id="edit-<?php echo esc_attr( $item_id ); ?>" title="<?php esc_attr_e( 'Edit Menu Item', 'Avada' ); ?>" href="<?php echo esc_url( $url3 ); ?>"><span class="screen-reader-text"><?php esc_attr_e( 'Edit Menu Item', 'Avada' ); ?></span></a>
 						</span>
 					</dt>
 				</dl>
@@ -212,7 +212,7 @@ if ( ! class_exists( 'Avada_Nav_Walker_Megamenu' ) ) {
 						</label>
 					</p>
 
-					<?php do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args ); ?>
+					<?php do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args, $id ); ?>
 
 					<fieldset class="field-move hide-if-no-js description description-wide">
 						<span class="field-move-visual-label" aria-hidden="true"><?php esc_attr_e( 'Move', 'Avada' ); ?></span>

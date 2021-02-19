@@ -10,7 +10,7 @@
 .fusion-layout-column.fusion-spacing-no {
   margin-bottom: 0;
 }
-.fusion-body .fusion-layout-column {
+.fusion-body .fusion-layout-column:not(.fusion-flex-column) {
   width: 100% !important;
 }
 .fusion-body .fusion-footer-widget-area-center .widget.tweets:not(.fusion-widget-mobile-align-left):not(.fusion-widget-mobile-align-right) .jtwt .jtwt_tweet {
@@ -27,8 +27,7 @@
 .fusion-body .fusion-blog-layout-medium-alternate .has-post-thumbnail .fusion-post-content {
   margin: 0;
   padding-top: 20px;
-  -ms-flex: 1 0 100%;
-      flex: 1 0 100%;
+  flex: 1 0 100%;
 }
 .fusion-body .fusion-author .fusion-social-networks {
   text-align: center;
@@ -65,12 +64,10 @@
   right: 0;
 }
 .widget.tribe-events-list-widget.fusion-widget-align-right .tribe-events-list-widget-events {
-  -ms-flex-pack: end;
-      justify-content: end;
+  justify-content: end;
 }
 .widget.tribe-events-list-widget.fusion-widget-align-center .tribe-events-list-widget-events {
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
 }
 .widget.facebook_like iframe {
   width: 100% !important;
@@ -109,8 +106,7 @@
   height: auto;
 }
 .fusion-page-title-wrapper {
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 .fusion-page-title-bar-left .fusion-page-title-captions,
 .fusion-page-title-bar-right .fusion-page-title-captions,
@@ -153,12 +149,6 @@
 }
 #wrapper {
   width: auto !important;
-}
-#wrapper .share-box h4 {
-  float: none;
-  line-height: 20px !important;
-  margin-top: 0;
-  padding: 0;
 }
 #wrapper .ei-slider {
   width: 100% !important;
@@ -261,18 +251,6 @@
 }
 h5.toggle span.toggle-title {
   width: 80%;
-}
-.share-box {
-  height: auto;
-}
-.share-box ul {
-  float: none;
-  overflow: hidden;
-  padding: 0 25px 15px;
-  margin-top: 0;
-}
-.share-box .social-networks {
-  text-align: left;
 }
 .project-content .project-description {
   float: none !important;
@@ -397,10 +375,8 @@ body .shortcode-tabs .tab-hold .tabs li {
   padding-bottom: 10px;
 }
 .fusion-body:not(.avada-has-page-title-mobile-height-auto) .fusion-page-title-row {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  align-items: center;
   width: 100%;
   min-height: calc(var(--page_title_mobile_height) - 10px);
 }
@@ -416,7 +392,7 @@ body .shortcode-tabs .tab-hold .tabs li {
 .fusion-body:not(.avada-has-page-title-mobile-height-auto) .fusion-page-title-captions {
   width: 100%;
 }
-.fusion-body:not(.avada-has-page-title-mobile-height-auto) .fusion-page-title-bar {
+.fusion-body:not(.avada-has-page-title-mobile-height-auto) .fusion-page-title-bar:not(.fusion-tb-page-title-bar) {
   min-height: calc(var(--page_title_mobile_height) - 10px);
 }
 .avada-has-breadcrumb-mobile-hidden.fusion-body .fusion-page-title-bar .fusion-breadcrumbs {

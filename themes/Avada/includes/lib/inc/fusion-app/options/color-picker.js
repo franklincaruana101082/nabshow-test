@@ -16,45 +16,36 @@ FusionPageBuilder.options.fusionColorPicker = {
 					parentValue   = 'undefined' !== typeof that.parentValues && 'undefined' !== typeof that.parentValues[ self.attr( 'id' ) ] ? that.parentValues[ self.attr( 'id' ) ] : false;
 
 				setTimeout( function() {
+					var pickerWithDefault = self.data( 'default' ) && self.data( 'default' ).length;
 
-					// Picker with default.
-					if ( self.data( 'default' ) && self.data( 'default' ).length ) {
-						self.wpColorPicker( {
-							create: function() {
-								jQuery( self ).addClass( 'fusion-color-created' );
-								that.updatePickerIconColor( self.val(), self );
-							},
-							change: function( event, ui ) {
-								that.colorChange( ui.color.toString(), self, $defaultReset, parentValue );
-								that.updatePickerIconColor( ui.color.toString(), self );
-							},
-							clear: function( event ) {
-								that.colorClear( event, self, parentValue );
+					self.wpColorPicker( {
+						create: function() {
+							jQuery( self ).addClass( 'fusion-color-created' );
+							that.updatePickerIconColor( self.val(), self );
+						},
+						change: function( event, ui ) {
+							if ( pickerWithDefault ) {
+								that.colorChange( ui.color.toString(), self, $defaultReset, parentValue, event.target.value );
+							} else {
+								that.colorChange( ui.color.toString(), self, undefined, undefined, event.target.value );
 							}
-						} );
-
-						// Make it so the reset link also clears color.
-						$defaultReset.on( 'click', 'a', function( event ) {
-							event.preventDefault();
-							that.colorClear( event, self, parentValue );
-						} );
-
-					} else {
-
-						// Picker without default.
-						self.wpColorPicker( {
-							create: function() {
-								jQuery( self ).addClass( 'fusion-color-created' );
-								that.updatePickerIconColor( self.val(), self );
-							},
-							change: function( event, ui ) {
-								that.colorChanged( ui.color.toString(), self );
-								that.updatePickerIconColor( ui.color.toString(), self );
-							},
-							clear: function() {
+							that.updatePickerIconColor( ui.color.toString(), self );
+						},
+						clear: function( event ) {
+							if ( pickerWithDefault ) {
+								that.colorClear( event, self, parentValue );
+							} else {
 								self.val( '' ).trigger( 'fusion-change' );
 								self.closest( '.fusion-colorpicker-container' ).find( '.color-picker-placeholder' ).val( '' );
 							}
+						}
+					} );
+
+					// Make it so the reset link also clears color.
+					if ( pickerWithDefault ) {
+						$defaultReset.on( 'click', 'a', function( event ) {
+							event.preventDefault();
+							that.colorClear( event, self, parentValue );
 						} );
 					}
 
@@ -86,9 +77,11 @@ FusionPageBuilder.options.fusionColorPicker = {
 		}
 	},
 
-	colorChange: function( value, self, defaultReset, parentValue ) { // jshint ignore: line
+	colorChange: function( value, self, defaultReset, parentValue, prevValue ) { // jshint ignore: line
 		var defaultColor = parentValue ? parentValue : self.data( 'default' ),
-			$placeholder = self.closest( '.fusion-colorpicker-container' ).find( '.color-picker-placeholder' );
+			$placeholder = self.closest( '.fusion-colorpicker-container' ).find( '.color-picker-placeholder' ),
+			valueRGBA = value.replace( / |\(|\)|rgba/g, '' ).split( ',' ),
+			prevValueRGBA = prevValue.replace( / |\(|\)|rgba/g, '' ).split( ',' );
 
 		// Initial preview for empty.
 		if ( '' === value ) {
@@ -98,19 +91,34 @@ FusionPageBuilder.options.fusionColorPicker = {
 			self.val( '' );
 			return;
 		}
+
 		if ( value === defaultColor && 'TO' !== self.attr( 'data-location' ) && 'PO' !== self.attr( 'data-location' ) && 'FBE' !== self.attr( 'data-location' ) ) {
 			setTimeout( function() {
 				self.val( '' ).change();
 			}, 10 );
-			defaultReset.addClass( 'checked' );
+			if ( defaultReset ) {
+				defaultReset.addClass( 'checked' );
 
-			// Update default value in description.
-			defaultReset.parent().find( '> a' ).html( defaultColor );
+				// Update default value in description.
+				defaultReset.parent().find( '> a' ).html( defaultColor );
+			}
 		} else {
 			self.removeClass( 'fusion-using-default' );
 			$placeholder.removeClass( 'fusion-color-picker-placeholder-using-default' );
-			defaultReset.removeClass( 'checked' );
+			if ( defaultReset ) {
+				defaultReset.removeClass( 'checked' );
+			}
 			self.val( value ).change();
+		}
+
+		// If alpha is 0 and we're changing to a different color reset alpha to 1
+		if (
+			value !== prevValue &&
+			( valueRGBA[ 3 ] && '0' == valueRGBA[ 3 ] ) &&
+			( ( prevValueRGBA[ 3 ] && prevValueRGBA[ 3 ] === valueRGBA[ 3 ] ) || ( '' === prevValue ) )
+		) {
+			valueRGBA[ 3 ] = 1;
+			self.val( 'rgba( ' + valueRGBA.join( ',' ) + ' )' ).change();
 		}
 
 		setTimeout( function() {
