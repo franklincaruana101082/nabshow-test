@@ -9,6 +9,8 @@
 
 get_header();
 ?>
+	<!-- START legacy-template: single-company -->
+	<div class="container">
 	<main id="primary" class="site-main single_php">
 
 		<?php
@@ -21,6 +23,7 @@ get_header();
         ?>
         
 	</main><!-- #main -->
-
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 <?php
 get_footer();

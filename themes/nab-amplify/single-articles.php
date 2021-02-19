@@ -10,6 +10,8 @@
 get_header();
 ?>
 
+	<!-- START legacy-template: single-articles -->
+	<div class="container">
 	<main id="primary" class="site-main single_php">
         
 		<?php
@@ -33,5 +35,7 @@ get_header();
             <broadstreet-zone zone-id="82836"></broadstreet-zone>
         </div>
 	</main><!-- #main -->
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 <?php
 get_footer();
