@@ -121,9 +121,9 @@ $pc = ! empty( $params['product_count'] ) ? $params['product_count'] : $per_page
 			<ul class="order">
 				<?php if ( isset( $po ) ) : ?>
 					<?php if ( 'desc' === $po ) : ?>
-						<li class="desc"><a aria-label="<?php esc_attr_e( 'Ascending order', 'Avada' ); ?>" aria-haspopup="true" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_order', 'asc' ) ); ?>"><i class="fusion-icon-arrow-down2 icomoon-up"></i></a></li>
+						<li class="desc"><a aria-label="<?php esc_attr_e( 'Ascending order', 'Avada' ); ?>" aria-haspopup="true" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_order', 'asc' ) ); ?>"><i class="fusion-icon-arrow-down2 icomoon-up" aria-hidden="true"></i></a></li>
 					<?php else : ?>
-						<li class="asc"><a aria-label="<?php esc_attr_e( 'Descending order', 'Avada' ); ?>" aria-haspopup="true" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_order', 'desc' ) ); ?>"><i class="fusion-icon-arrow-down2"></i></a></li>
+						<li class="asc"><a aria-label="<?php esc_attr_e( 'Descending order', 'Avada' ); ?>" aria-haspopup="true" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_order', 'desc' ) ); ?>"><i class="fusion-icon-arrow-down2" aria-hidden="true"></i></a></li>
 					<?php endif; ?>
 				<?php endif; ?>
 			</ul>
@@ -192,10 +192,10 @@ $pc = ! empty( $params['product_count'] ) ? $params['product_count'] : $per_page
 	<?php if ( $woocommerce_toggle_grid_list ) : ?>
 		<ul class="fusion-grid-list-view">
 			<li class="fusion-grid-view-li<?php echo ( 'grid' === $product_view ) ? ' active-view' : ''; ?>">
-				<a class="fusion-grid-view" aria-label="<?php esc_attr_e( 'View as grid', 'Avada' ); ?>" aria-haspopup="true" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_view', 'grid' ) ); ?>"><i class="fusion-icon-grid icomoon-grid"></i></a>
+				<a class="fusion-grid-view" aria-label="<?php esc_attr_e( 'View as grid', 'Avada' ); ?>" aria-haspopup="true" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_view', 'grid' ) ); ?>"><i class="fusion-icon-grid icomoon-grid" aria-hidden="true"></i></a>
 			</li>
 			<li class="fusion-list-view-li<?php echo ( 'list' === $product_view ) ? ' active-view' : ''; ?>">
-				<a class="fusion-list-view" aria-haspopup="true" aria-label="<?php esc_attr_e( 'View as list', 'Avada' ); ?>" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_view', 'list' ) ); ?>"><i class="fusion-icon-list icomoon-list"></i></a>
+				<a class="fusion-list-view" aria-haspopup="true" aria-label="<?php esc_attr_e( 'View as list', 'Avada' ); ?>" href="<?php echo esc_url_raw( fusion_add_url_parameter( $query_string, 'product_view', 'list' ) ); ?>"><i class="fusion-icon-list icomoon-list" aria-hidden="true"></i></a>
 			</li>
 		</ul>
 	<?php endif; ?>

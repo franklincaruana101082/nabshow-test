@@ -19,16 +19,15 @@ add_action( 'init', 'load_builder_class' );
  * Instantiate Fusion_App class.
  */
 function load_builder_class() {
-	if ( apply_filters( 'fusion_load_live_editor', is_user_logged_in() ) ) {
-		$app = Fusion_App::get_instance();
 
-		if ( $app->get_builder_status() || $app->get_preview_status() || $app->get_ajax_status() ) {
+	$app = Fusion_App::get_instance();
 
-			// Load internal modules ( panel, fusion builder ).
-			do_action( 'fusion_load_internal_module' );
+	if ( apply_filters( 'fusion_load_live_editor', is_user_logged_in() ) && ( $app->get_builder_status() || $app->get_preview_status() || $app->get_ajax_status() ) ) {
 
-			// Action for loading custom modules.
-			do_action( 'fusion_load_module' );
-		}
+		// Load internal modules ( panel, fusion builder ).
+		do_action( 'fusion_load_internal_module' );
+
+		// Action for loading custom modules.
+		do_action( 'fusion_load_module' );
 	}
 }

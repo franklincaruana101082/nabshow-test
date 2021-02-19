@@ -78,7 +78,7 @@ class Avada_Page_Options {
 
 		// If we have URL param then run migration.
 		if ( isset( $_GET['force-migrate-po'] ) && $_GET['force-migrate-po'] ) { // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput
-			add_action( 'wp_loaded', [ $this, 'trigger_migration' ] );
+			add_action( 'wp', [ $this, 'trigger_migration' ] );
 		}
 	}
 
@@ -130,13 +130,13 @@ class Avada_Page_Options {
 			if ( isset( $params['post_type'] ) ) {
 				$args           = [
 					's'         => $search, // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
-					'post_type' => $params['post_type'],
+					'post_type' => $params['post_type']['name'],
 				];
 				$search_results = fusion_cached_query( $args );
 				if ( $search_results->have_posts() ) {
+					global $post;
 					while ( $search_results->have_posts() ) {
 						$search_results->the_post();
-						global $post;
 						$return_data['results'][] = [
 							'id'   => esc_attr( $post->ID ),
 							'text' => esc_html( get_the_title( $post->ID ) ),
@@ -354,7 +354,7 @@ class Avada_Page_Options {
 	 * @param array  $custom_fields Array of custom fields to be saved.
 	 * @return array                Returns details of the saved dataset: ['id' =>'','title'=>'','data'=>[]].
 	 */
-	private function insert_options_dataset( $options_title = '', $custom_fields ) {
+	private function insert_options_dataset( $options_title = '', $custom_fields = [] ) {
 		$all_options = get_option( 'avada_page_options', [] );
 
 		if ( empty( $options_title ) ) {

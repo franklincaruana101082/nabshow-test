@@ -22,7 +22,7 @@ if ( ! empty( $wc_cart_items ) ) {
 }
 
 $id      = get_the_ID(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
-$in_cart = in_array( $id, $items_in_cart );
+$in_cart = in_array( $id, $items_in_cart ); // phpcs:ignore WordPress.PHP.StrictInArray
 $size    = 'shop_catalog';
 
 $attachment_image = '';
@@ -57,8 +57,8 @@ if ( $attachment_image ) {
 	<?php echo $attachment_image; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	<?php echo $thumb_image; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 	<?php if ( $in_cart ) : ?>
-		<div class="cart-loading"><i class="fusion-icon-check-square-o"></i></div>
+		<div class="cart-loading"><i class="fusion-icon-check-square-o" aria-hidden="true"></i></div>
 	<?php else : ?>
-		<div class="cart-loading"><i class="fusion-icon-spinner"></i></div>
+		<div class="cart-loading"><i class="fusion-icon-spinner" aria-hidden="true"></i></div>
 	<?php endif; ?>
 </div>

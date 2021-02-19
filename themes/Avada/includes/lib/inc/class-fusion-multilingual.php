@@ -90,6 +90,9 @@ class Fusion_Multilingual {
 
 		add_filter( 'wpml_ls_html', [ $this, 'disable_wpml_footer_ls_html' ], 10, 3 );
 
+		add_filter( 'avada_element_term_selection', [ $this, 'map_terms' ], 10, 3 );
+
+		add_filter( 'fusion_layout_section_id', [ $this, 'pl_layout_section' ], 10, 3 );
 	}
 
 	/**
@@ -336,14 +339,10 @@ class Fusion_Multilingual {
 			return true;
 		}
 
-		// Make sure the 'is_plugin_active' function exists.
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-
-		if ( is_plugin_active( 'polylang\polylang.php' ) ) {
+		if ( fusion_is_plugin_activated( 'polylang\polylang.php' ) ) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -353,5 +352,53 @@ class Fusion_Multilingual {
 	 */
 	public static function is_wpml() {
 		return ( ( defined( 'WPML_PLUGIN_FILE' ) || defined( 'ICL_PLUGIN_FILE' ) ) && false === self::$is_pll ) ? true : false;
+	}
+
+	/**
+	 * Filters terms data language specific.
+	 *
+	 * @access public
+	 * @since 3.0.2
+	 * @param array  $term_slugs The term slugs to be filtered.
+	 * @param string $cpt The post type the terms belong to.
+	 * @param string $taxonomy The taxonomy the terms belong to.
+	 * @return array The filtered terms.
+	 */
+	public function map_terms( $term_slugs, $cpt, $taxonomy ) {
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			foreach ( $term_slugs as $term_slug ) {
+				$term = get_term_by( 'slug', $term_slug, $taxonomy );
+				if ( $term ) {
+					$translated_id   = apply_filters( 'wpml_object_id', $term->term_id, $cpt, true );
+					$translated_term = get_term_by( 'id', $translated_id, $taxonomy );
+
+					if ( $translated_term ) {
+						$term_slugs[] = $translated_term->slug;
+					}
+				}
+			}
+
+			$term_slugs = array_unique( $term_slugs );
+		}
+
+		return $term_slugs;
+
+	}
+
+	/**
+	 * Filter layout section post ID.
+	 *
+	 * @access public
+	 * @since 3.1
+	 * @param int    $layout_section_id Post ID of layout section.
+	 * @param string $type Type of layout section.
+	 * @param mixed  $layout Layout iD.
+	 * @return int The filtered layout section ID..
+	 */
+	public function pl_layout_section( $layout_section_id = 0, $type = 'header', $layout = 0 ) {
+		if ( self::is_pll() && function_exists( 'pll_get_post' ) ) {
+			return pll_get_post( $layout_section_id );
+		}
+		return $layout_section_id;
 	}
 }

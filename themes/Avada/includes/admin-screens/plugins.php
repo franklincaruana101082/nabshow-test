@@ -47,51 +47,54 @@ if ( ! $wp_api_plugins ) {
 	set_site_transient( 'fusion_wordpress_org_plugins', $wp_api_plugins, 15 * MINUTE_IN_SECONDS );
 }
 ?>
-<div id="avada-plugins-wrapper" class="wrap about-wrap avada-wrap">
-	<?php $this->get_admin_screens_header( 'plugins' ); ?>
+<?php self::get_admin_screens_header( 'plugins' ); ?>
 	<?php add_thickbox(); ?>
-	<div class="avada-important-notice">
-		<p class="about-description">
-			<?php /* translators: link attributes. */ ?>
-			<?php $premium_plugins_string = sprintf( __( 'Fusion White Label Branding, Convert Plus, ACF Pro, Slider Revolution & Layer Slider are premium plugins that can be installed once your <a %1$s>product is registered</a>.', 'Avada' ), 'href="' . esc_url_raw( admin_url( 'admin.php?page=avada-registration' ) ) . '"' ); ?>
-			<?php if ( defined( 'ENVATO_HOSTED_SITE' ) && ENVATO_HOSTED_SITE ) : ?>
-				<?php $premium_plugins_string = __( 'Fusion White Label Branding, Convert Plus, ACF Pro, Slider Revolution & Layer Slider are premium plugins included in Avada.', 'Avada' ); ?>
-			<?php endif; ?>
-			<?php if ( false !== get_option( 'avada_previous_version' ) ) : ?>
-				<?php /* translators: %1$s: Premium plugins info. %2$s: URL. */ ?>
-				<?php printf( __( 'Fusion Core and Fusion Builder are our premium plugins required to use Avada. Fusion Builder can only be installed after Fusion Core is updated to version 3.0 or higher. %1$s Before updating premium plugins, please always make sure Avada is on the latest available version. The other plugins below offer design integration with Avada. You can manage the plugins from this tab. <a href="%2$s" target="_blank"> Subscribe to our newsletter</a> to be notified about new products coming in the future!', 'Avada' ), $premium_plugins_string, 'https://theme-fusion.us2.list-manage2.com/subscribe?u=4345c7e8c4f2826cc52bb84cd&id=af30829ace' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<?php else : ?>
-				<?php /* translators: %1$s: Premium plugins info. %2$s: URL. */ ?>
-				<?php printf( __( 'Fusion Core and Fusion Builder are our premium plugins required to use Avada. %1$s Before updating premium plugins, please always make sure Avada is on the latest available version. The other plugins below offer design integration with Avada. You can manage the plugins from this tab. <a href="%2$s" target="_blank">Subscribe to our newsletter</a> to be notified about new products coming in the future!', 'Avada' ), $premium_plugins_string, 'https://theme-fusion.us2.list-manage2.com/subscribe?u=4345c7e8c4f2826cc52bb84cd&id=af30829ace' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<?php endif; ?>
+
+	<section class="avada-db-card avada-db-card-first avada-db-plugins-start">
+		<h1 class="avada-db-demos-heading"><?php esc_html_e( 'Manage Bundled, Premium & Recommended Plugins', 'Avada' ); ?></h1>
+		<p>
+			<?php
+			printf(
+				/* translators: The "Product Registration" link. */
+				__( 'Avada Core and Avada Builder are required plugins for the Avada Website Builder. Fusion White Label Branding, Convert Plus, ACF Pro, Slider Revolution & Layer Slider are premium plugins that can be installed once your <a href="%s">product is registered</a>.', 'Avada' ), // phpcs:ignore WordPress.Security.EscapeOutput
+				esc_url( admin_url( 'admin.php?page=avada' ) )
+			);
+			?>
 		</p>
-	</div>
+
+		<div class="avada-db-card-notice">
+			<i class="fusiona-info-circle"></i>
+			<p class="avada-db-card-notice-heading">
+				<?php esc_html_e( 'Before updating premium plugins, please ensure Avada is on the latest version. The recommended plugins below offer design integration with Avada. You can manage the plugins from this tab.', 'Avada' ); ?>
+			</p>
+		</div>
+	</section>
 	<?php if ( ! Avada()->registration->is_registered() ) : ?>
-		<div class="avada-important-notice" style="border-left: 4px solid #dc3232;">
-			<h3 style="color: #dc3232; margin-top: 0;"><?php esc_html_e( 'Premium Plugins Can Only Be Installed and Updated With A Valid Token Registration', 'Avada' ); ?></h3>
-			<?php /* translators: The "Product Registration" link. */ ?>
-			<p><?php printf( esc_html__( 'Please visit the %s page and enter a valid token to install or update the premium plugins: Convert Plus, ACF Pro, Slider Revolution & Layer Slider.', 'Avada' ), '<a href="' . esc_url_raw( admin_url( 'admin.php?page=avada-registration' ) ) . '">' . esc_html__( 'Product Registration', 'Avada' ) . '</a>' ); ?></p>
+		<div class="avada-db-card avada-db-notice">
+			<h2><?php esc_html_e( 'Premium Plugins Can Only Be Installed And Updated With A Valid Token Registration', 'Avada' ); ?></h2>
+			<?php /* translators: "Product Registration" link. */ ?>
+			<p><?php printf( esc_html__( 'Please visit the %s page and enter a valid token to to install or update the premium plugins: Avada Core, Avada Builder, Fusion White Label Branding, Convert Plus, ACF Pro, Slider Revolution & Layer Slider.', 'Avada' ), '<a href="' . esc_url_raw( admin_url( 'admin.php?page=avada#avada-db-registration' ) ) . '">' . esc_attr__( 'Product Registration', 'Avada' ) . '</a>' ); ?></p>
 		</div>
 	<?php endif; ?>
 
 	<?php if ( empty( $plugins ) ) : ?>
-		<div class="avada-important-notice" style="border-left: 4px solid #dc3232;">
-			<h3 style="color: #dc3232; margin-top: 0;"><?php esc_html_e( 'The Plugin Server Could Not Be Reached', 'Avada' ); ?></h3>
+		<section class="avada-db-card avada-db-notice">
+			<h2><?php esc_html_e( 'The Plugin Server Could Not Be Reached', 'Avada' ); ?></h2>
 			<p>
 				<?php
 				printf(
-					/* translators: %1$s = System Status text & link. %2$s: Plugin Installation text & link. %3$s: Support Dashboard text & link. */
+					/* translators: %1$s = Status text & link. %2$s: Plugin Installation text & link. %3$s: Support Dashboard text & link. */
 					esc_attr__( 'Please check on the %1$s page if wp_remote_get() is working. For more information you can check our documentation of the %2$s. If the issue persists, you can also get the plugins through our alternate method directly from the %3$s.', 'Avada' ),
-					'<a href="' . esc_url_raw( admin_url( 'admin.php?page=avada-system-status' ) ) . '" target="_blank">' . esc_attr__( 'System Status', 'Avada' ) . '</a>',
+					'<a href="' . esc_url_raw( admin_url( 'admin.php?page=avada-status' ) ) . '" target="_blank">' . esc_attr__( 'Status', 'Avada' ) . '</a>',
 					'<a href="https://theme-fusion.com/documentation/avada/install-update/plugin-installation/" target="_blank">' . esc_attr__( 'Plugin Installation', 'Avada' ) . '</a>',
 					'<a href="https://theme-fusion.com/documentation/avada/getting-started/support-desk/" target="_blank">' . esc_attr__( 'Support Dashboard', 'Avada' ) . '</a>'
 				);
 				?>
 			</p>
-		</div>
+		</section>
 	<?php endif; ?>
 
-	<div id="avada-install-plugins" class="avada-demo-themes avada-install-plugins">
+	<section id="avada-install-plugins" class="avada-db-plugins-themes avada-install-plugins avada-db-card">
 		<div class="feature-section theme-browser rendered">
 
 			<?php foreach ( $plugins as $plugin_args ) : ?>
@@ -140,20 +143,20 @@ if ( ! $wp_api_plugins ) {
 					<div class="theme <?php echo esc_attr( $class ); ?>">
 						<div class="theme-wrapper">
 							<div class="theme-screenshot">
-								<img src="<?php echo esc_url_raw( $plugin_args['image'] ); ?>" alt="<?php esc_attr( $plugin_args['name'] ); ?>" />
+								<img src="<?php echo esc_url( $plugin_args['image'] ); ?>" alt="<?php esc_attr( $plugin_args['plugin_name'] ); ?>" />
 							</div>
 							<?php if ( isset( $plugin_action['update'] ) && $plugin_action['update'] ) : ?>
 								<div class="update-message notice inline notice-warning notice-alt">
 									<?php /* translators: Version number. */ ?>
-									<p><?php printf( esc_html__( 'New Version Available: %s', 'Avada' ), esc_html( $plugin_args['version'] ) ); ?></p>
+									<p><?php printf( esc_html__( 'New version available: %s', 'Avada' ), esc_html( $plugin_args['version'] ) ); ?></p>
 								</div>
 							<?php endif; ?>
 							<h3 class="theme-name">
 								<?php if ( 'active' === $plugin_status ) : ?>
 									<?php /* translators: plugin name. */ ?>
-									<span><?php printf( esc_html__( 'Active: %s', 'Avada' ), esc_html( $plugin_args['name'] ) ); ?></span>
+									<span><?php printf( esc_html__( 'Active: %s', 'Avada' ), esc_html( $plugin_args['plugin_name'] ) ); ?></span>
 								<?php else : ?>
-									<?php echo esc_html( $plugin_args['name'] ); ?>
+									<?php echo esc_html( $plugin_args['plugin_name'] ); ?>
 								<?php endif; ?>
 								<div class="plugin-info">
 									<?php if ( isset( $installed_plugins[ $plugin_args['file_path'] ] ) ) : ?>
@@ -222,8 +225,107 @@ if ( ! $wp_api_plugins ) {
 			<p id="avada-plugins-manager-overlay-message"></p>
 		</div>
 		<div id="dialog-plugin-confirm" title="<?php esc_attr_e( 'Error ', 'Avada' ); ?>"></div>
-	<div class="avada-thanks">
-		<p class="description"><?php esc_html_e( 'Thank you for choosing Avada. We are honored and are fully dedicated to making your experience perfect.', 'Avada' ); ?></p>
-	</div>
-</div>
-<div class="fusion-clearfix" style="clear: both;"></div>
+	</section>
+
+	<section class="avada-db-card avada-db-addons-start">
+		<h1 class="avada-db-demos-heading"><?php esc_html_e( 'Get Avada Add-ons', 'Avada' ); ?></h1>
+		<p><?php esc_html_e( 'The Avada Website Builder ecosystem offers a variety of third-party add-ons that extend core features and deliver tailored solutions for specific tasks.', 'Avada' ); ?></p>
+
+		<div class="avada-db-card-notice">
+			<i class="fusiona-info-circle"></i>
+			<p class="avada-db-card-notice-heading">
+				<?php esc_html_e( 'Add-ons are only supported by the author who created them.', 'Avada' ); ?>
+			</p>
+		</div>
+	</section>
+
+	<section class="avada-db-plugins-themes avada-install-plugins avada-install-addons avada-db-card">
+		<div class="feature-section theme-browser rendered">
+			<?php
+			$addons_json = ( isset( $_GET['reset_transient'] ) ) ? false : get_site_transient( 'avada_addons_json' ); // phpcs:ignore WordPress.Security.NonceVerification
+			if ( ! $addons_json ) {
+				$response    = wp_remote_get(
+					'https://updates.theme-fusion.com/fusion_builder_addon/',
+					[
+						'timeout'    => 30,
+						'user-agent' => 'fusion-builder',
+					]
+				);
+				$addons_json = wp_remote_retrieve_body( $response );
+				set_site_transient( 'avada_addons_json', $addons_json, 300 );
+			}
+			$addons = json_decode( $addons_json, true );
+			// Move coming_soon to the end.
+			if ( isset( $addons['415041'] ) ) {
+				$coming_soon = $addons['415041'];
+				unset( $addons['415041'] );
+				$addons['coming-soon'] = $coming_soon;
+			}
+			$n                 = 0;
+			$installed_plugins = get_plugins();
+			?>
+			<div
+			<?php foreach ( $addons as $addon_id => $addon ) : ?>
+				<?php
+				$addon_info   = $this->fusion_get_plugin_info( $addon['plugin_name'], $installed_plugins );
+				$active_class = '';
+				if ( is_array( $addon_info ) ) {
+					$active_class = ( $addon_info['is_active'] ) ? ' active' : ' installed';
+				}
+				?>
+				<div class="fusion-admin-box">
+					<div class="theme<?php echo esc_html( $active_class ); ?>">
+						<div class="theme-wrapper">
+							<div class="theme-screenshot">
+								<img class="addon-image" src="<?php echo esc_url( $addon['thumbnail'] ); ?>" alt="<?php esc_attr( $addon['post_title'] ); ?>" />
+							</div>
+							<h3 class="theme-name" id="<?php esc_attr( $addon['post_title'] ); ?>">
+								<?php echo ( is_array( $addon_info ) && $addon_info['is_active'] ) ? esc_html__( 'Active:', 'Avada' ) : ''; ?>
+								<?php echo esc_html( ucwords( str_replace( [ 'Fusion Builder ', 'Avada Builder ' ], '', $addon['post_title'] ) ) ); ?>
+								<?php if ( is_array( $addon_info ) ) : ?>
+								<div class="plugin-info">
+										<?php
+										$version = ( isset( $addon_info['Version'] ) ) ? $addon_info['Version'] : false;
+										$author  = ( $addon_info['Author'] && $addon_info['AuthorURI'] ) ? "<a href='{$addon_info['AuthorURI']}' target='_blank'>{$addon_info['Author']}</a>" : false;
+
+										if ( $version && $author ) :
+											/* translators: %1$s: Version. %2$s: Author. */
+											printf( __( 'v%1$s | %2$s', 'Avada' ), $version, $author ); // phpcs:ignore WordPress.Security.EscapeOutput
+										endif;
+										?>
+								</div>
+							<?php endif; ?>
+							</h3>
+							<div class="theme-actions">
+								<?php if ( 'coming-soon' !== $addon_id ) : ?>
+									<?php if ( is_array( $addon_info ) ) : ?>
+										<?php if ( $addon_info['is_active'] ) : ?>
+											<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $addon_info['plugin_file'] . '&amp;plugin_status=all&amp;paged=1&amp;s', 'deactivate-plugin_' . $addon_info['plugin_file'] ) ); ?>" target="_blank"><?php esc_html_e( 'Deactivate', 'Avada' ); ?></a>
+										<?php else : ?>
+											<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $addon_info['plugin_file'] . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $addon_info['plugin_file'] ) ); ?>" target="_blank"><?php esc_html_e( 'Activate', 'Avada' ); ?></a>
+										<?php endif; ?>
+									<?php else : ?>
+										<a class="button button-primary button-get-addon" href="<?php echo esc_url( add_query_arg( 'ref', 'ThemeFusion', $addon['url'] ) ); ?>" target="_blank"><?php esc_html_e( 'Get Add-on', 'Avada' ); ?></a>
+									<?php endif; ?>
+								<?php endif; ?>
+
+							</div>
+							<?php if ( isset( $addon['new'] ) && true === $addon['new'] ) : ?>
+								<?php
+								// Show the new badge for first 30 days after release.
+								$now             = time();
+								$date_difference = (int) floor( ( $now - $addon['date'] ) / ( 60 * 60 * 24 ) );
+
+								if ( 30 >= $date_difference ) :
+									?>
+									<div class="plugin-required"><?php esc_html_e( 'New', 'Avada' ); ?></div>
+								<?php endif; ?>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+				<?php $n++; ?>
+			<?php endforeach; ?>
+		</div>
+	</section>
+<?php $this->get_admin_screens_footer(); ?>

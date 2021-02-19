@@ -23,14 +23,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function avada_options_section_responsive( $sections ) {
 
+	$option_name = Fusion_Settings::get_option_name();
+	$settings    = get_option( $option_name, [] );
+
 	$sections['mobile'] = [
 		'label'    => esc_html__( 'Responsive', 'Avada' ),
-		'id'       => 'responsive',
+		'id'       => 'mobile',
 		'priority' => 2,
 		'icon'     => 'el-icon-resize-horizontal',
 		'alt_icon' => 'fusiona-mobile',
 		'fields'   => [
-			'responsive'              => [
+			'responsive'                                => [
 				'label'       => esc_html__( 'Responsive Design', 'Avada' ),
 				'description' => esc_html__( 'Turn on to use the responsive design features. If set to off, the fixed layout is used.', 'Avada' ),
 				'id'          => 'responsive',
@@ -41,7 +44,7 @@ function avada_options_section_responsive( $sections ) {
 					'0' => esc_html__( 'Off', 'Avada' ),
 				],
 			],
-			'grid_main_break_point'   => [
+			'grid_main_break_point'                     => [
 				'label'       => esc_html__( 'Grid Responsive Breakpoint', 'Avada' ),
 				'description' => esc_html__( 'Controls when grid layouts (blog/portfolio) start to break into smaller columns. Further breakpoints are auto calculated.', 'Avada' ),
 				'id'          => 'grid_main_break_point',
@@ -82,7 +85,7 @@ function avada_options_section_responsive( $sections ) {
 					],
 				],
 			],
-			'side_header_break_point' => [
+			'side_header_break_point'                   => [
 				'label'       => esc_html__( 'Header Responsive Breakpoint', 'Avada' ),
 				'description' => esc_html__( 'Controls when the desktop header changes to the mobile header.', 'Avada' ),
 				'id'          => 'side_header_break_point',
@@ -123,7 +126,7 @@ function avada_options_section_responsive( $sections ) {
 					],
 				],
 			],
-			'content_break_point'     => [
+			'content_break_point'                       => [
 				'label'       => esc_html__( 'Site Content Responsive Breakpoint', 'Avada' ),
 				'description' => esc_html__( 'Controls when the site content area changes to the mobile layout. This includes all content below the header including the footer.', 'Avada' ),
 				'id'          => 'content_break_point',
@@ -164,7 +167,7 @@ function avada_options_section_responsive( $sections ) {
 					],
 				],
 			],
-			'sidebar_break_point'     => [
+			'sidebar_break_point'                       => [
 				'label'       => esc_html__( 'Sidebar Responsive Breakpoint', 'Avada' ),
 				'description' => esc_html__( 'Controls when sidebars change to the mobile layout.', 'Avada' ),
 				'id'          => 'sidebar_break_point',
@@ -200,7 +203,7 @@ function avada_options_section_responsive( $sections ) {
 					],
 				],
 			],
-			'mobile_zoom'             => [
+			'mobile_zoom'                               => [
 				'label'       => esc_html__( 'Mobile Device Zoom', 'Avada' ),
 				'description' => esc_html__( 'Turn on to enable pinch to zoom on mobile devices.', 'Avada' ),
 				'id'          => 'mobile_zoom',
@@ -220,7 +223,88 @@ function avada_options_section_responsive( $sections ) {
 				// No need to refresh the page.
 				'transport'   => 'postMessage',
 			],
-			'typography_sensitivity'  => [
+			'element_responsive_breakpoints_info_title' => [
+				'label'       => esc_html__( 'Element Responsive Breakpoints', 'Avada' ),
+				'description' => '',
+				'id'          => 'element_responsive_breakpoints_info_title',
+				'icon'        => true,
+				'type'        => 'info',
+			],
+			'visibility_small'                          => [
+				'label'       => esc_html__( 'Small Screen', 'fusion-builder' ),
+				'description' => esc_html__( 'Controls when the small screen options and visibility should take effect.', 'fusion-builder' ),
+				'id'          => 'visibility_small',
+				'default'     => '640',
+				'type'        => 'slider',
+				'choices'     => [
+					'min'  => '0',
+					'step' => '1',
+					'max'  => '2000',
+				],
+				'option_name' => $option_name,
+				'output'      => [
+					// Runs fusionRecalcVisibilityMediaQueries().
+					[
+						'element'           => 'helperElement',
+						'property'          => 'bottom',
+						'js_callback'       => [
+							'fusionGlobalScriptSet',
+							[
+								'globalVar' => 'dummy',
+								'id'        => 'dummy',
+								'trigger'   => [ 'fusionRecalcVisibilityMediaQueries' ],
+							],
+						],
+						'sanitize_callback' => '__return_empty_string',
+					],
+				],
+			],
+			'visibility_medium'                         => [
+				'label'       => esc_html__( 'Medium Screen', 'fusion-builder' ),
+				'description' => esc_html__( 'Controls when the medium screen options and visibility should take effect.', 'fusion-builder' ),
+				'id'          => 'visibility_medium',
+				'default'     => '1024',
+				'type'        => 'slider',
+				'choices'     => [
+					'min'  => '0',
+					'step' => '1',
+					'max'  => '2000',
+				],
+				'option_name' => $option_name,
+				'output'      => [
+					// Runs fusionRecalcVisibilityMediaQueries().
+					[
+						'element'           => 'helperElement',
+						'property'          => 'bottom',
+						'js_callback'       => [
+							'fusionGlobalScriptSet',
+							[
+								'globalVar' => 'dummy',
+								'id'        => 'dummy',
+								'trigger'   => [ 'fusionRecalcVisibilityMediaQueries' ],
+							],
+						],
+						'sanitize_callback' => '__return_empty_string',
+					],
+				],
+			],
+			'visibility_large'                          => [
+				'label'       => esc_html__( 'Large Screen', 'fusion-builder' ),
+				'description' => esc_html__( 'Any screen larger than that which is defined as the medium screen will be counted as a large screen.', 'fusion-builder' ),
+				'id'          => 'visibility_large',
+				'full_width'  => false,
+				'type'        => 'raw',
+				'content'     => '<div id="fusion-visibility-large">' . ( ( isset( $settings['visibility_medium'] ) && ! empty( $settings['visibility_medium'] ) ) ? '> <span>' . $settings['visibility_medium'] . '</span>' : '> <span>1200</span>' ) . '</div>',
+				'option_name' => $option_name,
+			],
+			'responsive_typography_info_title'          => [
+				'label'       => esc_html__( 'Responsive Typography', 'Avada' ),
+				'description' => '',
+				'id'          => 'responsive_typography_info_title',
+				'icon'        => true,
+				'type'        => 'info',
+			],
+			'typography_sensitivity'                    => [
 				'label'       => esc_html__( 'Responsive Typography Sensitivity', 'Avada' ),
 				'description' => esc_html__( 'Set to 0 to disable responsive typography. Increase the value for a greater effect.', 'Avada' ),
 				'id'          => 'typography_sensitivity',
@@ -260,9 +344,9 @@ function avada_options_section_responsive( $sections ) {
 					],
 				],
 			],
-			'typography_factor'       => [
+			'typography_factor'                         => [
 				'label'       => esc_html__( 'Minimum Font Size Factor', 'Avada' ),
-				'description' => esc_html__( 'Determines the minimum font-size of elements affected by responsive typography using a multiplying value.', 'Avada' ),
+				'description' => esc_html__( 'The minimum font-size of elements affected by responsive typography is body font-size multiplied by this factor.', 'Avada' ),
 				'id'          => 'typography_factor',
 				'default'     => '1.5',
 				'type'        => 'slider',

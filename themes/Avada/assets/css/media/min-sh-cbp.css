@@ -19,12 +19,10 @@
   margin: 0;
 }
 .widget.tribe-events-list-widget.fusion-widget-align-right .tribe-events-list-widget-events {
-  -ms-flex-pack: end;
-      justify-content: end;
+  justify-content: end;
 }
 .widget.tribe-events-list-widget.fusion-widget-align-center .tribe-events-list-widget-events {
-  -ms-flex-pack: center;
-      justify-content: center;
+  justify-content: center;
 }
 .fusion-body .fusion-footer-widget-area-center .widget.tweets:not(.fusion-widget-align-left):not(.fusion-widget-align-right) .jtwt .jtwt_tweet {
   padding: 0;

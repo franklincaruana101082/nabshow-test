@@ -248,7 +248,6 @@ class Avada {
 	 */
 	public $registration;
 
-
 	/**
 	 * Avada_Slider_Revolution.
 	 *
@@ -257,7 +256,6 @@ class Avada {
 	 * @var object Avada_Slider_Revolution
 	 */
 	public $slider_revolution;
-
 
 	/**
 	 * Avada_Sermon_Manager
@@ -290,7 +288,6 @@ class Avada {
 	 * @var object Avada_Block_Editor
 	 */
 	public $block_editor;
-
 
 	/**
 	 * Access the single instance of this class.
@@ -352,8 +349,8 @@ class Avada {
 				'type'    => 'theme',
 				'name'    => 'Avada',
 				'bundled' => [
-					'fusion-core'                 => 'Fusion Core',
-					'fusion-builder'              => 'Fusion Builder',
+					'fusion-core'                 => 'Avada Core',
+					'fusion-builder'              => 'Avada Builder',
 					'fusion-white-label-branding' => 'Fusion White Label Branding',
 				],
 			]
@@ -375,7 +372,7 @@ class Avada {
 		$this->block_editor      = new Avada_Block_Editor();
 
 		// Set the Fusion Library Image Class variable to the Avada one, to avoid duplication.
-		fusion_library()->images = $this->images;       
+		fusion_library()->images = $this->images;
 	}
 
 	/**
@@ -505,11 +502,11 @@ class Avada {
 
 		// Set the self::$lang.
 		$active_language = $multilingual::get_active_language();
-		if ( ! in_array( $active_language, [ '', 'en', 'all' ] ) ) {
+		if ( ! in_array( $active_language, [ '', 'en', 'all' ] ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			self::$lang = '_' . $active_language;
 		}
 		// Make sure the options are copied if needed.
-		if ( ! in_array( self::$lang, [ '', 'en', 'all' ] ) && ! self::$lang_applied ) {
+		if ( ! in_array( self::$lang, [ '', 'en', 'all' ] ) && ! self::$lang_applied ) { // phpcs:ignore WordPress.PHP.StrictInArray
 			// Set the $option_name property.
 			self::$option_name = self::get_option_name();
 			// Get the options without using a language (defaults).
@@ -613,17 +610,16 @@ class Avada {
 	 * Gets the Avada_Images object.
 	 *
 	 * NOTE: Do not remove, needed for users updating from 6.1.2.
-	 * 
+	 *
 	 * @since 2.2.0
 	 * @return Avada_Images
 	 */
 	public function get_images_obj() {
 		if ( ! $this->images ) {
 			$this->images = new Avada_Images();
-
 		}
 		return $this->images;
-	}   
+	}
 }
 
 /* Omit closing PHP tag to avoid "Headers already sent" issues. */

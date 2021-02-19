@@ -86,6 +86,7 @@ class Avada_Options {
 			'slideshows',
 			'elastic_slider',
 			'lightbox',
+			'forms',
 			'contact',
 			'search',
 			'privacy',
@@ -189,7 +190,7 @@ class Avada_Options {
 				}
 
 				// For normal fields, we'll just add the field ID to our array.
-				if ( ! in_array( $field['type'], [ 'sub-section', 'accordion' ] ) ) {
+				if ( ! in_array( $field['type'], [ 'sub-section', 'accordion' ], true ) ) {
 					if ( isset( $field['id'] ) ) {
 						$fields[] = $field['id'];
 					}
@@ -230,7 +231,7 @@ class Avada_Options {
 				}
 
 				// This is a sub-section or an accordion.
-				if ( isset( $field['type'] ) && in_array( $field['type'], [ 'sub-section', 'accordion' ] ) ) {
+				if ( isset( $field['type'] ) && in_array( $field['type'], [ 'sub-section', 'accordion' ], true ) ) {
 
 					// Start parsing the fields inside the sub-section/accordion.
 					foreach ( $field['fields'] as $sub_field ) {

@@ -453,7 +453,6 @@ function avada_options_section_blog( $sections ) {
 					'bottom' => true,
 					'left'   => true,
 					'right'  => true,
-					'units'  => [ 'px', '%' ],
 				],
 				'default'     => [
 					'top'    => '30px',
@@ -719,7 +718,7 @@ function avada_options_section_blog( $sections ) {
 		],
 	];
 
-	$blog_single_post_info_2 = ( $has_global_content ) ? [
+	$blog_single_post_info_2 = [
 		'label'       => esc_html__( 'Blog Single Post', 'Avada' ),
 		'description' => '',
 		'id'          => 'blog_single_post_info_2',
@@ -730,29 +729,22 @@ function avada_options_section_blog( $sections ) {
 			'content_blog_single_post_template_notice' => [
 				'id'          => 'content_blog_single_post_template_notice',
 				'label'       => '',
-				'description' => sprintf(
+				'hidden'      => ! $has_global_content,
+				'description' => class_exists( 'Fusion_Template_Builder' ) ? sprintf(
 					/* translators: 1: Content|Footer|Page Title Bar. 2: URL. */
 					'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are not available because a global %1$s override is currently used. To edit your global layout please visit <a href="%2$s" target="_blank">this page</a>.', 'Avada' ) . '</div>',
 					Fusion_Template_Builder::get_instance()->get_template_terms()['content']['label'],
-					admin_url( 'admin.php?page=fusion-layouts' )
-				),
+					admin_url( 'admin.php?page=avada-layouts' )
+				) : '',
 				'type'        => 'custom',
 			],
-		],
-	] : [
-		'label'       => esc_html__( 'Blog Single Post', 'Avada' ),
-		'description' => '',
-		'id'          => 'blog_single_post_info_2',
-		'default'     => '',
-		'icon'        => true,
-		'type'        => 'sub-section',
-		'fields'      => [
-			'blog_width_100'          => [
+			'blog_width_100'                           => [
 				'label'           => esc_html__( '100% Width Page', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display blog posts at 100% browser width according to the window size. Turn off to follow site width.', 'Avada' ),
 				'id'              => 'blog_width_100',
 				'default'         => 0,
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -761,12 +753,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'featured_images_single'  => [
+			'featured_images_single'                   => [
 				'label'           => esc_html__( 'Featured Image / Video on Single Blog Post', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display featured images and videos on single blog posts.', 'Avada' ),
 				'id'              => 'featured_images_single',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -775,12 +768,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'blog_pn_nav'             => [
+			'blog_pn_nav'                              => [
 				'label'           => esc_html__( 'Previous/Next Pagination', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the previous/next post pagination for single blog posts.', 'Avada' ),
 				'id'              => 'blog_pn_nav',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -789,12 +783,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'blog_post_title'         => [
+			'blog_post_title'                          => [
 				'label'           => esc_html__( 'Post Title', 'Avada' ),
 				'description'     => esc_html__( 'Controls if the post title displays above or below the featured post image or is disabled.', 'Avada' ),
 				'id'              => 'blog_post_title',
 				'default'         => 'below',
 				'type'            => 'radio-buttonset',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'below'    => esc_html__( 'Below ', 'Avada' ),
 					'above'    => esc_html__( 'Above', 'Avada' ),
@@ -808,12 +803,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'blog_post_meta_position' => [
+			'blog_post_meta_position'                  => [
 				'label'           => esc_html__( 'Meta Data Position', 'Avada' ),
 				'description'     => esc_html__( 'Choose where the meta data is positioned.', 'Avada' ),
 				'id'              => 'blog_post_meta_position',
 				'default'         => 'below_article',
 				'type'            => 'radio-buttonset',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'below_article' => esc_html__( 'Below Article', 'Avada' ),
 					'below_title'   => esc_html__( 'Below Title', 'Avada' ),
@@ -833,12 +829,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'social_sharing_box'      => [
+			'social_sharing_box'                       => [
 				'label'           => esc_html__( 'Social Sharing Box', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the social sharing box.', 'Avada' ),
 				'id'              => 'social_sharing_box',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -847,12 +844,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'author_info'             => [
+			'author_info'                              => [
 				'label'           => esc_html__( 'Author Info Box', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display the author info box below posts.', 'Avada' ),
 				'id'              => 'author_info',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -861,12 +859,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'related_posts'           => [
+			'related_posts'                            => [
 				'label'           => esc_html__( 'Related Posts', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display related posts.', 'Avada' ),
 				'id'              => 'related_posts',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -875,12 +874,13 @@ function avada_options_section_blog( $sections ) {
 					],
 				],
 			],
-			'blog_comments'           => [
+			'blog_comments'                            => [
 				'label'           => esc_html__( 'Comments', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display comments.', 'Avada' ),
 				'id'              => 'blog_comments',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_singular',
@@ -1144,9 +1144,13 @@ function avada_options_section_blog( $sections ) {
 			],
 			'date_format'                   => [
 				'label'       => esc_html__( 'Date Format', 'Avada' ),
-				'description' => __( 'Controls the date format for date meta data.  <a href="https://wordpress.org/support/article/formatting-date-and-time/" target="_blank" rel="noopener noreferrer">Formatting Date and Time</a>', 'Avada' ),
+				'description' => sprintf(
+					/* translators: Link to general settings in the dashboard. */
+					__( 'Controls the date format for date meta data.  <a href="https://wordpress.org/support/article/formatting-date-and-time/" target="_blank" rel="noopener noreferrer">Formatting Date and Time</a>. Leave empty to use the default value from your <a href="%s" target="_blank">WordPress Settings</a>', 'Avada' ),
+					esc_url( admin_url( 'options-general.php' ) )
+				),
 				'id'          => 'date_format',
-				'default'     => 'F jS, Y',
+				'default'     => '',
 				'type'        => 'text',
 			],
 		],

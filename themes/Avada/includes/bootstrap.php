@@ -61,7 +61,7 @@ foreach ( $avada_glob_filenames as $filename ) {
 
 global $wp_customize;
 /**
- * If Fusion-Builder is installed, add the options.
+ * If Avada-Builder is installed, add the options.
  */
 if ( ( ( defined( 'FUSION_BUILDER_PLUGIN_DIR' ) && is_admin() ) || ! is_admin() ) && ( ! is_customize_preview() && ! $wp_customize ) ) {
 	new Fusion_Builder_Redux_Options();
@@ -126,13 +126,7 @@ function Avada() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
 	return Avada::get_instance();
 }
 
-/**
- * Instantiate the Avada_Admin class.
- * We need this both in the front & back to make sure the admin menu is properly added.
- */
-if ( ! is_customize_preview() ) {
-	new Avada_Admin();
-}
+Avada();
 
 /**
  * Instantiate the Avada_Multiple_Featured_Images object.
@@ -220,7 +214,8 @@ global $avada_avadaredux_args;
 $option_name      = Avada::get_option_name();
 $is_language_all  = Avada::get_language_is_all();
 $default_language = Fusion_Multilingual::get_default_language();
-if ( $is_language_all && 'fusion_options' === $option_name ) {
+
+if ( $is_language_all && 'fusion_options' === $option_name && 'en' !== $default_language ) {
 	$option_name = Avada::get_option_name() . '_' . $default_language;
 }
 
@@ -233,14 +228,22 @@ $avada_avadaredux_args = [
 	'textdomain'           => 'Avada',
 	'disable_dependencies' => (bool) ( '0' === Avada()->settings->get( 'dependencies_status' ) ),
 	'display_name'         => 'Avada',
-	'menu_title'           => __( 'Theme Options', 'Avada' ),
-	'page_title'           => __( 'Theme Options', 'Avada' ),
+	'menu_title'           => __( 'Global Options', 'Avada' ),
+	'page_title'           => __( 'Global Options', 'Avada' ),
 	'global_variable'      => 'fusion_fusionredux_options',
 	'page_parent'          => 'themes.php',
 	'page_slug'            => 'avada_options',
 	'menu_type'            => 'submenu',
 	'page_permissions'     => 'switch_themes',
 ];
+
+/**
+ * Instantiate the Avada_Admin class.
+ * We need this both in the front & back to make sure the admin menu is properly added.
+ */
+if ( ! is_customize_preview() ) {
+	new Avada_Admin();
+}
 
 /**
  * Conditionally Instantiate Avada_AvadaRedux.
@@ -262,7 +265,6 @@ if ( $avadaredux_export ) {
 	$load_avada_gfonts = false;
 }
 
-global $avada_avadaredux;
 if ( $load_avadaredux ) {
 	$avada_avadaredux = new Avada_AvadaRedux( $avada_avadaredux_args );
 }
@@ -299,7 +301,7 @@ if ( is_admin() ) {
 /**
  * Instantiate Avada_System_Status helper class.
  */
-if ( is_admin() && ( isset( $_GET['page'] ) && 'avada-system-status' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) || ( fusion_doing_ajax() && isset( $_GET['action'] ) && 'fusion_check_api_status' === $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+if ( is_admin() && ( isset( $_GET['page'] ) && 'avada-status' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) || ( fusion_doing_ajax() && isset( $_GET['action'] ) && ( 'fusion_check_api_status' === $_GET['action'] || 'fusion_create_forms_tables' === $_GET['action'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 	new Avada_System_Status();
 }
 
@@ -333,6 +335,7 @@ if ( is_admin() ) {
  */
 if ( class_exists( 'WooCommerce' ) ) {
 	require_once Avada::$template_dir_path . '/includes/wc-functions.php';
+	require_once Avada::$template_dir_path . '/includes/class-avada-woocommerce-variations.php';
 	global $avada_woocommerce;
 	$avada_woocommerce = new Avada_Woocommerce();
 }
@@ -374,21 +377,14 @@ add_filter( 'get_archives_link', 'avada_cat_count_span' );
 add_filter( 'wp_list_categories', 'avada_cat_count_span' );
 
 /**
- * Modify admin CSS.
- */
-function avada_custom_admin_styles() {
-	echo '<style type="text/css">.widget input { border-color: #DFDFDF !important; }</style>';
-}
-add_action( 'admin_head', 'avada_custom_admin_styles' );
-
-/**
  * Add admin messages.
  */
 function avada_admin_notice() {
 	?>
 	<?php if ( isset( $_GET['imported'] ) && 'success' === $_GET['imported'] ) : // phpcs:ignore WordPress.Security.NonceVerification ?>
-		<div id="setting-error-settings_updated" class="updated settings-error">
-			<p><?php esc_attr_e( 'Sucessfully imported demo data!', 'Avada' ); ?></p>
+		<div id="setting-error-settings_updated" class="updated settings-error avada-db-card avada-db-notice avada-db-notice-success">
+			<h2><?php esc_html_e( 'Sucessfully imported demo data!', 'Avada' ); ?></h2>
+			<p><?php esc_html_e( 'Congratulations, your demo data was successfully imported to you your install.', 'Avada' ); ?></p>
 		</div>
 	<?php endif; ?>
 	<?php
@@ -571,11 +567,11 @@ global $avada_patcher;
 $avada_patcher = new Fusion_Patcher(
 	[
 		'context'     => 'avada',
-		'version'     => Avada::get_theme_version(),
+		'version'     => AVADA_VERSION,
 		'name'        => 'Avada',
 		'parent_slug' => 'avada',
-		'page_title'  => esc_attr__( 'Fusion Patcher', 'Avada' ),
-		'menu_title'  => esc_attr__( 'Fusion Patcher', 'Avada' ),
+		'page_title'  => esc_attr__( 'Avada Patcher', 'Avada' ),
+		'menu_title'  => esc_attr__( 'Patcher', 'Avada' ),
 		'classname'   => 'Avada',
 		'bundled'     => [
 			'fusion-builder',
@@ -607,7 +603,7 @@ if ( class_exists( 'FusionCore_Plugin' ) ) {
 	if ( version_compare( $fc_version, '2.0', '<' ) ) {
 		$maintenance = true;
 		/* translators: The "follow this link" link. */
-		$admin_message = sprintf( esc_attr__( 'The Fusion-Core plugin needs to be updated before your site can exit maintenance mode. Please %s to update the plugin.', 'Avada' ), '<a href="' . admin_url( 'themes.php?page=install-required-plugins' ) . '" style="color:#0088cc;font-weight:bold;">' . esc_attr__( 'follow this link', 'Avada' ) . '</a>' );
+		$admin_message = sprintf( esc_attr__( 'The Avada-Core plugin needs to be updated before your site can exit maintenance mode. Please %s to update the plugin.', 'Avada' ), '<a href="' . admin_url( 'themes.php?page=install-required-plugins' ) . '" style="color:#0088cc;font-weight:bold;">' . esc_attr__( 'follow this link', 'Avada' ) . '</a>' );
 	}
 }
 
@@ -642,7 +638,7 @@ add_filter( 'fusion_builder_options_url', 'avada_set_options_url' );
  * @return string
  */
 function avada_set_options_label( $label ) {
-	return esc_html__( 'Theme Options', 'Avada' );
+	return esc_html__( 'Global Options', 'Avada' );
 }
 
 /**
@@ -681,7 +677,7 @@ if ( fusion_doing_ajax() && isset( $_POST['action'] ) && 'update-theme' === $_PO
 }
 
 /**
- * Include Fusion Builder shared options support.
+ * Include Avada Builder shared options support.
  */
 if ( class_exists( 'FusionBuilder' ) ) {
 	require_once Avada::$template_dir_path . '/includes/fusion-shared-options.php';

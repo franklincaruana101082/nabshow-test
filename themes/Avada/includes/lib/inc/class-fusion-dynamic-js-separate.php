@@ -31,7 +31,7 @@ final class Fusion_Dynamic_JS_Separate {
 
 		$this->dynamic_js = $dynamic_js;
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_separate_scripts' ] );
+		$this->enqueue_separate_scripts();
 	}
 
 	/**
@@ -45,7 +45,7 @@ final class Fusion_Dynamic_JS_Separate {
 		$wp_content_dir = untrailingslashit( wp_normalize_path( WP_CONTENT_DIR ) );
 		$wp_content_url = content_url();
 
-		$scripts = $this->dynamic_js->get_scripts();
+		$scripts = $this->dynamic_js->get_ordered_scripts();
 		foreach ( $scripts as $script ) {
 			// Get URL in case we're using path.
 			if ( 0 !== strpos( $script['url'], 'http' ) ) {

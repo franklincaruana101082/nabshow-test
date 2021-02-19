@@ -50,9 +50,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</li>
 
 					<?php endif; ?>
-					<?php $i = 2; ?>
-					<?php while ( $i <= Avada()->settings->get( 'posts_slideshow_number' ) ) : ?>
-						<?php $attachment_new_id = fusion_get_featured_image_id( 'featured-image-' . $i, 'post' ); ?>
+					<?php
+					$the_post_type = false !== get_post_type() ? get_post_type() : 'post';
+					$image_count   = 2;
+					?>
+					<?php while ( $image_count <= Avada()->settings->get( 'posts_slideshow_number' ) ) : ?>
+						<?php $attachment_new_id = fusion_get_featured_image_id( 'featured-image-' . $image_count, $the_post_type ); ?>
 						<?php if ( $attachment_new_id ) : ?>
 							<li>
 								<?php if ( Avada()->settings->get( 'status_lightbox' ) && Avada()->settings->get( 'status_lightbox_single' ) ) : ?>
@@ -69,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php endif; ?>
 							</li>
 						<?php endif; ?>
-						<?php $i++; ?>
+						<?php $image_count++; ?>
 					<?php endwhile; ?>
 				</ul>
 			</div>

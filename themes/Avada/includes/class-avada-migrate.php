@@ -297,14 +297,14 @@ class Avada_Migrate extends Avada_Upgrade {
 				.avada-update-progress-bar {
 					height: 20px;
 					position: relative;
-					background: #F0F4C3;
+					background: rgba(101, 188, 123, 0.3);
 					margin: 35px 0;
 					padding: 1px;
 				}
 				.avada-update-progress-bar > span {
 					display: block;
 					height: 100%;
-					background-color: #8bc34a;
+					background-color: #65bc7b;
 					position: relative;
 					overflow: hidden;
 				}
@@ -396,10 +396,10 @@ class Avada_Migrate extends Avada_Upgrade {
 
 							if ( ! empty( $this->available_languages ) ) {
 								/* translators: Version number. */
-								printf( esc_html__( 'We have an amazing new update in store for you! Avada %s includes our completely new Theme Options Panel and the brand new Fusion Builder. To enjoy the full experience, two primary conversion steps need to be performed. First your Theme Options database entries need to be converted (sequentially for each language, if you have a multi-lingual site). In a second step your shortcodes will be converted for the new builder. Thank you for choosing Avada!', 'Avada' ), esc_attr( $version ) );
+								printf( esc_html__( 'We have an amazing new update in store for you! Avada %s includes our completely new Global Options Panel and the brand new Avada Builder. To enjoy the full experience, two primary conversion steps need to be performed. First your Global Options database entries need to be converted (sequentially for each language, if you have a multi-lingual site). In a second step your shortcodes will be converted for the new builder. Thank you for choosing Avada!', 'Avada' ), esc_attr( $version ) );
 							} else {
 								/* translators: Version number. */
-								printf( esc_html__( 'We have an amazing new update in store for you! Avada %s includes our completely new Theme Options Panel and the brand new Fusion Builder. To enjoy the full experience, two primary conversion steps need to be performed. First your Theme Options database entries need to be converted. In a second step your shortcodes will be converted for the new builder. Thank you for choosing Avada!', 'Avada' ), esc_attr( $version ) );
+								printf( esc_html__( 'We have an amazing new update in store for you! Avada %s includes our completely new Global Options Panel and the brand new Avada Builder. To enjoy the full experience, two primary conversion steps need to be performed. First your Global Options database entries need to be converted. In a second step your shortcodes will be converted for the new builder. Thank you for choosing Avada!', 'Avada' ), esc_attr( $version ) );
 							}
 							?>
 						</div>
@@ -450,7 +450,7 @@ class Avada_Migrate extends Avada_Upgrade {
 								</ul>
 							<?php else : ?>
 								<?php if ( empty( $this->available_languages ) || count( $this->available_languages ) == array_search( $this->active_language, $this->available_languages ) + 1 ) : ?>
-									<p><?php esc_html_e( 'Congratulations, Theme Options database enrties were successfully converted.', 'Avada' ); ?></p>
+									<p><?php esc_html_e( 'Congratulations, Global Options database enrties were successfully converted.', 'Avada' ); ?></p>
 									<p><?php esc_html_e( 'For best experience, please clear your browser cache once.', 'Avada' ); ?></p>
 									<p><?php esc_html_e( 'Dynamic-CSS caches have been auto reset.', 'Avada' ); ?></p>
 								<?php endif; ?>

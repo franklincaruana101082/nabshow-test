@@ -135,22 +135,27 @@ class Fusion_App {
 	private function __construct() {
 
 		$can_edit = ( current_user_can( 'edit_theme_options' ) || current_user_can( 'publish_pages' ) || current_user_can( 'publish_posts' ) );
-		if ( ! apply_filters( 'fusion_load_live_editor', $can_edit ) ) {
-			return;
-		}
 
-		// Save post content.
-		add_action( 'wp_ajax_fusion_app_save_post_content', [ $this, 'fusion_app_save_post_content' ] );
-
-		if ( ! $this->has_capability() ) {
-			return;
-		}
-
-		$this->set_builder_status();
-		$this->set_preview_status();
 		$this->set_ajax_status();
 
-		$this->init();
+		// Action to get google fonts, used both in Live Editor and Backend builder.
+		add_action( 'wp_ajax_fusion_get_webfonts_ajax', [ $this, 'get_googlefonts_ajax' ] );
+
+		if ( apply_filters( 'fusion_load_live_editor', $can_edit ) ) {
+
+			// Save post content.
+			add_action( 'wp_ajax_fusion_app_save_post_content', [ $this, 'fusion_app_save_post_content' ] );
+
+			if ( ! $this->has_capability() ) {
+				return;
+			}
+			$this->set_builder_status();
+			$this->set_preview_status();
+
+
+			$this->init();
+		}
+
 	}
 
 	/**
@@ -197,6 +202,8 @@ class Fusion_App {
 			add_action( 'wp_enqueue_scripts', [ $this, 'live_scripts' ], 997 );
 			add_action( 'wp_footer', [ $this, 'load_templates' ] );
 
+			add_action( 'wp_footer', [ $this, 'inject_css_vars' ] );
+
 			add_action( 'wp_print_footer_scripts', [ $this, 'fusion_authorization' ], 10 );
 
 			add_filter( 'body_class', [ $this, 'body_class' ], 997 );
@@ -213,13 +220,50 @@ class Fusion_App {
 		// Action for replacing partial contents.
 		add_action( 'wp_ajax_fusion_app_partial_refresh', [ $this, 'fusion_app_partial_refresh' ] );
 
-		add_action( 'wp_ajax_fusion_get_webfonts_ajax', [ $this, 'get_googlefonts_ajax' ] );
-
 		// Action to add new term from live editor.
 		add_action( 'wp_ajax_fusion_multiselect_addnew', [ $this, 'fusion_multiselect_addnew' ] );
 
-		// Front end page edit trigger.
-		add_action( 'admin_bar_menu', [ $this, 'builder_trigger' ], 999 );
+		// Front end page edit trigger. Work around for theme check.
+		$add_to_admin_bar_hook = 'admin_bar_menu';
+		add_action( $add_to_admin_bar_hook, [ $this, 'builder_trigger' ], 999 );
+
+		add_action( 'wp_footer', [ $this, 'remove_unused_form_links' ], 997 );
+	}
+
+	/**
+	 * Remove unused form links.
+	 *
+	 * @access public
+	 * @since 3.1
+	 * @return void
+	 */
+	public function remove_unused_form_links() {
+		$maybe_has_forms = class_exists( 'Fusion_Template_Builder' ) && function_exists( 'get_post_type' ) && 'fusion_tb_section' !== get_post_type();
+		if ( ! current_user_can( 'edit_others_posts' ) || ! is_admin_bar_showing() || ! $maybe_has_forms ) {
+			return;
+		}
+		?>
+			<script>
+				jQuery( document ).ready( function() {
+					var $formEditLinks = jQuery( 'li[id^="wp-admin-bar-fb-edit-form-"]' ),
+						$ul            = jQuery( '#wp-admin-bar-fb-edit-default' );
+
+					if ( 0 < $formEditLinks.length ) {
+						$formEditLinks.each( function() {
+							var formId = this.id.replace( 'wp-admin-bar-fb-edit-form', 'fusion-form' );
+							if ( ! jQuery( '.' + formId ).length ) {
+								this.remove();
+							}
+						} );
+
+						// Remove empty Ul.
+						if ( $ul.length && ! $ul.children().length ) {
+							$ul.remove();
+						}
+					}
+				} )
+			</script>
+		<?php
 	}
 
 	/**
@@ -466,11 +510,12 @@ class Fusion_App {
 			}
 
 			// Taxonomies.
-			if ( in_array( $post_type, [ 'post', 'avada_portfolio' ], true ) ) {
+			$taxonomy_post_types = (array) apply_filters( 'fusion_taxonomy_post_type', [ 'post', 'avada_portfolio' ] );
+			if ( in_array( $post_type, $taxonomy_post_types, true ) ) {
 				$post_taxonomies = get_object_taxonomies( $post_type, 'objects' );
 				if ( 0 < count( $post_taxonomies ) ) {
 					foreach ( $post_taxonomies as $taxonomy ) {
-						if ( 'post_format' !== $taxonomy->name ) {
+						if ( 'post_format' !== $taxonomy->name && 'fusion_tb_category' !== $taxonomy->name ) {
 
 							// current terms.
 							$post_terms    = get_the_terms( $page_id, $taxonomy->name );
@@ -598,11 +643,11 @@ class Fusion_App {
 	}
 
 	/**
-	 * Link to admin bar for builder.
+	 * Add link to admin bar for builder.
 	 *
 	 * @access public
 	 * @since 2.0
-	 * @param array $admin_bar admin bar.
+	 * @param Object $admin_bar admin bar.
 	 * @return void
 	 */
 	public function builder_trigger( $admin_bar ) {
@@ -613,18 +658,22 @@ class Fusion_App {
 		}
 
 		$customize_url = add_query_arg( 'fb-edit', true, $customize_url );
+		$live_editor   = apply_filters( 'fusion_load_live_editor', true );
 
-		$admin_bar->add_node(
-			[
-				'id'    => 'fb-edit',
-				'title' => esc_html__( 'Fusion Builder Live', 'fusion-builder' ),
-				'href'  => $customize_url,
-			]
-		);
+		if ( $live_editor ) {
+			$admin_bar->add_node(
+				[
+					'id'    => 'fb-edit',
+					'title' => apply_filters( 'fusion_edit_live_title', esc_html__( 'Edit Live', 'fusion-builder' ) ),
+					'href'  => $customize_url,
+				]
+			);
+		}
 
 		if ( class_exists( 'Fusion_Template_Builder' ) && function_exists( 'get_post_type' ) && 'fusion_tb_section' !== get_post_type() ) {
 			$templates     = Fusion_Template_Builder()->get_template_terms();
 			$submenu_items = [];
+			$forms         = [];
 
 			foreach ( $templates as $key => $template_arr ) {
 				$template = Fusion_Template_Builder::get_instance()->get_override( $key );
@@ -634,9 +683,13 @@ class Fusion_App {
 						'label'       => $template_arr['label'],
 						'template_id' => $template->ID,
 					];
-
+					preg_match_all( '/form_post_id\=\"(.*?)\"/', $template->post_content, $matches );
+					$forms = array_merge( $forms, $matches[1] );
 				}
 			}
+
+			preg_match_all( '/form_post_id\=\"(.*?)\"/', get_the_content( null, false, get_the_id() ), $matches );
+			$forms = array_merge( $forms, $matches[1] );
 
 			if ( $submenu_items ) {
 
@@ -661,6 +714,34 @@ class Fusion_App {
 						]
 					);
 
+				}
+			}
+
+			// Add all forms.
+			if ( current_user_can( 'edit_others_posts' ) && class_exists( 'Fusion_Form_Builder' ) && false !== Fusion_Form_Builder::is_enabled() && function_exists( 'get_post_type' ) && 'fusion_form' !== get_post_type() ) {
+				$args         = [
+					'post_type'      => 'fusion_form',
+					'posts_per_page' => -1, // phpcs:ignore WPThemeReview.CoreFunctionality.PostsPerPage.posts_per_page_posts_per_page
+					'post_status'    => 'publish',
+				];
+				$fusion_forms = get_posts( $args );
+
+				foreach ( $fusion_forms as $form ) {
+					$element_post_id    = $form->ID;
+					$element_post_title = $form->post_title;
+
+					if ( is_admin() && ! in_array( $element_post_id, $forms ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+						continue;
+					}
+					$admin_bar->add_node(
+						[
+							'parent' => 'fb-edit',
+							'id'     => 'fb-edit-form-' . $element_post_id,
+							/* translators: Template name, for example Content */
+							'title'  => sprintf( __( 'Edit Form - %s', 'fusion-builder' ), $element_post_title ),
+							'href'   => add_query_arg( 'fb-edit', true, get_permalink( $element_post_id ) ),
+						]
+					);
 				}
 			}
 		}
@@ -697,6 +778,14 @@ class Fusion_App {
 			$classes[] = 'fusion-disable-element-filters';
 		}
 
+		if ( isset( $preferences::$preferences['sticky_header'] ) && 'off' === $preferences::$preferences['sticky_header'] ) {
+			$classes[] = 'fusion-disable-sticky';
+		}
+
+		if ( isset( $preferences::$preferences['transparent_header'] ) && 'off' === $preferences::$preferences['transparent_header'] ) {
+			$classes[] = 'fusion-no-absolute-containers';
+		}
+
 		return $classes;
 	}
 
@@ -730,7 +819,7 @@ class Fusion_App {
 
 		$preferences = $this->preferences;
 		$classes     = [];
-		$classes[]   = 'fusion-builder-live wp-core-ui fb-customizer js';
+		$classes[]   = 'fusion-builder-live fusion-builder-module-settings-large wp-core-ui fb-customizer js';
 		if ( wp_is_mobile() ) {
 			$classes[] = 'mobile';
 		}
@@ -841,7 +930,8 @@ class Fusion_App {
 				}
 
 				// Filter post format.
-				if ( in_array( $post_details['post_type'], [ 'post', 'avada_portfolio' ], true ) ) {
+				$taxonomy_post_types = (array) apply_filters( 'fusion_taxonomy_post_type', [ 'post', 'avada_portfolio' ] );
+				if ( in_array( $post_details['post_type'], $taxonomy_post_types, true ) ) {
 					add_filter(
 						'get_the_terms',
 						function( $terms, $id, $taxonomy ) use ( $post_details ) {
@@ -1007,6 +1097,7 @@ class Fusion_App {
 		include FUSION_LIBRARY_PATH . '/inc/fusion-app/templates/front-end-toolbar.php';
 		include FUSION_LIBRARY_PATH . '/inc/fusion-app/templates/repeater-fields.php';
 		include FUSION_LIBRARY_PATH . '/inc/fusion-app/templates/modal-dialog-more.php';
+		include FUSION_LIBRARY_PATH . '/inc/fusion-app/templates/bulk-add.php';
 	}
 
 	/**
@@ -1033,7 +1124,7 @@ class Fusion_App {
 		wp_enqueue_script( 'jquery-color' );
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'iris', admin_url( 'js/iris.min.js' ), [], $fusion_library_latest_version, true );
-		wp_enqueue_script( 'wp-color-picker', admin_url( 'js/color-picker.min.js' ), [], $fusion_library_latest_version, true );
+		wp_enqueue_script( 'wp-color-picker', admin_url( 'js/color-picker.min.js' ), [ 'wp-i18n' ], $fusion_library_latest_version, true );
 
 		$colorpicker_l10n = [
 			'clear'         => __( 'Clear', 'Avada' ),
@@ -1045,7 +1136,7 @@ class Fusion_App {
 		wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
 
 		// ColorPicker Alpha Channel.
-		wp_enqueue_script( 'wp-color-picker-alpha', FUSION_LIBRARY_URL . '/inc/redux/custom-fields/color_alpha/wp-color-picker-alpha.js', [], $fusion_library_latest_version, true );
+		wp_enqueue_script( 'wp-color-picker-alpha', FUSION_LIBRARY_URL . '/inc/redux/custom-fields/color_alpha/wp-color-picker-alpha.js', [ 'wp-i18n' ], $fusion_library_latest_version, true );
 
 		// Media.
 		wp_enqueue_media();
@@ -1224,7 +1315,11 @@ class Fusion_App {
 			wp_enqueue_script( 'fusion_app_option_export', FUSION_LIBRARY_URL . '/inc/fusion-app/options/export.js', [], $fusion_library_latest_version, true );
 			wp_enqueue_script( 'fusion_app_option_sortable', FUSION_LIBRARY_URL . '/inc/fusion-app/options/sortable.js', [], $fusion_library_latest_version, true );
 			wp_enqueue_script( 'fusion_app_option_sortable_text', FUSION_LIBRARY_URL . '/inc/fusion-app/options/sortable-text.js', [], $fusion_library_latest_version, true );
+			wp_enqueue_script( 'fusion_app_option_connected_sortable', FUSION_LIBRARY_URL . '/inc/fusion-app/options/connected-sortable.js', [], $fusion_library_latest_version, true );
 			wp_enqueue_script( 'fusion_app_option_color_palette', FUSION_LIBRARY_URL . '/inc/fusion-app/options/color-palette.js', [], $fusion_library_latest_version, true );
+			wp_enqueue_script( 'fusion_app_option_column_width', FUSION_LIBRARY_URL . '/inc/fusion-app/options/column-width.js', [], $fusion_library_latest_version, true );
+			wp_enqueue_script( 'fusion_app_option_form_options', FUSION_LIBRARY_URL . '/inc/fusion-app/options/form-options.js', [], $fusion_library_latest_version, true );
+			wp_enqueue_script( 'fusion_app_option_hubspot_map', FUSION_LIBRARY_URL . '/inc/fusion-app/options/hubspot-map.js', [], $fusion_library_latest_version, true );
 
 			wp_enqueue_script( 'fusion-extra-panel-functions', FUSION_LIBRARY_URL . '/inc/fusion-app/callbacks.js', [], $fusion_library_latest_version, true );
 
@@ -1253,6 +1348,7 @@ class Fusion_App {
 				'fusion_library_url'     => esc_url_raw( FUSION_LIBRARY_URL ),
 				'fusion_web_fonts'       => apply_filters( 'fusion_live_initial_google_fonts', true ) ? $this->get_googlefonts_ajax() : false,
 				'widget_element_enabled' => function_exists( 'fusion_is_element_enabled' ) && fusion_is_element_enabled( 'fusion_widget' ),
+				'predefined_choices'     => apply_filters( 'fusion_predefined_choices', [] ),
 			]
 		);
 
@@ -1343,7 +1439,8 @@ class Fusion_App {
 					}
 
 					// Post taxonomies.
-					if ( in_array( $post_details['post_type'], [ 'post', 'avada_portfolio' ], true ) ) {
+					$taxonomy_post_types = (array) apply_filters( 'fusion_taxonomy_post_type', [ 'post', 'avada_portfolio' ] );
+					if ( in_array( $post_details['post_type'], $taxonomy_post_types, true ) ) {
 						$post_taxonomies = get_object_taxonomies( $post_details['post_type'], 'objects' );
 						foreach ( $post_taxonomies as $taxonomy ) {
 							if ( 'post_format' !== $taxonomy->name ) {
@@ -1404,8 +1501,8 @@ class Fusion_App {
 					}
 
 					$update_term = wp_update_term( $term_id, $term_data->taxonomy, apply_filters( 'fusion_save_term_object', $term ) );
-					if ( is_wp_error( $update_post ) ) {
-						$this->add_save_data( 'content', false, $update_post->get_error_messages() );
+					if ( is_wp_error( $update_term ) ) {
+						$this->add_save_data( 'content', false, $update_term->get_error_messages() );
 					} else {
 						$this->add_save_data( 'content', true, esc_html__( 'The archive details updated.', 'fusion-builder' ) );
 					}
@@ -1518,7 +1615,6 @@ class Fusion_App {
 					self::$google_fonts[ $font['family'] ] = [
 						'label'    => $font['family'],
 						'variants' => $font['variants'],
-						'subsets'  => $font['subsets'],
 					];
 				}
 			}
@@ -1552,31 +1648,10 @@ class Fusion_App {
 			'900italic' => esc_html__( 'Ultra-Bold 900 Italic', 'Avada' ),
 		];
 
-		// An array of all available subsets.
-		$all_subsets = [
-			'cyrillic'     => 'Cyrillic',
-			'cyrillic-ext' => 'Cyrillic Extended',
-			'devanagari'   => 'Devanagari',
-			'greek'        => 'Greek',
-			'greek-ext'    => 'Greek Extended',
-			'khmer'        => 'Khmer',
-			'latin'        => 'Latin',
-			'latin-ext'    => 'Latin Extended',
-			'vietnamese'   => 'Vietnamese',
-			'hebrew'       => 'Hebrew',
-			'arabic'       => 'Arabic',
-			'bengali'      => 'Bengali',
-			'gujarati'     => 'Gujarati',
-			'tamil'        => 'Tamil',
-			'telugu'       => 'Telugu',
-			'thai'         => 'Thai',
-		];
-
 		// Format the array for use by the typography controls.
 		$google_fonts_final = [];
 		foreach ( $google_fonts as $family => $args ) {
 			$variants = ( isset( $args['variants'] ) ) ? $args['variants'] : [ 'regular', '700' ];
-			$subsets  = ( isset( $args['subsets'] ) ) ? $args['subsets'] : [];
 
 			$available_variants = [];
 			if ( is_array( $variants ) ) {
@@ -1590,23 +1665,10 @@ class Fusion_App {
 				}
 			}
 
-			$available_subsets = [];
-			if ( is_array( $subsets ) ) {
-				foreach ( $subsets as $subset ) {
-					if ( array_key_exists( $subset, $all_subsets ) ) {
-						$available_subsets[] = [
-							'id'    => $subset,
-							'label' => $all_subsets[ $subset ],
-						];
-					}
-				}
-			}
-
 			$google_fonts_final[] = [
 				'family'   => $family,
 				'label'    => ( isset( $args['label'] ) ) ? $args['label'] : $family,
 				'variants' => $available_variants,
-				'subsets'  => $available_subsets,
 			];
 		}
 
@@ -1653,7 +1715,6 @@ class Fusion_App {
 			$standard_fonts_final[] = [
 				'family'      => $font,
 				'label'       => $font,
-				'subsets'     => [],
 				'is_standard' => true,
 				'variants'    => $default_variants,
 			];
@@ -1666,7 +1727,6 @@ class Fusion_App {
 				$custom_fonts[] = [
 					'family'   => $font,
 					'label'    => $font,
-					'subsets'  => [],
 					'variants' => [
 						[
 							'id'    => '400',
@@ -1770,10 +1830,10 @@ class Fusion_App {
 			$wp_query              = new WP_Query( $args ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 
 			if ( fusion_doing_ajax() ) {
-				$wp_the_query = $wp_query;
+				$wp_the_query = $wp_query; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 				$post_id      = $this->get_data( 'post_id' );
 				$post_id      = $post_id ? $post_id : 0;
-				$post         = get_post( $post_id );
+				$post         = get_post( $post_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 			}
 			return $wp_query;
 		}
@@ -1842,9 +1902,23 @@ class Fusion_App {
 		global $wp_query;
 
 		if ( null !== $this->backup_wp_query ) {
-			$wp_query = $this->backup_wp_query;
+			$wp_query = $this->backup_wp_query; // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		}
+	}
 
+	/**
+	 * Inject CSS vars to parent window.
+	 *
+	 * @access public
+	 * @since 7.0
+	 */
+	public function inject_css_vars() {
+		global $fusion_settings;
+
+		echo '<style type="text/css" id="fusion-parent-window-css-vars">';
+		echo ':root{--small_screen_width:' . absint( $fusion_settings->get( 'visibility_small' ) ) . 'px;}';
+		echo ':root{--medium_screen_width:' . absint( $fusion_settings->get( 'visibility_medium' ) ) . 'px;}';
+		echo '</style>';
 	}
 }
 

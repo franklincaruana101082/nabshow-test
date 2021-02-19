@@ -135,7 +135,7 @@ class Avada_Template {
 			$sidebar_2 = Avada()->settings->get( 'blog_archive_sidebar_2' );
 		}
 
-		if ( is_archive() && ( ! Avada_Helper::is_buddypress() && ! Fusion_Helper::is_bbpress() && ( class_exists( 'WooCommerce' ) && ! is_shop() ) || ! class_exists( 'WooCommerce' ) ) && ! is_post_type_archive( 'avada_portfolio' ) && ! is_tax( 'portfolio_category' ) && ! is_tax( 'portfolio_skills' ) && ! is_tax( 'portfolio_tags' ) && ! ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() ) ) {
+		if ( is_archive() && ( ! Fusion_Helper::is_buddypress() && ! Fusion_Helper::is_bbpress() && ( class_exists( 'WooCommerce' ) && ! is_shop() ) || ! class_exists( 'WooCommerce' ) ) && ! is_post_type_archive( 'avada_portfolio' ) && ! is_tax( 'portfolio_category' ) && ! is_tax( 'portfolio_skills' ) && ! is_tax( 'portfolio_tags' ) && ! ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() ) ) {
 			$sidebar_1 = Avada()->settings->get( 'blog_archive_sidebar' );
 			$sidebar_2 = Avada()->settings->get( 'blog_archive_sidebar_2' );
 		}
@@ -155,7 +155,7 @@ class Avada_Template {
 			$sidebar_2 = Avada()->settings->get( 'search_sidebar_2' );
 		}
 
-		if ( ( ( class_exists( 'bbPress' ) && Fusion_Helper::is_bbpress() ) || Avada_Helper::is_buddypress() ) && ( class_exists( 'bbPress' ) && ( Fusion_Helper::bbp_is_forum_archive() || Fusion_Helper::bbp_is_topic_archive() || Avada_Helper::bbp_is_user_home() || Fusion_Helper::bbp_is_search() ) ) ) {
+		if ( Fusion_Helper::is_buddypress() || Fusion_Helper::bbp_is_forum_archive() || Fusion_Helper::bbp_is_topic_archive() || Avada_Helper::bbp_is_user_home() || Fusion_Helper::bbp_is_search() ) {
 			$sidebar_1 = Avada()->settings->get( 'ppbress_sidebar' );
 			$sidebar_2 = Avada()->settings->get( 'ppbress_sidebar_2' );
 		}
@@ -275,8 +275,15 @@ class Avada_Template {
 		if ( ! fusion_get_option( 'status_outline' ) ) {
 			$classes[] = 'fusion-disable-outline';
 		}
-		if ( 'horizontal' === Avada()->settings->get( 'woocommerce_product_tab_design' ) && ( is_singular( 'product' ) || class_exists( 'Woocommerce' ) && ( is_account_page() || is_checkout() ) ) ) {
+
+		$using_woo_horizontal_tabs = apply_filters( 'fusion_add_woo_horizontal_tabs_body_class', 'horizontal' === Avada()->settings->get( 'woocommerce_product_tab_design' ) && ( is_singular( 'product' ) || class_exists( 'Woocommerce' ) && ( is_account_page() || is_checkout() ) ) );
+		if ( $using_woo_horizontal_tabs ) {
 			$classes[] = 'woo-tabs-horizontal';
+		}
+
+		// Woo sale badge shape flag.
+		if ( 'circle' === Avada()->settings->get( 'woo_sale_badge_shape' ) ) {
+			$classes[] = 'woo-sale-badge-circle';
 		}
 
 		$classes[] = 'fusion-sub-menu-' . Avada()->settings->get( 'main_menu_sub_menu_animation' );
@@ -293,11 +300,11 @@ class Avada_Template {
 			$classes[] = 'avada-has-zero-margin-offset-top';
 		}
 
-		if ( is_array( $sidebar_1 ) && ! empty( $sidebar_1 ) && ( $sidebar_1[0] || '0' == $sidebar_1[0] ) && ! Avada_Helper::is_buddypress() && ! Fusion_Helper::is_bbpress() && ! is_page_template( '100-width.php' ) && ! is_page_template( 'blank.php' ) && ( ! class_exists( 'WooCommerce' ) || ( class_exists( 'WooCommerce' ) && ! is_cart() && ! is_checkout() && ! is_account_page() && ! ( get_option( 'woocommerce_thanks_page_id' ) && is_page( get_option( 'woocommerce_thanks_page_id' ) ) ) ) ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons
+		if ( is_array( $sidebar_1 ) && ! empty( $sidebar_1 ) && ( $sidebar_1[0] || '0' == $sidebar_1[0] ) && ! Fusion_Helper::is_buddypress() && ! Fusion_Helper::is_bbpress() && ! is_page_template( '100-width.php' ) && ! is_page_template( 'blank.php' ) && ( ! class_exists( 'WooCommerce' ) || ( class_exists( 'WooCommerce' ) && ! is_cart() && ! is_checkout() && ! is_account_page() && ! ( get_option( 'woocommerce_thanks_page_id' ) && is_page( get_option( 'woocommerce_thanks_page_id' ) ) ) ) ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons
 			$classes[] = 'has-sidebar';
 		}
 
-		if ( is_array( $sidebar_1 ) && $sidebar_1[0] && is_array( $sidebar_2 ) && $sidebar_2[0] && ! Avada_Helper::is_buddypress() && ! Fusion_Helper::is_bbpress() && ! is_page_template( '100-width.php' ) && ! is_page_template( 'blank.php' ) && ( ! class_exists( 'WooCommerce' ) || ( class_exists( 'WooCommerce' ) && ! is_cart() && ! is_checkout() && ! is_account_page() && ! ( get_option( 'woocommerce_thanks_page_id' ) && is_page( get_option( 'woocommerce_thanks_page_id' ) ) ) ) ) ) {
+		if ( is_array( $sidebar_1 ) && $sidebar_1[0] && is_array( $sidebar_2 ) && $sidebar_2[0] && ! Fusion_Helper::is_buddypress() && ! Fusion_Helper::is_bbpress() && ! is_page_template( '100-width.php' ) && ! is_page_template( 'blank.php' ) && ( ! class_exists( 'WooCommerce' ) || ( class_exists( 'WooCommerce' ) && ! is_cart() && ! is_checkout() && ! is_account_page() && ! ( get_option( 'woocommerce_thanks_page_id' ) && is_page( get_option( 'woocommerce_thanks_page_id' ) ) ) ) ) ) {
 			$classes[] = 'double-sidebars';
 		}
 
@@ -318,7 +325,7 @@ class Avada_Template {
 			}
 		}
 
-		if ( is_archive() && ( ! ( class_exists( 'BuddyPress' ) && Avada_Helper::is_buddypress() ) && ! ( class_exists( 'bbPress' ) && Fusion_Helper::is_bbpress() ) && ! ( class_exists( 'Tribe__Events__Main' ) && Fusion_Helper::is_events_archive( $c_page_id ) ) && ( class_exists( 'WooCommerce' ) && ! is_shop() ) || ! class_exists( 'WooCommerce' ) ) && ! is_tax( 'portfolio_category' ) && ! is_tax( 'portfolio_skills' ) && ! is_tax( 'portfolio_tags' ) && ! is_tax( 'product_cat' ) && ! is_tax( 'product_tag' ) ) {
+		if ( is_archive() && ( ! ( class_exists( 'BuddyPress' ) && Fusion_Helper::is_buddypress() ) && ! ( class_exists( 'bbPress' ) && Fusion_Helper::is_bbpress() ) && ! ( class_exists( 'Tribe__Events__Main' ) && Fusion_Helper::is_events_archive( $c_page_id ) ) && ( class_exists( 'WooCommerce' ) && ! is_shop() ) || ! class_exists( 'WooCommerce' ) ) && ! is_tax( 'portfolio_category' ) && ! is_tax( 'portfolio_skills' ) && ! is_tax( 'portfolio_tags' ) && ! is_tax( 'product_cat' ) && ! is_tax( 'product_tag' ) ) {
 			if ( 'None' !== $sidebar_1 ) {
 				$classes[] = 'has-sidebar';
 			}
@@ -354,7 +361,7 @@ class Avada_Template {
 			}
 		}
 
-		if ( ( Fusion_Helper::is_bbpress() || Avada_Helper::is_buddypress() ) && ! Fusion_Helper::bbp_is_forum_archive() && ! Fusion_Helper::bbp_is_topic_archive() && ! Avada_Helper::bbp_is_user_home() && ! Fusion_Helper::bbp_is_search() ) {
+		if ( ( Fusion_Helper::is_bbpress() || Fusion_Helper::is_buddypress() ) && ! Fusion_Helper::bbp_is_forum_archive() && ! Fusion_Helper::bbp_is_topic_archive() && ! Avada_Helper::bbp_is_user_home() && ! Fusion_Helper::bbp_is_search() ) {
 			if ( Avada()->settings->get( 'bbpress_global_sidebar' ) ) {
 				$sidebar_1 = is_array( $sidebar_1 ) ? $sidebar_1[0] : $sidebar_1;
 				$sidebar_1 = empty( $sidebar_1 ) ? 'None' : $sidebar_1;
@@ -377,7 +384,7 @@ class Avada_Template {
 			}
 		}
 
-		if ( ( Fusion_Helper::is_bbpress() || Avada_Helper::is_buddypress() ) && ( Fusion_Helper::bbp_is_forum_archive() || Fusion_Helper::bbp_is_topic_archive() || Avada_Helper::bbp_is_user_home() || Fusion_Helper::bbp_is_search() ) ) {
+		if ( ( Fusion_Helper::is_bbpress() || Fusion_Helper::is_buddypress() ) && ( Fusion_Helper::bbp_is_forum_archive() || Fusion_Helper::bbp_is_topic_archive() || Avada_Helper::bbp_is_user_home() || Fusion_Helper::bbp_is_search() ) ) {
 			if ( 'None' !== $sidebar_1 ) {
 				$classes[] = 'has-sidebar';
 			}
@@ -402,8 +409,8 @@ class Avada_Template {
 		$override = function_exists( 'Fusion_Template_Builder' ) ? Fusion_Template_Builder()->get_override( 'content' ) : false;
 		if ( $override ) {
 
-			$has_sidebar_key         = array_search( 'has-sidebar', $classes );
-			$has_double_sidebars_key = array_search( 'double-sidebars', $classes );
+			$has_sidebar_key         = array_search( 'has-sidebar', $classes, true );
+			$has_double_sidebars_key = array_search( 'double-sidebars', $classes, true );
 
 			if ( is_array( $sidebar_1_original ) && ! empty( $sidebar_1_original ) && $sidebar_1_original[0] ) {
 				$classes[] = 'has-sidebar';
@@ -455,7 +462,7 @@ class Avada_Template {
 				$classes[] = 'avada-woo-one-page-checkout';
 			}
 
-			if ( fusion_get_option( 'disable_woo_gallery' ) ) {
+			if ( 'avada' === apply_filters( 'avada_woocommerce_product_images_layout', 'avada' ) ) {
 				$classes[] = 'avada-has-woo-gallery-disabled';
 			}
 		}
@@ -681,7 +688,7 @@ class Avada_Template {
 	 * The comment template.
 	 *
 	 * @access public
-	 * @param string     $comment The comment.
+	 * @param Object     $comment The comment.
 	 * @param array      $args    The comment arguments.
 	 * @param int|string $depth   The comment depth.
 	 */

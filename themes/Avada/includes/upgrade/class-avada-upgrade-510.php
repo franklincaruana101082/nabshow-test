@@ -107,8 +107,8 @@ class Avada_Upgrade_510 extends Avada_Upgrade_Abstract {
 	 *
 	 * @since 5.1.0
 	 * @access protected
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	protected function update_woocommerce_single_gallery_size_option( $options ) {
 		$shop_single_image_size = get_option( 'shop_single_image_size', true );
@@ -125,8 +125,8 @@ class Avada_Upgrade_510 extends Avada_Upgrade_Abstract {
 	 *
 	 * @since 5.1.0
 	 * @access protected
-	 * @param array $options The Theme Options array.
-	 * @return array The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array The updated Global Options array.
 	 */
 	protected function update_repeater_field_names( $options ) {
 		// Update social-media repeaters.

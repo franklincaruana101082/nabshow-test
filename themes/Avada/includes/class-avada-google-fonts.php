@@ -41,14 +41,6 @@ final class Avada_Google_Fonts {
 	private $google_fonts = [];
 
 	/**
-	 * The array of subsets
-	 *
-	 * @access private
-	 * @var array
-	 */
-	private $subsets = [];
-
-	/**
 	 * The google link
 	 *
 	 * @access private
@@ -84,8 +76,7 @@ final class Avada_Google_Fonts {
 		$this->loop_fields();
 
 		// Allow filter to add in fonts.
-		$this->fonts   = apply_filters( 'fusion_google_fonts', $this->fonts );
-		$this->subsets = apply_filters( 'fusion_google_font_subsets', $this->subsets );
+		$this->fonts = apply_filters( 'fusion_google_fonts', $this->fonts );
 
 		// Goes through $this->fonts and adds or removes things as needed.
 		$this->process_fonts();
@@ -101,8 +92,6 @@ final class Avada_Google_Fonts {
 	 * @access public
 	 */
 	public function enqueue() {
-
-		$version = Avada::get_theme_version();
 		$this->init();
 
 		if ( 'local' === Avada()->settings->get( 'gfonts_load_method' ) ) {
@@ -110,8 +99,41 @@ final class Avada_Google_Fonts {
 		}
 		// If $this->remote_link is not empty then enqueue it.
 		if ( '' !== $this->remote_link && false === $this->get_fonts_inline_styles() ) {
-			wp_enqueue_style( 'avada_google_fonts', $this->remote_link, [], $version );
+			// The "null" version is there to get around a WP-Core bug.
+			// See https://core.trac.wordpress.org/ticket/49742.
+			wp_enqueue_style( 'avada_google_fonts', $this->remote_link, [], null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters
 		}
+	}
+
+	/**
+	 * Generates preload tags for Google fonts.
+	 *
+	 * @access public
+	 * @since 7.2
+	 */
+	public function get_preload_tags() {
+		$transient_name = 'fusion_gfonts_preload_tags';
+		$tags           = get_transient( $transient_name );
+
+		if ( ! $tags ) {
+			// Go through our fields and populate $this->fonts.
+			$this->loop_fields();
+
+			// Get styles.
+			$css = $this->get_fonts_inline_styles();
+
+			// Get font files.
+			preg_match_all( '/http.*?\.woff/', $css, $matches );
+			$matches = array_shift( $matches );
+
+			foreach ( $matches as $match ) {
+				$tags .= '<link rel="preload" href="' . $match . '" as="font" type="font/woff2" crossorigin>';
+			}
+
+			set_transient( $transient_name, $tags );
+		}
+
+		return $tags;
 	}
 
 	/**
@@ -196,19 +218,6 @@ final class Avada_Google_Fonts {
 			}
 		}
 
-		if ( isset( $value['subsets'] ) ) {
-
-			// Add the subset directly to the array of subsets in the Kirki_GoogleFonts_Manager object.
-			// Subsets must be applied to ALL fonts if possible.
-			if ( ! is_array( $value['subsets'] ) ) {
-				$this->subsets[] = $value['subsets'];
-			} else {
-				foreach ( $value['subsets'] as $subset ) {
-					$this->subsets[] = $subset;
-				}
-			}
-		}
-
 		// Add the requested google-font.
 		if ( ! isset( $this->fonts[ $value['font-family'] ] ) ) {
 			$this->fonts[ $value['font-family'] ] = [];
@@ -229,6 +238,11 @@ final class Avada_Google_Fonts {
 			$this->fonts[ $value['font-family'] ][] = '700';
 			$this->fonts[ $value['font-family'] ][] = '700italic';
 		}
+
+		if ( 400 !== $value['variant'] && '400' !== $value['variant'] && 'regular' !== $value['variant'] ) {
+			$this->fonts[ $value['font-family'] ][] = intval( $value['variant'] ) . 'italic';
+		}
+
 		// Make sure there are no duplicate entries.
 		$this->fonts[ $value['font-family'] ] = array_unique( $this->fonts[ $value['font-family'] ] );
 
@@ -248,7 +262,6 @@ final class Avada_Google_Fonts {
 			return;
 		}
 
-		$valid_subsets = [];
 		foreach ( $this->fonts as $font => $variants ) {
 
 			// Determine if this is indeed a google font or not.
@@ -266,18 +279,7 @@ final class Avada_Google_Fonts {
 
 			// Only use valid variants.
 			$this->fonts[ $font ] = array_intersect( $variants, $font_variants );
-
-			// Check if the selected subsets exist, even in one of the selected fonts.
-			// If they don't, then they have to be removed otherwise the link will fail.
-			if ( isset( $this->google_fonts[ $font ]['subsets'] ) ) {
-				foreach ( $this->subsets as $subset ) {
-					if ( in_array( $subset, $this->google_fonts[ $font ]['subsets'], true ) ) {
-						$valid_subsets[] = $subset;
-					}
-				}
-			}
 		}
-		$this->subsets = $valid_subsets;
 	}
 
 	/**
@@ -287,41 +289,97 @@ final class Avada_Google_Fonts {
 	 */
 	private function create_remote_link() {
 
-		// Filter the fonts array.
-		$this->fonts = apply_filters( 'fusion_google_fonts', $this->fonts );
-
 		// If we don't have any fonts then we can exit.
 		if ( empty( $this->fonts ) ) {
 			return;
 		}
 
-		// Get font-family + subsets.
+		// Get font-family.
 		$link_fonts = [];
 		foreach ( $this->fonts as $font => $variants ) {
 
-			$variants = implode( ',', $variants );
+			$weights = [
+				'regular' => [],
+				'italic'  => [],
+			];
 
-			$link_font = str_replace( ' ', '+', $font );
-			if ( ! empty( $variants ) ) {
-				$link_font .= ':' . $variants;
+			if ( ( ! $variants || empty( $variants ) || ( isset( $variants[0] ) && empty( $variants[0] ) && ! isset( $variants[1] ) ) ) && isset( $this->google_fonts[ $font ] ) && isset( $this->google_fonts[ $font ]['variants'] ) ) {
+				$variants = $this->google_fonts[ $font ]['variants'];
 			}
+
+			foreach ( $variants as $variant ) {
+				$weight = ( 'regular' === $variant || 'italic' === $variant ) ? 400 : intval( $variant );
+				if ( $weight ) {
+					if ( false === strpos( $variant, 'i' ) ) {
+						$weights['regular'][] = $weight;
+					} else {
+						$weights['italic'][] = $weight;
+					}
+				}
+			}
+
+			// Same as array_unique, just faster.
+			$weights['regular'] = array_flip( array_flip( $weights['regular'] ) );
+			$weights['italic']  = array_flip( array_flip( $weights['italic'] ) );
+
+			// The new Google-Fonts API requires font-weights in a specific order.
+			sort( $weights['regular'] );
+			sort( $weights['italic'] );
+
+			if ( empty( $weights['regular'] ) ) {
+				unset( $weights['regular'] );
+			}
+
+			if ( empty( $weights['italic'] ) ) {
+				unset( $weights['italic'] );
+			}
+
+			// Build the font-family part.
+			$link_font = 'family=' . str_replace( ' ', '+', $font );
+
+			// Define if we want italics.
+			if ( isset( $weights['italic'] ) ) {
+				$link_font .= ':ital';
+			}
+
+			if ( empty( $weights ) ) {
+				$weights = [
+					'regular' => [ 400, 700 ],
+				];
+			}
+
+			// Build the font-weights part.
+			$font_weights_fragments = [];
+			if ( ! isset( $weights['italic'] ) ) {
+				$font_weights_fragments = $weights['regular'];
+			} else {
+				if ( isset( $weights['regular'] ) ) {
+					foreach ( $weights['regular'] as $weight ) {
+						$font_weights_fragments[] = '0,' . $weight;
+					}
+				}
+				if ( isset( $weights['italic'] ) ) {
+					foreach ( $weights['italic'] as $weight ) {
+						$font_weights_fragments[] = '1,' . $weight;
+					}
+				}
+			}
+
+			if ( ! isset( $weights['italic'] ) && isset( $weights['regilar'] ) && 1 === count( $weights['regular'] ) && 400 === $weights['regular'][0] ) {
+				$link_fonts[] = $link_font;
+				continue;
+			}
+			$link_font .= ( isset( $weights['italic'] ) ) ? ',wght@' : ':wght@';
+			$link_font .= implode( ';', $font_weights_fragments );
+
 			$link_fonts[] = $link_font;
 		}
 
-		if ( ! empty( $this->subsets ) ) {
-			$this->subsets = array_unique( $this->subsets );
-		}
-
-		$query_args        = [
-			'family' => str_replace( '%2B', '+', rawurlencode( implode( '|', $link_fonts ) ) ),
-			'subset' => rawurlencode( implode( ',', $this->subsets ) ),
-		];
+		$this->remote_link = 'https://fonts.googleapis.com/css2?' . implode( '&', $link_fonts );
 		$font_face_display = Avada()->settings->get( 'font_face_display' );
 		if ( 'block' !== $font_face_display ) {
-			$query_args['display'] = 'swap';
+			$this->remote_link .= '&display=swap';
 		}
-
-		$this->remote_link = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
 	}
 
 	/**
@@ -361,7 +419,6 @@ final class Avada_Google_Fonts {
 					$google_fonts[ $font['family'] ] = [
 						'label'    => $font['family'],
 						'variants' => $font['variants'],
-						'subsets'  => $font['subsets'],
 					];
 				}
 			}
@@ -426,7 +483,7 @@ final class Avada_Google_Fonts {
 
 			// Store remote HTML file in transient, expire after 24 hours.  Only do so if no extra per page files added.
 			if ( ! $skip_transient ) {
-				set_transient( 'avada_googlefonts_contents', $contents, DAY_IN_SECONDS );
+				set_transient( $transient_name, $contents, DAY_IN_SECONDS );
 			}
 		}
 

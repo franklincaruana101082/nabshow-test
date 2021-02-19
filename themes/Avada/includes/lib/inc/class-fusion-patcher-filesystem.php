@@ -94,11 +94,11 @@ class Fusion_Patcher_Filesystem {
 		];
 
 		$response = wp_remote_get( $url, $args );
-		if ( is_array( $response ) ) {
+		if ( is_array( $response ) && 200 === $response['response']['code'] ) {
 			return $response['body'];
 		}
 		// Add a message so that the user knows what happened.
-		new Fusion_Patcher_Admin_Notices( 'no-patch-contents', esc_html__( 'The Avada patch contents cannot be retrieved. Please contact your host to unblock the "https://gist.github.com/" domain.', 'Avada' ) );
+		new Fusion_Patcher_Admin_Notices( 'no-patch-contents', esc_html__( 'The Avada patch contents cannot be retrieved. Please contact your host to unblock the "https://updates.theme-fusion.com/" domain.', 'Avada' ) );
 		return false;
 	}
 

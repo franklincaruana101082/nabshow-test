@@ -38,7 +38,7 @@ class Fusion_Patcher_Checker {
 	 *
 	 * @access private
 	 * @since 1.0.0
-	 * @var array
+	 * @var Object
 	 */
 	private $patcher = [];
 
@@ -164,7 +164,7 @@ class Fusion_Patcher_Checker {
 		$contexts   = $bundles;
 		$contexts[] = $this->patcher->get_args( 'context' );
 
-		$this->patches = Fusion_Patcher_Client::get_patches( $this->patcher->get_args() );
+		$this->patches = Fusion_Patcher_Client::get_patches( $args );
 		foreach ( $bundles as $bundle ) {
 			$instance = $this->patcher->get_instance( $bundle );
 			if ( is_object( $instance ) ) {

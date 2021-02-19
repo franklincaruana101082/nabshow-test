@@ -109,6 +109,12 @@ class Fusion_Sanitize {
 			foreach ( $values as $value ) {
 				$raw_value = self::number( $value );
 
+				// Isn't a number, do not add unit.
+				if ( ! is_numeric( $raw_value ) ) {
+					$raw_values[] = $value;
+					continue;
+				}
+
 				if ( $value === $raw_value ) {
 					$value = $raw_value . $unit;
 				} elseif ( 'force_replace' === $unit_handling ) {
@@ -249,10 +255,7 @@ class Fusion_Sanitize {
 	 * @return string     Full URL without scheme.
 	 */
 	public static function get_url_with_correct_scheme( $url ) {
-
-		$url = set_url_scheme( $url );
-
-		return $url;
+		return set_url_scheme( $url );
 	}
 
 	/**

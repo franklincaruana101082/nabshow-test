@@ -33,11 +33,11 @@
 				<label>
 					<input class="color-picker color-picker-placeholder" type="text" value="">
 				</label>
-				<button type="button" class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid"></i></button>
+				<button type="button" class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid" aria-hidden="true"></i></button>
 			</span>
 			<span class="fusion-colorpicker-icon fusiona-color-dropper"></span>
 			<# if ( 'undefined' !== typeof FusionApp ) { #>
-				<button class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid"></i></button>
+				<button class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid" aria-hidden="true"></i></button>
 			<# } #>
 		</div>
 	</div>

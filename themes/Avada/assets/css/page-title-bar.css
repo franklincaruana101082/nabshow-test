@@ -64,12 +64,9 @@
   height: 100%;
 }
 .fusion-page-title-wrapper {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
   height: 100%;
   width: 100%;
@@ -78,8 +75,7 @@
   width: auto;
 }
 .fusion-page-title-secondary {
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
+  flex-shrink: 0;
   text-align: right;
 }
 .fusion-page-title-secondary .searchform {
@@ -111,8 +107,7 @@
   margin-top: 10px;
 }
 .fusion-page-title-bar-right .fusion-page-title-wrapper {
-  -ms-flex-flow: row-reverse;
-      flex-flow: row-reverse;
+  flex-flow: row-reverse;
 }
 .fusion-page-title-bar-right .fusion-page-title-captions {
   text-align: right;

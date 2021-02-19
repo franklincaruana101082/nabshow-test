@@ -22,6 +22,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array
  */
 function avada_options_section_woocommerce( $sections ) {
+	$fusion_settings = Fusion_Settings::get_instance();
+
+	// Check if we have a global header override.
+	$has_global_header = false;
+	if ( class_exists( 'Fusion_Template_Builder' ) ) {
+		$default_layout    = Fusion_Template_Builder::get_default_layout();
+		$has_global_header = isset( $default_layout['data']['template_terms'] ) && isset( $default_layout['data']['template_terms']['header'] ) && $default_layout['data']['template_terms']['header'];
+	}
+
+	$body_typography = $fusion_settings->get( 'body_typography' );
 
 	$sections['woocommerce'] = ( Avada::$is_updating || class_exists( 'WooCommerce' ) ) ? [
 		'label'    => esc_html__( 'WooCommerce', 'Avada' ),
@@ -75,7 +85,7 @@ function avada_options_section_woocommerce( $sections ) {
 						'default'         => 4,
 						'type'            => 'slider',
 						'choices'     => [
-							'min'  => 1,
+							'min'  => 0,
 							'max'  => 6,
 							'step' => 1,
 						],
@@ -102,16 +112,46 @@ function avada_options_section_woocommerce( $sections ) {
 							'step' => 1,
 						],
 					],
-					'disable_woo_gallery' => [
-						'label'           => esc_html__( 'Avada\'s WooCommerce Product Gallery Slider', 'Avada' ),
-						'description'     => esc_html__( 'Turn on to enable Avada\'s product gallery slider.', 'Avada' ),
-						'id'              => 'disable_woo_gallery',
+					'woocommerce_archive_grid_column_spacing'             => [
+						'label'           => esc_html__( 'Column Spacing', 'Avada' ),
+						'description'     => esc_html__( 'Controls the column spacing between products on WooCommerce product archives.', 'Avada' ),
+						'id'              => 'woocommerce_archive_grid_column_spacing',
+						'default'         => '40',
+						'type'            => 'slider',
+						'choices'         => [
+							'min'  => '0',
+							'step' => '1',
+							'max'  => '300',
+							'edit' => 'yes',
+						],
+						'css_vars'        => [
+							[
+								'name'          => '--woocommerce_archive_grid_column_spacing',
+								'value_pattern' => '$px',
+							],
+						],
+					],
+					'woocommerce_product_images_layout' => [
+						'label'       => esc_html__( 'WooCommerce Product Images Layout', 'Avada' ),
+						'description' => esc_html__( 'Set the layout for your product images.', 'Avada' ),
+						'id'          => 'woocommerce_product_images_layout',
+						'type'        => 'radio-buttonset',
+						'default'     => 'avada',
+						'choices'     => [
+							'avada'       => esc_html__( 'Avada', 'Avada' ),
+							'woocommerce' => esc_html__( 'WooCommerce', 'Avada' ),
+						],
+					],
+					'woocommerce_product_images_zoom' => [
+						'label'           => esc_html__( 'WooCommerce Product Images Zoom', 'Avada' ),
+						'description'     => __( 'Turn on to enable the WooCommerce product images zoom feature. <strong>IMPORTANT NOTE:</strong> Every product image you use must be larger than the product images container for zoom to work correctly. <a href="https://theme-fusion.com/documentation/avada/woocommerce-single-product-gallery/" target="_blank">See this post for more information.</a>', 'Avada' ),
+						'id'              => 'woocommerce_product_images_zoom',
 						'default'         => '1',
 						'type'            => 'switch',
 					],
 					'woocommerce_single_gallery_size' => [
-						'label'       => esc_html__( 'WooCommerce Product Gallery Size', 'Avada' ),
-						'description' => __( 'Controls the size of the single product page image gallery. For the image gallery zoom feature to work, the images you upload must be larger than the gallery size you select for this option. <strong>Important:</strong> When this option is changed, you may need to adjust the Single Product Image size setting in WooCommerce Settings to make sure that one is larger and also regenerate thumbnails. <a href="https://theme-fusion.com/documentation/avada/woocommerce-single-product-gallery/" target="_blank">See this post for more information.</a><br/>', 'Avada' ),
+						'label'       => esc_html__( 'WooCommerce Product Images Width', 'Avada' ),
+						'description' => __( 'Controls the width of the single product page image gallery. For the image gallery zoom feature to work, the images you upload must be larger than the gallery size you select for this option. <strong>IMPORTANT NOTE:</strong> When this option is changed, you may need to adjust the Single Product Image size setting in WooCommerce Settings to make sure that one is larger and also regenerate thumbnails. <a href="https://theme-fusion.com/documentation/avada/woocommerce-single-product-gallery/" target="_blank">See this post for more information.</a><br/>', 'Avada' ),
 						'id'          => 'woocommerce_single_gallery_size',
 						'default'     => '500px',
 						'type'        => 'dimension',
@@ -119,12 +159,12 @@ function avada_options_section_woocommerce( $sections ) {
 						'css_vars'    => [
 							[
 								'name'    => '--woocommerce_single_gallery_size',
-								'element' => '.images',
+								'element' => '.avada-product-images-global .woocommerce-product-gallery',
 							],
 						],
 						'output'      => [
 							[
-								'element'       => '.product .summary.entry-summary',
+								'element'       => '.ltr .product .summary.entry-summary',
 								'property'      => 'margin-left',
 								'value_pattern' => 'calc($ + 30px)',
 							],
@@ -135,15 +175,15 @@ function avada_options_section_woocommerce( $sections ) {
 							],
 						],
 					],
-					'woocommerce_gallery_thumbnail_columns' => [
-						'label'           => esc_html__( 'WooCommerce Product Gallery Thumbnails Columns', 'Avada' ),
-						'description'     => esc_html__( 'Controls the number of columns of the single product page image gallery thumbnails. In order to avoid blurry thumbnails, make sure the Product Thumbnails size setting in WooCommerce Settings is large enough. It has to be at least WooCommerce Product Gallery Size setting divided by this number of columns.', 'Avada' ),
-						'id'              => 'woocommerce_gallery_thumbnail_columns',
-						'default'         => 4,
+					'woocommerce_gallery_thumbnail_width' => [
+						'label'           => esc_html__( 'WooCommerce Product Images Thumbnail Width', 'Avada' ),
+						'description'     => __( 'Controls the natural image width of product page image gallery thumbnails. <strong>IMPORTANT NOTE:</strong> When this option is changed, you need to make sure to regenerate thumbnails. <a href="https://theme-fusion.com/documentation/avada/woocommerce-single-product-gallery/" target="_blank">See this post for more information.</a><br/>', 'Avada' ),
+						'id'              => 'woocommerce_gallery_thumbnail_width',
+						'default'         => 200,
 						'type'            => 'slider',
-						'choices'     => [
-							'min'  => 1,
-							'max'  => 6,
+						'choices'         => [
+							'min'  => 50,
+							'max'  => 400,
 							'step' => 1,
 						],
 						'update_callback' => [
@@ -154,18 +194,134 @@ function avada_options_section_woocommerce( $sections ) {
 							],
 						],
 					],
-					'enable_woo_gallery_zoom' => [
-						'label'           => esc_html__( 'WooCommerce Product Gallery Zoom', 'Avada' ),
-						'description'     => __( 'Turn on to enable the WooCommerce gallery zoom feature. Important: Every product image you use must be larger than the gallery container for zoom to work correctly.<br/><a href="https://theme-fusion.com/documentation/avada/woocommerce-single-product-gallery/" target="_blank">See this post for more information.</a>', 'Avada' ),
-						'id'              => 'enable_woo_gallery_zoom',
-						'default'         => '1',
-						'type'            => 'switch',
+					'woocommerce_product_images_thumbnail_position' => [
+						'label'       => esc_html__( 'WooCommerce Product Images Thumbnail Position', 'Avada' ),
+						'description' => esc_html__( 'Set the position of the product page image gallery thumbnails with respect to the main gallery images.', 'Avada' ),
+						'id'          => 'woocommerce_product_images_thumbnail_position',
+						'type'        => 'radio-buttonset',
+						'default'     => 'bottom',
+						'choices'     => [
+							'top'    => esc_html__( 'Top', 'fusion-builder' ),
+							'right'  => esc_html__( 'Right', 'fusion-builder' ),
+							'bottom' => esc_html__( 'Bottom', 'fusion-builder' ),
+							'left'   => esc_html__( 'Left', 'fusion-builder' ),
+						],
+						'required'        => [
+							[
+								'setting'  => 'woocommerce_product_images_layout',
+								'operator' => '==',
+								'value'    => 'avada',
+							],
+						],
+					],
+					'woocommerce_product_images_thumbnail_column_width' => [
+						'label'           => esc_html__( 'WooCommerce Product Images Thumbnail Column Width', 'Avada' ),
+						'description'     => esc_html__( 'Controls the width of the left/right column of product images thumbnails as a percentage of the full gallery width.', 'Avada' ),
+						'id'              => 'woocommerce_product_images_thumbnail_column_width',
+						'default'         => 15,
+						'type'            => 'slider',
+						'choices'         => [
+							'min'  => 1,
+							'max'  => 100,
+							'step' => 1,
+						],
+						'css_vars'    => [
+							[
+								'name'          => '--woocommerce_product_images_thumbnail_column_width',
+								'element'       => '.avada-product-images-global .flex-control-thumbs',
+								'value_pattern' => '$%',
+							],
+						],
+						'class'           => 'fusion-gutter-and-or-and',
+						'required'        => [
+							[
+								'setting'  => 'woocommerce_product_images_layout',
+								'operator' => '==',
+								'value'    => 'avada',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_thumbnail_position',
+								'operator' => '==',
+								'value'    => 'right',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_layout',
+								'operator' => '==',
+								'value'    => 'avada',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_thumbnail_position',
+								'operator' => '==',
+								'value'    => 'left',
+							],
+						],
+						'update_callback' => [
+							[
+								'condition' => 'is_product',
+								'operator'  => '===',
+								'value'     => true,
+							],
+						],
+					],
+					'woocommerce_gallery_thumbnail_columns' => [
+						'label'           => esc_html__( 'WooCommerce Product Images Thumbnails Columns', 'Avada' ),
+						'description'     => esc_html__( 'Controls the number of columns of the single product page image gallery thumbnails. In order to avoid blurry thumbnails, make sure the "WooCommerce Product Images Thumbnails Width" option above is large enough. It has to be at least "WooCommerce Product Images Width" option divided by this number of columns.', 'Avada' ),
+						'id'              => 'woocommerce_gallery_thumbnail_columns',
+						'default'         => 4,
+						'type'            => 'slider',
+						'choices'         => [
+							'min'  => 1,
+							'max'  => 6,
+							'step' => 1,
+						],
+						'class'           => 'fusion-gutter-and-or-and-or',
+						'required'        => [
+							[
+								'setting'  => 'woocommerce_product_images_layout',
+								'operator' => '==',
+								'value'    => 'avada',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_thumbnail_position',
+								'operator' => '==',
+								'value'    => 'top',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_layout',
+								'operator' => '==',
+								'value'    => 'avada',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_thumbnail_position',
+								'operator' => '==',
+								'value'    => 'bottom',
+							],
+							[
+								'setting'  => 'woocommerce_product_images_layout',
+								'operator' => '==',
+								'value'    => 'woocommerce',
+							],
+						],
+						'update_callback' => [
+							[
+								'condition' => 'is_product',
+								'operator'  => '===',
+								'value'     => true,
+							],
+						],
 					],
 					'woocommerce_enable_quick_view' => [
 						'label'           => esc_html__( 'WooCommerce Product Quick View', 'Avada' ),
 						'description'     => esc_html__( 'Turn on to enable product quick view for products.', 'Avada' ),
 						'id'              => 'woocommerce_enable_quick_view',
 						'default'         => '0',
+						'type'            => 'switch',
+					],
+					'woocommerce_variations' => [
+						'label'           => esc_html__( 'WooCommerce Product Variation Swatches', 'Avada' ),
+						'description'     => esc_html__( 'Turn on to enable color, button and image variation types.', 'Avada' ),
+						'id'              => 'woocommerce_variations',
+						'default'         => '1',
 						'type'            => 'switch',
 					],
 					'woocommerce_avada_ordering' => [
@@ -215,6 +371,7 @@ function avada_options_section_woocommerce( $sections ) {
 						'description'     => esc_html__( 'Turn on to display the "My Account" link in the main menu. Not compatible with Ubermenu.', 'Avada' ),
 						'id'              => 'woocommerce_acc_link_main_nav',
 						'default'         => '0',
+						'hidden'          =>  $has_global_header,
 						'type'            => 'switch',
 						'class'       => 'fusion-or-gutter',
 						// Partial refresh for the header.
@@ -242,6 +399,7 @@ function avada_options_section_woocommerce( $sections ) {
 						'description'     => esc_html__( 'Turn on to display the cart icon in the main menu. Not compatible with Ubermenu.', 'Avada' ),
 						'id'              => 'woocommerce_cart_link_main_nav',
 						'default'         => '1',
+						'hidden'          =>  $has_global_header,
 						'type'            => 'switch',
 						// Partial refresh for the header.
 						'partial_refresh' => [
@@ -268,6 +426,7 @@ function avada_options_section_woocommerce( $sections ) {
 						'description' => esc_html__( 'Turn on to display the WooCommerce cart counter circle.', 'Avada' ),
 						'id'          => 'woocommerce_cart_counter',
 						'default'     => '0',
+						'hidden'      =>  $has_global_header,
 						'type'        => 'switch',
 						// Partial refresh for the header.
 						'partial_refresh' => [
@@ -486,7 +645,6 @@ function avada_options_section_woocommerce( $sections ) {
 							'bottom' => true,
 							'left'   => true,
 							'right'  => true,
-							'units'  => [ 'px', '%' ],
 						],
 						'default'     => [
 							'top'    => '20px',
@@ -676,6 +834,221 @@ function avada_options_section_woocommerce( $sections ) {
 								'name' => '--woo_icon_font_size',
 							],
 						],
+					],
+					'woo_sale_badge_shape' => [
+						'label'           => esc_html__( 'WooCommerce Sale Badge Shape', 'Avada' ),
+						'description'     => esc_html__( 'Controls the shape of the sale badge.', 'Avada' ),
+						'id'              => 'woo_sale_badge_shape',
+						'type'            => 'radio-buttonset',
+						'default'     => 'circle',
+						'choices'     => [
+							'rectangle' => esc_html__( 'Rectangle', 'Avada' ),
+							'circle'    => esc_html__( 'Circle', 'Avada' ),
+						],
+						'output'      => [
+							[
+								'element'           => 'helperElement',
+								'property'          => 'dummy',
+								'callback'          => [
+									'toggle_class',
+									[
+										'condition' => [ 'circle', '===' ],
+										'element'   => 'body',
+										'className' => 'woo-sale-badge-circle',
+									],
+								],
+								'sanitize_callback' => '__return_empty_string',
+							],
+						],
+					],
+					'woo_sale_badge_bg_color' => [
+						'label'           => esc_html__( 'WooCommerce Sale Badge Background Color', 'Avada' ),
+						'description'     => esc_html__( 'Controls the background color of the WooCommerce sale badge.', 'Avada' ),
+						'id'              => 'woo_sale_badge_bg_color',
+						'default'         => $fusion_settings->get( 'primary_color' ),
+						'type'            => 'color-alpha',
+						'css_vars'        => [
+							[
+								'name' => '--fusion-woo-sale-badge-background-color',
+								'callback' => [ 'sanitize_color' ],
+							],
+						],
+					],
+					'woo_sale_badge_text_color' => [
+						'label'           => esc_html__( 'WooCommerce Sale Badge Text Color', 'Avada' ),
+						'description'     => esc_html__( 'Controls the text color of the WooCommerce sale badge.', 'Avada' ),
+						'id'              => 'woo_sale_badge_text_color',
+						'default'         => '#fff',
+						'type'            => 'color-alpha',
+						'css_vars'        => [
+							[
+								'name' => '--fusion-woo-sale-badge-text-color',
+								'callback' => [ 'sanitize_color' ],
+							],
+						],
+					],
+					'woo_sale_badge_text_size' => [
+						'label'           => esc_html__( 'WooCommerce Sale Badge Text Size', 'Avada' ),
+						'description'     => esc_html__( 'Controls the font size of the WooCommerce sale badge text.', 'Avada' ),
+						'id'              => 'woo_sale_badge_text_size',
+						'type'            => 'dimension',
+						'default'         => isset( $body_typography['font-size'] ) ? $body_typography['font-size'] : '16px',
+						'css_vars'        => [
+							[
+								'name' => '--fusion-woo-sale-badge-text-size',
+							],
+						],
+					],
+					'woo_sale_badge_padding' => [
+						'label'       => esc_html__( 'WooCommerce Sale Badge Padding', 'Avada' ),
+						'description' => esc_html__( 'Controls the top/right/bottom/left padding of the sale badge.', 'Avada' ),
+						'id'          => 'woo_sale_badge_padding',
+						'choices'     => [
+							'top'    => true,
+							'bottom' => true,
+							'left'   => true,
+							'right'  => true,
+						],
+						'default'     => [
+							'top'    => '0.5em',
+							'bottom' => '0.5em',
+							'left'   => '0.5em',
+							'right'  => '0.5em',
+						],
+						'type'        => 'spacing',
+						'css_vars'    => [
+							[
+								'name'   => '--fusion-woo-sale-badge-padding-top',
+								'choice' => 'top',
+							],
+							[
+								'name'   => '--fusion-woo-sale-badge-padding-bottom',
+								'choice' => 'bottom',
+							],
+							[
+								'name'   => '--fusion-woo-sale-badge-padding-left',
+								'choice' => 'left',
+							],
+							[
+								'name'   => '--fusion-woo-sale-badge-padding-right',
+								'choice' => 'right',
+							],
+						],
+						'transport'   => 'postMessage',
+						'required'        => [
+							[
+								'setting'  => 'woo_sale_badge_shape',
+								'operator' => '!=',
+								'value'    => 'circle',
+							],
+						],
+					],
+					'woo_sale_badge_border_radius'        => [
+						'type'        => 'border_radius',
+						'label'       => esc_html__( 'WooCommerce Sale Badge Border Radius', 'fusion-builder' ),
+						'description' => esc_html__( 'Controls the border radius of sale badge.', 'Avada' ),
+						'id'          => 'woo_sale_badge_border_radius',
+						'choices'     => [
+							'top_left'     => true,
+							'top_right'    => true,
+							'bottom_right' => true,
+							'bottom_left'  => true,
+							'units'        => [ 'px', '%', 'em' ],
+						],
+						'default'     => [
+							'top_left'     => '50%',
+							'top_right'    => '50%',
+							'bottom_right' => '50%',
+							'bottom_left'  => '50%',
+						],
+						'css_vars'    => [
+							[
+								'name'    => '--fusion-woo-sale-badge-border-top-left-radius',
+								'choice'  => 'top_left',
+								'element' => 'body',
+							],
+							[
+								'name'    => '--fusion-woo-sale-badge-border-top-right-radius',
+								'choice'  => 'top_right',
+								'element' => 'body',
+							],
+							[
+								'name'    => '--fusion-woo-sale-badge-border-bottom-right-radius',
+								'choice'  => 'bottom_right',
+								'element' => 'body',
+							],
+							[
+								'name'    => '--fusion-woo-sale-badge-border-bottom-left-radius',
+								'choice'  => 'bottom_left',
+								'element' => 'body',
+							],
+						],
+
+						// Could update variable here, but does not look necessary as set inline.
+						'transport'   => 'postMessage',
+						'required'        => [
+							[
+								'setting'  => 'woo_sale_badge_shape',
+								'operator' => '!=',
+								'value'    => 'circle',
+							],
+						],
+					],
+					'woo_sale_badge_border_width'                 => [
+						'label'       => esc_html__( 'WooCommerce Sale Badge Border Size', 'Avada' ),
+						'description' => esc_html__( 'Controls the border size of the sale badge.', 'Avada' ),
+						'id'          => 'woo_sale_badge_border_width',
+						'choices'     => [
+							'top'    => true,
+							'bottom' => true,
+							'left'   => true,
+							'right'  => true,
+						],
+						'default'     => [
+							'top'    => '0px',
+							'bottom' => '0px',
+							'left'   => '0px',
+							'right'  => '0px',
+						],
+						'type'        => 'spacing',
+						'css_vars'    => [
+							[
+								'name'   => '--fusion-woo-sale-badge-width-top',
+								'choice' => 'top',
+							],
+							[
+								'name'   => '--fusion-woo-sale-badge-width-bottom',
+								'choice' => 'bottom',
+							],
+							[
+								'name'   => '--fusion-woo-sale-badge-width-left',
+								'choice' => 'left',
+							],
+							[
+								'name'   => '--fusion-woo-sale-badge-width-right',
+								'choice' => 'right',
+							],
+						],
+					],
+					'woo_sale_badge_border_color'                 => [
+						'label'           => esc_html__( 'WooCommerce Sale Badge Border Color', 'Avada' ),
+						'description'     => esc_html__( 'Controls the border color of the sale badge', 'Avada' ),
+						'id'              => 'woo_sale_badge_border_color',
+						'default'         => '',
+						'type'            => 'color-alpha',
+						'css_vars'        => [
+							[
+								'name'     => '--fusion-woo-sale-badge-border-color',
+								'callback' => [ 'sanitize_color' ],
+							],
+						],
+					],
+					'woo_sale_badge_text' => [
+						'label'           => esc_html__( 'WooCommerce Sale Badge Text', 'Avada' ),
+						'description'     => esc_html__( '[percentage] and [value] placeholders can be used to display product discount as percentage or as a value, ex: [percentage] Off!', 'Avada' ),
+						'id'              => 'woo_sale_badge_text',
+						'default'         => __( 'Sale!', 'Avada' ),
+						'type'            => 'text',
 					],
 				],
 			],

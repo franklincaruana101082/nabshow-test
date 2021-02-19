@@ -81,7 +81,7 @@ class Avada_Images extends Fusion_Images {
 	}
 
 	/**
-	 * Modify the image quality and set it to chosen Theme Options value.
+	 * Modify the image quality and set it to chosen Global Options value.
 	 *
 	 * @since 3.9
 	 * @return string The new image quality.
@@ -315,7 +315,7 @@ class Avada_Images extends Fusion_Images {
 	public function render_placeholder_image( $featured_image_size = 'full' ) {
 		global $_wp_additional_image_sizes;
 
-		if ( in_array( $featured_image_size, [ 'full', 'fixed' ] ) ) {
+		if ( in_array( $featured_image_size, [ 'full', 'fixed' ], true ) ) {
 			$height = apply_filters( 'avada_set_placeholder_image_height', '150' );
 			$width  = '1500px';
 		} else {

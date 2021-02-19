@@ -212,7 +212,7 @@
                         }
                         count++;
 
-                        var id = parent.find( '.fusionredux-repeater-accordion-repeater' ).size(); // Index number
+                        var id = parent.find( '.fusionredux-repeater-accordion-repeater' ).length; // Index number
 
 
                         if ( parent.find( '.fusionredux-repeater-accordion-repeater:last' ).find( '.ui-accordion-header' ).hasClass( 'ui-state-active' ) ) {

@@ -60,7 +60,7 @@ class Fusion_Panel {
 	public $page_settings = [];
 
 	/**
-	 * All Fusion-Builder options.
+	 * All Avada-Builder options.
 	 *
 	 * @access public
 	 * @since 6.0
@@ -78,7 +78,7 @@ class Fusion_Panel {
 	public $page_values = [];
 
 	/**
-	 * All Fusion-Builder flat options.
+	 * All Avada-Builder flat options.
 	 *
 	 * @access public
 	 * @since 6.0
@@ -479,7 +479,7 @@ class Fusion_Panel {
 				'cancel'               => esc_html__( 'Cancel', 'Avada' ),
 				'types'                => [
 					'layer'   => esc_attr__( 'LayerSlider', 'Avada' ),
-					'flex'    => esc_attr__( 'Fusion Slider', 'Avada' ),
+					'flex'    => esc_attr__( 'Avada Slider', 'Avada' ),
 					'rev'     => esc_attr__( 'Slider Revolution', 'Avada' ),
 					'elastic' => esc_attr__( 'Elastic Slider', 'Avada' ),
 				],
@@ -552,7 +552,9 @@ class Fusion_Panel {
 					if ( isset( $fusion_options[ $key ]['multi'] ) && $fusion_options[ $key ]['multi'] && is_array( $value ) ) {
 						$options[ $key ] = [];
 						foreach ( $value as $sub_value ) {
-							$options[ $key ][] = esc_attr( $sub_value );
+							if ( '' !== $sub_value ) {
+								$options[ $key ][] = esc_attr( $sub_value );
+							}
 						}
 					} else {
 						$options[ $key ] = esc_attr( $value );
@@ -850,8 +852,9 @@ class Fusion_Panel {
 			$templates = false;
 		}
 
-		$post_taxonomies = [];
-		if ( in_array( $post_type, [ 'post', 'avada_portfolio' ] ) ) {
+		$post_taxonomies     = [];
+		$taxonomy_post_types = (array) apply_filters( 'fusion_taxonomy_post_type', [ 'post', 'avada_portfolio' ] );
+		if ( in_array( $post_type, $taxonomy_post_types, true ) ) {
 			$post_taxonomies = get_object_taxonomies( $post_type, 'objects' );
 		}
 
@@ -921,12 +924,13 @@ class Fusion_Panel {
 		}
 
 		if ( $templates ) {
+			$template = get_post_meta( fusion_library()->get_page_id(), '_wp_page_template', true );
 			$data['fusion_page_settings_section']['fields']['_wp_page_template'] = [
 				'id'       => '_wp_page_template',
 				'label'    => esc_html__( 'Template', 'fusion-builder' ),
 				'type'     => 'select',
 				'choices'  => $templates,
-				'value'    => get_post_meta( fusion_library()->get_page_id(), '_wp_page_template', true ),
+				'value'    => $template ? $template : 'default',
 				'default'  => 'default',
 				'location' => 'PO',
 				'not_pyre' => true,
@@ -956,10 +960,9 @@ class Fusion_Panel {
 				'not_pyre' => true,
 			];
 		}
-
-		if ( 0 < count( $post_taxonomies ) && in_array( $post_type, [ 'post', 'avada_portfolio' ] ) ) {
+		if ( 0 < count( $post_taxonomies ) && in_array( $post_type, $taxonomy_post_types, true ) ) {
 			foreach ( $post_taxonomies as $taxonomy ) {
-				if ( 'post_format' !== $taxonomy->name ) {
+				if ( 'post_format' !== $taxonomy->name && 'fusion_tb_category' !== $taxonomy->name && 'element_category' !== $taxonomy->name ) {
 					$selection   = [];
 					$field_type  = 'ajax_select';
 					$ajax        = 'fusion_search_query';
@@ -1032,7 +1035,7 @@ class Fusion_Panel {
 			];
 		}
 
-		if ( in_array( $post_type, [ 'post', 'page', 'avada_portfolio' ] ) ) {
+		if ( in_array( $post_type, [ 'post', 'page', 'avada_portfolio' ], true ) ) {
 			$posts_slideshow_number = Avada()->settings->get( 'posts_slideshow_number' );
 			for ( $i = 2; $i <= $posts_slideshow_number; $i++ ) {
 				$data['fusion_page_settings_section']['fields'][ 'kd_featured-image-' . $i . '_' . $post_type . '_id' ] = $this->get_featured_image_object( $i, $post_type );
@@ -1115,53 +1118,56 @@ class Fusion_Panel {
 			}
 		}
 
-		$sections['custom_css'] = [
-			'label'  => esc_html__( 'Custom CSS', 'Avada' ),
-			'id'     => 'custom_css',
-			'icon'   => 'fusiona-code',
-			'fields' => [
-				'_fusion_builder_custom_css' => [
-					'label'       => esc_html__( 'CSS Code', 'Avada' ),
-					/* translators: <code>!important</code> */
-					'description' => sprintf( esc_html__( 'Enter your CSS code in the field below. Do not include any tags or HTML in the field. Custom CSS entered here will override the theme CSS. In some cases, the %s tag may be needed. Don\'t URL encode image or svg paths. Contents of this field will be auto encoded.', 'Avada' ), '<code>!important</code>' ),
-					'id'          => '_fusion_builder_custom_css',
-					'default'     => '',
-					'type'        => 'code',
-					'not_pyre'    => true,
-					'choices'     => [
-						'language' => 'css',
-						'height'   => 450,
-						'theme'    => 'chrome',
-						'minLines' => 40,
-						'maxLines' => 50,
+		// Library elements have no POs.
+		if ( 'fusion_element' !== $post_type ) {
+			$sections['custom_css'] = [
+				'label'  => esc_html__( 'Custom CSS', 'Avada' ),
+				'id'     => 'custom_css',
+				'icon'   => 'fusiona-code',
+				'fields' => [
+					'_fusion_builder_custom_css' => [
+						'label'       => esc_html__( 'CSS Code', 'Avada' ),
+						/* translators: <code>!important</code> */
+						'description' => sprintf( esc_html__( 'Enter your CSS code in the field below. Do not include any tags or HTML in the field. Custom CSS entered here will override the theme CSS. In some cases, the %s tag may be needed. Don\'t URL encode image or svg paths. Contents of this field will be auto encoded.', 'Avada' ), '<code>!important</code>' ),
+						'id'          => '_fusion_builder_custom_css',
+						'default'     => '',
+						'type'        => 'code',
+						'not_pyre'    => true,
+						'choices'     => [
+							'language' => 'css',
+							'height'   => 450,
+							'theme'    => 'chrome',
+							'minLines' => 40,
+							'maxLines' => 50,
+						],
 					],
 				],
-			],
-		];
+			];
 
-		$sections['import_export_po'] = [
-			'label'    => esc_html__( 'Import/Export', 'Avada' ),
-			'id'       => 'import_export_po',
-			'priority' => 27,
-			'icon'     => 'el-icon-css',
-			'alt_icon' => 'fusiona-loop-alt2',
-			'fields'   => [
-				'import_to' => [
-					'label'       => esc_html__( 'Import Page Options', 'Avada' ),
-					'description' => esc_html__( 'Import Page Options.  You can import via file or copy and paste from JSON data.' ),
-					'id'          => 'import_po',
-					'type'        => 'import',
-					'context'     => 'PO',
+			$sections['import_export_po'] = [
+				'label'    => esc_html__( 'Import/Export', 'Avada' ),
+				'id'       => 'import_export_po',
+				'priority' => 27,
+				'icon'     => 'el-icon-css',
+				'alt_icon' => 'fusiona-loop-alt2',
+				'fields'   => [
+					'import_to' => [
+						'label'       => esc_html__( 'Import Page Options', 'Avada' ),
+						'description' => esc_html__( 'Import Page Options.  You can import via file or copy and paste from JSON data.' ),
+						'id'          => 'import_po',
+						'type'        => 'import',
+						'context'     => 'PO',
+					],
+					'export_to' => [
+						'label'       => esc_html__( 'Export Page Options', 'Avada' ),
+						'description' => esc_html__( 'Export your Page Options.  You can either export as a file or copy the data.' ),
+						'id'          => 'export_po',
+						'type'        => 'export',
+						'context'     => 'PO',
+					],
 				],
-				'export_to' => [
-					'label'       => esc_html__( 'Export Page Options', 'Avada' ),
-					'description' => esc_html__( 'Export your Page Options.  You can either export as a file or copy the data.' ),
-					'id'          => 'export_po',
-					'type'        => 'export',
-					'context'     => 'PO',
-				],
-			],
-		];
+			];
+		}
 
 		// Add in core page settings panel.
 		if ( apply_filters( 'fusion_load_page_settings', true, $post_type ) ) {
@@ -1202,7 +1208,7 @@ class Fusion_Panel {
 		$ids[] = '_wp_page_template';
 		$ids[] = '_fusion_google_fonts';
 
-		if ( in_array( $post_type, [ 'post', 'page', 'avada_portfolio' ] ) ) {
+		if ( in_array( $post_type, [ 'post', 'page', 'avada_portfolio' ], true ) ) {
 			$posts_slideshow_number = Avada()->settings->get( 'posts_slideshow_number' );
 			for ( $i = 2; $i <= $posts_slideshow_number; $i++ ) {
 				$ids[] = 'kd_featured-image-' . $i . '_' . $post_type . '_id';
@@ -1267,7 +1273,7 @@ class Fusion_Panel {
 		$post_id     = Fusion_App()->get_data( 'post_id' );
 		$meta_values = Fusion_App()->get_data( 'meta_values' );
 
-		if ( $post_id && is_array( $meta_values ) && ! $this->filtering_paused ) {
+		if ( $post_id && (int) $post_id === (int) $object_id && is_array( $meta_values ) && ! $this->filtering_paused ) {
 
 			// Get what ever is in DB, needed for meta fields added by 3rd party code.
 			remove_filter( 'get_post_metadata', [ $this, 'fusion_filter_post_meta' ] );
@@ -1284,7 +1290,10 @@ class Fusion_Panel {
 
 			// Getting a specific value, then check if we have it.
 			if ( $meta_key && '' !== $meta_key && isset( $meta_values[ $meta_key ] ) ) {
-				return ( $single ) ? $meta_values[ $meta_key ] : [ $meta_values[ $meta_key ] ];
+				if ( $single && isset( $meta_values[ $meta_key ][0] ) ) {
+					return [ maybe_unserialize( $meta_values[ $meta_key ][0] ) ];
+				}
+				return array_map( 'maybe_unserialize', $meta_values[ $meta_key ] );
 			}
 
 			// All post meta fields should be returned.
@@ -1309,7 +1318,7 @@ class Fusion_Panel {
 		 * If WP_DEBUG is on, don't cache.
 		 */
 		if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
-			$this->options                = get_transient( 'fusion_tos ' );
+			$this->options                = get_transient( 'fusion_tos' );
 			$this->fusion_builder_options = get_transient( 'fusion_fb_tos' );
 		}
 		if ( ! empty( $this->options ) && ! empty( $this->fusion_builder_options ) ) {
@@ -1361,7 +1370,7 @@ class Fusion_Panel {
 		$sections = $avada_options['sections'];
 
 		$sections['shortcode_styling'] = [
-			'label' => esc_html__( 'Fusion Builder Elements', 'Avada' ),
+			'label' => esc_html__( 'Avada Builder Elements', 'Avada' ),
 			'id'    => 'shortcode_styling',
 			'icon'  => 'fusiona-element-options',
 		];
@@ -1369,7 +1378,7 @@ class Fusion_Panel {
 		if ( $has_addons ) {
 			$sections['shortcode_styling']['fields'] = [
 				'fusion_builder_elements' => [
-					'label' => esc_html__( 'Fusion Builder Elements', 'Avada' ),
+					'label' => esc_html__( 'Avada Builder Elements', 'Avada' ),
 					'id'    => 'fusion_builder_elements',
 					'type'  => 'sub-section',
 				],
@@ -1481,20 +1490,20 @@ class Fusion_Panel {
 			'alt_icon' => 'fusiona-loop-alt2',
 			'fields'   => [
 				'import_to' => [
-					'label'       => esc_html__( 'Import Theme Options', 'Avada' ),
-					'description' => esc_html__( 'Import Theme Options.  You can import via file, copy and paste or select an Avada demo.' ),
+					'label'       => esc_html__( 'Import Global Options', 'Avada' ),
+					'description' => esc_html__( 'Import Global Options.  You can import via file, copy and paste or select an Avada demo.' ),
 					'id'          => 'import_to',
 					'type'        => 'import',
 					'demos'       => $demo_options,
 					'context'     => 'TO',
 				],
 				'export_to' => [
-					'label'       => esc_html__( 'Export Theme Options', 'Avada' ),
-					'description' => esc_html__( 'Export your Theme Options.  You can either export as a file or copy the data.' ),
+					'label'       => esc_html__( 'Export Global Options', 'Avada' ),
+					'description' => esc_html__( 'Export your Global Options.  You can either export as a file or copy the data.' ),
 					'id'          => 'export_to',
 					'type'        => 'export',
 					'context'     => 'TO',
-					'text'        => esc_html__( 'Export Theme Options', 'Avada' ),
+					'text'        => esc_html__( 'Export Global Options', 'Avada' ),
 				],
 			],
 		];
@@ -1719,7 +1728,7 @@ class Fusion_Panel {
 	}
 
 	/**
-	 * Sets Fusion-Builder flat options.
+	 * Sets Avada-Builder flat options.
 	 *
 	 * @access public
 	 * @since 6.0

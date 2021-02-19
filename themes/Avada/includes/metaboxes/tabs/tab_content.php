@@ -127,7 +127,7 @@ function avada_page_options_tab_content( $sections ) {
 		'id'          => 'hundredp_padding',
 		'label'       => esc_html__( '100% Width Padding', 'Avada' ),
 		/* translators: Additional description (defaults). */
-		'description' => sprintf( esc_html__( 'Controls the left and right padding for page content when using 100&#37; site width, 100&#37; width page template or 100&#37; width post option. This does not affect Fusion Builder containers.  Enter value including any valid CSS unit, ex: 30px. %s', 'Avada' ), Avada()->settings->get_default_description( 'hundredp_padding' ) ),
+		'description' => sprintf( esc_html__( 'Controls the left and right padding for page content when using 100&#37; site width, 100&#37; width page template or 100&#37; width post option. This does not affect Avada Builder containers.  Enter value including any valid CSS unit, ex: 30px. %s', 'Avada' ), Avada()->settings->get_default_description( 'hundredp_padding' ) ),
 		'dependency'  => [],
 		'type'        => 'text',
 	];

@@ -60,7 +60,7 @@ class Avada_Upgrade_540 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate Fusion Slider options.
+	 * Migrate Avada Slider options.
 	 *
 	 * @access public
 	 * @since 5.4.0

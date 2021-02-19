@@ -181,13 +181,13 @@ class Fusion_Builder_Filters {
 		// Check registration.
 		if ( ! Avada()->registration->is_registered() ) {
 			/* translators: "Product Registration" link. */
-			return sprintf( esc_attr__( 'Your product must be registered to receive Avada demo pages. Go to the %s tab to complete registration.', 'Avada' ), '<a href="' . admin_url( 'admin.php?page=avada-registration' ) . '">' . esc_attr__( 'Product Registration', 'Avada' ) . '</a>' );
+			return sprintf( esc_attr__( 'Your product must be registered to receive pages from Avada\'s prebuilt websites. Go to the %s tab to complete registration.', 'Avada' ), '<a href="' . admin_url( 'admin.php?page=avada#avada-db-registration' ) . '">' . esc_html__( 'Dashboard Welcome', 'Avada' ) . '</a>' );
 		}
 
 		// Check we can download the demos.
 		if ( false === Fusion_Builder_Demos_Importer::is_demo_folder_writeable() && 2 > Fusion_Builder_Demos_Importer::get_number_of_demo_files() ) {
 			/* translators: system path wrapped in <code> tags. */
-			return sprintf( esc_attr__( 'It looks like the %s folder in your WordPress installation is not writable. Please make sure to change the file/folder permissions to allow downloading the Avada demo pages through the Fusion Builder Library before using them.', 'Avada' ), '<code>wp-content/uploads/fusion-builder-avada-pages</code>' );
+			return sprintf( esc_attr__( 'It looks like the %s folder in your WordPress installation is not writable. Please make sure to change the file/folder permissions to allow downloading the Avada demo pages through the Avada Builder Library before using them.', 'Avada' ), '<code>wp-content/uploads/fusion-builder-avada-pages</code>' );
 		}
 		// Return the title.
 		return $title;
@@ -205,15 +205,15 @@ class Fusion_Builder_Filters {
 	public function add_builder_import_message( $message ) {
 		// Check registration.
 		if ( ! Avada()->registration->is_registered() ) {
-			return esc_attr__( 'Once you register your Avada theme purchase, you will be able to select any Avada demo, view each page it contains and import any of them individually.', 'Avada' );
+			return esc_attr__( 'Once you register your Avada purchase, you will be able to select any Avada prebuilt website, view each page it contains and import any of them individually.', 'Avada' );
 		}
 		// Check we can download the demos.
 		if ( false === Fusion_Builder_Demos_Importer::is_demo_folder_writeable() && 2 > Fusion_Builder_Demos_Importer::get_number_of_demo_files() ) {
-			return esc_attr__( 'Once the demos are downloaded, you will be able to select any Avada demo, view each page it contains and import any of them individually.', 'Avada' );
+			return esc_attr__( 'Once the prebuilt websites are downloaded, you will be able to select any of them, view each page it contains and import any of them individually.', 'Avada' );
 		}
 
 		// Return the default message.
-		return __( 'Importing a single demo page is to receive the skeleton layout only. <strong>You will not receive demo images, fusion theme options, custom post types or sliders so there will be differences in style and layout compared to the online demos.</strong> The items that import are the builder layout, page template, fusion page options and image placeholders. If you wish to import everything from a demo, you need to import the full demo on the Avada > Import Demos tab.', 'Avada' );
+		return __( 'Importing a single prebuilt website page imports the skeleton layout only. <strong>You will not receive images, global options, custom post types or sliders, so, there will be differences in style and layout compared to the online live website.</strong> The items that import are the builder layout, page template, page options and image placeholders. If you wish to import everything from a prebuilt website, you need to import the full version at Avada > Websites.', 'Avada' );
 
 	}
 

@@ -204,7 +204,7 @@ class Fusion_Dynamic_CSS_From_Options {
 	 */
 	private function get_options( $context = 'Avada' ) {
 
-		// Get Fusion-Builder options if $context is set to FB.
+		// Get Avada-Builder options if $context is set to FB.
 		if ( 'FB' === $context ) {
 			$fusion_builder_options = [];
 			if ( defined( 'FUSION_BUILDER_PLUGIN_DIR' ) ) {
@@ -244,16 +244,26 @@ class Fusion_Dynamic_CSS_From_Options {
 			return;
 		}
 		foreach ( $options as $section ) {
+			// Continue if section is hidden.
+			if ( isset( $section['hidden'] ) && true === $section['hidden'] ) {
+				continue;
+			}
 			if ( isset( $section['fields'] ) ) {
 				foreach ( $section['fields'] as $field ) {
 					if ( isset( $field['type'] ) ) {
 						if ( 'sub-section' === $field['type'] || 'accordion' === $field['type'] ) {
 							if ( isset( $field['fields'] ) && is_array( $field['fields'] ) ) {
 								foreach ( $field['fields'] as $subfield ) {
+									if ( isset( $subfield['hidden'] ) && true === $subfield['hidden'] ) {
+										continue;
+									}
 									$this->parse_field( $subfield, $context );
 								}
 							}
 						} else {
+							if ( isset( $field['hidden'] ) && true === $field['hidden'] ) {
+								continue;
+							}
 							$this->parse_field( $field, $context );
 						}
 					}
@@ -314,7 +324,7 @@ class Fusion_Dynamic_CSS_From_Options {
 
 				// If we got this far, both fields have output defined so we need to merge those.
 				foreach ( $field['output'] as $output ) {
-					if ( ! in_array( $output, $this->fields[ $field['id'] ]['output'] ) ) {
+					if ( ! in_array( $output, $this->fields[ $field['id'] ]['output'] ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 						$this->fields[ $field['id'] ]['output'][] = $output;
 					}
 				}
@@ -331,7 +341,7 @@ class Fusion_Dynamic_CSS_From_Options {
 
 				// If we got this far, both fields have css_vars defined so we need to merge those.
 				foreach ( $field['css_vars'] as $css_vars ) {
-					if ( ! in_array( $css_vars, $this->fields[ $field['id'] ]['css_vars'] ) ) {
+					if ( ! in_array( $css_vars, $this->fields[ $field['id'] ]['css_vars'] ) ) { // phpcs:ignore WordPress.PHP.StrictInArray
 						$this->fields[ $field['id'] ]['css_vars'][] = $css_vars;
 					}
 				}
@@ -355,7 +365,7 @@ class Fusion_Dynamic_CSS_From_Options {
 	}
 
 	/**
-	 * Generates CS for a field and pupulates the $css_array.
+	 * Generates CSS for a field and pupulates the $css_array.
 	 *
 	 * @access private
 	 * @since 6.0.0
@@ -404,19 +414,28 @@ class Fusion_Dynamic_CSS_From_Options {
 
 		// Process the 'css_vars' argument.
 		if ( isset( $field['css_vars'] ) && is_array( $field['css_vars'] ) ) {
+
 			$original_value = fusion_get_option( $id );
 			foreach ( $field['css_vars'] as $css_var ) {
 				$value = $original_value;
 				if ( isset( $css_var['choice'] ) ) {
 					if ( is_array( $value ) && isset( $value[ $css_var['choice'] ] ) ) {
-						$value       = $value[ $css_var['choice'] ];
-						$value_combo = fusion_get_option( $id . '[' . $css_var['choice'] . ']' );
+						$value = $value[ $css_var['choice'] ];
+
+						// PO set not to be used.
+						if ( isset( $css_var['po'] ) && false === $css_var['po'] ) {
+							$value_combo = Avada()->settings->get( $id, $css_var['choice'] );
+						} else {
+							$value_combo = fusion_get_option( $id . '[' . $css_var['choice'] . ']' );
+						}
 						if ( 0 === $value_combo || '0' === $value_combo || ( $value_combo && ! empty( $value_combo ) ) ) {
 							$value = $value_combo;
 						}
 					} elseif ( ! is_string( $value ) ) {
 						$value = Avada()->settings->get( $id, $css_var['choice'] );
 					}
+				} elseif ( isset( $css_var['po'] ) && false === $css_var['po'] ) {
+					$value = Avada()->settings->get( $id );
 				}
 
 				if ( isset( $css_var['exclude'] ) ) {
@@ -569,7 +588,7 @@ class Fusion_Dynamic_CSS_From_Options {
 					$property = ( ! isset( $output['property'] ) ) ? $key : $output['property'];
 
 					// Make sure padding-top, margin-left etc work properly.
-					if ( in_array( $property, [ 'margin', 'padding' ] ) && in_array( $key, [ 'top', 'bottom', 'left', 'right' ] ) ) {
+					if ( in_array( $property, [ 'margin', 'padding' ], true ) && in_array( $key, [ 'top', 'bottom', 'left', 'right' ], true ) ) {
 						$property .= '-' . $key;
 					}
 

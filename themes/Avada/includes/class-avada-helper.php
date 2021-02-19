@@ -187,13 +187,13 @@ class Avada_Helper {
 
 		// Edit post screen.
 		if ( 'edit' === $type ) {
-			return in_array( $pagenow, [ 'post.php' ] );
+			return in_array( $pagenow, [ 'post.php' ], true );
 			// New post screen.
 		} elseif ( 'new' === $type ) {
-			return in_array( $pagenow, [ 'post-new.php' ] );
+			return in_array( $pagenow, [ 'post-new.php' ], true );
 			// Edit or new post screen.
 		} else {
-			return in_array( $pagenow, [ 'post.php', 'post-new.php', 'admin-ajax.php' ] );
+			return in_array( $pagenow, [ 'post.php', 'post-new.php', 'admin-ajax.php' ], true );
 		}
 
 	}
@@ -287,23 +287,6 @@ class Avada_Helper {
 	}
 
 	/**
-	 * Check if we're on a buddyPress page.
-	 *
-	 * @static
-	 * @access public
-	 * @since 5.1.0
-	 * @return bool
-	 */
-	public static function is_buddypress() {
-
-		if ( function_exists( 'is_buddypress' ) ) {
-			return (bool) is_buddypress();
-		}
-		return false;
-
-	}
-
-	/**
 	 * Retrieves header color for post id.
 	 *
 	 * @static
@@ -320,6 +303,9 @@ class Avada_Helper {
 
 		$is_archive = false !== strpos( $post_id, 'archive' ) || false === $post_id;
 		$option     = ( $mobile ) ? 'mobile_header_bg_color' : 'header_bg_color';
+		if ( $is_archive ) {
+			$option = str_replace( 'header', 'archive_header', $option );
+		}
 		return Fusion_Sanitize::color( fusion_get_option( $option ) );
 	}
 }

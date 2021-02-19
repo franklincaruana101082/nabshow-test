@@ -164,13 +164,7 @@ function avada_options_section_search( $sections ) {
 							'max'  => '20',
 							'step' => '1',
 						],
-						'required'        => [
-							[
-								'setting'  => 'live_search',
-								'operator' => '=',
-								'value'    => '1',
-							],
-						],
+						'soft_dependency' => true,
 						// Partial refresh for the searchform.
 						'partial_refresh' => [
 							'searchform_live_search_min_char_count' => [
@@ -196,24 +190,18 @@ function avada_options_section_search( $sections ) {
 						],
 					],
 					'live_search_results_per_page'       => [
-						'label'       => esc_html__( 'Live Search Number of Posts', 'Avada' ),
-						'description' => esc_html__( 'Controls the number of posts that should be displayed as search result suggestions.', 'Avada' ),
-						'id'          => 'live_search_results_per_page',
-						'default'     => '100',
-						'type'        => 'slider',
-						'choices'     => [
+						'label'           => esc_html__( 'Live Search Number of Posts', 'Avada' ),
+						'description'     => esc_html__( 'Controls the number of posts that should be displayed as search result suggestions.', 'Avada' ),
+						'id'              => 'live_search_results_per_page',
+						'default'         => '100',
+						'type'            => 'slider',
+						'choices'         => [
 							'min'  => '10',
 							'max'  => '500',
 							'step' => '10',
 						],
-						'required'    => [
-							[
-								'setting'  => 'live_search',
-								'operator' => '=',
-								'value'    => '1',
-							],
-						],
-						'output'      => [
+						'soft_dependency' => true,
+						'output'          => [
 							// JS var: avadaLiveSearchVars.per_page.
 							[
 								'element'           => 'helperElement',
@@ -231,24 +219,18 @@ function avada_options_section_search( $sections ) {
 						],
 					],
 					'live_search_results_height'         => [
-						'label'       => esc_html__( 'Live Search Results Container Height', 'Avada' ),
-						'description' => esc_html__( 'Controls the height of the container in which the search results will be listed.', 'Avada' ),
-						'id'          => 'live_search_results_height',
-						'default'     => '250',
-						'type'        => 'slider',
-						'choices'     => [
+						'label'           => esc_html__( 'Live Search Results Container Height', 'Avada' ),
+						'description'     => esc_html__( 'Controls the height of the container in which the search results will be listed.', 'Avada' ),
+						'id'              => 'live_search_results_height',
+						'default'         => '250',
+						'type'            => 'slider',
+						'choices'         => [
 							'min'  => '100',
 							'max'  => '800',
 							'step' => '5',
 						],
-						'required'    => [
-							[
-								'setting'  => 'live_search',
-								'operator' => '=',
-								'value'    => '1',
-							],
-						],
-						'css_vars'    => [
+						'soft_dependency' => true,
+						'css_vars'        => [
 							[
 								'name'          => '--live_search_results_height',
 								'element'       => '.fusion-search-results',
@@ -257,19 +239,13 @@ function avada_options_section_search( $sections ) {
 						],
 					],
 					'live_search_display_featured_image' => [
-						'label'       => esc_html__( 'Live Search Display Featured Image', 'Avada' ),
-						'description' => esc_html__( 'Turn on to display the featured image of each live search result.', 'Avada' ),
-						'id'          => 'live_search_display_featured_image',
-						'default'     => '1',
-						'type'        => 'switch',
-						'required'    => [
-							[
-								'setting'  => 'live_search',
-								'operator' => '=',
-								'value'    => '1',
-							],
-						],
-						'output'      => [
+						'label'           => esc_html__( 'Live Search Display Featured Image', 'Avada' ),
+						'description'     => esc_html__( 'Turn on to display the featured image of each live search result.', 'Avada' ),
+						'id'              => 'live_search_display_featured_image',
+						'default'         => '1',
+						'type'            => 'switch',
+						'soft_dependency' => true,
+						'output'          => [
 							// JS var: avadaLiveSearchVars.show_feat_img.
 							[
 								'element'           => 'helperElement',
@@ -287,19 +263,13 @@ function avada_options_section_search( $sections ) {
 						],
 					],
 					'live_search_display_post_type'      => [
-						'label'       => esc_html__( 'Live Search Display Post Type', 'Avada' ),
-						'description' => esc_html__( 'Turn on to display the post type of each live search result.', 'Avada' ),
-						'id'          => 'live_search_display_post_type',
-						'default'     => '1',
-						'type'        => 'switch',
-						'required'    => [
-							[
-								'setting'  => 'live_search',
-								'operator' => '=',
-								'value'    => '1',
-							],
-						],
-						'output'      => [
+						'label'           => esc_html__( 'Live Search Display Post Type', 'Avada' ),
+						'description'     => esc_html__( 'Turn on to display the post type of each live search result.', 'Avada' ),
+						'id'              => 'live_search_display_post_type',
+						'default'         => '1',
+						'type'            => 'switch',
+						'soft_dependency' => true,
+						'output'          => [
 							// JS var: avadaLiveSearchVars.display_post_type.
 							[
 								'element'           => 'helperElement',
@@ -321,7 +291,7 @@ function avada_options_section_search( $sections ) {
 		],
 	];
 
-	$sections['search']['fields']['search_page_options_section'] = ( $has_global_content ) ? [
+	$sections['search']['fields']['search_page_options_section'] = [
 		'label'       => esc_html__( 'Search Page', 'Avada' ),
 		'description' => '',
 		'id'          => 'search_page_options_section',
@@ -331,28 +301,22 @@ function avada_options_section_search( $sections ) {
 			'search_page_options_template_notice' => [
 				'id'          => 'search_page_options_template_notice',
 				'label'       => '',
-				'description' => sprintf(
+				'hidden'      => ! $has_global_content,
+				'description' => class_exists( 'Fusion_Template_Builder' ) ? sprintf(
 					/* translators: 1: Content|Footer|Page Title Bar. 2: URL. */
 					'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are not available because a global %1$s override is currently used. To edit your global layout please visit <a href="%2$s" target="_blank">this page</a>.', 'Avada' ) . '</div>',
 					Fusion_Template_Builder::get_instance()->get_template_terms()['content']['label'],
-					admin_url( 'admin.php?page=fusion-layouts' )
-				),
+					admin_url( 'admin.php?page=avada-layouts' )
+				) : '',
 				'type'        => 'custom',
 			],
-		],
-	] : [
-		'label'       => esc_html__( 'Search Page', 'Avada' ),
-		'description' => '',
-		'id'          => 'search_page_options_section',
-		'icon'        => true,
-		'type'        => 'sub-section',
-		'fields'      => [
-			'search_layout'              => [
+			'search_layout'                       => [
 				'label'           => esc_html__( 'Search Results Layout', 'Avada' ),
 				'description'     => esc_html__( 'Controls the layout for the search results page.', 'Avada' ),
 				'id'              => 'search_layout',
 				'default'         => 'grid',
 				'type'            => 'select',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'large'            => esc_html__( 'Large', 'Avada' ),
 					'medium'           => esc_html__( 'Medium', 'Avada' ),
@@ -369,12 +333,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_results_per_page'    => [
+			'search_results_per_page'             => [
 				'label'           => esc_html__( 'Number of Search Results Per Page', 'Avada' ),
 				'description'     => esc_html__( 'Controls the number of search results per page.', 'Avada' ),
 				'id'              => 'search_results_per_page',
 				'default'         => '10',
 				'type'            => 'slider',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'min'  => '1',
 					'max'  => '100',
@@ -388,12 +353,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_pagination_type'     => [
+			'search_pagination_type'              => [
 				'label'           => esc_html__( 'Search Pagination Type', 'Avada' ),
 				'description'     => esc_html__( 'Controls the pagination type for the search results page.', 'Avada' ),
 				'id'              => 'search_pagination_type',
 				'default'         => 'pagination',
 				'type'            => 'radio-buttonset',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'pagination'       => esc_html__( 'Pagination', 'Avada' ),
 					'infinite_scroll'  => esc_html__( 'Infinite Scroll', 'Avada' ),
@@ -407,12 +373,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_grid_columns'        => [
+			'search_grid_columns'                 => [
 				'label'           => esc_html__( 'Number of Columns', 'Avada' ),
 				'description'     => __( 'Controls the number of columns for grid layouts.', 'Avada' ),
 				'id'              => 'search_grid_columns',
 				'default'         => 3,
 				'type'            => 'slider',
+				'hidden'          => $has_global_content,
 				'class'           => 'fusion-or-gutter',
 				'choices'         => [
 					'min'  => 1,
@@ -439,12 +406,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_grid_column_spacing' => [
+			'search_grid_column_spacing'          => [
 				'label'       => esc_html__( 'Column Spacing', 'Avada' ),
 				'description' => esc_html__( 'Controls the column spacing for search results.', 'Avada' ),
 				'id'          => 'search_grid_column_spacing',
 				'default'     => '40',
 				'type'        => 'slider',
+				'hidden'      => $has_global_content,
 				'class'       => 'fusion-or-gutter',
 				'choices'     => [
 					'min'  => '0',
@@ -472,12 +440,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_content_length'      => [
+			'search_content_length'               => [
 				'label'           => esc_html__( 'Search Content Display', 'Avada' ),
 				'description'     => esc_html__( 'Controls if the search results content displays as an excerpt or full content or is completely disabled.', 'Avada' ),
 				'id'              => 'search_content_length',
 				'default'         => 'excerpt',
 				'type'            => 'radio-buttonset',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'excerpt'      => esc_html__( 'Excerpt', 'Avada' ),
 					'full_content' => esc_html__( 'Full Content', 'Avada' ),
@@ -491,12 +460,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_excerpt_length'      => [
+			'search_excerpt_length'               => [
 				'label'           => esc_html__( 'Search Excerpt Length', 'Avada' ),
 				'description'     => esc_html__( 'Controls the number of words (or characters) in the search results excerpts.', 'Avada' ),
 				'id'              => 'search_excerpt_length',
 				'default'         => '10',
 				'type'            => 'slider',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'min'  => '0',
 					'max'  => '500',
@@ -517,12 +487,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_strip_html_excerpt'  => [
+			'search_strip_html_excerpt'           => [
 				'label'           => esc_html__( 'Search Strip HTML from Excerpt', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to strip HTML content from the excerpt for the search results page.', 'Avada' ),
 				'id'              => 'search_strip_html_excerpt',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'required'        => [
 					[
 						'setting'  => 'search_content_length',
@@ -538,12 +509,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_featured_images'     => [
+			'search_featured_images'              => [
 				'label'           => esc_html__( 'Featured Images for Search Results', 'Avada' ),
 				'description'     => esc_html__( 'Turn on to display featured images for search results.', 'Avada' ),
 				'id'              => 'search_featured_images',
 				'default'         => '1',
 				'type'            => 'switch',
+				'hidden'          => $has_global_content,
 				'update_callback' => [
 					[
 						'condition' => 'is_search',
@@ -552,12 +524,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_meta'                => [
+			'search_meta'                         => [
 				'label'           => esc_html__( 'Search Results Meta', 'Avada' ),
 				'description'     => esc_html__( 'Select the post meta data you want to be displayed in the individual search results.', 'Avada' ),
 				'id'              => 'search_meta',
 				'default'         => [ 'author', 'date', 'categories', 'comments', 'read_more' ],
 				'type'            => 'select',
+				'hidden'          => $has_global_content,
 				'multi'           => true,
 				'choices'         => [
 					'author'     => esc_html__( 'Author', 'Avada' ),
@@ -576,12 +549,13 @@ function avada_options_section_search( $sections ) {
 					],
 				],
 			],
-			'search_new_search_position' => [
+			'search_new_search_position'          => [
 				'label'           => esc_html__( 'Search Field Position', 'Avada' ),
 				'description'     => esc_html__( 'Controls the position of the search bar on the search results page.', 'Avada' ),
 				'id'              => 'search_new_search_position',
 				'default'         => 'top',
 				'type'            => 'radio-buttonset',
+				'hidden'          => $has_global_content,
 				'choices'         => [
 					'top'    => esc_html__( 'Above Results', 'Avada' ),
 					'bottom' => esc_html__( 'Below Results', 'Avada' ),

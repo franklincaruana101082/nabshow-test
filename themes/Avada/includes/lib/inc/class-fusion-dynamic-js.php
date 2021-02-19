@@ -23,6 +23,16 @@ final class Fusion_Dynamic_JS {
 	protected static $scripts = [];
 
 	/**
+	 * Array of script to enqueue, in the correct order.
+	 *
+	 * @static
+	 * @access protected
+	 * @since 3.2
+	 * @var array
+	 */
+	protected static $ordered_scripts = null;
+
+	/**
 	 * An array of our wp_localize_script calls.
 	 *
 	 * @static
@@ -31,6 +41,16 @@ final class Fusion_Dynamic_JS {
 	 * @var array
 	 */
 	protected static $localize_scripts = [];
+
+	/**
+	 * An array of external dependencies.
+	 *
+	 * @static
+	 * @access protected
+	 * @since 3.2
+	 * @var array
+	 */
+	protected static $external_dependencies = [];
 
 	/**
 	 * An instance of the Fusion_Dynamic_JS_File class.
@@ -50,7 +70,7 @@ final class Fusion_Dynamic_JS {
 	 */
 	public function __construct() {
 
-		add_action( 'get_header', [ $this, 'init' ] );
+		add_action( 'wp_footer', [ $this, 'init' ] );
 		add_action( 'save_post', [ 'Fusion_Dynamic_JS_File', 'reset_cached_filenames' ] );
 		add_action( 'fusionredux/options/fusion_options/saved', [ 'Fusion_Dynamic_JS_File', 'delete_dynamic_js_transient' ] );
 
@@ -254,9 +274,7 @@ final class Fusion_Dynamic_JS {
 	 * @return array
 	 */
 	public function get_scripts( $reorder = true ) {
-
 		return self::$scripts;
-
 	}
 
 	/**
@@ -268,6 +286,185 @@ final class Fusion_Dynamic_JS {
 	 */
 	public function get_localizations() {
 		return self::$localize_scripts;
+	}
+
+	/**
+	 * Check for grandparent dependency and merge.
+	 *
+	 * @access public
+	 * @since 3.2
+	 */
+	public function merge_dependencies() {
+		if ( empty( self::$ordered_scripts ) ) {
+			return;
+		}
+
+		foreach ( self::$ordered_scripts as $key => $script ) {
+
+			// Script is dependencies.
+			if ( isset( $script['deps'] ) && ! empty( $script['deps'] ) ) {
+				foreach ( $script['deps'] as $dependency_key => $dependency ) {
+					$dependency_slug = $this->get_key_from_handle( $dependency );
+
+					if ( false === $dependency_slug ) {
+						continue;
+					}
+
+					$parent_script = self::$ordered_scripts[ $dependency_slug ];
+					if ( $parent_script && isset( $parent_script['deps'] ) && ! empty( $parent_script['deps'] ) ) {
+						self::$ordered_scripts[ $key ]['deps'] = array_merge( self::$ordered_scripts[ $key ]['deps'], $parent_script['deps'] );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Reorder scripts based on their dependencies.
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 */
+	public function reorder_scripts() {
+
+		// Build an ordered array of our dependent scripts.
+		$dependent_scripts     = [];
+		self::$ordered_scripts = self::$scripts;
+
+		// Merge grandparent dependency in, so that full array is present on each script.
+		$this->merge_dependencies();
+
+		foreach ( self::$ordered_scripts as $key => $script ) {
+			if ( 'enqueue' !== $script['action'] ) {
+				continue;
+			}
+
+			// Check if the script has dependencies.
+			if ( isset( $script['deps'] ) && ! empty( $script['deps'] ) ) {
+				foreach ( $script['deps'] as $dependency_key => $dependency ) {
+
+					// Check if our dependencies exist and does not start with fusion.
+					// If not, assume they are external dependencies.
+					if ( false === $this->get_key_from_handle( $dependency ) && 0 !== strpos( $dependency, 'fusion' ) ) {
+						self::$external_dependencies[] = $dependency;
+						unset( self::$ordered_scripts['deps'][ $dependency_key ] );
+						continue;
+					}
+
+					// Make sure dependency is enqueued.
+					self::$ordered_scripts[ $this->get_key_from_handle( $dependency ) ]['action'] = 'enqueue';
+
+					// Inject item in array.
+					if ( in_array( $dependency, $dependent_scripts, true ) ) {
+						$dependent_key     = array_search( $dependency, $dependent_scripts, true );
+						$dependent_scripts = $this->add_element( $dependent_scripts, $dependent_key, $dependency );
+					}
+
+					// Add the script to the end of the array if it doesn't exist.
+					if ( ! in_array( $script['handle'], $dependent_scripts, true ) ) {
+						$dependent_scripts[] = $script['handle'];
+					}
+					$dependent_scripts = array_unique( $dependent_scripts );
+				}
+			}
+		}
+
+		// Go through our dependent scripts and shuffle them in the self::$scripts array
+		// so that the final array is ordered for dependencies handling.
+		$dependent_scripts = array_reverse( $dependent_scripts );
+		foreach ( $dependent_scripts as $dependent ) {
+			$key                     = $this->get_key_from_handle( $dependent );
+			$script                  = self::$ordered_scripts[ $key ];
+			self::$ordered_scripts[] = $script;
+			unset( self::$ordered_scripts[ $key ] );
+		}
+
+		// Remove scripts that are not to be enqueued.
+		foreach ( self::$ordered_scripts as $key => $script ) {
+			if ( 'enqueue' !== $script['action'] ) {
+				unset( self::$ordered_scripts[ $key ] );
+			}
+		}
+	}
+
+	/**
+	 * Get scripts to enqueue in proper order.
+	 *
+	 * @access public
+	 * @since 3.2
+	 * @return array
+	 */
+	public function get_ordered_scripts() {
+
+		// We have already worked it out, just return them.
+		if ( null !== self::$ordered_scripts ) {
+			return self::$ordered_scripts;
+		}
+
+		$this->reorder_scripts();
+
+		return self::$ordered_scripts;
+	}
+
+	/**
+	 * Find the key of an item in the script array using the script's handle.
+	 *
+	 * @access private
+	 * @since 1.0.0
+	 * @param string $handle The script's handle.
+	 * @return int           The position of the script in self::$scripts.
+	 */
+	private function get_key_from_handle( $handle ) {
+
+		foreach ( self::$scripts as $key => $script ) {
+			if ( $handle === $script['handle'] ) {
+				return $key;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Add element in the middle of an array.
+	 *
+	 * @access public
+	 * @access protected
+	 * @since 1.0.0
+	 * @param array $array     The array.
+	 * @param int   $new_key   The position of the new item in the array.
+	 * @param mixed $new_value The value of the item we're adding to the array.
+	 * @return array
+	 */
+	protected function add_element( $array, $new_key, $new_value ) {
+		$length    = count( $array );
+		$new_array = [];
+		// If we're adding as the last element it's easy.
+		if ( $new_key >= $length ) {
+			$array[] = $new_value;
+			return $array;
+		}
+
+		// Loop the array and add the item where appropriate.
+		foreach ( $array as $key => $value ) {
+			if ( $key === $new_key ) {
+				$new_array[] = $new_value;
+				continue;
+			}
+			$new_array[] = $value;
+		}
+		return $new_array;
+	}
+
+	/**
+	 * Get the array of external dependencies.
+	 *
+	 * @static
+	 * @access public
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function get_external_dependencies() {
+		return self::$external_dependencies;
 	}
 
 	/**

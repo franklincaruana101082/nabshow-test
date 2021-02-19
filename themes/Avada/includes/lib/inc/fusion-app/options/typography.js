@@ -111,7 +111,6 @@ FusionPageBuilder.options.fusionTypographyField = {
 			setTimeout( function() {
 				self.renderBackupFontSelector( id, fontFamily );
 				self.renderVariantSelector( id, fontFamily );
-				self.renderSubsetSelector( id, fontFamily );
 			}, 70 );
 
 			$fusionSelect.find( '.fusion-select-option-value' ).on( 'change', function() {
@@ -119,10 +118,9 @@ FusionPageBuilder.options.fusionTypographyField = {
 				// Re-render dependent elements on-change.
 				self.renderBackupFontSelector( id, jQuery( this ).val() );
 				self.renderVariantSelector( id, jQuery( this ).val() );
-				self.renderSubsetSelector( id, jQuery( this ).val() );
 
 				// Load new font using the webfont-loader.
-				self.webFontLoad( jQuery( this ).val(), self.getTypographyVal( id, 'variant' ), self.getTypographyVal( id, 'subsets' ), selector );
+				self.webFontLoad( jQuery( this ).val(), self.getTypographyVal( id, 'variant' ), selector );
 			} );
 		} );
 	},
@@ -152,7 +150,7 @@ FusionPageBuilder.options.fusionTypographyField = {
 			} );
 		}
 
-		$fusionSelect = $option.find( '.fusion-select-field' ).fusionSelect( {
+		$fusionSelect = $option.find( '.fusion-select-field' ).fusionSelect( { // eslint-disable-line no-unused-vars
 			fieldId: id,
 			fieldName: 'font-backup',
 			data: [ { text: 'Standard Fonts', children: standardFonts } ]
@@ -240,7 +238,7 @@ FusionPageBuilder.options.fusionTypographyField = {
 			self.getFontStyleFromVariant( jQuery( this ).val() );
 
 			// Load new font using the webfont-loader.
-			self.webFontLoad( self.getTypographyVal( id, 'font-family' ), jQuery( this ).val(), self.getTypographyVal( id, 'subsets' ), selector );
+			self.webFontLoad( self.getTypographyVal( id, 'font-family' ), jQuery( this ).val(), selector );
 		} );
 
 		jQuery( selector ).val( variant ).trigger( 'fusion.typo-variant-loaded' );
@@ -278,65 +276,6 @@ FusionPageBuilder.options.fusionTypographyField = {
 	},
 
 	/**
-	 * Renders the subsets selector using select2
-	 * Displays font-subsets for the currently selected font-family.
-	 *
-	 * @since 2.0
-	 * @param {string} id - The option ID.
-	 * @param {string} fontFamily - The font-family selected.
-	 * @return {void}
-	 */
-	renderSubsetSelector: function( id, fontFamily ) {
-
-		var self       = this,
-			subsets    = self.getSubsets( fontFamily ),
-			selector   = jQuery( '.fusion-builder-option[data-option-id="' + id + '"] .subsets select' ),
-			data       = [],
-			validValue = self.getTypographyVal( id, 'subsets' );
-
-		// Hide if there are no subsets.
-		if ( false === subsets ) {
-			jQuery( selector ).closest( '.subsets' ).hide();
-			self.setTypographyVal( id, 'subsets', '' );
-			return;
-		}
-
-		jQuery( selector ).closest( '.subsets' ).show();
-		_.each( subsets, function( subset ) {
-			if ( _.isObject( validValue ) ) {
-				if ( -1 === _.indexOf( validValue, subset.id ) ) {
-					validValue = _.reject( validValue, function( subValue ) {
-						return subValue === subset.id;
-					} );
-				}
-			}
-
-			data.push( {
-				id: subset.id,
-				text: subset.label
-			} );
-		} );
-
-		// Clear old values.
-		jQuery( selector ).empty();
-
-		_.each( data, function( font ) {
-			var selected = font.id === validValue ? 'selected' : '';
-			jQuery( selector ).append( '<option value="' + font.id + '" ' + selected + '>' + font.text + '</option>' );
-		} );
-
-		// When the value changes.
-		jQuery( selector ).on( 'fusion.typo-subset-loaded change', function() {
-			self.setTypographyVal( id, 'subsets', jQuery( this ).val() );
-
-			// Load new font using the webfont-loader.
-			self.webFontLoad( self.getTypographyVal( id, 'font-family' ), self.getTypographyVal( id, 'variant' ), jQuery( this ).val(), selector );
-		} );
-
-		jQuery( selector ).val( validValue ).trigger( 'fusion.typo-subset-loaded' );
-	},
-
-	/**
 	 * Get variants for a font-family.
 	 *
 	 * @since 2.0.0
@@ -369,26 +308,6 @@ FusionPageBuilder.options.fusionTypographyField = {
 			}
 		} );
 		return variants;
-	},
-
-	/**
-	 * Get subsets for a font-family.
-	 *
-	 * @since 2.0.0
-	 * @param {string} fontFamily - The font-family.
-	 * @return {Object} - Returns the subsets for the current font-family.
-	 */
-	getSubsets: function( fontFamily ) {
-
-		var subsets = false,
-			fonts   = FusionApp.assets.webfonts;
-
-		_.each( fonts.google, function( font ) {
-			if ( font.family === fontFamily ) {
-				subsets = font.subsets;
-			}
-		} );
-		return subsets;
 	},
 
 	/**
@@ -446,7 +365,6 @@ FusionPageBuilder.options.fusionTypographyField = {
 			variant: '400',
 			'font-style': '',
 			'font-weight': '400',
-			subsets: 'latin',
 			'font-size': '',
 			'line-height': '',
 			'letter-spacing': '',
@@ -516,11 +434,10 @@ FusionPageBuilder.options.fusionTypographyField = {
 	 *
 	 * @param {string} family - The font-family
 	 * @param {string} variant - The variant to load.
-	 * @param {string} subset - The subset
 	 * @param {string} selector - The selector.
 	 * @return {void}
 	 */
-	webFontLoad: function( family, variant, subset, selector ) {
+	webFontLoad: function( family, variant, selector ) {
 		var self         = this,
 			isGoogleFont = self.isGoogleFont( family ),
 			scriptID,
@@ -535,7 +452,7 @@ FusionPageBuilder.options.fusionTypographyField = {
 		}
 
 		// Check font has actually changed from default.
-		if ( 'undefined' !== typeof selector && selector && ! this.checkFontChanged( family, variant, subset, selector ) ) {
+		if ( 'undefined' !== typeof selector && selector && ! this.checkFontChanged( family, variant, selector ) ) {
 			return;
 		}
 
@@ -547,27 +464,13 @@ FusionPageBuilder.options.fusionTypographyField = {
 		variant = ( _.isUndefined( variant ) || ! variant ) ? ':regular' : ':' + variant;
 		family  = family.replace( /"/g, '&quot' );
 
-		// Format subsets.
-		if ( '' !== subset && subset ) {
-			if ( _.isString( subset ) ) {
-				subset = ':' + subset;
-			} else if ( _.isArray( subset ) ) {
-				subset = ':' + subset.join( ',' );
-			} else if ( _.isObject( subset ) ) {
-				subset = ':' + _.values( subset ).join( ',' );
-			}
-		} else {
-			subset = '';
-		}
-
 		script  = family;
 		script += ( variant ) ? variant : '';
-		script += ( subset ) ? subset : '';
 
 		scriptID = script.replace( /:/g, '' ).replace( /"/g, '' ).replace( /'/g, '' ).replace( / /g, '' ).replace( /,/, '' );
 
-		if ( ! jQuery( '#fb-preview' ).contents().find( '#' + scriptID ).length ) {
-			jQuery( '#fb-preview' ).contents().find( 'head' ).append( '<script id="' + scriptID + '">WebFont.load({google:{families:["' + script + '"]},context:FusionApp.previewWindow,active: function(){ jQuery( window ).trigger( "fusion-font-loaded"); },});</script>' );
+		if ( ! jQuery( 'head' ).find( '#' + scriptID ).length ) {
+			jQuery( 'head' ).first().append( '<script id="' + scriptID + '">WebFont.load({google:{families:["' + script + '"]},context:FusionApp.previewWindow,active: function(){ jQuery( window ).trigger( "fusion-font-loaded"); },});</script>' );
 			return false;
 		}
 		return true;
@@ -658,11 +561,10 @@ FusionPageBuilder.options.fusionTypographyField = {
 	 * @since 2.0.0
 	 * @param {string} family - The font-family.
 	 * @param {string} variant - The variant for the defined font-family.
-	 * @param {string} subset - The subset for the defined font-family.
 	 * @param {string} element - The element we're checking.
 	 * @return {boolean} - Whether there was a change or not.
 	 */
-	checkFontChanged: function( family, variant, subset, element ) {
+	checkFontChanged: function( family, variant, element ) {
 		var id     = jQuery( element ).closest( '.fusion-builder-option' ).attr( 'data-option-id' ),
 			values = FusionApp.settings[ id ];
 
@@ -675,9 +577,6 @@ FusionPageBuilder.options.fusionTypographyField = {
 			return true;
 		}
 		if ( values.variant !== variant && values[ 'font-weight' ] !== variant ) {
-			return true;
-		}
-		if ( 'undefined' !== typeof subset && values.subset !== subset ) {
 			return true;
 		}
 		return false;

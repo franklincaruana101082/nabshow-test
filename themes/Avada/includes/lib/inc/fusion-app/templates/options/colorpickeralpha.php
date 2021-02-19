@@ -30,7 +30,7 @@ var fieldId  = 'undefined' === typeof param.param_name ? param.id : param.param_
 				<input name="{{ fieldId }}" class="{{ fieldId }} color-picker color-picker-placeholder" type="text" value="{{ option_value }}">
 			</label>
 		</span>
-		<button class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid"></i></button>
+		<button class="button button-small wp-picker-clear"><i class="fusiona-eraser-solid" aria-hidden="true"></i></button>
 	</div>
 <# } else { #>
 	<input

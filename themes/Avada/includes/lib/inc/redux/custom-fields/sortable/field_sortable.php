@@ -26,7 +26,7 @@ if ( ! class_exists( 'FusionReduxFramework_sortable' ) ) {
 		 *
 		 * @since FusionRedux_Options 2.0.1
 		 */
-		public function __construct( $field = array(), $value = '', $parent ) {
+		public function __construct( $field = array(), $value = '', $parent = null ) {
 			$this->parent = $parent;
 			$this->field  = $field;
 			$this->value  = $value;

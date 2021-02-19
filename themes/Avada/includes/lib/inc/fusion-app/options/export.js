@@ -100,8 +100,9 @@ FusionPageBuilder.options.fusionExport = {
 		jQuery.get( {
 			url: fusionAppConfig.ajaxurl,
 			data: data,
-			dataType: 'json',
-			success: function( response ) {
+			dataType: 'json'
+		} )
+			.done( function( response ) {
 				jQuery( '.fusion-select-options' ).append( '<label class="fusion-select-label" data-value="' + response.saved_po_dataset_id + '">' + response.saved_po_dataset_title  + '</label>' );
 				jQuery( '#fusion-new-page-options-name' ).val( '' );
 				$export.removeClass( 'partial-refresh-active' );
@@ -112,11 +113,10 @@ FusionPageBuilder.options.fusionExport = {
 					title: response.saved_po_dataset_title,
 					data: response.saved_po_data
 				};
-			},
-			error: function() {
+			} )
+			.fail( function() {
 				$export.removeClass( 'partial-refresh-active' );
-			}
-		} );
+			} );
 	},
 
 	getFusionMeta: function() {

@@ -62,5 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="avada-footer-scripts">
 			<?php wp_footer(); ?>
 		</div>
+
+		<?php get_template_part( 'templates/to-top' ); ?>
 	</body>
 </html>

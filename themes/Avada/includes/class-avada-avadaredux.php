@@ -275,7 +275,7 @@ class Avada_AvadaRedux extends Fusion_FusionRedux {
 		?>
 		<script type="text/javascript">
 			var count = 6;
-			var redirect = "<?php echo esc_url_raw( admin_url( 'themes.php?page=fusion_options' ) ); ?>";
+			var redirect = "<?php echo esc_url_raw( admin_url( 'themes.php?page=avada_options' ) ); ?>";
 
 			function countDown(){
 				var timer = document.getElementById("timer");
@@ -407,6 +407,7 @@ class Avada_AvadaRedux extends Fusion_FusionRedux {
 			'woocommerce_shop_page_columns',
 			'woocommerce_related_columns',
 			'woocommerce_archive_page_columns',
+			'woocommerce_product_images_thumbnail_column_width',
 			'typography_sensitivity',
 			'typography_factor',
 			'testimonials_speed',

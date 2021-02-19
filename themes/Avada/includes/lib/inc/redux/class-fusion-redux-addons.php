@@ -79,9 +79,9 @@ class Fusion_Redux_Addons {
 		// An array of all our extensions.
 		$this->extensions = [
 			'search',
-			'repeater',
 			'accordion',
 			'vendorsupport',
+			'repeater',
 		];
 
 		$this->path = dirname( __FILE__ );

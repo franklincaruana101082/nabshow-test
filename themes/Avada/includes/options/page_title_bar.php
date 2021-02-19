@@ -36,29 +36,25 @@ function avada_options_section_page_title_bar( $sections ) {
 		'priority' => 7,
 		'icon'     => 'el-icon-adjust-alt',
 		'alt_icon' => 'fusiona-page_title',
-	];
-
-	if ( $has_global_ptb ) {
-		$sections['page_title_bar']['fields'] = [
-			'page_title_bar_template_notice' => [
+		'fields'   => [
+			'page_title_bar_template_notice' => class_exists( 'Fusion_Template_Builder' ) ? [
 				'id'          => 'page_title_bar_template_notice',
 				'label'       => '',
 				'description' => sprintf(
 					/* translators: 1: Content|Footer|Page Title Bar. 2: URL. */
 					'<div class="fusion-redux-important-notice">' . __( '<strong>IMPORTANT NOTE:</strong> The options on this tab are not available because a global %1$s override is currently used. To edit your global layout please visit <a href="%2$s" target="_blank">this page</a>.', 'Avada' ) . '</div>',
 					Fusion_Template_Builder::get_instance()->get_template_terms()['page_title_bar']['label'],
-					admin_url( 'admin.php?page=fusion-layouts' )
+					admin_url( 'admin.php?page=avada-layouts' )
 				),
+				'hidden'      => ! $has_global_ptb,
 				'type'        => 'custom',
-			],
-		];
-	} else {
-		$sections['page_title_bar']['fields'] = [
+			] : [],
 			'page_title_bar'                 => [
 				'label'           => esc_html__( 'Page Title Bar', 'Avada' ),
 				'description'     => esc_html__( 'Controls how the page title bar displays.', 'Avada' ),
 				'id'              => 'page_title_bar',
 				'default'         => 'bar_and_content',
+				'hidden'          => $has_global_ptb,
 				'choices'         => [
 					'bar_and_content' => esc_html__( 'Show Bar and Content', 'Avada' ),
 					'content_only'    => esc_html__( 'Show Content Only', 'Avada' ),
@@ -90,6 +86,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls what displays in the breadcrumbs area. ', 'Avada' ),
 				'id'              => 'page_title_bar_bs',
 				'default'         => 'breadcrumbs',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'radio-buttonset',
 				'choices'         => [
 					'none'        => esc_html__( 'None', 'Avada' ),
@@ -112,6 +109,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Turn on to display the page title bar headings.', 'Avada' ),
 				'id'              => 'page_title_bar_text',
 				'default'         => '1',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'switch',
 				'soft_dependency' => true,
 				'partial_refresh' => [
@@ -128,6 +126,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'label'       => esc_html__( 'Page Title Bar Styling', 'Avada' ),
 				'description' => '',
 				'id'          => 'page_title_bar_styling_title',
+				'hidden'      => $has_global_ptb,
 				'icon'        => true,
 				'type'        => 'info',
 			],
@@ -136,6 +135,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Turn on to have the page title bar area display at 100% width according to the viewport size. Turn off to follow site width.', 'Avada' ),
 				'id'              => 'page_title_100_width',
 				'default'         => '0',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'switch',
 				'soft_dependency' => true,
 				'output'          => [
@@ -159,6 +159,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the height of the page title bar on desktop.', 'Avada' ),
 				'id'              => 'page_title_height',
 				'default'         => '300px',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'dimension',
 				'soft_dependency' => true,
 				'css_vars'        => [
@@ -173,6 +174,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the height of the page title bar on mobile.', 'Avada' ),
 				'id'              => 'page_title_mobile_height',
 				'default'         => '240px',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'dimension',
 				'soft_dependency' => true,
 				'css_vars'        => [
@@ -209,6 +211,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the background color of the page title bar.', 'Avada' ),
 				'id'              => 'page_title_bg_color',
 				'default'         => '#f2f3f5',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'color-alpha',
 				'soft_dependency' => true,
 				'css_vars'        => [
@@ -224,6 +227,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the border colors of the page title bar.', 'Avada' ),
 				'id'              => 'page_title_border_color',
 				'default'         => 'rgba(226,226,226,0)',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'color-alpha',
 				'soft_dependency' => true,
 				'css_vars'        => [
@@ -253,6 +257,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the font size for the page title bar main heading.', 'Avada' ),
 				'id'              => 'page_title_font_size',
 				'default'         => '54px',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'dimension',
 				'choices'         => [
 					'units' => [ 'px', 'em' ],
@@ -270,6 +275,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the line height for the page title bar main heading.', 'Avada' ),
 				'id'              => 'page_title_line_height',
 				'default'         => 'normal',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'dimension',
 				'choices'         => [
 					'units' => [ 'px', 'em' ],
@@ -287,6 +293,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the text color of the page title bar main heading.', 'Avada' ),
 				'id'              => 'page_title_color',
 				'default'         => '#212934',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'color-alpha',
 				'soft_dependency' => true,
 				'css_vars'        => [
@@ -302,6 +309,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the font size for the page titlebar subheading.', 'Avada' ),
 				'id'              => 'page_title_subheader_font_size',
 				'default'         => '18px',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'dimension',
 				'choices'         => [
 					'units' => [ 'px', 'em' ],
@@ -319,6 +327,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Controls the text color of the page title bar subheading.', 'Avada' ),
 				'id'              => 'page_title_subheader_color',
 				'default'         => '#4a4e57',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'color-alpha',
 				'soft_dependency' => true,
 				'css_vars'        => [
@@ -334,6 +343,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Choose the title and subhead text alignment. Breadcrumbs / search field will be on opposite side for left / right alignment and below the title for center alignment.', 'Avada' ),
 				'id'              => 'page_title_alignment',
 				'default'         => 'center',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'radio-buttonset',
 				'choices'         => [
 					'left'   => esc_html__( 'Left', 'Avada' ),
@@ -356,6 +366,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description' => '',
 				'id'          => 'page_title_bar_bg_image_title',
 				'icon'        => true,
+				'hidden'      => $has_global_ptb,
 				'type'        => 'info',
 			],
 			'page_title_bg'                  => [
@@ -363,6 +374,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Select an image for the page title bar background. If left empty, the page title bar background color will be used.', 'Avada' ),
 				'id'              => 'page_title_bg',
 				'default'         => '',
+				'hidden'          => $has_global_ptb,
 				'mod'             => '',
 				'type'            => 'media',
 				'soft_dependency' => true,
@@ -380,6 +392,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Select an image for the retina version of the page title bar background. It should be exactly 2x the size of the page title bar background.', 'Avada' ),
 				'id'              => 'page_title_bg_retina',
 				'default'         => '',
+				'hidden'          => $has_global_ptb,
 				'mod'             => '',
 				'type'            => 'media',
 				'soft_dependency' => true,
@@ -412,6 +425,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Turn on to have the page title bar background image display at 100% in width and height according to the window size.', 'Avada' ),
 				'id'              => 'page_title_bg_full',
 				'default'         => '0',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'switch',
 				'soft_dependency' => true,
 				'output'          => [
@@ -435,6 +449,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Turn on to use a parallax scrolling effect on the background image.', 'Avada' ),
 				'id'              => 'page_title_bg_parallax',
 				'default'         => '0',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'switch',
 				'soft_dependency' => true,
 				'output'          => [
@@ -458,6 +473,7 @@ function avada_options_section_page_title_bar( $sections ) {
 				'description'     => esc_html__( 'Turn on to have the page title text fade on scroll.', 'Avada' ),
 				'id'              => 'page_title_fading',
 				'default'         => '0',
+				'hidden'          => $has_global_ptb,
 				'type'            => 'switch',
 				'soft_dependency' => true,
 				'output'          => [
@@ -477,8 +493,8 @@ function avada_options_section_page_title_bar( $sections ) {
 					],
 				],
 			],
-		];
-	}
+		],
+	];
 
 	return $sections;
 

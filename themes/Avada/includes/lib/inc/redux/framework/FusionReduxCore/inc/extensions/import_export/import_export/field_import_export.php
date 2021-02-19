@@ -39,7 +39,7 @@
 			 * @access      public
 			 * @return      void
 			 */
-			function __construct( $field = array(), $value = '', $parent ) {
+			function __construct( $field = array(), $value = '', $parent = null ) {
 
 				$this->parent   = $parent;
 				$this->field    = $field;
@@ -91,7 +91,7 @@
 					<h4><?php esc_html_e( 'Import Options', 'Avada' ); ?></h4>
 					<div class="fusionredux-section-desc">
 						<p class="description">
-							<?php echo esc_html( apply_filters( 'fusionredux-import-main-description', __( 'Important: Only Theme Options from Avada 4.0 or higher can be imported.', 'Avada' ) ) ) ?>
+							<?php echo esc_html( apply_filters( 'fusionredux-import-main-description', __( 'Important: Only Global Options settings from Avada 4.0 or higher can be imported.', 'Avada' ) ) ) ?>
 						</p>
 					</div>
 					<p>
@@ -130,7 +130,7 @@
 
 					<div class="fusionredux-section-desc">
 						<p class="description">
-							<?php echo esc_html( apply_filters( 'fusionredux-backup-description', __( 'Here you can copy/download your current Theme Options settings. Keep this safe as you can use it as a backup should anything go wrong, or you can use it to restore your settings on this site (or any other site).', 'Avada' ) ) ) ?>
+							<?php echo esc_html( apply_filters( 'fusionredux-backup-description', __( 'Here you can copy/download your current Global Options settings. Keep this safe as you can use it as a backup should anything go wrong, or you can use it to restore your settings on this site (or any other site).', 'Avada' ) ) ) ?>
 						</p>
 					</div>
 				<?php

@@ -39,6 +39,8 @@ class Avada_Head {
 		add_filter( 'theme_color_meta', [ $this, 'theme_color' ] );
 
 		add_action( 'wp_head', [ $this, 'insert_favicons' ], 2 );
+		add_action( 'admin_head', [ $this, 'insert_favicons' ], 2 );
+		add_action( 'login_head', [ $this, 'insert_favicons' ], 2 );
 		add_action( 'wp_head', [ $this, 'insert_og_meta' ], 5 );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 
@@ -47,6 +49,7 @@ class Avada_Head {
 		}
 
 		add_action( 'wp_head', [ $this, 'set_user_agent' ], 1000 );
+		add_action( 'wp_head', [ $this, 'preload_fonts' ] );
 
 		// wp_body_open function introduced in WP 5.2.
 		if ( function_exists( 'wp_body_open' ) ) {
@@ -99,6 +102,43 @@ class Avada_Head {
 			doc.setAttribute( 'data-useragent', navigator.userAgent );
 		</script>
 		<?php
+	}
+
+	/**
+	 * Preloads font files.
+	 *
+	 * @static
+	 * @access public
+	 * @since 7.2
+	 * @return void
+	 */
+	public function preload_fonts() {
+		global $fusion_settings;
+
+		$preload_fonts = $fusion_settings->get( 'preload_fonts' );
+		$tags          = '';
+
+		if ( 'icon_fonts' === $preload_fonts || 'all' === $preload_fonts ) {
+			// Icomoon.
+			$font_url = FUSION_LIBRARY_URL . '/assets/fonts/icomoon';
+			$font_url = set_url_scheme( $font_url ) . '/icomoon.woff';
+
+			$tags .= '<link rel="preload" href="' . $font_url . '" as="font" type="font/woff2" crossorigin>';
+
+			// Font Awesome.
+			$tags .= ( 'local' === $fusion_settings->get( 'gfonts_load_method' ) && true === Fusion_Font_Awesome::is_fa_pro_enabled() && ! ( function_exists( 'fusion_is_preview_frame' ) && fusion_is_preview_frame() ) ) ? fusion_library()->fa->get_local_subsets_tags() : fusion_library()->fa->get_subsets_tags();
+
+			// Custom Icons.
+			$tags .= fusion_get_custom_icons_preload_tags();
+		}
+
+		if ( 'google_fonts' === $preload_fonts || 'all' === $preload_fonts ) {
+			// Google fonts.
+			$google_fonts = new Avada_Google_Fonts();
+			$tags        .= $google_fonts->get_preload_tags();
+		}
+
+		echo $tags; // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 
 	/**
@@ -199,18 +239,19 @@ class Avada_Head {
 
 		<?php if ( '' !== Avada()->settings->get( 'iphone_icon_retina', 'url' ) ) : ?>
 			<!-- For iPhone Retina display -->
-			<link rel="apple-touch-icon" sizes="114x114" href="<?php echo esc_url_raw( Avada()->settings->get( 'iphone_icon_retina', 'url' ) ); ?>">
+			<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url_raw( Avada()->settings->get( 'iphone_icon_retina', 'url' ) ); ?>">
 		<?php endif; ?>
 
 		<?php if ( '' !== Avada()->settings->get( 'ipad_icon', 'url' ) ) : ?>
 			<!-- For iPad -->
-			<link rel="apple-touch-icon" sizes="72x72" href="<?php echo esc_url_raw( Avada()->settings->get( 'ipad_icon', 'url' ) ); ?>">
+			<link rel="apple-touch-icon" sizes="152x152" href="<?php echo esc_url_raw( Avada()->settings->get( 'ipad_icon', 'url' ) ); ?>">
 		<?php endif; ?>
 
 		<?php if ( '' !== Avada()->settings->get( 'ipad_icon_retina', 'url' ) ) : ?>
 			<!-- For iPad Retina display -->
-			<link rel="apple-touch-icon" sizes="144x144" href="<?php echo esc_url_raw( Avada()->settings->get( 'ipad_icon_retina', 'url' ) ); ?>">
+			<link rel="apple-touch-icon" sizes="167x167" href="<?php echo esc_url_raw( Avada()->settings->get( 'ipad_icon_retina', 'url' ) ); ?>">
 		<?php endif; ?>
+
 		<?php
 
 	}

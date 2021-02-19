@@ -160,7 +160,7 @@ class Fusion_Media_Query_Scripts {
 		// Responsive mode.
 		$side_header_width = 0;
 		if ( class_exists( 'Avada' ) ) {
-			$side_header_width = ( 'top' === fusion_get_option( 'header_position' ) ) ? 0 : (int) fusion_library()->get_option( 'side_header_width' );
+			$side_header_width = ( 'top' === fusion_library()->get_option( 'header_position' ) ) ? 0 : (int) fusion_library()->get_option( 'side_header_width' );
 		}
 
 		// Grid System.

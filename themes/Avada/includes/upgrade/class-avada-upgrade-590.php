@@ -89,12 +89,12 @@ class Avada_Upgrade_590 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate the reCaptcha Theme Options.
+	 * Migrate the reCAPTCHA Global Options.
 	 *
 	 * @access private
 	 * @since 5.9
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_recaptcha_options( $options ) {
 		if ( ! isset( $options['recaptcha_version'] ) ) {
@@ -105,12 +105,12 @@ class Avada_Upgrade_590 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate the pagination Theme Options.
+	 * Migrate the pagination Global Options.
 	 *
 	 * @access private
 	 * @since 5.9
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_pagination_options( $options ) {
 		$options['pagination_sizing'] = 'padding';
@@ -118,12 +118,12 @@ class Avada_Upgrade_590 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate the ToTop Theme Options.
+	 * Migrate the ToTop Global Options.
 	 *
 	 * @access private
 	 * @since 5.9
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_totop_options( $options ) {
 		if ( is_rtl() ) {
@@ -134,12 +134,12 @@ class Avada_Upgrade_590 extends Avada_Upgrade_Abstract {
 	}
 
 	/**
-	 * Migrate the search page Theme Options.
+	 * Migrate the search page Global Options.
 	 *
 	 * @access private
 	 * @since 5.9
-	 * @param array $options The Theme Options array.
-	 * @return array         The updated Theme Options array.
+	 * @param array $options The Global Options array.
+	 * @return array         The updated Global Options array.
 	 */
 	private function migrate_search_options( $options ) {
 

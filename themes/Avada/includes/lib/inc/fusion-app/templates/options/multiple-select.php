@@ -27,10 +27,13 @@ var fieldId         = 'undefined' === typeof param.param_name ? param.id : param
 		} else if ( -1 !== fieldId.indexOf( 'category' ) ) {
 			placeholderText = fusionBuilderText.select_categories_or_leave_blank_for_none;
 		} else if ( -1 !== fieldId.indexOf( 'post_status' ) ) {
-			placeholderText = fusionBuilderText.select_post_status_leave_blank_for_publish;			
+			placeholderText = fusionBuilderText.select_post_status_leave_blank_for_publish;
+		} else if ( -1 !== fieldId.indexOf( 'social_share_links' ) ) {
+			placeholderText = fusionBuilderText.select_or_leave_blank_for_global;
 		} else if ( 'undefined' === typeof param.location || ( 'TO' !== param.location && 'FBE' !== param.location ) ) {
 			placeholderText = fusionBuilderText.select_options_or_leave_blank_for_all;
 		}
+
 	}
 #>
 <# if ( 'undefined' !== typeof FusionApp ) { #>

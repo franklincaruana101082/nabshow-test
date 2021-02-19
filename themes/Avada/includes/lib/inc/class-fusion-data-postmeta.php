@@ -206,13 +206,14 @@ class Fusion_Data_PostMeta {
 			return [];
 		}
 
+		$post_type = get_post_type( $this->post_id );
+
 		// If on new post screen, exit early.
-		if ( is_admin() && 'post-new.php' === $pagenow ) {
+		if ( is_admin() && 'post-new.php' === $pagenow && 'fusion_icons' !== $post_type ) {
 			return [];
 		}
 
 		// Check if we are non-allowable post type and return early if so.
-		$post_type             = get_post_type( $this->post_id );
 		$disallowed_post_types = apply_filters( 'avada_hide_page_options', [ 'attachment', 'shop_order' ] );
 		if ( in_array( $post_type, $disallowed_post_types, true ) ) {
 			return [];

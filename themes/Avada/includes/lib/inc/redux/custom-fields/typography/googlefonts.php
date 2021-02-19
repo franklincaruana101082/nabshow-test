@@ -48,16 +48,10 @@ if ( ! class_exists( 'Fusion_Redux_Get_GoogleFonts' ) ) {
 					}
 					$final_fonts[ $font['family'] ] = array(
 						'variants' => array(),
-						'subsets'  => array(),
 					);
 					if ( isset( $font['variants'] ) && is_array( $font['variants'] ) ) {
 						foreach ( $font['variants'] as $variant ) {
 							$final_fonts[ $font['family'] ]['variants'][] = $this->convert_font_variants( $variant );
-						}
-					}
-					if ( isset( $font['subsets'] ) && is_array( $font['subsets'] ) ) {
-						foreach ( $font['subsets'] as $subset ) {
-							$final_fonts[ $font['family'] ]['subsets'][] = $this->convert_font_subsets( $subset );
 						}
 					}
 				}
@@ -94,37 +88,6 @@ if ( ! class_exists( 'Fusion_Redux_Get_GoogleFonts' ) ) {
 			return array(
 				'id'   => $variant,
 				'name' => $variant,
-			);
-		}
-
-		private function convert_font_subsets( $subset ) {
-			$subsets = array(
-				'greek-ext'    => esc_attr__( 'Greek Extended', 'Avada' ),
-				'greek'        => esc_attr__( 'Greek', 'Avada' ),
-				'cyrillic-ext' => esc_attr__( 'Cyrillic Extended', 'Avada' ),
-				'cyrillic'     => esc_attr__( 'Cyrillic', 'Avada' ),
-				'latin-ext'    => esc_attr__( 'Latin Extended', 'Avada' ),
-				'latin'        => esc_attr__( 'Latin', 'Avada' ),
-				'vietnamese'   => esc_attr__( 'Vietnamese', 'Avada' ),
-				'arabic'       => esc_attr__( 'Arabic', 'Avada' ),
-				'gujarati'     => esc_attr__( 'Gujarati', 'Avada' ),
-				'devanagari'   => esc_attr__( 'Devanagari', 'Avada' ),
-				'bengali'      => esc_attr__( 'Bengali', 'Avada' ),
-				'hebrew'       => esc_attr__( 'Hebrew', 'Avada' ),
-				'khmer'        => esc_attr__( 'Khmer', 'Avada' ),
-				'tamil'        => esc_attr__( 'Tamil', 'Avada' ),
-				'telugu'       => esc_attr__( 'Telugu', 'Avada' ),
-				'thai'         => esc_attr__( 'Thai', 'Avada' ),
-			);
-			if ( array_key_exists( $subset, $subsets ) ) {
-				return array(
-					'id'   => $subset,
-					'name' => $subsets[ $subset ],
-				);
-			}
-			return array(
-				'id'   => $subset,
-				'name' => ucfirst( $subset )
 			);
 		}
 	}

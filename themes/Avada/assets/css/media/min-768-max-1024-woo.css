@@ -26,9 +26,6 @@
     height: auto !important;
     padding-bottom: 10px;
   }
-  #main .products li:nth-child(3n+1) {
-    clear: both !important;
-  }
   .woocommerce .checkout_coupon .promo-code-heading {
     display: block;
     margin-bottom: 10px !important;
@@ -83,12 +80,9 @@
     margin-bottom: 50px;
   }
   #wrapper .orderby-order-container {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
-        align-items: center;
-    -ms-flex-pack: justify;
-        justify-content: space-between;
+    align-items: center;
+    justify-content: space-between;
     margin: 0 auto 10px;
     width: 225px;
     float: none;
@@ -111,11 +105,11 @@
   #wrapper .catalog-ordering .order {
     margin: 0;
   }
-  #wrapper .product .avada-single-product-gallery-wrapper {
+  #wrapper .product .avada-product-images-global {
     float: left;
     width: 48%;
   }
-  #wrapper .product .images {
+  #wrapper .product .avada-product-images-global .woocommerce-product-gallery {
     width: 100%;
   }
   #wrapper .product .summary.entry-summary {
@@ -136,20 +130,6 @@
   .catalog-ordering .fusion-grid-list-view {
     display: block;
     width: 78px;
-  }
-  .products-2 li:nth-child(2n+1),
-  .products-3 li:nth-child(3n+1),
-  .products-4 li:nth-child(4n+1),
-  .products-5 li:nth-child(5n+1),
-  .products-6 li:nth-child(6n+1) {
-    clear: none !important;
-  }
-  #main .products li:nth-child(3n),
-  #main .products li:nth-child(4n),
-  .products li {
-    width: 32.3% !important;
-    float: left !important;
-    margin-right: 1% !important;
   }
   .avada-myaccount-data .my_account_orders .woocommerce-orders-table__cell-order-number {
     padding-right: 8px;
@@ -202,12 +182,8 @@
     float: none;
     margin-left: 0;
   }
-  .product .images {
+  .product .avada-product-images-global .woocommerce-product-gallery {
     margin-bottom: 30px;
-  }
-  .product .images #carousel .flex-direction-nav,
-  .product .images #slider .flex-direction-nav {
-    display: none !important;
   }
   .woocommerce-MyAccount-navigation,
   .woocommerce-side-nav,

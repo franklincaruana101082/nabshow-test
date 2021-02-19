@@ -50,8 +50,6 @@ class Avada_Dynamic_CSS {
 	 */
 	public function init() {
 
-		add_filter( 'fusion_dynamic_css_stylesheet_dependencies', [ $this, 'stylesheet_dependencies' ] );
-
 		if ( ! function_exists( 'fusion_is_preview_frame' ) || ! fusion_is_preview_frame() ) {
 			// If CSS is cached in file or async media queries are turned off load custom CSS in make_css(), otherwise use
 			// fusion_library_inline_dynamic_css filter.
@@ -59,7 +57,7 @@ class Avada_Dynamic_CSS {
 				add_filter( 'fusion_dynamic_css_final', [ $this, 'fusion_add_custom_css_to_dynamic' ], 999 );
 			} else {
 				add_filter( 'fusion_library_inline_custom_css', [ $this, 'fusion_add_custom_css_to_dynamic' ] );
-			}       
+			}
 		} else {
 			/**
 			* We're in FB preview mode.
@@ -109,21 +107,6 @@ class Avada_Dynamic_CSS {
 		}
 
 		echo '<style type="text/css" id="fusion-builder-custom-css">' . $css . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput
-	}
-
-	/**
-	 * Adds a dependency for the main stylesheet.
-	 *
-	 * @access public
-	 * @since 5.1
-	 * @param array $dependencies An array of dependencies for the stylesheet.
-	 * @return array
-	 */
-	public function stylesheet_dependencies( $dependencies ) {
-
-		$dependencies[] = 'avada-stylesheet';
-		return $dependencies;
-
 	}
 
 	/**
