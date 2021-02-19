@@ -201,11 +201,13 @@ function nab_amplify_upload_images()
                 // update in meta
                 if ($file_key === 'company_profile_picture') {
                     set_post_thumbnail($company_id, $attachment_id);
+                    do_action( 'nab_company_profile_image_update', $company_id );
                 } else if ($file_key === 'company_banner_image') {
                     update_field('field_5fb60d61ce131', $attachment_id, $company_id);
+                    do_action( 'nab_company_profile_image_update', $company_id );
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
-                    do_action( 'user_profile_image_updated', $user_id );
+                    do_action( 'nab_user_profile_image_updated', $user_id );
                     update_user_meta($user_id, 'profile_update_two', '1');
                 }
             }
@@ -2904,6 +2906,7 @@ function nab_add_product()
     $product_media              = get_field('product_media', $product_id);
     $response_msg               = '';
     $product_contact            = $product_contact ? $product_contact : 0;
+    $tracking_status            = 'trash' === strtolower( $product_status ) ? 'delete' : 'update'; 
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
@@ -2933,7 +2936,7 @@ function nab_add_product()
     }
 
     if ($product_id !== '0') {
-
+        
         $current_status = get_post_status($product_id);
 
         // Update the post into the database
@@ -2980,6 +2983,7 @@ function nab_add_product()
             $final_result['publish_text']   = "Update";
             $final_result['draft_text']     = "Revert to Draft";
         }
+        $tracking_status = 'add';
     }
 
     // assign categories and tags to post
@@ -3068,7 +3072,7 @@ function nab_add_product()
         $final_result['content'] = $response_msg;
         $final_result['post_id'] = $post_id;
     }
-
+    do_action( 'nab_company_product_action', $tracking_status, $post_id, $nab_company_id );
     echo wp_json_encode($final_result);
     wp_die();
 }
@@ -3552,11 +3556,12 @@ function nab_update_company_profile_callback()
             update_field('company_user_id', $company_admins, $company_id);
         }
 
-    }
-
+    }    
 
     $final_result['success'] = true;
     $final_result['content'] = '';
+
+    do_action( 'nab_company_profile_update', $company_id );
 
     echo wp_json_encode($final_result);
     wp_die();

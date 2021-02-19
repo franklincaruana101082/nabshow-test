@@ -1777,6 +1777,3 @@ body .is_friend .remove::before{font-size:22px}
 
 /* Message legal note */
 .message-leggal-notice{font-size:13px;color:#dedede;font-style:italic;margin-top:10px!important}
-
-/* fixed issues after code changes from c. */
-.header .header__navwrapper{z-index:10;}
