@@ -1,0 +1,25 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+.feature {
+	&__title {
+		textarea {
+			background: transparent;
+			color: $color__white !important;
+		}
+	}
+	&__copy {
+		.rich-text {
+			color: $color__gray-lightest;
+			.editor-styles-wrapper .wp-block & {
+				a {
+					color: $color__white;
+				}
+			}
+		}
+	}
+}
