@@ -65,21 +65,36 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'user_register', array( $this, 'st_user_register_event' ), 99, 1 );
                 add_action( 'woocommerce_save_account_details', array( $this, 'st_user_interest_event' ), 5, 1 );
                 add_action( 'woocommerce_save_account_details', array( $this, 'st_user_profile_update' ), 11, 1);
-                add_action( 'user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
+                add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
                 add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
-                //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added', 10, 2 ) );
+                add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
+                add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );                
                 add_action( 'wp_head', array( $this, 'st_page_event' ) );
+                add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
+                add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
+                add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
+                add_action( 'friends_friendship_rejected', array( $this, 'st_conection_request_rejected' ), 10, 2 );
+                add_action( 'messages_message_sent', array( $this, 'st_message_sent' ), 10, 1 );
+                add_action( 'woocommerce_customer_save_address', array( $this, 'st_user_billing_address_updated' ), 10, 2 );
+                add_action( 'nab_company_profile_update', array( $this, 'st_company_profile_updated' ), 10, 1 );
+                add_action( 'nab_company_profile_image_update', array( $this, 'st_company_profile_image_updated' ), 10, 1 );
+                add_action( 'nab_company_product_action', array( $this, 'st_company_product_action' ), 10, 3 );
+                add_action( 'nab_featured_block_added', array( $this, 'st_featured_block_added' ), 10, 2 );
 
                 add_action( 'wp_ajax_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
+                add_action( 'wp_ajax_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
+                add_action( 'wp_ajax_nopriv_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
             }
         }
 
-        public function st_enqueue_script() {            
+        public function st_enqueue_script() {
+            global $post;
             wp_enqueue_script( 'st-segement-event-js', plugin_dir_url( __DIR__ ) . 'js/st-segement-event-tracking.js' );
             wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
-                'ajaxurl' => admin_url('admin-ajax.php'),
-                'nabNonce' => wp_create_nonce('nab-ajax-nonce'),
+                'ajaxurl'   => admin_url('admin-ajax.php'),
+                'nabNonce'  => wp_create_nonce('nab-ajax-nonce'),
+                'postID'    => $post->ID,
             ));
         }
 
@@ -260,7 +275,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'company-products'  => 'st_add_company_products_taxonomy_properties',
                 'product'           => 'st_add_product_taxonomy_properties',
             );
-
+            
             if ( isset( $post_type_taxonomy_func[ $current_post_type ] ) ) {
 
                 $properties = $this->{$post_type_taxonomy_func[ $current_post_type ]}( $properties, $post_id );
@@ -275,6 +290,160 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $track_event['properties']          = $properties;
 
             $this->st_track_event( $track_event );
+        }
+
+        public function st_post_reacted( $post_id, $current_user_id ) {
+            
+            $track_event = array(
+                'userId'    => $current_user_id,
+                'event'     => 'Content_Reacted_To',
+            );
+
+            $properties = array();
+
+            $current_post_type          = get_post_type( $post_id );
+            $post_type_taxonomy_func = array (                        
+                'articles'          => 'st_add_article_taxonomy_properties',
+                'page'              => 'st_add_page_taxonomy_properties',
+                'company'           => 'st_add_company_taxonomy_properties',
+                'company-products'  => 'st_add_company_products_taxonomy_properties',
+                'product'           => 'st_add_product_taxonomy_properties',
+            );
+            
+            if ( isset( $post_type_taxonomy_func[ $current_post_type ] ) ) {
+
+                $properties = $this->{$post_type_taxonomy_func[ $current_post_type ]}( $properties, $post_id );
+            }
+
+            $post_type_obj                      = get_post_type_object( $current_post_type );
+            $post_type_name                     = isset( $post_type_obj->labels->singular_name ) && ! empty( $post_type_obj->labels->singular_name ) ?  $post_type_obj->labels->singular_name : $current_post_type;
+            $properties['Post_ID']              = $post_id;
+            $properties['Post_Type']            = $post_type_name;
+            $properties['URL']                  = get_the_permalink( $post_id );
+            $properties['Post_Name']            = get_the_title( $post_id );            
+            $track_event['properties']          = $properties;
+
+            $this->st_track_event( $track_event );
+        }
+
+        public function st_company_profile_updated( $company_id, $img_updated = false ) {
+
+            if ( $company_id && is_user_logged_in() ) {
+
+                $track_event = array(
+                    'userId'    => get_current_user_id(),
+                    'event'     => $img_updated ? 'Company_Profile_Image_Updated' : 'Company_Profile_Updated',
+                );
+    
+                $properties = array();
+    
+                $properties = $this->st_add_company_taxonomy_properties( $properties, $company_id );
+
+                $properties['Post_ID']              = $company_id;                
+                $properties['URL']                  = get_the_permalink( $company_id );
+                $properties['Post_Name']            = get_the_title( $company_id );            
+                $track_event['properties']          = $properties;
+    
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_featured_block_added( $company_id, $block_title ) {
+
+            if ( ! empty( $block_title ) && $company_id ) {
+
+                $track_event = array(
+                    'userId'    => get_current_user_id(),
+                    'event'     => 'Company_Feature_Added',
+                );
+    
+                $properties = array();
+    
+                $properties = $this->st_add_company_taxonomy_properties( $properties, $company_id );
+
+                $properties['Post_ID']                  = $company_id;                
+                $properties['URL']                      = get_the_permalink( $company_id );
+                $properties['Post_Name']                = get_the_title( $company_id );
+                $properties['Featured_Content_Title']   = $block_title;
+                $track_event['properties']              = $properties;
+    
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_company_product_action( $status, $prodcut_id, $company_id ) {
+            
+            if ( ! empty( $status ) && $prodcut_id && $company_id ) {
+
+                $event = '';
+
+                if ( 'add' === $status ) {
+                    $event = 'Company_Product_Added';
+                } elseif ( 'delete' === $status ) {
+                    $event = 'Company_Product_Removed';
+                } else {
+                    $event = 'Company_Product_Updated';
+                }
+
+                $track_event = array(
+                    'userId'    => get_current_user_id(),
+                    'event'     => $event,
+                );
+    
+                $properties = array();
+    
+                $properties = $this->st_add_company_products_taxonomy_properties( $properties, $prodcut_id );
+
+                $properties['Company_Post_ID']      = $company_id;            
+                $properties['Company_Post_Name']    = get_the_title( $company_id );
+                $properties['Product_Post_ID']      = $prodcut_id;                
+                $properties['Product_Post_Name']    = get_the_title( $prodcut_id );
+
+                $featured_terms = get_field( 'product_categories', $company_id );            
+
+                if ( ! empty( $featured_terms ) && is_array( $featured_terms ) && count( $featured_terms ) > 0 ) {
+
+                    $terms_name = get_terms( array(
+                            'taxonomy'      => 'company-product-category',
+                            'hide_empty'    => false,
+                            'include'       => $featured_terms,
+                            'fields'        => 'names'
+                        )
+                    );                
+
+                    if ( $terms_name && ! is_wp_error( $terms_name ) && is_array( $terms_name ) ) {
+                        
+                        $properties['Featured_Product_Categories'] = implode( ', ', $terms_name );
+                    }
+                }
+
+                $search_terms = get_field( 'search_product_categories', $company_id );            
+
+                if ( ! empty( $search_terms ) && is_array( $search_terms ) && count( $search_terms ) > 0 ) {
+
+                    $search_terms_name = get_terms( array(
+                            'taxonomy'      => 'company-product-category',
+                            'hide_empty'    => false,
+                            'include'       => $search_terms,
+                            'fields'        => 'names'
+                        )
+                    );
+
+                    if ( $search_terms_name && ! is_wp_error( $search_terms_name ) && is_array( $search_terms_name ) ) {
+                        
+                        $properties['Additional_Search_Only_Categories'] = implode( ', ', $search_terms_name );
+                    }
+                }
+
+                $track_event['properties']          = $properties;
+    
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_company_profile_image_updated( $company_id ) {
+
+            $this->st_company_profile_updated( $company_id, true );
         }
 
         public function st_user_profile_update( $user_id ) {
@@ -311,6 +480,153 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $track_event['properties'] = $this->st_add_user_taxonomy_properties( $user_id );
 
             $this->st_track_event( $track_event );
+        }
+
+        public function st_connection_request( $friendship_id, $initiator_user_id, $friend_user_id ) {
+
+            $track_event = array(
+                'userId'    => $initiator_user_id,
+                'event'     => 'Connection_Requested',
+            );
+
+            $track_event['properties']  = $this->st_add_user_taxonomy_properties( $initiator_user_id );
+
+            $track_event['properties']['Submitter_User_ID'] = $initiator_user_id;
+            $track_event['properties']['Recipient_User_ID'] = $friend_user_id;
+
+            $this->st_track_event( $track_event );
+        }
+
+        public function st_connection_accepted( $friendship_id, $initiator_user_id, $friend_user_id ) {
+            $track_event = array(
+                'userId'    => $friend_user_id,
+                'event'     => 'Connection_Accepted',
+            );
+
+            $track_event['properties']  = $this->st_add_user_taxonomy_properties( $friend_user_id );
+
+            $track_event['properties']['Submitter_User_ID'] = $initiator_user_id;
+            $track_event['properties']['Recipient_User_ID'] = $friend_user_id;
+
+            $this->st_track_event( $track_event );
+        }
+
+        public function st_conection_request_rejected( $friendship_id, $friendship ) {
+
+            $initiator_user_id  = $friendship->initiator_user_id;
+            $friend_user_id     = $friendship->friend_user_id;
+
+            if ( $initiator_user_id && $friend_user_id ) {
+
+                $track_event = array(
+                    'userId'    => $friend_user_id,
+                    'event'     => 'Connection_Rejected',
+                );
+    
+                $track_event['properties']  = $this->st_add_user_taxonomy_properties( $friend_user_id );
+    
+                $track_event['properties']['Submitter_User_ID'] = $initiator_user_id;
+                $track_event['properties']['Recipient_User_ID'] = $friend_user_id;
+    
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_message_sent( $messages ) {
+            
+            $sender_id  = $messages->sender_id;
+            $recipients = wp_list_pluck( $messages->recipients, 'user_id' );
+
+            if ( $sender_id && $recipients ) {
+
+                $track_event = array(
+                    'userId'    => $sender_id,
+                    'event'     => 'Message_Sent',
+                );
+    
+                $track_event['properties']  = $this->st_add_user_taxonomy_properties( $sender_id );
+    
+                $track_event['properties']['Submitter_User_ID'] = $sender_id;
+                $track_event['properties']['Recipient_User_ID'] = is_array( $recipients ) ? implode( ', ', $recipients ) : $recipients;
+
+                if ( isset( $messages->message ) && ! empty( $messages->message ) ) {
+                    $track_event['properties']['Message_Length'] = strlen( wp_strip_all_tags( $messages->message ) );
+                }
+    
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_user_billing_address_updated( $user_id, $updated ) {
+            
+            if ( 'billing' === $updated && $user_id ) {
+            
+                $properties = array();
+                $user_data = get_userdata( $user_id );
+
+                $properties['User_Name']    = $user_data->user_login;
+                $properties['email']        = $user_data->user_email; 
+
+                $billing_fields = array(
+                    array(
+                        'key'   => 'billing_first_name',
+                        'label' => 'Billing_First_Name',
+                    ),
+                    array(
+                        'key'   => 'billing_last_name',
+                        'label' => 'Billing_Last_Name',
+                    ),
+                    array(
+                        'key'   => 'billing_company',
+                        'label' => 'Company_Name',
+                    ),
+                    array(
+                        'key'   => 'billing_country',
+                        'label' => 'Country',
+                    ),
+                    array(
+                        'key'   => 'billing_address_1',
+                        'label' => 'Street_Address',
+                    ),
+                    array(
+                        'key'   => 'billing_city',
+                        'label' => 'City',
+                    ),
+                    array(
+                        'key'   => 'billing_state',
+                        'label' => 'State',
+                    ),
+                    array(
+                        'key'   => 'billing_postcode',
+                        'label' => 'ZIP',
+                    ),
+                    array(
+                        'key'   => 'billing_phone',
+                        'label' => 'Phone',
+                    ),
+                    array(
+                        'key'   => 'billing_email',
+                        'label' => 'Email',
+                    ),
+                );
+
+                foreach ( $billing_fields as $fields ) {
+
+                    $field_val = get_user_meta( $user_id, $fields['key'], true );
+                    
+                    if ( ! empty( $field_val ) ) {
+
+                        $properties[ $fields['label'] ] = $field_val;
+                    }
+                }
+
+                $track_identity = array(
+                    'userId'    => $user_id,
+                    'traits'    => $properties,
+                );
+
+                $this->st_identity_event( $track_identity );
+            }
         }
 
         public function st_add_user_taxonomy_properties( $user_id = 0 ) {
@@ -422,6 +738,44 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             return $properties;
         }
 
+        public function st_comment_posted( $comment_id, $comment ) {
+
+            $post_id = $comment->comment_post_ID;
+
+            if ( $post_id ) {
+
+                $track_event = array(                    
+                    'event'     => 'Content_Commented_On',
+                );
+    
+                $properties = array();
+    
+                $current_post_type          = get_post_type( $post_id );
+                $post_type_taxonomy_func    = array (                        
+                    'articles'          => 'st_add_article_taxonomy_properties',
+                    'page'              => 'st_add_page_taxonomy_properties',
+                    'company'           => 'st_add_company_taxonomy_properties',
+                    'company-products'  => 'st_add_company_products_taxonomy_properties',
+                    'product'           => 'st_add_product_taxonomy_properties',
+                );
+                
+                if ( isset( $post_type_taxonomy_func[ $current_post_type ] ) ) {
+    
+                    $properties = $this->{$post_type_taxonomy_func[ $current_post_type ]}( $properties, $post_id );
+                }
+    
+                $post_type_obj                      = get_post_type_object( $current_post_type );
+                $post_type_name                     = isset( $post_type_obj->labels->singular_name ) && ! empty( $post_type_obj->labels->singular_name ) ?  $post_type_obj->labels->singular_name : $current_post_type;
+                $properties['Post_ID']              = $post_id;
+                $properties['Post_Type']            = $post_type_name;
+                $properties['URL']                  = get_the_permalink( $post_id );
+                $properties['Post_Name']            = get_the_title( $post_id );                
+                $track_event['properties']          = $properties;
+    
+                $this->st_track_event( $track_event );
+            }
+        }
+
         public function st_track_site_feedback_callback() {
 
             check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
@@ -445,6 +799,53 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'type'     => 'success',
             ));	
 
+        }
+
+        public function st_track_taxonomy_click_callback() {
+            
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+            $post_id    = filter_input( INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT );
+            $tag_text   = filter_input( INPUT_POST, 'tagText', FILTER_SANITIZE_STRING );
+
+            if ( isset( $post_id ) && $post_id ) {
+
+                $track_event = array(                    
+                    'event'     => 'Content_Taxonomy_Clicked',
+                );
+    
+                $properties = array();
+    
+                $current_post_type          = get_post_type( $post_id );
+                $post_type_taxonomy_func    = array (                        
+                    'articles'          => 'st_add_article_taxonomy_properties',
+                    'page'              => 'st_add_page_taxonomy_properties',
+                    'company'           => 'st_add_company_taxonomy_properties',
+                    'company-products'  => 'st_add_company_products_taxonomy_properties',
+                    'product'           => 'st_add_product_taxonomy_properties',
+                );
+                
+                if ( isset( $post_type_taxonomy_func[ $current_post_type ] ) ) {
+    
+                    $properties = $this->{$post_type_taxonomy_func[ $current_post_type ]}( $properties, $post_id );
+                }
+    
+                $post_type_obj                      = get_post_type_object( $current_post_type );
+                $post_type_name                     = isset( $post_type_obj->labels->singular_name ) && ! empty( $post_type_obj->labels->singular_name ) ?  $post_type_obj->labels->singular_name : $current_post_type;
+                $properties['Post_ID']              = $post_id;
+                $properties['Post_Type']            = $post_type_name;
+                $properties['URL']                  = get_the_permalink( $post_id );
+                $properties['Post_Name']            = get_the_title( $post_id );
+                $properties['Taxonomy_Label']       = $tag_text;
+                $track_event['properties']          = $properties;
+    
+                $this->st_track_event( $track_event );
+            }
+
+            wp_send_json_success(array(
+                'feedback' => 'Event Track Successfully',
+                'type'     => 'success',
+            ));
         }
 
         public function st_company_rep_message_sent( $recipient, $current_user_id, $post_id ) {
@@ -506,14 +907,16 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 return;
             }
             
-            $page_track = array();
+            $page_track = array( 'name' => 'Page_Viewed' );
 
             if ( is_user_logged_in() ) {
                 $page_track['userId'] = get_current_user_id(); 
             } else {
                 $page_track['anonymousId'] = uniqid();
-            }
+            }            
 
+            $page_track['properties'] = $this->st_get_tracking_properties();
+            
             if ( isset( $post->ID ) && ! empty( $post->ID ) ) {
                 
                 $is_wc = false;
@@ -523,17 +926,15 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 }
 
                 if ( $is_wc && is_woocommerce() && is_shop() ) {
-                    $page_track['name'] = 'Shop Page';
+                    $page_track['properties']['Page_Name'] = 'Shop Page';
                 } else {
                     if ( is_front_page() ) {
-                        $page_track['name'] = 'Home Page';
+                        $page_track['properties']['Page_Name'] = 'Home Page';
                     } else {
-                        $page_track['name'] = get_the_title();
+                        $page_track['properties']['Page_Name'] = get_the_title();
                     }
                 }                
             }
-
-            $page_track['properties'] = $this->st_get_tracking_properties();            
             
             Segment::page( $page_track );
         }
@@ -903,10 +1304,16 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          * @param  array $properties
          * @return array
          */
-        public function st_add_product_taxonomy_properties( $properties = array() ) {
-            global $product;            
+        public function st_add_product_taxonomy_properties( $properties = array(), $post_id = 0 ) {
+            global $post;
 
-            $product_category = get_the_terms( $product->id, 'product_cat' );
+            if ( 0 === $post_id || empty( $post_id ) ) {
+                $post_id = $post->ID;
+            }
+
+            $product = wc_get_product( $post_id );
+
+            $product_category = get_the_terms( $post_id, 'product_cat' );
 
             if ( $product_category && ! is_wp_error( $product_category ) ) {
 
@@ -916,7 +1323,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 }
             }
 
-            $product_tags = get_the_terms( $product->id, 'product_tag' );
+            $product_tags = get_the_terms( $post_id, 'product_tag' );
 
             if ( $product_tags && ! is_wp_error( $product_tags ) ) {
 

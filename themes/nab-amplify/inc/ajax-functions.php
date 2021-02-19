@@ -1934,8 +1934,9 @@ function nab_update_member_bookmark_callback()
 				update_user_meta($current_user_id, 'nab_customer_product_bookmark', $bookmark_products);
 
 				$final_result['tooltip'] = 'Remove from Bookmarks';
-			}
-			do_action( 'nab_bookmark_added', $item_id, $current_user_id );
+
+				do_action( 'nab_bookmark_added', $item_id, $current_user_id );
+			}			
 		} else if ('remove' === strtolower($bm_action)) {
 
 			if (!empty($bookmark_products) && is_array($bookmark_products) && in_array($item_id, $bookmark_products, true)) {
@@ -2392,6 +2393,11 @@ function nab_edit_feature_block()
 	if (get_post_type($company_id) == 'company' && !in_array($current_logged_user, $company_admins)) {
 		$response['feedback'] = 'Sorry! You dont have permission!';
 		wp_send_json_error($response);
+	}
+
+	$existing_title = get_field( 'feature_title', $company_id );
+	if ( empty( $existing_title ) && ! empty( $nab_featured_block_title ) ) {
+		do_action( 'nab_featured_block_added', $company_id, $nab_featured_block_title );
 	}
 
 	update_field('feature_status', $nab_featured_block_headline, $company_id);
