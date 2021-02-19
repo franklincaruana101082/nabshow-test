@@ -6,6 +6,8 @@
 	display: grid;
 	grid-template-columns: auto auto;
 	grid-template-rows:  auto auto;
+	text-decoration: none;
+	color: $color__white;
 	@include bp-1024 {
 		._big & {
 			grid-template-columns: auto auto auto;
@@ -49,6 +51,7 @@
 			min-height: rem(120);
 		}
 		.event__link {
+			display: none;
 			._big & {
 				display: none;
 				@include bp-768 {
@@ -68,7 +71,13 @@
 	}
 		&__link {
 			color: $color__yellow;
+			text-decoration: underline;
 			line-height: rem(28);
+			.event:hover &,
+			.event:focus &,
+			.event:active & {
+				color: $color__white;
+			}
 		}
 		&__image {
 			padding-top: rem(45);
