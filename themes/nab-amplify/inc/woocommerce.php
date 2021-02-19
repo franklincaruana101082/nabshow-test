@@ -38,6 +38,24 @@ function nab_amplify_woocommerce_setup() {
 add_action( 'after_setup_theme', 'nab_amplify_woocommerce_setup' );
 
 /**
+ * Replace WooCommerce Product image with the Bynder image.
+ *
+ * @param $image
+ * @param $product
+ * @param $size
+ * @param $attr
+ * @param $placeholder
+ *
+ * @return string
+ */
+function nab_amplify_woo_product_get_image( $image, $product, $size, $attr, $placeholder ){
+	$featured_image = nab_amplify_get_featured_image( $product->get_id() );
+
+	return  '<img src="'. $featured_image .'" class="attachment-full size-full" alt="" loading="lazy"/>';
+}
+add_filter( 'woocommerce_product_get_image', 'nab_amplify_woo_product_get_image', 10, 5 );
+
+/**
  * WooCommerce specific scripts & stylesheets.
  *
  * @return void
