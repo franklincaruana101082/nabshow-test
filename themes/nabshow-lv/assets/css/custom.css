@@ -143,7 +143,7 @@ select{cursor:pointer;outline:none;box-shadow:none;border-radius:0;appearance:no
 /* schedule-at-a-glance-page */
 .schedule-at-a-glance-page .head-section ul{list-style:none;margin:0 0 10px 0;padding:0}
 .schedule-at-a-glance-page .head-section .btn-main a{display:inline-block;margin-bottom:20px}
-.schedule-main>h2{font-family:"Roboto Bold";margin-bottom:0;background:#ab3e97;padding:8px 30px;font-size:20px}
+.schedule-main>h2{color:white;font-family:"Roboto Bold";margin-bottom:0;background:#ab3e97;padding:8px 30px;font-size:20px}
 .schedule-at-a-glance-page .head-section ul.date-list{margin-bottom:20px}
 .schedule-at-a-glance-page .head-section ul.date-list li{color:#0f6cb6;font-weight:600}
 .white-box{padding:25px;border:2px solid #d9d9d9;margin-bottom:20px}
