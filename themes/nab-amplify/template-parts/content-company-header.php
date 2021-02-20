@@ -156,7 +156,7 @@ $company_poc      = get_field('point_of_contact');
                                                        nab_get_follow_button($company_id, $user_id); ?>
                                                        <div class="search-actions">
                                                            <div id="send-private-message" class="generic-button poc-msg-btn">
-                                                               <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
+                                                               <a href="javascript:void(0);" class="btn add" data-comp-id="<?php echo $company_id; ?>">Message Company Rep</a>
                                                            </div>
                                                        </div>
                                                    </div>
@@ -172,7 +172,7 @@ $company_poc      = get_field('point_of_contact');
                                                        </div>
                                                        <div class="search-actions">
                                                            <div class="generic-button">
-                                                               <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Company Rep</a>
+                                                               <a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="btn">Message Company Rep</a>
                                                            </div>
                                                        </div>
                                                    </div>
