@@ -7,7 +7,7 @@
 		}
 	}
 		&__feedtype {
-			
+			text-transform: capitalize;
 			&:after {
 				border-width: rem(9) rem(13) 0 rem(13);
 				margin-left: rem(6);
@@ -27,6 +27,13 @@
 		@include bp-768 {
 			text-align: center;
 			padding-bottom: rem(40);
+		}
+	}
+
+	&__panel {
+		display: none;
+		&._selected {
+			display: block;
 		}
 	}
 
