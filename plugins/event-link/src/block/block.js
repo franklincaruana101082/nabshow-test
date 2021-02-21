@@ -11,7 +11,7 @@ import './style.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { MediaUpload, PlainText, InspectorControls } = wp.blockEditor;
+const { MediaUpload, PlainText, InspectorControls, BlockControls, URLInputButton } = wp.blockEditor;
 const { Button, PanelBody, PanelRow, ToggleControl, SelectControl } = wp.components;
 
 
@@ -120,13 +120,6 @@ registerBlockType( 'cgb/block-event-link', {
 						initialOpen={true}
 					>
 						<PanelRow>
-							<PlainText
-								onChange={ content => setAttributes({ linkUrl: content })}
-								value={ attributes.linkUrl }
-								placeholder="Enter URL"
-							/>
-						</PanelRow>
-						<PanelRow>
 							<SelectControl
 								label="Link Layout"
 								value={ attributes.linkType }
@@ -140,6 +133,13 @@ registerBlockType( 'cgb/block-event-link', {
 						</PanelRow>
 					</PanelBody>
 				</InspectorControls>
+
+				<BlockControls>
+					<URLInputButton
+						url={ attributes.linkUrl }
+						onChange={ (url, post ) => setAttributes( { linkUrl: url } ) }
+					/>
+				</BlockControls>
 
 				<div className={eventClass}>
 					<div className="event__date">

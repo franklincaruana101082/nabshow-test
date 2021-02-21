@@ -11,9 +11,9 @@ import './style.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { Component, Fragment } = wp.element;
+const { Component } = wp.element;
 const { MediaUpload, PlainText, RichText, InspectorControls, BlockControls } = wp.blockEditor;
-const { Button, PanelBody, PanelRow, ToggleControl, Toolbar, IconButton, Placeholder, Disabled } = wp.components;
+const { Button, PanelBody, PanelRow, ToggleControl } = wp.components;
 
 
 class FeatureBlockEdit extends Component {

@@ -92,6 +92,7 @@
 		@include bp-1024 {
 			max-width: 63rem;
 			position: static;
+			z-index: 1;
 			height: auto;
 			width: 100%;
 			margin-left: auto;

@@ -11,7 +11,7 @@ import './style.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { MediaUpload, PlainText, InspectorControls } = wp.blockEditor;
+const { MediaUpload, PlainText, InspectorControls, BlockControls, URLInputButton } = wp.blockEditor;
 const { Button, PanelBody, PanelRow, ToggleControl } = wp.components;
 
 
@@ -104,13 +104,6 @@ registerBlockType( 'cgb/block-related-link-block', {
 					initialOpen={true}
 				>
 					<PanelRow>
-						<PlainText
-							onChange={ content => setAttributes({ linkUrl: content })}
-							value={ attributes.linkUrl }
-							placeholder="Enter URL"
-						/>
-					</PanelRow>
-					<PanelRow>
 						<ToggleControl
 							label="Links to video"
 							checked={ attributes.hasVideo }
@@ -126,6 +119,13 @@ registerBlockType( 'cgb/block-related-link-block', {
 					</PanelRow>
 				</PanelBody>
 			</InspectorControls>
+
+			<BlockControls>
+				<URLInputButton
+					url={ attributes.linkUrl }
+					onChange={ (url, post ) => setAttributes( { linkUrl: url } ) }
+				/>
+			</BlockControls>
 
 			<div className={(attributes.isSponsored ? 'relatedlink _sponsored' : 'relatedlink')}>
 				<div className={(attributes.hasVideo ? 'relatedlink__image _video' : 'relatedlink__image')}>

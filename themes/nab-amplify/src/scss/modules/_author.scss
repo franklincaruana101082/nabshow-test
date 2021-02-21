@@ -5,20 +5,13 @@
 	&.weekly__author {
 		padding: 0;
 	}
-	._profile & {
-		padding: 0;
-		justify-content: center;
-		@include bp-768 {
-			justify-content: flex-start;
-		}
-	}
 
 	&__photo {
 		display: inline-block;
 		border-radius: 50%;
 		background: linear-gradient(90deg, $color__purple, $color__pink);
 		padding: 2px;
-		img, .author__noimg {
+		img {
 		  border-radius: 50%;
 		  border: 3px solid $color__gray-dark;
 		  display: block;
@@ -26,18 +19,8 @@
 			  width: rem(52);
 			  border: 3px solid $color__gray-darker;
 		  }
-		  ._profile & {
-			  width: rem(40);
-		  }
 		}
 	  }
-
-	&__noimg {
-		background-image: url('//www.gravatar.com/avatar/8aeaac1d99ace56a09f452202fb058c3?s=150&r=g&d=mystery');
-		background-position: center center;
-		background-size: cover;
-		background-repeat: no-repeat;
-	}
 
 	&__name {
 		margin-left: rem(20);
