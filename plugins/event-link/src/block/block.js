@@ -26,19 +26,24 @@ registerBlockType( 'cgb/block-event-link', {
 	],
 	attributes: {
 		month: {
-			source: 'text'
+			source: 'text',
+			selector: '.event__month'
 		},
 		day: {
-			source: 'text'	
+			source: 'text',
+			selector: '.event__day'	
 		},
 		title: {
-			source: 'text'	
+			source: 'text',
+			selector: '.event__title'	
 		},
 		time: {
-			source: 'text'	
+			source: 'text',
+			selector: '.event__time'	
 		},
 		host: {
-			source: 'text'	
+			source: 'text',
+			selector: '.event__host-name'	
 		},
 		linkUrl: {
 			attribute: 'href'
@@ -48,16 +53,20 @@ registerBlockType( 'cgb/block-event-link', {
 			default: ''
 		},
 		imageEventUrl: {
-			attribute: 'src'
+			attribute: 'src',
+			selector: '.event__image'
 		},
 		imageEventAlt: {
-			attribute: 'alt'
+			attribute: 'alt',
+			selector: '.event__image'
 		},
 		imageHostUrl: {
-			attribute: 'src'
+			attribute: 'src',
+			selector: '.event__host-photo'
 		},
 		imageHostAlt: {
-			attribute: 'alt'
+			attribute: 'alt',
+			selector: '.event__host-photo'
 		}
 	},
 
@@ -150,7 +159,7 @@ registerBlockType( 'cgb/block-event-link', {
 								placeholder="Month"
 							/>
 						</div>
-						<div className="event__day number _blue">
+						<div className="event__day text-gradient _blue">
 							<PlainText
 								onChange={ content => setAttributes({ day: content })}
 								value={ attributes.day }
@@ -237,7 +246,7 @@ registerBlockType( 'cgb/block-event-link', {
 			<a href={ attributes.linkUrl } className={ eventClass }>
 				<div className="event__date">
 					<div className="event__month">{ attributes.month }</div>
-					<div className="event__day number _blue">{ attributes.day }</div>
+					<div className="event__day text-gradient _blue">{ attributes.day }</div>
 				</div>
 				<div className="event__photo">
 					<div className="event__link link _plus">Learn More</div>

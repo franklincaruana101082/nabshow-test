@@ -14,19 +14,7 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
 const { MediaUpload, PlainText, RichText, InspectorControls, BlockControls } = wp.blockEditor;
 const { Button, PanelBody, PanelRow, ToggleControl, Toolbar, IconButton } = wp.components;
 
-/**
- * Register: aa Gutenberg Block.
- *
- * Registers a new block provided a unique name and an object defining its
- * behavior. Once registered, the block is made editor as an option to any
- * editor interface where blocks are implemented.
- *
- * @link https://wordpress.org/gutenberg/handbook/block-api/
- * @param  {string}   name     Block name.
- * @param  {Object}   settings Block settings.
- * @return {?WPBlock}          The block, if it has been successfully
- *                             registered; otherwise `undefined`.
- */
+
 registerBlockType( 'cgb/block-author-link', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Author Link Block' ), // Block title.
@@ -38,12 +26,14 @@ registerBlockType( 'cgb/block-author-link', {
 	],
 
 	attributes: {
-		body: {
-			type: 'array',
-			source: 'children',
+		authorBody: {
+			type: 'string',
+			source: 'html',
+			selector: '.author__info'
 		},
-		name: {
+		authorName: {
 			source: 'text',
+			selector: '.author__name2'
 		},
 		imageUrl: {
 			attribute: 'src',
@@ -91,15 +81,17 @@ registerBlockType( 'cgb/block-author-link', {
 					/>
 				</div>
 				<div className="author__name">
-					<PlainText
-	            		onChange={ content => setAttributes({ name: content }) }
-	            		value={ attributes.name }
-	            		placeholder="Enter name"
-	            	/>
+					<div className="author__name2">
+						<PlainText
+		            		onChange={ (namecontent) => setAttributes({ authorName: namecontent }) }
+		            		value={ attributes.authorName }
+		            		placeholder="Enter name"
+		            	/>
+	            	</div>
 	            	<div className="author__info">
 		            	<RichText
-							onChange={ content => setAttributes({ body: content })}
-							value={ attributes.body }
+							onChange={ (infocontent) => setAttributes({ authorBody: infocontent })}
+							value={ attributes.authorBody }
 							multiline="p"
 							placeholder="Add link to @bio or company they represent"
 						/>
@@ -123,7 +115,7 @@ registerBlockType( 'cgb/block-author-link', {
 				);
 			}
 			return (
-                <img src={ src } alt={('Photo of ' + attributes.name)} />
+                <img src={ src } aria-hidden="true" />
 			);
 		};
 		return (
@@ -132,8 +124,14 @@ registerBlockType( 'cgb/block-author-link', {
 					{ linkImage(attributes.imageUrl, attributes.imageAlt) }
 				</div>
 				<div className="author__name">
-					{ attributes.name }
-					<div className="author__info">{ attributes.body }</div>
+					<div className="author__name2">
+						{ attributes.authorName }
+					</div>
+					<div className="author__info">
+						<RichText.Content
+							value={ attributes.authorBody }
+						/>
+					</div>
 				</div>
 					
 			</div>

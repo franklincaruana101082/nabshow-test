@@ -4,7 +4,7 @@
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
-.number {
+.number, .text-gradient {
 	display: inline-block; 
 	background: linear-gradient(90deg, $color__purple, $color__pink);
 	background-clip: text;
@@ -167,6 +167,7 @@
 			line-height: 1.17;
 			@include bp-1024 {
 				._big & {
+					margin: 0;
 					font-size: rem(36);
 					flex: 0 1 100%;
 				}
