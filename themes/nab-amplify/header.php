@@ -106,7 +106,14 @@
 							*/ ?>
 						</li>
 					<?php } else { ?>
-						<li class="menu__item"><a href="#" class="menu__link"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a></li>
+						<?php
+							$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
+							if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
+								$sign_up_page_url = get_permalink( $sign_up_page->ID );
+						?>
+						<li class="menu__item"><a href="<?php echo esc_url( $sign_up_page_url ); ?>" class="menu__link"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a></li>
+						<?php } ?>
+
 						<li class="menu__item">
 							<a class="menu__link _login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Log In', 'nab-amplify' ); ?></a>
 						</li>
