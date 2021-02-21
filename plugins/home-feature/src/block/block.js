@@ -12,7 +12,7 @@ import './style.scss';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { Component } = wp.element;
-const { MediaUpload, PlainText, RichText, InspectorControls, BlockControls } = wp.blockEditor;
+const { MediaUpload, PlainText, RichText, InspectorControls, BlockControls, URLInputButton } = wp.blockEditor;
 const { Button, PanelBody, PanelRow, ToggleControl } = wp.components;
 
 
@@ -26,13 +26,6 @@ class FeatureBlockEdit extends Component {
 					initialOpen={true}
 				>
 					<PanelRow>
-						<PlainText
-							onChange={ content => setAttributes({ linkUrl: content })}
-							value={ attributes.linkUrl }
-							placeholder="Enter URL"
-						/>
-					</PanelRow>
-					<PanelRow>
 						<ToggleControl
 							label="Links to video"
 							checked={ attributes.hasVideo }
@@ -41,6 +34,17 @@ class FeatureBlockEdit extends Component {
 					</PanelRow>
 				</PanelBody>
 			</InspectorControls>
+		);
+	}
+	getBlockControls = () => {
+		const { attributes, setAttributes } = this.props;
+		return(
+			<BlockControls>
+				<URLInputButton
+					url={ attributes.linkUrl }
+					onChange={ (url, post ) => setAttributes( { linkUrl: url } ) }
+				/>
+			</BlockControls>
 		);
 	}
 
@@ -71,7 +75,7 @@ class FeatureBlockEdit extends Component {
 		};
 		return ([
 			this.getInspectorControls(),
-			
+			this.getBlockControls(),			
 			<div className="weekly__feature">
 				<div className={(attributes.hasVideo ? 'weekly__image _video' : 'weekly__image')}>
 					<MediaUpload
@@ -84,16 +88,15 @@ class FeatureBlockEdit extends Component {
 				</div>
 				<h2 className="weekly__headline">
 	            	<PlainText
-	            		onChange={ content => setAttributes({ title: content }) }
-	            		value={ attributes.title }
+	            		onChange={ (content) => setAttributes({ featureTitle: content }) }
+	            		value={ attributes.featureTitle }
 	            		placeholder="Enter title"
-	            		className="heading"
 	            	/>
             	</h2>
             	<div className="weekly__desc introtext">
 					<RichText
-						onChange={ content => setAttributes({ body: content })}
-						value={ attributes.body }
+						onChange={ (content) => setAttributes({ featureBody: content })}
+						value={ attributes.featureBody }
 						multiline="p"
 						placeholder="Enter description here"
 					/>
@@ -123,14 +126,14 @@ registerBlockType( 'cgb/home-feature-block', {
 			type: 'boolean',
 			default: false
 		},
-		body: {
-			type: 'array',
-			source: 'children',
+		featureBody: {
+			type: 'string',
+			source: 'html',
 			selector: '.weekly__desc'
 		},
-		title: {
+		featureTitle: {
 			source: 'text',
-			selector: '.weekly__title'
+			selector: '.weekly__headline'
 		},
 		imageUrl: {
 			attribute: 'src',
@@ -170,13 +173,15 @@ registerBlockType( 'cgb/home-feature-block', {
 		return (
 			<div className="weekly__feature">
 				{ linkImage(attributes.imageUrl, attributes.imageAlt) }
-				<h2 className="weekly__headline">
-					<a className="weekly__link" href={ attributes.linkUrl }>
-						{ attributes.title }
-					</a>
-				</h2>
+				<a className="weekly__link" href={ attributes.linkUrl }>
+					<h2 className="weekly__headline">
+						{ attributes.featureTitle }
+					</h2>
+				</a>
 				<div className="weekly__desc introtext">
-					{ attributes.body }
+					<RichText.Content
+						value={ attributes.featureBody }
+					/>
 				</div>
            	</div>
 		);

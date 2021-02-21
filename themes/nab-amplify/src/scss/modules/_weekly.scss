@@ -26,6 +26,9 @@
 		@include bp-1440 {
 			flex: 0 1 rem(650);
 		}
+		a {
+			text-decoration: none;
+		}
 	}
 	&__image {
 		position: relative;
@@ -107,7 +110,9 @@
 	&__headline {
 		margin-top: rem(66);
 		margin-bottom: rem(10);
-		a {
+		color: $color__white;
+		text-decoration: none;
+		a & {
 			color: $color__white;
 			text-decoration: none;
 		}

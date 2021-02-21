@@ -27,12 +27,14 @@ registerBlockType( 'cgb/block-home-headliner', {
 
 	attributes: {
 		
-		body: {
-			type: 'array',
-			source: 'children',
+		headlinerBody: {
+			type: 'string',
+			source: 'html',
+			selector: '.feature__copy'
 		},
-		title: {
+		headlinerTitle: {
 			source: 'text',
+			selector: '.feature__title'
 		}
 
 	},
@@ -44,16 +46,16 @@ registerBlockType( 'cgb/block-home-headliner', {
 				<div class="feature__main">
 					<h2 class="feature__title">
 						<PlainText
-							onChange={ content => setAttributes({ title: content }) }
-							value={ attributes.title }
+							onChange={ content => setAttributes({ headlinerTitle: content }) }
+							value={ attributes.headlinerTitle }
 							placeholder="Enter title"
 							className="heading"
 						/>
 					</h2>
 					<div className="feature__copy">
 						<RichText
-							onChange={ content => setAttributes({ body: content })}
-							value={ attributes.body }
+							onChange={ content => setAttributes({ headlinerBody: content })}
+							value={ attributes.headlinerBody }
 							multiline="p"
 							placeholder="Enter description here"
 						/>
@@ -72,9 +74,11 @@ registerBlockType( 'cgb/block-home-headliner', {
 		return (
 			<div class="feature">
 				<div class="feature__main">
-					<h2 class="feature__title">{ attributes.title }</h2>
+					<h2 class="feature__title">{ attributes.headlinerTitle }</h2>
 					<div className="feature__copy">
-						{ attributes.body }
+						<RichText.Content
+							value={ attributes.headlinerBody }
+						/>
 					</div>
 				</div>
 				<div class="feature__event">
