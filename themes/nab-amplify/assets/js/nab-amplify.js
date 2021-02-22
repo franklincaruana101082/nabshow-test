@@ -274,8 +274,8 @@
         cache: true
       },
       minimumInputLength: 3,
-      placeholder:'Select Point of contact',
-      allowClear:true
+      placeholder: 'Select Point of contact',
+      allowClear: true
     })
 
     if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined') {
@@ -323,6 +323,13 @@
             jQuery('#addProductModal')
               .show()
               .addClass('nab-modal-active')
+            $('#country').select2({
+              placeholder: 'Select Country',
+              allowClear: true
+            })
+            if ($('#country').val()) {
+              filter_states($('#country').val())
+            }
           } else {
             jQuery('#addProductModal').remove()
             jQuery('body').append(data)
@@ -332,18 +339,97 @@
             if (jQuery('#nab_company_id').length > 0) {
               jQuery('#nab_company_id').val(company_id)
             }
+            $('#country').select2({
+              placeholder: 'Select Country',
+              allowClear: true
+            })
+            if ($('#country').val()) {
+              filter_states($('#country').val())
+            }
           }
         }
       })
     })
 
-    
+    function filter_states (country_code) {
+      jQuery.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: 'nab_amplify_state_filter',
+          country_code: country_code
+        },
+        beforeSend: function () {
+          $('body').addClass('is-loading')
+        },
+        success: function (data) {
+          $('body').removeClass('is-loading')
+          if (data.length) {
+            const pre_state = jQuery('#state').data('state')
+            if (jQuery('#state').length) {
+              jQuery('#state').empty()
+              data.forEach(function (item) {
+                if (pre_state !== '' && typeof pre_state !== 'undefined') {
+                  if (item.State == pre_state) {
+                    jQuery('#state').append(
+                      '<option value="' +
+                        item.State +
+                        '" selected>"' +
+                        item.Display +
+                        '"</option>'
+                    )
+                  }else {
+                    jQuery('#state').append(
+                      '<option value="' +
+                        item.State +
+                        '" >"' +
+                        item.Display +
+                        '"</option>'
+                    )
+                  }
+                }else{
+                  jQuery('#state').append(
+                    '<option value="' +
+                      item.State +
+                      '" >"' +
+                      item.Display +
+                      '"</option>'
+                  )
+                } 
+              })
+
+              jQuery('#state').select2({
+                placeholder: 'Select State',
+                allowClear: true
+              })
+              jQuery('#state_wrapper').hide()
+              jQuery('#state_select_wrapper').show()
+            }
+          } else {
+            jQuery('#state_select_wrapper').hide()
+            jQuery('#state_wrapper').show()
+          }
+        }
+      })
+    }
+
+    $(document).on('change', '#country ', function () {
+      const address_id =
+        undefined !== $(this).data('address-id')
+          ? $(this).data('address-id')
+          : ''
+      const company_id = amplifyJS.postID
+      const _this = $(this)
+      _this.addClass('loading')
+      const country_code = $(this).val()
+      filter_states(country_code)
+    })
   })
   function validateURL (urltext) {
-    if(urltext !== ''){
-    var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
-    return rg.test(urltext);
-    }else{
+    if (urltext !== '') {
+      var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+      return rg.test(urltext)
+    } else {
       return true
     }
   }
@@ -689,8 +775,8 @@
               cache: true
             },
             minimumInputLength: 3,
-            placeholder:'Select Point of contact',
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -775,8 +861,8 @@
               cache: true
             },
             minimumInputLength: 3,
-            placeholder:'Select Point of contact',
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
           load_tinyMCE_withPlugins(
@@ -1155,8 +1241,8 @@
               cache: true
             },
             minimumInputLength: 3,
-            placeholder:'Select Point of contact',
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1223,8 +1309,8 @@
               cache: true
             },
             minimumInputLength: 3,
-            placeholder:'Select Point of contact',
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1294,7 +1380,7 @@
       .find('.company-member-level-notice')
       .hide()
 
-    if ( 0 < featuredSelector.length && null !== featuredSelector.val()) {
+    if (0 < featuredSelector.length && null !== featuredSelector.val()) {
       if (0 === featuredMax && 0 < featuredSelector.val().length) {
         nabMembershipCategoryNotice(
           featuredSelector,
@@ -1321,8 +1407,8 @@
       }
     }
 
-    if ( 0 < searchSelector.length && null !== searchSelector.val()) {
-      if (0 === searchMax && 0 < searchSelector.val().length ) {
+    if (0 < searchSelector.length && null !== searchSelector.val()) {
+      if (0 === searchMax && 0 < searchSelector.val().length) {
         nabMembershipCategoryNotice(
           searchSelector,
           "You can't add search categories with your current membership."
@@ -1339,46 +1425,52 @@
       }
     }
 
-   
-
     var fd = new FormData()
     fd.append('action', 'nab_update_company_profile')
     fd.append('company_id', amplifyJS.postID)
     if (jQuery('#instagram_profile').length) {
-      if(!validateURL(jQuery('#instagram_profile').val())){
-        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Instagram Profile!')
-        return false;
-      }else{
+      if (!validateURL(jQuery('#instagram_profile').val())) {
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Please Enter Correct URL for Instagram Profile!'
+        )
+        return false
+      } else {
         fd.append('instagram_profile', jQuery('#instagram_profile').val())
       }
-      
     }
     if (jQuery('#linkedin_profile').length) {
-      if(!validateURL(jQuery('#linkedin_profile').val())){
-        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Linkedin Profile!')
-        return false;
-      }else{
+      if (!validateURL(jQuery('#linkedin_profile').val())) {
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Please Enter Correct URL for Linkedin Profile!'
+        )
+        return false
+      } else {
         fd.append('linkedin_profile', jQuery('#linkedin_profile').val())
       }
-      
     }
     if (jQuery('#facebook_profile').length) {
-      if(!validateURL(jQuery('#facebook_profile').val())){
-        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Facebook Profile!')
-        return false;
-      }else{
+      if (!validateURL(jQuery('#facebook_profile').val())) {
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Please Enter Correct URL for Facebook Profile!'
+        )
+        return false
+      } else {
         fd.append('facebook_profile', jQuery('#facebook_profile').val())
       }
-      
     }
     if (jQuery('#twitter_profile').length) {
-      if(!validateURL(jQuery('#twitter_profile').val())){
-        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Twitter Profile!')
-        return false;
-      }else{
+      if (!validateURL(jQuery('#twitter_profile').val())) {
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Please Enter Correct URL for Twitter Profile!'
+        )
+        return false
+      } else {
         fd.append('twitter_profile', jQuery('#twitter_profile').val())
       }
-      
     }
     if (jQuery('#company_about').length) {
       if (jQuery('#company_about').val().length > 2000) {
@@ -1398,13 +1490,15 @@
       fd.append('company_location', jQuery('#company_location').val())
     }
     if (jQuery('#company_website').length) {
-      if(!validateURL(jQuery('#company_website').val())){
-        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Company Website!')
-        return false;
-      }else{
+      if (!validateURL(jQuery('#company_website').val())) {
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Please Enter Correct URL for Company Website!'
+        )
+        return false
+      } else {
         fd.append('company_website', jQuery('#company_website').val())
       }
-      
     }
     if (jQuery('#company_point_of_contact').length) {
       fd.append(
@@ -1461,13 +1555,15 @@
     }
 
     if (jQuery('#company_youtube').length) {
-      if(!validateURL(jQuery('#company_youtube').val())){
-        addSuccessMsg('.add-product-content-popup','Please Enter Correct URL for Youtube Profile!')
-        return false;
-      }else{
+      if (!validateURL(jQuery('#company_youtube').val())) {
+        addSuccessMsg(
+          '.add-product-content-popup',
+          'Please Enter Correct URL for Youtube Profile!'
+        )
+        return false
+      } else {
         fd.append('company_youtube', jQuery('#company_youtube').val())
       }
-      
     }
 
     if (jQuery('#company_admins').length) {
@@ -1514,11 +1610,11 @@
       data: fd,
       contentType: false,
       processData: false,
-      beforeSend:function(){
-        $('body').addClass('is-loading');
+      beforeSend: function () {
+        $('body').addClass('is-loading')
       },
       success: function (data) {
-        $('body').removeClass('is-loading');
+        $('body').removeClass('is-loading')
         if (jQuery('#addProductModal').length === 0) {
           jQuery('body').append(data)
           jQuery('#addProductModal')
@@ -1556,8 +1652,8 @@
               cache: true
             },
             minimumInputLength: 3,
-            placeholder:'Select Point of contact',
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -1625,8 +1721,8 @@
               cache: true
             },
             minimumInputLength: 3,
-            placeholder:'Select Point of contact',
-            allowClear:true
+            placeholder: 'Select Point of contact',
+            allowClear: true
           })
           $('.company-admins').select2({
             ajax: {
@@ -3838,7 +3934,7 @@
           nabNonce: amplifyJS.nabNonce,
           message: connectionMsg,
           send_to: memberID,
-          post_id: undefined !== amplifyJS.postID ? amplifyJS.postID : '',
+          post_id: undefined !== amplifyJS.postID ? amplifyJS.postID : ''
         },
         beforeSend: function () {
           $('body').addClass('is-loading')
@@ -4346,17 +4442,16 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
           let avatarLink = document.createElement('a')
           avatarLink.setAttribute('href', value.link)
 
-          let companyProfile;
+          let companyProfile
 
-          if ( undefined !== value.profile ) {
-            companyProfile = document.createElement('img');
-            companyProfile.setAttribute('src', value.profile);
+          if (undefined !== value.profile) {
+            companyProfile = document.createElement('img')
+            companyProfile.setAttribute('src', value.profile)
           } else {
-            companyProfile = document.createElement('div');
-            companyProfile.setAttribute('class', 'no-image-avtar');
-            companyProfile.innerText = value.no_pic;
+            companyProfile = document.createElement('div')
+            companyProfile.setAttribute('class', 'no-image-avtar')
+            companyProfile.innerText = value.no_pic
           }
-          
 
           avatarLink.appendChild(companyProfile)
           searchItemProfile.appendChild(avatarLink)

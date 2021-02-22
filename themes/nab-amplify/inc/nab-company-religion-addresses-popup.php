@@ -21,21 +21,46 @@ global $post;
 								<textarea  class="limited-char-field" placeholder="Type Here..." name="street_line_2" id="street_line_2"><?php echo isset($address_data['street_line_2_'])?$address_data['street_line_2_']:'';?></textarea>
 							</div>
 							
+							
+							<div class="form-row">
+								<label for="">Country</label>
+								<div class="select-dark-simple">
+								<select name="country" id="country" data-address-id="<?php echo isset($address_id) ? $address_id : 1 ?>">
+								<option value=''>Select</option>
+								<?php
+								foreach( $country_list as $country){
+								?>
+								<option value="<?php echo $country['CNCode'];?>" <?php if($address_data['country'] === $country['CNCode']){ echo "selected";}?>><?php echo $country['Display']; ?></option>
+								<?php	
+								}
+								 ?>
+								</select>
+								</div>
+							</div>
+
+							<div class="form-row" id="state_select_wrapper" style="display:none">
+								<label for="">State/Province</label>
+								<div class="select-dark-simple">
+								<select name="state" id="state" data-state="<?php echo $address_data['state_province'];?>">
+								<option value=''>Select</option>
+								
+								</select>
+								</div>
+							</div>
+
+							<div class="form-row" id="state_wrapper" style="display:none">
+								<label for="">State/Province</label>
+								<input type="text" class="input-text nab-featured-block-button-link" name="state" id="state" value="<?php echo isset($address_data['state_province'])?$address_data['state_province']:'';?>">
+							</div>
+
 							<div class="form-row">
 								<label for="">City</label>
 								<input type="text" class="input-text nab-featured-block-button-link" name="city" id="city" value="<?php echo isset($address_data['city'])?$address_data['city']:'';?>">
 							</div>
-							<div class="form-row">
-								<label for="">State/Province</label>
-								<input type="text" class="input-text nab-featured-block-button-link" name="state" id="state" value="<?php echo isset($address_data['state_province'])?$address_data['state_province']:'';?>">
-							</div>
+							
 							<div class="form-row">
 								<label for="">Zip/Postal</label>
 								<input type="text" class="input-text nab-featured-block-button-link" name="zip" id="zip" value="<?php echo isset($address_data['zip_postal'])?$address_data['zip_postal']:'';?>">
-							</div>
-							<div class="form-row">
-								<label for="">Country</label>
-								<input type="text" class="input-text nab-featured-block-button-link" name="country" id="country" value="<?php echo isset($address_data['country'])?$address_data['country']:'';?>">
 							</div>
 							
 							<div class="form-row">
