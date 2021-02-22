@@ -1318,19 +1318,6 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
     return $load;
 }
 
-add_filter( 'wpseo_og_og_image', 'wonderwall_disable_og_image' );
-function wonderwall_disable_og_image( $content ) {
-
-	global $post;
-	$content = nab_amplify_get_featured_image( $post->ID, false );
-
-	if ( $content ) {
-		//return '<meta property="og:image" content="' . esc_attr( $content ) . '" />';
-		return $content;
-	}
-
-}
-
 /**
  * Update wordpress comment count.
  *
