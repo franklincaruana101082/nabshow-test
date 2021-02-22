@@ -2,18 +2,22 @@
 
 jQuery(function($) {
 	jQuery('.js-mobile-toggle').on('click', function() {
+		console.log('.js-mobile-toggle:click', this)
 		jQuery(this).closest('.header').toggleClass('_open');
 	});
 	jQuery('.js-toggle-feedchooser').on('click', function() {
+		console.log('.js-toggle-feedchooser:click', this)
 		jQuery(this).parent().toggleClass('_open');
 	});
 	var closeFeedchooser;
 	jQuery('.js-toggle-feedchooser').parent().on('mouseout', function() {
+		console.log('.js-toggle-feedchooser:mouseout', this)
 		var self = jQuery(this);
 		closeFeedchooser = setTimeout(function() {
 			jQuery(self).removeClass('_open');
 		}, 500);
 	}).on('mouseover', function() {
+		console.log('.js-toggle-feedchooser:mouseover', this)
 		clearTimeout(closeFeedchooser);
 	});
 
