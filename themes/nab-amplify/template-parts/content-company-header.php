@@ -19,7 +19,7 @@ $member_level     = get_field('member_level');
 
 $cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
 $company_id       = get_the_ID();
-$featured_image   = nab_amplify_get_featured_image( $company_id );
+$featured_image   = nab_amplify_get_featured_image( $company_id, false );
 $profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
 $company_admin_id = get_field('company_user_id', $company_id);

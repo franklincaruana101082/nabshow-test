@@ -212,7 +212,7 @@ get_header();
                             <div class="amp-item-wrap" id="company-products-list">
                                 <?php
                                 while ($my_query->have_posts()) : $my_query->the_post();
-	                                $thumbnail_url    = nab_amplify_get_featured_image( get_the_ID() );
+	                                $thumbnail_url    = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
                                     $product_link     = get_the_permalink();
                                     $product_category = get_the_terms(get_the_ID(), 'company-product-category');
                                     $product_medias     = get_field('product_media');

@@ -982,6 +982,32 @@ function nab_get_author_fullname($author_id)
 }
 
 /**
+ * @param int $post_ID Post ID.
+ * @param bool $default Whether to send a default image back or not.
+ *
+ * @return string Image URL.
+ */
+function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url = '', $size = 'post-thumbnail' ) {
+
+	$bynder_image = get_post_meta( $post_ID, 'profile_picture', true );
+	if ( null !== $bynder_image && ! empty( $bynder_image )
+	     && strpos( $bynder_image, 'assets') !== false) {
+		$featured_image = $bynder_image;
+	} else {
+		$featured_image = get_the_post_thumbnail_url( $post_ID, $size );
+
+		// Send back default if not found?
+		if ( $default ) {
+			$default_url = ! empty( $default_url ) ? $default_url : nab_placeholder_img();
+			$featured_image = $featured_image ? $featured_image : $default_url;
+		}
+	}
+
+	return $featured_image;
+}
+
+
+/**
  * Get featured and search category limit based on company membership level.
  *
  * @param  int $company_id
@@ -1012,31 +1038,6 @@ function nab_get_company_member_category_limit( $company_id ) {
 	}
 
 	return $category_limit;
-}
-
-/**
- * @param int $post_ID Post ID.
- * @param bool $default Whether to send a default image back or not.
- *
- * @return string Image URL.
- */
-function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url = '', $size = 'post-thumbnail' ) {
-
-	$bynder_image = get_post_meta( $post_ID, 'profile_picture', true );
-	if ( null !== $bynder_image && ! empty( $bynder_image )
-	     && strpos( $bynder_image, 'assets') !== false) {
-		$featured_image = $bynder_image;
-	} else {
-		$featured_image = get_the_post_thumbnail_url( $post_ID, $size );
-
-		// Send back default if not found?
-		if ( $default ) {
-			$default_url = ! empty( $default_url ) ? $default_url : nab_placeholder_img();
-			$featured_image = $featured_image ? $featured_image : $default_url;
-		}
-	}
-
-	return $featured_image;
 }
 
 /**
