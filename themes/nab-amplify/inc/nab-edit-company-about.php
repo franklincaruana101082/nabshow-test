@@ -17,7 +17,7 @@
 							</div>
 							<div class="company-info-row">
 								<div class="form-row">
-									<label for="">Company Tagline</label>
+									<label for="">Impact Statement</label>
 									<input type="text" class="input-text" name="company_industry" value="<?php echo isset($company_data['company_industry']) ? $company_data['company_industry'] : ''; ?>" id="company_industry">
 								</div>
 								<div class="form-row">
@@ -36,14 +36,25 @@
 										</label>
 									<div class="select-dark-simple">
 										<select name="company_point_of_contact"  id="company_point_of_contact">
-											<option value=""></option>
-											<?php foreach ($users as $user) {
-												
-											?>
-												<option value="<?php echo $user->data->ID; ?>" <?php if ($user->data->ID == $company_data['company_point_of_contact']) {
-																								echo "selected";
-																							} ?>><?php echo $user->data->display_name; ?></option>
-											<?php } ?>
+										<?php
+												if ( ! empty( $company_data['company_point_of_contact'] ) ) {
+
+													$comp_poc = get_user_by( 'ID', $company_data['company_point_of_contact'] );
+
+													if ( $comp_poc ) {
+														
+														$user_name		= $comp_poc->user_login;
+														$user_full_name	= get_user_meta( $comp_poc->ID, 'first_name', true ) . ' ' . get_user_meta( $comp_poc->ID, 'last_name', true );
+
+														if ( ! empty( trim( $user_full_name ) ) ) {
+															$user_name .= ' (' . $user_full_name . ')';					
+														}
+														?>
+														<option value="<?php echo esc_attr( $comp_poc->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
+														<?php
+													}
+												}
+												?>
 										</select>
 									</div>
 								</div>
@@ -100,7 +111,7 @@
 
 												$selected_term = '';
 
-												if (is_array($company_data['search_product_categories']) && in_array($user->data->ID, $company_data['search_product_categories'], true)) {
+												if (is_array($company_data['search_product_categories']) && in_array($current_term->term_id, $company_data['search_product_categories'], true)) {
 													$selected_term = $current_term->term_id;
 												}
 											?>

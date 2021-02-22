@@ -274,7 +274,33 @@
     })
     jQuery('#product_categories').select2()
     jQuery('#company_point_of_contact').select2({
-      placeholder: 'Select point of contact',
+      ajax: {
+        url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+        dataType: 'json',
+        delay: 250, // delay in ms while typing when to perform a AJAX search
+        data: function (params) {
+          return {
+            q: params.term, // search query
+            action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+          }
+        },
+        processResults: function (data) {
+          var options = []
+          if (data) {
+            // data is the array of arrays, and each of them contains ID and the Label of the option
+            $.each(data, function (index, text) {
+              // do not forget that "index" is just auto incremented value
+              options.push({ id: text[0], text: text[1] })
+            })
+          }
+          return {
+            results: options
+          }
+        },
+        cache: true
+      },
+      minimumInputLength: 3,
+      placeholder:'Select Point of contact',
       allowClear:true
     })
   })
@@ -303,42 +329,6 @@
     '#character-count-featured-btnlabel',
     60
   )
-
-  // Add a popup function if not exists.
-  if ('function' !== typeof nabAddPopup) {
-    /**
-     * Add a blank popup.
-     *
-     * @param ID Main modal ID.
-     */
-    function nabAddPopup (ID) {
-      let nabModal = document.createElement('div')
-      nabModal.setAttribute('class', 'nab-modal')
-      nabModal.setAttribute('id', ID)
-
-      let nabModalInner = document.createElement('div')
-      nabModalInner.setAttribute('class', 'nab-modal-inner')
-      nabModal.appendChild(nabModalInner)
-
-      let nabModalContent = document.createElement('div')
-      nabModalContent.setAttribute('class', 'modal-content')
-      nabModalInner.appendChild(nabModalContent)
-
-      let nabModalClose = document.createElement('span')
-      nabModalClose.setAttribute(
-        'class',
-        'nab-modal-close fa fa-times confirmed-answer'
-      )
-      nabModalClose.setAttribute('id', 'confirmed-no')
-      nabModalContent.appendChild(nabModalClose)
-
-      let nabModalContentWrap = document.createElement('div')
-      nabModalContentWrap.setAttribute('class', 'modal-content-wrap')
-      nabModalContent.appendChild(nabModalContentWrap)
-
-      jQuery('body').append(nabModal)
-    }
-  }
 
   function charcount (event, tag, counttag, limit) {
     jQuery(document).on(event, tag, function (e) {
@@ -514,7 +504,33 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select point of contact',
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
             allowClear:true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
@@ -560,7 +576,33 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select point of contact',
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
             allowClear:true
           })
           load_tinyMCE_withPlugins('#nab_product_copy')
@@ -913,7 +955,33 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select point of contact',
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
             allowClear:true
           })
         } else {
@@ -927,7 +995,33 @@
           }
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select point of contact',
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
             allowClear:true
           })
         }
@@ -1201,7 +1295,33 @@
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select point of contact',
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
             allowClear:true
           })
         } else {
@@ -1216,7 +1336,33 @@
           jQuery('#product_categories').select2()
           jQuery('#search_product_categories').select2()
           jQuery('#company_point_of_contact').select2({
-            placeholder: 'Select point of contact',
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder:'Select Point of contact',
             allowClear:true
           })
         }
@@ -3518,22 +3664,6 @@
       }
     })
   })
-
-  // $(document).click(function (e) {
-  //   if (
-  //     !$(e.target).is(
-  //       '.color-picker, .iris-picker, .iris-picker-inner'
-  //     )
-  //   ) {
-  //     $('.color-picker').iris('hide')
-  //     //return false
-  //   }
-  // })
-  // $(document).on('click', '.color-picker',function (event) {
-  //   $('.color-picker').iris('hide')
-  //   $(this).iris('show')
-  //   //return false
-  // })
 
   $(document).on('click', '#addProductModal .nab-modal-close', function (e) {
     if (
