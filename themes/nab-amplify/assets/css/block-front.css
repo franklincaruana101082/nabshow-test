@@ -240,8 +240,7 @@
 .trending-activity .related-content .option-5 .inner{background-color:#303030}
 .ui-widget{font-family:'Open Sans', Arial, sans-serif}
 #tabs .community-curator-header{padding:0 30px}
-.banner-header+.container .featured-block-wraper:first-child{margin-top:60px}
-.company-claim-box+.container .site-main > div:first-child{margin-top:0!important}
+.banner-header+.container .site-main > div:not(.featured-block-wraper):first-child{margin-top:0!important}
 
 /* media css */
 
