@@ -73,8 +73,7 @@
 							<div class="form-row">
 								<input type="button" id="nab-edit-company-profile-submit" data-id="<?php echo isset($company_data['ID']) ? $company_data['ID'] : 0 ?>" class="btn btn-submit" value="<?php echo isset($company_data['ID']) ? "Update" : "Add"; ?>">
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $company_data['ID']; ?>" />
-							</div>
-						</form>
+							</div>						
 						</form>
 						<p>NAB reserves the right to remove any content that they deem inappropriate.</p>
 					</div>
