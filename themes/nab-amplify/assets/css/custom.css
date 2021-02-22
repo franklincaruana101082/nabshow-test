@@ -87,6 +87,7 @@ abbr[title]{text-decoration:none}
 figcaption{color:#999!important}
 iframe{border:none!important}
 .small {font-size:80%}
+b, strong{font-family:'Open Sans', Arial, sans-serif;font-weight:700}
 /************* Default style variables *************/
 
 /* heading */
@@ -1761,14 +1762,10 @@ body .is_friend .remove::before{font-size:22px}
 #insert-media-button{background-color:#333333;color:#999999!important}
 .wp-media-buttons .add_media span.wp-media-buttons-icon{color:#999999!important}
 
-/* Add featured block */
-.featured-block-wraper{margin:30px 0px 0px 0px}
-.featured-block-wraper .add-new-item{width:100%;max-width:100%}
-
 /* Add admin popup */
 #addAdminModal .add-product-content-popup .form-wrapper p{font-size:16px;color:#999999;margin-bottom:10px}
 #addAdminModal .add-product-content-popup h3{text-transform:unset!important}
-.featured-block-wraper{margin:30px 0px 0px 0px}
+.featured-block-wraper{margin:30px 0 0 0}
 .featured-block-wraper .add-new-item{width:100%;max-width:100%}
 
 /* company admin field */
@@ -1776,3 +1773,6 @@ body .is_friend .remove::before{font-size:22px}
 
 /* Message legal note */
 .message-leggal-notice{font-size:13px;color:#dedede;font-style:italic;margin-top:10px!important}
+
+/* fixed issues after code changes from c. */
+.header .header__navwrapper{z-index:10;}
