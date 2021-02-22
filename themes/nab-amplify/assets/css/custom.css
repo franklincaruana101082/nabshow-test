@@ -91,12 +91,12 @@ b, strong{font-family:'Open Sans', Arial, sans-serif;font-weight:700}
 /************* Default style variables *************/
 
 /* heading */
-h1{font-size:36px;font-weight:700}
+/*h1{font-size:36px;font-weight:700}
 h2, .related-title{font-size:30px;font-weight:bold;margin-top:0;line-height:34px}
 h3{font-size:24px;font-weight:100;margin-top:0}
 h4{font-size:20px;font-weight:bold;margin-top:0}
 h5, .article-byline{font-size:18px}
-.article-byline{color:#999}
+.article-byline{color:#999}*/
 /*p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif}*/
 
 /* text color */
