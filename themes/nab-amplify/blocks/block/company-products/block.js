@@ -98,7 +98,7 @@
     const blockAttrs = {
         itemToFetch: {
             type: 'number',
-            default: 4
+            default: 100
         },            
         displayOrder: {
             type: 'string',

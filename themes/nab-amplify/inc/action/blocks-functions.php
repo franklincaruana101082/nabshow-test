@@ -209,7 +209,7 @@ function nab_register_amplify_dynamic_blocks()
         'attributes'      => array(
             'itemToFetch' => array(
                 'type'    => 'number',
-                'default' => 4,
+                'default' => 100,
             ),
             'companyCategory'  => array(
                 'type'    => 'array',
@@ -411,7 +411,7 @@ function nab_company_produts_render_callback($attributes)
 
     global $post;
 
-    $posts_per_page     = isset($attributes['itemToFetch']) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 4;
+    $posts_per_page     = isset($attributes['itemToFetch']) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 100;
     $display_order      = isset($attributes['displayOrder']) && !empty($attributes['displayOrder']) ? $attributes['displayOrder'] : 'DESC';
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
