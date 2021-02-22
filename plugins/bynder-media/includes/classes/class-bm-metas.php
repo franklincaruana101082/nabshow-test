@@ -22,17 +22,26 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 		}
 
 		public function bm_add_metaboxes() {
-			$screen = null;
-			/*$screens = [ 'post', 'page' ];
-			foreach ( $screens as $screen ) {*/
+			$screens = [
+				'post',
+				'page',
+				'articles',
+				'tribe_events',
+				'event-shows',
+				'company',
+				'company-products',
+				'sessions',
+			];
+			foreach ( $screens as $screen ) {
 				add_meta_box(
 					'bm_metabox_meta', // Unique ID
 					'Bynder Media',
 					array( $this, 'bm_metabox_html' ),
 					$screen,
-					'side'
+					'side',
+                    'low'
 				);
-			//}
+			}
 		}
 
 		// Callback for Custom Meta Box
