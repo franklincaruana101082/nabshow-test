@@ -36,15 +36,14 @@ jQuery(function($) {
 			jQuery(panel).addClass('_selected');
 			jQuery(panelSlider).slick('setPosition');
 		}
-		
+
 	});
 
 
 
-	jQuery('.slides__list').slick({
+	jQuery('.slides__list').not('.slick-initialized').slick({
 		fade: true,
 		cssEase: 'linear',
 		adaptiveHeight: true
 	});
 });
-  

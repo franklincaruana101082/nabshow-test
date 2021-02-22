@@ -141,7 +141,7 @@ get_header();
                                 <p><?php echo get_the_author_meta('description', $product_point_of_contact); ?></p>
                                 <?php } ?>
                                 <div class="action-wrap">
-                                    <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="btn">View company profile</a></div>
+                                    <div><a href="<?php echo esc_url( get_the_permalink( get_field('nab_selected_company_id') ) ); ?>" class="btn">View company profile</a></div>
                                     <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
                                          if ($user_logged_in) { ?>
                                         <div>
