@@ -1592,7 +1592,7 @@ function nab_product_search_filter_callback()
 
 			$product_query->the_post();
 
-			$thumbnail_url		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+			$thumbnail_url     = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 
 			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
 			$result_post[$cnt]['link'] 		= get_the_permalink();
@@ -1697,7 +1697,7 @@ function nab_event_search_filter_callback()
 			$event_query->the_post();
 
 			$event_post_id		= get_the_ID();
-			$thumbnail_url 		= has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_product_company_placeholder_img();
+			$thumbnail_url      = nab_amplify_get_featured_image( $event_post_id, true, nab_product_company_placeholder_img() );
 			$event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
 			$event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
 			$website_link 		= get_post_meta(get_the_ID(), '_EventURL', true);
@@ -1983,7 +1983,7 @@ function nab_member_bookmark_list_callback()
 
 				$bookmark_query->the_post();
 
-				$bookmark_thumbnail = has_post_thumbnail() ? get_the_post_thumbnail_url() : $bookmark_img;
+				$bookmark_thumbnail = nab_amplify_get_featured_image( get_the_ID(), true, $bookmark_img );
 				$bookmark_link      = get_the_permalink();
 				$bookmark_title		= get_the_title();
 
@@ -2069,7 +2069,7 @@ function nab_member_event_list_callback()
 				$purchased_events->the_post();
 
 				$event_id	= get_the_ID();
-				$event_img	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $event_default_img;
+				$event_img  = nab_amplify_get_featured_image( $event_id, true, $event_default_img );
 				$event_date	= get_field('show_date', $event_id);
 				$event_url	= get_field('show_url', $event_id);
 

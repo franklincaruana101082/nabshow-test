@@ -129,6 +129,42 @@ if ( ! function_exists( 'nab_amplify_woocommerce_wrapper_before' ) ) {
 }
 add_action( 'woocommerce_before_main_content', 'nab_amplify_woocommerce_wrapper_before' );
 
+/**
+ * Replace WooCommerce Product image with the Bynder image.
+ *
+ * @param $image
+ * @param $product
+ * @param $size
+ * @param $attr
+ * @param $placeholder
+ *
+ * @return string
+ */
+function nab_amplify_woo_product_get_image( $image, $product, $size, $attr, $placeholder ){
+	$featured_image = nab_amplify_get_featured_image( $product->get_id() );
+
+	return  '<img src="'. $featured_image .'" class="attachment-full size-full" alt="" loading="lazy"/>';
+}
+add_filter( 'woocommerce_product_get_image', 'nab_amplify_woo_product_get_image', 10, 5 );
+
+/**
+ * Replace WooCommerce Product image with the Bynder image.
+ *
+ * @param $sprintf
+ * @param $post_id
+ *
+ * @return string
+ */
+function nab_amplify_single_product_image_thumbnail_html($sprintf, $post_id ) {
+
+	$featured_image = nab_amplify_get_featured_image( $post_id );
+
+	return  '<div class="woocommerce-product-gallery__image--placeholder"><img src="'. $featured_image .'" class="wp-post-image" /></div>';
+
+	return $sprintf;
+}
+add_action( 'woocommerce_single_product_image_thumbnail_html', 'nab_amplify_single_product_image_thumbnail_html', 10, 2 );
+
 if ( ! function_exists( 'nab_amplify_woocommerce_wrapper_after' ) ) {
 	/**
 	 * After Content.

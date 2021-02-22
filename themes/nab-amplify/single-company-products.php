@@ -117,13 +117,13 @@ get_header();
 ?>
                     </div>
                     <div class="single-product-col right-col">
-                   
+
                         <div class="black-bg-box author-details-box">
                         <?php
-                    
+
                     if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
                         //get images
-                        $user_images = nab_amplify_get_user_images($product_point_of_contact); ?>   
+                        $user_images = nab_amplify_get_user_images($product_point_of_contact); ?>
                         <div class="author-info">
                                 <div class="author-image">
                                     <a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
@@ -134,14 +134,14 @@ get_header();
                                 </div>
                             </div>
                     <?php
-                    } ?>        
+                    } ?>
                             <div class="author-info-content">
                                 <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) { ?>
                                 <p><?php echo get_the_author_meta('description', $product_point_of_contact); ?></p>
                                 <?php } ?>
                                 <div class="action-wrap">
                                     <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View company profile</a></div>
-                                    <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) { 
+                                    <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
                                          if ($user_logged_in) { ?>
                                         <div>
                                             <div id="send-private-message" class="generic-button poc-msg-btn">
@@ -154,7 +154,7 @@ get_header();
                                         <div>
                                             <div id="send-private-message" class="generic-button">
                                                 <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
-                                        </div>   
+                                        </div>
                                         <?php }
                                         } ?>
                                 </div>
@@ -212,7 +212,7 @@ get_header();
                             <div class="amp-item-wrap" id="company-products-list">
                                 <?php
                                 while ($my_query->have_posts()) : $my_query->the_post();
-                                    $thumbnail_url    = has_post_thumbnail() ? get_the_post_thumbnail_url() : nab_placeholder_img();
+	                                $thumbnail_url    = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
                                     $product_link     = get_the_permalink();
                                     $product_category = get_the_terms(get_the_ID(), 'company-product-category');
                                     $product_medias     = get_field('product_media');
