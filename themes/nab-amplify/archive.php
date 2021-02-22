@@ -10,6 +10,8 @@
 get_header();
 ?>
 
+	<!-- START legacy-template: archive -->
+	<div class="container">
 	<main id="primary" class="site-main archive_php">
 
 		<?php if ( have_posts() ) : ?>
@@ -45,6 +47,8 @@ get_header();
 		?>
 
 	</main><!-- #main -->
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 
 <?php
 get_sidebar();

@@ -67,7 +67,7 @@ if ( bp_has_members( $members_filter ) && 0 !== $members_filter ) {
 $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( get_site_url(), '/' ) . '/' );
 ?>
     <section class="wp-listing-block wp-listing-search my-connections-content shows-list" data-bp-list="">
-        <div class="all-members" data-id="all-members-tab">
+        <div class="all-members" data-id="all-members-tab">            
             <div class="amp-item-heading">
                 <h3>
                     <strong>Connections</strong>

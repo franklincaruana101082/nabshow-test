@@ -34,13 +34,18 @@ if ( bp_is_my_profile() ) {
 			foreach ( wc_get_account_menu_items() as $endpoint => $label ) :
 
 				$wc_menu_class = wc_get_account_menu_item_classes( $endpoint );
+				if ('logout' === $endpoint) {
+					$url = wc_logout_url();
+				} else {
+					$url = wc_get_account_endpoint_url( $endpoint );
+				}
 
 				if ( $user_id === $current_user_id && 'view-profile' === $endpoint ) {
 					$wc_menu_class .= ' is-active';
 				}
 				?>
 				<li class="<?php echo esc_attr( $wc_menu_class ); ?>">
-					<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+					<a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a>
 				</li>
 				<?php
 			endforeach;

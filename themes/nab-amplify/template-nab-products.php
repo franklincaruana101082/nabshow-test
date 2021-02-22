@@ -8,6 +8,8 @@
 get_header();
 
 ?>
+	<!-- START legacy-template: template-nab-products -->
+	<div class="container">
     <main id="primary" class="site-main php_template_nab_products">
         <div class="nab-search-result-wrapper">
 			<?php
@@ -89,5 +91,7 @@ get_header();
 			?>
         </div>
     </main>
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 <?php
 get_footer();

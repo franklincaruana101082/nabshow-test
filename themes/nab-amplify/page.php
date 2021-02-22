@@ -15,6 +15,8 @@
 get_header();
 ?>
 
+	<!-- START legacy-template: page -->
+	<div class="container">
 	<main id="primary" class="site-main page_php">
 
 		<?php
@@ -32,6 +34,8 @@ get_header();
 		?>
 
 	</main><!-- #main -->
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 
 <?php
 get_footer();

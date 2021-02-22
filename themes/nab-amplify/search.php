@@ -18,6 +18,8 @@ $allowed_tags 		= wp_kses_allowed_html('post');
 
 $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 ?>
+<!-- START legacy-template: search -->
+<div class="container">
 <main id="primary" class="site-main">
 	<div class="nab-search-result-wrapper">
 		<div class="search-result-filter">
@@ -1443,5 +1445,7 @@ if ($company_poc !== '' && !empty($company_poc)) {
 		?>
 	</div>
 </main>
+</div><!-- .container -->
+<!-- END legacy-template -->
 <?php
 get_footer();

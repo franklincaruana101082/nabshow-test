@@ -33,7 +33,7 @@ if ( empty( $featured_image ) || null === $featured_image ) {
 		class="tribe-events-calendar-month__calendar-event-featured-image-link"
 	>
 		<img
-                src="<?php echo esc_url( $featured_image ); ?>"
+			src="<?php echo esc_url( $featured_image ); ?>"
 			class="tribe-events-calendar-month__calendar-event-featured-image"
 		/>
 	</a>

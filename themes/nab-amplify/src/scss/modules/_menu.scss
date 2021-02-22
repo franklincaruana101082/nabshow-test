@@ -1,0 +1,207 @@
+.menu {
+	list-style: none;
+	@include bp-1024 {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: flex-start;
+		.header__utilitynav & {
+			justify-content: flex-end;
+			align-items: center;
+		}
+		.header__mainnav & {
+			align-items: center;
+		}
+	}
+	&__item {
+		&._feedback {
+			display: none;
+			@include bp-1024 {
+				display: block;
+				margin-left: auto;
+				.menu__link, & > a {
+					display: inline-block;
+					background: $color__gray;
+					border: 0;
+					color: $color__white;
+					font-size: 18px;
+					font-weight: 600;
+					line-height: 52px;
+					text-decoration: none;
+					padding: 0 1.75rem;
+					border-radius: 26px;
+					transition: background-color .25s ease-in-out;
+					&:after {
+						content:'';
+						display: inline-block;
+						width: rem(22);
+						height: rem(24);
+						margin-left: rem(8);
+						background-image: url('/wp-content/themes/nab-amplify/assets/images/icon-bulb.svg');
+						background-repeat: no-repeat;
+						background-position: center center;
+						background-size: contain;
+						vertical-align: text-bottom;
+					}
+					&:hover, &:active, &:focus {
+						background-color: $color__gray-lightish;
+						color: $color__white;
+					}
+				}
+			}
+		}
+		.header__utilitynav & {
+			@include bp-1024 {
+				&:first-child {
+					border-right: 1px solid $color__gray-light;
+					&._profile {
+						border: 0;
+					}
+				}
+			}
+		}
+		a {
+			display: block;
+			padding: rem(8) rem(24);
+			color: $color__white;
+			font-size: rem(18);
+			font-weight: 600;
+			text-decoration: none;
+			
+			@include bp-360 {
+				padding: rem(13) rem(24);
+			}
+			@include bp-1024 {
+				padding: 0 rem(10);	
+			}
+			&:visited {
+				color: $color__white;
+			}
+			&:hover, &:focus, &:active {
+				color: $color__yellow;
+			}
+			&:not([href]) {
+				&:hover, &:focus, &:active {
+					color: $color__white;
+				}	
+			}
+			
+			.header__brandnav & {
+				font-size: rem(12);
+				text-transform: uppercase;
+			}
+			.header__utilitynav & {
+				@include bp-1024 {
+					padding: 0 rem(32);
+				}
+			}
+			.footer & {
+				font-size: rem(14);
+				padding: rem(7) 0;
+			}
+		}
+		&._logo {
+			>a {
+				display: block;
+				width: rem(216);
+				height: rem(35);
+				white-space: nowrap;
+				text-indent: 150%;
+				overflow: hidden;
+				background-image: url('/wp-content/themes/nab-amplify/assets/images/nab-amplify.png');
+				background-position: center center;
+				background-size: contain;
+			}
+		}
+	}
+	&__link, &__title {
+		display: block;
+		padding: rem(8) rem(24);
+		color: $color__white;
+		font-size: rem(18);
+		font-weight: 600;
+		text-decoration: none;
+		
+		@include bp-360 {
+			padding: rem(13) rem(24);
+		}
+		@include bp-1024 {
+			padding: 0 rem(10);	
+		}
+		.header__brandnav & {
+			font-size: rem(12);
+			text-transform: uppercase;
+		}
+		.header__utilitynav & {
+			@include bp-1024 {
+				padding: 0 rem(32);
+			}
+		}
+		.footer & {
+			font-size: rem(14);
+			padding: rem(7) 0;
+		}
+		&._login {
+			background: linear-gradient(90deg, $color__purple, $color__pink);
+			&:hover, &:active, &:focus {
+				color: $color__yellow;
+			}
+			@include bp-1024 {
+				background: none;
+			}
+		}
+	}
+	&__title {
+		color: $color__gray-light;
+		a {
+			color: $color__gray-light;
+		}
+		.footer &, .footer & a {
+			color: $color__yellow;
+			font-size: rem(12);
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+		}
+	}
+}
+
+.cart {
+	position: relative;
+	margin-right: rem(4);
+	a {
+		display: block;
+		width: rem(22);
+		height: rem(21);
+		background-image: url('/wp-content/themes/nab-amplify/assets/images/icon-cart.svg');
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		overflow: hidden;
+		text-indent: 150%;
+		@include bp-1024 {
+			width: rem(35);
+			height: rem(30);
+		}
+	}
+	&__count {
+		display: block;
+		position: absolute;
+		top: rem(-2);
+		right: rem(-4);
+		background-color: $color__pink;
+		border-radius: 50%;
+		width: rem(10);
+		height: rem(10);
+		text-align: center;
+		line-height: rem(10);
+		font-size: rem(6.75);
+		font-weight: 600;
+		color: $color__white;
+		@include bp-1024 {
+			width: rem(12);
+			height: rem(12);
+			line-height: rem(11);
+			font-size: rem(9);
+		}
+	}
+}

@@ -8,6 +8,8 @@
 get_header();
 ?>
 
+	<!-- START legacy-template: template-buddypress -->
+	<div class="container">
     <main id="primary" class="site-main buddy_press_php">
 
 		<?php
@@ -63,6 +65,8 @@ get_header();
 		?>
 
     </main><!-- #main -->
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 
 <?php
 get_footer();

@@ -51,6 +51,10 @@ if ( ! function_exists( 'nab_amplify_setup' ) ) :
 		register_nav_menus(
 			array(
 				'menu-1' => esc_html__( 'Primary', 'nab-amplify' ),
+				'menu-2' => esc_html__( 'Brand', 'nab-amplify' ),
+				'footer-1' => esc_html__( 'Footer main', 'nab-amplify' ),
+				'footer-2' => esc_html__( 'Footer policy', 'nab-amplify' ),
+				'footer-3' => esc_html__( 'Footer quick', 'nab-amplify' ),
 			)
 		);
 
@@ -225,9 +229,12 @@ add_action( 'widgets_init', 'nab_amplify_widgets_init' );
  * Enqueue scripts and styles.
  */
 function nab_amplify_scripts() {
+	wp_enqueue_style( 'roboto-mono', 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&display=swap', array(), '1.0');
+	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/iig3loy.css', array(), '1.0');
 	wp_enqueue_style( 'nab-amplify-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'nab-amplify-style', 'rtl', 'replace' );
 
+	// NOTE: /js/app.min.js is included automatically
 	wp_enqueue_script( 'nab-amplify-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -261,6 +268,7 @@ function maybe_load_gutenberg_for_post_type( $can_edit, $post ) {
 
 	return false;
 }
+add_filter( 'use_block_editor_for_post', 'maybe_load_gutenberg_for_post_type', 15, 2 );
 
 add_filter( 'use_block_editor_for_post', 'maybe_load_gutenberg_for_post_type', 15, 2 );
 

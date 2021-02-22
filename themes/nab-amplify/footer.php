@@ -11,123 +11,41 @@
  */
 
 ?>
-</div> <!-- end container -->
+
 </div> <!-- end site-content -->
-<footer id="colophon" class="site-footer">
-	<div class="container">
-		<div class="footer-inner">
-			<div class="col-1">
-				<!--				<img class="logo" src="--><?php //echo wp_kses(get_template_directory_uri() . '/assets/images/nab-logo-white.png', '') 
-																?>
-				<!--" />-->
-				<!--				<ul class="socials">-->
-				<!--					<li>-->
-				<!--						<a href="#" class="social-facebook" target="_blank">-->
-				<!--							<i class="fa fa-facebook"></i>-->
-				<!--						</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#" class="social-linkedin" target="_blank">-->
-				<!--							<i class="fa fa-linkedin"></i>-->
-				<!--						</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#" class="social-twitter" target="_blank">-->
-				<!--							<i class="fa fa-twitter"></i>-->
-				<!--						</a>-->
-				<!--					</li>-->
-				<!--				</ul>-->
-				<?php dynamic_sidebar('footer-1'); ?>
-			</div>
-			<div class="col-2">
-				<!--				<h4>Main Pages</h4>-->
-				<!--				<ul class="footer-menu">-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 1</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 2</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 3</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 4</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 5</a>-->
-				<!--					</li>-->
-				<!--				</ul>-->
-				<?php dynamic_sidebar('footer-2'); ?>
-			</div>
-			<div class="col-3">
-				<!--				<h4>Policy</h4>-->
-				<!--				<ul class="footer-menu">-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 1</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 2</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 3</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 4</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 5</a>-->
-				<!--					</li>-->
-				<!--				</ul>-->
-				<?php dynamic_sidebar('footer-3'); ?>
-			</div>
-			<div class="col-4">
-				<!--				<h4>Categories</h4>-->
-				<!--				<ul class="footer-menu">-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 1</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 2</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 3</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 4</a>-->
-				<!--					</li>-->
-				<!--					<li>-->
-				<!--						<a href="#">Menu Item 5</a>-->
-				<!--					</li>-->
-				<!--				</ul>-->
-				<?php dynamic_sidebar('footer-4'); ?>
-			</div>
-			<div class="col-5 subs-main">
-				<?php if (is_user_logged_in()) {
-					dynamic_sidebar('footer-loggedin');
-				} else { ?>
+<footer id="colophon" class="footer">
+    <div class="container">
+      <div class="footer__logo"><img src="/wp-content/themes/nab-amplify/assets/images/nab-amplify.png" alt="NAB Amplify Logo"></div>
+      <nav class="footer__nav">
+		  <?php wp_nav_menu( array( 'theme_location' => 'footer-1', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
+		  <?php wp_nav_menu( array( 'theme_location' => 'footer-2', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
+		  <?php wp_nav_menu( array( 'theme_location' => 'footer-3', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
 
-					<!--				<h3>Subscribe</h3>-->
-					<!--				<p>Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.</p>-->
-					<!--				<form class="subscribe-form">-->
-					<!--					<input type="text" class="email" placeholder="Email Address"/>-->
-					<!--					<input type="submit" class="search-submit" value="Submit">-->
-					<!--				</form>-->
-					<?php dynamic_sidebar('footer-5'); ?>
-				<?php } ?>
-			</div>
-		</div><!-- .site-info -->
+        <div class="footer__signup">
+          <h5 class="menu__title">Learn More</h5>
+				  <p>Get on the list to be the first to know more about NAB Amplify.</p>
+          <script src="//app-ab34.marketo.com/js/forms2/js/forms2.min.js"></script>
+          <form class="subscribe-form" id="mktoForm_1113"></form>
+          <script>MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1113);</script>
+        </div>
+      </nav>
+    </div>
+    
+    <div class="footer__end">
+      <div class="container">
+        <div class="footer__copyright">
+          © 2021 National Association of Broadcasters. All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
 
-		<div class="nab-amplify-copyright">
-			<?php dynamic_sidebar('footer-6'); ?>
-		</div>
-
-	</div>
-</footer><!-- #colophon -->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
 </body>
 
 </html>
