@@ -37,6 +37,9 @@
 		background-color: $color__gray-darker;
 		border: 4px solid $color__purple; //fallback
 	  	border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
+	  	a, a * {
+	  		text-decoration: none;
+	  	}
 	}
 		&__image {
 			display: block;
