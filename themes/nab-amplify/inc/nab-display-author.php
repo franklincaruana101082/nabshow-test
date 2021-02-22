@@ -10,7 +10,7 @@ $author_full_name 	= get_the_author_meta('first_name', $author_id) . ' ' . get_t
 $author_link		= !empty($author_id) ? bp_core_get_user_domain($author_id) : '#';
 if ($post_type === 'company-products') {
 	$author_link		= !empty(get_the_permalink($company_id)) ? get_the_permalink($company_id) : '#';
-	$author_avatar_url  = get_the_post_thumbnail_url($company_id);
+	$author_avatar_url  = nab_amplify_get_featured_image( $company_id, false );
 	$author_full_name   = get_the_title($company_id);
 }
 if (empty(trim($author_full_name))) {

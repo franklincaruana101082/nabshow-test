@@ -75,7 +75,7 @@
 								$purchased_events->the_post();
 
 								$event_id	= get_the_ID();
-								$event_img	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $default_image;
+								$event_img  = nab_amplify_get_featured_image( $event_id );
 								$event_date	= get_field( 'show_date', $event_id );
 								$event_url	= get_field( 'show_url', $event_id );
 								$body_copy	= get_field( 'body_copy', $event_id );
@@ -136,7 +136,7 @@
 
 								$purchased_passes->the_post();
 
-								$product_img 	= has_post_thumbnail() ? get_the_post_thumbnail_url() : $default_image;
+								$product_img    = nab_amplify_get_featured_image( get_the_ID() );
 								$product_link	= get_the_permalink();
 
 								?>

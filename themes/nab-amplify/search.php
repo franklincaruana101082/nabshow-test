@@ -417,7 +417,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$company_prod_query->the_post();
 
-								$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID() );
+								$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 								$product_link	    = get_the_permalink();
 								$company_id			= get_field('nab_selected_company_id', get_the_ID());
 								$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
@@ -1036,7 +1036,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$company_prod_query->the_post();
 
-							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID() );
+							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 							$product_link	    = get_the_permalink();
 							$company_id			= get_field('nab_selected_company_id', get_the_ID());
 							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';

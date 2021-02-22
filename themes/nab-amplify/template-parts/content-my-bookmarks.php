@@ -11,7 +11,7 @@ $profile_url        = bp_core_get_user_domain( $user_id );
 $current_user_id    = get_current_user_id();
 
 if ( empty( $user_id ) || 0 === $user_id ) {
-    
+
     $user_id = $current_user_id;
 }
 
@@ -29,17 +29,17 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
     $bookmark_query = new WP_Query( $bookmark_query_args );
 
     if ( $bookmark_query->have_posts() ) {
-        
+
         $total_bookmarks = $bookmark_query->found_posts;
         ?>
         <div class="member-bookmark">
             <div class="amp-item-main">
                 <div class="amp-item-heading">
-                    <h3>BOOKMARKS</h3>                                                
+                    <h3>BOOKMARKS</h3>
                 </div>
                 <div class="amp-item-wrap" id="bookmark-list">
                     <?php
-                    
+
                     $bookmark_img   = nab_placeholder_img();
                     $cnt            = 0;
 
@@ -48,17 +48,17 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
                         $bookmark_query->the_post();
 
                         $bookmark_id        = get_the_ID();
-                        $bookmark_thumbnail = has_post_thumbnail() ? get_the_post_thumbnail_url() : $bookmark_img;
-                        $bookmark_link      = get_the_permalink();                                
+                        $bookmark_thumbnail = nab_amplify_get_featured_image( $bookmark_id, true, $bookmark_img );
+                        $bookmark_link      = get_the_permalink();
 
                         ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
-                                    <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">                                    
+                                    <img src="<?php echo esc_url( $bookmark_thumbnail ); ?>" alt="Bookmark Image">
                                     <span class="fa fa-bookmark-o amp-bookmark bookmark-fill"></span>
                                 </div>
-                                <div class="amp-item-info">                                            
+                                <div class="amp-item-info">
                                     <div class="amp-item-content">
                                         <h4>
                                             <a href="<?php echo esc_url( $bookmark_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a>
@@ -73,12 +73,12 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
                             </div>
                         </div>
                         <?php
-                        
+
                         $cnt++;
 
                         if ( 8 === $cnt ) {
                             echo wp_kses_post( nab_get_search_result_ad() );
-                        }                        
+                        }
                     }
                     if ( $cnt < 8 ) {
                         echo wp_kses_post( nab_get_search_result_ad() );
@@ -95,7 +95,7 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
         </div>
         <?php
     }
-    
+
     if ( $bookmark_query->max_num_pages > 1 ) {
         ?>
         <div class="load-more text-center"  id="load-more-bookmark">
@@ -105,7 +105,7 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
     }
 
     wp_reset_postdata();
-    
+
 } else {
     ?>
     <div id="message" class="info">
