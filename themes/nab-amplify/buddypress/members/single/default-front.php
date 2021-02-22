@@ -35,7 +35,7 @@ if ( bp_is_my_profile() ) {
 
 				$wc_menu_class = wc_get_account_menu_item_classes( $endpoint );
 				if ('logout' === $endpoint) {
-					$url = wc_logout_url();
+					$url = '/?customer-logout=true';
 				} else {
 					$url = wc_get_account_endpoint_url( $endpoint );
 				}
