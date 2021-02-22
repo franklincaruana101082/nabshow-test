@@ -21,21 +21,17 @@
 		  <?php wp_nav_menu( array( 'theme_location' => 'footer-2', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
 		  <?php wp_nav_menu( array( 'theme_location' => 'footer-3', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
 
-        <form class="footer__signup">
-          <h5 class="menu__title">Learn More</h5>
-          <p>Get on the list to be the first to know more about NAB Amplify.</p>
-          <input type="text" placeholder="First Name" /><br/>
-          <input type="text" placeholder="Last Name" /><br/>
-          <input type="text" placeholder="Email" /><br/>
-          <input type="submit" class="button" value="Submit" />
-        </form>
+        <div class="footer__signup">
+          <?php dynamic_sidebar('footer-5'); ?>
+        </div>
       </nav>
     </div>
     
     <div class="footer__end">
       <div class="container">
-        <div class="footer__copyright">&copy; National Association of Broadcasters. All Rights Reserved.</div>
-        <div class="footer__help"><a href="#" class="button _gradientpink _chat">Help</a></div>
+        <div class="footer__copyright">
+          <?php dynamic_sidebar('footer-6'); ?>
+        </div>
       </div>
     </div>
   </footer>
