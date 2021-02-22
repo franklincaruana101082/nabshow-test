@@ -31,7 +31,6 @@ add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 10 );
 // END ENQUEUE PARENT ACTION
 
 // Load Gutenberg Block Editor on VIP Go for this /*
-
 add_filter( 'use_block_editor_for_post', '__return_true' );
 
 // Add Custom Meta Box for Disclaimer Text

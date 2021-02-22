@@ -21,32 +21,6 @@
 		  <?php wp_nav_menu( array( 'theme_location' => 'footer-2', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
 		  <?php wp_nav_menu( array( 'theme_location' => 'footer-3', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
 
-		<?php /*
-        <ul class="footer__menu _main">
-          <li class="menu__title">Main Pages</li>
-          <li class="menu__item"><a href="#" class="menu__link">Homepage</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Events</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Companies</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Products</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Communities</a></li>
-        </ul>
-
-        <ul class="footer__menu _policy">
-          <li class="menu__title">Policy</li>
-          <li class="menu__item"><a href="#" class="menu__link">Privacy Policy</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Terms of Use</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Code of Conduct</a></li>
-        </ul>
-
-        <ul class="footer__menu _quick">
-          <li class="menu__title">Quick Links</li>
-          <li class="menu__item"><a href="#" class="menu__link">FAQs</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Contact Us</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Advertise</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Refer a Friend</a></li>
-        </ul>
-		*/ ?>
-
         <form class="footer__signup">
           <h5 class="menu__title">Learn More</h5>
           <p>Get on the list to be the first to know more about NAB Amplify.</p>

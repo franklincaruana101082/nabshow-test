@@ -11,9 +11,11 @@ get_header();
 ?>
 
 	<!-- START legacy-template: single-articles -->
-	<div class="container">
+	<div class="container">        
 	<main id="primary" class="site-main single_php">
-        
+        <div class="nab-ad-block header_ad">
+            <broadstreet-zone zone-id="82835"></broadstreet-zone>
+        </div>
 		<?php
 		while ( have_posts() ) :
 			the_post();
