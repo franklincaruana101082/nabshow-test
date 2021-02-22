@@ -155,9 +155,12 @@ add_filter( 'woocommerce_product_get_image', 'nab_amplify_woo_product_get_image'
  *
  * @return string
  */
-function nab_amplify_single_product_image_thumbnail_html($sprintf, $post_id ) {
+function nab_amplify_single_product_image_thumbnail_html($sprintf, $attachment_id ) {
 
-	$featured_image = nab_amplify_get_featured_image( $post_id );
+	if( ! is_product() ) return $sprintf; // Only on single product pages
+
+    global $post;
+	$featured_image = nab_amplify_get_featured_image( $post->ID );
 
 	return  '<div class="woocommerce-product-gallery__image--placeholder"><img src="'. $featured_image .'" class="wp-post-image" /></div>';
 
