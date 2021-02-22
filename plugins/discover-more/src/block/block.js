@@ -1252,7 +1252,7 @@ class DiscoverSave extends Component {
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
-												<a className="homeproducts__product" href="{ attributes.broadcastProduct1Link }">
+												<a className="homeproducts__product" href={ attributes.broadcastProduct1Link }>
 													{ linkImage(attributes.broadcastProduct1ImageUrl, attributes.broadcastProduct1ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.broadcastProduct1Company }
@@ -1263,7 +1263,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product2">
-												<a className="homeproducts__product" href="{ attributes.broadcastProduct2Link }">
+												<a className="homeproducts__product" href={ attributes.broadcastProduct2Link }>
 													{ linkImage(attributes.broadcastProduct2ImageUrl, attributes.broadcastProduct2ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.broadcastProduct2Company }
@@ -1274,7 +1274,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product3">
-												<a className="homeproducts__product" href="{ attributes.broadcastProduct3Link }">
+												<a className="homeproducts__product" href={ attributes.broadcastProduct3Link }>
 													{ linkImage(attributes.broadcastProduct3ImageUrl, attributes.broadcastProduct3ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.broadcastProduct3Company }
@@ -1375,7 +1375,7 @@ class DiscoverSave extends Component {
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
-												<a className="homeproducts__product" href="{ attributes.streamingProduct1Link }">
+												<a className="homeproducts__product" href={ attributes.streamingProduct1Link }>
 													{ linkImage(attributes.streamingProduct1ImageUrl, attributes.streamingProduct1ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.streamingProduct1Company }
@@ -1386,7 +1386,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product2">
-												<a className="homeproducts__product" href="{ attributes.streamingProduct2Link }">
+												<a className="homeproducts__product" href={ attributes.streamingProduct2Link }>
 													{ linkImage(attributes.streamingProduct2ImageUrl, attributes.streamingProduct2ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.streamingProduct2Company }
@@ -1397,7 +1397,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product3">
-												<a className="homeproducts__product" href="{ attributes.streamingProduct3Link }">
+												<a className="homeproducts__product" href={ attributes.streamingProduct3Link }>
 													{ linkImage(attributes.streamingProduct3ImageUrl, attributes.streamingProduct3ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.streamingProduct3Company }
@@ -1498,7 +1498,7 @@ class DiscoverSave extends Component {
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
-												<a className="homeproducts__product" href="{ attributes.contentProduct1Link }">
+												<a className="homeproducts__product" href={ attributes.contentProduct1Link }>
 													{ linkImage(attributes.contentProduct1ImageUrl, attributes.contentProduct1ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.contentProduct1Company }
@@ -1509,7 +1509,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product2">
-												<a className="homeproducts__product" href="{ attributes.contentProduct2Link }">
+												<a className="homeproducts__product" href={ attributes.contentProduct2Link }>
 													{ linkImage(attributes.contentProduct2ImageUrl, attributes.contentProduct2ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.contentProduct2Company }
@@ -1520,7 +1520,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product3">
-												<a className="homeproducts__product" href="{ attributes.contentProduct3Link }">
+												<a className="homeproducts__product" href={ attributes.contentProduct3Link }>
 													{ linkImage(attributes.contentProduct3ImageUrl, attributes.contentProduct3ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.contentProduct3Company }
@@ -1619,7 +1619,7 @@ class DiscoverSave extends Component {
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
-												<a className="homeproducts__product" href="{ attributes.liveProduct1Link }">
+												<a className="homeproducts__product" href={ attributes.liveProduct1Link }>
 													{ linkImage(attributes.liveProduct1ImageUrl, attributes.liveProduct1ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.liveProduct1Company }
@@ -1630,7 +1630,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product2">
-												<a className="homeproducts__product" href="{ attributes.liveProduct2Link }">
+												<a className="homeproducts__product" href={ attributes.liveProduct2Link }>
 													{ linkImage(attributes.liveProduct2ImageUrl, attributes.liveProduct2ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.liveProduct2Company }
@@ -1641,7 +1641,7 @@ class DiscoverSave extends Component {
 												</a>
 											</li>
 											<li className="homeproducts__item product3">
-												<a className="homeproducts__product" href="{ attributes.liveProduct3Link }">
+												<a className="homeproducts__product" href={ attributes.liveProduct3Link }>
 													{ linkImage(attributes.liveProduct3ImageUrl, attributes.liveProduct3ImageAlt, 'homeproducts__image') }
 													<h5 className="homeproducts__company">
 														{ attributes.liveProduct3Company }
