@@ -3010,7 +3010,7 @@
     }
   )
 
-  $(document).on('click', '.confirmed-answer', function () {
+  $(document).on('click', '#unfriend-confirmation .confirmed-answer', function () {
     if ('confirmed-yes' === $(this).attr('id')) {
       window.location.href = $('.popup-shown').attr('href')
     } else {
