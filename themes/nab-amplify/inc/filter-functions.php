@@ -250,7 +250,8 @@ function nab_amplify_update_my_account_menu_items($items)
 		+ array('orders' => __('Order History', 'nab-amplify'))
 		+ array('my-bookmarks' => __('Bookmarks', 'nab-amplify'))
 		+ array('edit-account' => __('Edit Account', 'nab-amplify'))
-		+ array('edit-address' => __('Edit Address', 'nab-amplify'));
+		+ array('edit-address' => __('Edit Address', 'nab-amplify'))
+		+ array('logout' => __('Sign Out', 'nab-amplify'));
 
 	return $items;
 }
