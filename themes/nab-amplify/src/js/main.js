@@ -1,6 +1,6 @@
 // Your main script
 
-jQuery(function() {
+jQuery(function($) {
 	jQuery('.js-mobile-toggle').on('click', function() {
 		jQuery(this).closest('.header').toggleClass('_open');
 	});

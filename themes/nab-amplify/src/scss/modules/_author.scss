@@ -2,6 +2,9 @@
 	display: flex;
 	align-items: center;
 	padding: rem(40) 0;
+	.menu__link & {
+		padding: 0;
+	}
 	&.weekly__author {
 		padding: 0;
 	}
@@ -15,6 +18,9 @@
 		  border-radius: 50%;
 		  border: 3px solid $color__gray-dark;
 		  display: block;
+		  .menu__link & {
+		  	width: rem(40);
+		  }
 		  .weekly__author & {
 			  width: rem(52);
 			  border: 3px solid $color__gray-darker;
