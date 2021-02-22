@@ -80,6 +80,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'nab_company_profile_image_update', array( $this, 'st_company_profile_image_updated' ), 10, 1 );
                 add_action( 'nab_company_product_action', array( $this, 'st_company_product_action' ), 10, 3 );
                 add_action( 'nab_featured_block_added', array( $this, 'st_featured_block_added' ), 10, 2 );
+                add_action( 'nab_company_admin_added_through_link', array( $this, 'st_company_admin_added_through_link' ), 10, 1 );
+                add_action( 'nab_company_admin_add_remove', array( $this, 'st_company_admin_add_remove' ), 10, 2 );
 
                 add_action( 'wp_ajax_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
@@ -369,6 +371,44 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
     
                 $this->st_track_event( $track_event );
             }
+        }
+
+        public function st_company_admin_added_through_link( $company_id ) {
+
+            if ( $company_id ) {                
+                $this->st_track_company_admin_add_event( $company_id, 'Company_Admin_Added_Via_Link' );                
+            }
+        }
+
+        public function st_company_admin_add_remove( $company_id, $action ) {
+
+            if ( $company_id && ! empty( $action ) ) {
+
+                if ( 'add' === $action ) {
+                    $this->st_track_company_admin_add_event( $company_id, 'Company_Admin_Added' );
+                } elseif ( 'remove' === $action ) {
+                    $this->st_track_company_admin_add_event( $company_id, 'Company_Admin_Removed' );
+                }
+            }
+        }
+
+        public function st_track_company_admin_add_event( $company_id, $event ) {
+
+            $track_event = array(
+                'userId'    => get_current_user_id(),
+                'event'     => $event,
+            );
+
+            $properties = array();
+
+            $properties = $this->st_add_company_taxonomy_properties( $properties, $company_id );
+
+            $properties['Post_ID']                  = $company_id;                
+            $properties['URL']                      = get_the_permalink( $company_id );
+            $properties['Post_Name']                = get_the_title( $company_id );                
+            $track_event['properties']              = $properties;
+
+            $this->st_track_event( $track_event );
         }
 
         public function st_company_product_action( $status, $prodcut_id, $company_id ) {
@@ -786,7 +826,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                 $track_event = array(
                     'userId'    => $user_id,
-                    'event'     => 'Site_feedback',
+                    'event'     => 'Site_Feedback_Clicked',
                 );
     
                 $track_event['properties'] = $this->st_add_user_taxonomy_properties( $user_id );

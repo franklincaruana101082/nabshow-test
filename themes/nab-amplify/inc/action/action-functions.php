@@ -3552,7 +3552,18 @@ function nab_update_company_profile_callback()
             }
 
         } else {
+            if ( empty( $exisitng_admins ) || ! is_array( $exisitng_admins ) ) {
+                $exisitng_admins = array();
+            }
+            $admin_removed  = array_diff( $exisitng_admins, $company_admins );
+            $admin_added    = array_diff( $company_admins, $exisitng_admins );
 
+            if ( is_array( $admin_removed ) && count( $admin_removed ) > 0 ) {
+                do_action( 'nab_company_admin_add_remove', $company_id, 'remove' );
+            }
+            if ( is_array( $admin_added ) && count( $admin_added ) > 0 ) {
+                do_action( 'nab_company_admin_add_remove', $company_id, 'add' );
+            }
             update_field('company_user_id', $company_admins, $company_id);
         }
 
@@ -3945,6 +3956,7 @@ function nab_add_comapny_admin()
                     $current_admins[] = $current_user_id;
                     update_field('company_user_id', $current_admins, $current_post_id);
                     setcookie('new_company_admin_popup', '1', time() + (86400 * 30), "/");
+                    do_action('nab_company_admin_added_through_link', $current_post_id );
                 }
             }
         }

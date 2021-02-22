@@ -111,7 +111,7 @@
 
 												$selected_term = '';
 
-												if (is_array($company_data['search_product_categories']) && in_array($user->data->ID, $company_data['search_product_categories'], true)) {
+												if (is_array($company_data['search_product_categories']) && in_array($current_term->term_id, $company_data['search_product_categories'], true)) {
 													$selected_term = $current_term->term_id;
 												}
 											?>
