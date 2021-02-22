@@ -2253,7 +2253,6 @@ function nab_bp_send_message()
 	global $bp;
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
-	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_STRING);
 	$message = filter_input(INPUT_POST, 'message', FILTER_UNSAFE_RAW);
 	$recipient  = filter_input(INPUT_POST, 'send_to', FILTER_SANITIZE_STRING);
 	$subject = 'Private message';

@@ -940,7 +940,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .my-account h1, .messages h1, .woocommerce-account h1, .my-account h2, .woocommerce-account h2, .my-account h3, .woocommerce-account h3, .my-account h4, .woocommerce-account h4{color:#fdd80f}
 
 /* common page bg */
-.woocommerce-account, .bbp-user-page, .members{background-color:#404040}
+.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}
 
 /* common message design */
 .woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-error, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
@@ -1062,6 +1062,20 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 
 /* my-account */
 .woocommerce-account .button, .woocommerce-account .btn{border-radius:6px}
+.nab-custom-select{max-width:100%;margin:0 auto;width:300px}
+.nab-custom-select .chosen-container, .nab-custom-select .chosen-drop, .nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{width:100%;background:#3f3f3f;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-radius:0}
+.nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{border:0;border-top:2px solid #fff;border-bottom:1px solid #fff!important;padding:10px 20px!important;height:auto;font-size:20px}
+.nab-custom-select .chosen-container-single .chosen-search{display:none}
+.nab-custom-select .chosen-container.chosen-with-drop .chosen-drop{border-color:transparent;-webkit-box-shadow:0 9px 35px 0 rgba(64, 67, 71, 0.5);box-shadow:0 9px 35px 0 rgba(64, 67, 71, 0.5)}
+.nab-custom-select .chosen-results{background-color:#666;color:#fff;padding:0;margin:0;font-size:16px}
+.nab-custom-select .chosen-container .chosen-results li{padding:15px 35px;line-height:normal}
+.nab-custom-select .chosen-container .chosen-results li.highlighted{background-color:#4b4b4b;background-image:none}
+.nab-custom-select .chosen-container-single .chosen-single div{width:40px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;right:20px}
+.nab-custom-select .chosen-container-single .chosen-single div b{background:none;display:inline-block;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid #fff}
+.nab-custom-select .chosen-container-single .chosen-single span{margin-right:40px}
+.nab-custom-select option{background:#666666}
+.nab-custom-select option:hover{background:#4b4b4b}
+.nab-custom-select select{width:100%;color:#000}
 body.buddypress .site-content{padding:0}
 .nab-profile .input-text, .nab-profile textarea{background:#666;color:#fff;border-color:#666}
 .nab-profile .input-text:focus, .nab-profile textarea:focus{color:#fff}
@@ -1477,11 +1491,29 @@ body .is_friend .remove::before{font-size:22px}
 .tribe-events-page-template .tribe-common .tribe-common-c-loader__dot{background-color:#e5018b;border-radius:2px;width:20px;height:20px}
 .tribe-events-page-template .tribe-events .tribe-events-calendar-month__day-cell--mobile:focus, .tribe-events-page-template .tribe-events .tribe-events-calendar-month__day-cell--mobile:hover{background-color:#999}
 
+/* Reactions */
+.reaction-wrapper{margin:10px 0}
+.reaction-wrapper ul, .user-reacted-item ul{list-style:none;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:0;padding:0}
+.reaction-wrapper ul li, .user-reacted-item ul li{line-height:1;margin:2px;background-color:transparent!important}
+.reaction-wrapper ul li a, .user-reacted-item ul li a{display:inline-block;line-height:normal}
+.reaction-wrapper ul li img, .user-reacted-item ul li img{display:block;-webkit-box-shadow:0 0 4px 0 rgb(0 0 0 / 0.5);box-shadow:0 0 4px 0 rgb(0 0 0 / 0.5);border-radius:50%}
+.user-reacted-item ul li img{width:22px!important}
+.user-reacted-item{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.user-reacted-item .reacted-list{margin-right:15px}
+.user-reacted-item .reacted-list li{margin:0 -2px}
+.user-reacted-item .reacted-list li img{-webkit-box-shadow:0 0 4px 0 rgb(0 0 0 / 0.5);box-shadow:0 0 4px 0 rgb(0 0 0 / 0.5)}
+.reaction-wrapper .reaction-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.reaction-wrapper .reaction-list-type{position:relative;margin-right:15px}
+.reaction-wrapper .reaction-main-like{min-width:100px;margin:0;border-radius:6px;font-size:17px;font-family:'OpenSans-Regular', sans-serif;font-weight:500}
+.reaction-wrapper .reaction-main-like.reacted{background:#6363df;border-color:#6363df;color:#fff}
+.reaction-wrapper .reaction-main-like i{margin-right:10px}
+.reaction-wrapper .reaction-icon-modal{position:absolute;left:0;top:-5px;right:0;z-index:99;width:160px;visibility:hidden;opacity:0;-webkit-transform:translateY(-90%);-ms-transform:translateY(-90%);transform:translateY(-90%);-webkit-transition:0.3s all ease-in-out;-o-transition:0.3s all ease-in-out;transition:0.3s all ease-in-out}
+.reaction-wrapper .reaction-icon-modal.show-icon-modal{visibility:visible;opacity:1;-webkit-transform:translateY(-100%);-ms-transform:translateY(-100%);transform:translateY(-100%)}
 
 /* single company */
 .single-company{background-color:#404040}
 .single-company *{color:#fff}
-/*.single-company .container{width:1200px}*/
+/* .single-company .container{width:1200px} */
 .single-company .entry-header{padding:0 50px}
 .single-company h1, .single-company h2, .single-company h3, .single-company h4, .single-company h5, .single-company h6{color:#fdd80f}
 .single-company p{color:#fff}
@@ -1552,6 +1584,15 @@ body .is_friend .remove::before{font-size:22px}
 .select-dark-simple .select2-container .select2-selection--single .select2-selection__clear:hover span{color:#ccc!important}
 .select-dark-simple .select2-container .select2-selection--single .select2-selection__rendered{height:100px;line-height:80px;padding:10px 20px 10px 10px;color:#999!important;font-size:22px;font-weight:bold}
 
+.nab-custom-select .select2-container .select2-selection--single{height:47px;background-color:#3f3f3f}
+.nab-custom-select .select2-container--default .select2-selection--single{border:0;border-top:2px solid #fff;border-bottom:1px solid #fff;border-radius:0}
+.nab-custom-select .select2-container--default .select2-selection--single .select2-selection__rendered{height:47px;line-height:normal;color:#fff;padding:10px 40px 10px 20px;font-size:18px}
+.nab-custom-select .select2-container--default .select2-selection--single .select2-selection__rendered:focus,
+.nab-custom-select .select2-container--default .select2-selection--single:focus{outline:none;-webkit-box-shadow:none;box-shadow:none}
+.nab-custom-select .select2-container--default .select2-selection--single .select2-selection__arrow{top:50%;margin-top:-5px;right:10px}
+.nab-custom-select .select2-container--default .select2-selection--single .select2-selection__arrow b,
+.nab-custom-select .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b{border-width:14px 9px 0 9px;border-color:#fff transparent transparent transparent;left:0;top:0}
+.nab-custom-select .select2-results__option{padding:15px 20px}
 
 /* custom toggle and checkboxes */
 .nab-toggle-btn{position:relative;display:inline-block;width:60px;height:33px}
@@ -1645,6 +1686,7 @@ body .is_friend .remove::before{font-size:22px}
 /* single company products */
 .single-company-products{background-color:#404040}
 .single-company-products *{color:#fff}
+
 /*.single-company-products .container{width:1200px}*/
 .single-company-products .entry-header{padding:0 50px;position:relative}
 .single-company-products h1, .single-company-products h2, .single-company-products h3, .single-company-products h4, .single-company-products h5, .single-company-products h6{color:#fdd80f}

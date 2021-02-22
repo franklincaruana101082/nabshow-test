@@ -1006,6 +1006,7 @@ function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url
 	return $featured_image;
 }
 
+
 /**
  * Get featured and search category limit based on company membership level.
  *

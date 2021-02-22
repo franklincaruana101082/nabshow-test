@@ -39,6 +39,7 @@ if ( bp_is_my_profile() ) {
 				} else {
 					$url = wc_get_account_endpoint_url( $endpoint );
 				}
+
 				if ( $user_id === $current_user_id && 'view-profile' === $endpoint ) {
 					$wc_menu_class .= ' is-active';
 				}

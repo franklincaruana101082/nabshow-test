@@ -96,7 +96,7 @@
 			},
 			fontFamily: {
 				type: 'string',
-				default: 'Gotham Bold'
+				default: 'Open Sans Bold'
 			},
 			designOpt: {
 				type: 'boolean'
@@ -291,6 +291,16 @@
 									<SelectControl
 										value={fontFamily}
 										options={[
+											{ label: __('Open Sans Bold'), value: 'Open Sans Bold' },
+											{ label: __('Open Sans Bold Italic'), value: 'Open Sans Bold Italic' },
+											{ label: __('Open Sans ExtraBold'), value: 'Open Sans ExtraBold' },
+											{ label: __('Open Sans ExtraBold Italic'), value: 'Open Sans ExtraBold Italic' },
+											{ label: __('Open Sans Italic'), value: 'Open Sans Italic' },
+											{ label: __('Open Sans Light'), value: 'Open Sans Light' },
+											{ label: __('Open Sans Light Italic'), value: 'Open Sans Light Italic' },
+											{ label: __('Open Sans Regular'), value: 'Open Sans Regular' },
+											{ label: __('Open Sans SemiBold'), value: 'Open Sans SemiBold' },
+											{ label: __('Open Sans SemiBold Italic'), value: 'Open Sans SemiBold Italic' },										
 											{ label: __('Josefin Sans'), value: 'Josefin Sans' },
 											{ label: __('Molot'), value: 'Molot' },
 											{ label: __('Roboto Regular'), value: 'Roboto Regular' },

@@ -44,6 +44,7 @@ switch ( $connections ) {
 			'user_id' => $user_id
 		);
 		$active_page    = 'friends';
+		$post_per_page  = 99;
 }
 
 $post_per_page = isset( $post_per_page ) ? $post_per_page :  12;
