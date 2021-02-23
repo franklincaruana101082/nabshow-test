@@ -1329,8 +1329,13 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
 function nab_amplify_update_og_image( $content ) {
 
 	global $post;
-	$content = nab_amplify_get_featured_image( $post->ID, false );
-	$content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
+
+	if($_GET('test')) {
+	    die('testing');
+        $content = nab_amplify_get_featured_image( $post->ID, false );
+        $content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
+    }
+
 
 	if ( $content ) {
 		return $content;
