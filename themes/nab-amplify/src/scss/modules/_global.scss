@@ -139,6 +139,9 @@
 	  text-decoration: none;
 	}
   }
+.friendship-button.add {
+	@extend .link._plus;
+}
 
 
 
