@@ -22,6 +22,7 @@
 		  border-radius: 50%;
 		  border: 3px solid $color__gray-dark;
 		  display: block;
+		  width: rem(70);
 		  .weekly__author + .author & {
 			  width: rem(52);
 			  border: 3px solid $color__gray-darker;
