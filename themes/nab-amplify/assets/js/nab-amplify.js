@@ -387,7 +387,9 @@
         })
       },
       content_css:
-        amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time
+        amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time,
+        valid_elements:
+        'a[href|target=_blank],strong/b,div[align,class],br,p[class],img[align,class],h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],span[class]',
     })
   }
 
@@ -755,9 +757,15 @@
   }
 
   $(document).on('change', '#product_medias', function (e) {
+    var fileExtension = ['png','jpg','jpeg','gif'];
+
     var global_media_count = jQuery('.nab-product-media-item').length
     if (global_media_count < 5) {
       $.each($('#product_medias')[0].files, function (key, file) {
+        if ($.inArray( file.name.split('.').pop().toLowerCase(), fileExtension) == -1) {
+          alert("Only formats are allowed : "+fileExtension.join(', '));
+          return false
+        }
         var timestamp = Date.now()
         var unique_key = file.lastModified + '_' + timestamp
         $('#product_media_wrapper').append(

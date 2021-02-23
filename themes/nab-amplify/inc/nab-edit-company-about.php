@@ -122,6 +122,10 @@
 										</select>
 									</div>
 								</div>
+								<div class="form-row">
+									<label>Updates to Company Name & Primary Address</label>
+									<p>NAB must approve and update any changes to Company Name and Company Address. Please submit updates via this form and our team will update these on your behalf.</p>
+								</div>
 							</div>
 
 							<div class="form-row">
