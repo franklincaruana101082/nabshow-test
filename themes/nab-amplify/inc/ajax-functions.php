@@ -1706,13 +1706,24 @@ function nab_event_search_filter_callback()
 			$event_date			= date_format(date_create($event_start_date), 'l, F j');
 			$event_month		= date_format(date_create($event_start_date), 'F');
 			$event_day			= date_format(date_create($event_start_date), 'j');
+			$final_date         = $event_start_date;
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
 				if (date_format(date_create($event_start_date), 'Ymd') !== date_format(date_create($event_end_date), 'Ymd')) {
 
 					$event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
+					$final_date = $event_end_date;
 				}
+			}
+
+			$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+			$current_date   = current_time('Ymd');
+			$opening_date   = new DateTime( $final_date );
+			$current_date   = new DateTime( $current_date );
+
+			if ( $opening_date < $current_date ) {
+				$result_post[$cnt]['past_event'] = true;
 			}
 
 			$result_post[$cnt]['thumbnail'] 	= $thumbnail_url;
@@ -2146,7 +2157,7 @@ function nab_user_claim_company_callback()
 	if (is_user_logged_in() && !empty($company_post) && 'publish' === $company_post->post_status && 'company' === $company_post->post_type) {
 
 		$final_result['success'] 	= true;
-		$admin_email				= get_option('admin_email');
+		$admin_email				= 'kvelez@nab.org';
 		$current_user				= wp_get_current_user();
 
 		$user_full_name	= $current_user->user_firstname . ' ' . $current_user->user_lastname;
@@ -2167,7 +2178,7 @@ function nab_user_claim_company_callback()
 		<html>
 
 		<body>
-			<p>Hello Admin,</p>
+			<p>Hello Kiana,</p>
 			<p>The following user has claimed the <a href="<?php echo esc_url(get_the_permalink($company_post->ID)); ?>"><?php echo esc_html($company_post->post_title); ?></a> Page.</p>
 			<table>
 				<tr>

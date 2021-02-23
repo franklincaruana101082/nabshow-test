@@ -65,7 +65,7 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
                                         </h4>
                                         <div class="amp-actions">
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url( $bookmark_link ); ?>" class="button">Read More</a>
+                                                <a href="<?php echo esc_url( $bookmark_link ); ?>" class="btn">Read More</a>
                                             </div>
                                         </div>
                                     </div>

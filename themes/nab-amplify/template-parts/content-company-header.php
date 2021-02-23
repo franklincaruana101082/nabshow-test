@@ -43,7 +43,7 @@ $company_poc      = get_field('point_of_contact');
                             <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
                         </div>
                         <div id="edit-mode-buttons">
-                            <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
+                            <a href="javascript:void(0);" class="btn edit-company-mode">Edit profile</a>
                         </div>
                 <?php
                     }

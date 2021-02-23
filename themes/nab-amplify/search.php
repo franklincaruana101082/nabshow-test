@@ -686,16 +686,23 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
 								$event_month        = date_format( date_create( $event_start_date ), 'F' );
 								$event_day          = date_format( date_create( $event_start_date ), 'j' );
+								$final_date         = $event_start_date;
 
 								if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
 									if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
 										$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+										$final_date = $event_end_date;
 									}
 								}
 
+								$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+                        		$current_date   = current_time('Ymd');
+                        		$opening_date   = new DateTime( $final_date );
+                        		$current_date   = new DateTime( $current_date );
 								?>
+
 								<li>
 									<a class="event" href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>">
 									    <div class="event__date">
@@ -719,6 +726,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									    </div>
 									</a>
 								</li>
+
 								<?php
 
 								if ( 10 === $cnt ) {
@@ -1215,14 +1223,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
 							$event_month        = date_format( date_create( $event_start_date ), 'F' );
 							$event_day          = date_format( date_create( $event_start_date ), 'j' );
+							$final_date         = $event_start_date;
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
 								if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
 									$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+									$final_date = $event_end_date;
 								}
 							}
+
+							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+							$current_date   = current_time('Ymd');
+							$opening_date   = new DateTime( $final_date );
+							$current_date   = new DateTime( $current_date );
 
 							?>
 							<li>

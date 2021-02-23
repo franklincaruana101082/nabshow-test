@@ -146,7 +146,7 @@ get_header();
                                          if ($user_logged_in) { ?>
                                         <div>
                                             <div id="send-private-message" class="generic-button poc-msg-btn">
-                                                <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
+                                                <a href="javascript:void(0);" class="btn add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
                                         </div>
                                     <?php }else{
                                          $current_url = home_url( add_query_arg( NULL, NULL ) );
@@ -154,7 +154,7 @@ get_header();
                                         ?>
                                         <div>
                                             <div id="send-private-message" class="generic-button">
-                                                <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
+                                                <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="btn add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
                                         </div>
                                         <?php }
                                         } ?>
@@ -245,7 +245,7 @@ get_header();
                                                     ?>
                                                     <div class="amp-actions">
                                                         <div class="search-actions nab-action">
-                                                            <a href="<?php echo esc_url($product_link); ?>" class="button">View Product</a>
+                                                            <a href="<?php echo esc_url($product_link); ?>" class="btn">View Product</a>
                                                         </div>
                                                     </div>
                                                 </div>

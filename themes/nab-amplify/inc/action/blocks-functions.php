@@ -540,7 +540,7 @@ function nab_company_produts_render_callback($attributes)
                                         ?>
                                         <div class="amp-actions">
                                             <div class="search-actions nab-action">
-                                                <a href="<?php echo esc_url($product_link); ?>" class="button">View Product</a>
+                                                <a href="<?php echo esc_url($product_link); ?>" class="btn">View Product</a>
                                                 <?php
                                                 if ($is_company_admin) {
                                                 ?>
@@ -674,7 +674,7 @@ function nab_company_events_render_callback($attributes)
                                         ?>
                                         <div class="amp-actions">
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                                <a href="<?php echo esc_url($event_link); ?>" class="btn" target="<?php echo esc_attr($target); ?>">View Event</a>
                                             </div>
                                         </div>
                                     </div>
@@ -770,7 +770,7 @@ function nab_company_content_render_callback($attributes)
                                         ?>
                                         <div class="amp-actions">
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url($event_link); ?>" class="button">Read More</a>
+                                                <a href="<?php echo esc_url($event_link); ?>" class="btn">Read More</a>
                                             </div>
                                         </div>
                                     </div>

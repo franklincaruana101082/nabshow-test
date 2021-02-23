@@ -812,7 +812,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .site-footer .footer-inner .subscribe-form input::placeholder{color:#adadad;text-transform:capitalize}
 
 /* GDPR CSS */
-#catapult-cookie-bar{-webkit-box-sizing:border-box;box-sizing:border-box;max-height:0;opacity:0;z-index:99999;overflow:hidden;color:#0f142c;position:fixed;left:0;right:0;bottom:0;top:initial;background-color:#fff;width:100%!important;-webkit-box-shadow:0 0 8px 0 #0000004a;box-shadow:0 0 8px 0 #0000004a;max-width:100%;display:none;visibility:hidden;border:1px solid transparent;padding:10px 20px 10px 20px;border-radius:0;-webkit-transition:all 0.3s ease-in-out;-o-transition:all 0.3s ease-in-out;transition:all 0.3s ease-in-out}
+#catapult-cookie-bar{-webkit-box-sizing:border-box;box-sizing:border-box;max-height:0;opacity:0;z-index:9999999;overflow:hidden;color:#0f142c;position:fixed;left:0;right:0;bottom:0;top:initial;background-color:#fff;width:100%!important;-webkit-box-shadow:0 0 8px 0 #0000004a;box-shadow:0 0 8px 0 #0000004a;max-width:100%;display:none;visibility:hidden;border:1px solid transparent;padding:10px 20px 10px 20px;border-radius:0;-webkit-transition:all 0.3s ease-in-out;-o-transition:all 0.3s ease-in-out;transition:all 0.3s ease-in-out}
 .show-back-to-top #catapult-cookie-bar{padding:20px 128px 20px 20px}
 .has-cookie-bar #catapult-cookie-bar{visibility:visible;opacity:1;max-height:999px;min-height:30px;display:block}
 .has-cookie-bar #catapult-cookie-bar span{color:#000}
@@ -1022,6 +1022,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section .search-item-inner span.amp-bookmark::after{right:0}
 .search-section .search-item-cover{width:100%;height:130px}
 .search-section .search-item-cover img{-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%;height:100%}
+.search-section .search-item-cover .amp-draft-wrapper{background-color:rgb(99 99 223 / 0.75);color:#fff;padding:10px;position:absolute;top:0;left:0;right:0;z-index:1;font-size:16px;}
 .search-section .search-item-info{text-align:center;padding:55px 15px 25px;position:relative}
 .search-section .search-item-avtar{position:absolute;top:0;left:0;right:0;-webkit-transform:translateY(-68%);-ms-transform:translateY(-68%);transform:translateY(-68%)}
 .search-section .search-item-avtar img{border-radius:50%;width:95px;height:95px;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center}

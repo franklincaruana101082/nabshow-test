@@ -54,7 +54,7 @@ get_header();
                                         <div class="search-item-content">
                                             <h4><a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+                                                <a href="<?php echo esc_url( $product_link ); ?>" class="btn">View Product</a>
                                             </div>
                                         </div>
                                     </div>
