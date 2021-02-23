@@ -1022,6 +1022,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section .search-item-inner span.amp-bookmark::after{right:0}
 .search-section .search-item-cover{width:100%;height:130px}
 .search-section .search-item-cover img{-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%;height:100%}
+.search-section .search-item-cover .amp-draft-wrapper{background-color:rgb(99 99 223 / 0.75);color:#fff;padding:10px;position:absolute;top:0;left:0;right:0;z-index:1;font-size:16px;}
 .search-section .search-item-info{text-align:center;padding:55px 15px 25px;position:relative}
 .search-section .search-item-avtar{position:absolute;top:0;left:0;right:0;-webkit-transform:translateY(-68%);-ms-transform:translateY(-68%);transform:translateY(-68%)}
 .search-section .search-item-avtar img{border-radius:50%;width:95px;height:95px;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center}
