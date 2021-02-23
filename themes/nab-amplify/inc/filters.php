@@ -102,9 +102,7 @@ add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
 
-add_filter( 'wpseo_og_og_image', 'nab_amplify_update_og_image' );
-
-// Modify the socail shared og image.
+// Modify the social shared og image.
 add_filter( 'wpseo_opengraph_image', 'nab_amplify_update_og_image' );
 add_filter( 'wpseo_twitter_image', 'nab_amplify_update_og_image' );
 
