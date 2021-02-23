@@ -1286,11 +1286,10 @@ function nab_amplify_update_og_image( $content ) {
 
 	global $post;
 
+    $content = nab_amplify_get_featured_image( $post->ID, false );
+
 	if ( $_GET['test'] ) {
-		echo 'testing';
-		die();
-		$content = nab_amplify_get_featured_image( $post->ID, false );
-		$content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
+		//$content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
 	}
 
 
