@@ -1270,6 +1270,23 @@ function nab_filter_message_to_avoid_html_entity($message_excerpt)
 	return html_entity_decode($message_excerpt);
 }
 
+/**
+ * Update og:image.
+ *
+ * @param $content
+ *
+ * @return string updated og:image
+ */
+function nab_amplify_update_og_image( $content ) {
+
+	global $post;
+
+	$content = nab_amplify_get_featured_image( $post->ID, false );
+
+	if ( $content ) {
+		return $content;
+	}
+}
 
 /**
  * Reorder the comment form above related content block
