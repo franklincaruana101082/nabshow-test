@@ -2159,7 +2159,7 @@ function nab_user_claim_company_callback()
 	if (is_user_logged_in() && !empty($company_post) && 'publish' === $company_post->post_status && 'company' === $company_post->post_type) {
 
 		$final_result['success'] 	= true;
-		$admin_email				= get_option('admin_email');
+		$admin_email				= 'kvelez@nab.org';
 		$current_user				= wp_get_current_user();
 
 		$user_full_name	= $current_user->user_firstname . ' ' . $current_user->user_lastname;
@@ -2180,7 +2180,7 @@ function nab_user_claim_company_callback()
 		<html>
 
 		<body>
-			<p>Hello Admin,</p>
+			<p>Hello Kiana,</p>
 			<p>The following user has claimed the <a href="<?php echo esc_url(get_the_permalink($company_post->ID)); ?>"><?php echo esc_html($company_post->post_title); ?></a> Page.</p>
 			<table>
 				<tr>
