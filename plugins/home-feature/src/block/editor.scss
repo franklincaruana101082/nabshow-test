@@ -10,7 +10,7 @@
 	&__headline {
 		textarea {
 			background: transparent;
-			color: $color__white !important;
+			//color: $color__white !important;
 		}
 	}
 	&__desc {
@@ -19,14 +19,14 @@
 		font-weight: 400;
 		line-height: rem(24);
 		letter-spacing: -0.01em;
-		color: $color__gray-lightest;
+		color: $color__gray-light;
 		.block-editor-rich-text__editable.rich-text {
 			font-family: $font__secondary;
 			font-size: rem(16);
 			font-weight: 400;
 			line-height: rem(24);
 			letter-spacing: -0.01em;
-			color: $color__gray-lightest !important;
+			color: $color__gray-light !important;
 		}
 	}
 }
