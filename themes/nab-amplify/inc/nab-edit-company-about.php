@@ -124,7 +124,7 @@
 								</div>
 								<div class="form-row">
 									<label>Updates to Company Name & Primary Address</label>
-									<p>NAB must approve and update any changes to Company Name and Company Address. Please submit updates <a href="https://app.smartsheet.com/b/form/8096b895f54546258e4b42efed40cc2a" target="_blank">via this form</a> and our team will update these on your behalf.</p>
+									<p>NAB must approve and update any changes to Company Name and Company Address. Please submit updates <a href="https://app.smartsheet.com/b/form/8096b895f54546258e4b42efed40cc2a" target="_blank" class="btn-link">via this form</a> and our team will update these on your behalf.</p>
 								</div>
 							</div>
 
