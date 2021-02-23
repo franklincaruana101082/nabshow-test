@@ -1283,8 +1283,15 @@ function nab_filter_message_to_avoid_html_entity($message_excerpt)
  */
 function nab_amplify_update_og_image( $content ) {
 
-    global $post;
-    $content = nab_amplify_get_featured_image( $post->ID, false );
+	global $post;
+
+	if ( $_GET['test'] ) {
+		echo 'testing';
+		die();
+		$content = nab_amplify_get_featured_image( $post->ID, false );
+		$content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
+	}
+
 
 	if ( $content ) {
 		return $content;
