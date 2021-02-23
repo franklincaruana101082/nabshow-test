@@ -26,37 +26,37 @@
 								</div>
 								<div class="form-row">
 									<label for="" class="tooltip-container large-label-tooltip">
-											<div class="field-label">Point of Contact</div>
-											<div class="tooltip-wrap">
-												<i class="fa fa-info-circle" aria-hidden="true"></i>
-												<div class="tooltip">
-													Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your listing. NOTE: You can only add one Point of Contact for your company at this time. A NAB Amplify user does not need to be a company admin to be a POC.
-												</div>
+										<div class="field-label">Point of Contact</div>
+										<div class="tooltip-wrap">
+											<i class="fa fa-info-circle" aria-hidden="true"></i>
+											<div class="tooltip">
+												Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your listing. NOTE: You can only add one Point of Contact for your company at this time. A NAB Amplify user does not need to be a company admin to be a POC.
 											</div>
-										</label>
-										<div class="select-dark-simple">
-											<select name="company_point_of_contact" id="company_point_of_contact">
-											<?php
-												if ( ! empty( $company_data['company_point_of_contact'] ) ) {
-
-													$comp_poc = get_user_by( 'ID', $company_data['company_point_of_contact'] );
-
-													if ( $comp_poc ) {
-														
-														$user_name		= $comp_poc->user_login;
-														$user_full_name	= get_user_meta( $comp_poc->ID, 'first_name', true ) . ' ' . get_user_meta( $comp_poc->ID, 'last_name', true );
-
-														if ( ! empty( trim( $user_full_name ) ) ) {
-															$user_name .= ' (' . $user_full_name . ')';					
-														}
-														?>
-														<option value="<?php echo esc_attr( $comp_poc->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
-														<?php
-													}
-												}
-												?>
-											</select>
 										</div>
+									</label>
+									<div class="select-dark-simple">
+										<select name="company_point_of_contact" id="company_point_of_contact">
+											<?php
+											if (!empty($company_data['company_point_of_contact'])) {
+
+												$comp_poc = get_user_by('ID', $company_data['company_point_of_contact']);
+
+												if ($comp_poc) {
+
+													$user_name		= $comp_poc->user_login;
+													$user_full_name	= get_user_meta($comp_poc->ID, 'first_name', true) . ' ' . get_user_meta($comp_poc->ID, 'last_name', true);
+
+													if (!empty(trim($user_full_name))) {
+														$user_name .= ' (' . $user_full_name . ')';
+													}
+											?>
+													<option value="<?php echo esc_attr($comp_poc->ID); ?>" selected><?php echo esc_html($user_name); ?></option>
+											<?php
+												}
+											}
+											?>
+										</select>
+									</div>
 								</div>
 								<?php
 								$category_limit = nab_get_company_member_category_limit($company_data['ID']);
@@ -137,25 +137,29 @@
 										<select class="company-admins" name="company_admins[]" multiple="true" id="company_admins">
 											<?php
 
-                                            foreach ($company_data['company_admins'] as $user) {
-                                                $comp_admin = get_user_by('ID', $user);
+											foreach ($company_data['company_admins'] as $user) {
+												$comp_admin = get_user_by('ID', $user);
 
-                                                if ($comp_admin) {
-                                                    $user_name		= $comp_admin->user_login;
-                                                    $user_full_name	= get_user_meta($comp_admin->ID, 'first_name', true) . ' ' . get_user_meta($comp_admin->ID, 'last_name', true);
+												if ($comp_admin) {
+													$user_name		= $comp_admin->user_login;
+													$user_full_name	= get_user_meta($comp_admin->ID, 'first_name', true) . ' ' . get_user_meta($comp_admin->ID, 'last_name', true);
 
-                                                    if (! empty(trim($user_full_name))) {
-                                                        $user_name .= ' (' . $user_full_name . ')';
-                                                    } ?>
+													if (!empty(trim($user_full_name))) {
+														$user_name .= ' (' . $user_full_name . ')';
+													} ?>
 													<option value="<?php echo esc_attr($comp_admin->ID); ?>" selected><?php echo esc_html($user_name); ?></option>
-													<?php
-                                                }
-                                            }	
-												
+											<?php
+												}
+											}
+
 											?>
 										</select>
 									</div>
-
+									
+								</div>
+								<div class="form-row">
+								<label>Updates to Company Name & Primary Address</label>
+									<p>NAB must approve and update any changes to Company Name and Company Address. Please submit updates via this form and our team will update these on your behalf.</p>
 								</div>
 
 							</div>
