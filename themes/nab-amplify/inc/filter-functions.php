@@ -1320,6 +1320,32 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
 }
 
 /**
+ * Update og:image.
+ *
+ * @param $content
+ *
+ * @return string updated og:image
+ */
+function nab_amplify_update_og_image( $content ) {
+
+	global $post;
+
+	if($_GET['test']) {
+		echo 'testing';
+		die();
+		$content = nab_amplify_get_featured_image( $post->ID, false );
+		$content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
+	}
+
+
+	if ( $content ) {
+		return $content;
+	}
+
+}
+add_filter( 'wpseo_og_og_image', 'nab_amplify_update_og_image' );
+
+/**
  * Update wordpress comment count.
  *
  * @param  array $count
