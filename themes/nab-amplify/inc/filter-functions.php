@@ -1330,6 +1330,7 @@ function nab_amplify_update_og_image( $content ) {
 
 	global $post;
 	$content = nab_amplify_get_featured_image( $post->ID, false );
+	$content = 'http://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-featured.png';
 
 	if ( $content ) {
 		return $content;
