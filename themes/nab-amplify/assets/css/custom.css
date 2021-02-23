@@ -812,7 +812,7 @@ body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-r
 .site-footer .footer-inner .subscribe-form input::placeholder{color:#adadad;text-transform:capitalize}
 
 /* GDPR CSS */
-#catapult-cookie-bar{-webkit-box-sizing:border-box;box-sizing:border-box;max-height:0;opacity:0;z-index:99999;overflow:hidden;color:#0f142c;position:fixed;left:0;right:0;bottom:0;top:initial;background-color:#fff;width:100%!important;-webkit-box-shadow:0 0 8px 0 #0000004a;box-shadow:0 0 8px 0 #0000004a;max-width:100%;display:none;visibility:hidden;border:1px solid transparent;padding:10px 20px 10px 20px;border-radius:0;-webkit-transition:all 0.3s ease-in-out;-o-transition:all 0.3s ease-in-out;transition:all 0.3s ease-in-out}
+#catapult-cookie-bar{-webkit-box-sizing:border-box;box-sizing:border-box;max-height:0;opacity:0;z-index:9999999;overflow:hidden;color:#0f142c;position:fixed;left:0;right:0;bottom:0;top:initial;background-color:#fff;width:100%!important;-webkit-box-shadow:0 0 8px 0 #0000004a;box-shadow:0 0 8px 0 #0000004a;max-width:100%;display:none;visibility:hidden;border:1px solid transparent;padding:10px 20px 10px 20px;border-radius:0;-webkit-transition:all 0.3s ease-in-out;-o-transition:all 0.3s ease-in-out;transition:all 0.3s ease-in-out}
 .show-back-to-top #catapult-cookie-bar{padding:20px 128px 20px 20px}
 .has-cookie-bar #catapult-cookie-bar{visibility:visible;opacity:1;max-height:999px;min-height:30px;display:block}
 .has-cookie-bar #catapult-cookie-bar span{color:#000}
