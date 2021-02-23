@@ -10,7 +10,7 @@ get_header();
         <div class="banner-inner">
             <!-- <div class="bannner-actions">
 				<div id="edit-mode-buttons">
-                    <a href="https://nabshow-beta.go-vip.net/amplify/my-account/edit-account/?view=edit" class="button" data-feathr-click-track="true">Edit Profile</a>
+                    <a href="https://nabshow-beta.go-vip.net/amplify/my-account/edit-account/?view=edit" class="btn" data-feathr-click-track="true">Edit Profile</a>
                 </div>					
             </div>  -->   
             <div class="container">

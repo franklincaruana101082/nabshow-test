@@ -211,7 +211,7 @@ if ( bp_is_my_profile() ) {
 												<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
 												<div class="amp-actions">
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $event_url ); ?>" class="button">View Event</a>
+														<a href="<?php echo esc_url( $event_url ); ?>" class="btn">View Event</a>
 													</div>
 												</div>
 											</div>
@@ -286,7 +286,7 @@ if ( bp_is_my_profile() ) {
 												</h4>
 												<div class="amp-actions">
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $bookmark_link ); ?>" class="button">Read More</a>
+														<a href="<?php echo esc_url( $bookmark_link ); ?>" class="btn">Read More</a>
 													</div>
 												</div>
 											</div>

@@ -62,7 +62,7 @@ function nab_get_follow_button( $company_id, $user_id, $search_page = false ) {
     } else if ( is_search() || $search_page ) {
         ?>
         <div class="search-actions">
-            <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="button">View</a>
+            <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="btn">View</a>
         </div>
         <?php
     }
@@ -277,7 +277,7 @@ function nab_company_follow_action_callback() {
 
                     ?>
                     <div class="search-actions">
-                        <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="button">View</a>
+                        <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>" class="btn">View</a>
                     </div>
                     <?php
                     $button = ob_get_clean();

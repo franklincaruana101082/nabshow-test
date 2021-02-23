@@ -83,7 +83,7 @@ if ( $user_logged_in ) {
 
 					<?php if ( 0 !== $edit_mode ) { ?>
                         <div id="edit-mode-buttons">
-                            <a href="<?php echo esc_url( $edit_mode_url ) ?>" class="button"><?php echo esc_html( $edit_mode_text ) ?></a>
+                            <a href="<?php echo esc_url( $edit_mode_url ) ?>" class="btn"><?php echo esc_html( $edit_mode_text ) ?></a>
                         </div>
 					<?php } ?>
 

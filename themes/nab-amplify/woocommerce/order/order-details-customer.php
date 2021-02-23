@@ -65,5 +65,5 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 
 </section>
 <section class="woocommerce-customer-details">
-    <a href="javascript:window.print()" id="wc-print-button" data-feathr-click-track="true" class="button">Print receipt</a>
+    <a href="javascript:window.print()" id="wc-print-button" data-feathr-click-track="true" class="btn">Print receipt</a>
 </section>

@@ -163,7 +163,7 @@
 	} else {
 	?>
 		<div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
-			<a class="woocommerce-Button button" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"> Browse content</a>
+			<a class="woocommerce-Button btn" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"> Browse content</a>
 			No purchased content found.
 		</div>
 	<?php
