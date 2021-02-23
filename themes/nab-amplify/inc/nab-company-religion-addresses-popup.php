@@ -25,12 +25,12 @@ global $post;
 							<div class="form-row">
 								<label for="">Country</label>
 								<div class="select-dark-simple">
-								<select name="country" id="country" data-address-id="<?php echo isset($address_id) ? $address_id : 1 ?>">
+								<select name="country" id="country" data-address-id="<?php echo isset($address_id) ? $address_id : 1 ?>" data-state="<?php echo $address_data['state_province'];?>">
 								<option value=''>Select</option>
 								<?php
 								foreach( $country_list as $country){
 								?>
-								<option value="<?php echo $country['CNCode'];?>" <?php if($address_data['country'] === $country['CNCode']){ echo "selected";}?>><?php echo $country['Display']; ?></option>
+								<option value="<?php echo $country['Display'];?>" <?php if($address_data['country'] === $country['Display']){ echo "selected";}?>><?php echo $country['Display']; ?></option>
 								<?php	
 								}
 								 ?>
@@ -40,19 +40,11 @@ global $post;
 
 							<div class="form-row" id="state_select_wrapper" style="display:none">
 								<label for="">State/Province</label>
-								<div class="select-dark-simple">
-								<select name="state" id="state" data-state="<?php echo $address_data['state_province'];?>">
-								<option value=''>Select</option>
 								
-								</select>
-								</div>
+						
 							</div>
 
-							<div class="form-row" id="state_wrapper" style="display:none">
-								<label for="">State/Province</label>
-								<input type="text" class="input-text nab-featured-block-button-link" name="state" id="state" value="<?php echo isset($address_data['state_province'])?$address_data['state_province']:'';?>">
-							</div>
-
+							
 							<div class="form-row">
 								<label for="">City</label>
 								<input type="text" class="input-text nab-featured-block-button-link" name="city" id="city" value="<?php echo isset($address_data['city'])?$address_data['city']:'';?>">

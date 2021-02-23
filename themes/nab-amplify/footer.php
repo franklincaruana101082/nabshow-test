@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="footer-inner">
 			<div class="col-1">
-				<!--				<img class="logo" src="--><?php //echo wp_kses(get_template_directory_uri() . '/assets/images/nab-logo-white.png', '') 
+				<!--				<img class="logo" src="--><?php //echo wp_kses(get_template_directory_uri() . '/assets/images/nab-logo-white.png', '')
 																?>
 				<!--" />-->
 				<!--				<ul class="socials">-->
@@ -127,7 +127,7 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 </body>
 
 </html>

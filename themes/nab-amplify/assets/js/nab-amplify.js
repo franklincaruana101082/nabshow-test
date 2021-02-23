@@ -364,50 +364,70 @@
         },
         success: function (data) {
           $('body').removeClass('is-loading')
+          jQuery('#state_select_wrapper').show()
+          var pre_state = jQuery('#country').attr('data-state')
           if (data.length) {
-            const pre_state = jQuery('#state').data('state')
-            if (jQuery('#state').length) {
-              jQuery('#state').empty()
-              data.forEach(function (item) {
-                if (pre_state !== '' && typeof pre_state !== 'undefined') {
-                  if (item.State == pre_state) {
+            jQuery('#state_select_wrapper .input-text').remove()
+            if (jQuery('#state').length === 0) {
+              jQuery('#state_select_wrapper').append(
+                '<div class="select-dark-simple"><select name="state" id="state"></select></div>'
+              )
+            }
+
+            jQuery('#state').empty()
+            data.forEach(function (item) {
+              if (pre_state !== '' && typeof pre_state !== 'undefined') {
+                if (item.Display == pre_state) {
+                  if (jQuery('#state').is('select')) {
                     jQuery('#state').append(
                       '<option value="' +
-                        item.State +
-                        '" selected>"' +
                         item.Display +
-                        '"</option>'
+                        '" selected>' +
+                        item.Display +
+                        '</option>'
                     )
-                  }else {
+                  } else {
+                    jQuery('#state').val(pre_state)
+                  }
+                } else {
+                  if (jQuery('#state').is('select')) {
                     jQuery('#state').append(
                       '<option value="' +
-                        item.State +
-                        '" >"' +
                         item.Display +
-                        '"</option>'
+                        '" >' +
+                        item.Display +
+                        '</option>'
                     )
                   }
-                }else{
+                }
+              } else {
+                if (jQuery('#state').is('select')) {
                   jQuery('#state').append(
                     '<option value="' +
-                      item.State +
-                      '" >"' +
                       item.Display +
-                      '"</option>'
+                      '" >' +
+                      item.Display +
+                      '</option>'
                   )
-                } 
-              })
+                }
+              }
+            })
 
-              jQuery('#state').select2({
-                placeholder: 'Select State',
-                allowClear: true
-              })
-              jQuery('#state_wrapper').hide()
-              jQuery('#state_select_wrapper').show()
-            }
+            jQuery('#state').select2({
+              placeholder: 'Select State',
+              allowClear: true
+            })
           } else {
-            jQuery('#state_select_wrapper').hide()
-            jQuery('#state_wrapper').show()
+            jQuery('#state_select_wrapper .select-dark-simple').remove()
+            if (jQuery('#state_select_wrapper .input-text').length === 0) {
+              jQuery('#state_select_wrapper').append(
+                '<input type="text" class="input-text nab-featured-block-button-link" name="state" id="state" value=""></input>'
+              )
+            }
+
+            if (pre_state !== '') {
+              jQuery('#state').val(pre_state)
+            }
           }
         }
       })
@@ -422,6 +442,13 @@
       const _this = $(this)
       _this.addClass('loading')
       const country_code = $(this).val()
+      $(this).attr('data-state', '')
+      if (jQuery('#state').length && jQuery('#state').is('input')) {
+        jQuery('#state').val('')
+      } else if (jQuery('#state').length && jQuery('#state').is('select')) {
+        jQuery('#state').empty()
+      }
+
       filter_states(country_code)
     })
   })
@@ -610,9 +637,13 @@
             }
           }
         })
+        
       },
       content_css:
-        amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time
+        amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time,
+      valid_elements:
+        'a[href|target=_blank],strong/b,div[align,class],br,p[class],img[align,class],h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],span[class]',
+   
     })
   }
 
@@ -931,6 +962,8 @@
       }
     })
   })
+
+  
 
   /* Add nab product ajax call */
   var remove_attachment_arr = []

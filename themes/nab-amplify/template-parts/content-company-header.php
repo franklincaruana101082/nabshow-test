@@ -38,7 +38,7 @@ $company_poc      = get_field('point_of_contact');
                 ?>
 
                         <div class="update-banner-image">
-                            <label for="banner_image_file">
+                            <label for="banner_image_file" class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" style="display:none;" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
                             <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
@@ -67,7 +67,7 @@ $company_poc      = get_field('point_of_contact');
                                     if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                                 ?>
                                         <div class="profile-actions">
-                                            <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
+                                            <span class="edit-profile-pic bm-select-media" bynder-for="profile_picture" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
                                             <input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>
                                         </div>
                                 <?php

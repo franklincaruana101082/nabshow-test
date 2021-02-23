@@ -102,6 +102,8 @@ add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
 
+add_filter( 'wpseo_og_og_image', 'nab_amplify_update_og_image' );
+
 // Mofified search query to search in the meta
 add_filter( 'posts_search', 'nab_modified_search_query_to_include_meta_search', 10, 2 );
 add_filter( 'posts_clauses', 'nab_moified_join_groupby_for_meta_search', 10, 2 );
@@ -116,9 +118,9 @@ add_filter( 'user_row_actions', 'nab_add_sync_user_action_link', 99, 2 );
 add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
 
 function nab_stop_bp_email_notification( $retval, $class_ref) {
-    
+
     if ( is_user_logged_in() ) {
         update_user_meta( get_current_user_id(), 'buddypress_activity_two', '1');
-    }    
+    }
     return $retval;
 }

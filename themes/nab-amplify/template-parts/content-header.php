@@ -74,7 +74,7 @@ if ( $user_logged_in ) {
 
 					<?php if ( 2 === $edit_mode ) { ?>
                         <div class="update-banner-image">
-                            <label for="banner_image_file">
+                            <label for="banner_image_file" class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
                             <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="banner_image" style="display: none;"/>
@@ -96,7 +96,7 @@ if ( $user_logged_in ) {
                                     <img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
 			                        <?php if ( 2 === $edit_mode ) { ?>
                                         <div class="profile-actions">
-                                            <label for="profile_picture_file">
+                                            <label for="profile_picture_file" class="bm-select-media" bynder-for="profile_picture">
                                                 <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
                                             </label>
                                             <span class="remove-profile-pic" id="profile_picture_remove" name="profile_picture_remove" data-bp-tooltip="Remove Profile Image"><i class="fa fa-trash" aria-hidden="true"></i></span>
