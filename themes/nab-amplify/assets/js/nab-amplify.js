@@ -1042,9 +1042,17 @@
   }
 
   $(document).on('change', '#product_medias', function (e) {
+
+    var fileExtension = ['png','jpg','jpeg','gif'];
+        
+
     var global_media_count = jQuery('.nab-product-media-item').length
     if (global_media_count < 5) {
       $.each($('#product_medias')[0].files, function (key, file) {
+        if ($.inArray( file.name.split('.').pop().toLowerCase(), fileExtension) == -1) {
+          alert("Only formats are allowed : "+fileExtension.join(', '));
+          return false
+      }
         var timestamp = Date.now()
         var unique_key = file.lastModified + '_' + timestamp
         $('#product_media_wrapper').append(
@@ -1054,6 +1062,7 @@
         )
         var reader = new FileReader()
         reader.onload = function (e) {
+         
           $('#product_media_preview_' + unique_key + '').attr(
             'src',
             e.target.result
