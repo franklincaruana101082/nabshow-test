@@ -368,7 +368,7 @@ function nab_amplify_bp_get_friendship_button($member_id, $loop = true)
 				?>
 			</div>
 			<div class="generic-button friend-view-profile">
-				<a class="button" href="<?php echo esc_url($member_profile); ?>">View Profile</a>
+				<a class="btn" href="<?php echo esc_url($member_profile); ?>">View Profile</a>
 			</div>
 		<?php
 			$user_button = ob_get_clean();
@@ -800,7 +800,7 @@ function nab_get_member_event_list($product_ids_regex, $user_id, $previous_event
 										<span class="company-name"><?php echo esc_html($event_date); ?></span>
 										<div class="amp-actions">
 											<div class="search-actions">
-												<a href="<?php echo esc_url($event_url); ?>" class="button">View Event</a>
+												<a href="<?php echo esc_url($event_url); ?>" class="btn">View Event</a>
 											</div>
 										</div>
 									</div>
