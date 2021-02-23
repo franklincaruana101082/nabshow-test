@@ -1281,6 +1281,7 @@ function nab_filter_message_to_avoid_html_entity($message_excerpt)
  *
  * @return string updated og:image
  */
+add_filter( 'wpseo_opengraph_url', 'nab_amplify_update_og_image' );
 function nab_amplify_update_og_image( $content ) {
 
 	global $post;
