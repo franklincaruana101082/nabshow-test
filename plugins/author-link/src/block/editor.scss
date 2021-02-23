@@ -36,7 +36,7 @@
 		font-size: rem(20);
 		line-height: 1;
 		letter-spacing: -0.03em;
-		color: $color__white;
+		color: $color__gray-dark;
 		.weekly__author + .author & {
 			text-transform: uppercase;
 			color: $color__gray-lightest;
@@ -48,7 +48,7 @@
 		}
 		textarea {
 			background: transparent;
-			color: $color__white !important;
+			color: $color__gray-dark !important;
 		}
 	}
 	&__info {
