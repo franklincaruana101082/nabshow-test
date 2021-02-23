@@ -894,7 +894,7 @@ function nab_bp_change_add_friend_button_text($button)
  * @return array
  */
 function nab_modify_member_query($sql, $query)
-{	
+{
 
 	if (isset($query->query_vars['type']) && in_array(strtolower($query->query_vars['type']), array('alphabetical', 'newest', 'active'), true)) {
 
@@ -1090,7 +1090,7 @@ function nab_add_bookmark_icon_in_product($html, $post_thumbnail_id)
  *
  * @param  string $search
  * @param  mixed $wp_query
- * 
+ *
  * @return string
  */
 function nab_modified_search_query_to_include_meta_search($search, $wp_query)
@@ -1184,12 +1184,12 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
  *
  * @param  array $clauses
  * @param  mixed $query_object
- * 
+ *
  * @return array
  */
 function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
-	
+
 	$tax_search			= $query_object->get('_tax_search');
 	$meta_company_term	= $query_object->get('_meta_company_term');
 
@@ -1261,7 +1261,7 @@ JS;
  * Apply html entity decode function in the message thread to avoid html entity code.
  *
  * @param  string $message_excerpt
- * 
+ *
  * @return string
  */
 function nab_filter_message_to_avoid_html_entity($message_excerpt)
@@ -1282,32 +1282,32 @@ function nab_reorder_comment_form($content)
 
 	//fetch comment form template from shortcode
 	$comment_template = do_shortcode('[nab_comment_form]');
-	
+
 	// Check if we're inside the main loop in a single Post.
 	if (get_post_type() === 'articles') {
 		$blocks = parse_blocks($content);
 
 		foreach ($blocks as $block) {
             if ('rg/related-content-2' === $block['blockName']) {
-			
+
             if (strpos($content, '<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>')) {
                 $new_content = str_replace('<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $comment_template.' <h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $content);
             }else{
 				$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
 			}
-                
+
             }
 		}
-		
+
 		return $new_content;
 	}
 
 	return $content;
 }*/
 add_filter( 'bp_activity_maybe_load_mentions_scripts', 'buddydev_enable_mention_autosuggestions', 10, 2 );
- 
+
 function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
-    
+
     if( ! $mentions_enabled ) {
         return $load;//activity mention is  not enabled, so no need to bother
     }
@@ -1315,25 +1315,44 @@ function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
     if( is_user_logged_in() && bp_is_current_component( 'mediapress' ) ) {
         $load = true;
     }
-    
+
     return $load;
 }
+
+/**
+ * Update og:image.
+ *
+ * @param $content
+ *
+ * @return string updated og:image
+ */
+function nab_amplify_update_og_image( $content ) {
+
+	global $post;
+	$content = nab_amplify_get_featured_image( $post->ID, false );
+
+	if ( $content ) {
+		return $content;
+	}
+
+}
+add_filter( 'wpseo_og_og_image', 'nab_amplify_update_og_image' );
 
 /**
  * Update wordpress comment count.
  *
  * @param  array $count
  * @param  int $post_id
- * 
+ *
  * @return stdClass
  */
 function nab_update_wp_admin_comments_count( $count, $post_id ) {
-    
+
     if ( is_admin() && 0 === (int) $post_id ) {
 
-        global $wpdb;      
+        global $wpdb;
 
-        $where = ' WHERE comment_type = "comment"';        
+        $where = ' WHERE comment_type = "comment"';
 
         $totals = (array) $wpdb->get_results(
             "
