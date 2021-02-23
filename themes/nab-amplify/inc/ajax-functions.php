@@ -1704,13 +1704,24 @@ function nab_event_search_filter_callback()
 			$website_link		= !empty($website_link) ? trim($website_link) : get_the_permalink();
 			$target				= 0 === strpos($website_link, $current_site_url) ? '_self' : '_blank';
 			$event_date			= date_format(date_create($event_start_date), 'l, F j');
+			$final_date         = $event_start_date;
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
 				if (date_format(date_create($event_start_date), 'Ymd') !== date_format(date_create($event_end_date), 'Ymd')) {
 
 					$event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
+					$final_date = $event_end_date;
 				}
+			}
+
+			$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+			$current_date   = current_time('Ymd');
+			$opening_date   = new DateTime( $final_date );
+			$current_date   = new DateTime( $current_date );
+
+			if ( $opening_date < $current_date ) {
+				$result_post[$cnt]['past_event'] = true;
 			}
 
 			$result_post[$cnt]['thumbnail'] 	= $thumbnail_url;

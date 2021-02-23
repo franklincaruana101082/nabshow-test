@@ -734,19 +734,34 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 								$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 								$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+								$final_date         = $event_start_date;
 
 								if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
 									if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
 										$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+										$final_date = $event_end_date;
 									}
 								}
 
+								$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+                        		$current_date   = current_time('Ymd');
+                        		$opening_date   = new DateTime( $final_date );
+                        		$current_date   = new DateTime( $current_date );
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
 										<div class="search-item-cover">
+											<?php
+											if ( $opening_date < $current_date ){
+												?>
+												<div class="amp-draft-wrapper">
+													<span class="company-product-draft">Past Event</span>
+												</div>
+												<?php    
+											}
+											?>
 											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
 										</div>
 										<div class="search-item-info">
@@ -1317,19 +1332,35 @@ if ($company_poc !== '' && !empty($company_poc)) {
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+							$final_date         = $event_start_date;
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
 								if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
 									$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+									$final_date = $event_end_date;
 								}
 							}
+
+							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+							$current_date   = current_time('Ymd');
+							$opening_date   = new DateTime( $final_date );
+							$current_date   = new DateTime( $current_date );
 
 							?>
 							<div class="search-item">
 								<div class="search-item-inner">
 									<div class="search-item-cover">
+										<?php
+										if ( $opening_date < $current_date ) {
+											?>
+											<div class="amp-draft-wrapper">
+												<span class="company-product-draft">Past Event</span>
+											</div>
+											<?php    
+										}
+										?>
 										<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
 									</div>
 									<div class="search-item-info">

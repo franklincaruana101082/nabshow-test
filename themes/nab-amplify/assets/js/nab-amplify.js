@@ -4443,6 +4443,18 @@ function nabSearchEventAjax (loadMore, pageNumber) {
           let searchItemCover = document.createElement('div')
           searchItemCover.setAttribute('class', 'search-item-cover')
 
+          if ( undefined !== value.past_event && value.past_event ) {
+            let labelWrapper = document.createElement('div');
+            labelWrapper.setAttribute('class', 'amp-draft-wrapper');
+
+            let lableSpan = document.createElement('span');
+            lableSpan.setAttribute('class', 'company-product-draft');
+            lableSpan.innerText = 'Past Event';
+
+            labelWrapper.appendChild(lableSpan);
+            searchItemCover.appendChild(labelWrapper);
+          }
+
           let coverImg = document.createElement('img')
           coverImg.setAttribute('src', value.thumbnail)
           coverImg.setAttribute('alt', 'event thumbnail')
