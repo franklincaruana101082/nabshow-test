@@ -3797,17 +3797,17 @@ function nabSearchUserAjax (loadMore, pageNumber) {
           var userCardContentDiv = 'amp-item-content'
         } else {
           var userListDiv = '#search-user-list'
-          var userCardDiv = 'search-item'
-          var userCardInnerDiv = 'search-item-inner'
-          var userCardCoverDiv = 'search-item-cover'
+          var userCardDiv = ''
+          var userCardInnerDiv = 'result _person'
+          var userCardCoverDiv = 'result__hide'
           var userRemoveIconDiv = ''
-          var userCardInfoDiv = 'search-item-info'
-          var userCardAvtarDiv = 'search-item-avtar'
+          var userCardInfoDiv = ''
+          var userCardAvtarDiv = 'result__imageWrap'
           var userCardContentDiv = 'search-item-content'
         }
 
         jQuery.each(userObj.result_user, function (key, value) {
-          let searchItemDiv = document.createElement('div')
+          let searchItemDiv = document.createElement('li')
           searchItemDiv.setAttribute('class', userCardDiv)
 
           let searchItemInner = document.createElement('div')
@@ -3851,6 +3851,7 @@ function nabSearchUserAjax (loadMore, pageNumber) {
           searchContent.setAttribute('class', userCardContentDiv)
 
           let userName = document.createElement('h4')
+          userName.setAttribute('class', 'result__title')
 
           nameLink = document.createElement('a')
           nameLink.setAttribute('href', value.link)
@@ -3985,11 +3986,11 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
         let companyListDiv = document.getElementById('search-company-list')
 
         jQuery.each(companyObj.result_post, function (key, value) {
-          let searchItemDiv = document.createElement('div')
-          searchItemDiv.setAttribute('class', 'search-item')
+          let searchItemDiv = document.createElement('li')
+          searchItemDiv.setAttribute('class', '')
 
           let searchItemInner = document.createElement('div')
-          searchItemInner.setAttribute('class', 'search-item-inner')
+          searchItemInner.setAttribute('class', 'result')
 
           let searchItemCover = document.createElement('div')
           searchItemCover.setAttribute('class', 'search-item-cover')
@@ -4000,13 +4001,13 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
 
           searchItemCover.appendChild(coverImg)
 
-          searchItemInner.appendChild(searchItemCover)
+          //searchItemInner.appendChild(searchItemCover)
 
           let searchItemInfo = document.createElement('div')
-          searchItemInfo.setAttribute('class', 'search-item-info')
+          searchItemInfo.setAttribute('class', 'result__info')
 
           let searchItemProfile = document.createElement('div')
-          searchItemProfile.setAttribute('class', 'search-item-avtar')
+          searchItemProfile.setAttribute('class', 'result__avtar')
 
           let avatarLink = document.createElement('a')
           avatarLink.setAttribute('href', value.link)
@@ -4015,32 +4016,36 @@ function nabSearchCompanyAjax (loadMore, pageNumber) {
 
           if ( undefined !== value.profile ) {
             companyProfile = document.createElement('img');
+            companyProfile.setAttribute('class', 'result__image');
             companyProfile.setAttribute('src', value.profile);
           } else {
             companyProfile = document.createElement('div');
-            companyProfile.setAttribute('class', 'no-image-avtar');
+            companyProfile.setAttribute('class', 'result__image no-image-avtar');
             companyProfile.innerText = value.no_pic;
           }
 
-          avatarLink.appendChild(companyProfile)
-          searchItemProfile.appendChild(avatarLink)
+          //avatarLink.appendChild(companyProfile)
+          searchItemProfile.appendChild(companyProfile)
           searchItemInfo.appendChild(searchItemProfile)
 
           let searchContent = document.createElement('div')
-          searchContent.setAttribute('class', 'search-item-content')
+          searchContent.setAttribute('class', 'result__content')
 
           let companyTitle = document.createElement('h4')
+          companyTitle.setAttribute('class', 'result__title')
+          companyTitle.innerText = value.title
 
           let companyTitleLink = document.createElement('a')
           companyTitleLink.setAttribute('href', value.link)
           companyTitleLink.innerText = value.title
 
-          companyTitle.appendChild(companyTitleLink)
+          //companyTitle.appendChild(companyTitleLink)
           searchContent.appendChild(companyTitle)
 
-          let searchAction = document.createElement('div')
-          searchAction.setAttribute('class', 'amp-actions')
-          searchAction.innerHTML = value.button
+          let searchAction = document.createElement('a')
+          searchAction.setAttribute('class', 'button result__button')
+          searchAction.setAttribute('href', value.link)
+          searchAction.innerHTML = 'View Now'
 
           searchContent.appendChild(searchAction)
 
@@ -4139,16 +4144,18 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
         let productListDiv = document.getElementById('company-products-list')
 
         jQuery.each(productObj.result_post, function (key, value) {
-          let searchItemDiv = document.createElement('div')
-          searchItemDiv.setAttribute('class', 'amp-item-col')
+          let searchItemDiv = document.createElement('li')
+          searchItemDiv.setAttribute('class', '')
 
           let searchItemInner = document.createElement('div')
-          searchItemInner.setAttribute('class', 'amp-item-inner')
+          searchItemInner.setAttribute('class', 'result _content')
 
-          let searchItemCover = document.createElement('div')
-          searchItemCover.setAttribute('class', 'amp-item-cover')
+          let searchItemCover = document.createElement('a')
+          searchItemCover.setAttribute('class', '')
+          searchItemCover.setAttribute('href', value.link)
 
           let coverImg = document.createElement('img')
+          coverImg.setAttribute('class', 'result__image')
           coverImg.setAttribute('src', value.thumbnail)
           coverImg.setAttribute('alt', 'Product Image')
 
@@ -4167,12 +4174,13 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
           searchItemInner.appendChild(searchItemCover)
 
           let searchItemInfo = document.createElement('div')
-          searchItemInfo.setAttribute('class', 'amp-item-info')
+          searchItemInfo.setAttribute('class', 'result__info')
 
           let searchContent = document.createElement('div')
-          searchContent.setAttribute('class', 'amp-item-content')
+          searchContent.setAttribute('class', 'result__content')
 
           let porductTitle = document.createElement('h4')
+          porductTitle.setAttribute('class', 'result__title')
 
           let productTitleLink = document.createElement('a')
           productTitleLink.setAttribute('href', value.link)
@@ -4180,22 +4188,22 @@ function nabSearchCompanyProductAjax (loadMore, pageNumber) {
 
           porductTitle.appendChild(productTitleLink)
 
-          let productCompany = document.createElement('span')
-          productCompany.setAttribute('class', 'product-company')
+          let productCompany = document.createElement('h5')
+          productCompany.setAttribute('class', 'result__lede')
           productCompany.innerText = value.company
 
           searchContent.appendChild(porductTitle)
           searchContent.appendChild(productCompany)
 
           let searchActionWrap = document.createElement('div')
-          searchActionWrap.setAttribute('class', 'amp-actions nab-action')
+          searchActionWrap.setAttribute('class', '')
 
           let searchAction = document.createElement('div')
-          searchAction.setAttribute('class', 'search-actions')
+          searchAction.setAttribute('class', '')
 
           let viewProdutLink = document.createElement('a')
           viewProdutLink.setAttribute('href', value.link)
-          viewProdutLink.setAttribute('class', 'button')
+          viewProdutLink.setAttribute('class', 'button result__button')
           viewProdutLink.innerText = 'View'
 
           searchAction.appendChild(viewProdutLink)
@@ -4426,16 +4434,37 @@ function nabSearchEventAjax (loadMore, pageNumber) {
         let contentListDiv = document.getElementById('search-event-list')
 
         jQuery.each(eventObj.result_post, function (key, value) {
-          let searchItemDiv = document.createElement('div')
-          searchItemDiv.setAttribute('class', 'search-item')
+          let searchItemDiv = document.createElement('li')
+          searchItemDiv.setAttribute('class', '')
 
-          let searchItemInner = document.createElement('div')
-          searchItemInner.setAttribute('class', 'search-item-inner')
+          let searchItemInner = document.createElement('a')
+          searchItemInner.setAttribute('class', 'event')
+          searchItemInner.setAttribute('href', value.link)
+
+          if (value.target) {
+            searchItemInner.setAttribute('target', value.target)
+          }
+
+          let eventDate = document.createElement('div')
+          eventDate.setAttribute('class', 'event__date')
+
+          let eventMonth = document.createElement('div')
+          eventMonth.setAttribute('class', 'event__month')
+          eventMonth.innerText = value.event_month
+
+          let eventDay = document.createElement('div')
+          eventDay.setAttribute('class', 'event__day text-gradient _blue')
+          eventDay.innerText = value.event_day
+
+          eventDate.appendChild(eventMonth)
+          eventDate.appendChild(eventDay)
+          searchItemInner.appendChild(eventDate)
 
           let searchItemCover = document.createElement('div')
-          searchItemCover.setAttribute('class', 'search-item-cover')
+          searchItemCover.setAttribute('class', 'event__photo')
 
           let coverImg = document.createElement('img')
+          coverImg.setAttribute('class', 'event__image')
           coverImg.setAttribute('src', value.thumbnail)
           coverImg.setAttribute('alt', 'event thumbnail')
 
@@ -4443,47 +4472,19 @@ function nabSearchEventAjax (loadMore, pageNumber) {
           searchItemInner.appendChild(searchItemCover)
 
           let searchItemInfo = document.createElement('div')
-          searchItemInfo.setAttribute('class', 'search-item-info')
-
-          let searchContent = document.createElement('div')
-          searchContent.setAttribute('class', 'search-item-content')
+          searchItemInfo.setAttribute('class', 'event__info')
 
           let postTitle = document.createElement('h4')
+          postTitle.setAttribute('class', 'event__title')
+          postTitle.innerText = value.title
 
-          let postTitleLink = document.createElement('a')
-          postTitleLink.setAttribute('href', value.link)
-          postTitleLink.innerText = value.title
+          let eventLink = document.createElement('div')
+          eventLink.setAttribute('class', 'event__link link _plus')
+          eventLink.innerText = 'Learn More'
 
-          if (value.target) {
-            postTitleLink.setAttribute('target', value.target)
-          }
 
-          postTitle.appendChild(postTitleLink)
-
-          searchContent.appendChild(postTitle)
-
-          postSubTitle = document.createElement('span')
-          postSubTitle.setAttribute('class', 'company-name')
-          postSubTitle.innerText = value.event_date
-
-          searchContent.appendChild(postSubTitle)
-
-          let searchAction = document.createElement('div')
-          searchAction.setAttribute('class', 'search-actions')
-
-          let viewPostLink = document.createElement('a')
-          viewPostLink.setAttribute('href', value.link)
-          viewPostLink.setAttribute('class', 'button')
-          viewPostLink.innerText = 'View'
-
-          if (value.target) {
-            viewPostLink.setAttribute('target', value.target)
-          }
-
-          searchAction.appendChild(viewPostLink)
-          searchContent.appendChild(searchAction)
-
-          searchItemInfo.appendChild(searchContent)
+          searchItemInfo.appendChild(postTitle)
+          searchItemInfo.appendChild(eventLink)
           searchItemInner.appendChild(searchItemInfo)
           searchItemDiv.appendChild(searchItemInner)
 
@@ -4578,59 +4579,34 @@ function nabSearchContentAjax (loadMore, pageNumber) {
         let contentListDiv = document.getElementById('search-content-list')
 
         jQuery.each(contentObj.result_post, function (key, value) {
-          let searchItemDiv = document.createElement('div')
-          searchItemDiv.setAttribute('class', 'search-item')
+          let searchItemDiv = document.createElement('li')
+          searchItemDiv.setAttribute('class', '')
 
-          let searchItemInner = document.createElement('div')
-          searchItemInner.setAttribute('class', 'search-item-inner')
+          let searchItemInner = document.createElement('a')
+          searchItemInner.setAttribute('href', value.link)
+          searchItemInner.setAttribute('class', 'result _content')
 
-          let searchItemCover = document.createElement('div')
-          searchItemCover.setAttribute('class', 'search-item-cover')
+          if (value.target) {
+            searchItemInner.setAttribute('target', value.target)
+          }
+
+          // let searchItemCover = document.createElement('div')
+          // searchItemCover.setAttribute('class', 'search-item-cover')
 
           let coverImg = document.createElement('img')
+          coverImg.setAttribute('class', 'result__image')
           coverImg.setAttribute('src', value.thumbnail)
           coverImg.setAttribute('alt', 'content thumbnail')
 
-          searchItemCover.appendChild(coverImg)
-          searchItemInner.appendChild(searchItemCover)
-
-          let searchItemInfo = document.createElement('div')
-          searchItemInfo.setAttribute('class', 'search-item-info')
-
-          let searchContent = document.createElement('div')
-          searchContent.setAttribute('class', 'search-item-content')
+          //searchItemCover.appendChild(coverImg)
+          searchItemInner.appendChild(coverImg)
 
           let postTitle = document.createElement('h4')
+          postTitle.setAttribute('class', 'result__title')
+          postTitle.innerText = value.title
 
-          let postTitleLink = document.createElement('a')
-          postTitleLink.setAttribute('href', value.link)
-          postTitleLink.innerText = value.title
+          searchItemInner.appendChild(postTitle)
 
-          if (value.target) {
-            postTitleLink.setAttribute('target', value.target)
-          }
-
-          postTitle.appendChild(postTitleLink)
-
-          searchContent.appendChild(postTitle)
-
-          let searchAction = document.createElement('div')
-          searchAction.setAttribute('class', 'search-actions')
-
-          let viewPostLink = document.createElement('a')
-          viewPostLink.setAttribute('href', value.link)
-          viewPostLink.setAttribute('class', 'button')
-          viewPostLink.innerText = 'View'
-
-          if (value.target) {
-            viewPostLink.setAttribute('target', value.target)
-          }
-
-          searchAction.appendChild(viewPostLink)
-          searchContent.appendChild(searchAction)
-
-          searchItemInfo.appendChild(searchContent)
-          searchItemInner.appendChild(searchItemInfo)
           searchItemDiv.appendChild(searchItemInner)
 
           contentListDiv.appendChild(searchItemDiv)

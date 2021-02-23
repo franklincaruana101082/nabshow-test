@@ -112,7 +112,7 @@
 
 	/* search page */
 	.search-section .search-item{width:33.333333333333336%}
-	.other-search-filter .sort-order-btn .sort-order{padding:18px 20px;min-width:200px}
+	/*.other-search-filter .sort-order-btn .sort-order{padding:18px 20px;min-width:200px}*/
 
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
@@ -256,7 +256,7 @@
 	.search-result-filter .search-form{max-width:100%}
 	.search-result-filter .search-form input[type="search"]{padding:10px 70px 10px 20px;font-size:20px}
 	.search-section .search-item{width:50%}
-	.other-search-filter .sort-order-btn .sort-order{padding:16px 18px;min-width:150px;font-size:14px}
+	/*.other-search-filter .sort-order-btn .sort-order{padding:16px 18px;min-width:150px;font-size:14px}*/
 	.search-result-filter .search-form input[type="submit"]{width:22px;height:22px}
 	.no-search-data{font-size:20px;padding:10vw 0}
 	.search-not-found p{font-size:16px;padding:10px}

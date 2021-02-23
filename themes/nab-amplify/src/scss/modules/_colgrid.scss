@@ -64,7 +64,7 @@
             @include bp-768 {
                 width: 50%;
 
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
         }
 
@@ -73,7 +73,7 @@
                 @include bp-480 {
                     width: 50%;
 
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
             }
         }
@@ -83,12 +83,12 @@
         > * {
             @include bp-768 {
                 width: 50%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
 
             @include bp-1024 {
                 width: 33.33333%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
         }
 
@@ -96,12 +96,12 @@
             > * {
                 @include bp-480 {
                     width: 50%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
 
                 @include bp-768 {
                     width: 33.33333%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
             }
         }
@@ -111,12 +111,12 @@
         > * {
             @include bp-768 {
                 width: 50%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
 
             @include bp-1024 {
                 width: 25%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
         }
 
@@ -124,12 +124,12 @@
             > * {
                 @include bp-480 {
                     width: 50%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
 
                 @include bp-768 {
                     width: 25%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
             }
         }
@@ -139,17 +139,17 @@
         > * {
             @include bp-768 {
                 width: 50%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
 
             @include bp-1024 {
                 width: 33.33333%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
 
             @include bp-1280 {
                 width: 20%;
-                &._fullWidth { width: 100%; }
+                &._fullWidth, &.nab-ad-wrap { width: 100%; }
             }
         }
 
@@ -157,17 +157,17 @@
             > * {
                 @include bp-480 {
                     width: 50%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
 
                 @include bp-768 {
                     width: 33.33333%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
 
                 @include bp-1024 {
                     width: 20%;
-                    &._fullWidth { width: 100%; }
+                    &._fullWidth, &.nab-ad-wrap { width: 100%; }
                 }
             }
         }

@@ -17,6 +17,7 @@
 		padding: rem(30) 0 rem(25);
 		@include bp-1024 {
 			padding: rem(60) rem(54) 0 0;
+			flex: 0 1 auto;
 		}
 	}
 
@@ -25,6 +26,8 @@
 		flex-flow: row wrap;
 		@include bp-1024 {
 			padding-top: rem(68);
+			flex-flow: row nowrap;
+			flex: 1 1 auto;
 		}
 	}
 	&__menu {
@@ -49,6 +52,17 @@
 		.button {
 			margin-top: rem(6);
 		}
+		.mktoForm .mktoButtonWrap.mktoSimple .mktoButton {
+			@extend .button;
+		}
+		.mktoForm input[type="text"], 
+		.mktoForm input[type="url"], 
+		.mktoForm input[type="email"], 
+		.mktoForm input[type="tel"], 
+		.mktoForm input[type="number"], 
+		.mktoForm input[type="date"], 
+		.mktoForm textarea.mktoField, 
+		.mktoForm select.mktoField,
 		input[type="text"], input[type="email"] {
 			font-size: rem(10);
   			line-height: rem(30);
@@ -58,12 +72,16 @@
 				color: $color__gray-lighter;
 			}
 		}
+		.subscribe-form, .mktoForm {
+			width: auto !important; //overrides script putting crazy wide pixel length on the form
+		}
 	}
 
 	&__end {
 		margin-top: rem(32);
 		border-top: 2px solid $color__gray-dark;
 		padding-top: rem(26);
+		padding-bottom: rem(20);
 		@include bp-1024 {
 			border-top: 0;
 			& > .container {
@@ -78,7 +96,7 @@
 		color: $color__gray-lighter;
 		text-align: center;
 		@include bp-1024 {
-			margin-left: rem(290);
+			//margin-left: rem(290);
 		}
 	}
 	&__help {
