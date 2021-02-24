@@ -18,6 +18,8 @@
 		@include bp-1024 {
 			padding: rem(60) rem(54) 0 0;
 			flex: 0 1 auto;
+			display: flex;
+			flex-flow: column nowrap;
 		}
 	}
 
@@ -36,6 +38,110 @@
 		margin: 0 0 rem(26);
 		@include bp-768 {
 			flex: 0 1 25%;
+		}
+		&._social, &._brand {
+			flex: none;
+			text-align: left;
+			li {
+				display: inline-block;
+			}
+		}
+		&._social {
+			@include bp-1024 {
+				order: 2;
+			}
+			@media (min-width: 108em) {
+				order: 0;
+			}
+			li {
+				a {
+					display: block;
+					font-family: FontAwesome;
+					font-size: rem(25);
+					font-weight: normal;
+					font-style: normal;
+					line-height: 1;
+					text-rendering: auto;
+					position: relative;
+					width: rem(23);
+					height: rem(25);
+					text-indent: 200%;
+					white-space: nowrap;
+					overflow: hidden;
+					&:before {
+						text-indent: 0;
+						position: absolute;
+						left: 0;
+						top: 0;
+					}
+				}
+				&._facebook {
+					a {
+						&:before {
+							content: "\f09a";
+						}
+					}
+				}
+				&._linkedin {
+					a {
+						&:before {
+							content: "\f0e1";
+						}
+					}
+				}
+				&._twitter {
+					a {
+						&:before {
+							content: "\f099";
+						}
+					}
+				}
+				&._youtube {
+					a {
+						&:before {
+							content: "\f167";
+						}
+					}
+				}
+				&._instagram {
+					a {
+						&:before {
+							content: "\f16d";
+						}
+					}
+				}
+			}
+		}
+		&._brand {
+			@include bp-1024 {
+				order: 1;
+			}
+			@media (min-width: 108em) {
+				order: 0;
+			}
+			li {
+				padding-right: rem(4);
+				border-right: 1px solid $color__gray-lighter;
+				font-size: rem(12);
+				line-height: rem(13);
+				&:last-child {
+					border-right: 0;
+				}
+				a {
+					line-height: 1;
+					text-transform: uppercase;
+					text-decoration: none;
+					font-size: rem(12);
+					color: $color__gray-lighter;
+					text-shadow: 0 0 rem(10) $color__gray-darkest,
+								 0 0 rem(10) $color__gray-darkest,
+								 0 0 rem(10) $color__gray-darkest,
+								 0 0 rem(20) $color__gray-darkest;
+					&:hover, &:focus, &:active {
+						color: $color__yellow;
+					}
+				}
+			}
 		}
 	}
 	&__signup {

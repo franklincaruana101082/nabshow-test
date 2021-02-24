@@ -122,18 +122,22 @@
 			border-top: 1px solid $color__gray-light;
 			padding-top: rem(24);
 			margin-top: rem(12);
+			display: flex;
+		}
+		.header__logo {
+			display: none;
+			@include bp-1024 {
+				display: block;
+				max-width: rem(216);
+			}
 		}
 		.menu {
 			&__item {
-				&:first-child {
-					display: none;
-					@include bp-1024 {
-						display: block;
-					}
-				}
+				
 			}
 		}
 	}
+
 
 	&__brandnav {
 		&:before {
