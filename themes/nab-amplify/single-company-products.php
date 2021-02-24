@@ -103,7 +103,7 @@ get_header();
             <div class="single-product-content">
                 <div class="single-product-main">
                     <div class="single-product-col left-col">
-                        <?php echo $product_copy ? the_field('product_copy') : '';
+                        <?php echo $product_copy ? clean_post_content(get_field('product_copy')) : '';
                         if (!empty($tags)) {
                         ?>
                             <div class="amp-tag-main">
