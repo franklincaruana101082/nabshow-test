@@ -2905,3 +2905,20 @@ function nab_reset_csv_processed()
 	delete_option('batch_nab_import_companies_ajax_processed');
 	wp_send_json('success', 200);
 }
+
+// Ajax to show Error popup.
+add_action("wp_ajax_nab_get_error_popup", "nab_get_error_popup");
+add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
+
+function nab_get_error_popup(){
+	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-error-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+}
