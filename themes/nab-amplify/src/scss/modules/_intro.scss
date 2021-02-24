@@ -2,11 +2,16 @@
 	position: relative;
 	.amp-bookmark {
 		position: absolute;
-		right: rem(10);
-		top: rem(10);
+		top: rem(-30);
+		left: rem(10);
 		z-index: 2;
 		color: $color__pink; //#e5018b!important;
 		font-size: rem(23);
+		@include bp-768 {
+			left: auto;
+			right: rem(10);
+			top: rem(10);	
+		}
 	}
 	&._centered {
 	  text-align: center;
@@ -24,7 +29,9 @@
 	}
 	&__title {
 		margin-bottom: rem(30);
-
+		@include bp-768 {
+			padding-right: rem(30);
+		}
 	}
 	&__copy {
 	  max-width: rem(740);
