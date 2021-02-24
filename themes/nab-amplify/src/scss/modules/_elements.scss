@@ -62,17 +62,37 @@ p {
 
 blockquote {
   font-weight: 600;
-  font-size: rem(50);
+  font-size: rem(24);
   line-height: 1.16;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
   color: $color__white;
   padding: rem(15) rem(14);
   background: linear-gradient(90deg, $color__blurple, $color__blue);
   margin: rem(50) 0;
   display: block;
   //background-clip: content-box;
+  @include bp-768 {
+    margin: rem(50) -100% rem(50) 0;
+  }
   @include bp-1024 {
-    margin: rem(64) 0 rem(50);
+    margin: rem(64) -30% rem(50);
+  }
+  .wp-block-quote {
+    p {
+      border: 0;
+      color: $color__white;
+      font-style: normal;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .wp-block-pullquote & {
+    text-align: left;
+    p {
+      font-size: rem(24);
+      color: $color__white;
+    }
   }
 }
 
@@ -87,6 +107,10 @@ a {
 img {
   max-width: 100%;
 }
+.wp-block-image img {
+  //override inline height settings so images can be responsive and proportional
+  height: auto !important;
+}
 
 input[type="text"],
 input[type="email"],
@@ -100,4 +124,8 @@ input[type="url"] {
   padding: 0 rem(10);
   border: 0;
   border-radius: rem(4);
+}
+
+b, strong {
+  font-family: $font__primary !important;
 }
