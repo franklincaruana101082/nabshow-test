@@ -1427,3 +1427,6 @@ function nab_add_sync_user_action_link( $links, $user_obj) {
 	$links[]	= '<a href="' . $link_url .'">Sync to Live</a>';
 	return $links;
 }
+
+
+

@@ -1073,7 +1073,7 @@
     if (global_media_count < 5) {
       $.each($('#product_medias')[0].files, function (key, file) {
         if ($.inArray( file.name.split('.').pop().toLowerCase(), fileExtension) == -1) {
-          get_error_popup('This file type is not supported here. Acceptable File Types: .jpeg. .jpg, .png.')
+          get_error_popup('This file type is not supported here. Acceptable File Types: .jpeg, .jpg, .png.')
           return false
       }
         var timestamp = Date.now()

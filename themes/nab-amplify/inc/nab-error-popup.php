@@ -5,7 +5,7 @@
  */
 ?>
 
-<div id="connection-message-popup" class="nab-modal theme-dark">
+<div id="connection-message-popup" class="nab-modal theme-dark error-message-popup">
     <div class="nab-modal-inner">
         <div class="modal-content">
             <span class="nab-modal-close fa fa-times"></span>

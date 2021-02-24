@@ -1777,3 +1777,7 @@ body .is_friend .remove::before{font-size:22px}
 
 /* fixed issues after code changes from c. */
 .header .header__navwrapper{z-index:10;}
+/*Error message popup*/
+.error-message-popup h4{
+	text-transform: inherit !important;
+}

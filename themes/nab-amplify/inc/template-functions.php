@@ -1060,3 +1060,19 @@ function nab_get_pdf_limit_by_member_level( $member_level ) {
 
 	return isset( $member_level_pdf_limit[$member_level] ) ? $member_level_pdf_limit[$member_level] : 0;
 }
+
+
+function clean_post_content($content) {
+
+    // Remove inline styling
+    $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $content);
+
+    // Remove font tag
+    $content = preg_replace('/<font[^>]+>/', '', $content);
+
+    // Remove empty tags
+    $post_cleaners = array('<p></p>' => '', '<p> </p>' => '', '<p>&nbsp;</p>' => '', '<span></span>' => '', '<span> </span>' => '', '<span>&nbsp;</span>' => '', '<span>' => '', '</span>' => '', '<font>' => '', '</font>' => '');
+    $content = strtr($content, $post_cleaners);
+
+    return $content;
+}
