@@ -492,3 +492,14 @@
 		margin-right: auto;
 	  }	
   }
+
+
+
+
+
+// inherited style overrides
+
+div.media-item a.bynder-widget-media-link, 
+ul.bynder-widget-media-items li a.bynder-widget-media-link {
+	box-shadow: none !important;
+}

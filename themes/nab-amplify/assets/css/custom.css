@@ -87,7 +87,7 @@ abbr[title]{text-decoration:none}
 figcaption{color:#999!important}
 iframe{border:none!important}
 .small {font-size:80%}
-b, strong{font-family:'Open Sans', Arial, sans-serif;font-weight:700}
+b, strong{font-weight:700}
 /************* Default style variables *************/
 
 /* heading */
@@ -179,7 +179,7 @@ h5, .article-byline{font-size:18px}
 .nab-profile:hover>.nab-profile-dropdown{display:block}
 .nab-profile-dropdown li{width:100%;border-bottom:1px solid #999}
 .nab-profile-dropdown li:last-child{border-bottom:0}
-.nab-profile-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:'OpenSans-Regular', Arial, sans-serif}
+.nab-profile-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:proxima-nova, Arial, sans-serif}
 .nab-profile-dropdown li a:hover{background-color:#404040}
 .nab-profile-menu{position:relative;padding-right:15px;margin-right:15px;border-right:1px solid #ccc}
 .nab-profile-menu .nab-sign-in{padding:9px 0}
@@ -208,7 +208,7 @@ h5, .article-byline{font-size:18px}
 .notification-sub-wrapper ul::before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:6%}
 .notification-sub-wrapper ul li{position:relative;border-bottom:1px solid #999}
 .notification-sub-wrapper ul li:last-child{border-bottom:0}
-.notification-sub-wrapper ul li a{font-size:13px;color:#fff;padding:5px 10px;display:block;font-family:'OpenSans-Regular', Arial, sans-serif}
+.notification-sub-wrapper ul li a{font-size:13px;color:#fff;padding:5px 10px;display:block;font-family:proxima-nova, Arial, sans-serif}
 .notification-sub-wrapper ul li a:hover{background-color:#404040}
 .notification-sub-wrapper ul li::marker{color:#404040}
 .nab-logo-right-inner{padding:9px 10px 9px 15px;margin-left:15px;border-left:1px solid #ccc;position:relative}
@@ -217,7 +217,7 @@ h5, .article-byline{font-size:18px}
 .nab-logo-right-dropdown ul::before{content:'';width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:12px solid #666;position:absolute;top:-12px;right:15%}
 .nab-logo-right-dropdown li{width:100%;border-bottom:1px solid #999}
 .nab-logo-right-dropdown ul li:last-child{border-bottom:0}
-.nab-logo-right-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:'OpenSans-Regular', Arial, sans-serif}
+.nab-logo-right-dropdown li a{color:#fff;padding:5px 10px;display:block;font-size:13px;font-family:proxima-nova, Arial, sans-serif}
 .nab-logo-right-dropdown ul li a:hover, .nab-logo-right-dropdown li.active a{background-color:#404040}
 .nab-logo-right-inner:hover>.nab-logo-right-dropdown{display:block}
 .nab-suggetion{padding:10px 10px 10px 15px;margin-left:10px;border-left:1px solid #ccc;position:relative}
@@ -393,7 +393,7 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account header.entry-header{display:none}
 .nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:50%;width:calc(50% - 35px)}
 .nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:50%;width:calc(50% - 35px)}
-.nab-without-login-account .woocommerce .nab-login-wrap>span{width:70px;text-align:center;padding-top:40px;text-transform:uppercase;font-weight:bold}
+.nab-without-login-account .woocommerce .nab-login-wrap>span{width:70px;text-align:center;padding-top:40px;text-transform:uppercase;font-weight:bold;color:#282828;}
 .nab-without-login-account .mo-openid-app-icons{width:100%;display:inline-block}
 .nab-without-login-account .mo-openid-app-icons a.btn{border:1px solid #d2d3d5;color:#666666!important;min-width:100%;position:relative;left:-12px}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login p{margin:0 0 20px 0;width:100%}
@@ -406,9 +406,9 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-signup-now h4{margin:0;text-align:center;font-size:18px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-signup-now h4:last-child{margin:0}
 .nab-without-login-account .woocommerce .nab-signup-now a{color:inherit;text-decoration:underline}
-.nab-without-login-account{background:#b4b4b4}
+/*.nab-without-login-account{background:#b4b4b4}*/
 .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}
-.nab-without-login-account .woocommerce form label{font-weight:bold;margin-bottom:10px;display:block;font-size:15px}
+.nab-without-login-account .woocommerce form label{font-weight:bold;margin-bottom:10px;display:block;font-size:15px; color: #282828;}
 .nab-without-login-account .woocommerce form.woocommerce-ResetPassword{width:600px;margin:0 auto;max-width:100%}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):hover, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):hover{background:#6363df}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):focus, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):focus{background:#666666}
@@ -417,11 +417,11 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .form-row .select2-container{text-align:left}
 .nab-without-login-account .woocommerce .form-row .select2-container::after{content:"\f0d7";font-family:'fontawesome', serif;position:absolute;right:10px;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);cursor:pointer;pointer-events:none}
 .nab-without-login-account .form-row .password-input{width:100%}
-.nab-without-login-account .dropdown-message{display:block;font-size:12px;padding-right:2px;color:#333;font-family:'OpenSans-Regular', Arial, sans-serif;margin-bottom:20px}
+.nab-without-login-account .dropdown-message{display:block;font-size:12px;padding-right:2px;color:#333;font-family:proxima-nova, Arial, sans-serif;margin-bottom:20px}
 .nab-without-login-account hr{margin:24px 0}
 .nab-without-login-account .woocommerce form .amp-check-container label{margin:0}
 .nab-without-login-account .woocommerce form .amp-check-container input{width:100%;height:100%}
-.nab-without-login-account .woocommerce .section-user-interest-signup h3{color:#404040;font-size:20px;font-family:'OpenSans-Regular', Arial, sans-serif;margin:0}
+.nab-without-login-account .woocommerce .section-user-interest-signup h3{color:#404040;font-size:20px;font-family:proxima-nova, Arial, sans-serif;margin:0}
 .nab-without-login-account .woocommerce .nab-login-wrap div.woocommerce-form-row{margin-bottom:24px}
 .nab-without-login-account .woocommerce .member-tooltip .tooltip-wrap{display:inline!important;border-color:#ccc}
 .nab-without-login-account .woocommerce .tooltip-container .tooltip-wrap i{font-size:16px}
@@ -561,14 +561,14 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .amp-member-security{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;padding-left:20px}
 .amp-member-security .amp-security-row{width:50%;margin-bottom:10px}
 .amp-member-security h3{margin-bottom:20px}
-.amp-radio-container label{color:#fff;font-family:'OpenSans-Light', Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px)}
+.amp-radio-container label{color:#fff;font-family:proxima-nova, Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px)}
 .amp-radio-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:20px}
 .amp-radio-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-right:10px;position:relative;width:22px;height:22px}
 .amp-radio-wrp span{position:absolute;top:0;left:0;height:100%;width:100%;background-color:transparent;border:2px solid #fff;border-radius:50%}
 .amp-radio-wrp input{position:absolute;opacity:0;cursor:pointer;width:100%;height:100%;top:0;left:0;z-index:2}
 .amp-radio-wrp span::after{content:"";position:absolute;display:none;top:1px;left:1px;right:1px;bottom:1px;border-radius:50%;background:#e5018b}
 .amp-radio-wrp input:checked~span::after{display:block}
-.amp-check-container label{font-family:'OpenSans-Light', Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px);margin:0}
+.amp-check-container label{font-family:proxima-nova, Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px);margin:0}
 .amp-check-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:20px}
 .amp-check-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-right:10px;position:relative;width:22px;height:22px}
 .amp-check-wrp span{position:absolute;top:0;left:0;height:100%;width:100%;background-color:transparent;border:1px solid #ccc}
@@ -877,8 +877,8 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 .attendee-bulk-upload-form-wrap .error{color:#ff0000}
 .attendee-bulk-upload-form-wrap .success{color:#008000}
 .attendee-bulk-upload-form-wrap .input-placeholder{border:1px solid #000;height:35px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;-webkit-box-sizing:border-box;box-sizing:border-box;width:250px;max-width:100%;margin-right:10px}
-.attendee-bulk-upload-form-wrap input{opacity:0;position:absolute;top:0;left:0;border:1px solid #000;width:100%;height:35px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;-webkit-box-sizing:border-box;box-sizing:border-box;cursor:pointer;font-family:'Open Sans', sans-serif}
-.attendee-bulk-upload-form-wrap button{background:#e5018b;border:none;color:#fff;text-decoration:none;text-shadow:none;padding:10px 20px;line-height:1;cursor:pointer;margin-right:10px;height:35px;font-family:'Open Sans', sans-serif}
+.attendee-bulk-upload-form-wrap input{opacity:0;position:absolute;top:0;left:0;border:1px solid #000;width:100%;height:35px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:10px;-webkit-box-sizing:border-box;box-sizing:border-box;cursor:pointer;font-family:proxima-nova, sans-serif}
+.attendee-bulk-upload-form-wrap button{background:#e5018b;border:none;color:#fff;text-decoration:none;text-shadow:none;padding:10px 20px;line-height:1;cursor:pointer;margin-right:10px;height:35px;font-family:proxima-nova, sans-serif}
 .attendee-bulk-upload-form-wrap button:last-child{margin-right:0}
 .attendee-bulk-upload-form-wrap .nab-download-sample-data{color:#23282d;display:block;margin-bottom:10px;font-size:13px;margin-top:10px}
 
@@ -940,7 +940,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .my-account h1, .messages h1, .woocommerce-account h1, .my-account h2, .woocommerce-account h2, .my-account h3, .woocommerce-account h3, .my-account h4, .woocommerce-account h4{color:#fdd80f}
 
 /* common page bg */
-.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}
+/*.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}*/
 
 /* common message design */
 .woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-error, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
@@ -963,7 +963,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-result-filter .search-box{margin:0 0 20px}
 .search-result-filter .search-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:900px;max-width:80%;margin:0 auto;position:relative}
 .search-result-filter .search-form label{width:100%}
-.search-result-filter .search-form input[type="search"]{width:100%;background-color:transparent;border:0;border-bottom:1px solid #fff;font-size:24px;color:#fff;padding:15px 70px 15px 30px;font-family:'open sans', sans-serif}
+.search-result-filter .search-form input[type="search"]{width:100%;background-color:transparent;border:0;border-bottom:1px solid #fff;font-size:24px;color:#fff;padding:15px 70px 15px 30px;font-family:proxima-nova, sans-serif}
 .search-result-filter .search-form input[type="search"]::-webkit-input-placeholder{color:#fff}
 .search-result-filter .search-form input[type="search"]::-moz-placeholder{color:#fff}
 .search-result-filter .search-form input[type="search"]:-ms-input-placeholder{color:#fff}
@@ -1127,7 +1127,7 @@ body.buddypress .site-content{padding:0}
 .member-bio-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -15px}
 .member-bio-wrp .member-bio-col{width:33.333333333333336%;padding:0 15px;margin-bottom:30px}
 .member-bio-wrp .member-bio-data{background:#333;padding:20px;height:100%}
-.member-bio-wrp .member-bio-data p{color:#fff;font-family:'OpenSans-Light', Arial, sans-serif;font-size:20px;margin:0 0 20px}
+.member-bio-wrp .member-bio-data p{color:#fff;font-family:proxima-nova, Arial, sans-serif;font-size:20px;margin:0 0 20px}
 .member-bio-wrp .member-bio-data .rem-char{color:#565656;display:block;text-align:right;font-size:16px}
 .amp-item-main{padding:30px 0 20px}
 .amp-item-main h3{font-size:36px;text-transform:uppercase}
@@ -1274,7 +1274,7 @@ body .is_friend .remove::before{font-size:22px}
 .bp-messages-content .thread-participants dt{margin:0 0 8px;color:#fff}
 .bp-messages-content .thread-participants dd{margin:0 5px 0 0}
 .bp-messages-content .thread-participants ul li{margin:0 10px 0 0}
-.buddypress-wrap [data-bp-tooltip]::after{font-family:'Open Sans', Arial, sans-serif}
+.buddypress-wrap [data-bp-tooltip]::after{font-family:proxima-nova, Arial, sans-serif}
 .buddypress-wrap .message-action-delete::before{color:#ccc}
 .buddypress-wrap .message-action-delete:hover::before{color:red}
 .buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply{padding:8px 10px;background:#e5018b;color:#fff}
@@ -1343,7 +1343,7 @@ body .is_friend .remove::before{font-size:22px}
 .single-articles .entry-header{padding:0 50px;position:relative;min-height:40px}
 .single-articles .entry-header h1{color:#fdd80f;font-size:36px;margin-bottom:10px;line-height:normal}
 .entry-header span.amp-bookmark::after{right:0}
-.single-articles .entry-content p{font-family:'OpenSans-Regular', Arial, sans-serif;text-align:justify;color:#fff}
+.single-articles .entry-content p{font-family:proxima-nova, Arial, sans-serif;text-align:justify;color:#fff}
 .single-articles .entry-content .wp-block-separator{margin:1.5em 0}
 /*.single-articles .container{width:1200px}*/
 .single-articles .author-info{padding:0}
@@ -1373,7 +1373,7 @@ body .is_friend .remove::before{font-size:22px}
 .author-info .author-title a{color:#fff}
 .author-info .author-title a:hover{text-decoration:underline}
 .author-info .author-subtitle{font-size:20px;color:#999;font-weight:700}
-.author-info .author-label{color:#999;font-family:'Open Sans', Arial, sans-serif;font-size:16px;margin-bottom:5px;display:block}
+.author-info .author-label{color:#999;font-family:proxima-nova, Arial, sans-serif;font-size:16px;margin-bottom:5px;display:block}
 .author-info .author-label a{color:#999}
 .author-info .author-label a:hover{text-decoration:underline}
 
@@ -1505,7 +1505,7 @@ body .is_friend .remove::before{font-size:22px}
 .user-reacted-item .reacted-list li img{-webkit-box-shadow:0 0 4px 0 rgb(0 0 0 / 0.5);box-shadow:0 0 4px 0 rgb(0 0 0 / 0.5)}
 .reaction-wrapper .reaction-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 .reaction-wrapper .reaction-list-type{position:relative;margin-right:15px}
-.reaction-wrapper .reaction-main-like{min-width:100px;margin:0;border-radius:6px;font-size:17px;font-family:'OpenSans-Regular', sans-serif;font-weight:500}
+.reaction-wrapper .reaction-main-like{min-width:100px;margin:0;border-radius:6px;font-size:17px;font-family:proxima-nova, sans-serif;font-weight:500}
 .reaction-wrapper .reaction-main-like.reacted{background:#6363df;border-color:#6363df;color:#fff}
 .reaction-wrapper .reaction-main-like i{margin-right:10px}
 .reaction-wrapper .reaction-icon-modal{position:absolute;left:0;top:-5px;right:0;z-index:99;width:160px;visibility:hidden;opacity:0;-webkit-transform:translateY(-90%);-ms-transform:translateY(-90%);transform:translateY(-90%);-webkit-transition:0.3s all ease-in-out;-o-transition:0.3s all ease-in-out;transition:0.3s all ease-in-out}
@@ -1541,7 +1541,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark *{color:#fff}
 .nab-modal.theme-dark .modal-content{background-color:#404040;border-color:#404040}
 .nab-modal.theme-dark h2, .nab-modal.theme-dark h3, .nab-modal.theme-dark h4{color:#fdd80f;text-align:left;text-transform:capitalize;margin:0 0 10px;font-weight:600}
-.nab-modal.theme-dark p{font-family:'OpenSans-Regular', Arial, sans-serif;margin:0 0 20px}
+.nab-modal.theme-dark p{font-family:proxima-nova, Arial, sans-serif;margin:0 0 20px}
 .nab-modal.theme-dark .woocommerce-message{color:#fdd80f}
 .nab-modal.theme-dark .woocommerce-message .close-message{color:#fdd80f!important}
 .nab-modal.theme-dark .author-info .author-title a{color:#fff!important}
@@ -1562,7 +1562,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.theme-dark input[type="text"]::-ms-input-placeholder, .nab-modal.theme-dark input[type="email"]::-ms-input-placeholder, .nab-modal.theme-dark input[type="password"]::-ms-input-placeholder, .nab-modal.theme-dark input[type="url"]::-ms-input-placeholder, .nab-modal.theme-dark textarea::-ms-input-placeholder{color:#ccc}
 .nab-modal.theme-dark input[type="text"]::placeholder, .nab-modal.theme-dark input[type="email"]::placeholder, .nab-modal.theme-dark input[type="password"]::placeholder, .nab-modal.theme-dark input[type="url"]::placeholder, .nab-modal.theme-dark textarea::placeholder{color:#ccc}
 .nab-modal.theme-dark textarea{resize:none;height:200px}
-.nab-modal.theme-dark .check-label{color:#fff!important;font-family:'OpenSans-Regular', Arial, sans-serif;font-size:18px}
+.nab-modal.theme-dark .check-label{color:#fff!important;font-family:proxima-nova, Arial, sans-serif;font-size:18px}
 .nab-modal.theme-dark .nab-check-btn{margin:0 0 0 15px}
 .nab-modal.theme-dark .toggle-wrap .toggle-status{color:#fcd70f!important}
 .nab-modal.theme-dark .toggle-wrap .toggle-label{color:#fff!important;font-size:28px}
@@ -1626,7 +1626,7 @@ body .is_friend .remove::before{font-size:22px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:28px;font-weight:bold;margin-bottom:15px;display:inline-block;vertical-align:middle}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{color:#999999!important;font-size:16px;margin-left:10px;display:inline-block;font-weight:400}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{display:inline-block;vertical-align:middle;font-size:28px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{height:96px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:22px;color:#999999;font-weight:bold;font-family:'Open Sans', sans-serif}
+#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{height:96px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:22px;color:#999999;font-weight:bold;font-family:proxima-nova, sans-serif}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .chosen-container{height:96px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .chosen-single{top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding-right:60px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{height:297px;font-size:22px}
@@ -1664,7 +1664,7 @@ body .is_friend .remove::before{font-size:22px}
 .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-company_point_of_contact-container"], .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-nab_product_contact-container"]{padding-right:90px}
 .nab-product-media-item{width:150px;height:150px;margin-right:15px;margin-bottom:15px;border:1px solid gray;position:relative}
 .nab-product-media-item img{display:block;width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center}
-.nab-product-media-item .nab-remove-attachment,.nab-remove-featured-attachment{position:absolute;right:-10px;top:-10px;width:25px;height:25px;background-color:red;color:#fff;line-height:normal;border-radius:50%;cursor:pointer;padding:0 0 2px;font-weight:bold;font-family:'Open Sans', sans-serif;text-transform:lowercase;border:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:14px}
+.nab-product-media-item .nab-remove-attachment,.nab-remove-featured-attachment{position:absolute;right:-10px;top:-10px;width:25px;height:25px;background-color:red;color:#fff;line-height:normal;border-radius:50%;cursor:pointer;padding:0 0 2px;font-weight:bold;font-family:proxima-nova, sans-serif;text-transform:lowercase;border:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:14px}
 .nab-modal .modal-content-wrap .btn-link{color:#fff!important}
 .nab-modal .modal-content-wrap .btn-link:hover{text-decoration:underline}
 .nab-modal .fa-info-circle[data-bp-tooltip]::after{max-width:240px;white-space:pre-wrap;top:25px;width:-webkit-max-content;width:-moz-max-content;width:max-content}
@@ -1691,7 +1691,7 @@ body .is_friend .remove::before{font-size:22px}
 /*.single-company-products .container{width:1200px}*/
 .single-company-products .entry-header{padding:0 50px;position:relative}
 .single-company-products h1, .single-company-products h2, .single-company-products h3, .single-company-products h4, .single-company-products h5, .single-company-products h6{color:#fdd80f}
-.single-company-products p{color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif}
+.single-company-products p{color:#fff;font-family:proxima-nova, Arial, sans-serif}
 .single-company-products .entry-title{margin:30px 0 5px}
 .single-company-products .entry-subtitle{color:#999;margin-bottom:30px;font-size:18px}
 .single-company-products .entry-subtitle a{color:#999}
@@ -1727,7 +1727,7 @@ body .is_friend .remove::before{font-size:22px}
 .black-bg-box{background-color:#333;padding:40px;margin-bottom:20px}
 .black-bg-box:last-child{margin-bottom:0}
 .black-bg-box ul{margin:0;padding:0 0 0 20px}
-.black-bg-box ul li{font-family:'OpenSans-Regular', Arial, sans-serif;font-size:18px}
+.black-bg-box ul li{font-family:proxima-nova, Arial, sans-serif;font-size:18px}
 .black-bg-box ul:not(:last-child){margin-bottom:20px}
 .author-details-box .author-info{padding:0}
 .author-details-box .author-info .author-image{width:80px;height:80px}
@@ -1739,7 +1739,7 @@ body .is_friend .remove::before{font-size:22px}
 .product-specs-box h2{font-size:24px;font-weight:100}
 .product-specs-box .btn{min-width:100px;font-size:16px}
 .action-wrap div:not(:last-child){margin-bottom:15px}
-.action-wrap div .btn{margin:0;font-family:'OpenSans-Regular', Arial, sans-serif;font-size:17px;font-weight:500}
+.action-wrap div .btn{margin:0;font-family:proxima-nova, Arial, sans-serif;font-size:17px;font-weight:500}
 .nab-company-claim-popup p{color:#000}
 
 /* tooltip */
