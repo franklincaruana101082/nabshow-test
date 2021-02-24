@@ -133,6 +133,9 @@ img {
 .wp-block-image img {
   //override inline height settings so images can be responsive and proportional
   height: auto !important;
+  &.size-full {
+    max-width: rem(900);
+  }
 }
 
 input[type="text"],
