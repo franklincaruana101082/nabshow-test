@@ -35,13 +35,23 @@ if ( $user ) {
 	<p><?php printf( esc_html__( 'Dear %s,', 'woocommerce' ), esc_html( $full_name ) ); ?></p>
 <?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
 	
-	<p>Congratulations on joining the beta launch of NAB Amplify, a new digital experience and community hub, brought to you by the creators of NAB Show®️.</p>
-	<p>You completed step 1 – signing up! Now take full advantage of your elite access by building out your profile, connecting with others, searching events to RSVP for, reviewing companies and products and commenting on articles and videos.</p>
-	<p>Since we are still in beta mode, we expect you’ll notice areas for improvement or the occasional bug. Please help us learn and grow by clicking on the lightbulb in the top right corner of the navigation bar and submitting notes on your experience.</p>
+	<p>Congratulations on joining NAB Amplify. When you signed up, you activated these exclusive benefits of the Early Access Bundle:</p>
+	<ul>
+		<li>Free <strong>NAB Amplify Newsletters</strong> highlighting fresh content</li>
+		<li>Free <strong>Exhibits Pass to NAB Show in Las Vegas</strong> | October 10-13, 2021 ($159 value) details to come</li>
+		<li>Free <strong>upgraded NAB Amplify subscription</strong> through 2021 ($100 value) which includes access to these special events:
+			<ul>
+				<li>Access to <strong>Demo Days</strong> (daily, expert-led product demonstrations) | March 16-26, 2021</li>
+				<li>Access to <strong>NAB Show on NAB Amplify</strong> (reuniting the community to celebrate innovation) | April 2021</li>
+			</ul>
+		</li>
+	</ul>
+	<p>To take full advantage of the community platform, we encourage you to build out your profile, connect with others, search upcoming events, review companies, discover new innovations and engage with articles and videos.</p>
+	<p>Plus, we want to hear your ideas and feedback on how we can improve NAB Amplify. Please help us learn and grow by clicking on the lightbulb in the top right corner of the navigation bar and submitting notes on your experience.</p>
 	<p>Thank you again for your support and collaboration in building the global hub for media, entertainment and technology.</p>
 
-	<p>So, Let’s Get Started!<br>
-	NAB Amplify Team</p>
+	<p>Stay Amped,<br>
+	The NAB Amplify Team</p>
 
 <?php
 /**
