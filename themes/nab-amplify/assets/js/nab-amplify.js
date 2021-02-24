@@ -642,7 +642,7 @@
       content_css:
         amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time,
       valid_elements:
-        'a[href|target=_blank],strong/b,div[align,class],br,p[class],img[align,class],h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],span[class]',
+        'a[href|target=_blank],strong/b,div[align,class],br,p[class],img[src,align,class],i[class],ul[class],li[class],ol[class],h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],span[class]',
    
     })
   }
