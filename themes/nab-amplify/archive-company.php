@@ -79,7 +79,7 @@ if ( $company_query->have_posts() ) {
 									} else {
 										?>
 										<div class="search-actions">
-											<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+											<a href="<?php echo esc_url( $company_url ); ?>" class="btn">View</a>
 										</div>
 										<?php
 									}

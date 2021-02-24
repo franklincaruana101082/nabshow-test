@@ -10,6 +10,9 @@
 		}
 		.header__mainnav & {
 			align-items: center;
+			@include bp-1024 {
+				flex: 0 1 100%;
+			}
 		}
 	}
 	&__item {

@@ -82,19 +82,19 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 							if ( ! empty( $actions ) ) {
 								foreach ( $actions as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
-									echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
+									echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button btn ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
 								}
 							}
 							$order_id      = $order->get_order_number();
 							$is_bulk_order = get_post_meta( $order_id, '_nab_bulk_order', true );
 							if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && 'completed' === $order->get_status() && false === nab_is_all_attendee_added( $order_id ) ) {
 								$bulk_qty = get_post_meta( $order_id, '_nab_bulk_qty', true ); ?>
-								<a href="javascript:void(0)" class="nab-add-attendee woocommerce-button button" data-qty="<?php echo esc_attr( $bulk_qty ); ?>"
+								<a href="javascript:void(0)" class="nab-add-attendee woocommerce-button btn" data-qty="<?php echo esc_attr( $bulk_qty ); ?>"
 								   data-orderid="<?php echo esc_attr( $order_id ); ?>"><?php echo esc_html_e( 'Add Attendees', 'nab-amplify' ); ?></a>
 							<?php }
 							if ( isset( $is_bulk_order ) && 'yes' === $is_bulk_order && 'completed' === $order->get_status() && 0 < nab_get_attendee_count( $order_id ) ) {
 								$bulk_qty = get_post_meta( $order_id, '_nab_bulk_qty', true ); ?>
-								<a href="javascript:void(0)" class="nab-view-attendee woocommerce-button button"
+								<a href="javascript:void(0)" class="nab-view-attendee woocommerce-button btn"
 								   data-orderid="<?php echo esc_attr( $order_id ); ?>"><?php echo esc_html_e( 'View Attendees', 'nab-amplify' ); ?></a>
 							<?php }
 							?>
@@ -113,12 +113,12 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 	<?php if ( 1 < $customer_orders->max_num_pages ) : ?>
 		<div class="woocommerce-pagination woocommerce-pagination--without-numbers woocommerce-Pagination">
 			<?php if ( 1 !== $current_page ) : ?>
-				<a class="woocommerce-button woocommerce-button--previous woocommerce-Button woocommerce-Button--previous button"
+				<a class="woocommerce-button woocommerce-button--previous woocommerce-Button woocommerce-Button--previous btn"
 				   href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page - 1 ) ); ?>"><?php esc_html_e( 'Previous', 'woocommerce' ); ?></a>
 			<?php endif; ?>
 
 			<?php if ( intval( $customer_orders->max_num_pages ) !== $current_page ) : ?>
-				<a class="woocommerce-button woocommerce-button--next woocommerce-Button woocommerce-Button--next button"
+				<a class="woocommerce-button woocommerce-button--next woocommerce-Button woocommerce-Button--next btn"
 				   href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page + 1 ) ); ?>"><?php esc_html_e( 'Next', 'woocommerce' ); ?></a>
 			<?php endif; ?>
 		</div>
@@ -126,7 +126,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 <?php else : ?>
 	<div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
-		<a class="woocommerce-Button button" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
+		<a class="woocommerce-Button btn" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
 			<?php esc_html_e( 'Browse products', 'woocommerce' ); ?>
 		</a>
 		<?php esc_html_e( 'No order has been made yet.', 'woocommerce' ); ?>
@@ -202,8 +202,8 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 							<td></td>
 							<td>
 								<div class="edit-att-buttons">
-									<a href="javascript:void(0)" class="button btn-save">Save</a>
-									<a href="javascript:void(0)" class="button btn-cancle">Cancel</a>
+									<a href="javascript:void(0)" class="btn btn-save">Save</a>
+									<a href="javascript:void(0)" class="btn btn-cancle">Cancel</a>
 								</div>
 							</td>
 						</tr>

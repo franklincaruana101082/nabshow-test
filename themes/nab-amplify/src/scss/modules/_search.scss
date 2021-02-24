@@ -40,8 +40,9 @@
 		width: rem(200);
 	  }
 	}
-	&__sortOption {
+	&__sortOption, .sort-order {
 	  display: block;
+	  width: rem(200);
 	  height: rem(40);
 	  line-height: rem(34);
 	  text-align: center;
@@ -51,30 +52,205 @@
 	  font-weight: bold;
 	  border: 3px solid $color__purple; //fallback
 	  border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
-	  &._selected {
+	  &._selected, &.active {
 		background: linear-gradient(90deg, $color__purple, $color__pink);
 	  }
 	}
   }
+
+//misc classes from multidots
+.nab-search-result-wrapper {
+	display: flex;
+	flex-flow: column nowrap;
+	.search-result-filter {
+		order: 1;
+	}
+	.search-view-top-head {
+		order: 0;
+	}
+	.search-section {
+		order: 2;
+	}
+	.load-more {
+		order: 3;
+	}
+}
+.search-section-heading {
+	h2 {
+		display: inline-block;
+		@include bp-1024 {
+			font-size: rem(44);
+		}
+		strong {
+			font-family: $font__primary;
+			font-weight: 600;
+		}
+		span {
+			font-weight: 400;
+			font-size: rem(30);
+			vertical-align: top;
+			color: $color__gray-lighter;
+		}
+	}
+	.section-view-more {
+		display: inline-block;
+		padding-left: rem(20);
+		position: relative;
+		top: rem(-9);
+	}
+}
+
+.other-search-filter {
+	width: 100%;
+	.sort-order-btn {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+	.inline-filter-select-boxes {
+		margin-top: rem(20);
+		@include bp-768 {
+			margin-top: 0;
+			margin-left: rem(20);
+		}
+	}
+	.filter-select-boxes {
+		@include bp-768 {
+			max-width: rem(700);
+			margin-left: auto;
+			margin-right: auto;
+			display: flex;
+			justify-content: space-between;
+			&._multirows {
+				flex-flow: row wrap;
+			}
+		}
+		.nab-custom-select {
+			margin-top: rem(20);
+			@include bp-768 {
+				padding: 0 rem(10);
+				width: 100%;
+				
+			}
+		}
+		.filter_box_row {
+			margin-top: rem(20);
+			@include bp-768 {
+				flex: 0 1 100%;
+				display: flex;
+				justify-content: space-between;
+				& > div {
+					padding: 0 rem(10);
+					width: 100%;
+				}
+			}
+
+			input[type=text] {
+				background-color: $color__gray;
+				color: $color__white;
+				line-height: rem(38);
+				border-radius: rem(19);
+				margin-top: rem(20);
+				font-size: rem(18);
+				padding-left: rem(20);
+				padding-right: rem(20);
+				&::placeholder {
+					color: $color__gray-lighter;
+				}
+				@include bp-768 {
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+.view-back-to-search {
+	margin-top: rem(20);
+	text-align: center;
+	a {
+		@extend .link._back;
+		color: $color__yellow;
+		font-weight: 600;
+	}
+}
+
+.search-view-top-head {
+	text-align: center;
+	h2 {
+		strong {
+			font-weight: 600;
+			color: $color__yellow;
+		}
+	}
+}
+
+.search-section {
+	.nab-ad-wrap {
+		padding: rem(40) 0;
+	}
+}
   
   .result {
+  	position: relative;
+  	display: block;
 	border-top: 3px solid $color__purple;
 	border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
 	background-color: $color__gray-darkest;
 	padding: rem(18) rem(18) rem(46);
+	height: 100%;
 	text-align: center;
-	&__image {
+	text-decoration: none;
+	&._content {
+		padding: 0 0 rem(36);
+		
+	}
+	.amp-bookmark {
+		position: absolute;
+		top: rem(10);
+		left: rem(10);
+	}
+	&__hide {
+		//hide items in search results due to old styling
+		display: none;
+	}
+
+	&__image, &__imageWrap img {
 	  border-radius: 50%;
 	  max-width: rem(102);
+	  ._content & {
+	  	border-radius: 0;
+	  	max-width: 100%;
+	  }
 	}
 	&__title {
 	  font-weight: 700;
 	  font-size: rem(22);
 	  line-height: rem(27);
 	  min-height: rem(54);
+	  color: $color__white;
+	  a {
+	  	text-decoration: none;
+	  	color: $color__white;
+	  	&:hover, &:focus, &:active {
+	  		color: $color__yellow;
+	  	}
+	  }
+	  ._content & {
+	  	padding: rem(24) rem(18) 0;
+	  	margin-bottom: 0;
+	  	transition: color .25s ease-in-out;
+	  }
+	  ._content:hover &, ._content:focus &, ._content:active & {
+	  	color: $color__yellow;
+	  }
+
 	}
 	&__button {
 	  margin-bottom: rem(27);
+	  ._content & {
+	  	margin-top: rem(20);
+	  }
 	}
 	&__message {
 	  display: block;

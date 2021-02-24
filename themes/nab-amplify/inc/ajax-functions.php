@@ -1704,6 +1704,8 @@ function nab_event_search_filter_callback()
 			$website_link		= !empty($website_link) ? trim($website_link) : get_the_permalink();
 			$target				= 0 === strpos($website_link, $current_site_url) ? '_self' : '_blank';
 			$event_date			= date_format(date_create($event_start_date), 'l, F j');
+			$event_month		= date_format(date_create($event_start_date), 'F');
+			$event_day			= date_format(date_create($event_start_date), 'j');
 			$final_date         = $event_start_date;
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
@@ -1729,6 +1731,8 @@ function nab_event_search_filter_callback()
 			$result_post[$cnt]['link']			= $website_link;
 			$result_post[$cnt]['target']		= $target;
 			$result_post[$cnt]['event_date']	= $event_date;
+			$result_post[$cnt]['event_month']	= $event_month;
+			$result_post[$cnt]['event_day'] 	= $event_day;
 
 			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
 
