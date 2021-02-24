@@ -62,6 +62,18 @@
 		</nav>
 		<div class="header__navwrapper">
 			<nav class="header__mainnav">
+				<a href="<?php echo get_site_url(); ?>" class="header__logo">
+					<?php
+					// check if show global menu option is selected
+					$nab_header_logo_code = get_theme_mod( 'nab_header_logo_code' );
+					if ( ! empty( $nab_header_logo_code ) ) {
+						echo $nab_header_logo_code; // ignored use of wp_kses beacuse the code may vary and accept new tags/attributes in the future.
+					} else {
+						echo("<img class='menu__logo' src='/wp-content/themes/nab-amplify/assets/images/nab-amplify.png' width='157'>");
+					}
+					?>
+					
+				</a>
 				<?php wp_nav_menu( array( 'theme_location' => 'menu-1' ) ); ?>
 			</nav>
 			<nav class="header__brandnav">

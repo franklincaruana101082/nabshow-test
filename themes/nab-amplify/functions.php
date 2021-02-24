@@ -55,6 +55,8 @@ if ( ! function_exists( 'nab_amplify_setup' ) ) :
 				'footer-1' => esc_html__( 'Footer main', 'nab-amplify' ),
 				'footer-2' => esc_html__( 'Footer policy', 'nab-amplify' ),
 				'footer-3' => esc_html__( 'Footer quick', 'nab-amplify' ),
+				'footer-4' => esc_html__( 'Footer brand', 'nab-amplify' ),
+				'social-1' => esc_html__( 'Social', 'nab-amplify' ),
 			)
 		);
 
