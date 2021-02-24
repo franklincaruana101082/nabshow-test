@@ -38,7 +38,7 @@
 	
 	<header id="masthead" class="header">
 		<nav class="header__mobile">
-			<a href="<?php echo get_site_url(); ?>" class="header__logo">
+			<a href="<?php echo esc_url( get_site_url() ); ?>" class="header__logo">
 				<?php
 				// check if show global menu option is selected
 				$nab_header_logo_code = get_theme_mod( 'nab_header_logo_code' );
@@ -62,7 +62,7 @@
 		</nav>
 		<div class="header__navwrapper">
 			<nav class="header__mainnav">
-				<a href="<?php echo get_site_url(); ?>" class="header__logo">
+				<a href="<?php echo esc_url( get_site_url() ); ?>" class="header__logo">
 					<?php
 					// check if show global menu option is selected
 					$nab_header_logo_code = get_theme_mod( 'nab_header_logo_code' );

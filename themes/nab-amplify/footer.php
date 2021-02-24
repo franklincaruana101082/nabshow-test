@@ -17,7 +17,7 @@
     <div class="container">
     
       <div class="footer__logo">      
-        <a href="<?php echo get_site_url(); ?>">
+        <a href="<?php echo esc_url( get_site_url() ); ?>">
           <?php
           // check if show global menu option is selected
           $nab_header_logo_code = get_theme_mod( 'nab_header_logo_code' );
