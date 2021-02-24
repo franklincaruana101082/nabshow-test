@@ -1,5 +1,11 @@
 .intro {
 	position: relative;
+	@include bp-1024 {
+		article[id^="post"] & {
+			display: flex;
+			justify-content: space-between;
+		}
+	}
 	.amp-bookmark {
 		position: absolute;
 		top: rem(-30);
@@ -49,6 +55,9 @@
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
+		@include bp-1024 {
+			margin: rem(30) 0 0;
+		}
 		.post-action-author {
 			margin-right: rem(20);
 
