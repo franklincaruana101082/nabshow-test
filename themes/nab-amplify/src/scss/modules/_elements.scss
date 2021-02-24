@@ -49,7 +49,7 @@ p {
   color: $color__gray-lightest;
   line-height: 1.44;
   @include bp-1024 {
-    font-size: rem(28);
+    font-size: rem(22);
     line-height: 1.36;
   }
   .introtext & {
@@ -133,6 +133,9 @@ img {
 .wp-block-image img {
   //override inline height settings so images can be responsive and proportional
   height: auto !important;
+  &.size-full {
+    max-width: rem(900);
+  }
 }
 
 input[type="text"],
