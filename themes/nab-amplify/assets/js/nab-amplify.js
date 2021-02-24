@@ -736,6 +736,29 @@
     jQuery('body').addClass('nab-close-reload')
   })
 
+  function get_error_popup(message){
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_get_error_popup',
+        message: message,
+      },
+      success: function (data) {
+        if (0 === $('#connection-message-popup').length) {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('connection-popup-added')
+        } else {
+          $('body').addClass('connection-popup-added')
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+        }
+      }
+    })
+  }
+
   $(document).on(
     'click',
     '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action',
@@ -1050,7 +1073,7 @@
     if (global_media_count < 5) {
       $.each($('#product_medias')[0].files, function (key, file) {
         if ($.inArray( file.name.split('.').pop().toLowerCase(), fileExtension) == -1) {
-          alert("Only formats are allowed : "+fileExtension.join(', '));
+          get_error_popup('This file type is not supported here. Acceptable File Types: .jpeg. .jpg, .png.')
           return false
       }
         var timestamp = Date.now()
