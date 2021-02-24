@@ -26,6 +26,9 @@
 	&__logolink {
 		max-width: rem(216);
 		margin: 0 0 rem(13);
+		.bynder-widget-mediaholder img {
+			cursor: pointer;
+		}
 	}
 
 	&__nav {
@@ -164,9 +167,16 @@
 		.button {
 			margin-top: rem(6);
 		}
-		.mktoForm .mktoButtonWrap.mktoSimple .mktoButton {
-			@extend .button;
+		.mktoForm .mktoButtonWrap.mktoSimple {
+			margin-left: 0 !important;
+			.mktoButton {
+				@extend .button;
+				&:hover, &:focus, &:active {
+					border: 0;
+				}
+			}
 		}
+
 		.mktoForm input[type="text"],
 		.mktoForm input[type="url"],
 		.mktoForm input[type="email"],
