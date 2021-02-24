@@ -503,3 +503,7 @@ div.media-item a.bynder-widget-media-link,
 ul.bynder-widget-media-items li a.bynder-widget-media-link {
 	box-shadow: none !important;
 }
+
+.addthis-smartlayers, div#at4-follow, div#at4-share, div#at4-thankyou, div#at4-whatsnext {
+	display: none !important;
+}
