@@ -20,6 +20,7 @@
 }
 
 @media (max-width:600px){
+	#cropper-board .modal-content .crop-button-wrap{right:40px;top:40px;}
 	#cropper-board.nab-modal .modal-content-wrap{max-height:60vh}
 	#cropper-board .bm-adjust-crop-actions{padding:8px;left:30px;top:30px;}
 	#cropper-board .bm-adjust-crop-actions a{width:30px;height:30px;font-size:14px;}
