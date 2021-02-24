@@ -641,8 +641,24 @@
       },
       content_css:
         amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time,
-      valid_elements:
-        'a[href|target=_blank],strong/b,div[align,class],br,p[class],img[src,align,class],i[class],ul[class],li[class],ol[class],h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],span[class]',
+        valid_elements : ""
+        +"a[href|target],"
+        +"b,"
+        +"br,"
+        +"font[color|face|size],"
+        +"img[src|id|width|height|align|hspace|vspace],"
+        +"i,"
+        +"li,"
+        +"p[align|class],"
+        +"h1,"
+        +"h2,"
+        +"h3,"
+        +"h4,"
+        +"h5,"
+        +"h6,"
+        +"span[class],"
+        +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
+        +"u"
    
     })
   }
