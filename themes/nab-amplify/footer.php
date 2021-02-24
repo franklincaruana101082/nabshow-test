@@ -29,8 +29,8 @@
           ?>
           
         </a>
-        <?php wp_nav_menu( array( 'theme_location' => 'social-1', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
-        <?php wp_nav_menu( array( 'theme_location' => 'footer-4', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
+        <?php wp_nav_menu( array( 'theme_location' => 'social-1', 'menu_class' => 'footer__menu _social', 'container' => '' ) ); ?>
+        <?php wp_nav_menu( array( 'theme_location' => 'footer-4', 'menu_class' => 'footer__menu _brand', 'container' => '' ) ); ?>
       </div>
 
       <nav class="footer__nav">

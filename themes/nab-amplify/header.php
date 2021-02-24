@@ -74,7 +74,7 @@
 					?>
 					
 				</a>
-				<?php wp_nav_menu( array( 'theme_location' => 'menu-1' ) ); ?>
+				<?php wp_nav_menu( array( 'theme_location' => 'menu-1', 'container' => false ) ); ?>
 			</nav>
 			<nav class="header__brandnav">
 				<?php wp_nav_menu( array( 'theme_location' => 'menu-2' ) ); ?>
