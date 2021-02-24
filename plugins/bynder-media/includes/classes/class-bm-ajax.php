@@ -49,7 +49,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 				$url      = $bm_domain . '/api/v4/media/';
 				$args     = array(
 					'includeMediaItems' => 1,
-					'limit' => 150,
+					'limit' => 50,
 				);
 				$response = $this->bm_run_api( $url, 'GET', $args );
 
