@@ -17,6 +17,7 @@
 		.header__logo img, 
 		div.media-item a .bynder-widget-mediaholder img {
 			height: rem(40);
+
 		}
 		&-toggle {
 			width: rem(26);
@@ -129,6 +130,9 @@
 			@include bp-1024 {
 				display: block;
 				max-width: rem(216);
+			}
+			.bynder-widget-mediaholder img {
+				cursor: pointer;
 			}
 		}
 		.menu {

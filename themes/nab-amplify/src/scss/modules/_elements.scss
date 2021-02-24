@@ -59,6 +59,21 @@ p {
 	  letter-spacing: -0.01em;
   }
 }
+.entry-content {
+  ul, ol {
+    font-family: $font__primary;
+    font-weight: 400;
+    font-size: rem(18);
+    color: $color__gray-lightest;
+    line-height: 1.44;
+    margin-left: 2em;
+    margin-bottom: 1em;
+    @include bp-1024 {
+      font-size: rem(28);
+      line-height: 1.36;
+    }
+  }
+}
 
 blockquote {
   font-weight: 600;
