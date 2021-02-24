@@ -26,6 +26,7 @@
 		&__submit {
 			background-color: transparent;
 			border: 0;
+			cursor: pointer;
 		}
 	&__term {
 	  color: $color__yellow;
@@ -178,11 +179,16 @@
 .search-view-top-head {
 	text-align: center;
 	h2 {
+		margin-top: .5em;
+		margin-bottom: .5em;
 		strong {
 			font-weight: 600;
 			color: $color__yellow;
 		}
 	}
+	.view-top-other-info {
+ 		display: none;
+ 	}
 }
 
 .search-section {

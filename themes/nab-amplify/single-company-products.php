@@ -30,7 +30,7 @@ get_header();
         $preview_main_src = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full');
     ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-            <header class="entry-header">
+            <header class="intro entry-header">
                 <?php
                 the_title('<h1 class="entry-title">', '</h1>');
                 ?>
