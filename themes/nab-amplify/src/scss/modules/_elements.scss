@@ -73,11 +73,19 @@ blockquote {
   //background-clip: content-box;
   @include bp-768 {
     margin: rem(50) -100% rem(50) 0;
+    &:first-child, 
+    &._narrow {
+      margin: 0 -15% rem(50) 0;
+    }
   }
   @include bp-1024 {
-    margin: rem(64) -30% rem(50);
+    margin: rem(64) -30% rem(50) 0;
+    &:first-child, 
+    &._narrow {
+      margin: 0 -5% rem(50) 0;
+    }
   }
-  .wp-block-quote {
+  &.wp-block-quote {
     p {
       border: 0;
       color: $color__white;
