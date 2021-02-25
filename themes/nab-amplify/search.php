@@ -449,7 +449,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_prod_query->max_num_pages > 1) {
 				?>
 					<div class="load-more text-center" id="load-more-company-product">
-						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="1" data-total-page="<?php echo absint($company_prod_query->max_num_pages); ?>">Load More</a>
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint($company_prod_query->max_num_pages); ?>">Load More</a>
 					</div>
 				<?php
 				}
