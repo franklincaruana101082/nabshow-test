@@ -116,22 +116,6 @@ get_header();
                             </div>
                         <?php }?>
 
-                        <?php if(get_field('product_specs')) { ?>
-                        <div class="black-bg-box product-specs-box">
-                            <h2>Product Specs</h2>
-                            <?php $product_specs = get_field('product_specs');
-                            if (!empty($product_specs)) {
-                                echo $product_specs;
-                                $product_read_more_url = get_field('product_learn_more_url');
-                                if (!empty($product_read_more_url)) {
-                            ?>
-                                    <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
-
-                            <?php
-                                }
-                            } ?>
-                        </div>
-                        <?php } ?>
                     </div>
                     <div class="single-product-col right-col">
 
@@ -177,6 +161,38 @@ get_header();
                                 </div>
                             </div>
                         </div>
+
+                        <?php $product_specs = get_field('product_specs');
+                        if (!empty($product_specs)) { ?>
+                            <div class="black-bg-box product-specs-box">
+                                <h2>Product Specs</h2>
+                                <?php
+                                echo $product_specs ? clean_post_content($product_specs) : '';
+                                $product_read_more_url = get_field('product_learn_more_url');
+                                if (!empty($product_read_more_url)) {
+                                ?>
+                                    <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
+
+                                <?php
+                                }
+                                ?>
+                            </div>
+                            <?php
+                        } else {
+
+                            $product_read_more_url = get_field('product_learn_more_url');
+                            if (!empty($product_read_more_url)) {
+                            ?>
+                                 <h2>Product Specs</h2>
+                                <div class="black-bg-box product-spec">
+                                    <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        <?php
+                        }
+                        ?>
                         
                         <div class="ad-wrapper">
 
