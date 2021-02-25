@@ -489,12 +489,51 @@ function nab_amplify_register_post_types()
         'publicly_queryable'  => true,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array('title', 'editor', 'thumbnail'),
+        'supports'            => array('title', 'editor', 'thumbnail', 'author', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
 
     );
 
     // Registering your Custom Post Type
     register_post_type('sessions', $args);
+
+    $labels = array(
+        'name'               => _x('Speakers', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Speaker', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Speakers', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Speaker', 'nab-amplify'),
+        'all_items'          => __('All Speakers', 'nab-amplify'),
+        'view_item'          => __('View Speaker', 'nab-amplify'),
+        'add_new_item'       => __('Add New Speaker', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Speaker', 'nab-amplify'),
+        'update_item'        => __('Update Speaker', 'nab-amplify'),
+        'search_items'       => __('Search Speaker', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Speakers', 'nab-amplify'),        
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => false,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => true,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'menu_icon'           => 'dashicons-megaphone',
+        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
+
+    );
+
+    // Registering speakers post type.
+    register_post_type( 'speakers', $args );
 }
 
 // Hooking up our function to theme setup
