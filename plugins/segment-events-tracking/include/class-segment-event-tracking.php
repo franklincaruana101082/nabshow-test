@@ -30,7 +30,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
         public function __construct() {
             
             add_action( 'wp_loaded', array( $this, 'st_setup_segment_tracking' ) );
-            add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );
+            add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );            
         }
 
         /**
@@ -41,11 +41,6 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $segment_api_key = get_option( 'segment_tracking_api_key' );
 
             if ( ! empty( $segment_api_key ) ) {
-                
-                require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
-
-                class_alias( 'Segment', 'Analytics' );
-                Segment::init( $segment_api_key );
 
                 $this->success = true;
                 $this->st_init_hooks_for_segement_track();
@@ -58,8 +53,9 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
         public function st_init_hooks_for_segement_track() {
 
             if ( $this->success ) {
+                add_action( 'wp_footer', array( $this, 'st_enqueue_script' ), 10, 99 );
+                add_action( 'wp_footer', array( $this, 'st_page_event' ), 10, 9999 );
 
-                add_action( 'wp_enqueue_scripts', array( $this, 'st_enqueue_script' ) );
                 add_action( 'wp_login', array( $this, 'st_logged_in_event' ), 10 , 2 );
                 add_action( 'wp_logout', array( $this, 'st_logout_event' ), 10 , 1 );
                 add_action( 'user_register', array( $this, 'st_user_register_event' ), 99, 1 );
@@ -69,7 +65,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
                 add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
                 add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );                
-                add_action( 'wp_head', array( $this, 'st_page_event' ) );
+                
                 add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
                 add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
                 add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
@@ -92,30 +88,82 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
         public function st_enqueue_script() {
             global $post;
-            wp_enqueue_script( 'st-segement-event-js', plugin_dir_url( __DIR__ ) . 'js/st-segement-event-tracking.js' );
-            wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
-                'ajaxurl'   => admin_url('admin-ajax.php'),
-                'nabNonce'  => wp_create_nonce('nab-ajax-nonce'),
-                'postID'    => $post->ID,
-            ));
+            
+            $segment_api_key = get_option( 'segment_tracking_api_key' );
+
+            if ( ! empty( $segment_api_key ) ) {
+
+                $dep            = array();
+                $plugint_active = false;
+                
+                if ( in_array( 'woocommerce-segmentio-connector/segmentio-connector.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ){                     
+                    $plugint_active = true;
+                    $dep[]          = 'segmentio_connector';
+                }
+
+                if ( ! $plugint_active ) {
+                    wp_enqueue_script( 'st-segement-connector-js', plugin_dir_url( __DIR__ ) . 'js/st-segmentio.js' );
+                    $dep[] = 'st-segement-connector-js';
+                }
+
+                wp_enqueue_script( 'st-segement-event-js', plugin_dir_url( __DIR__ ) . 'js/st-segement-event-tracking.js', $dep );
+                
+                wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
+                    'ajaxurl'   => admin_url('admin-ajax.php'),
+                    'nabNonce'  => wp_create_nonce('nab-ajax-nonce'),
+                    'postID'    => $post->ID,
+                    'api_key'   => $segment_api_key,
+                    'wc_active' => $plugint_active,
+                ));
+            }
         }
 
         public function st_track_event( $tracking_details = array() ) {
             
-            if ( ! isset( $tracking_details['userId'] ) || empty( $tracking_details['userId'] ) ) {
-
-                if ( is_user_logged_in() ) {
-                    $tracking_details['userId'] = get_current_user_id(); 
-                } else {
-                    $tracking_details['anonymousId'] = uniqid();
-                }
+            if ( is_user_logged_in() ) {
+                $tracking_details['properties']['User_ID'] = get_current_user_id(); 
             }
-            Segment::track( $tracking_details );
+            
+            $st_event_track_data = array();
+            if ( WC()->session ) {
+                $st_event_track_data = WC()->session->get( 'st_event_track_data' );
+            }
+
+            if ( empty( $st_event_track_data ) || ! is_array( $st_event_track_data ) ) {
+                $st_event_track_data = array();
+            }
+
+            $st_event_track_data[] = $tracking_details;
+
+            if ( WC()->session ) {
+                WC()->session->set( 'st_event_track_data', $st_event_track_data );
+            }
+
+            $st_event_track_data = ( WC()->session ) ? WC()->session->get( 'st_event_track_data' ) : array();
         }
 
-        public function st_identity_event( $identity_details = array() ) {
+        public function st_identity_event( $identity_details = array() ) {            
 
-            Segment::identify( $identity_details );
+            if ( isset( $identity_details['userId'] ) && ! empty( $identity_details['userId'] ) ) {
+                $identity_details['traits']['User_ID'] = $identity_details['userId'];
+            }
+            $st_identity_track_data = array();
+
+            if ( WC()->session ) {
+                $st_identity_track_data = WC()->session->get( 'st_identity_track_data' );
+            }
+
+            if ( empty( $st_identity_track_data ) || ! is_array( $st_identity_track_data ) ) {
+                $st_identity_track_data = array();
+            }
+
+            $st_identity_track_data[] = $identity_details;
+
+            if ( WC()->session ) {
+                WC()->session->set( 'st_identity_track_data', $st_identity_track_data );
+            }
+
+            $st_identity_track_data = ( WC()->session ) ? WC()->session->get( 'st_identity_track_data' ) : array();
         }
 
         public function st_logged_in_event( $user_login, $user ) {
@@ -944,18 +992,20 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             }
             
             if ( is_admin() || ! isset( $post->ID ) || empty( $post->ID ) || is_post_type_archive() || is_tax() ) {
+                
+                $this->st_track_js_events();
+
                 return;
             }
             
-            $page_track = array( 'name' => 'Page_Viewed' );
+            $page_track                 = array( 'name' => 'Page_Viewed' );
+            $page_track['properties']   = $this->st_get_tracking_properties();
 
             if ( is_user_logged_in() ) {
-                $page_track['userId'] = get_current_user_id(); 
-            } else {
-                $page_track['anonymousId'] = uniqid();
+                $current_user_id                        = get_current_user_id();
+                $page_track['userId']                   = $current_user_id;
+                $page_track['properties']['User_ID']    = $current_user_id;
             }            
-
-            $page_track['properties'] = $this->st_get_tracking_properties();
             
             if ( isset( $post->ID ) && ! empty( $post->ID ) ) {
                 
@@ -973,10 +1023,40 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     } else {
                         $page_track['properties']['Page_Name'] = get_the_title();
                     }
-                }                
+                }
             }
             
-            Segment::page( $page_track );
+            $js = "stSendPageView('" . addslashes( wp_json_encode( $page_track ) ) . "'); ";
+            $this->st_track_js_events( $js );
+        }
+
+        public function st_track_js_events( $js = '' ) {
+
+            $st_event_track_data = array();            
+            $st_event_track_data = WC()->session->get( 'st_event_track_data' );            
+
+            if ( ! empty( $st_event_track_data ) && is_array( $st_event_track_data ) && count( $st_event_track_data ) > 0 ) {
+
+                foreach ( $st_event_track_data as $data ) {
+                    
+                    $js .= "stSendTrackView('" . addslashes( wp_json_encode( $data ) ) . "'); ";
+                }
+            }
+
+            $st_identity_track_data = array();
+            $st_identity_track_data = WC()->session->get( 'st_identity_track_data' );            
+
+            if ( ! empty( $st_identity_track_data ) && is_array( $st_identity_track_data ) && count( $st_identity_track_data ) > 0 ) {
+
+                foreach ( $st_identity_track_data as $data ) {
+                    
+                    $js .= "stSendIdentifyView('" . addslashes( wp_json_encode( $data ) ) . "'); ";
+                }
+            }
+            
+            wc_enqueue_js( $js );
+            WC()->session->set( 'st_event_track_data', '' );
+            WC()->session->set( 'st_identity_track_data', '' );
         }
 
         public function st_get_tracking_properties() {

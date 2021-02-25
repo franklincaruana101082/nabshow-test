@@ -32,3 +32,31 @@
         return false;
     });
 })(jQuery)
+
+function stSegmentAnalyticsLoad() {
+    try {
+        analytics.SNIPPET_VERSION = '3.1.0';
+        analytics.load( segmentJS.api_key );
+    } catch ( e ) {
+		console.log( "JavaScript Error: " + e.message );
+	}
+}
+
+function stSendPageView( data ) {
+    var finalData = JSON.parse( data );	
+    analytics.page( finalData.name, finalData.properties );
+}
+
+function stSendTrackView( data ) {	
+    var finalData = JSON.parse( data );
+    analytics.track( finalData.event, finalData.properties );
+}
+
+function stSendIdentifyView( data ) {	
+    var finalData = JSON.parse( data );
+    analytics.identify( finalData.userId, finalData.traits );
+}
+
+if ( ! segmentJS.wc_active ) {
+    stSegmentAnalyticsLoad();
+}
