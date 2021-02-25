@@ -4227,7 +4227,7 @@ function nabSearchCompanyProductAjax(loadMore, pageNumber) {
           searchItemInner.setAttribute("class", "result _content");
 
           let searchItemCover = document.createElement("a");
-          searchItemCover.setAttribute("class", "");
+          searchItemCover.setAttribute("class", "result__imgLink");
           searchItemCover.setAttribute("href", value.link);
 
           let coverImg = document.createElement("img");
