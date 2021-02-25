@@ -1207,7 +1207,7 @@ function nab_member_search_filter_callback()
 					$result_user[$cnt]['cancel_friendship_button'] = $cancel_friendship_button;
 				}
 
-				if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+				if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
 				} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -1351,7 +1351,7 @@ function nab_company_search_filter_callback()
 
 			$result_post[$cnt]['button'] = $button;
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -1494,7 +1494,7 @@ function nab_company_product_search_filter_callback()
 				$result_post[$cnt]['bookmark_id']		= $product_id;
 			}
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -1616,7 +1616,7 @@ function nab_product_search_filter_callback()
 				$result_post[$cnt]['bookmark_id']		= $product_id;
 			}
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -1734,7 +1734,7 @@ function nab_event_search_filter_callback()
 			$result_post[$cnt]['event_month']	= $event_month;
 			$result_post[$cnt]['event_day'] 	= $event_day;
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -1876,7 +1876,7 @@ function nab_content_search_filter_callback()
 				$result_post[$cnt]['link']	= get_the_permalink();
 			}
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -2006,7 +2006,7 @@ function nab_member_bookmark_list_callback()
 				$result_post[$cnt]['link'] 		= $bookmark_link;
 				$result_post[$cnt]['title'] 	= html_entity_decode($bookmark_title);
 
-				if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+				if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 					$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 				} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
@@ -2093,7 +2093,7 @@ function nab_member_event_list_callback()
 				$result_post[$cnt]['link'] 		= $event_url;
 				$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
 
-				if (0 === $page_number % 2 && (4 === $cnt + 1 || 15 === $cnt + 1)) {
+				if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 					$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 				} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
