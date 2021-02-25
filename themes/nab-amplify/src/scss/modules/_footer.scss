@@ -213,13 +213,12 @@
 		}
 	}
 	&__copyright {
-		font-family: $font__secondary;
-		font-size: rem(12);
-		color: $color__gray-lighter;
-		text-align: center;
-		@include bp-1024 {
-			//margin-left: rem(290);
-		}
+	    p {
+        	font-family: $font__secondary;
+	    	font-size: rem(12);
+		    color: $color__gray-lighter;
+		    text-align: center;
+        }
 	}
 	&__help {
 		padding: rem(15) 0;

@@ -472,26 +472,43 @@
 	  color: $color__gray-lightest;
   }
 
-  .ad {
-	  font-family: $font__secondary;
-	  font-size: rem(12);
-	  color: $color__gray-lighter;
-	  text-align: center;
-	  line-height: 1;
-	  padding-top: rem(40);
-	  padding-bottom: rem(40);
-	  @include bp-1024 {
-		  font-size: rem(15);
-	  }
-
-	  &__display {
+broadstreet-zone-container {
+	&:before {
+		content: "Advertisement";
 		display: block;
-		max-width: 100%;
-		margin-top: rem(10);
-		margin-left: auto;
-		margin-right: auto;
-	  }	
+		font-family: $font__secondary;
+		font-size: rem(12);
+		color: $color__gray-lighter;
+		text-align: center;
+		line-height: 1;
+	}
+}
+.ad {
+  font-family: $font__secondary;
+  font-size: rem(12);
+  color: $color__gray-lighter;
+  text-align: center;
+  line-height: 1;
+  padding-top: rem(40);
+  padding-bottom: rem(40);
+  @include bp-1024 {
+	  font-size: rem(15);
   }
+  broadstreet-zone-container {
+  	&:before {
+  		content: '';
+  		display: none;
+  	}
+  }
+  &__display {
+	display: block;
+	max-width: 100%;
+	margin-top: rem(10);
+	margin-left: auto;
+	margin-right: auto;
+  }	
+}
+
 
 
 .product-specs-box {
@@ -513,3 +530,16 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 		bottom: 0 !important;
 	}
 }
+
+//hide multidots' related block
+.single-articles {
+	.related-title, .related-content-2 {
+		display: none;
+	}
+}
+
+.amp-profile-main .amp-profile-social ul li a {
+	text-decoration: none;
+	transition: color .25s ease-in-out, background-color .25s ease-in-out;
+}
+
