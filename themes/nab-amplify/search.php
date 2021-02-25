@@ -315,7 +315,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 								<li>
 									<div class="result _person">
-										<a href="<?php echo esc_url($member_profile_url); ?>">
+										<a class="result__imgLink" href="<?php echo esc_url($member_profile_url); ?>">
 											<img class="result__image" src="<?php echo esc_url($user_images['profile_picture']); ?>">
 										</a>
 										<h4 class="result__title"><a href="<?php echo esc_url($member_profile_url); ?>"><?php echo esc_html($user_full_name); ?></a></h4>
@@ -418,7 +418,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 											} 
 										?>
-										<a href="<?php echo esc_url($product_link); ?>">
+										<a class="result__imgLink"> href="<?php echo esc_url($product_link); ?>">
 											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -609,7 +609,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<?php
 											$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 										?>
-										<a href="<?php echo esc_url($product_link); ?>">
+										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
 											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -899,7 +899,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						?>
 							<li>
 								<div class="result _person">
-									<a href="<?php echo esc_url($member_profile_url); ?>">
+									<a class="result__imgLink" href="<?php echo esc_url($member_profile_url); ?>">
 										<img class="result__image" src="<?php echo esc_url($user_images['profile_picture']); ?>">
 									</a>
 									<h4 class="result__title"><a href="<?php echo esc_url($member_profile_url); ?>"><?php echo esc_html($user_full_name); ?></a></h4>
@@ -995,7 +995,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 										} 
 									?>
-									<a href="<?php echo esc_url($product_link); ?>">
+									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
 										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
@@ -1158,7 +1158,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<?php
 										$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 									?>
-									<a href="<?php echo esc_url($product_link); ?>">
+									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
 										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
