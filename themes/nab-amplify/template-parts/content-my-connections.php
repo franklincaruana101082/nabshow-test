@@ -47,7 +47,7 @@ switch ( $connections ) {
 		$post_per_page  = 99;
 }
 
-$post_per_page = isset( $post_per_page ) ? $post_per_page :  12;
+$post_per_page = isset( $post_per_page ) ? $post_per_page :  15;
 if ( is_array( $members_filter ) ) {
 	$members_filter['page']     = 1;
 	$members_filter['per_page'] = $post_per_page;
