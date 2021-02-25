@@ -1456,11 +1456,11 @@ function nab_company_product_search_filter_callback()
 		$cnt 				= 0;
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
-		$product_medias = get_field('product_media', get_the_ID());
+		
 		while ($company_prod_query->have_posts()) {
-
+			
 			$company_prod_query->the_post();
-
+			$product_medias 	= get_field('product_media', get_the_ID());
 			$thumbnail_url = '';
 
 			if (!empty($product_medias[0]['product_media_file'])) {
