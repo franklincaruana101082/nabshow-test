@@ -382,25 +382,25 @@
       },
       content_css:
         amplifyJS.ThemeUri + "/assets/css/nab-front-tinymce.css?ver=" + time,
-        valid_elements : ""
-        +"a[href|target],"
-        +"b,"
-        +"br,"
-        +"font[color|face|size],"
-        +"img[src|id|width|height|align|hspace|vspace],"
-        +"em,"
-        +"strong,"
-        +"li,"
-        +"p[align|class],"
-        +"h1,"
-        +"h2,"
-        +"h3,"
-        +"h4,"
-        +"h5,"
-        +"h6,"
-        +"span[class],"
-        +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
-        +"u"
+        valid_elements : ""
+          +"a[href|target|class],"
+          +"b,"
+          +"br,"
+          +"font[color|face|size],"
+          +"img[src|id|width|height|align|hspace|vspace|class|align],"
+          +"em,"
+          +"strong,"
+          +"li[class],"
+          +"p[align|class],"
+          +"h1[class],"
+          +"h2[class],"
+          +"h3[class],"
+          +"h4[class],"
+          +"h5[class],"
+          +"h6[class],"
+          +"span[class],"
+          +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
+          +"u"
     });
   }
 
@@ -914,7 +914,17 @@
     form_data.append("nab_product_tags", nab_product_tags);
     form_data.append("nab_product_discussion", nab_product_discussion);
     form_data.append("nab_product_id", nab_product_id);
-    form_data.append("nab_product_learn_more_url", nab_product_learn_more_url);
+
+    if (!validateURL(nab_product_learn_more_url)) {
+      addSuccessMsg(
+        '.add-product-content-popup',
+        'Please Enter Correct URL For Product Learn More!'
+      );
+      return false;
+    } else {
+      form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
+    }
+    
     form_data.append("product_status", postStatus);
 
     form_data.append("remove_attachments", remove_attachment_arr);
