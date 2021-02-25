@@ -108,72 +108,79 @@ get_header();
                             <div class="amp-tag-main">
                                 <ul class="amp-tag-list">
                                     <?php foreach ($tags as $tag) { ?>
-                                        <li><a href="<?php echo site_url().'/?s='.$tag->name; ?>" class="btn"><?php echo $tag->name; ?></a></li>
+                                        <li><a href="<?php echo site_url() . '/?s=' . $tag->name; ?>" class="btn"><?php echo $tag->name; ?></a></li>
                                     <?php } ?>
 
                                 </ul>
                             </div>
                         <?php }
-?>
+                        ?>
                     </div>
                     <div class="single-product-col right-col">
 
                         <div class="black-bg-box author-details-box">
-                        <?php
+                            <?php
 
-                    if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
-                        //get images
-                        $user_images = nab_amplify_get_user_images($product_point_of_contact); ?>
-                        <div class="author-info">
-                                <div class="author-image">
-                                    <a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
+                            if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
+                                //get images
+                                $user_images = nab_amplify_get_user_images($product_point_of_contact); ?>
+                                <div class="author-info">
+                                    <div class="author-image">
+                                        <a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><img src="<?php echo esc_url($user_images['profile_picture']) ?>" /></a>
+                                    </div>
+                                    <div class="author-details">
+                                        <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><?php echo nab_get_author_fullname($product_point_of_contact); ?></a></h3>
+                                        <span class="author-subtitle"><?php echo get_user_meta($product_point_of_contact, 'attendee_title', true); ?></span>
+                                    </div>
                                 </div>
-                                <div class="author-details">
-                                    <h3 class="author-title"><a href="<?php echo bp_core_get_user_domain($product_point_of_contact); ?>"><?php echo nab_get_author_fullname($product_point_of_contact); ?></a></h3>
-                                    <span class="author-subtitle"><?php echo get_user_meta($product_point_of_contact, 'attendee_title', true); ?></span>
-                                </div>
-                            </div>
-                    <?php
-                    } ?>
+                            <?php
+                            } ?>
                             <div class="author-info-content">
                                 <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) { ?>
-                                <p><?php echo get_the_author_meta('description', $product_point_of_contact); ?></p>
+                                    <p><?php echo get_the_author_meta('description', $product_point_of_contact); ?></p>
                                 <?php } ?>
                                 <div class="action-wrap">
-                                    <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View company profile</a></div>
+                                    <div><a href="<?php echo get_the_permalink(get_field('nab_selected_company_id')); ?>" class="button">View Company Profile</a></div>
                                     <?php if ($product_point_of_contact !== '' && !empty($product_point_of_contact)) {
-                                         if ($user_logged_in) { ?>
-                                        <div>
-                                            <div id="send-private-message" class="generic-button poc-msg-btn">
-                                                <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
-                                        </div>
-                                    <?php }else{
-                                         $current_url = home_url( add_query_arg( NULL, NULL ) );
-                                         $current_url = str_replace( 'amplify/amplify', 'amplify', $current_url );
+                                        if ($user_logged_in) { ?>
+                                            <div>
+                                                <div id="send-private-message" class="generic-button poc-msg-btn">
+                                                    <a href="javascript:void(0);" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a>
+                                                </div>
+                                            </div>
+                                        <?php } else {
+                                            $current_url = home_url(add_query_arg(NULL, NULL));
+                                            $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
                                         ?>
-                                        <div>
-                                            <div id="send-private-message" class="generic-button">
-                                                <a href="<?php echo esc_url( add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) ) ); ?>" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a></div>
-                                        </div>
-                                        <?php }
-                                        } ?>
+                                            <div>
+                                                <div id="send-private-message" class="generic-button">
+                                                    <a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button add" data-feathr-click-track="true" data-comp-id="<?php echo get_field('nab_selected_company_id'); ?>">Message Company Rep</a>
+                                                </div>
+                                            </div>
+                                    <?php }
+                                    } ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="black-bg-box product-specs-box">
-                            <h2>Product Specs</h2>
-                            <?php $product_specs = get_field('product_specs');
-                            if (!empty($product_specs)) {
+
+                        <?php $product_specs = get_field('product_specs');
+                        if (!empty($product_specs)) { ?>
+                            <div class="black-bg-box product-specs-box">
+                                <h2>Product Specs</h2>
+                                <?php
                                 echo $product_specs;
                                 $product_read_more_url = get_field('product_learn_more_url');
                                 if (!empty($product_read_more_url)) {
-                            ?>
+                                ?>
                                     <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
 
-                            <?php
+                                <?php
                                 }
-                            } ?>
-                        </div>
+                                ?>
+                            </div>
+                        <?php
+                        } ?>
+
                         <div class="ad-wrapper">
 
                         </div>
@@ -212,7 +219,7 @@ get_header();
                             <div class="amp-item-wrap" id="company-products-list">
                                 <?php
                                 while ($my_query->have_posts()) : $my_query->the_post();
-	                                $thumbnail_url    = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
+                                    $thumbnail_url    = nab_amplify_get_featured_image(get_the_ID(), true, nab_product_company_placeholder_img());
                                     $product_link     = get_the_permalink();
                                     $product_category = get_the_terms(get_the_ID(), 'company-product-category');
                                     $product_medias     = get_field('product_media');
@@ -220,7 +227,7 @@ get_header();
                                     <div class="amp-item-col">
                                         <div class="amp-item-inner">
                                             <div class="amp-item-cover">
-                                            <?php $thumbnail_url = '';
+                                                <?php $thumbnail_url = '';
 
                                                 if (!empty($product_medias[0]['product_media_file'])) {
                                                     $thumbnail_url = $product_medias[0]['product_media_file']['url'];

@@ -641,25 +641,25 @@
       },
       content_css:
         amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time,
-        valid_elements : ""
-        +"a[href|target],"
-        +"b,"
-        +"br,"
-        +"font[color|face|size],"
-        +"img[src|id|width|height|align|hspace|vspace],"
-        +"em,"
-        +"strong,"
-        +"li,"
-        +"p[align|class],"
-        +"h1,"
-        +"h2,"
-        +"h3,"
-        +"h4,"
-        +"h5,"
-        +"h6,"
-        +"span[class],"
-        +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
-        +"u"
+        valid_elements : ""
+          +"a[href|target],"
+          +"b,"
+          +"br,"
+          +"font[color|face|size],"
+          +"img[src|id|width|height|align|hspace|vspace],"
+          +"em,"
+          +"strong,"
+          +"li,"
+          +"p[align|class],"
+          +"h1,"
+          +"h2,"
+          +"h3,"
+          +"h4,"
+          +"h5,"
+          +"h6,"
+          +"span[class],"
+          +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
+          +"u"
    
     })
   }
@@ -1176,6 +1176,7 @@
     var nab_product_learn_more_url = jQuery(
       '#nab-edit-product-form #nab_product_learn_more_url'
     ).val()
+    
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
 
@@ -1219,7 +1220,17 @@
     form_data.append('nab_product_tags', nab_product_tags)
     form_data.append('nab_product_discussion', nab_product_discussion)
     form_data.append('nab_product_id', nab_product_id)
-    form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
+
+    if (!validateURL(nab_product_learn_more_url)) {
+      addSuccessMsg(
+        '.add-product-content-popup',
+        'Please Enter Correct URL For Product Learn More!'
+      )
+      return false
+    } else {
+      form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
+    }
+    
     form_data.append('product_status', postStatus)
 
     form_data.append('remove_attachments', remove_attachment_arr)
