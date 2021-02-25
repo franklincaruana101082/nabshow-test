@@ -39,11 +39,7 @@
         <?php wp_nav_menu( array( 'theme_location' => 'footer-3', 'menu_class' => 'footer__menu', 'container' => '' ) ); ?>
 
         <div class="footer__signup">
-          <h5 class="menu__title">Learn More</h5>
-				  <p>Get on the list to be the first to know more about NAB Amplify.</p>
-          <script src="//app-ab34.marketo.com/js/forms2/js/forms2.min.js"></script>
-          <form class="subscribe-form" id="mktoForm_1113"></form>
-          <script>MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1113);</script>
+          <?php dynamic_sidebar('footer-5'); ?>
         </div>
       </nav>
     </div>
@@ -51,7 +47,7 @@
     <div class="footer__end">
       <div class="container">
         <div class="footer__copyright">
-          © 2021 National Association of Broadcasters. All Rights Reserved.
+          <?php dynamic_sidebar('footer-6'); ?>
         </div>
       </div>
     </div>
