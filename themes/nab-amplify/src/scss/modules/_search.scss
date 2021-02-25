@@ -221,6 +221,20 @@
 		display: none;
 	}
 
+	&__imgLink {
+		._content & {
+			position: relative;
+			display: block;
+			height: rem(140);
+			overflow: hidden;
+			.result__image {
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+	}
 	&__image, &__imageWrap img {
 	  border-radius: 50%;
 	  max-width: rem(102);
