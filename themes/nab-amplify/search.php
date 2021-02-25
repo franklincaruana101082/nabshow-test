@@ -418,7 +418,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
 											} 
 										?>
-										<a class="result__imgLink"> href="<?php echo esc_url($product_link); ?>">
+										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
 											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
