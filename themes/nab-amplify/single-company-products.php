@@ -114,8 +114,24 @@ get_header();
 
                                 </ul>
                             </div>
-                        <?php }
-?>
+                        <?php }?>
+
+                        <?php if(get_field('product_specs')) { ?>
+                        <div class="black-bg-box product-specs-box">
+                            <h2>Product Specs</h2>
+                            <?php $product_specs = get_field('product_specs');
+                            if (!empty($product_specs)) {
+                                echo $product_specs;
+                                $product_read_more_url = get_field('product_learn_more_url');
+                                if (!empty($product_read_more_url)) {
+                            ?>
+                                    <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
+
+                            <?php
+                                }
+                            } ?>
+                        </div>
+                        <?php } ?>
                     </div>
                     <div class="single-product-col right-col">
 
@@ -161,20 +177,7 @@ get_header();
                                 </div>
                             </div>
                         </div>
-                        <div class="black-bg-box product-specs-box">
-                            <h2>Product Specs</h2>
-                            <?php $product_specs = get_field('product_specs');
-                            if (!empty($product_specs)) {
-                                echo $product_specs;
-                                $product_read_more_url = get_field('product_learn_more_url');
-                                if (!empty($product_read_more_url)) {
-                            ?>
-                                    <a class="btn blue-bg" href="<?php echo $product_read_more_url; ?>" target="_blank">Learn more</a>
-
-                            <?php
-                                }
-                            } ?>
-                        </div>
+                        
                         <div class="ad-wrapper">
 
                         </div>

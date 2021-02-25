@@ -2,7 +2,7 @@
 	background-color: $color__black;
 	background-image: url('/wp-content/themes/nab-amplify/assets/images/nab-brand.png');
 	background-repeat: no-repeat;
-	background-position: center calc(100% + 110px);
+	background-position: center calc(100% + 70px);
 	background-size: rem(167) rem(167);
 	@include bp-1024 {
 		background-position: rem(-290) calc(100% + 290px);
@@ -203,7 +203,7 @@
 		margin-top: rem(32);
 		border-top: 2px solid $color__gray-dark;
 		padding-top: rem(26);
-		padding-bottom: rem(20);
+		padding-bottom: rem(108);
 		@include bp-1024 {
 			border-top: 0;
 			& > .container {
