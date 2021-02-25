@@ -829,7 +829,7 @@ function nab_get_member_event_list($product_ids_regex, $user_id, $previous_event
 	if ($previous_events && $purchased_events->max_num_pages > 1) {
 	?>
 		<div class="load-more text-center" id="load-more-events">
-			<a href="javascript:void(0);" class="btn-default" data-user="<?php echo esc_attr($user_id); ?>" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint($purchased_events->max_num_pages); ?>">Load More</a>
+			<a href="javascript:void(0);" class="btn-default" data-user="<?php echo esc_attr($user_id); ?>" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint($purchased_events->max_num_pages); ?>">Load More</a>
 		</div>
 	<?php
 	}

@@ -110,7 +110,7 @@ if ( $company_query->have_posts() ) {
 if ( $company_query->max_num_pages > 1 ) {
 	?>
 	<div class="load-more text-center"  id="load-more-company">
-		<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $company_query->max_num_pages ); ?>">Load More</a>
+		<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $company_query->max_num_pages ); ?>">Load More</a>
 	</div>
 	<?php
 }
