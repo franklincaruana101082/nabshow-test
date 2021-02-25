@@ -17,6 +17,7 @@
 	#cropper-board .modal-content a.button.cropper-cancel:before{content:"\f00d";}
 	#cropper-board .modal-content a.button.cropper-cancel{background-color:red}
 	#cropper-board .modal-content a.button.cropper-cancel:hover{border-color:red;}
+	#cropper-board .modal-content a#cropper-button{background-color:#4BB543;border-color:#4BB543;line-height:22px;}
 }
 
 @media (max-width:600px){
