@@ -12,7 +12,7 @@
 
 @media (max-width:767px){
 	#cropper-board .modal-content .crop-button-wrap{position:absolute;right:40px;top:40px;width:32px;}
-	#cropper-board .modal-content a.button{font-size:0;margin:0 0 8px;padding:4px;width:32px;height:32px;line-height:20px;border-radius:30px;}
+	#cropper-board .modal-content a.button{font-size:0;margin:0 0 8px;padding:4px;width:32px;height:32px;line-height:32px;border-radius:30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 	#cropper-board .modal-content a.button:before{content:"\f00c";display:inline-block;font-size:14px;font-family:fontawesome;}
 	#cropper-board .modal-content a.button.cropper-cancel:before{content:"\f00d";}
 	#cropper-board .modal-content a.button.cropper-cancel{background-color:red}
