@@ -3138,10 +3138,10 @@
   $(document).on("click", "#load-more-bookmark a", function (e) {
     let postPerPage = $(this).attr("data-post-limit")
       ? parseInt($(this).attr("data-post-limit"))
-      : 12;
+      : 15;
     let pageNumber = $(this).attr("data-page-number")
       ? parseInt($(this).attr("data-page-number"))
-      : 12;
+      : 15;
     let item_id = $(this).attr("data-user")
       ? parseInt($(this).attr("data-user"))
       : 0;
@@ -3251,7 +3251,7 @@
   $(document).on("click", "#load-more-events a", function (e) {
     let postPerPage = $(this).attr("data-post-limit")
       ? parseInt($(this).attr("data-post-limit"))
-      : 12;
+      : 15;
     let pageNumber = $(this).attr("data-page-number")
       ? parseInt($(this).attr("data-page-number"))
       : 2;
@@ -3786,7 +3786,7 @@ function nabSearchUserAjax(loadMore, pageNumber) {
   let pageType = jQuery("#load-more-user a").attr("data-page-type");
   let postPerPage = jQuery("#load-more-user a").attr("data-post-limit")
     ? parseInt(jQuery("#load-more-user a").attr("data-post-limit"))
-    : 12;
+    : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
       ? jQuery('.search-result-filter .search-form input[name="s"]').val()
@@ -4017,7 +4017,7 @@ function nabSearchCompanyAjax(loadMore, pageNumber) {
   let category;
   let postPerPage = jQuery("#load-more-company a").attr("data-post-limit")
     ? parseInt(jQuery("#load-more-company a").attr("data-post-limit"))
-    : 12;
+    : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
       ? jQuery('.search-result-filter .search-form input[name="s"]').val()
@@ -4176,7 +4176,7 @@ function nabSearchCompanyProductAjax(loadMore, pageNumber) {
     "data-post-limit"
   )
     ? parseInt(jQuery("#load-more-company-product a").attr("data-post-limit"))
-    : 12;
+    : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
       ? jQuery('.search-result-filter .search-form input[name="s"]').val()
@@ -4338,7 +4338,7 @@ function nabSearchProductAjax(loadMore, pageNumber) {
   let category = "";
   let postPerPage = jQuery("#load-more-product a").attr("data-post-limit")
     ? parseInt(jQuery("#load-more-product a").attr("data-post-limit"))
-    : 12;
+    : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
       ? jQuery('.search-result-filter .search-form input[name="s"]').val()
@@ -4483,7 +4483,7 @@ function nabSearchProductAjax(loadMore, pageNumber) {
 function nabSearchEventAjax(loadMore, pageNumber) {
   let postPerPage = jQuery("#load-more-product a").attr("data-post-limit")
     ? parseInt(jQuery("#load-more-product a").attr("data-post-limit"))
-    : 12;
+    : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
       ? jQuery('.search-result-filter .search-form input[name="s"]').val()
@@ -4628,7 +4628,7 @@ function nabSearchContentAjax(loadMore, pageNumber) {
     contentType = "";
   let postPerPage = jQuery("#load-more-content a").attr("data-post-limit")
     ? parseInt(jQuery("#load-more-content a").attr("data-post-limit"))
-    : 12;
+    : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
       ? jQuery('.search-result-filter .search-form input[name="s"]').val()
