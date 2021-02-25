@@ -130,11 +130,13 @@ a {
 img {
   max-width: 100%;
 }
-.wp-block-image img {
-  //override inline height settings so images can be responsive and proportional
-  height: auto !important;
+.wp-block-image {
   &.size-full {
     max-width: rem(900);
+  }
+  img {
+    //override inline height settings so images can be responsive and proportional
+    height: auto !important;
   }
 }
 
