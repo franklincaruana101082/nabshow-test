@@ -215,6 +215,7 @@
 		position: absolute;
 		top: rem(10);
 		left: rem(10);
+		color: $color__pink;
 	}
 	&__hide {
 		//hide items in search results due to old styling
@@ -227,11 +228,13 @@
 			display: block;
 			height: rem(140);
 			overflow: hidden;
+			background-color: $color__white;
 			.result__image {
 				position: absolute;
 				left: 0;
 				top: 50%;
 				transform: translateY(-50%);
+				color: $color__black;
 			}
 		}
 	}
