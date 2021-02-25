@@ -137,7 +137,15 @@ global $post;
 								</div>
 							</div>	
 							<div class="form-row">
-										<label for="">Learn More Button URL</label>
+							<label for="" class="tooltip-container large-label-tooltip">
+											<div class="field-label">Learn More Button URL</div>
+											<div class="tooltip-wrap">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												<div class="tooltip">
+												Please enter your full URL, including https://
+												</div>
+											</div>
+										</label>
 										<input type="text" class="input-text learn-more-url" name="nab_product_learn_more_url" id="nab_product_learn_more_url" value="<?php echo isset($post_data->nab_product_learn_more_url) ? $post_data->nab_product_learn_more_url : ''; ?>">
 									</div>						
 							<div class="form-row">
