@@ -31,13 +31,18 @@
                 cropperImage.setAttribute('id', 'cropper-image');
                 nabModalContentWrap.append(cropperImage);
 
+                // buttons wrap
+                let cropperButtonWrap = document.createElement('div');
+                cropperButtonWrap.setAttribute('class', 'crop-button-wrap');
+                nabModalContentWrap.append(cropperButtonWrap);
+
                 // Crop button
                 let cropperButton = document.createElement( 'a');
                 cropperButton.setAttribute('id', 'cropper-button');
                 cropperButton.setAttribute('class', 'button');
                 cropperButton.setAttribute('href', 'javascript:void(0)');
                 cropperButton.innerText = 'Crop';
-                nabModalContentWrap.append(cropperButton);
+                cropperButtonWrap.append(cropperButton);
 
                 // Crop cancel button
                 let cropperCancel = document.createElement( 'a');
@@ -45,7 +50,7 @@
                 cropperCancel.setAttribute('class', 'cropper-cancel button nab-modal-remove');
                 cropperCancel.setAttribute('href', 'javascript:void(0)');
                 cropperCancel.innerText = 'Cancel';
-                nabModalContentWrap.append(cropperCancel);
+                cropperButtonWrap.append(cropperCancel);
 
                 let bmAdjustCropAction = document.createElement('div');
                 bmAdjustCropAction.setAttribute('class', 'bm-adjust-crop-actions');
