@@ -93,7 +93,6 @@
   .site-content {
   	position: relative;
 	background-color: $color__gray-darker;
-	background: linear-gradient(0deg, rgba(40,40,40,1) 0%, rgba(24,24,24,1) 100%);
 	padding: rem(54) 0 rem(50);
   	&:before {
 	  content: '';
@@ -473,6 +472,8 @@
   }
 
 broadstreet-zone-container {
+	padding-top: rem(20);
+  	padding-bottom: rem(20);
 	&:before {
 		content: "Advertisement";
 		display: block;
@@ -481,6 +482,7 @@ broadstreet-zone-container {
 		color: $color__gray-lighter;
 		text-align: center;
 		line-height: 1;
+		padding-bottom: rem(4);
 	}
 }
 .ad {
@@ -489,8 +491,8 @@ broadstreet-zone-container {
   color: $color__gray-lighter;
   text-align: center;
   line-height: 1;
-  padding-top: rem(40);
-  padding-bottom: rem(40);
+  // padding-top: rem(40);
+  // padding-bottom: rem(40);
   @include bp-1024 {
 	  font-size: rem(15);
   }
