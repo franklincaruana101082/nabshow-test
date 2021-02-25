@@ -17,6 +17,9 @@
 		img {
 		  border-radius: 50%;
 		  border: 3px solid $color__gray-dark;
+		  background-color: $color__white;
+		  text-decoration: none;
+		  color: $color__gray-darker;
 		  display: block;
 		  max-width: rem(70);
 		  .menu__link & {

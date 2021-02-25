@@ -42,5 +42,11 @@
 			width: rem(30);
 			height: rem(30);
 		}
+		.wp-block-image {
+			display: none;
+			@include bp-768 {
+				display: block;
+			}
+		}
 	}
 }
