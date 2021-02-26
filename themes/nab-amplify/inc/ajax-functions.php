@@ -2961,7 +2961,16 @@ function nab_amplify_add_address()
 	);
 	$address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
 	$country_list = nab_get_countries();
+	
+	ob_start();
 
+	require_once get_template_directory() . '/inc/nab-company-religion-addresses-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
 	
 }
 
@@ -3138,7 +3147,7 @@ function nab_amplify_state_filter(){
     $country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
 	$filtered_states = array();
 	$states          = nab_get_states();
-	$country_code	 = nab_amplify_get_country_state($country_code,'country');	
+	
 	
 	foreach($states as $state){
 		
