@@ -328,7 +328,7 @@
               allowClear: true
             })
             if ($('#country').val()) {
-              filter_states($('#country').val())
+              filter_states($('#country').find(':selected').data('country-code'))
             }
           } else {
             jQuery('#addProductModal').remove()
@@ -344,7 +344,7 @@
               allowClear: true
             })
             if ($('#country').val()) {
-              filter_states($('#country').val())
+              filter_states($('#country').find(':selected').data('country-code'))
             }
           }
         }
@@ -441,7 +441,7 @@
       const company_id = amplifyJS.postID
       const _this = $(this)
       _this.addClass('loading')
-      const country_code = $(this).val()
+      const country_code = $(this).find(':selected').data('country-code')
       $(this).attr('data-state', '')
       if (jQuery('#state').length && jQuery('#state').is('input')) {
         jQuery('#state').val('')
