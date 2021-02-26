@@ -47,16 +47,21 @@ jQuery(function($) {
 		adaptiveHeight: true
 	});
 
-	jQuery('broadstreet-zone-container, .ad').each(function() {
-		var self = jQuery(this);
-		var adContainer = self.find('broadstreet-zone');
-		var adContent = '';
-		if(adContainer.length) {
-	 		adContent = adContainer.children('div').html().trim();
-	 	}
-		if(adContent=='') {
-			jQuery(self).addClass('_hidden');
-		}
+	document.addEventListener("broadstreetLoaded", function() {
+		console.log('BS Loaded');
+		jQuery('broadstreet-zone-container, .ad').each(function() {
+			var self = jQuery(this);
+			var adContainer = self.find('broadstreet-zone');
+			var adContent = '';
+			console.log(adContainer.length);
+			if(adContainer.length) {
+		 		adContent = adContainer.children('div').html().trim();
+		 		console.log(adContent);
+		 	}
+			if(adContent=='') {
+				jQuery(self).addClass('_hidden');
+			}
+		});
 	});
 	
 });
