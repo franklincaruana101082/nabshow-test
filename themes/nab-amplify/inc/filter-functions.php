@@ -1428,5 +1428,10 @@ function nab_add_sync_user_action_link( $links, $user_obj) {
 	return $links;
 }
 
-
-
+function nab_increase_session_archive_post_limit( $query ) {
+	
+	if ( ! is_admin() && $query->is_archive( 'sessions' ) && $query->is_main_query() ) {
+		$query->set( 'posts_per_page', 100 );
+	}
+	return $query;
+}

@@ -126,3 +126,5 @@ function nab_stop_bp_email_notification( $retval, $class_ref) {
     }
     return $retval;
 }
+
+add_filter( 'pre_get_posts', 'nab_increase_session_archive_post_limit' );
