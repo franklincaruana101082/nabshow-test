@@ -225,10 +225,11 @@
 .amp-item-wrap .amp-item-info .friendship-button a:hover, .amp-item-wrap .amp-item-info .friendship-button a:focus{background:#666;color:#fff;border-color:#666}
 
 /* Religion address */
-#company-address-list .add-item-wrap{padding:30px!important;font-size:18px;color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif}
+#company-address-list .add-item-wrap{padding:30px 30px 60px!important;font-size:18px;color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif}
 #company-address-list .amp-item-inner{padding-bottom:30px;position:relative}
 #company-address-list .add-new-item .amp-item-inner{padding-bottom:0}
-#company-address-list .amp-item-inner .edit-block-icon{position:absolute;right:20px;bottom:20px}
+#company-address-list .amp-item-inner .edit-block-icon{position:absolute;right:20px;bottom:20px;}
+#company-address-list .amp-item-inner .edit-block-icon.action-remove-address{right:70px;}
 
 /* fixes for page design */
 .feature-section .amp-feature-block-inner{margin-bottom:0}
@@ -364,6 +365,9 @@
 	/* company message box */
 	.company-message-box{padding:15px 0}
 	.company-message-box .company-message-title{font-size:20px}
+
+	/* Religion address */
+	#company-address-list .amp-item-inner .edit-block-icon.action-remove-address{right:65px;}
 }
 
 @media (max-width:600px) {
