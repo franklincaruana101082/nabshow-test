@@ -3561,6 +3561,7 @@
           nabNonce: amplifyJS.nabNonce,
           message: connectionMsg,
           send_to: memberID,
+          post_id: undefined !== amplifyJS.postID ? amplifyJS.postID : ''
         },
         beforeSend: function () {
           $("body").addClass("is-loading");

@@ -391,6 +391,10 @@ function nab_update_post_reaction_callback() {
                 $result[ 'success' ]    = $updated ? true : false;
                 $result[ 'action' ]     = 'remove';
             }
+
+            if ( 'post_type' === $item_type && 'remove' === $result[ 'action' ] ) {
+                do_action( 'nab_post_reacted', $post_id, $current_user_id );
+            }
     
             if ( $result[ 'success' ] ) {
     
