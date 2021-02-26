@@ -484,6 +484,9 @@ broadstreet-zone-container {
 		line-height: 1;
 		padding-bottom: rem(4);
 	}
+	&._hidden {
+		display: none;
+	}
 }
 .ad {
   font-family: $font__secondary;
@@ -491,8 +494,9 @@ broadstreet-zone-container {
   color: $color__gray-lighter;
   text-align: center;
   line-height: 1;
-  // padding-top: rem(40);
-  // padding-bottom: rem(40);
+  &._hidden {
+    display: none;
+  }
   @include bp-1024 {
 	  font-size: rem(15);
   }

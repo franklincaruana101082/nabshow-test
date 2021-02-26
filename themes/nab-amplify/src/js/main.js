@@ -49,8 +49,12 @@ jQuery(function($) {
 
 	jQuery('broadstreet-zone-container, .ad').each(function() {
 		var self = jQuery(this);
-	 	var adContainer = self.find('broadstreet-zone').children('div').html().trim();
-		if(adContainer=='') {
+		var adContainer = self.find('broadstreet-zone');
+		var adContent = '';
+		if(adContainer.length) {
+	 		adContent = adContainer.children('div').html().trim();
+	 	}
+		if(adContent=='') {
 			jQuery(self).addClass('_hidden');
 		}
 	});
