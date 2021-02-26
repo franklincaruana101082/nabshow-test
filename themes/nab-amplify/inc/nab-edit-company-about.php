@@ -4,7 +4,7 @@
 			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
 				<div class="add-product-content-popup">
-					<h2>Company Details</h2>
+					<h2>Company Details <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Your primary location and company name are fields managed by the NAB team to be sure your company contact information is consistent and accurate across all of our systems. If you need to make a change to your primary address, please contact your sales rep."></i></h2>
 					<p>Update your company details here.</p>
 					<div class="form-wrapper">
 						<form method="post" id="nab-edit-company-profile-form" enctype="multipart/form-data">

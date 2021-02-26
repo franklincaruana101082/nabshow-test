@@ -1644,6 +1644,7 @@ body .is_friend .remove::before{font-size:22px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control .nab-action{margin-top:0}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:absolute;right:25px;font-size:16px;color:#999!important;bottom:25px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg span{color:#999!important}
+#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:last-child{margin-bottom:0}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:49px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action{position:unset;margin:0;-webkit-transform:none;-ms-transform:none;transform:none}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child, #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{position:absolute;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:0;margin-top:27px;display:block}

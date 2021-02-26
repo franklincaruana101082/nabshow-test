@@ -7,20 +7,26 @@ global $post;
 			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
 				<div class="add-product-content-popup">
-					<h2>Address</h2>
+					
+					<h2>Add or update an additional regional address here. <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Your primary location and company name are fields managed by the NAB team to be sure your company contact information is consistent and accurate across all of our systems. If you need to make a change to your primary address, please contact your sales rep."></i></h2>
+					
 					<div class="form-wrapper">
 						<form method="post" id="nab-add-address-form" enctype="multipart/form-data">
 							
 							<div class="form-row">
-								<label for="">Street line 1</label>
-								<textarea  class="limited-char-field" placeholder="Type Here..." name="street_line_1" id="street_line_1"><?php echo isset($address_data['street_line_1'])?$address_data['street_line_1']:'';?></textarea>
+								<div class="form-col-6">
+									<div class="form-row">
+										<label for="">Street (line 1)</label>
+										<textarea placeholder="Type Here..." name="street_line_1" id="street_line_1"><?php echo isset($address_data['street_line_1'])?$address_data['street_line_1']:'';?></textarea>
+									</div>
+								</div>
+								<div class="form-col-6">
+									<div class="form-row">
+										<label for="">Street (line 2)</label>
+										<textarea placeholder="Type Here..." name="street_line_2" id="street_line_2"><?php echo isset($address_data['street_line_2_'])?$address_data['street_line_2_']:'';?></textarea>
+									</div>
+								</div>
 							</div>
-							
-							<div class="form-row">
-								<label for="">Street line 2</label>
-								<textarea  class="limited-char-field" placeholder="Type Here..." name="street_line_2" id="street_line_2"><?php echo isset($address_data['street_line_2_'])?$address_data['street_line_2_']:'';?></textarea>
-							</div>
-							
 							
 							<div class="form-row">
 								<label for="">Country</label>
