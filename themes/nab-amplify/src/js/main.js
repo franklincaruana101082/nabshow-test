@@ -46,4 +46,13 @@ jQuery(function($) {
 		cssEase: 'linear',
 		adaptiveHeight: true
 	});
+
+	jQuery('broadstreet-zone-container, .ad').each(function() {
+		var self = jQuery(this);
+	 	var adContainer = self.find('broadstreet-zone').children('div').html().trim();
+		if(adContainer=='') {
+			jQuery(self).addClass('_hidden');
+		}
+	});
+	
 });
