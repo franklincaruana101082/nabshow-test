@@ -47,8 +47,7 @@ jQuery(function($) {
 		adaptiveHeight: true
 	});
 
-	document.addEventListener("broadstreetLoaded", function() {
-		console.log('BS Loaded');
+	document.setTimeout(function() {
 		jQuery('broadstreet-zone-container, .ad').each(function() {
 			var self = jQuery(this);
 			var adContainer = self.find('broadstreet-zone');
@@ -62,6 +61,6 @@ jQuery(function($) {
 				jQuery(self).addClass('_hidden');
 			}
 		});
-	});
+	},500);
 	
 });
