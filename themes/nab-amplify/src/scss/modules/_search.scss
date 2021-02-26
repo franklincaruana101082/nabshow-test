@@ -181,11 +181,11 @@
 	h2 {
 		margin-top: .5em;
 		margin-bottom: .5em;
-		font-size: rem(42);
-		line-height: rem(42);
+		font-size: rem(26);
+		line-height: rem(26);
 		@include bp-1280 {
-			font-size: rem(26);
-			line-height: rem(26);
+			font-size: rem(42);
+			line-height: rem(42);
 		}
 		strong {
 			font-weight: 600;
