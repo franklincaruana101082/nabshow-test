@@ -364,6 +364,7 @@
 
 	/* tooltip */
 	.tooltip-container.large-label-tooltip .field-label{width:100%}
+	.nab-modal .large-label-tooltip.fa-info-circle[data-bp-tooltip]{width:100%}
 	.nab-modal .large-label-tooltip.fa-info-circle[data-bp-tooltip]::after, .nab-modal .large-label-tooltip .tooltip{transform:translateX(0)}
 
 	/* comments */

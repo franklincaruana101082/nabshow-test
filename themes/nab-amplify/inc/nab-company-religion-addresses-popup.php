@@ -8,7 +8,7 @@ global $post;
 			<div class="modal-content-wrap">
 				<div class="add-product-content-popup">
 					
-					<h2>Add or update an additional regional address here. <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Your primary location and company name are fields managed by the NAB team to be sure your company contact information is consistent and accurate across all of our systems. If you need to make a change to your primary address, please contact your sales rep."></i></h2>
+					<h2>Add or update an additional regional address here. <i class="fa fa-info-circle large-label-tooltip" aria-hidden="true" data-bp-tooltip="Your primary location and company name are fields managed by the NAB team to be sure your company contact information is consistent and accurate across all of our systems. If you need to make a change to your primary address, please contact your sales rep."></i></h2>
 					
 					<div class="form-wrapper">
 						<form method="post" id="nab-add-address-form" enctype="multipart/form-data">
