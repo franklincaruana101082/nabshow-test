@@ -47,20 +47,18 @@ jQuery(function($) {
 		adaptiveHeight: true
 	});
 
-	setTimeout(function() {
-		jQuery('broadstreet-zone-container, .ad').each(function() {
-			var self = jQuery(this);
-			var adContainer = self.find('broadstreet-zone');
-			var adContent = '';
-			console.log(adContainer.length);
-			if(adContainer.length) {
-		 		adContent = adContainer.children('div').html().trim();
-		 		console.log(adContent);
-		 	}
-			if(adContent=='') {
-				jQuery(self).addClass('_hidden');
-			}
-		});
-	},5000);
+	jQuery('.discover__ad, .homeproducts__ad').each(function() {
+		var self = jQuery(this);
+		var adContainer = self.find('broadstreet-zone');
+		var adContent = '';
+		console.log(adContainer.length);
+		if(adContainer.length) {
+	 		adContent = adContainer.children('div').html().trim();
+	 		console.log(adContent);
+	 	}
+		if(adContent=='') {
+			jQuery(self).addClass('_hidden');
+		}
+	});
 	
 });
