@@ -26,8 +26,6 @@
             analytics.page();
         }}();
     </script>
-    <script src="https://cdn.broadstreetads.com/init-2.min.js"></script>
-    <script>broadstreet.watch({ networkId: 6638 })</script>
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 </head>
 
