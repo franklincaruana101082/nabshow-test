@@ -48,6 +48,7 @@ jQuery(function($) {
 	});
 
 	document.addEventListener("broadstreetLoaded", function() {
+		console.log('BS Loaded');
 		jQuery('broadstreet-zone-container, .ad').each(function() {
 			var self = jQuery(this);
 			var adContainer = self.find('broadstreet-zone');
