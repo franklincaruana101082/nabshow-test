@@ -375,6 +375,7 @@
             }
 
             jQuery('#state').empty()
+            jQuery('#state').append('<option value="" selected> </option>' )
             data.forEach(function (item) {
               if (pre_state !== '' && typeof pre_state !== 'undefined') {
                 if (item.Display == pre_state) {
