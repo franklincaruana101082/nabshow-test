@@ -61,6 +61,6 @@ jQuery(function($) {
 				jQuery(self).addClass('_hidden');
 			}
 		});
-	},500);
+	},2000);
 	
 });
