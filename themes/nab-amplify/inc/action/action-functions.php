@@ -4238,3 +4238,26 @@ function nab_sync_beta_user_to_live(WP_REST_Request $request)
 
     return new WP_REST_Response($final_result, 200);
 }
+
+/**
+ * Update numeric member level base on acf member level field.
+ *
+ * @param  int $post_id
+ */
+function nab_update_company_member_level_meta_num($post_id)
+{
+
+    if ('company' === get_post_type($post_id)) {
+
+        $num_member_level_array = array(
+            'standard'  => 1,
+            'plus'      => 2,
+            'premium'   => 3,
+        );
+
+        $member_level       = strtolower(get_field('member_level', $post_id));
+        $num_member_level   = isset($num_member_level_array[$member_level]) ? $num_member_level_array[$member_level] : 0;
+
+        update_post_meta($post_id, 'member_level_num', $num_member_level);
+    }
+}
