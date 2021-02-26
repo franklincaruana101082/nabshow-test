@@ -288,7 +288,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$total_page		= ceil($total_users / 15);
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span>&ldquo;<strong>People</strong>&rdquo;</h2>
+						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span> <strong>People</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
@@ -390,7 +390,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span>&ldquo;<strong>Products</strong>&rdquo;</h2>
+						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span> <strong>Products</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
@@ -488,7 +488,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$total_company	= $company_query->found_posts;
 				?>
 					<div class="search-view-top-head">
-						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span>&ldquo;<strong>Companies</strong>&rdquo;</h2>
+						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span> <strong>Companies</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
@@ -594,7 +594,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				?>
 					<div class="search-view-top-head">
-						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span>&ldquo;<strong>Shop</strong>&rdquo;</h2>
+						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span> <strong>Shop</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
@@ -672,7 +672,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$total_event	= $event_query->found_posts;
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span>&ldquo;<strong>Events</strong>&rdquo;</h2>
+						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Events</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
@@ -797,7 +797,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span>&ldquo;<strong>Content</strong>&rdquo;</h2>
+						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Content</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
