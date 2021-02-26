@@ -42,9 +42,9 @@ registerBlockType( 'cgb/block-home-headliner', {
 	edit: ( props ) => {
 		const { attributes, setAttributes } = props;
 		return (
-			<div class="feature">
-				<div class="feature__main">
-					<h2 class="feature__title">
+			<div className="feature">
+				<div className="feature__main">
+					<h2 className="feature__title">
 						<PlainText
 							onChange={ content => setAttributes({ headlinerTitle: content }) }
 							value={ attributes.headlinerTitle }
@@ -61,7 +61,7 @@ registerBlockType( 'cgb/block-home-headliner', {
 						/>
 					</div>
 				</div>
-				<div class="feature__event">
+				<div className="feature__event">
 					<InnerBlocks />
 				</div>
 			</div>
@@ -72,16 +72,16 @@ registerBlockType( 'cgb/block-home-headliner', {
 	save: ( props ) => {
 		const { attributes } = props;
 		return (
-			<div class="feature">
-				<div class="feature__main">
-					<h2 class="feature__title">{ attributes.headlinerTitle }</h2>
+			<div className="feature">
+				<div className="feature__main">
+					<h2 className="feature__title">{ attributes.headlinerTitle }</h2>
 					<div className="feature__copy">
 						<RichText.Content
 							value={ attributes.headlinerBody }
 						/>
 					</div>
 				</div>
-				<div class="feature__event">
+				<div className="feature__event">
 					<InnerBlocks.Content />
 				</div>
 			</div>

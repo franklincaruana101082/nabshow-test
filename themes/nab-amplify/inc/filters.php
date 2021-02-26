@@ -120,3 +120,5 @@ add_filter( 'bp_email_validate', 'nab_stop_bp_email_notification', 10, 2 );
 function nab_stop_bp_email_notification( $retval, $class_ref) {
     return new WP_Error( 'missing_parameter', __CLASS__, $class_ref );
 }
+
+add_filter( 'pre_get_posts', 'nab_increase_session_archive_post_limit' );
