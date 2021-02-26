@@ -263,6 +263,8 @@
 	  	padding: rem(24) rem(18) 0;
 	  	margin-bottom: 0;
 	  	transition: color .25s ease-in-out;
+	  	overflow: hidden;
+	  	max-height: rem(105);
 	  }
 	  ._content:hover &, ._content:focus &, ._content:active & {
 	  	color: $color__yellow;
