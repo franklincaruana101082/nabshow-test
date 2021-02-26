@@ -220,3 +220,6 @@ add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
 add_action( 'template_redirect', 'nab_redirect_user_to_login_page' );
 
 add_action( 'rest_api_init', 'nab_register_user_api_endpoints' );
+
+add_action( 'acf/save_post', 'nab_update_company_member_level_meta_num', 20 );
+add_action( 'save_post_company', 'nab_update_company_member_level_meta_num', 10, 1 );

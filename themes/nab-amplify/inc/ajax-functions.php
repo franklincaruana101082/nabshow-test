@@ -1260,12 +1260,6 @@ function nab_company_search_filter_callback()
 		's'					=> $search_term,
 	);
 
-	if ('date' !== $orderby) {
-
-		$company_args['orderby'] 	= $orderby;
-		$company_args['order']	= $order;
-	}
-
 	if (!empty($search_term)) {
 
 		$get_search_term_id = get_term_by('name', $search_term, 'company-product-category');
@@ -1273,6 +1267,10 @@ function nab_company_search_filter_callback()
 		if ($get_search_term_id) {
 
 			$company_args['_meta_company_term'] = $get_search_term_id->term_id;
+
+			if ('meta' === $orderby) {
+				$company_args['_meta_company_order']	= true;
+			}
 		}
 	}
 
@@ -1286,6 +1284,20 @@ function nab_company_search_filter_callback()
 				'compare'	=> 'LIKE'
 			)
 		);
+	}
+
+	if (!isset($company_args['_meta_company_order'])) {
+
+		if ('meta' === $orderby) {
+
+			$company_args['meta_key']	= 'member_level_num';
+			$company_args['orderby']	= 'meta_value_num';
+			$company_args['order']		= 'DESC';
+		} elseif ('date' !== $orderby) {
+
+			$company_args['orderby'] 	= $orderby;
+			$company_args['order']		= $order;
+		}
 	}
 
 	$company_query = new WP_Query($company_args);
