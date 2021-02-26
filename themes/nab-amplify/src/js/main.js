@@ -47,7 +47,7 @@ jQuery(function($) {
 		adaptiveHeight: true
 	});
 
-	document.setTimeout(function() {
+	setTimeout(function() {
 		jQuery('broadstreet-zone-container, .ad').each(function() {
 			var self = jQuery(this);
 			var adContainer = self.find('broadstreet-zone');
