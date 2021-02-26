@@ -1946,7 +1946,6 @@ function nab_update_member_bookmark_callback()
 				update_user_meta($current_user_id, 'nab_customer_product_bookmark', $bookmark_products);
 
 				$final_result['tooltip'] = 'Remove from Bookmarks';
-
 				do_action( 'nab_bookmark_added', $item_id, $current_user_id );
 			}
 		} else if ('remove' === strtolower($bm_action)) {

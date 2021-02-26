@@ -208,7 +208,7 @@ function nab_amplify_upload_images()
                     do_action( 'nab_company_profile_image_update', $company_id );
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
-                    do_action( 'nab_user_profile_image_updated', $user_id );
+                    do_action( 'nab_user_profile_image_updated', $user_id );                    
                 }
             }
         }
