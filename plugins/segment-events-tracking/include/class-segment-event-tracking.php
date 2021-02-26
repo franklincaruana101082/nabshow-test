@@ -67,8 +67,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'woocommerce_save_account_details', array( $this, 'st_user_profile_update' ), 11, 1);
                 add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
                 add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
-                add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
-                add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );                
+                //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
+                //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );                
                 //add_action( 'wp_head', array( $this, 'st_page_event' ) );
                 add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
                 add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
