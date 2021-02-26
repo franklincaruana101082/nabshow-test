@@ -1211,9 +1211,7 @@ function nab_get_religion_address($address_id, $company_id)
                             <div class="amp-actions">
                                 <div class="search-actions nab-action">
                                     <div class="nab-action-row">
-                                        <i class="action-remove-address edit-block-icon fa fa-times" data-id="<?php echo $address_id; ?>" style="
-    right: 70px;
-"></i>
+                                        <i class="action-remove-address edit-block-icon fa fa-times" data-id="<?php echo $address_id; ?>"></i>
                                         <i class="action-add-address edit-block-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
                                     </div>
                                 </div>
