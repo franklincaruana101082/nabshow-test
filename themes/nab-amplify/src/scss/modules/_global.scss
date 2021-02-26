@@ -474,15 +474,17 @@
 broadstreet-zone-container {
 	padding-top: rem(20);
   	padding-bottom: rem(20);
-	&:before {
-		content: "Advertisement";
-		display: block;
-		font-family: $font__secondary;
-		font-size: rem(12);
-		color: $color__gray-lighter;
-		text-align: center;
-		line-height: 1;
-		padding-bottom: rem(4);
+  	broadstreet-zone div span {
+		&:before {
+			content: "Advertisement";
+			display: block;
+			font-family: $font__secondary;
+			font-size: rem(12);
+			color: $color__gray-lighter;
+			text-align: center;
+			line-height: 1;
+			padding-bottom: rem(4);
+		}
 	}
 	&._hidden {
 		display: none;
@@ -501,10 +503,12 @@ broadstreet-zone-container {
 	  font-size: rem(15);
   }
   broadstreet-zone-container {
-  	&:before {
-  		content: '';
-  		display: none;
-  	}
+  	broadstreet-zone div span {
+		&:before {
+			content: '';
+			display: none;
+		}
+	}
   }
   &__display {
 	display: block;
