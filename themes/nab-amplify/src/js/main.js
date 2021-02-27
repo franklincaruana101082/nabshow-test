@@ -52,15 +52,15 @@ jQuery(function($) {
 			var self = jQuery(this);
 			var adContainer = self.find('broadstreet-zone');
 			var adContent = '';
-			console.log(adContainer.length);
 			if(adContainer.length) {
 		 		adContent = adContainer.children('div').html().trim();
-		 		console.log(adContent);
 		 	}
 			if(adContent=='') {
 				jQuery(self).addClass('_hidden');
 			}
 		});
 	}, 10000);
+
+	jQuery('.homeproducts__image').wrap('<div class="homeproducts__imageWrap"></div>');
 	
 });
