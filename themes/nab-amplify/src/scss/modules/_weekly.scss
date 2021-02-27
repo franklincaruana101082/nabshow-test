@@ -112,7 +112,12 @@
 		margin-bottom: rem(10);
 		color: $color__white;
 		text-decoration: none;
-		font-size: rem(42);
+		font-size: rem(36);
+		line-height: 1.2;
+		@include bp-1280 {
+			font-size: rem(42);
+			line-height: 1.2;
+		}
 		a & {
 			color: $color__white;
 			text-decoration: none;
