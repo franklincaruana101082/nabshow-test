@@ -62,5 +62,7 @@ jQuery(function($) {
 			}
 		});
 	}, 10000);
+
+	jQuery('.homeproducts__image').wrap('<div class="homeproducts__imageWrap"></div>');
 	
 });

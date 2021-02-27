@@ -59,6 +59,19 @@
 						margin-left: 0;
 					}
 				}
+				&__imageWrap {
+					position: relative;
+					height: rem(140);
+					overflow: hidden;
+					margin-bottom: rem(15);
+					background-color: $color__white;
+					.homeproducts__image {
+						position: absolute;
+						top: 50%;
+						left: 0;
+						transform: translateY(-50%);
+					}
+				}
 				&__image {
 					display: block;
 					margin-bottom: rem(15);
