@@ -1054,3 +1054,15 @@ function clean_post_content($content) {
 
     return $content;
 }
+
+/**
+ * Get total company post count
+ *
+ * @return int
+ */
+function nab_get_total_company_count() {
+
+	$total_posts = wp_count_posts( 'company' );
+
+	return isset( $total_posts->publish ) ? $total_posts->publish : 0;
+}

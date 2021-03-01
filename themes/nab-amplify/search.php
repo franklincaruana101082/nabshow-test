@@ -10,7 +10,7 @@
 
 get_header();
 
-$search_term 		= get_search_query();
+$search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
 $view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event');
@@ -473,6 +473,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;
 						$company_args['_meta_company_order']	= true;
 					}
+				} else {
+
+					$company_args['meta_query'] = array(
+						array(
+							'key' 		=> 'company_user_id',
+							'value' 	=> '',
+							'compare'	=> '!='
+						)
+					);
 				}
 
 				if ( ! isset( $company_args['_meta_company_order'] ) ) {
@@ -485,7 +494,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ($company_query->have_posts()) {
 
-					$total_company	= $company_query->found_posts;
+					$total_company	= nab_get_total_company_count();
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span> <strong>Companies</strong></h2>
@@ -1034,6 +1043,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 					$company_args['_meta_company_order']	= true;
 				}
+			} else {
+
+				$company_args['meta_query'] = array(
+					array(
+						'key' 		=> 'company_user_id',
+						'value' 	=> '',
+						'compare'	=> '!='
+					)
+				);
 			}
 
 			if ( ! isset( $company_args['_meta_company_order'] ) ) {
@@ -1047,7 +1065,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			if ($company_query->have_posts()) {
 
 				$search_found	= true;
-				$total_company	= $company_query->found_posts;
+				$total_company	= nab_get_total_company_count();
 			?>
 				<div class="search-section search-company-section">
 					<div class="search-section-heading">
