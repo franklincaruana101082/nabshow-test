@@ -77,3 +77,30 @@
 	
 
   }
+
+  .intro-feature {
+  position: relative;
+  background: $color__gray-darker;
+  @include bp-1024 {
+    background: $color__gray-dark;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: rem(180);
+      background: $color__gray-darker;
+      border-bottom: rem(4) solid $color__purple; //fallback
+      border-image: linear-gradient(90deg, $color__purple, $color__blue) 4;
+    }
+  }
+  &__media {
+    position: relative;
+    img {
+      width: 100%;
+      height: auto;
+      vertical-align: baseline;
+    }
+  }
+}

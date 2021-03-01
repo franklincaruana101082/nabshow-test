@@ -165,6 +165,18 @@
 				margin-right: rem(30);
 			}
 		}
+		&__hosts {
+			> * + * {
+				margin: 0;
+			}
+			@include bp-604 {
+				display: flex;
+				justify-content: flex-start;
+				> * + * {
+					margin: 0 0 0 rem(45);
+				}
+			}
+		}
 		&__host {
 			display: flex;
 			align-items: center;
