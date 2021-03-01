@@ -75,8 +75,10 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 			}
 			if ( isset( $bm_domain ) && ! empty( $bm_domain ) ) {
 			    // remove http/https
-				$bm_domain = str_replace('http://', '', $bm_domain );
-				$bm_domain = str_replace('https://', '', $bm_domain );
+				$bm_domain = str_replace('https', '', $bm_domain );
+				$bm_domain = str_replace('http', '', $bm_domain );
+				$bm_domain = str_replace('/', '', $bm_domain );
+				$bm_domain = str_replace(':', '', $bm_domain );
 				update_option( 'bm_domain', $bm_domain );
 			}
 			?>
@@ -86,7 +88,7 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
                     <table class="form-table" role="presentation">
                         <tr>
                             <th>
-                                <label for="bm_domain">Bynder Domain (without http):</label>
+                                <label for="bm_domain">Bynder Domain (without http/https):</label>
                             </th>
                             <td>
                                 <input type="text" name="bm_domain" id="bm_domain" value="<?php echo esc_attr( get_option( 'bm_domain' ) ); ?>" class="regular-text" required/>

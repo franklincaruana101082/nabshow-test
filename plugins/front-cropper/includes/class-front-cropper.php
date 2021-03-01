@@ -18,6 +18,9 @@ if ( ! class_exists( 'Front_Cropper' ) ) {
 
 			// Action to add script and style in front area.
 			add_action( 'wp_enqueue_scripts', array( $this, 'fc_enqueue_script' ) );
+
+			// Action to add script and style in admin area.
+			add_action( 'admin_enqueue_scripts', array( $this, 'fc_enqueue_script' ) );
 		}
 
 		/*

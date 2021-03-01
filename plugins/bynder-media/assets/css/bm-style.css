@@ -132,6 +132,9 @@ a#bm-featured-remove{margin-bottom:20px;}
 #bm-msg{font-family:"Arial", sans-serif;}
 #bm-msg a{font-family:"Arial", sans-serif;}
 
+/* CSS for admin only */
+.edit-post-header__settings .bm-select-media{margin-right:12px;}
+
 /* Media CSS */
 @media (max-width:1180px){
 
@@ -147,6 +150,10 @@ a#bm-featured-remove{margin-bottom:20px;}
 
 	/* Media Items */
 	.bm-media-main .bm-item{width:50%;}
+}
+@media (max-width:599px){
+	/* CSS for admin only */
+	.edit-post-header__settings .bm-select-media{margin-right:4px;}
 }
 @media (max-width:480px){
 
