@@ -125,7 +125,7 @@
 						<?php } ?>
 
 						<li class="menu__item">
-							<a class="menu__link _login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Log In', 'nab-amplify' ); ?></a>
+							<a class="menu__link _login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
 						</li>
 					<?php } ?>
 					<?php /*
