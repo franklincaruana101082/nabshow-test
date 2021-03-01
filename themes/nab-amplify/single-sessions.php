@@ -144,7 +144,11 @@ get_header();
 									</div>
 								</div>
 								<div class="embed-wrapper _chat">
-									<?php do_shortcode("[cometchat-pro widget-id='" .esc_html($chat_room_id)."' widget-version='v2']"); ?>
+									<?php 
+										$cometchat_shortcode = "[cometchat-pro widget-id='" .$chat_room_id."' widget-version='v2']"
+										echo esc_html("<!--".$cometchat_shortcode."-->");
+										do_shortcode($cometchat_shortcode); 
+									?>
 								</div>
 								</div>
 
