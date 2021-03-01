@@ -108,9 +108,6 @@ get_header();
 					$chat_room_id               = get_field( 'chat_room_id' );
 					$video_embed                = get_field( 'video_embed' );
 
-					$company_id 								= $company->post_id;
-					$company_name								= $company->post_title;
-
 					if ( is_user_logged_in() ) {
 						$user											= get_current_user();
 						$user_id									= get_current_user_id();
@@ -130,17 +127,8 @@ get_header();
 							
 							<div
 								class="involveme_embed"
-								data-embed="<?php=$pre_event_registration_id;?>"
-								data-params="
-								remote_id=<?php echo esc_html($user_id); ?>
-								&email=<?php echo esc_html($user_email); ?>
-								&first_name=<?php echo esc_html($user_firstname); ?>
-								&last_name=<?php echo esc_html($user_lastname); ?>
-								&session_id=<?php the_ID(); ?>
-								&session_name=<?php the_title();?>
-								&company_id=<?php echo esc_html($company_id);?>
-								&company_name=<?php echo esc_html($company_name);?>
-								"
+								data-embed="<?php echo esc_html($pre_event_registration_id);?>"
+								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company->ID);?>&company_name=<?php echo esc_html($company->post_title);?>"
 							></div>
 							<script src="https://app.involve.me/embed"></script>
 							
@@ -161,36 +149,18 @@ get_header();
 								<div 
 								class="involveme_embed"
 								data-embed="<?php echo esc_html( $live_event_survey_id ); ?>"
-								data-params="
-									remote_id=<?php echo esc_html($user_id); ?>
-									&email=<?php echo esc_html($user_email); ?>
-									&first_name=<?php echo esc_html($user_firstname); ?>
-									&last_name=<?php echo esc_html($user_lastname); ?>
-									&session_id=<?php the_ID(); ?>
-									&session_name=<?php the_title();?>
-									&company_id=<?php echo esc_html($company_id);?>
-									&company_name=<?php echo esc_html($company_name);?>
-									"></div>
+								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company->ID);?>&company_name=<?php echo esc_html($company->post_title);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
 						</div>
 					<?php } elseif($session_status == "post_event") { ?>
 						<div class="post-event">
 							<div class="involveme_embed"
 								data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
-								data-params="
-									remote_id=<?php echo esc_html($user_id); ?>
-									&email=<?php echo esc_html($user_email); ?>
-									&first_name=<?php echo esc_html($user_firstname); ?>
-									&last_name=<?php echo esc_html($user_lastname); ?>
-									&session_id=<?php the_ID(); ?>
-									&session_name=<?php the_title();?>
-									&company_id=<?php echo esc_html($company_id);?>
-									&company_name=<?php echo esc_html($company_name);?>
-									"></div>
+								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company->ID);?>&company_name=<?php echo esc_html($company->post_title);?>"></div>
 							<script src="https://app.involve.me/embed"></script>
 						</div>
 					<?php } ?>
-
+				</div>
 					<div class="intro-feature">
 						<div class="container">
 						<?php
@@ -218,7 +188,7 @@ get_header();
 						?>
 						</div>
 					</div>
-					</div>
+
 				</div><!-- .entry-content -->
 			</article><!-- #post-<?php the_ID(); ?> -->
 			<?php		
