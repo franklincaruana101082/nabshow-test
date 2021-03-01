@@ -10,6 +10,16 @@
         }
     });
 
+    // Load.
+    $(window).on('load', function(){
+
+        // If its edit page, add a button for Bynder upload at top right side.
+        if( 0 !== $('.editor-post-title .editor-post-title__input').length ) {
+            const uploadAssetBtn = "<button type='button' class='bm-select-media bm-post-header-select components-button is-tertiary' bynder-for='upload_only'>Upload Asset</button>";
+            $(".edit-post-header .edit-post-header__settings").prepend(uploadAssetBtn);
+        }
+    });
+
     // Clicking the cross icon at top right
     // side of the popup closes the popup.
     $(document).on('click', '.bm-modal-close', function(){
