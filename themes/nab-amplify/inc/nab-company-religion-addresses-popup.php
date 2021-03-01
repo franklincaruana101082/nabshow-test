@@ -1,14 +1,22 @@
 <?php
 global $post;
 ?>
-<div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
+<div id="addProductModal" class="nab-modal theme-dark nab-modal-active add-address-popup">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
 			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
 				<div class="add-product-content-popup">
 					
-					<h2>Add or update an additional regional address here. <i class="fa fa-info-circle large-label-tooltip" aria-hidden="true" data-bp-tooltip="Your primary location and company name are fields managed by the NAB team to be sure your company contact information is consistent and accurate across all of our systems. If you need to make a change to your primary address, please contact your sales rep."></i></h2>
+					<label for="" class="tooltip-container large-label-tooltip">
+											<div class="field-label"><h2 class="address-title">Add or update an additional regional address here.</h2></div>
+											<div class="tooltip-wrap">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												<div class="tooltip">
+												Your primary location and company name are fields managed by the NAB team to be sure your company contact information is consistent and accurate across all of our systems. If you need to make a change to your primary address, please contact your sales rep.
+												</div>
+											</div>
+										</label>
 					
 					<div class="form-wrapper">
 						<form method="post" id="nab-add-address-form" enctype="multipart/form-data">

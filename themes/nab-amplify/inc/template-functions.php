@@ -1005,6 +1005,30 @@ function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url
 
 	return $featured_image;
 }
+
+function nab_amplify_get_bynder_products( $post_id ) {
+
+    $product_media = array();
+
+	if ( class_exists('Bynder_Media') ) {
+		$product_media_bm = get_field( 'product_media_bm', $post_id );
+		$product_media_bm = explode( ',', $product_media_bm );
+		$count = 0;
+		foreach ( $product_media_bm as $media ) {
+			if ( ! empty( $media ) ) {
+				$product_media[ $count ]['product_media_file']['ID']   = $media;
+				$product_media[ $count ]['product_media_file']['url']  = $media;
+				$product_media[ $count ]['product_media_file']['type'] = 'image';
+				$count ++;
+			}
+		}
+	} else {
+		$product_media = get_field('product_media', $post_id);
+    }
+
+	return $product_media;
+}
+
 /**
  * Get featured and search category limit based on company membership level.
  *
@@ -1075,4 +1099,16 @@ function clean_post_content($content) {
     $content = strtr($content, $post_cleaners);
 
     return $content;
+}
+
+/**
+ * Get total company post count
+ *
+ * @return int
+ */
+function nab_get_total_company_count() {
+
+	$total_posts = wp_count_posts( 'company' );
+
+	return isset( $total_posts->publish ) ? $total_posts->publish : 0;
 }

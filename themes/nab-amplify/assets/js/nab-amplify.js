@@ -468,22 +468,9 @@
     const company_id = amplifyJS.postID
     const _this = $(this)
     _this.addClass('loading')
-    if (confirm('Are you sure want to delete?')) {
-      jQuery.ajax({
-        type: 'POST',
-        url: amplifyJS.ajaxurl,
-        data: {
-          action: 'nab_amplify_remove_address',
-          address_id: address_id,
-          company_id: company_id
-        },
-        success: function (data) {
-          if (data.success) {
-            location.reload()
-          }
-        }
-      })
-    }
+    get_address_remove_popup('Are you sure want to remove?',address_id)
+      
+    
   })
 
   $(document).on('click', '#nab-add-address-submit', function () {
@@ -638,7 +625,7 @@
             }
           }
         })
-        
+
       },
       content_css:
         amplifyJS.ThemeUri + '/assets/css/nab-front-tinymce.css?ver=' + time,
@@ -661,7 +648,7 @@
           +"span[class],"
           +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
           +"u"
-   
+
     })
   }
 
@@ -776,6 +763,61 @@
       }
     })
   }
+
+  function get_address_remove_popup(message,address_id){
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_get_error_popup',
+        message: message,
+        confirm:'1',
+        address_id:address_id
+      },
+      success: function (data) {
+        if (0 === $('#connection-message-popup').length) {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('connection-popup-added')
+        } else {
+          $('body').addClass('connection-popup-added')
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+        }
+      }
+    })
+  }
+
+  $(document).on('click', '.confirm_address_remove_yes', function () {
+    const address_id =
+        undefined !== $(this).data('id') ? $(this).data('id') : ''
+      const company_id = amplifyJS.postID
+      const _this = $(this)
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_remove_address',
+        address_id: address_id,
+        company_id: company_id
+      },
+      beforeSend:function(){
+$('body').addClass('is-loading');
+      },
+      success: function (data) {
+        if (data.success) {
+          location.reload()
+        }
+      }
+    })
+  })
+  $(document).on('click', '.confirm_address_remove_no', function () {
+    $(this)
+    .parents('.nab-modal')
+    .hide()
+  })
+
 
   $(document).on(
     'click',
@@ -1004,7 +1046,7 @@
     })
   })
 
-  
+
 
   /* Add nab product ajax call */
   var remove_attachment_arr = []
@@ -1085,7 +1127,7 @@
   $(document).on('change', '#product_medias', function (e) {
 
     var fileExtension = ['png','jpg','jpeg','gif'];
-        
+
 
     var global_media_count = jQuery('.nab-product-media-item').length
     if (global_media_count < 5) {
@@ -1096,14 +1138,12 @@
       }
         var timestamp = Date.now()
         var unique_key = file.lastModified + '_' + timestamp
-        $('#product_media_wrapper').append(
-          '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
-            unique_key +
-            '" src="#" alt="your image" style="display:none;"/></div>'
-        )
+
+        nabAddProdBlankImage(unique_key);
+
         var reader = new FileReader()
         reader.onload = function (e) {
-         
+
           $('#product_media_preview_' + unique_key + '').attr(
             'src',
             e.target.result
@@ -1177,7 +1217,7 @@
     var nab_product_learn_more_url = jQuery(
       '#nab-edit-product-form #nab_product_learn_more_url'
     ).val()
-    
+
     var nab_product_id = jQuery('#nab-edit-product-form #nab_product_id').val()
     var nab_company_id = jQuery('#nab-edit-product-form #nab_company_id').val()
 
@@ -1194,14 +1234,24 @@
       return false
     }
 
-    var form_data = new FormData()
+    // If bynder images selected.
+    if( 'function' === typeof addBMpopup ) {
+        let product_media_bm_src = [];
+        $('.nab-product-media-item img').each(function () {
+            product_media_bm_src.push($(this).attr('src'));
+        });
+        product_media_bm_src = product_media_bm_src.join(',');
+        form_data.append('product_media_bm', product_media_bm_src)
+    } else {
+      $.each($('#product_medias')[0].files, function (key, file) {
+        form_data.append(key, file)
+      })
+    }
 
-    $.each($('#product_medias')[0].files, function (key, file) {
-      form_data.append(key, file)
-    })
     if (product_title == '') {
       alert('Product title can not be empty!')
       return false
+    var form_data = new FormData()
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
@@ -1231,7 +1281,7 @@
     } else {
       form_data.append('nab_product_learn_more_url', nab_product_learn_more_url)
     }
-    
+
     form_data.append('product_status', postStatus)
 
     form_data.append('remove_attachments', remove_attachment_arr)
@@ -4206,6 +4256,14 @@
     }
   })
 })(jQuery)
+
+function nabAddProdBlankImage(unique_key) {
+  $('#product_media_wrapper').append(
+      '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
+      unique_key +
+      '" src="#" alt="your image" style="display:none;"/></div>'
+  );
+}
 
 // Get friend button
 function nab_get_friend_button (_this) {

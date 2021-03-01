@@ -229,7 +229,6 @@ function nab_amplify_edit_product()
     $taxonomies    = get_object_taxonomies('nab-product');
     $taxonomy_data = wp_get_object_terms($post_id, 'company-product-category', array('fields' => 'slugs'));
     $tag_data      = wp_get_object_terms($post_id, 'company-product-tag', array('fields' => 'slugs'));
-    $product_media = get_field('product_media', $post_id);
 
     $post_data->product_copy               = get_field('product_copy', $post_id);
     $post_data->product_specs              = get_field('product_specs', $post_id);
@@ -239,14 +238,15 @@ function nab_amplify_edit_product()
     $post_data->is_product_sales_item      = get_field('is_product_sales_item', $post_id);
     $post_data->categories                 = $taxonomy_data;
     $post_data->tags                       = $tag_data;
-    $post_data->product_media              = $product_media;
     $post_data->product_thumbnail          = nab_amplify_get_featured_image( $post_id, true, '', 'full' );
     $post_data->product_thumbnail_id       = get_post_thumbnail_id($post_id);
     $post_data->product_copy_html          = nab_get_wp_editor($post_data->product_copy, 'nab_product_copyx', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $post_data->product_specs_html         = nab_get_wp_editor($post_data->product_specs, 'nab_product_specsx', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
-    $terms = get_terms('company-product-category', array(
+	$post_data->product_media = nab_amplify_get_bynder_products( $post_id );
+
+	$terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
     require_once get_template_directory() . '/inc/nab-edit-product.php';
@@ -553,7 +553,7 @@ function nab_amplify_register_post_types() {
     );
 
     $args = array(
-        'label'               => __('Speakers', 'nab-amplify'),        
+        'label'               => __('Speakers', 'nab-amplify'),
         'labels'              => $labels,
         'hierarchical'        => false,
         'public'              => false,
@@ -2926,7 +2926,6 @@ function nab_add_product()
 {
 
     $final_result               = array();
-    $uploaded_attachments       = array();
     $post_title                 = filter_input(INPUT_POST, 'product_title', FILTER_SANITIZE_STRING);
     $post_categories            = explode(',', filter_input(INPUT_POST, 'product_categories', FILTER_SANITIZE_STRING));
     $product_copy               = filter_input(INPUT_POST, 'nab_product_copy', FILTER_UNSAFE_RAW);
@@ -2935,18 +2934,21 @@ function nab_add_product()
     $is_feature_product         = filter_input(INPUT_POST, 'nab_feature_product', FILTER_SANITIZE_STRING);
     $is_product_b_stock         = filter_input(INPUT_POST, 'nab_product_b_stock', FILTER_SANITIZE_STRING);
     $is_product_sales_item      = filter_input(INPUT_POST, 'nab_product_sales_item', FILTER_SANITIZE_STRING);
-    $product_discussion         = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT);
-    $product_tags               = filter_input(INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING);
-    $product_id                 = filter_input(INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT);
-    $product_status             = filter_input(INPUT_POST, 'product_status', FILTER_SANITIZE_STRING);
-    $remove_attachments         = explode(',', filter_input(INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING));
-    $nab_company_id             = filter_input(INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT);
-    $nab_product_learn_more_url = filter_input(INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING);
-    $product_media              = get_field('product_media', $product_id);
-    $response_msg               = '';
-    $product_contact            = $product_contact ? $product_contact : 0;
-    $tracking_status            = 'trash' === strtolower( $product_status ) ? 'delete' : 'update'; 
-    
+    $product_discussion         = filter_input(INPUT_POST, 'nab_product_discussion', FILTER_SANITIZE_NUMBER_INT );
+	$product_tags = filter_input( INPUT_POST, 'nab_product_tags', FILTER_SANITIZE_STRING );
+	$product_id = filter_input( INPUT_POST, 'nab_product_id', FILTER_SANITIZE_NUMBER_INT );
+	$product_status = filter_input( INPUT_POST, 'product_status', FILTER_SANITIZE_STRING );
+	$remove_attachments = explode( ',', filter_input( INPUT_POST, 'remove_attachments', FILTER_SANITIZE_STRING ) );
+	$nab_company_id = filter_input( INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT );
+	$nab_product_learn_more_url = filter_input( INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING );
+	$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_SANITIZE_STRING );
+	$product_media_bm = $product_media_bm ? explode( ',', $product_media_bm ) : array();
+	$uploaded_attachments = array();
+	$product_media = nab_amplify_get_bynder_products( $product_id );
+	$response_msg = '';
+	$product_contact = $product_contact ? $product_contact : 0;
+    $tracking_status            = 'trash' === strtolower( $product_status ) ? 'delete' : 'update';
+
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');
     $updated_desc = update_post_meta($product_id, '_yoast_wpseo_metadesc', $product_excerpt);
@@ -2975,7 +2977,7 @@ function nab_add_product()
     }
 
     if ($product_id !== '0') {
-        
+
         $current_status = get_post_status($product_id);
 
         // Update the post into the database
@@ -2983,19 +2985,13 @@ function nab_add_product()
 
         $post_id                 = wp_update_post($product_post_data);
 
-        /*Add existing media to loop */
-        $product_media = get_field('product_media', $post_id);
-        foreach ($product_media as $media) {
-            if (!empty($media['product_media_file'])) {
-                $uploaded_attachments[] = $media['product_media_file']['ID'];
-            }
-        }
-
-        if (!empty($remove_attachments)) {
-            foreach ($remove_attachments as $remove_attach) {
-                wp_delete_attachment($remove_attach);
-                if (($key = array_search($remove_attach, $uploaded_attachments)) !== false) {
-                    unset($uploaded_attachments[$key]);
+	    if ( ! empty( $remove_attachments ) ) {
+	        foreach ($remove_attachments as $remove_attach) {
+	            if( is_int($remove_attach)) {
+                    wp_delete_attachment($remove_attach);
+                    if (($key = array_search($remove_attach, $uploaded_attachments)) !== false) {
+                        unset($uploaded_attachments[$key]);
+                    }
                 }
             }
         }
@@ -3034,49 +3030,62 @@ function nab_add_product()
 
     wp_set_post_terms($post_id, $product_tags, 'company-product-tag', true);
 
-
-
     apply_filters('comments_open', $product_discussion, $post_id);
 
+	// Add product media
+	$value = array();
 
-    $dependencies_loaded = 0;
+	if ( class_exists('Bynder_Media')) {
+        $count = 0;
+		$uploaded_attachments = array();
+		foreach ( $product_media_bm as $media ) {
+				$uploaded_attachments[$count]['product_media_file']['ID'] = $media;
+				$uploaded_attachments[$count]['product_media_file']['url'] = $media;
+				$uploaded_attachments[$count]['product_media_file']['type'] = 'image';
+				//$uploaded_attachments[$total_bm_images]['title'] = '';
+			$count ++;
+		}
+		update_field( 'product_media_bm', $uploaded_attachments, $post_id );
 
-    $existing_product_media = count($uploaded_attachments);
+	} else {
+		$dependencies_loaded = 0;
 
-    $diff = 4 - $existing_product_media;
+		$existing_product_media = count($uploaded_attachments);
 
-    foreach ($_FILES as $file_key => $file_details) {
-        if ($file_key < $diff) {
-            if (0 === $dependencies_loaded) {
-                // These files need to be included as dependencies when on the front end.
-                require_once ABSPATH . 'wp-admin/includes/image.php';
-                require_once ABSPATH . 'wp-admin/includes/file.php';
-                require_once ABSPATH . 'wp-admin/includes/media.php';
-                $dependencies_loaded = 1;
-            }
+		$diff = 4 - $existing_product_media;
 
-            // Let WordPress handle the upload.
-            $attachment_id = media_handle_upload($file_key, 0);
+		foreach ($_FILES as $file_key => $file_details) {
+			if ($file_key < $diff) {
+				if (0 === $dependencies_loaded) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = 1;
+				}
 
-            if (!is_wp_error($attachment_id)) {
-                // update in meta
-                if ($file_key === 'product_featured_image') {
-                    set_post_thumbnail($post_id, $attachment_id);
-                } else {
-                    $uploaded_attachments[] = $attachment_id;
-                }
-            }
-        }
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload($file_key, 0);
+
+				if (!is_wp_error($attachment_id)) {
+					// update in meta
+					if ($file_key === 'product_featured_image') {
+						set_post_thumbnail($post_id, $attachment_id);
+					} else {
+						$uploaded_attachments[] = $attachment_id;
+					}
+				}
+			}
+		}
+
+		foreach ($uploaded_attachments as $item) {
+			$field_key = "field_5fb687d9c964e";
+			$value[]   = array(
+				"product_media_file" => $item,
+			);
+		}
+		update_field($field_key, $value, $post_id);
     }
-    // Add product media
-    $value = array();
-    foreach ($uploaded_attachments as $item) {
-        $field_key = "field_5fb687d9c964e";
-        $value[]   = array(
-            "product_media_file" => $item,
-        );
-    }
-    update_field($field_key, $value, $post_id);
 
     // Add product copy
     update_field('field_5fb73eedf021b', $product_copy, $post_id);
@@ -3606,7 +3615,7 @@ function nab_update_company_profile_callback()
             update_field('company_user_id', $company_admins, $company_id);
         }
 
-    }    
+    }
 
     $final_result['success'] = true;
     $final_result['content'] = '';
@@ -4405,10 +4414,10 @@ function display_posts_stickiness( $column, $post_id ) {
     }
 }
 add_action( 'manage_posts_custom_column' , 'display_posts_stickiness', 10, 2 );
- 
+
 /* Add custom column to post list */
 function add_sticky_column( $columns ) {
-    return array_merge( $columns, 
+    return array_merge( $columns,
         array( 'company' => __( 'Company', 'your_text_domain' ) ) );
 }
 add_filter( 'manage_company-products_posts_columns' , 'add_sticky_column' );

@@ -1260,6 +1260,8 @@ function nab_company_search_filter_callback()
 		's'					=> $search_term,
 	);
 
+	$meta_query_args = array( 'relation' => 'AND' );
+
 	if (!empty($search_term)) {
 
 		$get_search_term_id = get_term_by('name', $search_term, 'company-product-category');
@@ -1272,18 +1274,29 @@ function nab_company_search_filter_callback()
 				$company_args['_meta_company_order']	= true;
 			}
 		}
+	} else {
+		$meta_query_args[] = array(
+			array(
+				'key' 		=> 'company_user_id',
+				'value'		=> '',
+				'compare'	=> '!='
+			)
+		);
 	}
 
+
 	if (!empty($product_category)) {
-
-		$company_args['meta_query'] = array(
-
+		$meta_query_args[] = array(
 			array(
 				'key' 		=> 'product_categories',
 				'value'		=> '"' . $product_category . '"',
 				'compare'	=> 'LIKE'
 			)
 		);
+	}
+
+	if ( count( $meta_query_args ) > 1 ) {
+		$company_args['meta_query'] = $meta_query_args;
 	}
 
 	if (!isset($company_args['_meta_company_order'])) {
@@ -1303,7 +1316,7 @@ function nab_company_search_filter_callback()
 	$company_query = new WP_Query($company_args);
 
 	$total_pages 	= $company_query->max_num_pages;
-	$total_company = $company_query->found_posts;
+	$total_company	= nab_get_total_company_count();
 
 	if ($company_query->have_posts()) {
 
@@ -1379,10 +1392,10 @@ function nab_company_search_filter_callback()
 	}
 	wp_reset_postdata();
 
-	$final_result['next_page_number'] = $page_number + 1;
-	$final_result['total_page']       = $total_pages;
-	$final_result['total_company']	= $total_company;
-	$final_result['result_post']      = $result_post;
+	$final_result['next_page_number'] 	= $page_number + 1;
+	$final_result['total_page']       	= $total_pages;
+	$final_result['total_company']		= $total_company;
+	$final_result['result_post']      	= $result_post;
 
 	echo wp_json_encode($final_result);
 
@@ -1471,13 +1484,13 @@ function nab_company_product_search_filter_callback()
 		$cnt 				= 0;
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
-		
-		
+
+
 		while ($company_prod_query->have_posts()) {
-  
+
 			$company_prod_query->the_post();
 
-			$product_medias = get_field('product_media', get_the_ID());
+			$product_medias = nab_amplify_get_bynder_products( get_the_ID() );
 
 			$thumbnail_url = '';
 
@@ -1950,7 +1963,7 @@ function nab_update_member_bookmark_callback()
 				$final_result['tooltip'] = 'Remove from Bookmarks';
 
 				do_action( 'nab_bookmark_added', $item_id, $current_user_id );
-			}			
+			}
 		} else if ('remove' === strtolower($bm_action)) {
 
 			if (!empty($bookmark_products) && is_array($bookmark_products) && in_array($item_id, $bookmark_products, true)) {
@@ -2326,11 +2339,11 @@ function nab_bp_send_message()
 	if (true === is_int($send)) {
 		if ( isset( $post_id ) && ! empty( $post_id ) ) {
 			do_action( 'nab_message_send', $recipient, $current_user_id, $post_id );
-		}		
+		}
 		wp_send_json_success(array(
 			'feedback' => __('Message successfully sent.', 'buddypress'),
 			'type'     => 'success',
-		));		
+		));
 		// Message could not be sent.
 	} else {
 		$response['feedback'] = $send->get_error_message();
@@ -2961,7 +2974,7 @@ function nab_amplify_add_address()
 	);
 	$address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
 	$country_list = nab_get_countries();
-	
+
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-company-religion-addresses-popup.php';
@@ -2971,7 +2984,7 @@ function nab_amplify_add_address()
 	wp_send_json($popup_html, 200);
 
 	wp_die();
-	
+
 }
 
 /*Update regional addresses */
@@ -3147,18 +3160,18 @@ function nab_amplify_state_filter(){
     $country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
 	$filtered_states = array();
 	$states          = nab_get_states();
-	
-	
+
+
 	foreach($states as $state){
-		
+
 		if($state['Country'] == $country_code){
-			
+
 			$filtered_states[] = $state;
 		}
 	}
 
 	wp_send_json($filtered_states, 200);
-	
+
 }
 
 // Ajax to show Error popup.
@@ -3167,6 +3180,8 @@ add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
 
 function nab_get_error_popup(){
 	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
+	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-error-popup.php';

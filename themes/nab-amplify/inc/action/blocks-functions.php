@@ -519,7 +519,7 @@ function nab_company_produts_render_callback($attributes)
 
                         $product_link       = get_the_permalink();
                         $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
-                        $product_medias     = get_field('product_media', get_the_ID());
+                        $product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 
                     ?>
                         <div class="amp-item-col">
@@ -662,7 +662,7 @@ function nab_company_events_render_callback($attributes)
                         $final_date     = date_format( date_create( $final_date ), 'Ymd' );
                         $current_date   = current_time('Ymd');
                         $opening_date   = new DateTime( $final_date );
-                        $current_date   = new DateTime( $current_date );                        
+                        $current_date   = new DateTime( $current_date );
                     ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
@@ -673,7 +673,7 @@ function nab_company_events_render_callback($attributes)
                                         <div class="amp-draft-wrapper">
                                             <span class="company-product-draft">Past Event</span>
                                         </div>
-                                        <?php    
+                                        <?php
                                     }
                                     ?>
                                     <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">

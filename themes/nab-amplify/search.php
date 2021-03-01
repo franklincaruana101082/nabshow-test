@@ -10,7 +10,7 @@
 
 get_header();
 
-$search_term 		= get_search_query();
+$search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
 $view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event');
@@ -419,7 +419,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$product_link	    = get_the_permalink();
 								$company_id			= get_field('nab_selected_company_id', get_the_ID());
 								$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-								$product_medias     = get_field('product_media');
+								$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 							?>
 								<div class="amp-item-col">
 									<div class="amp-item-inner">
@@ -495,6 +495,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 						$company_args['_meta_company_order']	= true;
 					}
+				} else {
+					
+					$company_args['meta_query'] = array(
+						array(
+							'key' 		=> 'company_user_id',
+							'value' 	=> '',
+							'compare'	=> '!='
+						)
+					);
 				}
 
 				if ( ! isset( $company_args['_meta_company_order'] ) ) {
@@ -507,7 +516,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ($company_query->have_posts()) {
 
-					$total_company	= $company_query->found_posts;
+					$total_company	= nab_get_total_company_count();
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span><strong>COMPANIES</strong></h2>
@@ -749,11 +758,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										$final_date = $event_end_date;
 									}
 								}
-								
+
 								$final_date     = date_format( date_create( $final_date ), 'Ymd' );
                         		$current_date   = current_time('Ymd');
                         		$opening_date   = new DateTime( $final_date );
-                        		$current_date   = new DateTime( $current_date ); 
+                        		$current_date   = new DateTime( $current_date );
 								?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -764,7 +773,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												<div class="amp-draft-wrapper">
 													<span class="company-product-draft">Past Event</span>
 												</div>
-												<?php    
+												<?php
 											}
 											?>
 											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
@@ -1060,7 +1069,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$product_link	    = get_the_permalink();
 							$company_id			= get_field('nab_selected_company_id', get_the_ID());
 							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-							$product_medias     = get_field('product_media');
+							$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 						?>
 							<div class="amp-item-col">
 								<div class="amp-item-inner">
@@ -1113,6 +1122,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 					$company_args['_meta_company_order']	= true;
 				}
+			} else {
+
+				$company_args['meta_query'] = array(
+					array(
+						'key' 		=> 'company_user_id',
+						'value' 	=> '',
+						'compare'	=> '!='
+					)
+				);
 			}
 
 			if ( ! isset( $company_args['_meta_company_order'] ) ) {
@@ -1126,7 +1144,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			if ($company_query->have_posts()) {
 
 				$search_found	= true;
-				$total_company	= $company_query->found_posts;
+				$total_company	= nab_get_total_company_count();
 			?>
 				<div class="search-section search-company-section">
 					<div class="search-section-heading">
@@ -1370,7 +1388,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<div class="amp-draft-wrapper">
 												<span class="company-product-draft">Past Event</span>
 											</div>
-											<?php    
+											<?php
 										}
 										?>
 										<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />

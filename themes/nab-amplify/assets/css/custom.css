@@ -1782,3 +1782,6 @@ body .is_friend .remove::before{font-size:22px}
 .error-message-popup h4{
 	text-transform: inherit !important;
 }
+.add-address-popup .address-title{
+	text-transform: inherit !important;
+}
