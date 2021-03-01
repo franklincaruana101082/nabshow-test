@@ -859,6 +859,79 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 			$search_found 	= false;
 
+			$all_post_types = nab_get_search_post_types();
+
+			$content_args = array(
+				'post_type' 		=> $all_post_types,
+				'posts_per_page' 	=> 5,
+				'post_status'		=> 'publish',
+				's'					=> $search_term,
+				'meta_query'		=> array(
+					'relation'	=> 'OR',
+					array(
+						'key'		=> '_yoast_wpseo_meta-robots-noindex',
+						'value'		=> 'completely',
+						'compare'	=> 'NOT EXISTS'
+					),
+					array(
+						'key'		=> '_yoast_wpseo_meta-robots-noindex',
+						'value'		=> '1',
+						'compare'	=> '!='
+					)
+				),
+			);
+
+			if ( ! empty( $search_term ) ) {
+				$content_args[ '_meta_search' ] = true;
+			}
+
+			$content_query = new WP_Query( $content_args );
+
+			if ( $content_query->have_posts() ) {
+
+				$search_found	= true;
+				$total_content	= $content_query->found_posts;
+				?>
+				<div class="search-section search-content-section">
+					<div class="search-section-heading">
+						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
+						<?php
+						if ($total_content > 5) {
+
+							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'content'), $current_site_url);
+						?>
+							<div class="section-view-more">
+								<a href="<?php echo esc_html($content_view_more_link); ?>" class="view-more-link">View All</a>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+					<ul class="colgrid _5up" id="search-content-list">
+						<?php
+						while ($content_query->have_posts()) {
+
+							$content_query->the_post();
+
+							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
+							$post_link		= get_the_permalink();
+							?>
+							<li>
+								<a href="<?php echo esc_url($post_link); ?>" class="result _content">
+									<img class="result__image" src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
+									<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+								</a>
+							</li>
+						<?php
+						}
+						?>
+					</ul>
+				</div>
+			<?php
+			}
+
+			wp_reset_postdata();			
+
 			$members_filter = array(
 				'page' 		=> 1,
 				'per_page' 	=> 5,
@@ -1300,79 +1373,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 				<?php
 			}
-			wp_reset_postdata();
-
-			$all_post_types = nab_get_search_post_types();
-
-			$content_args = array(
-				'post_type' 		=> $all_post_types,
-				'posts_per_page' 	=> 5,
-				'post_status'		=> 'publish',
-				's'					=> $search_term,
-				'meta_query'		=> array(
-					'relation'	=> 'OR',
-					array(
-						'key'		=> '_yoast_wpseo_meta-robots-noindex',
-						'value'		=> 'completely',
-						'compare'	=> 'NOT EXISTS'
-					),
-					array(
-						'key'		=> '_yoast_wpseo_meta-robots-noindex',
-						'value'		=> '1',
-						'compare'	=> '!='
-					)
-				),
-			);
-
-			if ( ! empty( $search_term ) ) {
-				$content_args[ '_meta_search' ] = true;
-			}
-
-			$content_query = new WP_Query( $content_args );
-
-			if ( $content_query->have_posts() ) {
-
-				$search_found	= true;
-				$total_content	= $content_query->found_posts;
-				?>
-				<div class="search-section search-content-section">
-					<div class="search-section-heading">
-						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
-						<?php
-						if ($total_content > 5) {
-
-							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'content'), $current_site_url);
-						?>
-							<div class="section-view-more">
-								<a href="<?php echo esc_html($content_view_more_link); ?>" class="view-more-link">View All</a>
-							</div>
-						<?php
-						}
-						?>
-					</div>
-					<ul class="colgrid _5up" id="search-content-list">
-						<?php
-						while ($content_query->have_posts()) {
-
-							$content_query->the_post();
-
-							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
-							$post_link		= get_the_permalink();
-							?>
-							<li>
-								<a href="<?php echo esc_url($post_link); ?>" class="result _content">
-									<img class="result__image" src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
-									<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
-								</a>
-							</li>
-						<?php
-						}
-						?>
-					</ul>
-				</div>
-			<?php
-			}
-
 			wp_reset_postdata();
 
 			if (!$search_found) {
