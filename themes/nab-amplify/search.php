@@ -474,7 +474,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['_meta_company_order']	= true;
 					}
 				} else {
-
 					$company_args['meta_query'] = array(
 						array(
 							'key' 		=> 'company_user_id',
@@ -1044,7 +1043,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['_meta_company_order']	= true;
 				}
 			} else {
-
 				$company_args['meta_query'] = array(
 					array(
 						'key' 		=> 'company_user_id',
