@@ -1,7 +1,7 @@
 h1, h2, h3, h4, h5, h6, p {
   margin-bottom: 1em;
 }
-h1, h2 {
+h1 {
   font-family: $font__primary;
   font-weight:600;
   font-size: rem(42);
@@ -12,6 +12,20 @@ h1, h2 {
   @include bp-1280 {
     font-size: rem(58);
     line-height: rem(58);
+    letter-spacing: -0.01em;
+  }
+}
+
+h2 {
+  font-family: $font__primary;
+  font-weight:600;
+  font-size: rem(36);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  margin-top: 0;
+  
+  @include bp-1280 {
+    font-size: rem(42);
     letter-spacing: -0.01em;
   }
 }

@@ -14,8 +14,10 @@
 			width: calc(100% - 16.5rem);
 		}
 	}
-		&__list {
+		&__list, .entry-content &__list {
 			list-style: none;
+			margin: 0;
+			padding: 0;
 			@include bp-768 {
 				display: flex;
 				flex-wrap: wrap;
