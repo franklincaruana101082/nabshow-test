@@ -805,7 +805,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Content</strong></h2>
+						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Stories</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
@@ -894,7 +894,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
+						<h2><strong>Stories</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
 						<?php
 						if ($total_content > 5) {
 
