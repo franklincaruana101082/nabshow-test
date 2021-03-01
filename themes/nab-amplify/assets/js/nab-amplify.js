@@ -469,8 +469,8 @@
     const _this = $(this)
     _this.addClass('loading')
     get_address_remove_popup('Are you sure want to remove?',address_id)
-      
-    
+
+
   })
 
   $(document).on('click', '#nab-add-address-submit', function () {
@@ -1245,7 +1245,7 @@ $('body').addClass('is-loading');
     } else {
       $.each($('#product_medias')[0].files, function (key, file) {
         form_data.append(key, file)
-      })
+      }).length
     }
 
     if (product_title == '') {
@@ -1827,6 +1827,10 @@ $('body').addClass('is-loading');
             },
             minimumInputLength: 3
           })
+          load_tinyMCE_withPlugins(
+            '#company_about',
+            '#character-count-comp-about'
+          )
         } else {
           jQuery('#addProductModal').remove()
           jQuery('body').append(data)
@@ -1896,6 +1900,10 @@ $('body').addClass('is-loading');
             },
             minimumInputLength: 3
           })
+          load_tinyMCE_withPlugins(
+            '#company_about',
+            '#character-count-comp-about'
+          )
         }
 
         setTimeout(() => {
