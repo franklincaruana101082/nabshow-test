@@ -1720,9 +1720,9 @@ body .is_friend .remove::before{font-size:22px}
 .nab-preview-slider-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%}
 .nab-preview-slider-inner .nab-preview-main{width:100%;margin-bottom:10px;min-height:400px;max-height:400px;overflow:hidden;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
 .nab-preview-slider-inner .nab-preview-main img{max-height:400px;background-color:#fff;width:100%;height:100%;-o-object-fit:contain;object-fit:contain;-o-object-position:center;object-position:center}
-.nab-preview-items-main{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -5px}
+.nab-preview-items-main{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0 -5px}
 .nab-preview-items-main .nab-preview-item{padding:0 2px}
-.nab-preview-items-main .nab-preview-item img{width:100%;height:100%;-o-object-fit:contain;object-fit:contain;-o-object-position:center;object-position:center;cursor:pointer;max-height:100px}
+.nab-preview-items-main .nab-preview-item img{width:auto;height:100%;-o-object-fit:contain;object-fit:contain;-o-object-position:center;object-position:center;cursor:pointer;max-height:100px}
 
 /* black box */
 .black-bg-box{background-color:#333;padding:40px;margin-bottom:20px}
