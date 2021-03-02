@@ -1375,6 +1375,10 @@
             placeholder: "Select Point of contact",
             allowClear: true,
           });
+          load_tinyMCE_withPlugins(
+            '#company_about',
+            '#character-count-comp-about'
+          )
         } else {
           jQuery("#addProductModal").remove();
           jQuery("body").append(data);
@@ -1414,6 +1418,10 @@
             placeholder: "Select Point of contact",
             allowClear: true,
           });
+          load_tinyMCE_withPlugins(
+            '#company_about',
+            '#character-count-comp-about'
+          )
         }
 
         setTimeout(() => {
