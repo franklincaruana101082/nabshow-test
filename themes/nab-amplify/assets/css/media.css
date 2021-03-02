@@ -76,6 +76,7 @@
 	.site-header .nab-header-search .search-form .search-field{width:400px}
 }
 @media (max-width:1200px){
+	.banner-header .update-banner-image label{width:55px;}
 	.site-header .nab-header-search .search-form .search-field{width:300px}
 	.site-header .nab-header-search .search-form.long-placeholder .search-field{width:300px}
 	.product-list .product-item{width:50%}
@@ -164,6 +165,8 @@
 	/* New Amplify CSS */
 
 	/* My Account page */
+	.banner-header .update-banner-image label{width:auto;}
+	.banner-header .update-banner-image label .edit-bg-pic{margin:0 10px 0 0;}
 	.banner-header #edit-mode-buttons, .banner-header .update-banner-image{position:static}
 	.banner-header .bannner-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:20px 0;width:100%}
 	.banner-header .edit-bg-pic::after{left:0}
