@@ -97,11 +97,14 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             
             $current_page   = '';
             $search_terms   = '';
+            $content_type   = '';
             $is_pageview    = true;
 
             if ( is_search() ) {            
                 $current_page   = 'search';
-                $search_terms   = get_search_query();                
+                $search_terms   = get_search_query();
+                $content_type   = filter_input( INPUT_GET, 'v', FILTER_SANITIZE_STRING );
+                $content_type   = isset( $content_type ) ? $content_type : '';
             }
             
             if ( is_admin() || ! isset( $post->ID ) || empty( $post->ID ) || is_post_type_archive() || is_tax() || is_search() ) {
@@ -109,7 +112,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             }
 
             if ( $is_pageview ) {
-                                                
+
                 if ( isset( $post->ID ) && ! empty( $post->ID ) ) {
                     
                     if ( is_front_page() ) {
@@ -128,6 +131,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'page'          => $current_page,
                 'search_term'   => $search_terms,
                 'is_pageview'   => $is_pageview,
+                'content_type'  => $content_type,
             ));
         }
 
@@ -965,7 +969,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $post_id        = filter_input( INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT );
             $current_page   = filter_input( INPUT_POST, 'page', FILTER_SANITIZE_STRING );
             $search_term    = filter_input( INPUT_POST, 'search_term', FILTER_SANITIZE_STRING );
-            $is_pageview    = filter_input( INPUT_POST, 'is_pageview', FILTER_VALIDATE_BOOLEAN );            
+            $is_pageview    = filter_input( INPUT_POST, 'is_pageview', FILTER_VALIDATE_BOOLEAN );
+            $content_type   = filter_input( INPUT_POST, 'content_type', FILTER_SANITIZE_STRING );
 
             if ( 'search' === $current_page ) {
 
@@ -974,7 +979,11 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'properties'    => array(
                         'Search_Term' => $search_term
                     )
-                );                
+                );
+
+                if ( isset( $content_type ) && ! empty( $content_type ) ) {
+                    $search_track['properties']['Content_Type'] = $content_type;
+                }
 
                 $this->st_track_event( $search_track );
             }
@@ -994,7 +1003,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 if ( 'home' === $current_page ) {
                     $page_track['properties']['Page_Name'] = 'Home Page';
                 } else {
-                    $page_track['properties']['Page_Name'] = get_the_title( $post_id );
+                    $page_track['properties']['Page_Name'] = html_entity_decode( get_the_title( $post_id ) );
                 }
 
                 Segment::page( $page_track );
