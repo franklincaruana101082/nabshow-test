@@ -196,8 +196,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->args['image_url'] = wp_get_original_image_path( $attachment_id );
 
 
-					//$this->args['image_url'] = str_replace('vip://', ABSPATH . 'amplify/z', $this->args['image_url']);
-					$test1 = ABSPATH;
+					$this->args['image_url'] = str_replace('vip://', ABSPATH, $this->args['image_url']);
+					//$test1 = ABSPATH;
+					$test2 = $this->args['image_url'];
 
 					// Set name to upload.
 					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
