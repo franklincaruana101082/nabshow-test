@@ -30,6 +30,7 @@
         if( ! $('.bm-select-media').hasClass('in-use') ) {
             $(this).parents('.bm-modal-main').removeClass('bm-modal-active');
             $('.bm-select-media').removeClass('active');
+            $("body").removeClass('bm-modal-off-scroll');
         } else {
             alert('Please wait...');
         }
@@ -199,6 +200,7 @@
             if (checkPopup.hasClass('bm-modal-active')) {
                 checkPopup.removeClass('bm-modal-active');
                 $('.bm-select-media').removeClass('active');
+                $("body").removeClass('bm-modal-off-scroll');
             }
         }
     });
@@ -343,6 +345,7 @@ function bmFetchAssets(_this) {
 
     // Show popup by adding a class.
     $("#bm-main-outer").addClass('bm-modal-active');
+    $("body").addClass('bm-modal-off-scroll');
 
     if ( popupOpenedAgain ) {
         _this.addClass('active');
