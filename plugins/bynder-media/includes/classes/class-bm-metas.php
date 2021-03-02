@@ -128,7 +128,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			$screen = get_current_screen();
 
 			// Company Products Metas.
-			if ( $screen->parent_base == 'edit' && $screen->post_type = 'company-products' ) {
+			if ( 'edit' === $screen->parent_base && 'company-products' === $screen->post_type ) {
 				// Post values.
 				$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 				$product_media_bm = implode( ',', $product_media_bm );
