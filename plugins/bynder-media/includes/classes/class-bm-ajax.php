@@ -195,21 +195,30 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					// Get uploaded URL.
 					$this->args['image_url'] = wp_get_original_image_path( $attachment_id );
 
-
-					$this->args['image_url'] = str_replace('vip://', ABSPATH, $this->args['image_url']);
-					//$test1 = ABSPATH;
-					$test2 = $this->args['image_url'];
-
 					// Set name to upload.
 					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
 
-					echo '<pre>';
+					//$this->args['image_url'] = str_replace('vip://', ABSPATH, $this->args['image_url']);
+					//$test1 = ABSPATH;
+					$img_url = $this->args['image_url'];
+					$img_name = $this->args['image_name'];
+					$stream = file_get_contents($img_url);
+					$attachment = get_temp_dir() . '/' . $img_name;
+					file_put_contents($attachment, $stream);
+
+					$this->args['image_url'] = $attachment;
+// more logic
+
+					/*echo '<pre>';
 					print_r( get_defined_vars() );
 					print_r( $this );
-					die( '<br><---died here' );
+					die( '<br><---died here' );*/
 
 					// Init upload.
 					require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-upload-asset.php' );
+
+					unlink($attachment);
+
 				}
 
 				if ( 1 === $test ) {
