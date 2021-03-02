@@ -1180,10 +1180,10 @@ function nab_member_search_filter_callback()
 				bp_the_member();
 
 				$member_user_id	= bp_get_member_user_id();
-				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
-				$user_full_name = bp_get_member_name();
+				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);				
+				$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 				if (empty(trim($user_full_name))) {
-					$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+					$user_full_name = bp_get_member_name();
 				}
 
 				$company 		= get_user_meta($member_user_id, 'attendee_company', true);

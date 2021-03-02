@@ -44,10 +44,10 @@ $member_id = 0 === $member_id ? $current_user_id : $member_id;
 $user_data = get_user_meta( $member_id );
 
 // Get user display name.
-$user_obj    = get_user_by( 'id', $member_id );
-$member_name = $user_obj->display_name;
+$member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
 if ( empty( trim( $member_name ) ) ) {
-	$member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
+    $user_obj    = get_user_by( 'id', $member_id );
+	$member_name = $user_obj->display_name;
 }
 
 // Get images.

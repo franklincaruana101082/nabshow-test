@@ -76,7 +76,7 @@
 	.site-header .nab-header-search .search-form .search-field{width:400px}
 }
 @media (max-width:1200px){
-	.banner-header .update-banner-image label{width:55px}
+	.banner-header .update-banner-image{width:55px}
 	.site-header .nab-header-search .search-form .search-field{width:300px}
 	.site-header .nab-header-search .search-form.long-placeholder .search-field{width:300px}
 	.product-list .product-item{width:50%}
@@ -117,8 +117,8 @@
 
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
-	.amp-profile-main .amp-profile-social ul li a, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px}
-	.amp-profile-main .amp-profile-social ul li a i, .banner-header .edit-profile-pic i, .amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px}
+	.amp-profile-main .amp-profile-social ul li a, .amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px}
+	.amp-profile-main .amp-profile-social ul li a i, .amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px}
 	.banner-header .profile-avtar img, .banner-header .profile-avtar .no-image-avtar{width:160px;height:160px}
 
 	/* single company product */
@@ -165,8 +165,9 @@
 	/* New Amplify CSS */
 
 	/* My Account page */
-	.banner-header .update-banner-image label{width:auto}
-	.banner-header .update-banner-image label .edit-bg-pic{margin:0 10px 0 0;width:35px;height:35px;font-size:20px}
+	.banner-header .update-banner-image{width:auto}
+	.banner-header .update-banner-image .edit-bg-pic,
+	.banner-header .update-banner-image .remove-bg-pic{margin:0 10px 0 0;width:35px;height:35px;font-size:20px}
 	.banner-header #edit-mode-buttons, .banner-header .update-banner-image{position:static}
 	.banner-header .bannner-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:20px 0;width:100%}
 	.banner-header .edit-bg-pic::after{left:0}

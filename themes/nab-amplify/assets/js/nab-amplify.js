@@ -1941,11 +1941,13 @@
     jQuery(this).text('Cancel Edit')
     jQuery('.banner-header').addClass('edit_mode_on')
     jQuery('.edit-bg-pic').show()
+    jQuery('.remove-bg-pic').show()
     jQuery('.edit-company-industry').show()
   })
   $(document).on('click', '.cancel-edit-company-mode', function () {
     jQuery('.edit-profile-pic').hide()
     jQuery('.edit-bg-pic').hide()
+    jQuery('.remove-bg-pic').hide()
     jQuery('.edit-company-industry').hide()
     jQuery(this).removeClass('cancel-edit-company-mode')
     jQuery(this).addClass('edit-company-mode ')
