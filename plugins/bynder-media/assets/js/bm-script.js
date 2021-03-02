@@ -61,13 +61,6 @@
         // Check if collection id is available.
         const collectionID =  $('body').attr('bm-col-id');
 
-        if ( 'newly-created' === collectionID ) {
-            // Fetch assets again to add a collection ID
-            // to the popup attribute, which help to
-            // upload assets to a specific collection.
-            bmFetchAssets($(this));
-        }
-
         // Init upload now.
         $('#bm-main-outer .bm-modal-body').addClass('bm-upload-loader bm-loading');
         bmUploadToBynder();
@@ -75,7 +68,7 @@
 
     // Create a collection if not available.
     $(document).on('click', '#bm-create-col', function () {
-        createCollection();
+        bmCreateCollection();
     });
 
     // Select image.
@@ -243,8 +236,8 @@
 
 })(jQuery);
 
-const $ = jQuery;
-function createCollection() {
+let $ = jQuery;
+function bmCreateCollection() {
 
     if( undefined === $('.single-company .amp-profile-info h2').text() ) {
         alert('Error! Company Name not found! Please contact administrator.');
@@ -254,6 +247,9 @@ function createCollection() {
     const bmData = new FormData();
     bmData.append('action', 'bm_create_collection');
     bmData.append('collectionName', $('.single-company .amp-profile-info h2').text());
+
+    // Remove previous msg div.
+    $('#bm-msg').remove();
 
     $.ajax({
         type: 'POST',
@@ -266,17 +262,17 @@ function createCollection() {
             if( result.bmColCreated ) {
 
                 // Add collection ID to the body attribute.
-                $('body').attr('bm-col-id', 'newly-created');
+                $('body').attr('bm-col-id', result.bmColCreated);
 
                 // Show success message and a button to jump to the Upload tab.
                 let bmColPara = document.createElement('p');
-                bmColPara.setAttribute('id', 'bm-success-msg');
+                bmColPara.setAttribute('id', 'bm-msg');
                 bmColPara.innerText = 'Collection created successfully.! You can upload assets now.';
 
                 let bmColUploadBtn = document.createElement('a');
                 bmColUploadBtn.setAttribute('id', 'bm-upload-asset');
                 bmColUploadBtn.setAttribute('href', 'javascript:void(0)');
-                bmColUploadBtn.setAttribute('class', 'btn');
+                bmColUploadBtn.setAttribute('class', 'bm-btn-link');
                 bmColUploadBtn.innerText = 'Upload Now';
                 bmColPara.appendChild(bmColUploadBtn);
 
@@ -684,7 +680,7 @@ function bmUploadToBynder() {
 
     // Pass the image file name as the third parameter if necessary.
     const collectionID = $('body').attr('bm-col-id');
-    if( undefined !== collectionID && 'newly-created' !== collectionID && '' !== collectionID ) {
+    if( undefined !== collectionID && '' !== collectionID ) {
         formData.append('collectionID', collectionID);
     }
 

@@ -143,10 +143,10 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$url          = filter_input( INPUT_POST, 'url', FILTER_SANITIZE_STRING );
 			$requested_by = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
 			$postid       = filter_input( INPUT_POST, 'postid', FILTER_VALIDATE_INT );
-			$page_type       = filter_input( INPUT_POST, 'pageType', FILTER_SANITIZE_STRING );
+			$page_type    = filter_input( INPUT_POST, 'pageType', FILTER_SANITIZE_STRING );
 
 			$requested_for_user = array( 'banner_image', 'profile_picture' );
- 			if ( in_array( $requested_by, $requested_for_user, true ) && 'user' === $page_type ) {
+			if ( in_array( $requested_by, $requested_for_user, true ) && 'user' === $page_type ) {
 				$postid = get_current_user_id();
 				update_user_meta( $postid, $requested_by, $url );
 			} else {
@@ -158,85 +158,62 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 		public function bm_upload_asset() {
 
-			//ne_test
-			$test = 0;
-			if ( 1 === $test ) {
-				$uploaded_mediaid = 'DCC3B3A7-6A5E-4D9B-BEEDBDD56601F682';
-			}
-
 			$this->bm_domain = $this->bm_get_meta( 'bm_domain' );
 
-			if ( 1 !== $test ) {
+			$this->args['collectionID'] = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
+			$this->requested_by         = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
 
-				$this->args['collectionID'] = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
-				$this->requested_by         = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
-
-				$metas       = filter_input( INPUT_POST, 'formFields', FILTER_SANITIZE_STRING );
-				$metas_array = $this->args['metas'] = array();
-				parse_str( $metas, $metas_array );
-				$this->args['metas'] = $metas_array['metas'];
-			}
+			$metas       = filter_input( INPUT_POST, 'formFields', FILTER_SANITIZE_STRING );
+			$metas_array = $this->args['metas'] = array();
+			parse_str( $metas, $metas_array );
+			$this->args['metas'] = $metas_array['metas'];
 
 			// Pass a file.
-			if ( $_FILES['croppedImage'] || 1 === $test ) {
+			if ( $_FILES['croppedImage'] ) {
 
-				if ( 1 !== $test ) {
-
-					// Upload to WordPress.
-					// These files need to be included as dependencies when on the front end.
-					require_once( ABSPATH . 'wp-admin/includes/image.php' );
-					require_once( ABSPATH . 'wp-admin/includes/file.php' );
-					require_once( ABSPATH . 'wp-admin/includes/media.php' );
+				// Upload to WordPress.
+				// These files need to be included as dependencies when on the front end.
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				require_once( ABSPATH . 'wp-admin/includes/media.php' );
 
 
-					// Let WordPress handle the upload.
-					$attachment_id = media_handle_upload( 'croppedImage', 0 );
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( 'croppedImage', 0 );
 
-					// Get uploaded URL.
-					$this->args['image_url'] = wp_get_original_image_path( $attachment_id );
+				// Get uploaded URL.
+				$img_url = wp_get_original_image_path( $attachment_id );
 
-					// Set name to upload.
-					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
+				// Set name to upload.
+				$img_name = $this->args['image_name'] = $_FILES["croppedImage"]['name'];
 
-					// Creating a file on a VIP server.
-					$img_url    = $this->args['image_url'];
-					$img_name   = $this->args['image_name'];
-					$stream     = file_get_contents( $img_url );
-					$attachment = get_temp_dir() . '/' . $img_name;
-					file_put_contents( $attachment, $stream );
+				// Creating a file on a VIP server.
+				$stream     = file_get_contents( $img_url );
+				$attachment = get_temp_dir() . '/' . $img_name;
+				file_put_contents( $attachment, $stream );
 
-					$this->args['image_url'] = $attachment;
+				$this->args['image_url'] = $attachment;
 
-					// Init upload.
-					require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-upload-asset.php' );
+				// Init upload.
+				require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-upload-asset.php' );
 
-					// Delete the file from tmp folder.
-					unlink($attachment);
-
-				}
-
-				if ( 1 === $test ) {
-					$this->response['success']  = true;
-					$this->args['collectionID'] = true;
-				}
+				// Delete the file from tmp folder.
+				unlink( $attachment );
 
 				if ( true === $this->response['success'] ) {
 
 					// Add asset to a collection.
 					if ( $this->args['collectionID'] ) {
 
-						if ( 1 !== $test ) {
-							$uploaded_mediaid = $this->response['mediaid'];
+						$uploaded_mediaid = $this->response['mediaid'];
 
-							$url = $this->bm_domain . '/api/v4/collections/' . $this->args['collectionID'] . '/media/';
+						$url = $this->bm_domain . '/api/v4/collections/' . $this->args['collectionID'] . '/media/';
 
-							$args = array(
-								'data' => json_encode( array( $uploaded_mediaid ) )
-							);
+						$args = array(
+							'data' => json_encode( array( $uploaded_mediaid ) )
+						);
 
-							$this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
-						}
-
+						$this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
 					}
 
 					$return_array = array( "bmHTML" => 'success' );
@@ -299,7 +276,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_fetch_assets() {
 
 
-
 			// getCollections($query);
 			// getCollectionAssets($collectionId);
 
@@ -308,7 +284,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$this->collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
 			$this->collection_id   = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
 			$this->assets_page     = filter_input( INPUT_POST, 'assetsPage', FILTER_SANITIZE_NUMBER_INT );
-			$this->is_admin     = filter_input( INPUT_POST, 'isAdmin', FILTER_VALIDATE_BOOLEAN );
+			$this->is_admin        = filter_input( INPUT_POST, 'isAdmin', FILTER_VALIDATE_BOOLEAN );
 
 			// Prepare required data.
 			$this->url  = $this->bm_domain . '/api/v4/media/';
@@ -445,7 +421,11 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$response = $this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
 
 			if ( 201 === $response['status'] ) {
-				$return_array = array( "bmColCreated" => 1 );
+
+				$this->collection_name = $collection_name;
+				$bm_col_id             = $this->bm_get_collection_id();
+
+				$return_array = array( "bmColCreated" => $bm_col_id );
 			} else {
 				$return_array = array( "error" => $response['body']->error );
 			}
