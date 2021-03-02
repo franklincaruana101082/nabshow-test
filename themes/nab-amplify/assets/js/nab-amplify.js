@@ -4404,7 +4404,8 @@ function nabSearchCompanyAjax(loadMore, pageNumber) {
           companyTitle.innerText = value.title;
           searchContent.appendChild(companyTitle);
 
-          searchContent.appendChild(value.button);
+          let buttons = jQuery.parseHTML(value.button);
+          searchContent.appendChild(buttons);
 
           searchItemInfo.appendChild(searchContent);
           searchItemInner.appendChild(searchItemInfo);
