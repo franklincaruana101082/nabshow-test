@@ -198,25 +198,19 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					// Set name to upload.
 					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
 
-					//$this->args['image_url'] = str_replace('vip://', ABSPATH, $this->args['image_url']);
-					//$test1 = ABSPATH;
-					$img_url = $this->args['image_url'];
-					$img_name = $this->args['image_name'];
-					$stream = file_get_contents($img_url);
+					// Creating a file on a VIP server.
+					$img_url    = $this->args['image_url'];
+					$img_name   = $this->args['image_name'];
+					$stream     = file_get_contents( $img_url );
 					$attachment = get_temp_dir() . '/' . $img_name;
-					file_put_contents($attachment, $stream);
+					file_put_contents( $attachment, $stream );
 
 					$this->args['image_url'] = $attachment;
-// more logic
-
-					/*echo '<pre>';
-					print_r( get_defined_vars() );
-					print_r( $this );
-					die( '<br><---died here' );*/
 
 					// Init upload.
 					require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-upload-asset.php' );
 
+					// Delete the file from tmp folder.
 					unlink($attachment);
 
 				}
