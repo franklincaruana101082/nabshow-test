@@ -96,7 +96,7 @@ get_header();
 				</header><!-- .intro -->    
 
 				<div class="entry-content">
-					<div class="container">
+					
 					<?php                    
 					
 					$company                    = get_field( 'company' );
@@ -125,31 +125,32 @@ get_header();
 
 					if($session_status == "pre-event") {
 					?>
-						<div class="pre-event">
-							
+						<div class="session__pre">
+							<div class="container">
 							<div
 								class="involveme_embed"
 								data-embed="<?php echo esc_html($pre_event_registration_id);?>"
 								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"
 							></div>
 							<script src="https://app.involve.me/embed"></script>
-							
+							</div>
 						</div>
 					<?php } elseif($session_status == "live") { ?>
-						<div class="live-event">
-							<div class="embed-group _video_and_chat">
-								<div class="embed-group__item _video">
-									<div class="embed-wrapper _video">
-										<?php echo $video_embed; ?>
+						<div class="session__live">
+							<div class="container">
+								<div class="embed-group _video_and_chat">
+									<div class="embed-group__item _video">
+										<div class="embed-wrapper _video">
+											<?php echo $video_embed; ?>
+										</div>
 									</div>
-								</div>
-								<div class="embed-wrapper _chat">
-									<?php 
-										$cometchat_shortcode = "[cometchat-pro widget-id='" .$chat_room_id."' widget-version='v2']";
-										echo do_shortcode($cometchat_shortcode); 
-										//echo("<!--".$cometchat_shortcode."-->");
-									?>
-								</div>
+									<div class="embed-wrapper _chat">
+										<?php 
+											$cometchat_shortcode = "[cometchat-pro widget-id='" .$chat_room_id."' widget-version='v2']";
+											echo do_shortcode($cometchat_shortcode); 
+											//echo("<!--".$cometchat_shortcode."-->");
+										?>
+									</div>
 								</div>
 
 								<div 
@@ -157,18 +158,22 @@ get_header();
 								data-embed="<?php echo esc_html( $live_event_survey_id ); ?>"
 								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
+							</div>
 						</div>
 					<?php } elseif($session_status == "post_event") { ?>
-						<div class="post-event">
-							<div class="involveme_embed"
-								data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
-								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"></div>
-							<script src="https://app.involve.me/embed"></script>
+						<div class="session__post">
+							<div class="container">
+								<div class="involveme_embed"
+									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
+									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"></div>
+								<script src="https://app.involve.me/embed"></script>
+							</div>
 						</div>
 					<?php } ?>
-				</div>
-					<div class="intro-feature">
-						<div class="container">
+				
+					
+					<div class="container">
+						<div class="session__desc">
 						<?php
 						the_content(
 							sprintf(
