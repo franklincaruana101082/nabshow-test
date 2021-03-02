@@ -428,7 +428,7 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .tooltip-container .tooltip-wrap .tooltip{top:20px}
 .nab-without-login-account .woocommerce .member-tooltip .tooltip-label{display:inline}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]{background-color:#bbb;cursor:not-allowed}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb;}
+.nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top .amp-check-wrp{margin-top:7px}
 
@@ -1022,7 +1022,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section .search-item-inner span.amp-bookmark::after{right:0}
 .search-section .search-item-cover{width:100%;height:130px}
 .search-section .search-item-cover img{-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%;height:100%}
-.search-section .search-item-cover .amp-draft-wrapper{background-color:rgb(99 99 223 / 0.75);color:#fff;padding:10px;position:absolute;top:0;left:0;right:0;z-index:1;font-size:16px;}
+.search-section .search-item-cover .amp-draft-wrapper{background-color:rgb(99 99 223 / 0.75);color:#fff;padding:10px;position:absolute;top:0;left:0;right:0;z-index:1;font-size:16px}
 .search-section .search-item-info{text-align:center;padding:55px 15px 25px;position:relative}
 .search-section .search-item-avtar{position:absolute;top:0;left:0;right:0;-webkit-transform:translateY(-68%);-ms-transform:translateY(-68%);transform:translateY(-68%)}
 .search-section .search-item-avtar img{border-radius:50%;width:95px;height:95px;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center}
@@ -1089,8 +1089,8 @@ body.buddypress .site-content{padding:0}
 .banner-header::before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;background:url(../images/banner-header-shadow.png);background-size:cover}
 .banner-header .banner-container{max-width:90%;margin:0 auto;position:relative}
 .banner-header .update-banner-image{position:absolute;top:70px;left:0}
-.banner-header .update-banner-image label{display:flex;flex-wrap:wrap;}
-.banner-header .update-banner-image label .edit-bg-pic{margin:0 10px 10px 0;}
+.banner-header .update-banner-image label{display:flex;flex-wrap:wrap}
+.banner-header .update-banner-image label .edit-bg-pic{margin:0 10px 10px 0}
 .banner-header .edit-bg-pic, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-info .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000}
 .banner-header .edit-profile-pic{margin:5px}
 .banner-header .edit-profile-pic i{color:#000}
@@ -1779,11 +1779,7 @@ body .is_friend .remove::before{font-size:22px}
 .message-leggal-notice{font-size:13px;color:#dedede;font-style:italic;margin-top:10px!important}
 
 /* fixed issues after code changes from c. */
-.header .header__navwrapper{z-index:10;}
+.header .header__navwrapper{z-index:10}
 /*Error message popup*/
-.error-message-popup h4{
-	text-transform: inherit !important;
-}
-.add-address-popup .address-title{
-	text-transform: inherit !important;
-}
+.error-message-popup h4{text-transform:inherit!important;}
+.add-address-popup .address-title{text-transform:inherit!important;}
