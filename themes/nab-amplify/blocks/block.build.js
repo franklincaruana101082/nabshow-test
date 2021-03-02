@@ -109,7 +109,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__block_company_employees_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__block_company_employees_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__block_company_feature_block__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__block_company_feature_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__block_company_feature_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__block_regional_addressess_block__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__block_regional_addressess_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__block_regional_addressess_block__);
 // import all blocks here
+
 
 
 
@@ -7956,6 +7959,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }
   });
 })(wp.i18n, wp.blocks, wp.blockEditor, wp.components, wp.element);
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+(function (wpI18n, wpBlocks, wpElement, wpComponents) {
+    var __ = wpI18n.__;
+    var Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var ServerSideRender = wpComponents.ServerSideRender;
+
+    var allAttr = {};
+
+    registerBlockType('nab/regional-addressess', {
+        title: __('Regional Addressess'),
+        icon: 'editor-code',
+        category: 'nab_amplify',
+        keywords: [__('Regional'), __('Company'), __('Address')],
+        attributes: allAttr,
+        edit: function edit() {
+            return wp.element.createElement(
+                Fragment,
+                null,
+                wp.element.createElement(ServerSideRender, {
+                    block: 'nab/regional-addressess'
+                })
+            );
+        },
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.components);
 
 /***/ })
 /******/ ]);

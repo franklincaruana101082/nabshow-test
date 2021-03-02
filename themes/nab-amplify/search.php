@@ -95,9 +95,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order active" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order" data-event='all'>All</a>
 							<a href="javascript:void(0);" class="sort-order" data-event='previous'>Previous</a>
-							<a href="javascript:void(0);" class="sort-order" data-event='upcoming'>Upcoming</a>
+							<a href="javascript:void(0);" class="sort-order active" data-event='upcoming'>Upcoming</a>
 						</div>
 						<?php
 					} else if ('product' === $view_type) {
@@ -301,9 +301,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								bp_the_member();
 
 								$member_user_id = bp_get_member_user_id();
-								$user_full_name = bp_get_member_name();
-								if (empty(trim($user_full_name))) {
-									$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+								if (empty(trim($user_full_name))) {									
+									$user_full_name = bp_get_member_name();
 								}
 
 								$company = get_user_meta($member_user_id, 'attendee_company', true);
@@ -672,101 +672,111 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order'				=> 'ASC'
 				);
 
+				$current_date   = current_time('Y-m-d');
+				$compare		= '>=';
+		
+				$event_args['meta_query'] = array(
+		
+					array(
+						'key' 		=> '_EventEndDate',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					)
+				);
+
 				$event_query = new WP_Query( $event_args );
 
-				if ( $event_query->have_posts() ) {
+				$search_found	= true;
+				$total_event	= $event_query->found_posts;
+				?>
+				<div class="search-view-top-head">
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Events</strong></h2>
+					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+				</div>
+				<div class="search-section search-content-section">
+					<ul class="colgrid _5up" id="search-event-list">
+						<?php
+						$cnt = 1;
+						while ( $event_query->have_posts() ) {
 
-					$search_found	= true;
-					$total_event	= $event_query->found_posts;
-					?>
-					<div class="search-view-top-head">
-						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Events</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
-					</div>
-					<div class="search-section search-content-section">
-						<ul class="colgrid _5up" id="search-event-list">
-							<?php
-							$cnt = 1;
-							while ( $event_query->have_posts() ) {
+							$event_query->the_post();
 
-								$event_query->the_post();
+							$event_post_id		= get_the_ID();
+							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
+							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
+							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
+							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+							$event_month        = date_format( date_create( $event_start_date ), 'F' );
+							$event_day          = date_format( date_create( $event_start_date ), 'j' );
+							$final_date         = $event_start_date;
 
-								$event_post_id		= get_the_ID();
-								$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
-								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
-								$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
-								$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
-								$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
-								$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
-								$event_month        = date_format( date_create( $event_start_date ), 'F' );
-								$event_day          = date_format( date_create( $event_start_date ), 'j' );
-								$final_date         = $event_start_date;
+							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
-								if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+								if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
-									if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
-
-										$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
-										$final_date = $event_end_date;
-									}
+									$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+									$final_date = $event_end_date;
 								}
-
-								$final_date     = date_format( date_create( $final_date ), 'Ymd' );
-                        		$current_date   = current_time('Ymd');
-                        		$opening_date   = new DateTime( $final_date );
-                        		$current_date   = new DateTime( $current_date );
-								?>
-
-								<li>
-									<a class="event" href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>">
-									    <div class="event__date">
-									        <div class="event__month">
-									            <?php echo esc_html( $event_month ); ?>
-									        </div>
-									        <div class="event__day text-gradient _blue">
-									            <?php echo esc_html( $event_day ); ?>
-									        </div>
-									    </div>
-									    <div class="event__photo">
-									        <img class="event__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
-									    </div>
-									    <div class="event__info">
-									        <h4 class="event__title">
-									            <?php echo esc_html( get_the_title() ); ?>
-									        </h4>
-									        <div class="event__link link _plus">
-									            Learn More
-									        </div>
-									    </div>
-									</a>
-								</li>
-
-								<?php
-
-								if ( 10 === $cnt ) {
-									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
-								}
-								$cnt++;
 							}
-							if ( $cnt < 10 ) {
+
+							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+							$current_date   = current_time('Ymd');
+							$opening_date   = new DateTime( $final_date );
+							$current_date   = new DateTime( $current_date );
+							?>
+
+							<li>
+								<a class="event" href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>">
+									<div class="event__date">
+										<div class="event__month">
+											<?php echo esc_html( $event_month ); ?>
+										</div>
+										<div class="event__day text-gradient _blue">
+											<?php echo esc_html( $event_day ); ?>
+										</div>
+									</div>
+									<div class="event__photo">
+										<img class="event__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
+									</div>
+									<div class="event__info">
+										<h4 class="event__title">
+											<?php echo esc_html( get_the_title() ); ?>
+										</h4>
+										<div class="event__link link _plus">
+											Learn More
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<?php
+
+							if ( 10 === $cnt ) {
 								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 							}
-							?>
-						</ul>
-					</div>
-					<?php
-				}
-				?>
+							$cnt++;
+						}
+						if ( $cnt < 10 ) {
+							echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+						}
+						?>
+					</ul>
+				</div>
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				if ( $event_query->max_num_pages > 1 ) {
-					?>
-					<div class="load-more text-center" id="load-more-event">
-						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $event_query->max_num_pages ); ?>">Load More</a>
-					</div>
-					<?php
+				$style = '';
+				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
+					$style = 'display:none;';
 				}
+				?>
+				<div class="load-more text-center" id="load-more-event" style="<?php echo esc_attr( $style ); ?>">
+					<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $event_query->max_num_pages ); ?>">Load More</a>
+				</div>
+				<?php
 				wp_reset_postdata();
 
 			} else if ('content' === $view_type) {
@@ -972,10 +982,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$member_user_id = bp_get_member_user_id();
 
-							$user_full_name = bp_get_member_name();
+							$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
-							if (empty(trim($user_full_name))) {
-								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+							if (empty(trim($user_full_name))) {								
+								$user_full_name = bp_get_member_name();
 							}
 
 							$company = get_user_meta($member_user_id, 'attendee_company', true);

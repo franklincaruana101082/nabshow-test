@@ -3400,7 +3400,7 @@ function nab_update_company_profile_callback()
     $linkedin_profile               = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
     $facebook_profile               = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
     $twitter_profile                = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
-    $company_about                  = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $company_about                  = filter_input(INPUT_POST, 'company_about', FILTER_UNSAFE_RAW);
     $company_industry               = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
     $company_website                = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
     $company_point_of_contact       = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
@@ -3555,6 +3555,7 @@ function nab_edit_company_about_callback()
     $company_data['product_categories'] = get_field('product_categories', $company_id);
     $company_data['search_product_categories']  = get_field('search_product_categories', $company_id);
     $company_data['company_youtube'] = get_field('company_youtube', $company_id);
+    $company_data['company_about_html']         = nab_get_wp_editor('', 'company_about_html', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));

@@ -279,6 +279,10 @@ function nab_register_amplify_dynamic_blocks()
     register_block_type('nab/company-feature', array(
         'render_callback' => 'nab_company_feature_render_callback',
     ));
+
+    register_block_type('nab/regional-addressess', array(
+        'render_callback' => 'nab_regional_addressess_render_callback',
+    ));
 }
 
 function nab_company_details_render_callback($attributes)
@@ -308,7 +312,7 @@ function nab_company_details_render_callback($attributes)
                     <div class="company-about-inner">
                     <?php if ($about_company) {
                         ?>
-                            <p><?php echo esc_html($about_company); ?></p>
+                            <p><?php echo $about_company ? clean_post_content($about_company) : ''; ?></p>
                         <?php
                         } else {
                         ?>
@@ -416,6 +420,7 @@ function nab_company_produts_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $company_id         = $post->ID;
+    $member_level       = get_field('member_level',$company_id);
     $post_status        = array( 'publish' );
     if (is_user_logged_in()) {
 
@@ -458,111 +463,112 @@ function nab_company_produts_render_callback($attributes)
     $total_post = $product_query->found_posts;
 
     if ($product_query->have_posts() || $is_company_admin) {
+        if ('Standard' !== $member_level && 'select' !== $member_level && null !== $member_level && '' !== $member_level) {
+            ob_start();
+            ?>
+            <div class="company-products <?php echo esc_attr($class_name); ?>">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <h3>Products <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
+                        <?php
+                        if ($total_post > $posts_per_page) {
 
-        ob_start();
-    ?>
-        <div class="company-products <?php echo esc_attr($class_name); ?>">
-            <div class="amp-item-main">
-                <div class="amp-item-heading">
-                    <h3>Products <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
-                    <?php
-                    if ($total_post > $posts_per_page) {
-
-                        $current_site_url   = rtrim(get_site_url(), '/');
-                        $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url);
-                    ?>
-                        <div class="amp-view-more">
-                            <a href="<?php echo esc_url($view_all_link); ?>" class="view-more-arrow">View All</a>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                </div>
-                <div class="amp-item-wrap" id="company-products-list">
-                    <?php
-                    if ($is_company_admin) {
-                    ?>
-                        <div class="amp-item-col add-new-item">
-                            <div class="amp-item-inner">
-                                <div class="add-item-wrap">
-                                    <i class="action-edit add-item-icon fa fa-pencil"></i>
-                                    <span class="add-item-label">Add Product</span>
+                            $current_site_url   = rtrim(get_site_url(), '/');
+                            $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url);
+                        ?>
+                            <div class="amp-view-more">
+                                <a href="<?php echo esc_url($view_all_link); ?>" class="view-more-arrow">View All</a>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                    <div class="amp-item-wrap" id="company-products-list">
+                        <?php
+                        if ($is_company_admin) {
+                        ?>
+                            <div class="amp-item-col add-new-item">
+                                <div class="amp-item-inner">
+                                    <div class="add-item-wrap">
+                                        <i class="action-edit add-item-icon fa fa-pencil"></i>
+                                        <span class="add-item-label">Add Product</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
-                    }
+                        <?php
+                        }
 
-                    while ($product_query->have_posts()) {
+                        while ($product_query->have_posts()) {
 
-                        $product_query->the_post();
+                            $product_query->the_post();
 
 
-                        $product_link        = get_the_permalink();
-                        $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
-                        $product_medias = get_field('product_media', get_the_ID());
+                            $product_link        = get_the_permalink();
+                            $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
+                            $product_medias = get_field('product_media', get_the_ID());
 
-                    ?>
-                        <div class="amp-item-col">
-                            <div class="amp-item-inner">
-                                <div class="amp-item-cover">
-                                    <?php
-                                    if ( $is_company_admin && 'draft' === get_post_status( get_the_ID() ) ) {
-                                        ?>
-                                        <div class="amp-draft-wrapper">
-                                            <span class="company-product-draft">Draft</span>
-                                        </div>
+                        ?>
+                            <div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <div class="amp-item-cover">
                                         <?php
-                                    }
-                                    $thumbnail_url = '';
-
-                                    if (!empty($product_medias[0]['product_media_file'])) {
-                                        $thumbnail_url = $product_medias[0]['product_media_file']['url'];
-                                    } else {
-                                        $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-                                    }
-
-                                    ?>
-                                    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
-                                </div>
-                                <div class="amp-item-info">
-                                    <div class="amp-item-content">
-                                        <h4>
-                                            <a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a>
-                                        </h4>
-                                        <?php
-                                        if (!empty($product_category) && !is_wp_error($product_category)) {
-
-                                        ?>
-                                            <span class="product-company"><?php echo esc_html($product_category[0]->name); ?></span>
-                                        <?php
+                                        if ( $is_company_admin && 'draft' === get_post_status( get_the_ID() ) ) {
+                                            ?>
+                                            <div class="amp-draft-wrapper">
+                                                <span class="company-product-draft">Draft</span>
+                                            </div>
+                                            <?php
                                         }
+                                        $thumbnail_url = '';
+
+                                        if (!empty($product_medias[0]['product_media_file'])) {
+                                            $thumbnail_url = $product_medias[0]['product_media_file']['url'];
+                                        } else {
+                                            $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
+                                        }
+
                                         ?>
-                                        <div class="amp-actions">
-                                            <div class="search-actions nab-action">
-                                                <a href="<?php echo esc_url($product_link); ?>" class="btn">View Product</a>
-                                                <?php
-                                                if ($is_company_admin) {
-                                                ?>
-                                                    <div class="nab-action-row">
-                                                        <i class="action-edit fa fa-pencil" data-id="<?php echo get_the_ID(); ?>"></i>
-                                                    </div>
-                                                <?php } ?>
+                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4>
+                                                <a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a>
+                                            </h4>
+                                            <?php
+                                            if (!empty($product_category) && !is_wp_error($product_category)) {
+
+                                            ?>
+                                                <span class="product-company"><?php echo esc_html($product_category[0]->name); ?></span>
+                                            <?php
+                                            }
+                                            ?>
+                                            <div class="amp-actions">
+                                                <div class="search-actions nab-action">
+                                                    <a href="<?php echo esc_url($product_link); ?>" class="btn">View Product</a>
+                                                    <?php
+                                                    if ($is_company_admin) {
+                                                    ?>
+                                                        <div class="nab-action-row">
+                                                            <i class="action-edit fa fa-pencil" data-id="<?php echo get_the_ID(); ?>"></i>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
+                        <?php
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php
+            <?php
 
-        $html = ob_get_clean();
+            $html = ob_get_clean();
+        }
     }
     wp_reset_postdata();
 
@@ -996,4 +1002,92 @@ function nab_company_feature_render_callback($attributes)
     ob_end_clean();
 
     return $html;
+}
+
+function nab_regional_addressess_render_callback($attributes)
+{
+    ob_start();
+    $class_name     = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
+    $member_level   = get_field('member_level');
+
+    if ($member_level !== '' && $member_level !== 'select' && $member_level !== 'Standard') {
+    ?>
+        <div class="company-products <?php echo esc_attr($class_name); ?>">
+            <div class="amp-item-main">
+                <div class="amp-item-heading">
+                    <h3>Regional Addresses</h3>
+                </div>
+                <div class="amp-item-wrap" id="company-address-list">
+
+                    <?php for ($i = 1; $i < 5; $i++) {
+                        nab_get_religion_address($i, get_the_ID());
+                    } ?>
+
+
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    $html = ob_get_clean();
+    return $html;
+}
+
+function nab_get_religion_address($address_id, $company_id)
+{
+    $html = '';
+
+    $user_id            = get_current_user_id();
+    $admin_id           = get_field('company_user_id', $company_id);
+
+    if ($address_id !== '0' && !empty($address_id)) {
+        $address_number = array(
+            '1' => 'one',
+            '2' => 'two',
+            '3' => 'three',
+            '4' => 'four'
+        );
+        $address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+        if (!empty($address_data) && $address_data['street_line_1'] !== '') {
+
+        ?>
+            <div class="amp-item-col add-new-item">
+                <div class="amp-item-inner">
+                    <div class="add-item-wrap">
+                        <?php echo isset($address_data['street_line_1']) && $address_data['street_line_1'] != '' ? $address_data['street_line_1'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['street_line_2_']) && $address_data['street_line_2_'] != '' ? $address_data['street_line_2_'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['city']) && $address_data['city'] != '' ? $address_data['city'] . ',' : ''; ?>
+                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? nab_amplify_get_country_state($address_data['state_province'],'state') . ',' : ''; ?>
+                        <?php echo isset($address_data['zip_postal']) && $address_data['zip_postal'] != '' ? $address_data['zip_postal'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? nab_amplify_get_country_state($address_data['country'],'country') : ''; ?>
+                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                            <div class="amp-actions">
+                                <div class="search-actions nab-action">
+                                    <div class="nab-action-row">
+                                        <i class="action-remove-address edit-block-icon fa fa-times" data-id="<?php echo $address_id; ?>"></i>
+                                        <i class="action-add-address edit-block-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+
+            if (!empty($admin_id) && in_array($user_id, $admin_id)) {
+            ?>
+                <div class="amp-item-col add-new-item">
+                    <div class="amp-item-inner">
+                        <div class="add-item-wrap">
+                            <i class="action-add-address add-item-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                            <span class="add-item-label">Add Address</span>
+                        </div>
+                    </div>
+                </div>
+<?php
+            }
+        }
+    }
 }
