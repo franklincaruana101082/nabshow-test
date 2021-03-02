@@ -8,7 +8,7 @@
  * @package Amplify
  */
 
-$cover_image      = get_field('cover_image');
+$cover_image      = get_field('banner_image');
 //$profile_picture  = get_field('profile_picture');
 $industry       = get_field('company_industary');
 $instagram_url    = get_field('instagram_url');
@@ -17,7 +17,7 @@ $facebook_url     = get_field('facebook_url');
 $twitter_url      = get_field('twitter_url');
 $member_level     = get_field('member_level');
 
-$cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
+$cover_image      = !empty($cover_image) ? $cover_image : get_template_directory_uri() . '/assets/images/banner-header-background.png';
 $company_id       = get_the_ID();
 $featured_image   = nab_amplify_get_featured_image( $company_id, false );
 $profile_picture  = $featured_image;

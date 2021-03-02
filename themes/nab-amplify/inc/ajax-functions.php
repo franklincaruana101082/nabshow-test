@@ -1331,9 +1331,9 @@ function nab_company_search_filter_callback()
 
 			$company_query->the_post();
 
-			$cover_image        = get_field('cover_image');
+			$cover_image        = get_field('banner_image');
 			$profile_picture    = get_field('profile_picture');
-			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+			$cover_image        = !empty($cover_image) ? $cover_image : $default_company_cover;
 			$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 			$profile_picture    = $featured_image;
 			$company_url		= get_the_permalink();
@@ -2950,7 +2950,7 @@ add_action( 'wp_ajax_nab_edit_downloadable_company_pdf', 'nab_edit_downloadable_
 function nab_edit_downloadable_company_pdf_callback() {
 
 	require_once get_template_directory() . '/inc/nab-add-edit-downloadable-pdf.php';
-	
+
 	wp_die();
 }
 
