@@ -93,9 +93,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button active" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order button" data-event='all'>All</a>
 							<a href="javascript:void(0);" class="sort-order button" data-event='previous'>Previous</a>
-							<a href="javascript:void(0);" class="sort-order button" data-event='upcoming'>Upcoming</a>
+							<a href="javascript:void(0);" class="sort-order button active" data-event='upcoming'>Upcoming</a>
 						</div>
 						<?php
 					} else if ('product' === $view_type) {
@@ -721,99 +721,109 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order'				=> 'ASC'
 				);
 
+				$current_date   = current_time('Y-m-d');
+				$compare		= '>=';
+		
+				$event_args['meta_query'] = array(
+		
+					array(
+						'key' 		=> '_EventEndDate',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					)
+				);
+
 				$event_query = new WP_Query( $event_args );
 
-				if ( $event_query->have_posts() ) {
+				$search_found	= true;
+				$total_event	= $event_query->found_posts;
+				?>
+				<div class="search-view-top-head">
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
+					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+				</div>
+				<div class="search-section search-content-section">
+					<div class="search-section-details" id="search-event-list">
+						<?php
+						$cnt = 1;
+						while ( $event_query->have_posts() ) {
 
-					$search_found	= true;
-					$total_event	= $event_query->found_posts;
-					?>
-					<div class="search-view-top-head">
-						<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
-					</div>
-					<div class="search-section search-content-section">
-						<div class="search-section-details" id="search-event-list">
-							<?php
-							$cnt = 1;
-							while ( $event_query->have_posts() ) {
+							$event_query->the_post();
 
-								$event_query->the_post();
+							$event_post_id		= get_the_ID();
+							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
+							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
+							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
+							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
+							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
+							$final_date         = $event_start_date;
 
-								$event_post_id		= get_the_ID();
-								$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
-								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
-								$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
-								$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
-								$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
-								$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
-								$final_date         = $event_start_date;
+							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
-								if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
+								if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
 
-									if ( date_format( date_create( $event_start_date ), 'Ymd' ) !== date_format( date_create( $event_end_date ), 'Ymd' ) ) {
-
-										$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
-										$final_date = $event_end_date;
-									}
+									$event_date .= ' - ' . date_format( date_create( $event_end_date ), 'l, F j' );
+									$final_date = $event_end_date;
 								}
+							}
 
-								$final_date     = date_format( date_create( $final_date ), 'Ymd' );
-                        		$current_date   = current_time('Ymd');
-                        		$opening_date   = new DateTime( $final_date );
-                        		$current_date   = new DateTime( $current_date );
-								?>
-								<div class="search-item">
-									<div class="search-item-inner">
-										<div class="search-item-cover">
-											<?php
-											if ( $opening_date < $current_date ){
-												?>
-												<div class="amp-draft-wrapper">
-													<span class="company-product-draft">Past Event</span>
-												</div>
-												<?php
-											}
+							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
+							$current_date   = current_time('Ymd');
+							$opening_date   = new DateTime( $final_date );
+							$current_date   = new DateTime( $current_date );
+							?>
+							<div class="search-item">
+								<div class="search-item-inner">
+									<div class="search-item-cover">
+										<?php
+										if ( $opening_date < $current_date ){
 											?>
-											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
-										</div>
-										<div class="search-item-info">
-											<div class="search-item-content">
-												<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
-												<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
-												<div class="search-actions">
-													<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
-												</div>
+											<div class="amp-draft-wrapper">
+												<span class="company-product-draft">Past Event</span>
+											</div>
+											<?php
+										}
+										?>
+										<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="event thumbnail" />
+									</div>
+									<div class="search-item-info">
+										<div class="search-item-content">
+											<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
+											<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
+											<div class="search-actions">
+												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
 											</div>
 										</div>
 									</div>
 								</div>
-								<?php
+							</div>
+							<?php
 
-								if ( 8 === $cnt ) {
-									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
-								}
-								$cnt++;
-							}
-							if ( $cnt < 8 ) {
+							if ( 8 === $cnt ) {
 								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 							}
-							?>
-						</div>
+							$cnt++;
+						}
+						if ( $cnt < 8 ) {
+							echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+						}
+						?>
 					</div>
-					<?php
-				}
-				?>
+				</div>				
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				if ( $event_query->max_num_pages > 1 ) {
-					?>
-					<div class="load-more text-center" id="load-more-event">
-						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $event_query->max_num_pages ); ?>">Load More</a>
-					</div>
-					<?php
+				$style = '';				
+				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
+					$style = 'display:none;';
 				}
+				?>
+				<div class="load-more text-center" id="load-more-event" style="<?php echo esc_attr( $style ); ?>">
+					<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $event_query->max_num_pages ); ?>">Load More</a>
+				</div>
+				<?php
 				wp_reset_postdata();
 
 			} else if ('content' === $view_type) {

@@ -435,6 +435,7 @@ function nab_company_produts_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $company_id         = $post->ID;
+    $member_level = get_field('member_level',$company_id);
     $post_status        = array('publish');
     if (is_user_logged_in()) {
 
@@ -477,30 +478,26 @@ function nab_company_produts_render_callback($attributes)
     $total_post = $product_query->found_posts;
 
     if ($product_query->have_posts() || $is_company_admin) {
-
-        ob_start();
-    ?>
+        if ('Standard' !== $member_level && 'select' !== $member_level && null !== $member_level && '' !== $member_level) {
+            ob_start(); ?>
         <div class="company-products <?php echo esc_attr($class_name); ?>">
             <div class="amp-item-main">
                 <div class="amp-item-heading">
                     <h3>Products <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
                     <?php
                     if ($total_post > $posts_per_page) {
-
                         $current_site_url   = rtrim(get_site_url(), '/');
-                        $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url);
-                    ?>
+                        $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url); ?>
                         <div class="amp-view-more">
                             <a href="<?php echo esc_url($view_all_link); ?>" class="view-more-arrow">View All</a>
                         </div>
                     <?php
-                    }
-                    ?>
+                    } ?>
                 </div>
                 <div class="amp-item-wrap" id="company-products-list">
                     <?php
                     if ($is_company_admin) {
-                    ?>
+                        ?>
                         <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
                                 <div class="add-item-wrap">
@@ -512,36 +509,31 @@ function nab_company_produts_render_callback($attributes)
                     <?php
                     }
 
-                    while ($product_query->have_posts()) {
+            while ($product_query->have_posts()) {
+                $product_query->the_post();
 
-                        $product_query->the_post();
 
-
-                        $product_link       = get_the_permalink();
-                        $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
-                        $product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
-
-                    ?>
+                $product_link       = get_the_permalink();
+                $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
+                $product_medias     = nab_amplify_get_bynder_products(get_the_ID()); ?>
                         <div class="amp-item-col">
                             <div class="amp-item-inner">
                                 <div class="amp-item-cover">
                                     <?php
                                     if ($is_company_admin && 'draft' === get_post_status(get_the_ID())) {
-                                    ?>
+                                        ?>
                                         <div class="amp-draft-wrapper">
                                             <span class="company-product-draft">Draft</span>
                                         </div>
                                     <?php
                                     }
-                                    $thumbnail_url = '';
+                $thumbnail_url = '';
 
-                                    if (!empty($product_medias[0]['product_media_file'])) {
-                                        $thumbnail_url = $product_medias[0]['product_media_file']['url'];
-                                    } else {
-                                        $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-                                    }
-
-                                    ?>
+                if (!empty($product_medias[0]['product_media_file'])) {
+                    $thumbnail_url = $product_medias[0]['product_media_file']['url'];
+                } else {
+                    $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
+                } ?>
                                     <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
                                 </div>
                                 <div class="amp-item-info">
@@ -551,22 +543,21 @@ function nab_company_produts_render_callback($attributes)
                                         </h4>
                                         <?php
                                         if (!empty($product_category) && !is_wp_error($product_category)) {
-
-                                        ?>
+                                            ?>
                                             <span class="product-company"><?php echo esc_html($product_category[0]->name); ?></span>
                                         <?php
-                                        }
-                                        ?>
+                                        } ?>
                                         <div class="amp-actions">
                                             <div class="search-actions nab-action">
                                                 <a href="<?php echo esc_url($product_link); ?>" class="button">View Product</a>
                                                 <?php
                                                 if ($is_company_admin) {
-                                                ?>
+                                                    ?>
                                                     <div class="nab-action-row">
                                                         <i class="action-edit fa fa-pencil" data-id="<?php echo get_the_ID(); ?>"></i>
                                                     </div>
-                                                <?php } ?>
+                                                <?php
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -574,14 +565,14 @@ function nab_company_produts_render_callback($attributes)
                             </div>
                         </div>
                     <?php
-                    }
-                    ?>
+            } ?>
                 </div>
             </div>
         </div>
     <?php
-
+       
         $html = ob_get_clean();
+        }
     }
     wp_reset_postdata();
 
