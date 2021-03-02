@@ -172,8 +172,8 @@ get_header();
 					<?php } ?>
 				
 					
-					<div class="container">
-						<div class="session__desc">
+					<div class="session__desc">
+						<div class="container">
 						<?php
 						the_content(
 							sprintf(
