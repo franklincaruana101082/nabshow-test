@@ -94,6 +94,8 @@ body.bm-modal-off-scroll{overflow:hidden;}
 #bm-upload-form .bm-btn-wrap,#bm-upload-form .bm-adjust-crop-actions{display:none;}
 #bm-upload-form .bm-image-cropped .bm-btn-wrap, #bm-upload-form.canvas-active .bm-btn-wrap, #bm-upload-form.canvas-active .bm-adjust-crop-actions{display:block;}
 .bm-submit-wrap{text-align:center;}
+.hide-upload.bm-tab-list li:not(:last-child) {border: 0;}
+.hide-upload.bm-tab-list li:nth-child(2) {display: none;}
 
 /* cropper meta fields */
 .bm-upload-meta-fields{padding:10px 0;}

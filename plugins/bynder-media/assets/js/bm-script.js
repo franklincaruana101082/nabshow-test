@@ -280,6 +280,9 @@ function createCollection() {
                 bmColUploadBtn.innerText = 'Upload Now';
                 bmColPara.appendChild(bmColUploadBtn);
 
+                // Show the upload tab.
+                $('.bm-tab-list').removeClass('hide-upload');
+
                 $('#bm-main-outer .bm-media-main').append(bmColPara);
             } else if ( result.error ) {
                 $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
@@ -378,12 +381,12 @@ function bmFetchAssets(_this) {
 
     // Check if we have collection ID otherwise,
     // Add company name as a collection name to show assets specific to it.
+    let collectionName = '';
     let collectionID = $('body').attr('bm-col-id');
     if( undefined !== collectionID && '' !== collectionID ) {
         bmData.append('collectionID', collectionID);
     } else {
 
-        let collectionName = '';
         if( $('body').hasClass('wp-admin') ) {
 
             if( 0 !== $('.post-type-company .editor-post-title__input').length ) {
@@ -450,6 +453,9 @@ function bmFetchAssets(_this) {
                 bmColBtn.setAttribute('class', 'bm-btn-link');
                 bmColBtn.innerText = 'Create Collection "' + collectionName + '"';
                 bmColPara.appendChild(bmColBtn);
+
+                // Hide the upload tab.
+                $('.bm-tab-list').addClass('hide-upload');
 
                 $('#bm-main-outer .bm-media-main').append(bmColPara);
                 $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
