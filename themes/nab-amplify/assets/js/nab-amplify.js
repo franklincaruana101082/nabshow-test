@@ -4765,8 +4765,8 @@ function nabSearchProductAjax(loadMore, pageNumber) {
 
 /** Event Search Ajax */
 function nabSearchEventAjax(loadMore, pageNumber) {
-  let postPerPage = jQuery("#load-more-product a").attr("data-post-limit")
-    ? parseInt(jQuery("#load-more-product a").attr("data-post-limit"))
+  let postPerPage = jQuery("#load-more-event a").attr("data-post-limit")
+    ? parseInt(jQuery("#load-more-event a").attr("data-post-limit"))
     : 15;
   let searchTerm =
     0 < jQuery('.search-result-filter .search-form input[name="s"]').length
@@ -4775,7 +4775,7 @@ function nabSearchEventAjax(loadMore, pageNumber) {
   let eventType =
     0 < jQuery(".other-search-filter .event-type a.active").length
       ? jQuery(".other-search-filter .event-type a.active").attr("data-event")
-      : "all";
+      : "upcoming";
 
   jQuery("body").addClass("is-loading");
 
