@@ -102,12 +102,12 @@ $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rt
 							$connection_messages    = get_user_meta( $member_id, 'connection_messages', true );
 							$connection_messages    = $connection_messages[ $current_user_id ];
 							$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
-							$user_images            = nab_amplify_get_user_images( $member_id );
-							$user_full_name = bp_get_member_name();
-							$friendship_status = friends_check_friendship_status($current_user_id, $member_id);
+							$user_images            = nab_amplify_get_user_images( $member_id );							
+							$friendship_status		= friends_check_friendship_status($current_user_id, $member_id);
+							$user_full_name			= get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
 
-							if ( empty( trim( $user_full_name ) ) ) {
-								$user_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+							if ( empty( trim( $user_full_name ) ) ) {								
+								$user_full_name = bp_get_member_name();
 							}
 							?>
                             <div class="amp-item-col">
