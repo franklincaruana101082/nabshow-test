@@ -724,7 +724,6 @@ function bmUploadToBynder() {
                     $('.bm-modal-main').addClass('just-uploaded');
                     $('#assets-load-more').attr('data-page', 1).hide();
                     $('#assets-load-more').removeAttr('data-fetched');
-                    $('[data-tab="bm-tab-assets"], .bm-select-media.active').trigger('click');
 
                 } else if ( result.error ) {
                     console.log( result.error );
@@ -735,6 +734,15 @@ function bmUploadToBynder() {
                 // Remove the canvas.
                 if( $('.bm-modal-main').hasClass('just-uploaded') ) {
                     removeCropCanvas();
+
+                    $('#bm-precess-info').html('<p>Congratulations! Image uploaded successfully! Auto fetch will start in 3 seconds...</p>').show();
+
+                    setTimeout(function (){
+                        $('[data-tab="bm-tab-assets"], .bm-select-media.active').trigger('click');
+                        // Reset messsage div.
+                        $('#bm-precess-info').html('').hide();
+                    }, 3000);
+
                     $('.bm-modal-main').removeClass('just-uploaded');
 
                     // Hide & Reset Meta.
