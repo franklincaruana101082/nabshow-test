@@ -160,7 +160,7 @@ get_header();
 								<script src="https://app.involve.me/embed"></script>
 							</div>
 						</div>
-					<?php } elseif($session_status == "post_event") { ?>
+					<?php } elseif($session_status == "post-event") { ?>
 						<div class="session__post">
 							<div class="container">
 								<div class="involveme_embed"
