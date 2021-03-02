@@ -342,6 +342,157 @@
     });
   }
 
+  $(document).on('click', '.action-add-address ', function () {
+    const address_id =
+      undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_add_address',
+        address_id: address_id,
+        company_id: company_id
+      },
+      success: function (data) {
+        _this.removeClass('loading')
+        if (jQuery('#addProductModal').length === 0) {
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          $('#country').select2({
+            placeholder: 'Select Country',
+            allowClear: true
+          })
+          if ($('#country').val()) {
+            filter_states($('#country').find(':selected').data('country-code'))
+          }
+        } else {
+          jQuery('#addProductModal').remove()
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          $('#country').select2({
+            placeholder: 'Select Country',
+            allowClear: true
+          })
+          if ($('#country').val()) {
+            filter_states($('#country').find(':selected').data('country-code'))
+          }
+        }
+      }
+    })
+  })
+
+  function filter_states (country_code) {
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_state_filter',
+        country_code: country_code
+      },
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
+      success: function (data) {
+        $('body').removeClass('is-loading')
+        jQuery('#state_select_wrapper').show()
+        var pre_state = jQuery('#country').attr('data-state')
+        if (data.length) {
+          jQuery('#state_select_wrapper .input-text').remove()
+          if (jQuery('#state').length === 0) {
+            jQuery('#state_select_wrapper').append(
+              '<div class="select-dark-simple"><select name="state" id="state"></select></div>'
+            )
+          }
+
+          jQuery('#state').empty()
+          jQuery('#state').append('<option value="" selected> </option>' )
+          data.forEach(function (item) {
+            if (pre_state !== '' && typeof pre_state !== 'undefined') {
+              if (item.Display == pre_state) {
+                if (jQuery('#state').is('select')) {
+                  jQuery('#state').append(
+                    '<option value="' +
+                      item.Display +
+                      '" selected>' +
+                      item.Display +
+                      '</option>'
+                  )
+                } else {
+                  jQuery('#state').val(pre_state)
+                }
+              } else {
+                if (jQuery('#state').is('select')) {
+                  jQuery('#state').append(
+                    '<option value="' +
+                      item.Display +
+                      '" >' +
+                      item.Display +
+                      '</option>'
+                  )
+                }
+              }
+            } else {
+              if (jQuery('#state').is('select')) {
+                jQuery('#state').append(
+                  '<option value="' +
+                    item.Display +
+                    '" >' +
+                    item.Display +
+                    '</option>'
+                )
+              }
+            }
+          })
+
+          jQuery('#state').select2({
+            placeholder: 'Select State',
+            allowClear: true
+          })
+        } else {
+          jQuery('#state_select_wrapper .select-dark-simple').remove()
+          if (jQuery('#state_select_wrapper .input-text').length === 0) {
+            jQuery('#state_select_wrapper').append(
+              '<input type="text" class="input-text nab-featured-block-button-link" name="state" id="state" value=""></input>'
+            )
+          }
+
+          if (pre_state !== '') {
+            jQuery('#state').val(pre_state)
+          }
+        }
+      }
+    })
+  }
+
+  $(document).on('change', '#country ', function () {
+    const address_id =
+      undefined !== $(this).data('address-id')
+        ? $(this).data('address-id')
+        : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    const country_code = $(this).find(':selected').data('country-code')
+    $(this).attr('data-state', '')
+    if (jQuery('#state').length && jQuery('#state').is('input')) {
+      jQuery('#state').val('')
+    } else if (jQuery('#state').length && jQuery('#state').is('select')) {
+      jQuery('#state').empty()
+    }
+
+    filter_states(country_code)
+  })
+
   function validateURL(urltext) {
     if (urltext !== "") {
       var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
@@ -350,6 +501,138 @@
       return true;
     }
   }
+
+  $(document).on('click', '.action-remove-address ', function () {
+    const address_id =
+      undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    get_address_remove_popup('Are you sure want to remove?',address_id)
+
+
+  })
+
+  $(document).on('click', '#nab-add-address-submit', function () {
+    var company_id = jQuery('#nab_company_id').val()
+    var address_id = jQuery(this).data('id')
+    var street_line_1 = jQuery('#street_line_1').val()
+    var street_line_2 = jQuery('#street_line_2').val()
+    var city = jQuery('#city').val()
+    var state = jQuery('#state').val()
+    var country = jQuery('#country').val()
+    var zip = jQuery('#zip').val()
+    var form_data = new FormData()
+
+    form_data.append('street_line_1', street_line_1)
+    form_data.append('street_line_2', street_line_2)
+    form_data.append('city', city)
+    form_data.append('state', state)
+    form_data.append('country', country)
+    form_data.append('zip', zip)
+    form_data.append('action', 'nab_amplify_submit_address')
+    form_data.append('company_id', company_id)
+    form_data.append('address_id', address_id)
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: form_data,
+      contentType: false,
+      processData: false,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
+      success: function (data) {
+        $('body').removeClass('is-loading')
+        if (undefined !== data.success && !data.success) {
+          addSuccessMsg('.add-product-content-popup', data.data)
+        } else {
+          addSuccessMsg(
+            '.add-product-content-popup',
+            'Address Updated Successfully!'
+          )
+        }
+      }
+    })
+  })
+
+  function get_error_popup(message){
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_get_error_popup',
+        message: message,
+      },
+      success: function (data) {
+        if (0 === $('#connection-message-popup').length) {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('connection-popup-added')
+        } else {
+          $('body').addClass('connection-popup-added')
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+        }
+      }
+    })
+  }
+
+  function get_address_remove_popup(message,address_id){
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_get_error_popup',
+        message: message,
+        confirm:'1',
+        address_id:address_id
+      },
+      success: function (data) {
+        if (0 === $('#connection-message-popup').length) {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('connection-popup-added')
+        } else {
+          $('body').addClass('connection-popup-added')
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+        }
+      }
+    })
+  }
+
+  $(document).on('click', '.confirm_address_remove_yes', function () {
+    const address_id =
+        undefined !== $(this).data('id') ? $(this).data('id') : ''
+      const company_id = amplifyJS.postID
+      const _this = $(this)
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_remove_address',
+        address_id: address_id,
+        company_id: company_id
+      },
+      beforeSend:function(){
+        $('body').addClass('is-loading');
+      },
+      success: function (data) {
+        if (data.success) {
+          location.reload()
+        }
+      }
+    })
+  })
+  $(document).on('click', '.confirm_address_remove_no', function () {
+    $(this)
+    .parents('.nab-modal')
+    .hide()
+  })
 
   function load_tinyMCE_withPlugins(tag, countTag, limit = 2000) {
     var d = new Date();
