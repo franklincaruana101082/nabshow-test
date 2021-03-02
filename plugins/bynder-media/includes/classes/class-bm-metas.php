@@ -52,7 +52,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			$screen = get_current_screen();
 
 			// Company Products Metas.
-			if ( $screen->parent_base == 'edit' && $screen->post_type = 'company-products' ) {
+			if ( 'edit' === $screen->parent_base && 'company-products' === $screen->post_type ) {
 				$this->bm_add_products_meta_box();
 			} else {
 				// Add Featured Image.
