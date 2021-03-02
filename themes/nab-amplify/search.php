@@ -301,9 +301,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								bp_the_member();
 
 								$member_user_id = bp_get_member_user_id();
-								$user_full_name = bp_get_member_name();
-								if (empty(trim($user_full_name))) {
-									$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+								if (empty(trim($user_full_name))) {									
+									$user_full_name = bp_get_member_name();
 								}
 
 								$company = get_user_meta($member_user_id, 'attendee_company', true);
@@ -972,10 +972,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$member_user_id = bp_get_member_user_id();
 
-							$user_full_name = bp_get_member_name();
+							$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
-							if (empty(trim($user_full_name))) {
-								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+							if (empty(trim($user_full_name))) {								
+								$user_full_name = bp_get_member_name();
 							}
 
 							$company = get_user_meta($member_user_id, 'attendee_company', true);
