@@ -275,11 +275,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 		public function bm_fetch_assets() {
 
-
-			// getCollections($query);
-			// getCollectionAssets($collectionId);
-
-
 			$this->requested_by    = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
 			$this->collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
 			$this->collection_id   = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
@@ -290,7 +285,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$this->url  = $this->bm_domain . '/api/v4/media/';
 			$this->args = array(
 				'includeMediaItems' => 1,
-				'limit'             => 50,
+				'limit'             => 20,
 			);
 
 			// init.
