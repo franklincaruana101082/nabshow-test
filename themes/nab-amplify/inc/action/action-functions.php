@@ -3400,7 +3400,7 @@ function nab_update_company_profile_callback()
     $linkedin_profile               = filter_input(INPUT_POST, 'linkedin_profile', FILTER_SANITIZE_STRING);
     $facebook_profile               = filter_input(INPUT_POST, 'facebook_profile', FILTER_SANITIZE_STRING);
     $twitter_profile                = filter_input(INPUT_POST, 'twitter_profile', FILTER_SANITIZE_STRING);
-    $company_about                  = filter_input(INPUT_POST, 'company_about', FILTER_SANITIZE_STRING);
+    $company_about                  = filter_input(INPUT_POST, 'company_about', FILTER_UNSAFE_RAW);
     $company_industry               = filter_input(INPUT_POST, 'company_industry', FILTER_SANITIZE_STRING);
     $company_website                = filter_input(INPUT_POST, 'company_website', FILTER_SANITIZE_STRING);
     $company_point_of_contact       = filter_input(INPUT_POST, 'company_point_of_contact', FILTER_SANITIZE_STRING);
