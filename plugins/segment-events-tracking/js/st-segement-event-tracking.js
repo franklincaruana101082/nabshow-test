@@ -42,6 +42,7 @@
                 page: segmentJS.page,
                 search_term: segmentJS.search_term,
                 is_pageview: segmentJS.is_pageview,
+                content_type: segmentJS.content_type,
             },
             success: function (response) {                
             }
