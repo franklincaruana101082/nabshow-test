@@ -137,6 +137,9 @@ a#bm-featured-remove{margin-bottom:20px;}
 
 /* CSS for admin only */
 .edit-post-header__settings .bm-select-media{margin-right:12px;}
+.bm-item.not-eligible .bm-item-inner {opacity: 0.05;}
+.bm-item.not-eligible:before {content: 'Not featured';font-size: 20px;position: absolute;left: 0;top: 0;z-index: 9;margin: auto 0;right: 0;bottom: 0;text-align: center;max-height: 20px;text-transform: uppercase;color: #6363df;}
+.bm-item.not-eligible {position: relative;}
 
 /* Media CSS */
 @media (max-width:1180px){

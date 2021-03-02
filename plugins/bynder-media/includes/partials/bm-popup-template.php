@@ -34,6 +34,7 @@ if ( 0 === count( $bm_assets ) ) { ?>
 		}*/
 
 		// If featured image is requested, skip if featured derivative is absent.
+        $class = 'eligible';
 		if ( 'profile_picture' === $requested_by && $this->is_admin ) {
 			foreach ( $derivatives as $derv ) {
 				$pass = 0;
@@ -42,11 +43,12 @@ if ( 0 === count( $bm_assets ) ) { ?>
 				}
 			}
 			if ( 0 === $pass ) {
-				continue;
+				$class = 'not-eligible';
+				//continue;
 			}
 		}
 		?>
-        <div class="bm-item">
+        <div class="bm-item <?php echo esc_attr( $class ) ?>">
             <div class="bm-item-inner">
                 <div class="bm-img">
                     <img src="<?php echo esc_attr( $asset_img ) ?>"/>
