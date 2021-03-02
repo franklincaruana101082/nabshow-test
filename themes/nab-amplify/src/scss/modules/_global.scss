@@ -93,7 +93,7 @@
   .site-content {
   	position: relative;
 	background-color: $color__gray-darker;
-	padding: rem(54) 0 rem(50);
+	padding: rem(54) 0 0;
   	&:before {
 	  content: '';
 	  display: block;
@@ -553,3 +553,8 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 	transition: color .25s ease-in-out, background-color .25s ease-in-out;
 }
 
+.wp-block-md-multipurpose-gutenberg-block.has-full {
+	&:last-child {
+		padding-bottom: rem(50);
+	}
+}
