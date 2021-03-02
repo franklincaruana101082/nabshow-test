@@ -45,6 +45,8 @@ $reset_pwd_link = add_query_arg( array( 'key' => $reset_key, 'id' => $user_id ),
 your account. If you are having difficulties, <a href="<?php echo wp_lostpassword_url();?>">click
 here</a> to start the reset process.</p>
 
+<p>Thank you for joining and stay amped!<br>
+The NAB Amplify Team</p>
 
 <?php
 /**
