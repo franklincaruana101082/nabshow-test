@@ -189,7 +189,7 @@
 				flex: 0 1 auto;
 			}
 		}
-
+			
 			&__host-photo {
 				border-radius: 50%;
 				width: rem(40);
@@ -199,7 +199,11 @@
 				padding-left: rem(14);
 			}
 				&__host-name {
-					margin-bottom: 0;	
+					margin-bottom: 0;
+					padding-left: rem(14);
+					.event__host-info & {
+						padding-left: 0;
+					}	
 				}
 		&__link {
 			font-weight: 600;

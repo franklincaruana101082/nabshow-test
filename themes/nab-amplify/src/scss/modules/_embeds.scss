@@ -16,6 +16,9 @@
 	}
 	&._video {
 		padding-top: 56.25%;
+		p {
+			margin-bottom: 0;
+		}
 	}
 	&._chat {
 		min-height: rem(336);

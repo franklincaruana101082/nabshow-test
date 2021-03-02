@@ -1,0 +1,12 @@
+.session {
+	&__pre, &__post {
+		padding-bottom: rem(60);
+	}
+	&__desc {
+		padding-top: rem(60);
+		padding-bottom: rem(60);
+		.session__live + & {
+			background: $color__gray-dark;
+		}
+	}
+}

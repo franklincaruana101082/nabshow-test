@@ -534,7 +534,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											if ($company_poc !== '' && !empty($company_poc)) {
 												if ($user_logged_in) {
 													?>
+												<div id="send-private-message" class="generic-button poc-msg-btn">
 												   <a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												</div>
 											   <?php
 												} else {
 													$current_url = home_url(add_query_arg(null, null));
@@ -1194,7 +1196,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<?php
 										if ($company_poc !== '' && !empty($company_poc)) {
 											if ($user_logged_in) { ?>
-											   <a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												<div id="send-private-message" class="generic-button poc-msg-btn">
+												   <a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												</div>
 										   <?php
 											} else {
 												$current_url = home_url(add_query_arg(null, null));

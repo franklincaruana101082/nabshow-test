@@ -279,6 +279,10 @@ function nab_register_amplify_dynamic_blocks()
     register_block_type('nab/company-feature', array(
         'render_callback' => 'nab_company_feature_render_callback',
     ));
+
+    register_block_type('nab/regional-addressess', array(
+        'render_callback' => 'nab_regional_addressess_render_callback',
+    ));
 }
 
 function nab_company_details_render_callback($attributes)
@@ -998,4 +1002,92 @@ function nab_company_feature_render_callback($attributes)
     ob_end_clean();
 
     return $html;
+}
+
+function nab_regional_addressess_render_callback($attributes)
+{
+    ob_start();
+    $class_name     = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
+    $member_level   = get_field('member_level');
+
+    if ($member_level !== '' && $member_level !== 'select' && $member_level !== 'Standard') {
+    ?>
+        <div class="company-products <?php echo esc_attr($class_name); ?>">
+            <div class="amp-item-main">
+                <div class="amp-item-heading">
+                    <h3>Regional Addresses</h3>
+                </div>
+                <div class="amp-item-wrap" id="company-address-list">
+
+                    <?php for ($i = 1; $i < 5; $i++) {
+                        nab_get_religion_address($i, get_the_ID());
+                    } ?>
+
+
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    $html = ob_get_clean();
+    return $html;
+}
+
+function nab_get_religion_address($address_id, $company_id)
+{
+    $html = '';
+
+    $user_id            = get_current_user_id();
+    $admin_id           = get_field('company_user_id', $company_id);
+
+    if ($address_id !== '0' && !empty($address_id)) {
+        $address_number = array(
+            '1' => 'one',
+            '2' => 'two',
+            '3' => 'three',
+            '4' => 'four'
+        );
+        $address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+        if (!empty($address_data) && $address_data['street_line_1'] !== '') {
+
+        ?>
+            <div class="amp-item-col add-new-item">
+                <div class="amp-item-inner">
+                    <div class="add-item-wrap">
+                        <?php echo isset($address_data['street_line_1']) && $address_data['street_line_1'] != '' ? $address_data['street_line_1'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['street_line_2_']) && $address_data['street_line_2_'] != '' ? $address_data['street_line_2_'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['city']) && $address_data['city'] != '' ? $address_data['city'] . ',' : ''; ?>
+                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? nab_amplify_get_country_state($address_data['state_province'],'state') . ',' : ''; ?>
+                        <?php echo isset($address_data['zip_postal']) && $address_data['zip_postal'] != '' ? $address_data['zip_postal'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? nab_amplify_get_country_state($address_data['country'],'country') : ''; ?>
+                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                            <div class="amp-actions">
+                                <div class="search-actions nab-action">
+                                    <div class="nab-action-row">
+                                        <i class="action-remove-address edit-block-icon fa fa-times" data-id="<?php echo $address_id; ?>"></i>
+                                        <i class="action-add-address edit-block-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+
+            if (!empty($admin_id) && in_array($user_id, $admin_id)) {
+            ?>
+                <div class="amp-item-col add-new-item">
+                    <div class="amp-item-inner">
+                        <div class="add-item-wrap">
+                            <i class="action-add-address add-item-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                            <span class="add-item-label">Add Address</span>
+                        </div>
+                    </div>
+                </div>
+<?php
+            }
+        }
+    }
 }

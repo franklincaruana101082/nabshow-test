@@ -2948,6 +2948,8 @@ add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
 
 function nab_get_error_popup(){
 	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
+	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-error-popup.php';
@@ -2957,4 +2959,226 @@ function nab_get_error_popup(){
 	wp_send_json($popup_html, 200);
 
 	wp_die();
+}
+
+// Ajax to show Add Address popup.
+add_action("wp_ajax_nab_amplify_add_address", "nab_amplify_add_address");
+add_action("wp_ajax_nopriv_nab_amplify_add_address", "nab_amplify_add_address");
+
+/**
+ * Ajax to show address popup.
+ */
+function nab_amplify_add_address()
+{
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+
+	$address_number = array(
+		'1' => 'one',
+		'2' => 'two',
+		'3' => 'three',
+		'4' => 'four'
+	);
+	$address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+	$country_list = nab_get_countries();
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-company-religion-addresses-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+
+}
+
+/*Update regional addresses */
+add_action('wp_ajax_nab_amplify_submit_address', 'nab_amplify_submit_address');
+add_action('wp_ajax_nopriv_nab_amplify_submit_address', 'nab_amplify_submit_address');
+
+function nab_amplify_submit_address()
+{
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$street_line_1      = filter_input(INPUT_POST, 'street_line_1', FILTER_SANITIZE_STRING);
+	$street_line_2      = filter_input(INPUT_POST, 'street_line_2', FILTER_SANITIZE_STRING);
+	$city      = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
+	$state      = filter_input(INPUT_POST, 'state', FILTER_SANITIZE_STRING);
+	$country      = filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
+	$zip      = filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_STRING);
+
+	switch ($address_id) {
+		case "1":
+			$field_key = 'regional_address_one';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "2":
+			$field_key = 'regional_address_two';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "3":
+			$field_key = 'regional_address_three';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "4":
+			$field_key = 'regional_address_four';
+			$values = array(
+				'street_line_1'    =>   $street_line_1,
+				'street_line_2_' =>   $street_line_2,
+				'city' =>   $city,
+				'state_province' =>   $state,
+				'zip_postal' =>   $zip,
+				'country' =>   $country,
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		default:
+			$final_result['success'] = false;
+			$final_result['content'] = '';
+
+
+	}
+
+	echo wp_json_encode($final_result);
+	wp_die();
+}
+
+/* Remove regional addresses */
+
+add_action('wp_ajax_nab_amplify_remove_address', 'nab_amplify_remove_address');
+add_action('wp_ajax_nopriv_nab_amplify_remove_address', 'nab_amplify_remove_address');
+
+function nab_amplify_remove_address(){
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+
+	switch ($address_id) {
+		case "1":
+			$field_key = 'regional_address_one';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>  '',
+				'zip_postal' =>  '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "2":
+			$field_key = 'regional_address_two';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>   '',
+				'zip_postal' =>   '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "3":
+			$field_key = 'regional_address_three';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>   '',
+				'zip_postal' =>   '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		case "4":
+			$field_key = 'regional_address_four';
+			$values = array(
+				'street_line_1'    =>   '',
+				'street_line_2_' =>   '',
+				'city' =>   '',
+				'state_province' =>   '',
+				'zip_postal' =>   '',
+				'country' =>   '',
+			);
+			update_field($field_key, $values, $company_id);
+			$final_result['success'] = true;
+			$final_result['content'] = '';
+			break;
+		default:
+			$final_result['success'] = false;
+			$final_result['content'] = '';
+
+
+	}
+
+	wp_send_json($final_result, 200);
+	wp_die();
+}
+
+
+
+// Ajax to show Add Address popup.
+add_action("wp_ajax_nab_amplify_state_filter", "nab_amplify_state_filter");
+add_action("wp_ajax_nopriv_nab_amplify_state_filter", "nab_amplify_state_filter");
+
+function nab_amplify_state_filter(){
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+    $country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
+	$filtered_states = array();
+	$states          = nab_get_states();
+
+
+	foreach($states as $state){
+
+		if($state['Country'] == $country_code){
+
+			$filtered_states[] = $state;
+		}
+	}
+
+	wp_send_json($filtered_states, 200);
+
 }
