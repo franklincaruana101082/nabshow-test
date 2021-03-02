@@ -3203,5 +3203,5 @@ add_action("wp_ajax_nopriv_nab_amplify_banner_image_remove","nab_amplify_banner_
 function nab_amplify_banner_image_remove(){
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	update_field('banner_image','',$company_id);
-	update_post_meta($company_id'banner_image','');
+	update_post_meta($company_id,'banner_image','');
 }
