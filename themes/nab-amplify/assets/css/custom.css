@@ -1088,15 +1088,15 @@ body.buddypress .site-content{padding:0}
 .banner-header{height:auto;margin-bottom:0;position:relative}
 .banner-header::before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;background:url(../images/banner-header-shadow.png);background-size:cover}
 .banner-header .banner-container{max-width:90%;margin:0 auto;position:relative}
-.banner-header .update-banner-image{position:absolute;top:70px;left:0}
-.banner-header .update-banner-image label{display:flex;flex-wrap:wrap}
-.banner-header .update-banner-image label .edit-bg-pic{margin:0 10px 10px 0}
-.banner-header .edit-bg-pic, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-info .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000}
+.banner-header .update-banner-image{position:absolute;top:70px;left:0;display:flex;flex-wrap:wrap}
+.banner-header .update-banner-image .edit-bg-pic,
+.banner-header .update-banner-image .remove-bg-pic{margin:0 10px 10px 0}
+.banner-header .edit-bg-pic, .banner-header .remove-bg-pic, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-info .edit-icon{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000}
 .banner-header .edit-profile-pic{margin:5px}
 .banner-header .edit-profile-pic i{color:#000}
-.banner-header .edit-bg-pic i{color:#000}
+.banner-header .edit-bg-pic i, .banner-header .remove-bg-pic i{color:#000}
 .amp-profile-main .amp-profile-info .edit-icon i{color:#000}
-.banner-header .edit-bg-pic::after, .banner-header .edit-profile-pic::after, .amp-profile-main .amp-profile-info .edit-icon::after{top:-30px}
+.banner-header .edit-bg-pic::after, .banner-header .remove-bg-pic::after, .banner-header .edit-profile-pic::after, .amp-profile-main .amp-profile-info .edit-icon::after{top:-30px}
 .banner-header #edit-mode-buttons{position:absolute;top:70px;right:0}
 .banner-header #edit-mode-buttons a{border-radius:7px;text-transform:capitalize;font-size:16px;background-color:#6363df;border-color:#6363df;padding:9px 20px 8px;color:#fff}
 .banner-header .amp-member-level span{padding:7px 20px 6px;border-radius:7px;text-transform:capitalize;font-size:16px;background-color:#6363df;border-color:#6363df;color:#fff;min-width:120px;display:inline-block}
