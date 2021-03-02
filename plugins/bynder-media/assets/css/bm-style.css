@@ -26,6 +26,7 @@
 #bm_metabox_meta.postbox .inside #bm_meta_featured_outer .bm-select-media{box-sizing:border-box;margin-bottom:10px;}
 
 /* BM Modal */
+body.bm-modal-off-scroll{overflow:hidden;}
 .bm-modal-main{display:none;}
 .bm-modal-main.bm-modal-active{display:block;}
 .bm-modal-main *{-webkit-box-sizing:border-box;box-sizing:border-box;}
