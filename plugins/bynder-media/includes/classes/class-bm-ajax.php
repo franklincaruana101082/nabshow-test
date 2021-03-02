@@ -196,16 +196,15 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->args['image_url'] = wp_get_original_image_path( $attachment_id );
 
 
-					$test1 = ABSPATH;
-					$this->args['image_url'] = ABSPATH . 'wp-content/uploads/sites/9/2021/03/0_ReDn_LN2rtXno-W5-1.png';
+					$this->args['image_url'] = str_replace('vip://', ABSPATH, $this->args['image_url']);
 
 					// Set name to upload.
 					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
 
-					/*echo '<pre>';
+					echo '<pre>';
 					print_r( get_defined_vars() );
 					print_r( $this );
-					die( '<br><---died here' );*/
+					die( '<br><---died here' );
 
 					// Init upload.
 					require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-upload-asset.php' );
