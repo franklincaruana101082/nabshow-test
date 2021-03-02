@@ -271,7 +271,7 @@ function nab_amplify_woocommerce_get_endpoint_url($url, $endpoint, $value, $perm
 	if ($endpoint === 'messages') {
 		$url = bp_loggedin_user_domain() . bp_get_messages_slug();
 	}
-	if ( 'view-profile' === $endpoint ) {
+	if ('view-profile' === $endpoint) {
 		$url = bp_loggedin_user_domain();
 	}
 
@@ -1191,7 +1191,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 
 	$tax_search			= $query_object->get('_tax_search');
 	$meta_company_term	= $query_object->get('_meta_company_term');
-	$meta_company_order	= $query_object->get( '_meta_company_order' );
+	$meta_company_order	= $query_object->get('_meta_company_order');
 
 	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
@@ -1206,7 +1206,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
 
-		if ( isset( $meta_company_order ) && $meta_company_order ) {
+		if (isset($meta_company_order) && $meta_company_order) {
 			$clauses['orderby']		= " {$wpdb->postmeta}.meta_value+0";
 		}
 	}
@@ -1281,13 +1281,14 @@ function nab_filter_message_to_avoid_html_entity($message_excerpt)
  *
  * @return string updated og:image
  */
-function nab_amplify_update_og_image( $content ) {
+function nab_amplify_update_og_image($content)
+{
 
 	global $post;
 
-    $content = nab_amplify_get_featured_image( $post->ID, false );
+	$content = nab_amplify_get_featured_image($post->ID, false);
 
-	if ( $content ) {
+	if ($content) {
 		return $content;
 	}
 }
@@ -1325,30 +1326,32 @@ function nab_reorder_comment_form($content)
 
 	return $content;
 }*/
-add_filter( 'bp_activity_maybe_load_mentions_scripts', 'buddydev_enable_mention_autosuggestions', 10, 2 );
+add_filter('bp_activity_maybe_load_mentions_scripts', 'buddydev_enable_mention_autosuggestions', 10, 2);
 
-function buddydev_enable_mention_autosuggestions( $load, $mentions_enabled ) {
+function buddydev_enable_mention_autosuggestions($load, $mentions_enabled)
+{
 
-    if( ! $mentions_enabled ) {
-        return $load;//activity mention is  not enabled, so no need to bother
-    }
-    //modify this condition to suit yours
-    if( is_user_logged_in() && bp_is_current_component( 'mediapress' ) ) {
-        $load = true;
-    }
+	if (!$mentions_enabled) {
+		return $load; //activity mention is  not enabled, so no need to bother
+	}
+	//modify this condition to suit yours
+	if (is_user_logged_in() && bp_is_current_component('mediapress')) {
+		$load = true;
+	}
 
-    return $load;
+	return $load;
 }
 
 /**
  * Add comapny admin query parameter
  */
-function nab_add_query_vars_filter( $vars ){
+function nab_add_query_vars_filter($vars)
+{
 	$vars[] = "addadmin";
 	$vars[] = "r";
-    return $vars;
+	return $vars;
 }
-add_filter( 'query_vars', 'nab_add_query_vars_filter' );
+add_filter('query_vars', 'nab_add_query_vars_filter');
 
 /**
  * Update wordpress comment count.
@@ -1358,106 +1361,120 @@ add_filter( 'query_vars', 'nab_add_query_vars_filter' );
  *
  * @return stdClass
  */
-function nab_update_wp_admin_comments_count( $count, $post_id ) {
+function nab_update_wp_admin_comments_count($count, $post_id)
+{
 
-    if ( is_admin() && 0 === (int) $post_id ) {
+	if (is_admin() && 0 === (int) $post_id) {
 
-        global $wpdb;
+		global $wpdb;
 
-        $where = ' WHERE comment_type = "comment"';
+		$where = ' WHERE comment_type = "comment"';
 
-        $totals = (array) $wpdb->get_results(
-            "
+		$totals = (array) $wpdb->get_results(
+			"
             SELECT comment_approved, COUNT( * ) AS total
             FROM {$wpdb->comments}
             {$where}
             GROUP BY comment_approved
         ",
-            ARRAY_A
-        );
+			ARRAY_A
+		);
 
-        $comment_count = array(
-            'approved'            => 0,
-            'awaiting_moderation' => 0,
-            'spam'                => 0,
-            'trash'               => 0,
-            'post-trashed'        => 0,
-            'total_comments'      => 0,
-            'all'                 => 0,
-        );
+		$comment_count = array(
+			'approved'            => 0,
+			'awaiting_moderation' => 0,
+			'spam'                => 0,
+			'trash'               => 0,
+			'post-trashed'        => 0,
+			'total_comments'      => 0,
+			'all'                 => 0,
+		);
 
-        foreach ( $totals as $row ) {
-            switch ( $row['comment_approved'] ) {
-                case 'trash':
-                    $comment_count['trash'] = $row['total'];
-                    break;
-                case 'post-trashed':
-                    $comment_count['post-trashed'] = $row['total'];
-                    break;
-                case 'spam':
-                    $comment_count['spam']            = $row['total'];
-                    $comment_count['total_comments'] += $row['total'];
-                    break;
-                case '1':
-                    $comment_count['approved']        = $row['total'];
-                    $comment_count['total_comments'] += $row['total'];
-                    $comment_count['all']            += $row['total'];
-                    break;
-                case '0':
-                    $comment_count['awaiting_moderation'] = $row['total'];
-                    $comment_count['total_comments']     += $row['total'];
-                    $comment_count['all']                += $row['total'];
-                    break;
-                default:
-                    break;
-            }
-        }
-        $stats              = array_map( 'intval', $comment_count );
-        $stats['moderated'] = $stats['awaiting_moderation'];
-        unset( $stats['awaiting_moderation'] );
+		foreach ($totals as $row) {
+			switch ($row['comment_approved']) {
+				case 'trash':
+					$comment_count['trash'] = $row['total'];
+					break;
+				case 'post-trashed':
+					$comment_count['post-trashed'] = $row['total'];
+					break;
+				case 'spam':
+					$comment_count['spam']            = $row['total'];
+					$comment_count['total_comments'] += $row['total'];
+					break;
+				case '1':
+					$comment_count['approved']        = $row['total'];
+					$comment_count['total_comments'] += $row['total'];
+					$comment_count['all']            += $row['total'];
+					break;
+				case '0':
+					$comment_count['awaiting_moderation'] = $row['total'];
+					$comment_count['total_comments']     += $row['total'];
+					$comment_count['all']                += $row['total'];
+					break;
+				default:
+					break;
+			}
+		}
+		$stats              = array_map('intval', $comment_count);
+		$stats['moderated'] = $stats['awaiting_moderation'];
+		unset($stats['awaiting_moderation']);
 
-        $count = (object) $stats;
-    }
+		$count = (object) $stats;
+	}
 
-    return $count;
+	return $count;
 }
 
-function nab_add_sync_user_action_link( $links, $user_obj) {
-	$link_url	= isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ? admin_url( '/users.php?u=' . $user_obj->ID . '&paged=' . $_GET['paged'] ) : admin_url( '/users.php?u=' . $user_obj->ID );
-	$links[]	= '<a href="' . $link_url .'">Sync to Live</a>';
+function nab_add_sync_user_action_link($links, $user_obj)
+{
+	$link_url	= isset($_GET['paged']) && !empty($_GET['paged']) ? admin_url('/users.php?u=' . $user_obj->ID . '&paged=' . $_GET['paged']) : admin_url('/users.php?u=' . $user_obj->ID);
+	$links[]	= '<a href="' . $link_url . '">Sync to Live</a>';
 	return $links;
 }
 
-add_filter( 'posts_join', 'segnalazioni_search_join' );
-function segnalazioni_search_join ( $join ) {
-    global $pagenow, $wpdb;
+function custom_search_query($query)
+{
 
-    // I want the filter only when performing a search on edit page of Custom Post Type named "segnalazioni".
-    if ( is_admin() && 'edit.php' === $pagenow && 'company-products' === $_GET['post_type'] && ! empty( $_GET['s'] ) ) {    
-        $join .= 'LEFT JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->posts . '.ID = ' . $wpdb->postmeta . '.post_id ';
-    }
-    return $join;
+
+	global $pagenow, $wpdb;
+
+	// I want the filter only when performing a search on edit page of Custom Post Type named "segnalazioni".
+	if (is_admin() && 'edit.php' === $pagenow && 'company-products' === $_GET['post_type'] && !empty($_GET['s'])) {
+
+		$company_posts = [];
+		$searchterm = $query->query_vars['s'];
+
+		$myposts = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title LIKE '%s'", '%' . $wpdb->esc_like($searchterm) . '%'));
+		foreach ($myposts as $mypost) {
+			$post = get_post($mypost);
+			$company_posts[] = $post->ID;
+		}
+		// we have to remove the "s" parameter from the query, because it will prevent the posts from being found
+		$query->query_vars['s'] = "";
+
+		if ($searchterm != "") {
+			$meta_query = array('relation' => 'OR');
+			foreach ($company_posts as $post_id) {
+				array_push($meta_query, array(
+					'key' => 'nab_selected_company_id',
+					'value' => $post_id,
+					'compare' => '%LIKE%'
+				));
+			}
+			$query->set("meta_query", $meta_query);
+		};
+	}
 }
+add_filter("pre_get_posts", "custom_search_query");
 
-add_filter( 'posts_where', 'segnalazioni_search_where' );
-function segnalazioni_search_where( $where ) {
-    global $pagenow, $wpdb;
 
-    // I want the filter only when performing a search on edit page of Custom Post Type named "segnalazioni".
-    if ( is_admin() && 'edit.php' === $pagenow && 'company-products' === $_GET['post_type'] && ! empty( $_GET['s'] ) ) {
-		
-        $where .= " AND (" . $wpdb->posts . ".post_title LIKE '%".$_GET['s']."%')";
 
-		
-    }
-    return $where;
-}
+function nab_increase_session_archive_post_limit($query)
+{
 
-function nab_increase_session_archive_post_limit( $query ) {
-	
-	if ( ! is_admin() && $query->is_archive( 'sessions' ) && $query->is_main_query() ) {
-		$query->set( 'posts_per_page', 100 );
+	if (!is_admin() && $query->is_archive('sessions') && $query->is_main_query()) {
+		$query->set('posts_per_page', 100);
 	}
 	return $query;
 }
-

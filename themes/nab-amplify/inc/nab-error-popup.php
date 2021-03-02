@@ -13,10 +13,10 @@
                 
             <h4><?php echo $message; ?></h4>
                 <?php if($confirm == '1'){
-?>
-<button class="btn confirm_address_remove_yes" data-id="<?php echo $address_id;?>">Yes</button>
-<button class="btn confirm_address_remove_no" data-id="<?php echo $address_id;?>">No</button>
-<?php
+                ?>
+                <button class="btn confirm_address_remove_yes" data-id="<?php echo $address_id;?>">Yes</button>
+                <button class="btn confirm_address_remove_no" data-id="<?php echo $address_id;?>">No</button>
+                <?php
                 }
                 ?>
            

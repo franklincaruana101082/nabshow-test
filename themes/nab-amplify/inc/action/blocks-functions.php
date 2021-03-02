@@ -326,7 +326,7 @@ function nab_company_details_render_callback($attributes)
                     <div class="company-about-inner">
                         <?php if ($about_company) {
                         ?>
-                            <p><?php echo esc_html($about_company); ?></p>
+                            <p><?php echo $about_company ? clean_post_content($about_company) : ''; ?></p>
                         <?php
                         } else {
                         ?>
@@ -1155,7 +1155,8 @@ function nab_company_downlodable_pdfs_callback($attributes)
 function nab_regional_addressess_render_callback($attributes)
 {
     ob_start();
-    $member_level = get_field('member_level');
+    $class_name     = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
+    $member_level   = get_field('member_level');
 
     if ($member_level !== '' && $member_level !== 'select' && $member_level !== 'Standard') {
     ?>

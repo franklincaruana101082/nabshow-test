@@ -20,19 +20,18 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 								<input type="text" required maxlength="60" class="input-text" name="document_name" id="pdf-document-name" value="<?php echo esc_attr( isset( $post_data->post_title ) ? $pdf_data->post_title : ''); ?>">								
 							</div>														
 							<div class="form-row">
-								<?php $existing_media_count =  count($post_data->product_media); ?>
+								<?php //$existing_media_count =  count( $post_data->product_media); ?>
 								<label for="featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
-									<div class="file-input"><input type="file" id="featured-image" class="button" name="featured_image">
+									<div class="file-input">
+										<input type="file" id="featured-image" class="button" name="featured_image">
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">
 											<i class="action-add fa fa-plus"></i>
 										</div>
-									</div>
-									
+									</div>									
 								</div>
-
 							</div>
 							<div class="form-row" id="product_media_wrapper">
 								<?php 
@@ -85,7 +84,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 										<div class="select-dark-simple">
 											<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
 												<?php
-												if ( ! empty( $post_data->product_point_of_contact ) ) {
+												if ( isset( $post_data->product_point_of_contact ) && ! empty( $post_data->product_point_of_contact ) ) {
 
 													$product_user = get_user_by( 'ID', $post_data->product_point_of_contact );
 
@@ -108,9 +107,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 									</div>
 									<div class="form-row">
 										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
-										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
-																																				echo implode(',', $post_data->tags);
-																																			} ?>">
+										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="">
 									</div>
 								</div>
 							</div>	
@@ -124,9 +121,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 										<span class="tooltip">Would you like to allow users to comment and ask questions on this product listing? If you turn this on, NAB Show recommends that company admins monitor this page frequently to respond to leads and customers. Please review our <a href="<?php echo esc_url(get_site_url()); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo esc_url(get_site_url()); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a> for additional information regarding content on this site.</span>
 									</i></span>
 									<label class="nab-toggle-btn">
-										<input type="checkbox" <?php if ($post_data->comment_status === 'open') {
-																	echo 'checked="checked"';
-																} ?> name="nab_product_discussion" id="nab_product_discussion">
+										<input type="checkbox" name="nab_product_discussion" id="nab_product_discussion">
 										<div class="toggle-switch"></div>
 									</label>
 									<span class="toggle-status">On</span>
@@ -151,7 +146,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 								}
 								?>								
 								<input type="hidden" name="nab_product_id" id="nab_product_id" value="<?php echo isset($post_data->ID) ? $post_data->ID : 0 ?>" />
-								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $post_data->company_id; ?>" />
+								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset($post_data->company_id) ? $post_data->company_id : 0; ?>" />
 							</div>
 						</form>
 						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>

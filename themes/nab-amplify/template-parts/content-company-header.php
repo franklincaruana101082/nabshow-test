@@ -40,6 +40,7 @@ $company_poc      = get_field('point_of_contact');
                         <div class="update-banner-image">
                             <label for="banner_image_file" class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" style="display:none;" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
+                                <span class="edit-bg-pic" style="display:none;" id="banner_image_remove" data-bp-tooltip="Remove Image"><i class="fa fa-times"></i></span>
                             </label>
                             <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
                         </div>

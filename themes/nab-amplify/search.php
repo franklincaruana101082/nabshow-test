@@ -1144,11 +1144,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			if ($company_query->have_posts()) {
 
 				$search_found	= true;
-				$total_company	= nab_get_total_company_count();
+				$total_company	= $company_query->found_posts;
 			?>
 				<div class="search-section search-company-section">
 					<div class="search-section-heading">
-						<h2><strong>COMPANIES</strong> <span>(<?php echo esc_html($total_company . ' RESULTS'); ?>)</span></h2>
+						<h2><strong>COMPANIES</strong> <span>(<?php echo esc_html( nab_get_total_company_count() . ' RESULTS'); ?>)</span></h2>
 						<?php
 						if ($total_company > 4) {
 

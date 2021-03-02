@@ -82,6 +82,6 @@ $col    = 1;
 	<?php
 endif;
 ?>
-<!--<p>
+<p>
 	<?php echo apply_filters( 'woocommerce_my_account_my_address_description', esc_html__( 'The above address will be used on the checkout page by default.', 'woocommerce' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-</p>-->
+</p>

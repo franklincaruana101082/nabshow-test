@@ -2950,6 +2950,8 @@ add_action( 'wp_ajax_nab_edit_downloadable_company_pdf', 'nab_edit_downloadable_
 function nab_edit_downloadable_company_pdf_callback() {
 
 	require_once get_template_directory() . '/inc/nab-add-edit-downloadable-pdf.php';
+	
+	wp_die();
 }
 
 // Ajax to show Add Address popup.
@@ -3191,4 +3193,14 @@ function nab_get_error_popup(){
 	wp_send_json($popup_html, 200);
 
 	wp_die();
+}
+
+
+// Ajax to remove banner image.
+add_action("wp_ajax_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
+add_action("wp_ajax_nopriv_nab_amplify_banner_image_remove","nab_amplify_banner_image_remove");
+
+function nab_amplify_banner_image_remove(){
+	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	update_field('cover_image',0,$company_id);
 }

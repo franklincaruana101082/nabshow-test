@@ -803,7 +803,7 @@
         company_id: company_id
       },
       beforeSend:function(){
-$('body').addClass('is-loading');
+        $('body').addClass('is-loading');
       },
       success: function (data) {
         if (data.success) {
@@ -823,7 +823,7 @@ $('body').addClass('is-loading');
     'click',
     '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action',
     function () {
-      $('body').addClass('loading')
+      $('body').addClass('is-loading');
       $.ajax({
         type: 'POST',
         url: amplifyJS.ajaxurl,
@@ -833,7 +833,9 @@ $('body').addClass('is-loading');
           nabNonce: amplifyJS.nabNonce
         },
         success: function (response) {
-          $('body').removeClass('loading')
+          $('body').removeClass('is-loading');
+          $('body').append(response);
+          $('#addProductModal').show().addClass('nab-modal-active');
         }
       })
     }
@@ -2069,7 +2071,7 @@ $('body').addClass('is-loading');
   })
 
   // Remove user images using ajax.
-  $('#profile_picture_remove, #banner_image_remove').on('click', function (e) {
+  $('#profile_picture_remove').on('click', function (e) {
     e.preventDefault()
 
     $('body').addClass('is-loading')
@@ -2086,6 +2088,26 @@ $('body').addClass('is-loading');
       }
     })
   })
+
+  // Remove user company bg image.
+  $('#banner_image_remove').on('click', function (e) {
+    e.preventDefault()
+
+    $('body').addClass('is-loading')
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_banner_image_remove',
+        company_id:amplifyJS.postID
+      },
+      success: function (data) {
+        location.reload()
+      }
+    })
+  })
+  
 
   $(window).on('resize', function () {})
 
