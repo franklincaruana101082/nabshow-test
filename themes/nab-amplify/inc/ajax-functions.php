@@ -1352,7 +1352,6 @@ function nab_company_search_filter_callback()
 			ob_start();
 
 ?>
-			<div>
 			<a href="<?php echo esc_url($company_url); ?>" class="button result__button">View Now</a>
 			<?php
 			if ($company_poc !== '' && !empty($company_poc)) {
@@ -1361,13 +1360,11 @@ function nab_company_search_filter_callback()
 					<div id="send-private-message" class="generic-button poc-msg-btn">
 						<a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
 					</div>
-					</div>
 		   <?php
 				} else {
 					$current_url = home_url(add_query_arg(null, null));
 					$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
 				<a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="link _plus result__message">Message Rep</a>
-				</div>
 	   <?php
 				}
 			}
