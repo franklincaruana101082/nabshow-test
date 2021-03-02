@@ -136,7 +136,7 @@ get_header();
 							</div>
 						</div>
 					<?php } elseif($session_status == "live") { ?>
-						<div class="session__live">
+						<div class="session__live intro-feature">
 							<div class="container">
 								<div class="embed-group _video_and_chat">
 									<div class="embed-group__item _video">
