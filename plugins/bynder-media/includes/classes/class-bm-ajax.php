@@ -195,11 +195,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					// Get uploaded URL.
 					$this->args['image_url'] = wp_get_original_image_path( $attachment_id );
 
-
-					$this->args['image_url'] = 'https://nabshow-com-develop.go-vip.net/amplify/wp-content/uploads/sites/9/2021/03/0_ReDn_LN2rtXno-W5.png';
-
-
-
 					// Set name to upload.
 					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
 
