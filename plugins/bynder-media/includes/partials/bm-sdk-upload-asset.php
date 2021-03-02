@@ -34,10 +34,10 @@ try {
 	$filePromise    = $assetBankManager->uploadFileAsync( $data );
 	$this->response = $filePromise->wait();
 
-	echo '<pre>';
+	/*echo '<pre>';
 	print_r( get_defined_vars() );
 	print_r( $this );
-	die( '<br><---died here' );
+	die( '<br><---died here' );*/
 
 } catch ( Exception $e ) {
 	$this->response = $e->getMessage();
