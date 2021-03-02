@@ -198,11 +198,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					// Set name to upload.
 					$this->args['image_name'] = $_FILES["croppedImage"]['name'];
 
-					echo '<pre>';
-					print_r(get_defined_vars());
-					print_r($this);
-					die('<br><---died here');
-
 					// Init upload.
 					require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-upload-asset.php' );
 				}
