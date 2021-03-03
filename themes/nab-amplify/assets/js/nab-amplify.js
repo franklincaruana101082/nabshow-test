@@ -1236,6 +1236,8 @@
       return false
     }
 
+    var form_data = new FormData()
+
     // If bynder images selected.
     if( 'function' === typeof addBMpopup ) {
         let product_media_bm_src = [];
@@ -1253,7 +1255,6 @@
     if (product_title == '') {
       alert('Product title can not be empty!')
       return false
-    var form_data = new FormData()
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
@@ -2109,7 +2110,7 @@
       }
     })
   })
-  
+
 
   $(window).on('resize', function () {})
 
