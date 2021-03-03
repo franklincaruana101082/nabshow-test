@@ -1470,3 +1470,42 @@ function nab_increase_session_archive_post_limit( $query ) {
 	}
 	return $query;
 }
+
+function custom_search_query($query)
+{
+
+
+	global $pagenow, $wpdb;
+
+	// I want the filter only when performing a search on edit page of Custom Post Type named "segnalazioni".
+	if (is_admin() && 'edit.php' === $pagenow && 'company-products' === $_GET['post_type'] && !empty($_GET['s'])) {
+
+		$company_posts = [];
+		$searchterm = $query->query_vars['s'];
+
+		$myposts = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title LIKE '%s' and post_type = 'company' and post_status ='publish'", '%' . $wpdb->esc_like($searchterm) . '%'));
+		foreach ($myposts as $mypost) {
+			$post = get_post($mypost);
+			$company_posts[] = $post->ID;
+		}
+		// we have to remove the "s" parameter from the query, because it will prevent the posts from being found
+		//$query->query_vars['s'] = "";
+
+		if ($searchterm != "") {
+			$meta_query = array('relation' => 'OR');
+			foreach ($company_posts as $post_id) {
+				array_push($meta_query, array(
+					'key' => 'nab_selected_company_id',
+					'value' => $post_id,
+					'compare' => '='
+				));
+			}
+
+			if (count($company_posts) > 0) {
+				$query->query_vars['s'] = "";
+				$query->set("meta_query", $meta_query);
+			}
+		};
+	}
+}
+add_filter("pre_get_posts", "custom_search_query");
