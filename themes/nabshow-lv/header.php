@@ -77,6 +77,8 @@
 		?>
     </a>
 
+    <?php do_action( 'nab_global_header' ); ?>
+
     <header id="masthead" class="site-header dark-header">
         <div class="container">
             <div class="row">
