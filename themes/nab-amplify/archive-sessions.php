@@ -9,7 +9,6 @@
 
 get_header();
 
-//date_default_timezone_set('America/New_York');
 $date_now = wp_date('Y-m-d H:i:s');
 
 $sessions = get_posts( array(
