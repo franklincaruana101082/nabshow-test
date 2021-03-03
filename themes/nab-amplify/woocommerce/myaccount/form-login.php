@@ -102,7 +102,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 						       style="display: none"
 						       checked/>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
-							<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect_url ); ?>">
+							<input type="hidden" name="redirect" value="<?php echo $redirect_url; ?>">
 						<?php } else { ?>
 							<input type="hidden" name="redirect" value="<?php echo esc_url( home_url() ); ?>">
 						<?php } ?>

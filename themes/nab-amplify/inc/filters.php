@@ -32,7 +32,9 @@ add_filter( 'woocommerce_cart_totals_coupon_label', 'nab_amplify_woocommerce_car
 
 add_filter( 'woocommerce_cart_totals_coupon_html', 'filter_nab_amplify_woocommerce_cart_totals_coupon_html', 10, 3 );
 
-add_filter( 'woocommerce_registration_redirect', 'nab_registration_redirect' );
+add_filter( 'woocommerce_registration_redirect', 'nab_registration_redirect', 999 );
+
+add_filter( 'woocommerce_login_redirect', 'nab_wc_login_redirect', 9999, 2 );
 
 add_filter( 'allowed_redirect_hosts', 'nab_allowed_redirect_hotsts' );
 

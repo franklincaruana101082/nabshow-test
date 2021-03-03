@@ -32,7 +32,32 @@ function nab_registration_redirect()
 
 	return $redirect_url;
 }
+ 
+/**
+ * Woocomerce login redirect.
+ *
+ * @param  string $redirect
+ * @param  object $user
+ * 
+ * @return string
+ */
+function nab_wc_login_redirect( $redirect, $user ) {
+     
+    if ( 'maritz' === strtolower( $redirect ) ) {
+		
+		$redirect = nab_maritz_redirect_url( $user->ID );
+	}
+  
+    return $redirect;
+}
 
+/**
+ * Allowed other site host for redirect.
+ *
+ * @param  array $hosts
+ * 
+ * @return array
+ */
 function nab_allowed_redirect_hotsts( $hosts ) {
     
 	$redirect_hosts = array(
