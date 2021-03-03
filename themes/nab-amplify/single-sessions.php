@@ -14,6 +14,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 } else {
 	$preregistered = false;
 }
+
 ?>
 
 	<main id="primary" class="site-main single_php">
@@ -22,6 +23,11 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 		while ( have_posts() ) :
 			the_post();
 
+			$session_start = get_field( 'session_date' );
+			$session_end   = get_field( 'session_end_time' );
+
+			$time_start    = wp_date('g:i', strtotime($session_start));
+			$time_end      = wp_date('g:i A T', strtotime($session_end));
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
@@ -29,6 +35,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					<?php
 					the_title( '<h1 class="intro__title">', '</h1>' );
 					?>
+					<div class="intro__time introtext">
+			        	<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></p>
+					</div>
 					
 					<?php
 						$speakers = get_field( 'speakers' );
