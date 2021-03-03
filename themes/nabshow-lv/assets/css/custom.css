@@ -493,7 +493,7 @@ nav#site-navigation{margin-top:40px;position:static}
 .header-sticky-menu-logo{display:none}
 
 /* lastest new css */
-.logged-in .site-header{top:32px;z-index:100;}
+.logged-in .site-header{top:32px;z-index:10000;}
 #page{padding-top:141px}
 .logged-in #page{padding-top:141px}
 .show_sec_menu #page{padding-top:231px}
