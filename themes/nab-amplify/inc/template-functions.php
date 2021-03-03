@@ -1112,3 +1112,45 @@ function nab_get_total_company_count() {
 
 	return isset( $total_posts->publish ) ? $total_posts->publish : 0;
 }
+
+/**
+ * Set maritz redirect url with paramters.
+ *
+ * @param  int $user_id
+ * @return string
+ */
+function nab_maritz_redirect_url( $user_id ) {
+	
+	if ( empty( $user_id ) || 0 === $user_id ) {
+		return;
+	}
+
+	$url_parse = wp_parse_url( get_site_url() );
+
+	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+	
+	$params		= array( 'user_id' => $user_id );
+	$first_name	= get_user_meta( $user_id, 'first_name', true );
+	$last_name	= get_user_meta( $user_id, 'last_name', true );
+	$company	= get_user_meta( $user_id, 'attendee_company', true );
+	$title		= get_user_meta( $user_id, 'attendee_title', true );
+	$user_data	= get_user_by( 'id', $user_id );
+
+	if ( ! empty( $first_name ) ) {
+		$params['first_name'] = $first_name;
+	}
+	if ( ! empty( $last_name ) ) {
+		$params['last_name'] = $last_name;
+	}
+	if ( isset( $user_data->user_email ) && ! empty( $user_data->user_email ) ) {
+		$params['email'] = $user_data->user_email;
+	}
+	if ( ! empty( $company ) ) {
+		$params['company'] = $company;
+	}
+	if ( ! empty( $title ) ) {
+		$params['title'] = $title;
+	}
+
+	return add_query_arg( $params, $url );
+}

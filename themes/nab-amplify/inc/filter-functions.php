@@ -17,6 +17,12 @@ function nab_registration_redirect()
 			'r'                         => $checkout_url,
 		);
 		$redirect_url = $checkout_url;
+
+		if ( 'maritz' === strtolower( $redirect_url ) ) {
+
+			$redirect_url = nab_maritz_redirect_url( get_current_user_id() );
+		}
+		
 	} else {
 		$args         = array(
 			'nab_registration_complete' => 'true',
@@ -25,6 +31,16 @@ function nab_registration_redirect()
 	}
 
 	return $redirect_url;
+}
+
+function nab_allowed_redirect_hotsts( $hosts ) {
+    
+	$redirect_hosts = array(
+        'qawebreg.experientevent.com',
+		'registration.experientevent.com',
+    );
+
+    return array_merge( $hosts, $redirect_hosts );
 }
 
 /**
@@ -1445,13 +1461,13 @@ function custom_search_query($query)
 		$company_posts = [];
 		$searchterm = $query->query_vars['s'];
 
-		$myposts = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title LIKE '%s'", '%' . $wpdb->esc_like($searchterm) . '%'));
+		$myposts = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_title LIKE '%s' and post_type = 'company' and post_status ='publish'", '%' . $wpdb->esc_like($searchterm) . '%'));
 		foreach ($myposts as $mypost) {
 			$post = get_post($mypost);
 			$company_posts[] = $post->ID;
 		}
 		// we have to remove the "s" parameter from the query, because it will prevent the posts from being found
-		$query->query_vars['s'] = "";
+		//$query->query_vars['s'] = "";
 
 		if ($searchterm != "") {
 			$meta_query = array('relation' => 'OR');
@@ -1459,10 +1475,14 @@ function custom_search_query($query)
 				array_push($meta_query, array(
 					'key' => 'nab_selected_company_id',
 					'value' => $post_id,
-					'compare' => '%LIKE%'
+					'compare' => '='
 				));
 			}
-			$query->set("meta_query", $meta_query);
+
+			if (count($company_posts) > 0) {
+				$query->query_vars['s'] = "";
+				$query->set("meta_query", $meta_query);
+			}
 		};
 	}
 }

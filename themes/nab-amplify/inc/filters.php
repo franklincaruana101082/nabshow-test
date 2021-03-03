@@ -34,6 +34,8 @@ add_filter( 'woocommerce_cart_totals_coupon_html', 'filter_nab_amplify_woocommer
 
 add_filter( 'woocommerce_registration_redirect', 'nab_registration_redirect' );
 
+add_filter( 'allowed_redirect_hosts', 'nab_allowed_redirect_hotsts' );
+
 add_filter( 'woocommerce_get_privacy_policy_text', 'nab_remove_privacy_policy_text', 99, 2 );
 
 add_filter( 'woocommerce_default_address_fields', 'nab_customising_checkout_fields', 9999, 1 );

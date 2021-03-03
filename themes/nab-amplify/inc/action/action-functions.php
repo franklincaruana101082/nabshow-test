@@ -3641,7 +3641,7 @@ function nab_edit_company_about_callback()
     $company_data['search_product_categories']  = get_field('search_product_categories', $company_id);
     $company_data['company_youtube']            = get_field('company_youtube', $company_id);
     $company_data['company_admins']             = get_field('company_user_id', $company_id);
-    $company_data['company_about_html']         = nab_get_wp_editor($post_data->product_copy, 'company_about_html', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+    $company_data['company_about_html']         = nab_get_wp_editor('', 'company_about_html', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,
     ));
