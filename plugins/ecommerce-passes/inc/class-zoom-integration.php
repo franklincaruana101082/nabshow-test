@@ -29,6 +29,7 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 			$zoom_type                 = get_post_meta( $post_id, 'zoom_type', true );
 			$zoom_type                 = ! empty( $zoom_type ) && isset( $zoom_type[0] ) ? $zoom_type[0] : '';
 			$associate_products        = get_post_meta( $post_id, '_associate_product', true );
+			$associate_products        = ( ! empty( $associate_products ) ) ? $associate_products : [];
 			$message = '';
 			$code = 401;
 
@@ -58,36 +59,11 @@ if ( ! class_exists( 'Zoom_Integration' ) ) {
 					$current_blog_id = get_current_blog_id();
 					$shop_blog_url   = get_site_url( $shop_blog_id );
 
-					// Rest Call: Check if user has purchased any of the assoicated produts.
-					$end_point_url = $shop_blog_url . '/wp-json/nab/request/customer-get-bought-products/';
+					// Check if user has purchased any of the assoicated produts.
+					$get_customer_products = get_user_meta( $logged_user->ID, 'nab_purchased_product_2020', true );
+					$purchased_products = ( ! empty( $get_customer_products ) ) ? $get_customer_products : [];
 
-					$query_params = array(
-						'user_email'  => $logged_user->user_email,
-						'user_id'     => $logged_user->ID,
-						'product_ids' => $associate_products
-					);
-
-					$final_params = http_build_query( $query_params );
-
-					$curl = curl_init();
-
-					curl_setopt_array( $curl, array(
-						CURLOPT_URL            => $end_point_url,
-						CURLOPT_RETURNTRANSFER => true,
-						CURLOPT_ENCODING       => "",
-						CURLOPT_MAXREDIRS      => 10,
-						CURLOPT_TIMEOUT        => 0,
-						CURLOPT_FOLLOWLOCATION => true,
-						CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-						CURLOPT_CUSTOMREQUEST  => "POST",
-						CURLOPT_POSTFIELDS     => $final_params
-					) );
-
-					$response = curl_exec( $curl );
-
-					curl_close( $curl );
-
-					$actually_bought = json_decode( $response );
+					$actually_bought = array_intersect( $associate_products, $purchased_products );
 
 					$zoom_unique_url = '';
 

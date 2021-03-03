@@ -23,6 +23,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             //Action for add setting page
             add_action( 'admin_menu', array( $this, 'ep_add_prodcut_setting_page' ) );
 
+            //Add segment code
+            add_action( 'wp_head', array( $this, 'ep_add_segment_code_in_header' ) );
+
             //Filter to restrict the content
             add_filter( 'the_content', array( $this, 'ep_restrict_post_content' ), 9999 );
 
@@ -108,6 +111,10 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                 $parent_site_url = rtrim( $parent_site_url, '/') . '/';
                 update_option( 'ep_parent_site_url', $parent_site_url );
             }
+            if ( isset( $_POST[ 'ep_segment_code' ] ) ) {
+
+                update_option( 'ep_segment_code', $_POST[ 'ep_segment_code' ] );                
+            }
             ?>
             <div class="ep-product-settings">
                 <h2>Ecommerce Passes Settings</h2>
@@ -121,11 +128,37 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                 <input type="text" name="parent_site_url" id="parent-site-url" value="<?php echo esc_attr( get_option( 'ep_parent_site_url' ) ); ?>" class="regular-text" required/>
                             </td>
                         </tr>
+                        <tr>
+                            <th>
+                                <label for="ep_segment_code">Segment Code:</label>                                
+                            </th>
+                            <td>
+                                <?php
+                                $segment_code = str_replace( '\"', '"', get_option( 'ep_segment_code' ) );
+
+                                wp_editor( $segment_code, 'ep_segment_code', array( 'tinymce' => false ) );
+                                ?>                                
+                            </td>
+                        </tr>
                     </table>
                     <?php submit_button("Save Changes"); ?>
                 </form>
             </div>
             <?php
+        }
+
+        /**
+         * Add segment code in the header.
+         */
+        public function ep_add_segment_code_in_header() {
+
+            $segment_code = get_option( 'ep_segment_code' );
+            
+            if ( ! empty( $segment_code ) ) {
+
+                echo str_replace( '\"', '"', get_option( 'ep_segment_code' ) );
+            }
+            
         }
 
         /**
@@ -144,171 +177,98 @@ if ( ! class_exists('Ecommerce_Passes') ) {
             if ( isset( $post->ID ) ) {
 
                 $associate_products = get_post_meta( $post->ID, '_associate_product', true );
-                $np_products        = [];
 
                 if ( ! empty( $associate_products ) && is_array( $associate_products ) ) {
-
-                    $end_point_url  = get_option( 'ep_parent_site_url' );
 
                     if ( ! is_user_logged_in() ) {
 
                         $content = $this->ep_get_restrict_content( $content );
 
                     } else {
-                        $logged_user    = wp_get_current_user();
+                        $logged_user         = wp_get_current_user();
+                        $user_bought_product = false;
+                        $purchased_product	 = get_user_meta( $logged_user->ID, 'nab_purchased_product_2020', true );
 
-                        if ( ! empty( $end_point_url ) ) {
-
-                            $call_api               = true;
-                            $user_bought_product    = false;
-
-                            $purchased_product	= get_user_meta( $logged_user->ID, 'nab_purchased_product_2020', true );
-
-                            if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
-                                
-                                $match_product = array_intersect( $associate_products, $purchased_product );
-
-                                if ( is_array( $match_product ) && count( $match_product ) > 0 ) {
-
-                                    $call_api               = false;
-                                    $user_bought_product    = true;
-                                    
-                                }
-                            }
-
-                            if ( false === $user_bought_product && isset( $_COOKIE['amp_np_proudcts'] ) && ! empty( $_COOKIE['amp_np_proudcts'] ) ) {
-                                $amp_np_products      = filter_input( INPUT_COOKIE, 'amp_np_proudcts' );
-                                $np_products          = ( ! empty( $amp_np_products ) ) ? explode( ',', $amp_np_products ) : [];
-                                $contains_all_product = ! array_diff( $associate_products, $np_products );
-
-                                if( true === $contains_all_product ) {
-                                    $call_api = false;
-                                    $content  = $this->ep_get_restrict_content( $content );
-                                }
+                        if ( ! empty( $purchased_product ) && is_array( $purchased_product ) ) {
                             
+                            $match_product = array_intersect( $associate_products, $purchased_product );
+
+                            if ( is_array( $match_product ) && count( $match_product ) > 0 ) {
+                                $user_bought_product    = true;
+                            }
+                        }
+
+                        if ( $user_bought_product ) {
+
+                            if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
+
+                                $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
                             }
 
-                            if ( $call_api ) {
+                            $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
 
-                                $end_point_url  .= 'wp-json/nab/request/customer-bought-product/';
+                            if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
 
-                                $query_params   = array(
-                                    'user_email' => $logged_user->user_email,
-                                    'user_id'	=> $logged_user->ID,
-                                    'product_ids' => $associate_products
-                                );
+                                $date       = get_post_meta( $post->ID, 'session_date', true );
+                                $start_time = get_post_meta( $post->ID, 'start_time', true );
+                                $start_time = date_format( date_create( $start_time ), 'g:i a' );
 
-                                $customer_bought_request = wp_remote_get( $end_point_url, array( 'body' => $query_params ) );
-                                $response = wp_remote_retrieve_body( $customer_bought_request );
-
-                                if ( isset( $response ) && ! empty( $response ) ) {
-
-                                    $final_response = json_decode( $response );
-
-                                    if ( is_object( $final_response ) ) {
-
-                                        if ( ! $final_response->success ) {
-
-                                            $content = $this->ep_get_restrict_content( $content, $final_response->url, true );
-
-                                        } else {
-
-                                            $user_bought_product = true;                                        
-                                        }
-
-                                    } else {
-
-                                        $content = $this->ep_get_restrict_content( $content );
-                                    }
-                                } else {
-                                    $content = $this->ep_get_restrict_content( $content );
+                                if ( 'start_time' !== $delay_restrict ) {
+                                    $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
                                 }
 
-                                
-                                $not_purchased_products = array_unique( array_merge( $np_products, $associate_products ) );
-                                $not_purchased_products = implode( ',', $not_purchased_products );
-                                $amp_script = "
-                                    let value = '" . $not_purchased_products ."';
-                                    let date = new Date();
-                                    date.setTime( date.getTime() + ( 60 * 60 * 1000) );
-                                    let expires = '; expires=' + date.toUTCString();
-                                    document.cookie = 'amp_np_proudcts' + '=' + (value || '') + expires + ';path=/;domain=".EP_COOKIE_BASE_DOMAIN."';
-                                ";
 
-                                wp_add_inline_script( 'ep-add-cart', $amp_script );
-                            }
+                                if ( ! empty( $date ) && ! empty( $start_time ) ) {
 
-                            if ( $user_bought_product ) {
+                                    $current_date   = current_time('Ymd');
+                                    $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                    $date1          = new DateTime( $session_date );
+                                    $now            = new DateTime( $current_date );
+                                    $display_msg    = false;
 
-                                if ( preg_match_all('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', $content, $matches ) ) {
+                                    if ( $date1 > $now ) {
+                                        $display_msg = true;
+                                    } else if ( $session_date === $current_date ) {
 
-                                    $content = preg_replace('/<!--openAccess-start-->(.*?)<!--openAccess-end-->/s', '', $content );
-                                }
+                                        $current_time   = current_time('g:i a');
+                                        $time1          = DateTime::createFromFormat('H:i a', $current_time);
+                                        $time2          = DateTime::createFromFormat('H:i a', $start_time);
 
-                                $delay_restrict = get_post_meta( $post->ID, 'delay_display_restricted_content', true );
-
-                                if ( preg_match_all('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $content, $matches ) && ! empty ( $delay_restrict ) && 'no' !== $delay_restrict ) {
-
-                                    $date       = get_post_meta( $post->ID, 'session_date', true );
-                                    $start_time = get_post_meta( $post->ID, 'start_time', true );
-                                    $start_time = date_format( date_create( $start_time ), 'g:i a' );
-
-                                    if ( 'start_time' !== $delay_restrict ) {
-                                        $start_time = (new DateTime( $start_time ))->sub(DateInterval::createFromDateString( $delay_restrict . ' minutes'))->format('g:i a');
-                                    }
-
-
-                                    if ( ! empty( $date ) && ! empty( $start_time ) ) {
-
-                                        $current_date   = current_time('Ymd');
-                                        $session_date   = date_format( date_create( $date ), 'Ymd' );
-                                        $date1          = new DateTime( $session_date );
-                                        $now            = new DateTime( $current_date );
-                                        $display_msg    = false;
-
-                                        if ( $date1 > $now ) {
+                                        if ( $time2 > $time1 ) {
                                             $display_msg = true;
-                                        } else if ( $session_date === $current_date ) {
-
-                                            $current_time   = current_time('g:i a');
-                                            $time1          = DateTime::createFromFormat('H:i a', $current_time);
-                                            $time2          = DateTime::createFromFormat('H:i a', $start_time);
-
-                                            if ( $time2 > $time1 ) {
-                                                $display_msg = true;
-                                            }
-                                        }
-
-                                        if ( $display_msg ) {
-
-                                            $date           = date_format( date_create( $date ), 'l, F j' );
-                                            $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
-
-                                            $session_date   = date_format( date_create( $date ), 'Ymd' );
-                                            $session_start  = date_format( date_create( $start_time ), 'His' );
-                                            $session_end    = get_post_meta( $post->ID, 'end_time', true );
-                                            $session_end    = date_format( date_create( $session_end ), 'His' );
-                                            $final_time     = $session_date . 'T' . $session_start . '/' . $session_date . 'T' . $session_end;
-                                            $calendar_title = get_the_title( $post->ID );
-                                            $location       = get_post_meta( $post->ID, 'session_location', true );
-                                            $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $post->ID );
-                                            $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
-                                            $calendar_link  = '<a href="' . $calendar_link . '" target="_blank">calendar</a>';
-
-                                            $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
-                                            $start_time     = str_replace( ':00', '', $start_time );
-
-                                            $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it to your ' . $calendar_link . ' and join us on ' . $date . '.</p>';
-
-                                            $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
                                         }
                                     }
+
+                                    if ( $display_msg ) {
+
+                                        $date           = date_format( date_create( $date ), 'l, F j' );
+                                        $bookmark_link  = '<a id="bookmark-event" href="#">Bookmark this page</a>';
+
+                                        $session_date   = date_format( date_create( $date ), 'Ymd' );
+                                        $session_start  = date_format( date_create( $start_time ), 'His' );
+                                        $session_end    = get_post_meta( $post->ID, 'end_time', true );
+                                        $session_end    = date_format( date_create( $session_end ), 'His' );
+                                        $final_time     = $session_date . 'T' . $session_start . '/' . $session_date . 'T' . $session_end;
+                                        $calendar_title = get_the_title( $post->ID );
+                                        $location       = get_post_meta( $post->ID, 'session_location', true );
+                                        $calendar_link  = 'https://calendar.google.com/calendar/r/eventedit?text=' . $calendar_title . '&dates=' . $final_time . '&details=' . get_the_permalink( $post->ID );
+                                        $calendar_link  = ! empty( $location ) ? $calendar_link . '&location=' . $location : $calendar_link;
+                                        $calendar_link  = '<a href="' . $calendar_link . '" target="_blank">calendar</a>';
+
+                                        $start_time     = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+                                        $start_time     = str_replace( ':00', '', $start_time );
+
+                                        $start_msg      = '<p class="event_start_msg">This content will be available right here beginning at ' . $start_time . ' ET on ' . $date . '. If this time has passed and you are still seeing this message, please refresh this page. All content will be posted for on-demand viewing within 48 hours, and available for 30 days. ' . $bookmark_link . ' or add it to your ' . $calendar_link . ' and join us on ' . $date . '.</p>';
+
+                                        $content = preg_replace('/<!--restrict-start-->(.*?)<!--restrict-end-->/s', $start_msg, $content );
+                                    }
                                 }
-                            } 
+                            }
+                        } else {
+                            $content = $this->ep_get_restrict_content( $content );
                         }
                     }
                 }
-
             }
 
             return $content;
@@ -328,7 +288,7 @@ if ( ! class_exists('Ecommerce_Passes') ) {
         public function ep_get_restrict_content( $content, $link = '', $logged_in = false) {
 
             $prodcut_name       = ! empty( $link ) ? '<a class="amplifyGuestSignIn" target="_blank" href="' . $link . '">this program</a>' : 'this program';
-            $restrict_content   = '<p class="restrict-msg">This content is open to registered users only. <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a> or <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">register now</a> for access.';
+            $restrict_content   = '<p class="restrict-msg">Access to this program is pass-specific. Already registered? <a class="amplifyGuestSignIn" href="https://amplify.nabshow.com/my-account/">Sign in</a>. Need access? <a target="_blank" class="amplifyGuestSignIn" href="https://amplify.nabshow.com/shop/">Add the pass to your registration</a>. <br /><span class="small"><em>Technical difficulties? <a href="https://nabshow.com/ny2020/about/contact/technical-difficulties/">View the FAQs</a> for assistance.</span></em>';
 
             if ( ! $logged_in ) {
                 $restrict_content .= '';
@@ -439,24 +399,11 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
             wp_enqueue_style( 'ep-select2-style', plugins_url( 'assets/css/select2.min.css', dirname( __FILE__ ) ) );
             wp_enqueue_script( 'ep-select2-script', plugins_url( 'assets/js/select2.min.js', dirname( __FILE__ ) ));
-            wp_enqueue_script( 'ep-custom-admin-script', plugins_url( 'assets/js/ecommerce-passes-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.0' );
+            wp_enqueue_script( 'ep-custom-admin-script', plugins_url( 'assets/js/ecommerce-passes-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.1' );
 
             wp_localize_script( 'ep-custom-admin-script', 'ePassesObj', array(
                 'product_url'       => $end_point_url
             ) );
-
-            $inline_style = '#select2-all-product-list-results{display:none;} .product-parent-wrapper label{display:inline-block;min-width:110px;}
-            .product-parent-wrapper select{width:350px;padding:3px 24px 3px 8px;}
-            .product-parent-wrapper #product-selection + span.select2-container{margin:0!important;height:36px;}
-            .product-parent-wrapper .product-name-box span.select2-container{width:350px!important;margin:0!important}
-            .product-parent-wrapper .select2-container .select2-selection--single{height:36px;}
-            .product-parent-wrapper .select2-container--default .select2-selection--single .select2-selection__rendered{line-height:36px;}
-            .product-parent-wrapper .select2-container--default .select2-selection--single .select2-selection__arrow{height:36px;}
-            .product-parent-wrapper .add-to-product{margin:10px 0 0 115px;display:block;}
-            .product-parent-wrapper .select2-container .select2-selection--multiple{min-height:36px;padding-bottom:0;}
-            .product-parent-wrapper #select2-all-product-list-container + .select2-search{display:none;}';
-
-            wp_add_inline_style( 'ep-select2-style', $inline_style );
         }
 
         /**
@@ -556,29 +503,16 @@ if ( ! class_exists('Ecommerce_Passes') ) {
 
                 if ( ! empty( $term_remote_url ) ) {
 
-                    $curl = curl_init();
+                    $get_remote_terms = wp_remote_get( $term_remote_url );
+                    $response         = wp_remote_retrieve_body( $get_remote_terms );
 
-                    curl_setopt_array( $curl, array(
-                        CURLOPT_URL => $term_remote_url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 100,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => "POST",
-                    ));
+                    if ( isset( $response ) && ! empty( $response ) ) {
 
-                    $response = curl_exec( $curl );
+                        $final_terms = json_decode( $response );
 
-                    curl_close( $curl );
-
-                    $final_terms = json_decode( $response );
-
-                    if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
-                        ?>
-                        <div class="category-box">
-                            <p>
+                        if ( is_array( $final_terms ) && count( $final_terms ) > 0 ) {
+                            ?>
+                            <div class="category-box">
                                 <label for="product-category">Select Category</label>
                                 <select id="product-category" class="product-category">
                                     <option value="all">All</option>
@@ -590,55 +524,28 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     }
                                     ?>
                                 </select>
-                            </p>
-                        </div>
-                        <?php
+                            </div>
+                            <?php
+                        }
                     }
                 }
 
                 if ( ! empty( $product_remote_url ) ) {
 
-                    $curl = curl_init();
+                    $get_remote_products = wp_remote_get( $product_remote_url );
+                    $response            = wp_remote_retrieve_body( $get_remote_products );
 
-                    curl_setopt_array( $curl, array(
-                        CURLOPT_URL => $product_remote_url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => "POST",
-                    ));
+                    if ( isset( $response ) && ! empty( $response ) ) {
 
-                    $response = curl_exec( $curl );
+                        $final_products = json_decode( $response );
 
-                    curl_close( $curl );
+                        if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
 
-                    $final_products = json_decode( $response );
+                            $associate_products = get_post_meta( $post->ID, '_associate_product', true );
 
-                    if ( is_array( $final_products ) && count( $final_products ) > 0 ) {
-
-                        $associate_products = get_post_meta( $post->ID, '_associate_product', true );
-
-                        ?>
-                        <div class="product-name-box">                            
-                            <p>
-                                <label for="product-selection">Product Selection</label>
-                                <select id='product-selection' class="product-selection" name="product_selection">
-                                    <option value="">Select a Product</option>
-                                    <?php
-                                    foreach( $final_products as $product ) {
-                                        ?>                                    
-                                        <option value="<?php echo esc_attr( $product->product_id ); ?>"><?php echo esc_html( $product->product_name ); ?></option>
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-                                <button class="add-to-product components-button is-primary">Add to Associate Product</button>                                
-                            </p>
-                            <p>
-                                <label for="all-product-list">Associate Products</label>
+                            ?>
+                            <div class="product-name-box">
+                                <label for="all-product-list">Select Products</label>
                                 <select id='all-product-list' class="all-product-list" name="associate_products[]" multiple="multiple">
                                     <?php
                                     foreach( $final_products as $product ) {
@@ -653,9 +560,9 @@ if ( ! class_exists('Ecommerce_Passes') ) {
                                     }
                                     ?>
                                 </select>
-                            </p>
-                        </div>
-                        <?php
+                            </div>
+                            <?php
+                        }
                     }
                 }
                 ?>
@@ -716,6 +623,17 @@ if ( ! class_exists('Ecommerce_Passes') ) {
          * @since 1.0.0
          */
         public function ep_save_custom_metabox_fields( $post_id ) {
+
+            // Return if autosave
+            if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+                return;
+            }
+
+            // Return if edited by Quick Edit
+            if ( isset( $_POST['_inline_edit'] ) && wp_verify_nonce( $_POST['_inline_edit'], 'inlineeditnonce' ) ) {
+                return;
+            }
+
 	        $current_blog_id = get_current_blog_id();
             $current_post_id = $post_id;
 

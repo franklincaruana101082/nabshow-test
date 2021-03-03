@@ -111,6 +111,9 @@
 		location.href = redirectUrl;
 	});
 
+	$(document).on('click', '.nab-mobile-toggle', function(e) {
+		$(this).parents('.nab-header-inner').toggleClass('nab-open-menu');
+	});
 } );
 
 	function setCookie( name, value, days ) {
