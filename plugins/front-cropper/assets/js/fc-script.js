@@ -181,6 +181,7 @@ function removeCropCanvas() {
 
     if( '' !== cropper && undefined !== cropper ) {
         cropper.destroy();
+        window.cropper = '';
     }
     jQuery('.crop-active').removeClass('crop-active');
     jQuery('#cropper-image').removeAttr('src');
