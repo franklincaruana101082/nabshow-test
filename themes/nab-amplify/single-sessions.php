@@ -169,7 +169,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									</div>
 									<div class="embed-wrapper _chat">
 										<?php 
-											$cometchat_shortcode = "[cometchat-pro widget-id='" .$chat_room_id."' widget-version='v2']";
+											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='056efe6a-fcf1-4117-b84b-f44b12c532a7' widget-height='551px' widget-width='100%' widget-version='v2' rounded-corners='false']";
 											echo do_shortcode($cometchat_shortcode); 
 											//echo("<!--".$cometchat_shortcode."-->");
 										?>
