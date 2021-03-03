@@ -8,123 +8,134 @@
  */
 
 get_header();
+
+date_default_timezone_set('America/New_York');
+$date_now = date('Y-m-d H:i:s');
+
+$sessions = get_posts( array(
+		'posts_per_page' => -1,
+		'post_type' => 'sessions',
+		'meta_query' => array(
+				array(
+						'key' => 'session_end_time',
+						'compare' => '>=',
+						'value' => $date_now,
+						'type' => 'DATETIME'
+				),
+				array(
+						'key' => 'session_status',
+						'compare' => 'IN',
+						'value' => 'live, pre-event'
+				),
+		),
+		'order' => 'ASC',
+		'orderby' => 'meta_value',
+		'meta_key' => 'session_date',
+		'meta_type' => 'DATETIME'
+));
+
+
 ?>
 
-	<main id="primary" class="site-main archive-sessions_php">
+<main id="primary" class="site-main archive-sessions_php">
 
-		<?php if ( have_posts() ) : ?>
+		<?php if ( $sessions ) : ?>
 
-			<header class="page-header">
-                <h1 class="page-title">Sessions</h1>
-			</header>
-
-			<?php			
-			while ( have_posts() ) :
+	<header class="intro">
+		<div class="container">
+			<h1 class="intro__title">NAB Amplify Sessions Calendar</h1>
+		</div>
+	</header>
+	<div class="main">
+		<div class="container">
+			<?php
+				$i = 0;
+				$last_event = count($sessions);
+				foreach ( $sessions as $post ) {
 				
-                the_post();
-                
-                $speakers                   = get_field( 'speakers' );
-                $company                    = get_field( 'company' );
-                $session_status             = get_field( 'session_status' );
-                $pre_event_registration_id  = get_field( 'pre_event_registration_id' );
-                $pre_event_survey_id        = get_field( 'pre_event_survey_id' );
-                $live_event_survey_id       = get_field( 'live_event_survey_id' );
-                $post_event_survey_id       = get_field( 'post_event_survey_id' );
-                $chat_room_id               = get_field( 'chat_room_id' );
-                $video_embed                = get_field( 'video_embed' );
-				?>
-                <div class="session-item">
-                    <h2><a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
-                    <?php
-                    // list session speaker
-                    if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
-                        ?>
-                        <div class="speaker-details">
-                            <?php
-                            // loop throught the speakers.
-                            foreach ( $speakers as $speaker_id ) {
-                                
-                                $first_name         = get_field( 'first_name', $speaker_id );
-                                $last_name          = get_field( 'last_name', $speaker_id );
-                                $title              = get_field( 'title', $speaker_id );
-                                $speaker_company    = get_field( 'company', $speaker_id );
-                                $headshot           = get_field( 'headshot', $speaker_id );
-                                $amplify_user       = get_field( 'amplify_user', $speaker_id );
-                                $user_profile_url   = '';
-                                
-                                if ( ! empty( $amplify_user ) ) {
-                                    $user_profile_url = bp_core_get_user_domain( $amplify_user );
-                                }
-                                ?>
-                                <div class="seaker-item">
-                                    <?php
-                                    if ( ! empty( $headshot ) ) {
-                                        
-                                        ?>
-                                        <div class="speaker-headshot">
-                                            <?php
-                                            if ( ! empty( $user_profile_url ) ) {
-                                                ?>                                            
-                                                <a href="<?php echo esc_url( $user_profile_url ); ?>">
-                                                    <img src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-                                                </a>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <img src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>                                        
-                                        <?php
-                                    }
-                                    ?>
-                                    <div class="speaker-info">
-                                        <h3 class="speaker-name">
-                                            <?php
-                                            if ( ! empty( $user_profile_url ) ) {
-                                                ?>                                            
-                                                <a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></a>
-                                                <?php
-                                            } else {
-                                                echo esc_html( $first_name . ' ' . $last_name );
-                                            }
-                                            ?>
-                                        </h3>
-                                        <span class="speaker-company"><?php echo esc_html( $speaker_company ); ?></span>
-                                        <span class="speaker-title"><?php echo esc_html( $title ); ?></span>                                        
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <div class="session-info">
-                        <?php
-                        if ( ! empty( $company ) ) {
-                            ?>
-                            <p class="session-company"><?php echo esc_html( get_the_title( $company ) ); ?></p>
-                            <?php
-                        }
-                        ?>
-                        <p class="session-status"><?php echo esc_html( $session_status ); ?></p>                                                                    
-                        <p class="pre-event-registration-id"><?php echo esc_html( $pre_event_registration_id ); ?></p>                        
-                        <p class="pre-event-survey-id"><?php echo esc_html( $pre_event_survey_id ); ?></p>                                                
-                        <p class="live-event-survey-id"><?php echo esc_html( $live_event_survey_id ); ?></p>
-                        <p class="live-event-survey-id"><?php echo esc_html( $live_event_survey_id ); ?></p>
-                        <p class="post-event-survey-id"><?php echo esc_html( $post_event_survey_id ); ?></p>
-                        <p class="chat-room-id"><?php echo esc_html( $chat_room_id ); ?></p>
-                        <div class="session-video-embed">
-                            <?php echo $video_embed; ?>
-                        </div>
-                    </div>
-                </div>
-                <?php
+					//the_post();
+								
+					$speakers                   = get_field( 'speakers' );
+					$company                    = get_field( 'company' );
+					$session_status             = get_field( 'session_status' );
+					$session_start              = get_field( 'session_date' );
+					$session_end                = get_field( 'session_end_time' );
 
-			endwhile;			
+					$month                      = date('F', strtotime($session_start));
+					$day                        = date('d', strtotime($session_start));
+					$time_start                 = date('g:i', strtotime($session_start));
+					$time_end                   = date('g:i A T', strtotime($session_end));
+								
+				?>
+
+				<?php 
+				if($i === 0) : ?>
+				<div class="card">
+					<div class="card__content">
+						<ul class="events__featured">
+				<?php endif; ?>
+				<?php 
+				if($i === 3) : ?>
+				<div class="card">
+					<div class="card__content">
+						<ul class="events__list">
+				<?php endif; ?>
+							<li>
+								<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="event<?php if($i===0||$i===1||$i===2):?> _big<?php endif; ?>">
+									<div class="event__date">
+										<div class="event__month"><?php echo esc_html($month); ?></div>
+										<div class="event__day number _blue"><?php echo esc_html($day); ?></div>
+									</div>
+									<div class="event__photo">
+										<div class="event__link link _plus">Learn More</div>
+										<!-- <img class="event__image" src="square-image" /> -->
+									</div>
+									<div class="event__info">
+										<h4 class="event__title"><?php echo esc_html( get_the_title() ); ?></h4>
+										<div class="event__time"><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></div>
+										<?php
+										// list session speaker
+										if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
+										?>
+										<div class="event__host">
+										<?php
+										// only display 1st speaker.
+											$first_name         = get_field( 'first_name', $speakers[0] );
+											$last_name          = get_field( 'last_name', $speakers[0] );
+											$title              = get_field( 'title', $speakers[0] );
+											$speaker_company    = get_field( 'company', $speakers[0] );
+											$headshot           = get_field( 'headshot', $speakers[0] );
+											
+											if ( ! empty( $headshot ) ) {
+											?>
+											<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
+											<?php	} ?>
+											<div class="event__host-info">
+												<div class="event__host-name"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></div>
+												<div class="event__host-title"><?php echo esc_html( $title ); ?></div>
+												<div class="event__host-company"><?php echo esc_html( $speaker_company ); ?></div>
+											</div>
+										</div>
+										<?php } ?>
+									</div>
+									<div class="event__link link _plus">Learn More</div>
+								</a>
+							</li>
+				<?php 
+				if($i === 2) : ?>
+						</ul> <!--.events__featured -->
+					</div> <!--.card__content -->
+				</div> <!--.card -->
+				(INSERT AD)
+				<?php endif; ?>
+				<?php if ($i == $last_event - 1): ?>
+						</ul><!--.events__list-->
+					</div><!--.card__content-->
+				</div><!--.card-->
+				<?php endif; ?>
+				<?php
+				++$i;
+		}
 
 		else :
 
@@ -132,8 +143,9 @@ get_header();
 
 		endif;
 		?>
-
-	</main>
+		</div><!--.container -->
+	</div><!--.main-->
+</main>
 
 <?php
 get_footer();
