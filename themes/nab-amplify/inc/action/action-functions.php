@@ -4262,3 +4262,31 @@ function nab_update_company_member_level_meta_num($post_id)
         update_post_meta($post_id, 'member_level_num', $num_member_level);
     }
 }
+
+/* Display custom column stickiness */
+function display_posts_stickiness( $column, $post_id ) {
+    if ($column == 'company'){
+       $company_id = get_field('nab_selected_company_id',$post_id);
+       if($company_id !== NULL && $company_id !== ''){
+        $post_title = get_the_title($company_id);
+       }else{
+        $post_title = '';
+       }
+
+       echo $post_title;
+    }
+}
+add_action( 'manage_posts_custom_column' , 'display_posts_stickiness', 10, 2 );
+
+/* Add custom column to post list */
+function add_sticky_column( $columns ) {
+    return array_merge( $columns,
+        array( 'company' => __( 'Company', 'your_text_domain' ) ) );
+}
+add_filter( 'manage_company-products_posts_columns' , 'add_sticky_column' );
+
+// make it sortable
+function book_sortable_columns( $columns ) {
+	$columns['companyr'] = 'company';
+	return $columns;
+}
