@@ -534,7 +534,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											if ($company_poc !== '' && !empty($company_poc)) {
 												if ($user_logged_in) {
 													?>
+												<div id="send-private-message" class="generic-button poc-msg-btn">
 												   <a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												</div>
 											   <?php
 												} else {
 													$current_url = home_url(add_query_arg(null, null));
@@ -685,7 +687,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					)
 				);
 
-				$event_query = new WP_Query( $event_args );
+				$event_query = new WP_Query( $event_args );				
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
@@ -765,10 +767,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</ul>
-				</div>
+				</div>				
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				$style = '';
+				$style = '';				
 				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
 					$style = 'display:none;';
 				}
@@ -984,7 +986,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
-							if (empty(trim($user_full_name))) {								
+							if (empty(trim($user_full_name))) {
 								$user_full_name = bp_get_member_name();
 							}
 
@@ -1194,7 +1196,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<?php
 										if ($company_poc !== '' && !empty($company_poc)) {
 											if ($user_logged_in) { ?>
-											   <a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												<div id="send-private-message" class="generic-button poc-msg-btn">
+												   <a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+												</div>
 										   <?php
 											} else {
 												$current_url = home_url(add_query_arg(null, null));

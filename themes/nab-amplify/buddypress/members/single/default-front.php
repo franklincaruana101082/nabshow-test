@@ -95,9 +95,9 @@ if ( bp_is_my_profile() ) {
 						$attendee_company = get_user_meta( $member_id, 'attendee_company', true );
 						$attendee_title = get_user_meta( $member_id, 'attendee_title', true );
 						$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
-						$member_images        = nab_amplify_get_user_images( $member_id );
+						$member_images        = nab_amplify_get_user_images( $member_id );						
 						$member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
-						if ( empty( trim( $member_full_name ) ) ) {							
+						if ( empty( trim( $member_full_name ) ) ) {
 							$member_full_name = bp_get_member_name();
 						}
 

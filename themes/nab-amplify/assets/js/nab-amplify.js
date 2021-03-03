@@ -1207,7 +1207,7 @@
     } else {
       form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
     }
-    
+
     form_data.append("product_status", postStatus);
 
     form_data.append("remove_attachments", remove_attachment_arr);
@@ -4402,18 +4402,10 @@ function nabSearchCompanyAjax(loadMore, pageNumber) {
           let companyTitle = document.createElement("h4");
           companyTitle.setAttribute("class", "result__title");
           companyTitle.innerText = value.title;
-
-          let companyTitleLink = document.createElement("a");
-          companyTitleLink.setAttribute("href", value.link);
-          companyTitleLink.innerText = value.title;
-
-          //companyTitle.appendChild(companyTitleLink)
           searchContent.appendChild(companyTitle);
 
-          let searchAction = document.createElement("a");
-          searchAction.setAttribute("class", "button result__button");
-          searchAction.setAttribute("href", value.link);
-          searchAction.innerHTML = "View Now";
+          let searchAction = document.createElement('div')
+          searchAction.innerHTML = value.button
 
           searchContent.appendChild(searchAction);
 
