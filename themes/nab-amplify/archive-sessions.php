@@ -9,8 +9,8 @@
 
 get_header();
 
-date_default_timezone_set('America/New_York');
-$date_now = date('Y-m-d H:i:s');
+//date_default_timezone_set('America/New_York');
+$date_now = wp_date('Y-m-d H:i:s');
 
 $sessions = get_posts( array(
 		'posts_per_page' => -1,
@@ -61,10 +61,10 @@ $sessions = get_posts( array(
 					$session_start              = get_field( 'session_date' );
 					$session_end                = get_field( 'session_end_time' );
 
-					$month                      = date('F', strtotime($session_start));
-					$day                        = date('d', strtotime($session_start));
-					$time_start                 = date('g:i', strtotime($session_start));
-					$time_end                   = date('g:i A T', strtotime($session_end));
+					$month                      = wp_date('F', strtotime($session_start));
+					$day                        = wp_date('d', strtotime($session_start));
+					$time_start                 = wp_date('g:i', strtotime($session_start));
+					$time_end                   = wp_date('g:i A T', strtotime($session_end));
 								
 				?>
 
@@ -122,17 +122,15 @@ $sessions = get_posts( array(
 								</a>
 							</li>
 				<?php 
-				if($i === 2) : ?>
+				if($i == 2 || $i == $last_event - 1) : ?>
 						</ul> <!--.events__featured -->
 					</div> <!--.nabcard__content -->
 				</div> <!--.nabcard -->
-				(INSERT AD)
+					<?php if ($i <= 2) : ?>
+						(INSERT AD)
+					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($i == $last_event - 1): ?>
-						</ul><!--.events__list-->
-					</div><!--.nabcard__content-->
-				</div><!--.nabcard-->
-				<?php endif; ?>
+				
 				<?php
 				++$i;
 		}
