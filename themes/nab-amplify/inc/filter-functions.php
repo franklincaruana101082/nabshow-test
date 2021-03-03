@@ -22,7 +22,6 @@ function nab_registration_redirect()
 
 			$redirect_url = nab_maritz_redirect_url( get_current_user_id() );
 		}
-
 	} else {
 		$args         = array(
 			'nab_registration_complete' => 'true',
