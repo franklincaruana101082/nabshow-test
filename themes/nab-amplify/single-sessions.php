@@ -8,6 +8,13 @@
  */
 
 get_header();
+
+if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
+	$preregistered = true;
+} else {
+	$preregistered = false;
+}
+
 ?>
 
 	<main id="primary" class="site-main single_php">
@@ -16,6 +23,11 @@ get_header();
 		while ( have_posts() ) :
 			the_post();
 
+			$session_start = get_field( 'session_date' );
+			$session_end   = get_field( 'session_end_time' );
+
+			$time_start    = wp_date('g:i', strtotime($session_start));
+			$time_end      = wp_date('g:i A T', strtotime($session_end));
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
@@ -23,6 +35,9 @@ get_header();
 					<?php
 					the_title( '<h1 class="intro__title">', '</h1>' );
 					?>
+					<div class="intro__time introtext">
+			        	<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></p>
+					</div>
 					
 					<?php
 						$speakers = get_field( 'speakers' );
@@ -127,12 +142,20 @@ get_header();
 					?>
 						<div class="session__pre">
 							<div class="container">
-							<div
-								class="involveme_embed"
-								data-embed="<?php echo esc_html($pre_event_registration_id);?>"
-								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"
-							></div>
-							<script src="https://app.involve.me/embed"></script>
+								<?php if($preregistered) { ?>
+								<div
+									class="involveme_embed"
+									data-embed="<?php echo esc_html($pre_event_survey_id);?>"
+									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"
+								></div>
+								<?php } else { ?>
+									<div
+									class="involveme_embed"
+									data-embed="<?php echo esc_html($pre_event_registration_id);?>"
+									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"
+								></div>
+								<?php } ?>
+								<script src="https://app.involve.me/embed"></script>
 							</div>
 						</div>
 					<?php } elseif($session_status == "live") { ?>

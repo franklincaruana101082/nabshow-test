@@ -78,6 +78,9 @@
 			.event:active & {
 				color: $color__white;
 			}
+			._big & {
+				display: none;
+			}
 		}
 		&__image {
 			padding-top: rem(45);
@@ -223,7 +226,7 @@
 			flex-flow: row wrap;
 			margin-right: rem(-20);
 			margin-left: rem(-20);
-			.event {
+			>li {
 				flex: 0 1 calc(50% - 40px);
 				margin-right: rem(20);
 				margin-left: rem(20);
@@ -231,7 +234,7 @@
 			}
 		}
 		@include bp-1024 {
-			.event {
+			>li {
 				flex: 0 1 calc(33.333% - 40px);
 				&._wide {
 					flex: 0 1 calc(66.666% - 40px);
@@ -240,7 +243,7 @@
 			}
 		}
 		@include bp-1280 {
-			.event {
+			>li {
 				flex: 0 1 calc(25% - 40px);
 				&._wide {
 					flex: 0 1 calc(50% - 40px);
