@@ -137,7 +137,7 @@ if ( empty( $redirect_url ) ) {
 									<?php do_action( 'woocommerce_register_form' ); ?>
 
 									<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
-										<input type="hidden" name="checkout_redirect" value="<?php echo esc_url( $redirect_url ); ?>">
+										<input type="hidden" name="checkout_redirect" value="<?php echo $redirect_url; ?>">
 									<?php } ?>
 
 									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
