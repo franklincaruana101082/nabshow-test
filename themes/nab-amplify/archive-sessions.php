@@ -70,14 +70,14 @@ $sessions = get_posts( array(
 
 				<?php 
 				if($i === 0) : ?>
-				<div class="card">
-					<div class="card__content">
+				<div class="nabcard">
+					<div class="nabcard__content">
 						<ul class="events__featured">
 				<?php endif; ?>
 				<?php 
 				if($i === 3) : ?>
-				<div class="card">
-					<div class="card__content">
+				<div class="nabcard">
+					<div class="nabcard__content">
 						<ul class="events__list">
 				<?php endif; ?>
 							<li>
@@ -124,14 +124,14 @@ $sessions = get_posts( array(
 				<?php 
 				if($i === 2) : ?>
 						</ul> <!--.events__featured -->
-					</div> <!--.card__content -->
-				</div> <!--.card -->
+					</div> <!--.nabcard__content -->
+				</div> <!--.nabcard -->
 				(INSERT AD)
 				<?php endif; ?>
 				<?php if ($i == $last_event - 1): ?>
 						</ul><!--.events__list-->
-					</div><!--.card__content-->
-				</div><!--.card-->
+					</div><!--.nabcard__content-->
+				</div><!--.nabcard-->
 				<?php endif; ?>
 				<?php
 				++$i;
