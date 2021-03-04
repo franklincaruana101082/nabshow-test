@@ -38,7 +38,7 @@
     const blockAttrs = {
         itemToFetch: {
             type: 'number',
-            default: 4
+            default: 3
         },
     };
     registerBlockType('nab/company-employees', {

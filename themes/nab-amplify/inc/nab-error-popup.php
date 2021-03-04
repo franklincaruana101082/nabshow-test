@@ -19,6 +19,14 @@
                 <?php
                 }
                 ?>
+
+<?php if($employee_confirm == '1'){
+                ?>
+                <button class="btn confirm_employee_remove_yes" data-id="<?php echo $employee_id;?>">Yes</button>
+                <button class="btn confirm_employee_remove_no" data-id="<?php echo $employee_id;?>">No</button>
+                <?php
+                }
+                ?>
            
             </div>
         </div>

@@ -7916,7 +7916,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var blockAttrs = {
         itemToFetch: {
             type: 'number',
-            default: 4
+            default: 3
         }
     };
     registerBlockType('nab/company-employees', {

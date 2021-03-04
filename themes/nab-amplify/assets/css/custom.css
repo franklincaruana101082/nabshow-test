@@ -1631,6 +1631,7 @@ body .is_friend .remove::before{font-size:22px}
 #addProductModal .add-product-content-popup p{font-size:22px;margin-bottom:50px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:28px;font-weight:bold;margin-bottom:15px;display:inline-block;vertical-align:middle}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{color:#999999!important;font-size:16px;margin-left:10px;display:inline-block;font-weight:400}
+#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label.emp-label span{color:#fff!important;text-transform:uppercase}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{display:inline-block;vertical-align:middle;font-size:28px}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper input{height:96px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:22px;color:#999999;font-weight:bold;font-family:'Open Sans', sans-serif}
 #addProductModal.nab-modal .modal-content-wrap .form-wrapper .chosen-container{height:96px}
@@ -1782,4 +1783,3 @@ body .is_friend .remove::before{font-size:22px}
 .header .header__navwrapper{z-index:10}
 /*Error message popup*/
 .error-message-popup h4{text-transform:inherit!important;}
-.add-address-popup .address-title{text-transform:inherit!important;}

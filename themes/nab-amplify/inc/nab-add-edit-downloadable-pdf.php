@@ -24,7 +24,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 								<label for="featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
-										<input type="file" id="featured-image" class="button" name="featured_image">
+										<input type="file" id="pdf-featured-image" class="button" name="featured_image">
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">
@@ -33,13 +33,12 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 									</div>									
 								</div>
 							</div>
-							<div class="form-row" id="product_media_wrapper">
-								<?php 
-								
+							<div class="form-row" id="pdf_media_wrapper">
+								<?php
 								if (isset($post_data->product_media)) {
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
-								?>
+											?>
 											<div class="nab-product-media-item">
 												<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $media['product_media_file']['ID']; ?>"><i class="fa fa-times" aria-hidden="true"></i></button>
 												<?php if ($media['product_media_file']['type'] === 'image') { ?>
@@ -51,16 +50,15 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 												<?php
 												} ?>
 											</div>
-								<?php
+											<?php
 										}
 									}
-								} ?>
+								}
+								?>
 							</div>
 							<div class="form-row">
-								<label for="">Product Copy</label>
-								
-							<textarea name="nab_product_copy" id="nab_product_copy"><?php echo isset($post_data->product_copy)?$post_data->product_copy:''; ?></textarea>
-							
+								<label for="">Product Copy</label>								
+								<textarea name="nab_product_copy" id="nab_product_copy"><?php echo isset($post_data->product_copy)?$post_data->product_copy:''; ?></textarea>							
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
