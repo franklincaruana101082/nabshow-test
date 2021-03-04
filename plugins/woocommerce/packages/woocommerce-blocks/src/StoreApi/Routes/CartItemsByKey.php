@@ -1,19 +1,12 @@
 <?php
-/**
- * Cart item route.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
- * @package WooCommerce/Blocks
- */
-
 namespace Automattic\WooCommerce\Blocks\StoreApi\Routes;
-
-defined( 'ABSPATH' ) || exit;
 
 use Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController;
 
 /**
  * CartItemsByKey class.
+ *
+ * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class CartItemsByKey extends AbstractRoute {
 	/**
@@ -39,20 +32,23 @@ class CartItemsByKey extends AbstractRoute {
 				],
 			],
 			[
-				'methods'  => \WP_REST_Server::READABLE,
-				'callback' => [ $this, 'get_response' ],
-				'args'     => [
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => [ $this, 'get_response' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
 					'context' => $this->get_context_param( [ 'default' => 'view' ] ),
 				],
 			],
 			[
-				'methods'  => \WP_REST_Server::EDITABLE,
-				'callback' => array( $this, 'get_response' ),
-				'args'     => $this->schema->get_endpoint_args_for_item_schema( \WP_REST_Server::EDITABLE ),
+				'methods'             => \WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'get_response' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->schema->get_endpoint_args_for_item_schema( \WP_REST_Server::EDITABLE ),
 			],
 			[
-				'methods'  => \WP_REST_Server::DELETABLE,
-				'callback' => [ $this, 'get_response' ],
+				'methods'             => \WP_REST_Server::DELETABLE,
+				'callback'            => [ $this, 'get_response' ],
+				'permission_callback' => '__return_true',
 			],
 			'schema' => [ $this->schema, 'get_public_item_schema' ],
 		];
@@ -69,7 +65,7 @@ class CartItemsByKey extends AbstractRoute {
 		$controller = new CartController();
 		$cart_item  = $controller->get_cart_item( $request['key'] );
 
-		if ( ! $cart_item ) {
+		if ( empty( $cart_item ) ) {
 			throw new RouteException( 'woocommerce_rest_cart_invalid_key', __( 'Cart item does not exist.', 'woocommerce' ), 404 );
 		}
 
@@ -109,7 +105,7 @@ class CartItemsByKey extends AbstractRoute {
 		$cart       = $controller->get_cart_instance();
 		$cart_item  = $controller->get_cart_item( $request['key'] );
 
-		if ( ! $cart_item ) {
+		if ( empty( $cart_item ) ) {
 			throw new RouteException( 'woocommerce_rest_cart_invalid_key', __( 'Cart item does not exist.', 'woocommerce' ), 404 );
 		}
 

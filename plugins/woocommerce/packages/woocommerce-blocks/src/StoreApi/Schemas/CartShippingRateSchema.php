@@ -1,18 +1,12 @@
 <?php
-/**
- * Cart shipping rate schema.
- *
- * @package WooCommerce/Blocks
- */
-
 namespace Automattic\WooCommerce\Blocks\StoreApi\Schemas;
-
-defined( 'ABSPATH' ) || exit;
 
 use WC_Shipping_Rate as ShippingRate;
 
 /**
  * CartShippingRateSchema class.
+ *
+ * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class CartShippingRateSchema extends AbstractSchema {
 	/**
@@ -21,6 +15,13 @@ class CartShippingRateSchema extends AbstractSchema {
 	 * @var string
 	 */
 	protected $title = 'cart-shipping-rate';
+
+	/**
+	 * The schema item identifier.
+	 *
+	 * @var string
+	 */
+	const IDENTIFIER = 'cart-shipping-rate';
 
 	/**
 	 * Cart schema properties.
@@ -165,6 +166,12 @@ class CartShippingRateSchema extends AbstractSchema {
 					'context'     => [ 'view', 'edit' ],
 					'readonly'    => true,
 				],
+				'taxes'         => [
+					'description' => __( 'Taxes applied to this shipping rate using the smallest unit of the currency.', 'woocommerce' ),
+					'type'        => 'string',
+					'context'     => [ 'view', 'edit' ],
+					'readonly'    => true,
+				],
 				'method_id'     => [
 					'description' => __( 'ID of the shipping method that provided the rate.', 'woocommerce' ),
 					'type'        => 'string',
@@ -292,19 +299,19 @@ class CartShippingRateSchema extends AbstractSchema {
 	 * @return array
 	 */
 	protected function get_rate_response( $rate, $selected_rate = '' ) {
-		return array_merge(
+		return $this->prepare_currency_response(
 			[
 				'rate_id'       => $this->get_rate_prop( $rate, 'id' ),
 				'name'          => $this->prepare_html_response( $this->get_rate_prop( $rate, 'label' ) ),
 				'description'   => $this->prepare_html_response( $this->get_rate_prop( $rate, 'description' ) ),
 				'delivery_time' => $this->prepare_html_response( $this->get_rate_prop( $rate, 'delivery_time' ) ),
 				'price'         => $this->prepare_money_response( $this->get_rate_prop( $rate, 'cost' ), wc_get_price_decimals() ),
+				'taxes'         => $this->prepare_money_response( array_sum( $this->get_rate_prop( $rate, 'taxes' ) ), wc_get_price_decimals() ),
 				'instance_id'   => $this->get_rate_prop( $rate, 'instance_id' ),
 				'method_id'     => $this->get_rate_prop( $rate, 'method_id' ),
 				'meta_data'     => $this->get_rate_meta_data( $rate ),
 				'selected'      => $selected_rate === $this->get_rate_prop( $rate, 'id' ),
-			],
-			$this->get_store_currency_response()
+			]
 		);
 	}
 

@@ -4,12 +4,13 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { getCurrency } from '@woocommerce/base-utils';
 import Label from '@woocommerce/base-components/label';
+import ProductPrice from '@woocommerce/base-components/product-price';
 import {
+	ProductBackorderBadge,
 	ProductImage,
 	ProductLowStockBadge,
 	ProductMetadata,
 	ProductName,
-	ProductPrice,
 } from '@woocommerce/base-components/cart-checkout';
 import PropTypes from 'prop-types';
 import Dinero from 'dinero.js';
@@ -17,7 +18,9 @@ import Dinero from 'dinero.js';
 const OrderSummaryItem = ( { cartItem } ) => {
 	const {
 		images,
+		catalog_visibility: catalogVisibility = '',
 		low_stock_remaining: lowStockRemaining = null,
+		show_backorder_badge: showBackorderBadge = false,
 		name,
 		permalink,
 		prices,
@@ -35,6 +38,8 @@ const OrderSummaryItem = ( { cartItem } ) => {
 		.multiply( quantity )
 		.convertPrecision( currency.minorUnit )
 		.getAmount();
+	const isProductHiddenFromCatalog =
+		catalogVisibility === 'hidden' || catalogVisibility === 'search';
 
 	return (
 		<div className="wc-block-components-order-summary-item">
@@ -53,14 +58,26 @@ const OrderSummaryItem = ( { cartItem } ) => {
 			</div>
 			<div className="wc-block-components-order-summary-item__description">
 				<div className="wc-block-components-order-summary-item__header">
-					<ProductName permalink={ permalink } name={ name } />
+					<ProductName
+						disabled={ isProductHiddenFromCatalog }
+						permalink={ permalink }
+						name={ name }
+					/>
 					<ProductPrice
-						className="wc-block-components-order-summary-item__total-price"
 						currency={ currency }
-						value={ linePrice }
+						price={ linePrice }
+						priceClassName="wc-block-components-order-summary-item__total-price"
 					/>
 				</div>
-				<ProductLowStockBadge lowStockRemaining={ lowStockRemaining } />
+				{ showBackorderBadge ? (
+					<ProductBackorderBadge />
+				) : (
+					!! lowStockRemaining && (
+						<ProductLowStockBadge
+							lowStockRemaining={ lowStockRemaining }
+						/>
+					)
+				) }
 				<ProductMetadata
 					shortDescription={ shortDescription }
 					fullDescription={ fullDescription }

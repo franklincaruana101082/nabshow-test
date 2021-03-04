@@ -11,15 +11,11 @@
  * the readme will list any important changes.
  *
  * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
+ * @package WooCommerce\Templates
  * @version 2.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<h3 class="woocommerce-info"><?php esc_html_e( 'Registration for additional events is coming soon!', 'woocommerce' ); ?></h3>
-<p><a href="https://amplify.nabshow.com/">Sign up for email updates</a> to be the first to know when new events are announced, registration opens and more.</p>
-
-
-			
+<p class="woocommerce-info"><?php esc_html_e( 'No products were found matching your selection.', 'woocommerce' ); ?></p>
