@@ -188,7 +188,8 @@
 					'attribute': 'data-tip',
 					'fadeIn': 50,
 					'fadeOut': 50,
-					'delay': 200
+					'delay': 200,
+					'keepAlive': true
 				} );
 
 				$( '.column-wc_actions .wc-action-button' ).tipTip( {
@@ -203,7 +204,8 @@
 						'attribute': 'data-tip',
 						'fadeIn': 50,
 						'fadeOut': 50,
-						'delay': 200
+						'delay': 200,
+						'keepAlive': true
 					} ).css( 'cursor', 'help' );
 				});
 			});
@@ -233,7 +235,7 @@
 			$( this ).focus();
 		} );
 
-		$( '.wc_input_table .remove_rows' ).click( function() {
+		$( '.wc_input_table .remove_rows' ).on( 'click', function() {
 			var $tbody = $( this ).closest( '.wc_input_table' ).find( 'tbody' );
 			if ( $tbody.find( 'tr.current' ).length > 0 ) {
 				var $current = $tbody.find( 'tr.current' );

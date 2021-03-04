@@ -3,10 +3,8 @@
  */
 import PropTypes from 'prop-types';
 import { __ } from '@wordpress/i18n';
-import {
-	AddressForm,
-	Button,
-} from '@woocommerce/base-components/cart-checkout';
+import { AddressForm } from '@woocommerce/base-components/cart-checkout';
+import Button from '@woocommerce/base-components/button';
 import { useState } from '@wordpress/element';
 import isShallowEqual from '@wordpress/is-shallow-equal';
 import { useValidationContext } from '@woocommerce/base-context';
@@ -32,36 +30,15 @@ const ShippingCalculatorAddress = ( {
 		return ! hasValidationErrors;
 	};
 
-	// Make all fields optional except 'country'.
-	const fieldConfig = {};
-	addressFields.forEach( ( field ) => {
-		if ( field === 'country' ) {
-			fieldConfig[ field ] = {
-				...fieldConfig[ field ],
-				errorMessage: __(
-					'Please select a country to calculate rates.',
-					'woocommerce'
-				),
-				required: true,
-			};
-		} else {
-			fieldConfig[ field ] = {
-				...fieldConfig[ field ],
-				required: false,
-			};
-		}
-	} );
-
 	return (
-		<form className="wc-block-shipping-calculator-address">
+		<form className="wc-block-components-shipping-calculator-address">
 			<AddressForm
 				fields={ addressFields }
-				fieldConfig={ fieldConfig }
 				onChange={ setAddress }
 				values={ address }
 			/>
 			<Button
-				className="wc-block-shipping-calculator-address__button"
+				className="wc-block-components-shipping-calculator-address__button"
 				disabled={ isShallowEqual( address, initialAddress ) }
 				onClick={ ( e ) => {
 					e.preventDefault();
