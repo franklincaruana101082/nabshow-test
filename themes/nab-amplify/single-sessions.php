@@ -35,14 +35,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					<?php
 						the_title( '<h1 class="intro__title">', '</h1>' );
 					?>
-					</div><!-- .container -->
-				</header><!-- .intro -->
-				<div class="intro-feature">
-					<div class="intro-feature__media">
-						<div class="container">
-							<?php echo get_the_post_thumbnail(); ?>
-
-							<div class="intro__time introtext">
+					<div class="intro__time introtext">
 								<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></p>
 							</div>
 							<?php
@@ -126,9 +119,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								?>
 								</div>
 							<?php } ?>
-						</div>
-					</div>
-				</div>
+					</div><!-- .container -->
+				</header><!-- .intro -->
 
 				<div class="session__content">
 					
