@@ -1,16 +1,11 @@
 <?php
-/**
- * Handles installation of Blocks plugin dependencies.
- *
- * @package WooCommerce/Blocks
- */
-
 namespace Automattic\WooCommerce\Blocks;
-
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Installer class.
+ * Handles installation of Blocks plugin dependencies.
+ *
+ * @internal
  */
 class Installer {
 	/**
@@ -25,7 +20,6 @@ class Installer {
 	 */
 	public function install() {
 		$this->maybe_create_tables();
-		$this->maybe_create_cronjobs();
 	}
 
 	/**
@@ -44,7 +38,7 @@ class Installer {
 		$schema_version    = 260;
 		$db_schema_version = (int) get_option( 'wc_blocks_db_schema_version', 0 );
 
-		if ( $db_schema_version > $schema_version ) {
+		if ( $db_schema_version >= $schema_version && 0 !== $db_schema_version ) {
 			return;
 		}
 
@@ -90,13 +84,13 @@ class Installer {
 	protected function maybe_create_table( $table_name, $create_sql ) {
 		global $wpdb;
 
-		if ( in_array( $table_name, $wpdb->get_col( 'SHOW TABLES', 0 ), true ) ) {
+		if ( in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true ) ) {
 			return true;
 		}
 
 		$wpdb->query( $create_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-		return in_array( $table_name, $wpdb->get_col( 'SHOW TABLES', 0 ), true );
+		return in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true );
 	}
 
 	/**
@@ -119,14 +113,5 @@ class Installer {
 				echo '</p></div>';
 			}
 		);
-	}
-
-	/**
-	 * Maybe create cron events.
-	 */
-	protected function maybe_create_cronjobs() {
-		if ( function_exists( 'as_next_scheduled_action' ) && false === as_next_scheduled_action( 'woocommerce_cleanup_draft_orders' ) ) {
-			as_schedule_recurring_action( strtotime( 'midnight tonight' ), DAY_IN_SECONDS, 'woocommerce_cleanup_draft_orders' );
-		}
 	}
 }
