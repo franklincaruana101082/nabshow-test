@@ -63,55 +63,55 @@
 	@include bp-604 {
 		max-width: 37rem;
 	}
-  
+	
 	@include bp-768 {
 		max-width: 46rem;
 	}
-  
+	
 	@include bp-1024 {
 		max-width: 63rem;
 	}
-  
+	
 	@include bp-1280 {
 		max-width: 75rem;
 	}
-  
+	
 	@include bp-1440 {
 		max-width: 85rem;
 	}
-  
+	
 	&._rel {
 		position: relative;
 	}
-  
+	
 	&._nop {
 		padding-left: 0;
 		padding-right: 0;
 	}
-  }
-  
-  .site-content {
-  	position: relative;
+	}
+	
+	.site-content {
+	position: relative;
 	background-color: $color__gray-darker;
 	padding: rem(54) 0 0;
-  	&:before {
-	  content: '';
-	  display: block;
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  height: rem(54);
-	  background: linear-gradient($color__gray-darkest, rgba($color__gray-darkest, 0));
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: rem(54);
+		background: linear-gradient($color__gray-darkest, rgba($color__gray-darkest, 0));
 	}
-  }
+	}
 
-  .link {
+	.link {
 	&._back {
-	  position: relative;
-	  display: inline-block;
-	  padding-left: 1.5rem;
-	  &:before {
+		position: relative;
+		display: inline-block;
+		padding-left: 1.5rem;
+		&:before {
 		content:'';
 		display: block;
 		width: rem(8);
@@ -126,18 +126,18 @@
 		border-radius: 2px 0 0 0;
 		transform-origin: center;
 		transform: translateY(50%) rotate(-45deg);
-	  }
+		}
 	}
 	&._plus {
-	  &:before {
+		&:before {
 		content: '+ ';
-	  }
+		}
 	}
 	&._profile {
-	  color: $color__gray-light;
-	  text-decoration: none;
+		color: $color__gray-light;
+		text-decoration: none;
 	}
-  }
+	}
 .friendship-button.add {
 	@extend .link._plus;
 }
@@ -149,27 +149,27 @@
 	margin: 2rem auto 3rem;
 	max-width: rem(1277);
 	&__content {
-	  background-color: $color__gray-darker;
-	  position: relative;
-	  z-index: 2;
-	  border-radius: 8px;
-	  padding: 2rem;
+		background-color: $color__gray-darker;
+		position: relative;
+		z-index: 2;
+		border-radius: 8px;
+		padding: 2rem;
 	}
 	&:before {
-	  content:'';
-	  display: block;
-	  position: absolute;
-	  z-index: 1;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  border-radius: 8px;
-	  background: $color__gray-darkest;
-	  transform-origin: center;
-	  transform: rotate(-2deg);
+		content:'';
+		display: block;
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: 8px;
+		background: $color__gray-darkest;
+		transform-origin: center;
+		transform: rotate(-2deg);
 	}
-  }
+	}
 
 .radiolist {
 	background-color: black;
@@ -180,19 +180,19 @@
 	box-shadow: 5px 10px 14px rgba(black, .08);
 	border-radius: 5px;
 	li {
-	  padding-bottom: 1.5rem;
-	  font-size: rem(18);
-	  font-family: $font__secondary;
-	  color: $color__white;
-	  line-height: 1.111;
-	  &:last-child {
+		padding-bottom: 1.5rem;
+		font-size: rem(18);
+		font-family: $font__secondary;
+		color: $color__white;
+		line-height: 1.111;
+		&:last-child {
 		padding-bottom: 0;
-	  }
-	  .option {
-		  padding-left: rem(42);
-		  position: relative;
-		  line-height: rem(23);
-		  &:before {
+		}
+		.option {
+			padding-left: rem(42);
+			position: relative;
+			line-height: rem(23);
+			&:before {
 			content: '';
 			display: block;
 			background: black;
@@ -204,12 +204,12 @@
 			top: calc(50% - 11.5px);
 			left: 1px;
 			transition: width .25s ease-in-out, height .25s ease-in-out, left .25s ease-in-out, top .25s ease-in-out;
-		  }
-		  &:after {
-		  	content: '';
-		  	display: block;
-		  	position: absolute;
-		  	z-index: 1;
+			}
+			&:after {
+			content: '';
+			display: block;
+			position: absolute;
+			z-index: 1;
 			top: calc(50% - 12.5px);
 			left: 0;
 			appearance: none;
@@ -218,22 +218,22 @@
 			border-radius: 50%;
 			background: linear-gradient($color__white, $color__white);
 			transition: background .25s ease-in-out;
-		  }
-		  &._selected {
-		  	&:before {
-			  width: 9px;
-			  height: 9px;
-			  top: calc(50% - 4.5px);
-			  left: 8px;
+			}
+			&._selected {
+			&:before {
+				width: 9px;
+				height: 9px;
+				top: calc(50% - 4.5px);
+				left: 8px;
 			}
 			&:after {
 				background: linear-gradient(90deg, $color__purple, $color__pink);		
 			}
-		  }
+			}
 		}
 	}
 }
-  
+	
 .showlist {
 	position: relative;
 	&__feedtype {
@@ -270,10 +270,30 @@
 	}
 }
 
+.nabblock {
+	border-left: 5px solid $color__purple;
+	border-image: linear-gradient(0deg, $color__pink, $color__purple) 5;
+	background: $color__black;
+	padding: rem(35) rem(20);
+	margin: 0 0 rem(40);
+	@include bp-768 {
+		padding: rem(85);
+		margin: rem(40) 0;
+	}
+	p {
+		font-size: rem(18);
+		line-height: rem(26);
+		color: $color__gray-lightest;
+	}
+	a {
+		color: $color__white;
+	}
+}
 
-  .button,
-  input[type="submit"].button, 
-  input[type="button"].button {
+
+	.button,
+	input[type="submit"].button, 
+	input[type="button"].button {
 	display: inline-block;
 	background: $color__gray;
 	border: 0;
@@ -320,62 +340,62 @@
 			vertical-align: text-top;
 		}
 	}
-  }
-  
-  .dropborder {
+	}
+	
+	.dropborder {
 	display: inline-block;
 	position: relative;
 	margin: 1rem;
 	border: 4px solid $color__purple; //fallback
 	border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
 	& > * {
-	  display: block;
-	  z-index: 2;
-	  position: relative;
-	  top: -1rem;
-	  left: -1rem;
+		display: block;
+		z-index: 2;
+		position: relative;
+		top: -1rem;
+		left: -1rem;
 	}
-  }
+	}
 
-  .textimage {
+	.textimage {
 	position: relative;
 	a {
 		text-decoration: none;
 	}
 	&__image {
 
-	  position: relative;
-	  margin: .75rem 0 1rem 1rem;
-	  border: 4px solid $color__purple; //fallback
-	  border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
-	  ._topborder & {
-		  border-width: 4px 0 0 0;
-		  margin: 0;
-	  }
-	  img {
-		  position: relative;
-		  display: block;
-		  left: -1rem;
-		  top: -.75rem;
-		  ._topborder & {
-			  position: static;
-		  }
-	  }
-	  &:after {
-		  content: '';
-		  display: block;
-		  width: 100%;
-		  height: 100%;
-		  position: absolute;
-		  z-index: 3;
-		  top: -.75rem;
-		  left: -1rem;
-		  background: linear-gradient(0deg, rgba($color__black, .9) 10%, rgba($color__black, 0) 90%);
-		  ._topborder & {
-			  top: 0;
-			  left: 0;
-		  }
-	  }
+		position: relative;
+		margin: .75rem 0 1rem 1rem;
+		border: 4px solid $color__purple; //fallback
+		border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
+		._topborder & {
+			border-width: 4px 0 0 0;
+			margin: 0;
+		}
+		img {
+			position: relative;
+			display: block;
+			left: -1rem;
+			top: -.75rem;
+			._topborder & {
+				position: static;
+			}
+		}
+		&:after {
+			content: '';
+			display: block;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: 3;
+			top: -.75rem;
+			left: -1rem;
+			background: linear-gradient(0deg, rgba($color__black, .9) 10%, rgba($color__black, 0) 90%);
+			._topborder & {
+				top: 0;
+				left: 0;
+			}
+		}
 	}
 	&__text {
 		text-decoration: none;
@@ -393,61 +413,61 @@
 			padding: 0 1rem;
 		}
 		@include bp-1024 {
-		  position: absolute;
-		  z-index: 4;
-	  	  left: 0;
-	  	  right: 0;
-	  	  bottom: rem(16);
-		  padding: 0 2rem;
+			position: absolute;
+			z-index: 4;
+			left: 0;
+			right: 0;
+			bottom: rem(16);
+			padding: 0 2rem;
 		}
 		@include bp-1280 {
 			bottom: rem(20);
 		}
-	  
+		
 	}
-  }
-  
-  .number, .text-gradient {
+	}
+	
+	.number, .text-gradient {
 	display: inline-block; 
 	background: linear-gradient(90deg, $color__purple, $color__pink);
 	background-clip: text;
 	text-fill-color: transparent;
 	-webkit-text-fill-color: transparent;
 	&._blue {
-	  background: linear-gradient(90deg, $color__blurple, $color__blue);
-	  background-clip: text;
+		background: linear-gradient(90deg, $color__blurple, $color__blue);
+		background-clip: text;
 	}
-  }
+	}
 
-  .addlink {
-	  display: inline-block;
-	  height: rem(24);
-	  padding: 0 rem(5);
-	  background-color: $color__gray-darkest;
-	  border-radius: rem(2);
-	  color: $color__white;
-	  font-family: $font__primary;
-	  font-weight: 600;
-	  font-size: rem(10);
-	  text-transform: uppercase;
-	  text-decoration: none;
-	  line-height: rem(24);
-	  letter-spacing: 0.1em;
-	  &:before {
-		  content: '';
-		  display: inline-block;
-		  width: rem(14);
-		  height: rem(14);
-		  vertical-align: text-bottom;
-		  background-image: url('/wp-content/themes/nab-amplify/assets/images/icon-star.svg');
-		  background-position: center center;
-		  background-repeat: no-repeat;
-		  background-size: contain;
-	  }
-  }
-  
-  
-  .text-background {
+	.addlink {
+		display: inline-block;
+		height: rem(24);
+		padding: 0 rem(5);
+		background-color: $color__gray-darkest;
+		border-radius: rem(2);
+		color: $color__white;
+		font-family: $font__primary;
+		font-weight: 600;
+		font-size: rem(10);
+		text-transform: uppercase;
+		text-decoration: none;
+		line-height: rem(24);
+		letter-spacing: 0.1em;
+		&:before {
+			content: '';
+			display: inline-block;
+			width: rem(14);
+			height: rem(14);
+			vertical-align: text-bottom;
+			background-image: url('/wp-content/themes/nab-amplify/assets/images/icon-star.svg');
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-size: contain;
+		}
+	}
+	
+	
+	.text-background {
 	line-height: 1.4;
 	padding: 2px 0;
 	background: linear-gradient(90deg, $color__purple, $color__pink);
@@ -455,26 +475,26 @@
 	display: inline-block;
 	background-clip: content-box;
 	span {
-	  padding: 10px;
-	  box-decoration-break: clone;
-	  -webkit-box-decoration-break: clone;
-	  background-size: cover;
+		padding: 10px;
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		background-size: cover;
 	}
-  }
-  
-  .introtext {
-	  font-family: $font__secondary;
-	  font-size: rem(16);
-	  font-weight: 400;
-	  line-height: rem(24);
-	  letter-spacing: -0.01em;
-	  color: $color__gray-lightest;
-  }
+	}
+	
+	.introtext {
+		font-family: $font__secondary;
+		font-size: rem(16);
+		font-weight: 400;
+		line-height: rem(24);
+		letter-spacing: -0.01em;
+		color: $color__gray-lightest;
+	}
 
 broadstreet-zone-container {
 	padding-top: rem(20);
-  	padding-bottom: rem(20);
-  	broadstreet-zone div span {
+	padding-bottom: rem(20);
+	broadstreet-zone div span {
 		&:before {
 			content: "Advertisement";
 			display: block;
@@ -491,32 +511,32 @@ broadstreet-zone-container {
 	}
 }
 .ad {
-  font-family: $font__secondary;
-  font-size: rem(12);
-  color: $color__gray-lighter;
-  text-align: center;
-  line-height: 1;
-  &._hidden {
-    display: none;
-  }
-  @include bp-1024 {
-	  font-size: rem(15);
-  }
-  broadstreet-zone-container {
-  	broadstreet-zone div span {
+	font-family: $font__secondary;
+	font-size: rem(12);
+	color: $color__gray-lighter;
+	text-align: center;
+	line-height: 1;
+	&._hidden {
+	display: none;
+	}
+	@include bp-1024 {
+		font-size: rem(15);
+	}
+	broadstreet-zone-container {
+	broadstreet-zone div span {
 		&:before {
 			content: '';
 			display: none;
 		}
 	}
-  }
-  &__display {
+	}
+	&__display {
 	display: block;
 	max-width: 100%;
 	margin-top: rem(10);
 	margin-left: auto;
 	margin-right: auto;
-  }	
+	}	
 }
 
 
