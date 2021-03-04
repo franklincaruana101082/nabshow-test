@@ -85,6 +85,9 @@
                         imageSmoothingQuality: 'high',
                     });
 
+                    // Hide input button to prevent user to change image.
+                    $('.bm-drag-drop-buttons').hide();
+
                     // Add class that canvas is active.
                     $('#bm-upload-form').addClass('canvas-active');
                 };
@@ -203,6 +206,9 @@ function removeCropCanvas() {
 
     // Hide the upload button and message div.
     jQuery('#bm-upload-btn, #bm-precess-info').hide();
+
+    // Show input button.
+    $('.bm-drag-drop-buttons').show();
 }
 
 // Add a popup function if not exists.

@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <div class="bm-drag-drop-inside">
                                         <div class="bm-drag-drop-buttons">
                                             <label id="bm-browse-button" for="profile_picture_file">Select File</label>
-                                            <input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" accept="image/*"/>
+                                            <input id="bynder_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" accept="image/*"/>
                                         </div>
                                         <div class="bm-show-cropping-area">
                                             <div class="bm-adjust-crop-actions">

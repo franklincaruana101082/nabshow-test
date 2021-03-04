@@ -711,42 +711,49 @@ function bmUploadToBynder() {
             processData: false,
             success(result) {
                 result = JSON.parse(result);
-                if( 'success' === result.bmHTML ) {
+                if( 'success' === result.status ) {
 
                     $('#bm-main-outer .bm-modal-body').removeClass('bm-upload-loader bm-loading');
 
                     // Jump to media tab and re-fetch.
 
                     // Remove the existing HTML from media tab.
-                    $('.bm-media-main').html('');
+                    //$('.bm-media-main').html('');
 
                     // Add class to remove canvas after new assets fetched.
                     $('.bm-modal-main').addClass('just-uploaded');
-                    $('#assets-load-more').attr('data-page', 1).hide();
-                    $('#assets-load-more').removeAttr('data-fetched');
+                    //$('#assets-load-more').attr('data-page', 1).hide();
+                    //$('#assets-load-more').removeAttr('data-fetched');
 
                 } else if ( result.error ) {
                     console.log( result.error );
                     $('#bm-main-outer .bm-modal-body').removeClass('bm-upload-loader bm-loading');
-                    $('#bm-precess-info').append('<p>Something went wrong! Try again!</p>');
+                    $('#bm-precess-info').append('<p>Something went wrong! Try again!</p>').show();
                 }
 
                 // Remove the canvas.
                 if( $('.bm-modal-main').hasClass('just-uploaded') ) {
+
                     removeCropCanvas();
 
-                    $('#bm-precess-info').html('<p>Congratulations! Image uploaded successfully! Auto fetch will start in 3 seconds...</p>').show();
+                    /*$('#bm-precess-info').html('<p>Congratulations! Image uploaded successfully! Auto fetch will start in 3 seconds...</p>').show();
 
                     setTimeout(function (){
                         $('[data-tab="bm-tab-assets"], .bm-select-media.active').trigger('click');
                         // Reset messsage div.
                         $('#bm-precess-info').html('').hide();
-                    }, 3000);
+                    }, 3000);*/
+
+                    // Trigger Auto Select recently uploaded image.
+                    $('[data-tab="bm-tab-assets"]').trigger('click');
+                    $('#bm-tab-assets').prepend('<p id="bm-msg" style="color:#1a841a;font-weight: 700;">Congratulations! Image uploaded successfully!</p>').show();
 
                     $('.bm-modal-main').removeClass('just-uploaded');
 
                     // Hide & Reset Meta.
                     bmResetMetaOptions();
+
+                    addUploadedAsset(result);
                 }
 
             },
@@ -756,6 +763,57 @@ function bmUploadToBynder() {
             },
         });
     });
+}
+
+function addUploadedAsset(result) {
+
+    if ('' !== result.bmHTML) {
+
+        $('#bm-msg').remove();
+
+        // Add latest image at first position.
+        $('#bm-main-outer .bm-media-main').prepend(result.bmHTML);
+
+        // If load more is visible, remove the last item.
+        if ($('#assets-load-more').is(':visible')) {
+            $('.bm-media-main .bm-item:last-child').remove();
+        }
+
+        $('.bm-media-main .bm-item:first-child [data-name="Original"]').prop('checked', true);
+        $('.bm-media-main .bm-item:first-child .bm-btn').trigger('click');
+
+
+    } else if (undefined !== result.mediaid && '' !== result.mediaid) {
+
+        if( 0 !== $('#bm-uploaded-request').length ) {
+            let tryCount = parseInt( $('#bm-uploaded-request span').attr('data-try') );
+            tryCount = tryCount + 1;
+            $('#bm-uploaded-request span').html('Trying again.. (attempt '+ tryCount +')').attr('data-try', tryCount);
+        } else {
+            $('#bm-msg').append('<p id="bm-uploaded-request">Getting the uploaded image.. <span data-try="1"></span></p>').show();
+        }
+
+        // Re-trying to get uploaded image.
+        const assetData = new FormData();
+        assetData.append('action', 'bm_get_signle_asset');
+
+        // Form fields.
+        assetData.append('mediaid', result.mediaid);
+
+        $.ajax({
+            type: 'POST',
+            url: fcObj.ajaxurl,
+            data: assetData,
+            contentType: false,
+            processData: false,
+            success(result2) {
+                result2 = JSON.parse(result2);
+                result2.mediaid = result.mediaid;
+                addUploadedAsset(result2);
+            }
+        });
+
+    }
 }
 
 function addBMpopup() {

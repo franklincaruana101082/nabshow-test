@@ -19,8 +19,8 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		private $requested_by;
 		private $collection_name;
 		private $bm_body;
+		private $query;
 		private $assets_limit = 50;
-		private $assets_page = 1;
 		private $response;
 
 		// Bynder configured object.
@@ -61,6 +61,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			// Save Asset URL.
 			add_action( "wp_ajax_bm_save_asset_url", array( $this, "bm_save_asset_url" ) );
 			add_action( "wp_ajax_nopriv_bm_save_asset_url", array( $this, "bm_save_asset_url" ) );
+
+			add_action( "wp_ajax_bm_get_signle_asset", array( $this, "bm_get_signle_asset" ) );
+			add_action( "wp_ajax_nopriv_bm_get_signle_asset", array( $this, "bm_get_signle_asset" ) );
 		}
 
 		private function bm_get_meta_ids() {
@@ -139,6 +142,21 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			wp_die();
 		}
 
+		public function bm_get_signle_asset() {
+			$mediaid = filter_input( INPUT_POST, 'mediaid', FILTER_SANITIZE_STRING );
+
+			// Get uploaded media details.
+			$asset_details = $this->bm_get_asset_details( $mediaid );
+
+			$this->bm_body = array( $asset_details );
+			$bm_popup      = $this->bm_get_partial_popup();
+
+			$return_array = array( "bmHTML" => $bm_popup );
+
+			echo wp_json_encode( $return_array );
+			wp_die();
+		}
+
 		public function bm_save_asset_url() {
 			$url          = filter_input( INPUT_POST, 'url', FILTER_SANITIZE_STRING );
 			$requested_by = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
@@ -202,10 +220,11 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 				if ( true === $this->response['success'] ) {
 
+					$uploaded_mediaid = $this->response['mediaid'];
+
 					// Add asset to a collection.
 					if ( $this->args['collectionID'] ) {
 
-						$uploaded_mediaid = $this->response['mediaid'];
 
 						$url = $this->bm_domain . '/api/v4/collections/' . $this->args['collectionID'] . '/media/';
 
@@ -216,7 +235,13 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 						$this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
 					}
 
-					$return_array = array( "bmHTML" => 'success' );
+					// Get uploaded media details.
+					$asset_details = $this->bm_get_asset_details( $uploaded_mediaid );
+
+					$this->bm_body = array( $asset_details );
+					$bm_popup      = $this->bm_get_partial_popup();
+
+					$return_array = array( "bmHTML" => $bm_popup, "mediaid" => $uploaded_mediaid, "status" => 'success' );
 
 					// Delete transient to fetch the fresh data.
 					$this->bm_remove_cache();
@@ -229,6 +254,27 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			}
 		}
 
+		public function bm_get_assets() {
+
+			// Fetch Assets Now!
+			require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-fetch-assets.php' );
+
+		}
+
+		public function bm_get_asset_details( $metaid ) {
+
+			$this->query = [
+				'id'                => $metaid,
+				'limit'             => 1,
+				'includeMediaItems' => 1,
+			];
+
+			$this->bm_get_assets();
+
+			return $this->response;
+		}
+
+		// Pending Task.
 		private function bm_remove_cache() {
 			return true;
 		}
@@ -237,9 +283,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 			//$bm_metas = get_transient( "bynder_metas" );
 
-
 			//if ( ! $bm_metas ) {
-
 
 			$return_array = array();
 
@@ -278,7 +322,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$this->requested_by    = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
 			$this->collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
 			$this->collection_id   = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
-			$this->assets_page     = filter_input( INPUT_POST, 'assetsPage', FILTER_SANITIZE_NUMBER_INT );
+			$assets_page           = filter_input( INPUT_POST, 'assetsPage', FILTER_SANITIZE_NUMBER_INT );
 			$this->is_admin        = filter_input( INPUT_POST, 'isAdmin', FILTER_VALIDATE_BOOLEAN );
 
 			// Prepare required data.
@@ -296,7 +340,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			if ( $this->collection_name ) {
 
 				// Try to get data from transient.
-				//$bm_popup = get_transient( 'bynder_col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $this->assets_page );
+				//$bm_popup = get_transient( 'bynder_col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page );
 
 				//if ( ! $bm_popup ) {
 				$bm_col_id = $this->bm_get_collection_id();
@@ -317,7 +361,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 				// If not collection wise.
 				// Check if data available in transient.
-				/*$bm_popup = get_transient( "bynder_" . $this->requested_by . '_page_' . $this->assets_page );
+				/*$bm_popup = get_transient( "bynder_" . $this->requested_by . '_page_' . $assets_page );
 				if ( $bm_popup ) {
 					$return_array = array( "bmHTML" => $bm_popup );
 				}*/
@@ -326,8 +370,23 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			// If not found from transient, call API.
 			if ( 0 === count( $return_array ) ) {
 
-				// Fetch Assets Now!
-				require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-fetch-assets.php' );
+				// Get Media Items list.
+				// Optional filter.
+				$this->query = [
+					'total'             => 1,
+					'limit'             => $this->assets_limit,
+					'page'              => $assets_page,
+					'type'              => 'image',
+					'versions'          => 1,
+					'includeMediaItems' => 1,
+				];
+
+				// Include collection ID if available.
+				if ( isset( $this->args['collectionId'] ) && ! empty( $this->args['collectionId'] ) ) {
+					$this->query['collectionId'] = $this->args['collectionId'];
+				}
+
+				$this->bm_get_assets();
 
 				// If 'media' received, the call was successful!
 				if ( isset( $this->response['media'] ) ) {
@@ -337,7 +396,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 					// Add collection ID in the transient to
 					// fetch specific assets quickly next time.
-					$transient_key = ! empty( $this->collection_name ) ? 'col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $this->assets_page : $this->requested_by . '_page_' . $this->assets_page;
+					$transient_key = ! empty( $this->collection_name ) ? 'col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page : $this->requested_by . '_page_' . $assets_page;
 
 					// set data in transient.
 					//set_transient( "bynder_" . $transient_key, $bm_popup, 60 * 60 * 24 );
@@ -361,7 +420,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 			// Return the current page number
 			// to increase it in the next call.
-			$return_array['assetsPage'] = $this->assets_page;
+			$return_array['assetsPage'] = $assets_page;
 
 			echo wp_json_encode( $return_array );
 			wp_die();

@@ -57,7 +57,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			} else {
 				// Add Featured Image.
 				$this->bm_add_signle_meta_box( 'profile_picture' );
-            }
+			}
 
 		}
 
@@ -127,31 +127,31 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 
 			$screen = get_current_screen();
 
-			if( null !== $screen ) {
+			if ( null !== $screen ) {
 
-			// Company Products Metas.
+				// Company Products Metas.
 				if ( 'company-products' === $screen->post_type ) {
-				// Post values.
-				$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-				$product_media_bm = implode( ',', $product_media_bm );
-				update_post_meta(
-					$post_id,
-					'product_media_bm',
-					$product_media_bm
-				);
-			} else {
-				$bm_meta_featured_image = filter_input( INPUT_POST, "bm_meta_featured_image", FILTER_SANITIZE_STRING );
+					// Post values.
+					$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+					$product_media_bm = implode( ',', $product_media_bm );
+					update_post_meta(
+						$post_id,
+						'product_media_bm',
+						$product_media_bm
+					);
+				} else {
+					$bm_meta_featured_image = filter_input( INPUT_POST, "bm_meta_featured_image", FILTER_SANITIZE_STRING );
 
-				//if ( strpos( $bm_meta_featured_image, 'assets' ) !== false ) {
-				update_post_meta(
-					$post_id,
-					'profile_picture',
-					$bm_meta_featured_image
-				);
-				//}
+					//if ( strpos( $bm_meta_featured_image, 'assets' ) !== false ) {
+					update_post_meta(
+						$post_id,
+						'profile_picture',
+						$bm_meta_featured_image
+					);
+					//}
+				}
 			}
 		}
-	}
 	}
 
 	new Bynder_Media_Metas();

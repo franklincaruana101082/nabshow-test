@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $bm_assets    = $this->bm_body;
-$requested_by = $this->requested_by;
+//$requested_by = $this->requested_by;
 ?>
 <?php
 
@@ -47,7 +47,7 @@ if ( 0 === count( $bm_assets ) ) { ?>
 				$class = 'no-featured';
 			} else {
 				$class = 'featured';
-			}
+            }
 		}
 		?>
         <div class="bm-item <?php echo esc_attr( $class ) ?>">

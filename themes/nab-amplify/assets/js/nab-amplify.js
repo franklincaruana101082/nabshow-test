@@ -531,7 +531,7 @@
   })
 
   $(document).on('click', '.action-add-employee', function () {
-    
+
     const company_id = amplifyJS.postID
     const _this = $(this)
     _this.addClass('loading')
@@ -599,7 +599,7 @@
     var company_employees = jQuery('#company_employees').val()
     var form_data = new FormData()
 
-    
+
     form_data.append('company_id', company_id)
     form_data.append('company_employees', company_employees)
     form_data.append('action', 'nab_amplify_submit_employee')
@@ -1400,6 +1400,8 @@
       return false
     }
 
+    var form_data = new FormData()
+
     // If bynder images selected.
     if( 'function' === typeof addBMpopup ) {
         let product_media_bm_src = [];
@@ -1417,7 +1419,6 @@
     if (product_title == '') {
       alert('Product title can not be empty!')
       return false
-    var form_data = new FormData()
     }
     form_data.append('action', 'nab_add_product')
     form_data.append('product_title', product_title)
@@ -2206,36 +2207,6 @@
     }
   })
 
-  // Upload user images using ajax.
-  $('#profile_picture_file, #banner_image_file').on('change', function (e) {
-    // If the front cropper plugin is not active
-    // Upload the image in native way.
-    if ('undefined' === typeof Cropper) {
-      e.preventDefault()
-
-      $('body').addClass('is-loading')
-
-      var fd = new FormData()
-      var file = $(this)
-      var file_name = $(this).attr('name')
-      var individual_file = file[0].files[0]
-      fd.append(file_name, individual_file)
-      fd.append('action', 'nab_amplify_upload_images')
-      fd.append('company_id', amplifyJS.postID)
-
-      jQuery.ajax({
-        type: 'POST',
-        url: amplifyJS.ajaxurl,
-        data: fd,
-        contentType: false,
-        processData: false,
-        success: function () {
-          location.reload()
-        }
-      })
-    }
-  })
-
   // Remove user images using ajax.
   $('#profile_picture_remove').on('click', function (e) {
     e.preventDefault()
@@ -2273,7 +2244,7 @@
       }
     })
   })
-  
+
 
   $(window).on('resize', function () {})
 
@@ -4453,17 +4424,17 @@
   })
   /**
    * Downloadable PDF
-   */    
+   */
   $(document).on( 'change', '#pdf-featured-image', function() {
     renderUploadedFeaturedImg(this);
   });
 
-  function renderUploadedFeaturedImg(input) {    
+  function renderUploadedFeaturedImg(input) {
     if (input.files && input.files[0]) {
-      var reader = new FileReader();      
+      var reader = new FileReader();
       reader.onload = function(e) {
         var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {            
+        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
             $('#pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
             return false;
         } else {
@@ -4474,8 +4445,8 @@
         } else {
           var previewImg = '<div class="nab-pdf-media-item"><img src="' + e.target.result + '" class="preview-pdf-featured-img" /></div>';
           $('#pdf_media_wrapper').append(previewImg);
-        }        
-      }      
+        }
+      }
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
