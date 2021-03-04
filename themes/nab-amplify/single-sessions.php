@@ -61,7 +61,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 										?>
 										<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
 									</div>
-								<?php
+								<?php 
+								}
+								
 								// list session speaker
 								if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
 									// loop throught the speakers.
