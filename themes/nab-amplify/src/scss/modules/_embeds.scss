@@ -3,7 +3,7 @@
 
 .embed-wrapper {
 	position: relative;
-	background: $color__gray-dark;
+	background: $color__black;
 	iframe {
 		position: absolute;
 		top: 0px;
@@ -26,6 +26,8 @@
 }
 
 .embed-group {
+	border-top: 4px solid $color__purple;
+	border-image: linear-gradient(90deg, $color__pink, $color__purple) 4;
 	@include bp-1024 {
 		display: flex;
 	}
