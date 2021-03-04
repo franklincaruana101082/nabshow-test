@@ -1,0 +1,90 @@
+#cometchat {
+	.app__messenger {
+		border: 0;
+		min-width: rem(320);
+	}
+}
+
+.main__chat {
+	.chat__header {
+		background-color: $color__black;
+		border-bottom-color: $color__gray-dark;
+		.group__name {
+			color: $color__white;
+		}
+		.group__members {
+			color: $color__gray-lightest;
+		}
+	}
+	.chat__list {
+		background-color: $color__black;
+
+		.message__date {
+			span {
+				background-color: $color__gray-darker;
+				color: $color__white;
+			}
+		}
+
+		.sender__message__container {
+			.message__txt__wrapper {
+				background: linear-gradient(90deg, $color__pink, $color__purple);
+				border-radius: 17px 0 17px 17px;
+			}
+		}
+
+		.receiver__message__container {
+			.message__name {
+				color: $color__gray-lightest;
+			}
+			.message__txt__wrapper {
+				background-color: $color__gray-darker;
+				color: $color__white;
+				border-radius: 0 17px 17px 17px;
+			}
+		}
+
+		.message__thumbnail {
+			border-radius: 50%;
+			border: 2px solid $color__white;
+		}
+
+		.message__info__wrapper {
+			.message__timestamp {
+				color: $color_-gray-light;
+				img {
+					border-radius: 50%;
+					background-color: $color_-gray-light;
+					margin-top: 2px;
+					margin-bottom: -2px;
+				}
+			}
+		}
+	}
+
+	.chat__composer {
+		background-color: $color__black;
+		.input__inner {
+			border: 0;
+			background-color: transparent;
+			.input__message-input {
+				background-color: $color__gray-dark;
+				border-radius: 25px;
+			}
+			.input__sticky {
+				border-top: 0;
+				background-color: transparent;
+			}
+		}
+	}
+}
+
+.messenger__wrapper {
+	.embedded__sidebar {
+		background-color: $color__black;
+		border-right-color: $color__gray;
+		.chats__header {
+			border-bottom-color: $color__gray;
+		}
+	}
+}

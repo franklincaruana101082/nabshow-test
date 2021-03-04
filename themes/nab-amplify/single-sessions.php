@@ -170,7 +170,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					if($session_status == "pre-event") {
 					?>
 						<div class="session__pre">
+							<div class="intro-feature">
+							<div class="intro-feature__media">
 							<div class="container">
+								<div class="embed-wrapper _video">
+									<?php echo $video_embed; ?>
+								</div>
 								<?php if($preregistered) { ?>
 								<div
 									class="involveme_embed"
@@ -186,9 +191,13 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								<?php } ?>
 								<script src="https://app.involve.me/embed"></script>
 							</div>
+							</div>
+							</div>
 						</div>
 					<?php } elseif($session_status == "live") { ?>
 						<div class="session__live">
+							<div class="intro-feature">
+							<div class="intro-feature__media">
 							<div class="container">
 								<div class="embed-group _video_and_chat">
 									<div class="embed-group__item _video">
@@ -198,9 +207,15 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									</div>
 									<div class="embed-wrapper _chat">
 										<?php 
-											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='056efe6a-fcf1-4117-b84b-f44b12c532a7' widget-height='551px' widget-width='100%' widget-version='v2' rounded-corners='false']";
-											echo do_shortcode($cometchat_shortcode); 
-											//echo("<!--".$cometchat_shortcode."-->");
+										if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
+											// This code only runs on production, perhaps 
+											// configuration for a live service
+											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='8865f1e8-c69e-42f0-ba2d-e4cfe85dfb50' widget-height='551px' widget-width='100%' widget-docked='false' widget-version='v2' rounded-corners='false']";
+										} else {
+											// This code runs everywhere except production
+											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='056efe6a-fcf1-4117-b84b-f44b12c532a7' widget-height='551px' widget-width='100%' widget-docked='false' widget-version='v2' rounded-corners='false']";
+										}
+										echo do_shortcode($cometchat_shortcode); 
 										?>
 									</div>
 								</div>
@@ -211,14 +226,23 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
 							</div>
+							</div>
+							</div>
 						</div>
 					<?php } elseif($session_status == "post-event") { ?>
 						<div class="session__post">
+							<div class="intro-feature">
+							<div class="intro-feature__media">
 							<div class="container">
+								<div class="embed-wrapper _video">
+									<?php echo $video_embed; ?>
+								</div>
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
+							</div>
+							</div>
 							</div>
 						</div>
 					<?php } //end session status if statement ?>
