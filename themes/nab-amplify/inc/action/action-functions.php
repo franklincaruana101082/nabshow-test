@@ -2944,7 +2944,6 @@ function nab_add_product()
 	$nab_company_id = filter_input( INPUT_POST, 'nab_company_id', FILTER_SANITIZE_NUMBER_INT );
 	$nab_product_learn_more_url = filter_input( INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING );
 	$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_SANITIZE_STRING );
-	$product_media_bm = $product_media_bm ? explode( ',', $product_media_bm ) : array();
 	$uploaded_attachments = array();
 	$product_media = nab_amplify_get_bynder_products( $product_id );
 	$response_msg = '';
@@ -3038,16 +3037,7 @@ function nab_add_product()
 	$value = array();
 
 	if ( class_exists('Bynder_Media')) {
-        $count = 0;
-		$uploaded_attachments = array();
-		foreach ( $product_media_bm as $media ) {
-				$uploaded_attachments[$count]['product_media_file']['ID'] = $media;
-				$uploaded_attachments[$count]['product_media_file']['url'] = $media;
-				$uploaded_attachments[$count]['product_media_file']['type'] = 'image';
-				//$uploaded_attachments[$total_bm_images]['title'] = '';
-			$count ++;
-		}
-		update_field( 'product_media_bm', $uploaded_attachments, $post_id );
+        update_field( 'product_media_bm', $product_media_bm, $post_id );
 
 	} else {
 		$dependencies_loaded = 0;

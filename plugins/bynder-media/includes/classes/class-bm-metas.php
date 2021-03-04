@@ -104,12 +104,12 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 
 			for ( $i = 0; $i < 4; $i ++ ) {
 
-				$bm_meta_image = '';
+				$bm_meta_image_single = '';
 				if ( isset( $bm_meta_array[ $i ] ) && ! empty( $bm_meta_array[ $i ] ) ) {
-					$bm_meta_image = $bm_meta_array[ $i ];
+					$bm_meta_image_single = $bm_meta_array[ $i ];
 				}
 				$num = $i + 1;
-				$this->bm_meta_box_html( $bm_meta_image, 'product_media_bm', "Product Image $num", true );
+				$this->bm_meta_box_html( $bm_meta_image_single, 'product_media_bm', "Product Image $num", true );
 			}
 		}
 
@@ -127,8 +127,10 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 
 			$screen = get_current_screen();
 
+			if( null !== $screen ) {
+
 			// Company Products Metas.
-			if ( 'edit' === $screen->parent_base && 'company-products' === $screen->post_type ) {
+				if ( 'company-products' === $screen->post_type ) {
 				// Post values.
 				$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 				$product_media_bm = implode( ',', $product_media_bm );
@@ -149,6 +151,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 				//}
 			}
 		}
+	}
 	}
 
 	new Bynder_Media_Metas();
