@@ -33,109 +33,140 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 				<header class="intro">
 					<div class="container">
 					<?php
-					the_title( '<h1 class="intro__title">', '</h1>' );
+						the_title( '<h1 class="intro__title">', '</h1>' );
 					?>
-					<div class="intro__time introtext">
-			        	<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></p>
-					</div>
-					
-					<?php
-						$speakers = get_field( 'speakers' );
-						// list session speaker
-						if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
-							?>
-							<div class="event__hosts">
-								<?php
-								// loop throught the speakers.
-								foreach ( $speakers as $speaker_id ) {
-									
-									$first_name         = get_field( 'first_name', $speaker_id );
-									$last_name          = get_field( 'last_name', $speaker_id );
-									$title              = get_field( 'title', $speaker_id );
-									$speaker_company    = get_field( 'company', $speaker_id );
-									$headshot           = get_field( 'headshot', $speaker_id );
-									$amplify_user       = get_field( 'amplify_user', $speaker_id );
-									$user_profile_url   = '';
-									
-									if ( ! empty( $amplify_user ) ) {
-										$user_profile_url = bp_core_get_user_domain( $amplify_user );
-									}
-									?>
-									<div class="author event__host">
-										<?php
-										if ( ! empty( $headshot ) ) {
-											
-											?>
-											<div class="author__photo event__host-photo-wrap">
-												<?php
-												if ( ! empty( $user_profile_url ) ) {
-													?>                                            
-													<a href="<?php echo esc_url( $user_profile_url ); ?>">
-														<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-													</a>
-													<?php
-												} else {
-													?>
-													<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-													<?php
-												}
-												?>
-											</div>                                        
-											<?php
-										}
-										?>
-										<div class="event__host-info">
-											<h3 class="event__host-name">
-												<?php
-												if ( ! empty( $user_profile_url ) ) {
-													?>                                            
-													<a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></a>
-													<?php
-												} else {
-													echo esc_html( $first_name . ' ' . $last_name );
-												}
-												?>
-											</h3>
-											<span class="event__host-company"><?php echo esc_html( $speaker_company ); ?></span>
-											<span class="event__host-title"><?php echo esc_html( $title ); ?></span>                                        
-										</div>
-									</div>
-									<?php
-								}
-								?>
+					</div><!-- .container -->
+				</header><!-- .intro -->
+				<div class="intro-feature">
+					<div class="intro-feature__media">
+						<div class="container">
+							<?php echo get_the_post_thumbnail(); ?>
+
+							<div class="intro__time introtext">
+								<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></p>
 							</div>
 							<?php
+								$company =  get_field( 'company' );
+								$speakers = get_field( 'speakers' );
+								if (! empty( $speakers) || ! empty($company)) {
+								?>
+								<div class="event__hosts">
+								<?php
+								// list company host
+								if ( ! empty( $company ) ) {
+								?>
+									<div class="event__host _company">
+										<?php 
+											echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo') );
+										?>
+										<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
+									</div>
+								<?php
+								// list session speaker
+								if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
+									// loop throught the speakers.
+									foreach ( $speakers as $speaker_id ) {
+										
+										$first_name         = get_field( 'first_name', $speaker_id );
+										$last_name          = get_field( 'last_name', $speaker_id );
+										$title              = get_field( 'title', $speaker_id );
+										$speaker_company    = get_field( 'company', $speaker_id );
+										$headshot           = get_field( 'headshot', $speaker_id );
+										$amplify_user       = get_field( 'amplify_user', $speaker_id );
+										$user_profile_url   = '';
+										
+										if ( ! empty( $amplify_user ) ) {
+											$user_profile_url = bp_core_get_user_domain( $amplify_user );
+										}
+										?>
+										<div class="author event__host">
+											<?php
+											if ( ! empty( $headshot ) ) {
+												
+												?>
+												<div class="author__photo event__host-photo-wrap">
+													<?php
+													if ( ! empty( $user_profile_url ) ) {
+														?>
+														<a href="<?php echo esc_url( $user_profile_url ); ?>">
+															<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
+														</a>
+														<?php
+													} else {
+														?>
+														<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
+														<?php
+													}
+													?>
+												</div>
+												<?php
+											}
+											?>
+											<div class="event__host-info">
+												<h3 class="event__host-name">
+													<?php
+													if ( ! empty( $user_profile_url ) ) {
+														?>
+														<a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></a>
+														<?php
+													} else {
+														echo esc_html( $first_name . ' ' . $last_name );
+													}
+													?>
+												</h3>
+												<span class="event__host-company"><?php echo esc_html( $speaker_company ); ?></span>
+												<span class="event__host-title"><?php echo esc_html( $title ); ?></span>
+											</div>
+										</div>
+										<?php
+									}
+								}
+								?>
+								</div>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+
+				<div class="session__content">
+					
+					<?php
+					
+					$session_status				= get_field( 'session_status' );
+					$pre_event_registration_id	= get_field( 'pre_event_registration_id' );
+					$pre_event_survey_id		= get_field( 'pre_event_survey_id' );
+					$live_event_survey_id		= get_field( 'live_event_survey_id' );
+					$post_event_survey_id		= get_field( 'post_event_survey_id' );
+					$chat_room_id				= get_field( 'chat_room_id' );
+					$video_embed				= get_field( 'video_embed' );
+
+					$company_name				= get_the_title( $company );
+
+					$terms						= get_the_terms( $post->ID, 'session_categories');
+					$categories					= '';
+					if ( $terms && ! is_wp_error( $terms ) ) : 
+						$ti = 0;
+						$tl = count($terms);
+						foreach( $terms as $term ) {
+							$categories .= $term->term_id;
+							if($ti != $tl - 1) {
+								$categories .= ",";
+							}
+							++$ti;
 						}
-					?>
-				</div><!-- .container -->
-				</header><!-- .intro -->    
-
-				<div class="entry-content">
-					
-					<?php                    
-					
-					$company                    = get_field( 'company' );
-					$session_status             = get_field( 'session_status' );
-					$pre_event_registration_id  = get_field( 'pre_event_registration_id' );
-					$pre_event_survey_id        = get_field( 'pre_event_survey_id' );
-					$live_event_survey_id       = get_field( 'live_event_survey_id' );
-					$post_event_survey_id       = get_field( 'post_event_survey_id' );
-					$chat_room_id               = get_field( 'chat_room_id' );
-					$video_embed                = get_field( 'video_embed' );
-
-					$company_name								= get_the_title( $company );
+					endif;
 
 					if ( is_user_logged_in() ) {
-						$user											= get_current_user();
-						$user_id									= get_current_user_id();
-						$user_email								= $user->user_email;
-						$user_firstname						= get_user_meta( $user_id, "first_name", true);
-						$user_lastname						= get_user_meta( $user_id, "last_name", true);
+						$user_id				= get_current_user_id();
+						$user					= get_user_by( 'id', $user_id );
+						$user_email				= $user->user_email;
+						$user_firstname			= get_user_meta( $user_id, "first_name", true);
+						$user_lastname			= get_user_meta( $user_id, "last_name", true);
 					}else {
-						$user_id									= 0;
-						$user_email								= "";
-						$user_firstname						= "";
-						$user_lastname						= "";
+						$user_id				= 0;
+						$user_email				= "";
+						$user_firstname			= "";
+						$user_lastname			= "";
 					}
 
 					if($session_status == "pre-event") {
@@ -146,20 +177,20 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								<div
 									class="involveme_embed"
 									data-embed="<?php echo esc_html($pre_event_survey_id);?>"
-									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"
+									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"
 								></div>
 								<?php } else { ?>
 									<div
 									class="involveme_embed"
 									data-embed="<?php echo esc_html($pre_event_registration_id);?>"
-									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"
+									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=registration&session_category=<?php echo esc_html($categories);?>"
 								></div>
 								<?php } ?>
 								<script src="https://app.involve.me/embed"></script>
 							</div>
 						</div>
 					<?php } elseif($session_status == "live") { ?>
-						<div class="session__live intro-feature">
+						<div class="session__live">
 							<div class="container">
 								<div class="embed-group _video_and_chat">
 									<div class="embed-group__item _video">
@@ -179,7 +210,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								<div 
 								class="involveme_embed"
 								data-embed="<?php echo esc_html( $live_event_survey_id ); ?>"
-								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"></div>
+								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
 							</div>
 						</div>
@@ -188,7 +219,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="container">
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
-									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>"></div>
+									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
 							</div>
 						</div>

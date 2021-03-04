@@ -195,8 +195,8 @@
 			
 			&__host-photo {
 				border-radius: 50%;
-				width: rem(40);
-				height: rem(40);
+				width: rem(40) !important;
+				height: rem(40) !important;
 			}
 			&__host-info {
 				padding-left: rem(14);

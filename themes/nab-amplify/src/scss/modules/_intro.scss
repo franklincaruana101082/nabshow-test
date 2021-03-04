@@ -74,7 +74,9 @@
 			}
 		}
 	}
-	
+	&__time {
+		margin-top: rem(50);
+	}
 
   }
 
@@ -97,7 +99,7 @@
   }
   &__media {
     position: relative;
-    img {
+    img.attachment-post-thumbnail {
       width: 100%;
       height: auto;
       vertical-align: baseline;
