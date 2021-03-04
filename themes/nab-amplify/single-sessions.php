@@ -133,6 +133,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 				<div class="session__content">
 					
 					<?php
+
+					if ( is_user_logged_in() ) {
 					
 					$session_status				= get_field( 'session_status' );
 					$pre_event_registration_id	= get_field( 'pre_event_registration_id' );
@@ -158,18 +160,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						}
 					endif;
 
-					if ( is_user_logged_in() ) {
-						$user_id				= get_current_user_id();
-						$user					= get_user_by( 'id', $user_id );
-						$user_email				= $user->user_email;
-						$user_firstname			= get_user_meta( $user_id, "first_name", true);
-						$user_lastname			= get_user_meta( $user_id, "last_name", true);
-					}else {
-						$user_id				= 0;
-						$user_email				= "";
-						$user_firstname			= "";
-						$user_lastname			= "";
-					}
+					//user should be logged in already
+					$user_id				= get_current_user_id();
+					$user					= get_user_by( 'id', $user_id );
+					$user_email				= $user->user_email;
+					$user_firstname			= get_user_meta( $user_id, "first_name", true);
+					$user_lastname			= get_user_meta( $user_id, "last_name", true);
 
 					if($session_status == "pre-event") {
 					?>
@@ -225,8 +221,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								<script src="https://app.involve.me/embed"></script>
 							</div>
 						</div>
-					<?php } ?>
-				
+					<?php } //end session status if statement ?>
 					
 					<div class="session__desc">
 						<div class="container">
@@ -255,6 +250,30 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						?>
 						</div>
 					</div>
+					<?php 
+					} else { //if user NOT logged in
+					 ?>
+					<div class="container">
+						<div class="session__notsignedin nabblock">
+							<h3 class="intro__title">Become an official NAB Amplify Member</h3>
+							<div class="introtext">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut tortor velit. Donec condimentum tortor</p>
+							</div>
+							<div class="intro__cta">
+								<?php
+								$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
+								if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
+									$sign_up_page_url = get_permalink( $sign_up_page->ID );
+								?>
+								<a href="<?php echo esc_url( $sign_up_page_url ); ?>" class="button _gradientpink"><?php esc_html_e( 'Sign Me Up', 'nab-amplify' ); ?></a>
+								<?php } ?>
+
+								
+								<a class="" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Already on NAB Amplify? Sign In', 'nab-amplify' ); ?></a>
+							</div> 
+						</div>
+					</div>
+					<?php } ?>
 
 				</div><!-- .entry-content -->
 			</article><!-- #post-<?php the_ID(); ?> -->
