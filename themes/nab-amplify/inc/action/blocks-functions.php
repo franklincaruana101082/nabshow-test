@@ -834,7 +834,8 @@ function nab_company_employees_render_callback($attributes)
         }
     }
 
-    if (is_array($employees_id) && count($employees_id) > 0) {
+
+    
 
         $members_query = array(
             'page'         => 1,
@@ -846,7 +847,7 @@ function nab_company_employees_render_callback($attributes)
 
             global $members_template;
 
-            $total_employees = count($employees_id);
+            $total_employees = is_array($employees_id) ? count($employees_id) : 0;
 
             ob_start();
             if ($is_company_admin && ($member_level == 'Plus' || $member_level == 'Premium')) {
@@ -877,23 +878,23 @@ function nab_company_employees_render_callback($attributes)
                         </div>
                         <?php
 
+if (is_array($employees_id)) {
+    while (bp_members()) {
+        bp_the_member();
 
-                        while (bp_members()) {
-                            bp_the_member();
+        $member_user_id = bp_get_member_user_id();
 
-                            $member_user_id = bp_get_member_user_id();
+        $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
-                            $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+        if (empty(trim($user_full_name))) {
+            $user_full_name = bp_get_member_name();
+        }
 
-                            if (empty(trim($user_full_name))) {
-                                $user_full_name = bp_get_member_name();
-                            }
+        $company    = get_user_meta($member_user_id, 'attendee_company', true);
+        $ctitle     = get_user_meta($member_user_id, 'attendee_title', true);
+        $company    = $ctitle ? $ctitle . ' | ' . $company : $company;
 
-                            $company    = get_user_meta($member_user_id, 'attendee_company', true);
-                            $ctitle     = get_user_meta($member_user_id, 'attendee_title', true);
-                            $company    = $ctitle ? $ctitle . ' | ' . $company : $company;
-
-                            $user_images     = nab_amplify_get_user_images($member_user_id); ?>
+        $user_images     = nab_amplify_get_user_images($member_user_id); ?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
                                     <div class="amp-action-remove">
@@ -921,14 +922,15 @@ function nab_company_employees_render_callback($attributes)
                                 </div>
                             </div>
                         <?php
-                        } ?>
+    }
+} ?>
                     </div>
                 </div>
     <?php
                 $html = ob_get_clean();
             }
         }
-    }
+   
 
     return $html;
 }

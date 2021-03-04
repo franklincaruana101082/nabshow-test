@@ -21,7 +21,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 							</div>														
 							<div class="form-row">
 								<?php //$existing_media_count =  count( $post_data->product_media); ?>
-								<label for="featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
+								<label for="pdf-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
 										<input type="file" id="pdf-featured-image" class="button" name="featured_image">
@@ -31,7 +31,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 											<i class="action-add fa fa-plus"></i>
 										</div>
 									</div>									
-								</div>
+								</div>								
 							</div>
 							<div class="form-row" id="pdf_media_wrapper">
 								<?php
@@ -39,10 +39,10 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
 											?>
-											<div class="nab-product-media-item">
+											<div class="nab-pdf-media-item">
 												<button type="button" class="nab-remove-attachment" data-attach-id="<?php echo $media['product_media_file']['ID']; ?>"><i class="fa fa-times" aria-hidden="true"></i></button>
 												<?php if ($media['product_media_file']['type'] === 'image') { ?>
-													<img src="<?php echo $media['product_media_file']['url']; ?>" />
+													<img src="<?php echo $media['product_media_file']['url']; ?>" class="preview-pdf-featured-img" />
 												<?php }
 												if ($media['product_media_file']['type'] !== 'image') {
 												?>

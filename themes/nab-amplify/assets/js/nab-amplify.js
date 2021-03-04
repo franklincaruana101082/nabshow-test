@@ -4451,6 +4451,35 @@
       location.reload()
     }
   })
+  /**
+   * Downloadable PDF
+   */    
+  $(document).on( 'change', '#pdf-featured-image', function() {
+    renderUploadedFeaturedImg(this);
+  });
+
+  function renderUploadedFeaturedImg(input) {    
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();      
+      reader.onload = function(e) {
+        var fileExt = input.value.split('.').pop().toLowerCase();
+        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {            
+            $('#pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
+            return false;
+        } else {
+          $('#pdf-featured-image').parents('.form-row').find('.form-field-error').remove();
+        }
+        if ( 0 < $('#pdf_media_wrapper .preview-pdf-featured-img').length ) {
+          $('#pdf_media_wrapper .preview-pdf-featured-img').attr('src', e.target.result);
+        } else {
+          var previewImg = '<div class="nab-pdf-media-item"><img src="' + e.target.result + '" class="preview-pdf-featured-img" /></div>';
+          $('#pdf_media_wrapper').append(previewImg);
+        }        
+      }      
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+
 })(jQuery)
 
 function nabAddProdBlankImage(unique_key) {
