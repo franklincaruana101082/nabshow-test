@@ -727,6 +727,24 @@ function nab_amplify_template_redirect()
     $current_user_id     = get_current_user_id();
     $user_logged_in        = is_user_logged_in();
 
+    // Redirect user to maritz for my account and sign up page.
+    if ( $user_logged_in ) {
+
+        $request = explode( '/', $wp->request );
+        
+        $page_param = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
+
+        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
+            
+            $maritz_url = nab_maritz_redirect_url( $current_user_id );
+
+            if ( ! empty( $maritz_url ) ) {
+                wp_redirect( $maritz_url );
+                exit;
+            }
+        }
+    }
+
     // Get buddypress member ID.
     $member_id = 0;
     if (bp_current_component()) {
