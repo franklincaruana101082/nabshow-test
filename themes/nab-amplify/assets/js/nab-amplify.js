@@ -588,6 +588,36 @@
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
           }
+          jQuery('#company_employees').select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Select Employee',
+            allowClear: true
+          })
         }
       }
     })
@@ -981,29 +1011,6 @@
     .parents('.nab-modal')
     .hide()
   })
-
-
-  $(document).on(
-    'click',
-    '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action',
-    function () {
-      $('body').addClass('is-loading');
-      $.ajax({
-        type: 'POST',
-        url: amplifyJS.ajaxurl,
-        data: {
-          action: 'nab_edit_downloadable_company_pdf',
-          pdf_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
-          nabNonce: amplifyJS.nabNonce
-        },
-        success: function (response) {
-          $('body').removeClass('is-loading');
-          $('body').append(response);
-          $('#addProductModal').show().addClass('nab-modal-active');
-        }
-      })
-    }
-  )
 
   $(document).on('click', '.action-edit ', function () {
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
@@ -4425,8 +4432,44 @@
   /**
    * Downloadable PDF
    */
+  $(document).on(
+    'click',
+    '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action',
+    function () {
+      $('body').addClass('is-loading');
+      $.ajax({
+        type: 'POST',
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: 'nab_edit_downloadable_company_pdf',
+          pdf_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
+          company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
+          nabNonce: amplifyJS.nabNonce
+        },
+        success: function (response) {
+          $('body').removeClass('is-loading');
+          $('body').append(response);
+          $('#addProductModal').show().addClass('nab-modal-active');
+        }
+      })
+    }
+  )
+
   $(document).on( 'change', '#pdf-featured-image', function() {
     renderUploadedFeaturedImg(this);
+  });
+
+  $(document).on('click', '#pdf_media_wrapper .remove-featred-img', function(){
+    if ( confirm( 'Are you sure want to remove?' ) ) {
+      $(this).parents('.nab-pdf-media-item').remove();
+    }
+  });
+
+  $(document).on( 'keyup', '#nab-add-edit-pdf-form #pdf-description', function(){
+    var maxLimit  = 200;
+    var currentCount = $(this).val().length;
+    var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
+    $(this).parents('.form-row').find('.info-msg #pdf-desc-count').text( remaining + ' Characters Remaining');
   });
 
   function renderUploadedFeaturedImg(input) {
@@ -4436,6 +4479,7 @@
         var fileExt = input.value.split('.').pop().toLowerCase();
         if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
             $('#pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
+            input.value = '';
             return false;
         } else {
           $('#pdf-featured-image').parents('.form-row').find('.form-field-error').remove();
@@ -4443,7 +4487,7 @@
         if ( 0 < $('#pdf_media_wrapper .preview-pdf-featured-img').length ) {
           $('#pdf_media_wrapper .preview-pdf-featured-img').attr('src', e.target.result);
         } else {
-          var previewImg = '<div class="nab-pdf-media-item"><img src="' + e.target.result + '" class="preview-pdf-featured-img" /></div>';
+          var previewImg = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-pdf-featured-img" /></div>';
           $('#pdf_media_wrapper').append(previewImg);
         }
       }

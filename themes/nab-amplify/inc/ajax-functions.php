@@ -3250,7 +3250,7 @@ function nab_amplify_submit_employee()
 	$existing_employees  = get_field('company_employees', $company_id);
 	$total_employees	 = count($existing_employees);
 
-	if ($member_level === 'Plus' && $total_employees == 4 && array_diff($company_employees, $existing_employees)) {
+	if ($member_level === 'Plus' && $total_employees == 4 && count($company_employees) > 4) {
 		$final_result['success'] = false;
 		$final_result['content'] = 'With the Plus Package you are limited to four employee listings. Please delete one, or contact your sales rep to upgrade to the Premium Package for unlimited employees.';
 	} else {
