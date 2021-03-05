@@ -517,7 +517,7 @@ function nab_amplify_register_post_types() {
         'label'               => __('Downloadable PDFs', 'nab-amplify'),
         'labels'              => $labels,
         'hierarchical'        => false,
-        'public'              => true,
+        'public'              => false,
         'show_ui'             => true,
         'show_in_menu'        => true,
         'show_in_nav_menus'   => true,
@@ -525,11 +525,11 @@ function nab_amplify_register_post_types() {
         'can_export'          => true,
         'has_archive'         => false,
         'exclude_from_search' => false,
-        'publicly_queryable'  => true,
+        'publicly_queryable'  => false,
         'menu_icon'           => 'dashicons-pdf',
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array('title', 'editor', 'thumbnail', 'author', 'excerpt', 'comments', 'trackbacks', 'revisions', 'custom-fields'),
+        'supports'            => array('title', 'thumbnail', 'author', 'excerpt', 'revisions', 'custom-fields'),
 
     );
 

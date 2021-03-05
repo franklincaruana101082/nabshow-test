@@ -69,7 +69,7 @@ $company_poc      = get_field('point_of_contact');
                                 ?>
                                         <div class="profile-actions">
                                             <span class="edit-profile-pic bm-select-media" bynder-for="profile_picture" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
-                                            <input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>
+                                            <!--<input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>-->
                                         </div>
                                 <?php
                                     }

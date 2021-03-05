@@ -4453,10 +4453,14 @@
         }
       })
     }
-  )
+  );
 
-  $(document).on( 'change', '#pdf-featured-image', function() {
+  $(document).on( 'change', '#nab-add-edit-pdf-form #pdf-featured-image', function() {
     renderUploadedFeaturedImg(this);
+  });
+
+  $(document).on( 'change', '#nab-add-edit-pdf-form #pdf-document', function() {
+    renderUploadedPDFFile(this);
   });
 
   $(document).on('click', '#pdf_media_wrapper .remove-featred-img', function(){
@@ -4472,17 +4476,50 @@
     $(this).parents('.form-row').find('.info-msg #pdf-desc-count').text( remaining + ' Characters Remaining');
   });
 
+  $(document).on( 'click', '#nab-add-edit-pdf-form #nab-edit-pdf-submit', function(){
+    var doumentLimit = 60;
+    var descLimit = 200;
+    $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').hide();
+
+    if ( $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val().length > doumentLimit ) {
+      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document name not more than ' + doumentLimit + ' characters.').show();
+      return false;
+    } else if ( '' === $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val() ) {
+      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document name can not be empty.').show();
+      return false;
+    }
+
+    if ( $(this).parents('#nab-add-edit-pdf-form').find('#pdf-description').val().length > descLimit ) {
+      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document description not more than ' + descLimit + ' characters.').show();
+      return false;
+    }
+
+    if ( '' === $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val() && ( undefined === $(this).parents('#nab-add-edit-pdf-form').find('.remove-attached-pdf').attr('data-attachment-id') || '' === $(this).parents('#nab-add-edit-pdf-form').find('.remove-attached-pdf').attr('data-attachment-id') ) ) {
+      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document attachment is required field.').show();
+      return false;
+    }
+
+    var form_data = new FormData();
+    var companyId = 0 < $(this).parents('#nab-add-edit-pdf-from').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-pdf-from').find('#nab_company_id').val() : 0;
+    var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-from').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-from').find('#nab_company_id').val() : 0;
+    form_data.append( 'action', 'nab_downloadable_pdf' );
+    form_data.append( 'nabNonce', amplifyJS.nabNonce );
+    form_data.append( 'company_id', companyId );
+    form_data.append( 'pdf_id', pdfId );
+    return false;
+  });
+
   function renderUploadedFeaturedImg(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function(e) {
         var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
-            $('#pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
+        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {            
+            $('#nab-add-edit-pdf-form #pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
             input.value = '';
             return false;
         } else {
-          $('#pdf-featured-image').parents('.form-row').find('.form-field-error').remove();
+          $('#nab-add-edit-pdf-form #pdf-featured-image').parents('.form-row').find('.form-field-error').remove();
         }
         if ( 0 < $('#pdf_media_wrapper .preview-pdf-featured-img').length ) {
           $('#pdf_media_wrapper .preview-pdf-featured-img').attr('src', e.target.result);
@@ -4490,6 +4527,27 @@
           var previewImg = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-pdf-featured-img" /></div>';
           $('#pdf_media_wrapper').append(previewImg);
         }
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function renderUploadedPDFFile(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();      
+      reader.onload = function(e) {
+        var fileExt = input.value.split('.').pop().toLowerCase();
+        if ( 'pdf' !== fileExt ) {            
+            $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').append('<p class="form-field-error">Invalid file type. Only .pdf file type acceptable.</p>');
+            input.value = '';
+            return false;
+        } else {
+          $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').find('.form-field-error').remove();
+        }
+        if ( 0 == $('#pdf_document_wrapper .pdf-icon').length ) {          
+          var previewFile = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-attached-pdf" aria-hidden="true"></i><span class="pdf-icon"></span></div>';
+          $('#pdf_document_wrapper').append(previewFile);
+        }        
       }
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }

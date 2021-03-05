@@ -866,8 +866,9 @@ function nab_company_employees_render_callback($attributes)
                     </div>
                     <div class="amp-item-wrap" id="compnay-employees-list">
                         <?php
-
-                        ?>
+                        
+                        if (!defined('REST_REQUEST')) {
+                            ?>
                         <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
                                 <div class="add-item-wrap">
@@ -877,6 +878,7 @@ function nab_company_employees_render_callback($attributes)
                             </div>
                         </div>
                         <?php
+                        } 
 
 if (is_array($employees_id)) {
     while (bp_members()) {
@@ -1109,7 +1111,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                         <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
                                 <div class="add-item-wrap">
-                                    <i class="pdf-add-edit-action add-item-icon fa fa-pencil"></i>
+                                    <i class="pdf-add-edit-action add-item-icon fa fa-pencil" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
                                     <span class="add-item-label">Add PDF</span>
                                 </div>
                             </div>
@@ -1155,7 +1157,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                                 if ($is_company_admin && $add_pdf) {
                                                 ?>
                                                     <div class="nab-action-row">
-                                                        <i class="pdf-add-edit-action fa fa-pencil" data-id="<?php echo esc_attr($pdf_id); ?>"></i>
+                                                        <i class="pdf-add-edit-action fa fa-pencil" data-id="<?php echo esc_attr($pdf_id); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
                                                     </div>
                                                 <?php
                                                 }

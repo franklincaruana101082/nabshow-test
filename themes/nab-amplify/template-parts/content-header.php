@@ -100,7 +100,7 @@ if ( $user_logged_in ) {
                                                 <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
                                             </label>
                                             <span class="remove-profile-pic" id="profile_picture_remove" name="profile_picture_remove" data-bp-tooltip="Remove Profile Image"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                            <input id="profile_picture_file" class="cropper_img_file" type="file" name="profile_picture" data-action="nab_amplify_upload_images" style="display: none;"/>
+                                            <!--<input id="profile_picture_file" class="cropper_img_file" type="file" name="profile_picture" data-action="nab_amplify_upload_images" style="display: none;"/>-->
                                         </div>
 			                        <?php } else {
 				                        echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );
