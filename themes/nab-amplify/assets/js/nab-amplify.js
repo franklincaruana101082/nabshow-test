@@ -4506,6 +4506,16 @@
     form_data.append( 'nabNonce', amplifyJS.nabNonce );
     form_data.append( 'company_id', companyId );
     form_data.append( 'pdf_id', pdfId );
+    form_data.append( 'pdf_title', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val() );
+    form_data.append( 'pdf_desc', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-description').val() );
+
+    if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val() ) {
+      form_data.append( 'featured_img', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document')[0].files );
+    }
+    if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val() ) {
+      form_data.append( 'pdf_file', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image')[0].files );
+    }
+    
     return false;
   });
 

@@ -68,7 +68,7 @@ $post_data = isset( $pdf_id ) && ! empty( $pdf_id ) ? get_post( $pdf_id ) : new 
 									?>
 									<div class="nab-pdf-media-item">
 										<i class="fa fa-times remove-attached-pdf" data-attachment-id="" aria-hidden="true"></i>
-										<span class="pdf-icon"></span>
+										<span class="pdf-icon fa fa-file-pdf-o"></span>	
 									</div>
 									<?php
 								}

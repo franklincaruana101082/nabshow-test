@@ -857,9 +857,11 @@ function nab_company_employees_render_callback($attributes)
                         <h3>Employees <span>(<?php echo $total_employees; ?> RESULTS / <?php echo $limit_employees_str; ?> )</span></h3>
                         <?php
                         if ($total_employees > 3) {
-                        ?>
+                            $current_site_url   = rtrim(get_site_url(), '/');
+                            $view_all_link      = add_query_arg(array('s' => '', 'v' => 'employee'), $current_site_url); ?>
+                    
                             <div class="amp-view-more">
-                                <a href="#" class="view-more-arrow">View All</a>
+                                <a href="<?php echo esc_url($view_all_link);?>" class="view-more-arrow">View All</a>
                             </div>
                         <?php
                         } ?>

@@ -234,6 +234,19 @@
 #company-address-list .amp-item-inner .edit-block-icon.action-remove-address{right:70px;}
 .add-address-popup .address-title{text-transform:inherit!important;}
 
+/* Downloadable PDF */
+.nab-modal .form-field-error{color:#fdd80f;}
+.nab-modal .form-row p.form-field-error{margin:10px 0!important;width:100%;font-size:18px;}
+.nab-modal .pdf_media_wrapper{margin-top:-20px;}
+.nab-modal #pdf_media_wrapper .nab-pdf-media-item{position:relative;width:150px;}
+.nab-modal .remove-featred-img,
+.nab-modal .remove-attached-pdf{color:#fff;font-size:14px;border-radius:50%;position:absolute;right:-12px;top:-12px;background-color:red;width:25px;height:25px;line-height:1;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
+.nab-modal .remove-featred-img:before,
+.nab-modal .remove-attached-pdf{margin-top:-2px;}
+.nab-modal #pdf_document_wrapper .nab-pdf-media-item{position:relative;width:25px;}
+.nab-modal #pdf_document_wrapper .remove-attached-pdf{font-size:12px;width:20px;height:20px;}
+.nab-modal .nab-pdf-media-item .pdf-icon{color:#fff!important;font-size:26px;}
+
 /* fixes for page design */
 .feature-section .amp-feature-block-inner{margin-bottom:0}
 .community-cornor>div>h2{margin:0 0 10px}
