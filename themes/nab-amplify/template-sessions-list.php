@@ -154,7 +154,7 @@ $sessions = get_posts( array(
 			</div> <!--.nabcard__content -->
 		</div> <!--.nabcard -->
 			<?php if ($i <= 2) : ?>
-				<?php echo $ad_shortcode; ?>
+				<?php echo do_shortcode($ad_shortcode); ?>
 			<?php endif; ?>
 		<?php endif; ?>
 		<?php
