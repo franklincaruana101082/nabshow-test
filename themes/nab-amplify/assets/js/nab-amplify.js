@@ -4515,7 +4515,20 @@
     if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val() ) {
       form_data.append( 'pdf_file', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image')[0].files );
     }
-    
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      data: form_data,
+      beforeSend: function () {
+        $('body').addClass('is-loading');
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+      }
+    });        
     return false;
   });
 

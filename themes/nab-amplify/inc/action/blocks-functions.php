@@ -1159,7 +1159,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                                 if ($is_company_admin && $add_pdf) {
                                                 ?>
                                                     <div class="nab-action-row">
-                                                        <i class="pdf-add-edit-action fa fa-pencil" data-id="<?php echo esc_attr($pdf_id); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                                        <i class="pdf-add-edit-action edit-block-icon fa fa-pencil" data-id="<?php echo esc_attr($pdf_id); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
                                                     </div>
                                                 <?php
                                                 }

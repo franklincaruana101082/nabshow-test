@@ -3286,3 +3286,11 @@ function nab_amplify_remove_employee()
 	wp_send_json($final_result, 200);
 	wp_die();
 }
+
+add_action('wp_ajax_nab_downloadable_pdf', 'nab_downloadable_pdf_callback');
+add_action('wp_ajax_nopriv_nab_downloadable_pdf', 'nab_downloadable_pdf_callback');
+
+function nab_downloadable_pdf_callback() {
+
+	wp_send_json_success( 'Downloadable PDF added successfully!');
+}

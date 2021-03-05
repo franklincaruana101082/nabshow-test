@@ -617,6 +617,10 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 #company-address-list .amp-item-inner{padding-bottom:30px;position:relative}
 #company-address-list .add-new-item .amp-item-inner{padding-bottom:0}
 #company-address-list .amp-item-inner .edit-block-icon{position:absolute;right:20px;bottom:20px}
+#company-address-list .add-new-item{display:block!important;}
+
+/* Downloadable PDF */
+#downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;color:#fff;}
 
 @media (max-width:1400px) {
 	/* company detail */
@@ -629,9 +633,4 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 
 	/* company block */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
-}
-
-/* Regional adresses backend css*/
-#company-address-list .add-new-item{
-	display: block !important;
 }
