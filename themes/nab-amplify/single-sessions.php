@@ -271,10 +271,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					 ?>
 					<div class="container">
 						<div class="session__notsignedin nabblock">
-							<h3 class="intro__title">Become an official NAB Amplify Member</h3>
-							<div class="introtext">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut tortor velit. Donec condimentum tortor</p>
-							</div>
+
+							<?php dynamic_sidebar('session-not-logged-in'); ?>
+							
 							<div class="intro__cta">
 								<?php
 								$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function

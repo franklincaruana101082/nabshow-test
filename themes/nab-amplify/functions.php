@@ -223,6 +223,18 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+
+	register_sidebar(
+		array(
+			'name'			=> esc_html__( 'Session not logged in', 'nab-amplify' ),
+			'id'			=> 'session-not-logged-in',
+			'description'	=> esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="introtext widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h3 class="intro__title">',
+			'after_title'   => '</h3>',	
+		)
+	);
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );
