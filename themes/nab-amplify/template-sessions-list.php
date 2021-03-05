@@ -110,7 +110,7 @@ $sessions = get_posts( array(
 						<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="event<?php if($i===0||$i===1||$i===2):?> _big<?php endif; ?>">
 							<div class="event__date">
 								<div class="event__month"><?php echo esc_html($month); ?></div>
-								<div class="event__day number _blue"><?php echo esc_html($day); ?></div>
+								<div class="event__day text-gradient _blue"><?php echo esc_html($day); ?></div>
 							</div>
 							<div class="event__photo">
 								<div class="event__link link _plus">Learn More</div>
@@ -119,7 +119,7 @@ $sessions = get_posts( array(
 							<div class="event__info">
 								<h4 class="event__title"><?php echo esc_html( get_the_title() ); ?></h4>
 								<div class="event__time"><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></div>
-								<div class="event__time"><?php echo esc_html($session_start); ?> - <?php echo esc_html($session_end); ?></div>
+								
 								<?php
 								// list session speaker
 								if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
