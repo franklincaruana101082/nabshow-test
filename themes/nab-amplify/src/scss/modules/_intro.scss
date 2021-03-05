@@ -34,6 +34,8 @@
 		margin-bottom: rem(15);
 	}
 	&__title {
+		color: $color__white;
+		letter-spacing: normal;
 		margin-bottom: rem(30);
 		@include bp-768 {
 			padding-right: rem(30);
