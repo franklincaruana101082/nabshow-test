@@ -291,9 +291,9 @@
 }
 
 
-	.button,
-	input[type="submit"].button, 
-	input[type="button"].button {
+.button,
+input[type="submit"].button, 
+input[type="button"].button {
 	display: inline-block;
 	background: $color__gray;
 	border: 0;
@@ -340,9 +340,9 @@
 			vertical-align: text-top;
 		}
 	}
-	}
+}
 	
-	.dropborder {
+.dropborder {
 	display: inline-block;
 	position: relative;
 	margin: 1rem;
@@ -355,9 +355,9 @@
 		top: -1rem;
 		left: -1rem;
 	}
-	}
+}
 
-	.textimage {
+.textimage {
 	position: relative;
 	a {
 		text-decoration: none;
@@ -425,9 +425,9 @@
 		}
 		
 	}
-	}
+}
 	
-	.number, .text-gradient {
+.number, .text-gradient {
 	display: inline-block; 
 	background: linear-gradient(90deg, $color__purple, $color__pink);
 	background-clip: text;
@@ -437,7 +437,7 @@
 		background: linear-gradient(90deg, $color__blurple, $color__blue);
 		background-clip: text;
 	}
-	}
+}
 
 	.addlink {
 		display: inline-block;
@@ -467,7 +467,7 @@
 	}
 	
 	
-	.text-background {
+.text-background {
 	line-height: 1.4;
 	padding: 2px 0;
 	background: linear-gradient(90deg, $color__purple, $color__pink);
@@ -480,7 +480,7 @@
 		-webkit-box-decoration-break: clone;
 		background-size: cover;
 	}
-	}
+}
 	
 	.introtext {
 		font-family: $font__secondary;
@@ -539,6 +539,9 @@ broadstreet-zone-container {
 	}	
 }
 
+.contentwrap {
+	max-width: rem(985);
+}
 
 
 .product-specs-box {

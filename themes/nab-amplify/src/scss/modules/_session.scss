@@ -2,13 +2,20 @@
 	&__content {
 		background: $color__gray-dark;
 	}
+	
 	&__pre, &__post {
-		padding-bottom: rem(60);
+		.involveme_embed {
+			border-top: 4px solid $color__purple;
+			border-image: linear-gradient(90deg, $color__pink, $color__purple) 4;
+			background-color: $color__gray-dark;
+		}
+	}
+	&__prevideo {
+		max-width: rem(800);
 	}
 	&__live {
 	}
 	&__desc {
-		padding-top: rem(60);
 		padding-bottom: rem(60);
 	}
 }

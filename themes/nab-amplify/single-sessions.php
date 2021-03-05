@@ -165,9 +165,6 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
-								<div class="embed-wrapper _video">
-									<?php echo $video_embed; ?>
-								</div>
 								<?php if($preregistered) { ?>
 								<div
 									class="involveme_embed"
@@ -226,9 +223,6 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
-								<div class="embed-wrapper _video">
-									<?php echo $video_embed; ?>
-								</div>
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
@@ -241,29 +235,39 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					
 					<div class="session__desc">
 						<div class="container">
-						<?php
-						the_content(
-							sprintf(
-								wp_kses(
-									/* translators: %s: Name of current post. Only visible to screen readers */
-									__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'nab-amplify' ),
-									array(
-										'span' => array(
-											'class' => array(),
-										),
-									)
-								),
-								wp_kses_post( get_the_title() )
-							)
-						);
+							<div class="contentwrap">
+							<?php
+							the_content(
+								sprintf(
+									wp_kses(
+										/* translators: %s: Name of current post. Only visible to screen readers */
+										__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'nab-amplify' ),
+										array(
+											'span' => array(
+												'class' => array(),
+											),
+										)
+									),
+									wp_kses_post( get_the_title() )
+								)
+							);
 
-						wp_link_pages(
-							array(
-								'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'nab-amplify' ),
-								'after'  => '</div>',
-							)
-						);
-						?>
+							wp_link_pages(
+								array(
+									'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'nab-amplify' ),
+									'after'  => '</div>',
+								)
+							);
+							
+							if($session_status == 'pre-event' || $session_status == "post-event") {
+							?>
+								<div class="session__prevideo">
+									<div class="embed-wrapper _video">
+										<?php echo $video_embed; ?>
+									</div>
+								</div>	
+							<?php } ?>
+							</div>
 						</div>
 					</div>
 					<?php 
@@ -271,10 +275,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					 ?>
 					<div class="container">
 						<div class="session__notsignedin nabblock">
-							<h3 class="intro__title">Become an official NAB Amplify Member</h3>
-							<div class="introtext">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut tortor velit. Donec condimentum tortor</p>
-							</div>
+
+							<?php dynamic_sidebar('session-not-logged-in'); ?>
+							
 							<div class="intro__cta">
 								<?php
 								$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
