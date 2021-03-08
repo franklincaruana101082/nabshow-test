@@ -64,6 +64,11 @@ while ( have_posts() ) :
 
 					<div class="signup__titles">
 						<h2><?php the_title(); ?></h2>
+						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
+							$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
+						} else {
+							$my_account_url = wc_get_page_permalink( 'myaccount' );
+						} ?>
 						<a href="<?php echo esc_url( $my_account_url ); ?>"><b><?php esc_html_e( 'Already have an account?' ); ?> <?php esc_html_e( 'Sign In', 'woocommerce' ); ?></b></a>
 					</div>
 					<div class="signup__text">
