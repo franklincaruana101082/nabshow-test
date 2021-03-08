@@ -26,6 +26,10 @@ $company_admin_id = get_field('company_user_id', $company_id);
 $youtube_url      = get_field('youtube_url');
 $company_poc      = get_field('point_of_contact');
 
+// Get username to add as an Tag in Bynder upload.
+$user_id  = get_current_user_id();
+$user_obj = get_user_by( 'id', $user_id );
+$username = $user_obj->user_login;
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
     <div class="banner-container">
@@ -33,7 +37,6 @@ $company_poc      = get_field('point_of_contact');
             <div class="bannner-actions">
 
                 <?php if ($user_logged_in) {
-                    $user_id = get_current_user_id();
                     if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                 ?>
 
@@ -86,7 +89,7 @@ $company_poc      = get_field('point_of_contact');
                             ?>
                         </div>
                         <div class="amp-profile-info">
-                            <h2 data-username="<?php echo get_the_title(); ?>"><?php echo esc_html(get_the_title()); ?></h2>
+                            <h2 data-username="<?php echo get_the_title(); ?>" data-tags="<?php echo esc_attr( $username ) ?>><?php echo esc_html(get_the_title()); ?></h2>
                             <?php
                             if (!empty($industry)) {
                             ?>

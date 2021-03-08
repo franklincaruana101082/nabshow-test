@@ -16,7 +16,8 @@ try {
 	$data = [
 		'name'     => $this->args['image_name'],
 		'filePath' => $this->args['image_url'],
-		'brandId'  => $brandsList[0]['id']
+		'brandId'  => $brandsList[0]['id'],
+		'tags'     => $this->args['tags'],
 	];
 
 	// Add metas.

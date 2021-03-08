@@ -110,7 +110,7 @@ if ( $user_logged_in ) {
                             </div>
 							<?php if ( $accepting_connections ) { ?>
                                 <div class="amp-profile-info">
-                                    <h2 data-username="<?php echo esc_attr( $username ); ?>"><?php echo esc_html( $member_name ); ?></h2>
+                                    <h2 data-username="<?php echo esc_attr( $username ); ?>" data-tags="<?php echo esc_attr( $username ) ?>"><?php echo esc_html( $member_name ); ?></h2>
 									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) || ! empty( $user_data['user_city'][0] ) ) { ?>
                                         <div class="amp-profile-disc">
 											<?php if ( ! empty( $user_data['attendee_title'][0] ) ) { ?>

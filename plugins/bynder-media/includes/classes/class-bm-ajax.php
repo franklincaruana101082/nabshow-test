@@ -42,10 +42,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			add_action( "wp_ajax_bm_fetch_assets", array( $this, "bm_fetch_assets" ) );
 			add_action( "wp_ajax_nopriv_bm_fetch_assets", array( $this, "bm_fetch_assets" ) );
 
-			// Create a collection.
-			add_action( "wp_ajax_bm_create_collection", array( $this, "bm_create_collection" ) );
-			add_action( "wp_ajax_nopriv_bm_create_collection", array( $this, "bm_create_collection" ) );
-
 			// Create Meta Options.
 			add_action( "wp_ajax_bm_create_meta_options", array( $this, "bm_create_meta_options" ) );
 			add_action( "wp_ajax_nopriv_bm_create_meta_options", array( $this, "bm_create_meta_options" ) );
@@ -62,8 +58,8 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			add_action( "wp_ajax_bm_save_asset_url", array( $this, "bm_save_asset_url" ) );
 			add_action( "wp_ajax_nopriv_bm_save_asset_url", array( $this, "bm_save_asset_url" ) );
 
-			add_action( "wp_ajax_bm_get_signle_asset", array( $this, "bm_get_signle_asset" ) );
-			add_action( "wp_ajax_nopriv_bm_get_signle_asset", array( $this, "bm_get_signle_asset" ) );
+			add_action( "wp_ajax_bm_get_single_asset", array( $this, "bm_get_single_asset" ) );
+			add_action( "wp_ajax_nopriv_bm_get_single_asset", array( $this, "bm_get_single_asset" ) );
 		}
 
 		private function bm_get_meta_ids() {
@@ -142,7 +138,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			wp_die();
 		}
 
-		public function bm_get_signle_asset() {
+		public function bm_get_single_asset() {
 			$mediaid = filter_input( INPUT_POST, 'mediaid', FILTER_SANITIZE_STRING );
 
 			// Get uploaded media details.
@@ -185,6 +181,8 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$metas_array = $this->args['metas'] = array();
 			parse_str( $metas, $metas_array );
 			$this->args['metas'] = $metas_array['metas'];
+
+			$this->args['tags'] = $metas_array['bmTags'];
 
 			// Pass a file.
 			if ( $_FILES['croppedImage'] ) {
@@ -254,7 +252,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			}
 		}
 
-		public function bm_get_assets() {
+		public function bm_assets_api() {
 
 			// Fetch Assets Now!
 			require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-fetch-assets.php' );
@@ -269,7 +267,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 				'includeMediaItems' => 1,
 			];
 
-			$this->bm_get_assets();
+			$this->bm_assets_api();
 
 			return $this->response;
 		}
@@ -386,7 +384,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->query['collectionId'] = $this->args['collectionId'];
 				}
 
-				$this->bm_get_assets();
+				$this->bm_assets_api();
 
 				// If 'media' received, the call was successful!
 				if ( isset( $this->response['media'] ) ) {
@@ -396,7 +394,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 					// Add collection ID in the transient to
 					// fetch specific assets quickly next time.
-					$transient_key = ! empty( $this->collection_name ) ? 'col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page : $this->requested_by . '_page_' . $assets_page;
+					//$transient_key = ! empty( $this->collection_name ) ? 'col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page : $this->requested_by . '_page_' . $assets_page;
 
 					// set data in transient.
 					//set_transient( "bynder_" . $transient_key, $bm_popup, 60 * 60 * 24 );
@@ -426,67 +424,64 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			wp_die();
 		}
 
-		private function bm_get_collection_id() {
+		private function bm_get_collection_id( $attemp = 0 ) {
 
-			$collection_name = $this->collection_name;
-			$url             = $this->bm_domain . '/api/v4/collections/';
-			$args            = array(
-				'keyword' => $collection_name,
-				'limit'   => 10,
-			);
+			$attemp ++;
+			$bm_col_id = '';
 
-			$response = $this->bm_run_api( $url, 'GET', $args );
+			if ( 5 === $attemp ) {
+				$return_array = array( "error" => 'Error! Collection creation failed after 5 attempts.!' );
+			} else {
+				$return_array    = '';
+				$collection_name = $this->collection_name;
+				$url             = $this->bm_domain . '/api/v4/collections/';
+				$args            = array(
+					'keyword' => $collection_name,
+					'limit'   => 10,
+				);
 
-			if ( 200 === $response['status'] ) {
+				$response = $this->bm_run_api( $url, 'GET', $args );
 
-				$collections = $response['body'];
+				if ( 200 === $response['status'] ) {
 
-				foreach ( $collections as $col ) {
-					if ( $collection_name === $col->name ) {
-						return $col->id;
+					$collections = $response['body'];
+
+					foreach ( $collections as $col ) {
+						if ( $collection_name === $col->name ) {
+							return $col->id;
+						}
 					}
+
+					// Collection does not exist.
+					$args = array(
+						'name' => $collection_name
+					);
+
+					$response = $this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
+
+					if ( 201 === $response['status'] ) {
+
+						// Recalling..
+						$bm_col_id = $this->bm_get_collection_id( $attemp );
+
+					} else {
+						$return_array = array( "error" => $response['body']->error );
+					}
+
+				} else {
+					$return_array = array( "error" => $response['body']->error );
 				}
-
-				// Collection does not exist. Exit and ask to create one.
-				$return_array = array( "bmCollectionNotFound" => 1 );
-
-			} else {
-				$return_array = array( "error" => $response['body']->error );
 			}
 
-			// Exit Ajax.
-			echo wp_json_encode( $return_array );
-			wp_die();
-
-		}
-
-		// Create collection if not available.
-		public function bm_create_collection() {
-
-			$collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
-
-			// Get the Bynder key.
-			$this->bm_domain = $this->bm_get_meta( 'bm_domain' );
-			$url             = $this->bm_domain . '/api/v4/collections/';
-			$args            = array(
-				'name' => $collection_name
-			);
-
-			$response = $this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
-
-			if ( 201 === $response['status'] ) {
-
-				$this->collection_name = $collection_name;
-				$bm_col_id             = $this->bm_get_collection_id();
-
-				$return_array = array( "bmColCreated" => $bm_col_id );
+			if ( ! empty( $bm_col_id ) ) {
+				return $bm_col_id;
 			} else {
-				$return_array = array( "error" => $response['body']->error );
+				// Exit Ajax.
+				echo wp_json_encode( $return_array );
+				wp_die();
 			}
-
-			echo wp_json_encode( $return_array );
-			wp_die();
 		}
+
 
 		public function bm_get_partial_metas() {
 			ob_start();

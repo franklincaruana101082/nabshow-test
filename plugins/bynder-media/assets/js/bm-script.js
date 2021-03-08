@@ -36,12 +36,6 @@
         }
     });
 
-    // When a new collection created, this is for
-    // its newly added button to jump to the upload tab.
-    $(document).on('click', '#bm-upload-asset', function (e) {
-        $('[data-tab="bm-tab-upload"]').trigger('click');
-    });
-
     // Shows the popup and start fetching the assets.
     // Same applies for load more action.
     $(document).on('click', '.bm-select-media, #assets-load-more', function (e) {
@@ -58,17 +52,17 @@
     $(document).on('submit', '#bm-upload-form', function (e) {
         e.preventDefault();
 
+        if( $('#bm-upload-form').hasClass('meta-creation') ) {
+            alert('Pleas wait! Fetching required details to upload.');
+            return false;
+        }
+
         // Check if collection id is available.
-        const collectionID =  $('body').attr('bm-col-id');
+        //const collectionID =  $('body').attr('bm-col-id');
 
         // Init upload now.
         $('#bm-main-outer .bm-modal-body').addClass('bm-upload-loader bm-loading');
         bmUploadToBynder();
-    });
-
-    // Create a collection if not available.
-    $(document).on('click', '#bm-create-col', function () {
-        bmCreateCollection();
     });
 
     // Select image.
@@ -237,60 +231,6 @@
 })(jQuery);
 
 let $ = jQuery;
-function bmCreateCollection() {
-
-    if( undefined === $('.single-company .amp-profile-info h2').text() ) {
-        alert('Error! Company Name not found! Please contact administrator.');
-        return false;
-    }
-
-    const bmData = new FormData();
-    bmData.append('action', 'bm_create_collection');
-    bmData.append('collectionName', $('.single-company .amp-profile-info h2').text());
-
-    // Remove previous msg div.
-    $('#bm-msg').remove();
-
-    $.ajax({
-        type: 'POST',
-        url: bmObj.ajaxurl,
-        data: bmData,
-        contentType: false,
-        processData: false,
-        success(result) {
-            result = JSON.parse(result);
-            if( result.bmColCreated ) {
-
-                // Add collection ID to the body attribute.
-                $('body').attr('bm-col-id', result.bmColCreated);
-
-                // Show success message and a button to jump to the Upload tab.
-                let bmColPara = document.createElement('p');
-                bmColPara.setAttribute('id', 'bm-msg');
-                bmColPara.innerText = 'Collection created successfully.! You can upload assets now.';
-
-                let bmColUploadBtn = document.createElement('a');
-                bmColUploadBtn.setAttribute('id', 'bm-upload-asset');
-                bmColUploadBtn.setAttribute('href', 'javascript:void(0)');
-                bmColUploadBtn.setAttribute('class', 'bm-btn-link');
-                bmColUploadBtn.innerText = 'Upload Now';
-                bmColPara.appendChild(bmColUploadBtn);
-
-                // Show the upload tab.
-                $('.bm-tab-list').removeClass('hide-upload');
-
-                $('#bm-main-outer .bm-media-main').append(bmColPara);
-            } else if ( result.error ) {
-                $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
-                $('#bm-main-outer .bm-media-main').append(result.error);
-            }
-        },
-        error() {
-            alert('Collection creation error! Try again or contact Plugin Developer.');
-            $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
-        },
-    });
-}
 
 function bmFetchAssets(_this) {
 
@@ -392,7 +332,7 @@ function bmFetchAssets(_this) {
             }
 
         } else {
-            collectionName = $('.single-company .amp-profile-info h2').text();
+            collectionName = $('.amp-profile-info h2').attr('data-username');
         }
 
         if( undefined !== collectionName && '' !== collectionName ) {
@@ -436,26 +376,6 @@ function bmFetchAssets(_this) {
                 // and 'data-fetched' attr to prevent same call again.
                 $('#assets-load-more').attr('data-page', parseInt(result.assetsPage) + 1).attr('data-fetched', result.assetsPage);
 
-            } else if ( result.bmCollectionNotFound ) {
-                // No collection found, show a button to create one.
-
-                let bmColPara = document.createElement('p');
-                bmColPara.setAttribute('id', 'bm-msg');
-                bmColPara.innerText = 'Collection not found.';
-
-                let bmColBtn = document.createElement('a');
-                bmColBtn.setAttribute('id', 'bm-create-col');
-                bmColBtn.setAttribute('href', 'javascript:void(0)');
-                bmColBtn.setAttribute('class', 'bm-btn-link');
-                bmColBtn.innerText = 'Create Collection "' + collectionName + '"';
-                bmColPara.appendChild(bmColBtn);
-
-                // Hide the upload tab.
-                $('.bm-tab-list').addClass('hide-upload');
-
-                $('#bm-main-outer .bm-media-main').append(bmColPara);
-                $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
-
             } else if ( result.error ) {
                 // Error!, show a button to try again.
 
@@ -486,6 +406,7 @@ function bmFetchAssets(_this) {
 
             // Update & Create required meta options.
             bmUpdateMetaOptions();
+            bmFillMetaValues();
             bmCreateMetaOptions();
         },
         error() {
@@ -609,54 +530,62 @@ function bmGetMetas() {
     });
 }
 
-function bmCreateMetaOptions() {
+function bmFillMetaValues() {
 
-    // Prevent if already fetched.
-    const dataUserTypeName = $('.bm-upload-meta-fields').attr('data-UserTypeName');
-    if( undefined !== dataUserTypeName && '' !== dataUserTypeName ) {
-        return false;
+    const userTypeName = $('.amp-profile-info h2').text();
+    if( undefined !== userTypeName && '' !== userTypeName ) {
+        $('[data-name="UserTypeName"]').attr('data-value', userTypeName);
     }
+
+    const bmTags = $('.amp-profile-info h2').attr('data-tags');
+    if( undefined !== bmTags && '' !== bmTags ) {
+        $('#bmTags').val(bmTags);
+    }
+}
+
+function bmCreateMetaOptions() {
+    $('.bm-upload-meta-fields input').each(function () {
+        if ('' === $(this).val()) {
+            let key = $(this).attr('data-name');
+            let val = $(this).attr('data-value');
+            if( '' !== key && '' !== val ) {
+                bmCreateMetaAJAX(key, val);
+            }
+        }
+    });
+}
+
+function bmCreateMetaAJAX(key, val) {
+
+    $('#bm-upload-form').addClass('meta-creation');
 
     const bmData = new FormData();
     bmData.append('action', 'bm_create_meta_options');
 
-    // Create company name or user's first & last names
-    // as Bynder meta value for 'Asset Subject Name (UserTypeName)'.
-    let userTypeName = '';
+    bmData.append(key, val);
 
-    // For Company Profile.
-    const bmPageType = bmGetPageType();
-    if( 'company' === bmPageType ) {
-        userTypeName = $('.single-company .amp-profile-info h2').text();
+    $.ajax({
+        type: 'POST',
+        url: bmObj.ajaxurl,
+        data: bmData,
+        contentType: false,
+        processData: false,
+        success(result) {
+            result = JSON.parse(result);
+            if( result.bmHTML ) {
+                // Meta option created successfully.
+                //$('.bm-upload-meta-fields').attr('data-UserTypeName', result.bmHTML);
+                $('[data-name="' + key + '"]').val(result.bmHTML);
+                $('[data-name="' + key + '"]').attr('data-value', val);
 
-        // For User profile.
-    } else if ( 'user' === bmPageType ) {
-        userTypeName = $('.amp-profile-info h2').text();
-    }
-
-    if( undefined !== userTypeName && '' !== userTypeName ) {
-        bmData.append('UserTypeName', userTypeName);
-
-        $.ajax({
-            type: 'POST',
-            url: bmObj.ajaxurl,
-            data: bmData,
-            contentType: false,
-            processData: false,
-            success(result) {
-                result = JSON.parse(result);
-                if( result.bmHTML ) {
-                    // Meta option created successfully.
-                    $('.bm-upload-meta-fields').attr('data-UserTypeName', result.bmHTML);
-                    $('[data-name="UserTypeName"]').val(result.bmHTML);
-                    $('[data-name="UserTypeName"]').attr('data-value', userTypeName);
-                }
-            },
-            error() {
-                return false;
-            },
-        });
-    }
+                $('#bm-upload-form').removeClass('meta-creation');
+            }
+        },
+        error() {
+            $('#bm-upload-form').removeClass('meta-creation');
+            return true;
+        },
+    });
 }
 
 /**
@@ -687,7 +616,6 @@ function bmUploadToBynder() {
     // Send required details to delete transient after upload.
     const requestedBy = $('#bm-tab-media').attr('bynder-request-by');
     formData.append('requestedBy', requestedBy);
-
 
     window.cropper.getCroppedCanvas().toBlob((blob) => {
 
@@ -795,7 +723,7 @@ function addUploadedAsset(result) {
 
         // Re-trying to get uploaded image.
         const assetData = new FormData();
-        assetData.append('action', 'bm_get_signle_asset');
+        assetData.append('action', 'bm_get_single_asset');
 
         // Form fields.
         assetData.append('mediaid', result.mediaid);
