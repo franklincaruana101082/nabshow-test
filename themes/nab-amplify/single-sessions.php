@@ -26,8 +26,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 			$session_start = get_field( 'session_date' );
 			$session_end   = get_field( 'session_end_time' );
 
-			$time_start    = wp_date('g:i', strtotime($session_start));
-			$time_end      = wp_date('g:i A T', strtotime($session_end));
+			$time_start    = gmdate('g:i', strtotime($session_start));
+			$time_end      = gmdate('g:i A', strtotime($session_end));
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
@@ -36,7 +36,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						the_title( '<h1 class="intro__title">', '</h1>' );
 					?>
 					<div class="intro__time introtext">
-								<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></p>
+								<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET</p>
 							</div>
 							<?php
 								$company =  get_field( 'company' );
