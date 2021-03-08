@@ -31,6 +31,18 @@
 
         return false;
     });
+    $(document).on('click', '.bynder-widget-media-item .bynder-widget-btn', function(){
+        $.ajax({
+            url: segmentJS.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'st_media_kit_download',
+                nabNonce: segmentJS.nabNonce,
+            },
+            success: function (response) {              
+            }
+        });
+    });
     $(document).ready(function(){
         $.ajax({
             url: segmentJS.ajaxurl,
