@@ -9,10 +9,9 @@
 
 get_header();
 
-$UTC = new DateTimeZone("UTC");
 $wptz = wp_date('T');
 $newTZ = new DateTimeZone($wptz);
-$now = new DateTime(date('Y-m-d H:i:s'), $UTC);
+$now = new DateTime(gmdate('Y-m-d H:i:s'));
 $now->setTimezone($newTZ);
 $date_now = $now->format('Y-m-d H:i:s');
 
@@ -65,10 +64,10 @@ $sessions = get_posts( array(
 					$session_start              = get_field( 'session_date' );
 					$session_end                = get_field( 'session_end_time' );
 
-					$month                      = date('F', strtotime($session_start));
-					$day                        = date('d', strtotime($session_start));
-					$time_start                 = date('g:i', strtotime($session_start));
-					$time_end                   = date('g:i A', strtotime($session_end));
+					$month                      = gmdate('F', strtotime($session_start));
+					$day                        = gmdate('d', strtotime($session_start));
+					$time_start                 = gmdate('g:i', strtotime($session_start));
+					$time_end                   = gmdate('g:i A', strtotime($session_end));
 								
 				?>
 

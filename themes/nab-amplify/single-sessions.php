@@ -26,8 +26,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 			$session_start = get_field( 'session_date' );
 			$session_end   = get_field( 'session_end_time' );
 
-			$time_start    = date('g:i', strtotime($session_start));
-			$time_end      = date('g:i A', strtotime($session_end));
+			$time_start    = gmdate('g:i', strtotime($session_start));
+			$time_end      = gmdate('g:i A', strtotime($session_end));
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
