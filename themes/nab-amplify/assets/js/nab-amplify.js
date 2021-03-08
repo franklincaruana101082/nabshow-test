@@ -4439,28 +4439,25 @@
   /**
    * Downloadable PDF
    */
-  $(document).on(
-    'click',
-    '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action',
-    function () {
-      $('body').addClass('is-loading');
-      $.ajax({
-        type: 'POST',
-        url: amplifyJS.ajaxurl,
-        data: {
-          action: 'nab_edit_downloadable_company_pdf',
-          pdf_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
-          company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
-          nabNonce: amplifyJS.nabNonce
-        },
-        success: function (response) {
-          $('body').removeClass('is-loading');
-          $('body').append(response);
-          $('#addProductModal').show().addClass('nab-modal-active');
-        }
-      })
-    }
-  );
+  $(document).on( 'click', '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action', function () {
+    $('body').addClass('is-loading');
+    $('#addProductModal').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_edit_downloadable_company_pdf',
+        pdf_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
+        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        $('body').append(response);
+        $('#addProductModal').show().addClass('nab-modal-active');
+      }
+    })
+  });
 
   $(document).on( 'change', '#nab-add-edit-pdf-form #pdf-featured-image', function() {
     renderUploadedFeaturedImg(this);
@@ -4575,7 +4572,7 @@
           $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').find('.form-field-error').remove();
         }
         if ( 0 == $('#pdf_document_wrapper .pdf-icon').length ) {          
-          var previewFile = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-attached-pdf" aria-hidden="true"></i><span class="pdf-icon"></span></div>';
+          var previewFile = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-attached-pdf" aria-hidden="true"></i><span class="pdf-icon fa fa-file-pdf-o"></span></div>';
           $('#pdf_document_wrapper').append(previewFile);
         }        
       }

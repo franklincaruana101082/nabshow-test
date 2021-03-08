@@ -3243,14 +3243,14 @@ add_action('wp_ajax_nopriv_nab_amplify_submit_employee', 'nab_amplify_submit_emp
 function nab_amplify_submit_employee()
 {
 
-	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	$company_employees   = filter_input(INPUT_POST, 'company_employees', FILTER_SANITIZE_STRING);
-	$company_employees   = explode(',', $company_employees);
-	$member_level		 = get_field('member_level', $company_id);
-	$existing_employees  = get_field('company_employees', $company_id);
-	$total_employees	 = count($existing_employees);
+	$company_id			= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_employees	= filter_input(INPUT_POST, 'company_employees', FILTER_SANITIZE_STRING);
+	$company_employees	= explode(',', $company_employees);
+	$member_level		= get_field('member_level', $company_id);
+	$existing_employees = get_field('company_employees', $company_id);
+	$total_employees	= count($existing_employees);
 
-	if ($member_level === 'Plus' && $total_employees == 4 && count($company_employees) > 4) {
+	if ( $member_level === 'Plus' && is_array( $company_employees ) && count( $company_employees ) > 4 ) {
 		$final_result['success'] = false;
 		$final_result['content'] = 'With the Plus Package you are limited to four employee listings. Please delete one, or contact your sales rep to upgrade to the Premium Package for unlimited employees.';
 	} else {
@@ -3258,9 +3258,6 @@ function nab_amplify_submit_employee()
 		$final_result['success'] = TRUE;
 		$final_result['content'] = '';
 	}
-
-
-
 
 	wp_send_json($final_result, 200);
 	wp_die();
@@ -3324,12 +3321,14 @@ function nab_downloadable_pdf_callback() {
 		}
 	} else {
 		
-        $pdf_post_data['ID']	= $pdf_id;
-        $pdf_id					= wp_update_post( $pdf_post_data );
+        //$pdf_post_data['ID']	= $pdf_id;
+        //$pdf_id					= wp_update_post( $pdf_post_data );
 	}
 
-	update_field( 'description', $pdf_desc, $pdf_id );
-	update_field( 'nab_selected_company_id', $pdf_desc, $pdf_id );
+	if ( $pdf_id ) {
+		update_field( 'description', $pdf_desc, $pdf_id );
+		update_field( 'nab_selected_company_id', $pdf_desc, $pdf_id );
+	}	
 
 	wp_send_json_success( array( 'msg' => 'Downloadable PDF added successfully!' ) );
 }
