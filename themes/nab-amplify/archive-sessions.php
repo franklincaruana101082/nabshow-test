@@ -9,7 +9,11 @@
 
 get_header();
 
-$date_now = wp_date('Y-m-d H:i:s');
+$wptz = wp_date('T');
+$newTZ = new DateTimeZone($wptz);
+$now = new DateTime(gmdate('Y-m-d H:i:s'));
+$now->setTimezone($newTZ);
+$date_now = $now->format('Y-m-d H:i:s');
 
 $sessions = get_posts( array(
 		'posts_per_page' => -1,
@@ -60,10 +64,10 @@ $sessions = get_posts( array(
 					$session_start              = get_field( 'session_date' );
 					$session_end                = get_field( 'session_end_time' );
 
-					$month                      = wp_date('F', strtotime($session_start));
-					$day                        = wp_date('d', strtotime($session_start));
-					$time_start                 = wp_date('g:i', strtotime($session_start));
-					$time_end                   = wp_date('g:i A T', strtotime($session_end));
+					$month                      = gmdate('F', strtotime($session_start));
+					$day                        = gmdate('d', strtotime($session_start));
+					$time_start                 = gmdate('g:i', strtotime($session_start));
+					$time_end                   = gmdate('g:i A', strtotime($session_end));
 								
 				?>
 
@@ -91,7 +95,7 @@ $sessions = get_posts( array(
 									</div>
 									<div class="event__info">
 										<h4 class="event__title"><?php echo esc_html( get_the_title() ); ?></h4>
-										<div class="event__time"><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?></div>
+										<div class="event__time"><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET</div>
 										<?php
 										// list session speaker
 										if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
@@ -126,7 +130,7 @@ $sessions = get_posts( array(
 					</div> <!--.nabcard__content -->
 				</div> <!--.nabcard -->
 					<?php if ($i <= 2) : ?>
-						(INSERT AD)
+						<?php /* (INSERT AD)*/ ?>
 					<?php endif; ?>
 				<?php endif; ?>
 				
@@ -135,8 +139,13 @@ $sessions = get_posts( array(
 		}
 
 		else :
-
+			?>
+			<div class="container">
+			<?php
 			get_template_part( 'template-parts/content', 'none' );
+			?>
+			</div>
+			<?php
 
 		endif;
 		?>
