@@ -133,6 +133,8 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .blue-color{color:#6363df!important}
 .btn-link{color:#fff!important}
 .btn-link:hover{text-decoration:underline}
+.btn[disabled], .button[disabled]{background-color:#666;border-color:#666;cursor:not-allowed;}
+.btn[disabled]:hover, .button[disabled]:hover{background-color:#666;}
 
 /* woocommerce default */
 .woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
@@ -423,14 +425,13 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce form .amp-check-container input{width:100%;height:100%}
 .nab-without-login-account .woocommerce .section-user-interest-signup h3{color:#404040;font-size:20px;font-family:'OpenSans-Regular', Arial, sans-serif;margin:0}
 .nab-without-login-account .woocommerce .nab-login-wrap div.woocommerce-form-row{margin-bottom:24px}
-.nab-without-login-account .woocommerce .member-tooltip .tooltip-wrap{display:inline!important;border-color:#ccc}
 .nab-without-login-account .woocommerce .tooltip-container .tooltip-wrap i{font-size:16px}
 .nab-without-login-account .woocommerce .tooltip-container .tooltip-wrap .tooltip{top:20px}
-.nab-without-login-account .woocommerce .member-tooltip .tooltip-label{display:inline}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]{background-color:#bbb;cursor:not-allowed}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top .amp-check-wrp{margin-top:7px}
+#modal-member-press ul{margin:0 0 20px;padding:0 0 0 20px;font-family:'OpenSans-Regular', Arial, sans-serif}
 
 /* login page css */
 
@@ -1136,6 +1137,7 @@ body.buddypress .site-content{padding:0}
 .amp-item-main p{color:#fff}
 .amp-item-main .amp-item-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .amp-item-main .amp-item-heading h3{color:#fdd80f;font-size:36px;margin:0 10px 0 0!important;line-height:1}
+.amp-item-main .amp-item-heading h3:last-child{margin:0!important}
 .amp-item-main .amp-item-heading h3 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block}
 .amp-item-main .amp-item-heading h3 span{color:#fff;font-size:16px;font-weight:100;line-height:1;vertical-align:middle;display:inline-block}
 .amp-item-main .amp-item-heading .amp-view-more{margin-top:5px}
@@ -1624,51 +1626,51 @@ body .is_friend .remove::before{font-size:22px}
 .nab-action .action-add{width:42px;height:42px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:22px;border-radius:50%;background:transparent;cursor:pointer;color:#fcd70f;border:2px solid #fcd70f}
 
 /* Add product popup */
-#addProductModal.nab-modal .modal-content{max-width:1655px}
-#addProductModal.nab-modal .modal-content-wrap{padding:130px 110px}
-#addProductModal.nab-modal .nab-modal-close:not(.fa){-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);font-weight:bold;position:absolute;right:90px;top:50px}
-#addProductModal .add-product-content-popup h2{line-height:1;margin-bottom:35px;font-weight:bold}
-#addProductModal .add-product-content-popup p{font-size:22px;margin-bottom:50px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:28px;font-weight:bold;margin-bottom:15px;display:inline-block;vertical-align:middle}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{color:#999999!important;font-size:16px;margin-left:10px;display:inline-block;font-weight:400}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label.emp-label span{color:#fff!important;text-transform:uppercase}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{display:inline-block;vertical-align:middle;font-size:28px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{height:96px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:22px;color:#999999;font-weight:bold;font-family:'Open Sans', sans-serif}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .chosen-container{height:96px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .chosen-single{top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding-right:60px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{height:297px;font-size:22px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row{position:relative;margin-bottom:35px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{position:relative}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control{position:relative;width:100%}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:absolute;right:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:30px;margin-top:27px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row{margin:0}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row label{margin-bottom:0}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:60px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control .nab-action{margin-top:0}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:absolute;right:25px;font-size:16px;color:#999!important;bottom:25px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg span{color:#999!important}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:last-child{margin-bottom:0}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:49px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action{position:unset;margin:0;-webkit-transform:none;-ms-transform:none;transform:none}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child, #addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{position:absolute;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:0;margin-top:27px;display:block}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child{left:30px;right:auto}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{right:30px;left:auto}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{margin:5px 0 10px;color:#fdd80f;font-size:18px}
+.nab-modal-with-form.nab-modal .modal-content{max-width:1655px}
+.nab-modal-with-form.nab-modal .modal-content-wrap{padding:130px 110px}
+.nab-modal-with-form.nab-modal .nab-modal-close:not(.fa){-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);font-weight:bold;position:absolute;right:90px;top:50px}
+.nab-modal-with-form .add-product-content-popup h2{line-height:1;margin-bottom:35px;font-weight:bold}
+.nab-modal-with-form .add-product-content-popup p{font-size:22px;margin-bottom:50px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:28px;font-weight:bold;margin-bottom:15px;display:inline-block;vertical-align:middle}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{color:#999999!important;font-size:16px;margin-left:10px;display:inline-block;font-weight:400}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label.emp-label span{color:#fff!important;text-transform:uppercase}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .check-label{display:inline-block;vertical-align:middle;font-size:28px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper input{height:96px;-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1;font-size:22px;color:#999999;font-weight:bold;font-family:'Open Sans', sans-serif}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .chosen-container{height:96px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .chosen-single{top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding-right:60px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper textarea{height:297px;font-size:22px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row{position:relative;margin-bottom:35px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{position:relative}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control{position:relative;width:100%}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:absolute;right:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:30px;margin-top:27px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row{margin:0}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row label{margin-bottom:0}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:60px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control .nab-action{margin-top:0}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:absolute;right:25px;font-size:16px;color:#999!important;bottom:25px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg span{color:#999!important}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:last-child{margin-bottom:0}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:49px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action{position:unset;margin:0;-webkit-transform:none;-ms-transform:none;transform:none}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child, .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{position:absolute;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:0;margin-top:27px;display:block}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child{left:30px;right:auto}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{right:30px;left:auto}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{margin:5px 0 10px;color:#fdd80f;font-size:18px}
 .add-product{padding-right:340px!important}
 .limited-char-field{padding-right:340px!important}
 .external-link{padding-right:80px!important}
-#addProductModal .mb0{margin-bottom:0!important}
-#addProductModal .toggle-button .nab-action{position:unset!important;-webkit-transform:none!important;-ms-transform:none!important;transform:none!important}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{height:60px;min-width:220px;margin-bottom:0;font-size:22px;font-weight:bold;margin:5px 15px 5px 0}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{right:auto;left:30px;pointer-events:none}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="file"]{opacity:0;width:100%;cursor:pointer;overflow:hidden}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .file-input{width:100%;background:#333333;border-radius:3px}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action .nab-action-row{pointer-events:none}
-#addProductModal.nab-modal .modal-content-wrap .form-wrapper input[type="checkbox"]{height:100%}
-#addProductModal.nab-modal .btn-submit{background-color:#6363df;border-color:#6363df;padding:15px 20px;font-size:18px;border-radius:6px}
-#addProductModal.nab-modal .btn-submit.btn-draft{background-color:#a4a4a4;border-color:#a4a4a4}
-#addProductModal.nab-modal .btn-submit.btn-delete{background-color:#ec453b;border-color:#ec453b}
-#addProductModal .add-product-content-popup form+p{font-size:16px;color:#999999;margin-bottom:10px}
+.nab-modal-with-form .mb0{margin-bottom:0!important}
+.nab-modal-with-form .toggle-button .nab-action{position:unset!important;-webkit-transform:none!important;-ms-transform:none!important;transform:none!important}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .btn-submit{height:60px;min-width:220px;margin-bottom:0;font-size:22px;font-weight:bold;margin:5px 15px 5px 0}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{right:auto;left:30px;pointer-events:none}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper input[type="file"]{opacity:0;width:100%;cursor:pointer;overflow:hidden}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .file-input{width:100%;background:#333333;border-radius:3px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action .nab-action-row{pointer-events:none}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper input[type="checkbox"]{height:100%}
+.nab-modal-with-form.nab-modal .btn-submit{background-color:#6363df;border-color:#6363df;padding:15px 20px;font-size:18px;border-radius:6px}
+.nab-modal-with-form.nab-modal .btn-submit.btn-draft{background-color:#a4a4a4;border-color:#a4a4a4}
+.nab-modal-with-form.nab-modal .btn-submit.btn-delete{background-color:#ec453b;border-color:#ec453b}
+.nab-modal-with-form .add-product-content-popup form+p{font-size:16px;color:#999999;margin-bottom:10px}
 .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-company_point_of_contact-container"], .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-nab_product_contact-container"]{padding-right:90px}
 .nab-product-media-item{width:150px;height:150px;margin-right:15px;margin-bottom:15px;border:1px solid gray;position:relative}
 .nab-product-media-item img{display:block;width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center}
@@ -1781,5 +1783,7 @@ body .is_friend .remove::before{font-size:22px}
 
 /* fixed issues after code changes from c. */
 .header .header__navwrapper{z-index:10}
-/*Error message popup*/
-.error-message-popup h4{text-transform:inherit!important;}
+
+/* Error message popup */
+.error-message-popup h4{text-transform:inherit!important}
+.error-message-popup .btn-group .btn{min-width:100px;margin:5px 10px 5px 0}

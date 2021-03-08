@@ -86,7 +86,7 @@ $company_poc      = get_field('point_of_contact');
                             ?>
                         </div>
                         <div class="amp-profile-info">
-                            <h2><?php echo esc_html(get_the_title()); ?></h2>
+                            <h2 data-username="<?php echo get_the_title(); ?>"><?php echo esc_html(get_the_title()); ?></h2>
                             <?php
                             if (!empty($industry)) {
                             ?>

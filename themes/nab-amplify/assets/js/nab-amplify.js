@@ -453,6 +453,13 @@
 
       filter_states(country_code)
     })
+
+    // sign up template memberpress popup
+    $(document).on('change', '#signup-press-member', function(){
+      if (this.checked) {
+        $('#modal-member-press').addClass('nab-modal-active');
+      }
+    });
   })
   function validateURL (urltext) {
     if (urltext !== '') {
@@ -4500,8 +4507,8 @@
     }
 
     var form_data = new FormData();
-    var companyId = 0 < $(this).parents('#nab-add-edit-pdf-from').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-pdf-from').find('#nab_company_id').val() : 0;
-    var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-from').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-from').find('#nab_company_id').val() : 0;
+    var companyId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').val() : 0;
+    var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').val() : 0;    
     form_data.append( 'action', 'nab_downloadable_pdf' );
     form_data.append( 'nabNonce', amplifyJS.nabNonce );
     form_data.append( 'company_id', companyId );

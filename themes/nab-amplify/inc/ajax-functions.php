@@ -3292,5 +3292,44 @@ add_action('wp_ajax_nopriv_nab_downloadable_pdf', 'nab_downloadable_pdf_callback
 
 function nab_downloadable_pdf_callback() {
 
-	wp_send_json_success( 'Downloadable PDF added successfully!');
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_id		= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_title	= filter_input( INPUT_POST, 'pdf_title', FILTER_SANITIZE_STRING );
+	$pdf_desc	= filter_input( INPUT_POST, 'pdf_desc', FILTER_SANITIZE_STRING );
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+		
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	if ( empty( $pdf_title ) ) {
+		
+		wp_send_json_error( array( 'msg' => 'Document name can not be empty.' ) );
+	}
+
+	$pdf_post_data = array(
+        'post_title'   => $pdf_title,
+        'post_status'  => 'publish',
+        'post_type'    => 'downloadable-pdfs'        
+    );
+
+	if ( empty( $pdf_id ) || 0 === (int) $pdf_id ) {
+
+		$pdf_id = wp_insert_post( $pdf_post_data );
+
+		if ( is_wp_error( $pdf_id ) ) {
+			wp_send_json_error( array( 'msg' => 'Something went wrong while add new Downloadable PDF. Please try again.' ) );
+		}
+	} else {
+		
+        $pdf_post_data['ID']	= $pdf_id;
+        $pdf_id					= wp_update_post( $pdf_post_data );
+	}
+
+	update_field( 'description', $pdf_desc, $pdf_id );
+	update_field( 'nab_selected_company_id', $pdf_desc, $pdf_id );
+
+	wp_send_json_success( array( 'msg' => 'Downloadable PDF added successfully!' ) );
 }

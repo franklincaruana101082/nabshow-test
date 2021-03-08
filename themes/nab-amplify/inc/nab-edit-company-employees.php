@@ -1,4 +1,4 @@
-<div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
+<div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
 			<span class="nab-modal-close fa fa-times"></span>
@@ -10,9 +10,11 @@
 						<form method="post" id="nab-edit-company-profile-form" enctype="multipart/form-data">
 
 							<div class="company-info-row">
-
+								<?php
+								$employee_count = is_array( $company_data['company_employees'] ) ? count( $company_data['company_employees'] ) : 0;
+								?>								
 								<div class="form-row">
-									<label class="emp-label">Select Employee <span>( <?php echo count($company_data['company_employees']) . ' Results / ' . $limit_employees_str; ?> )</span></label>
+									<label class="emp-label">Select Employee <span>( <?php echo $employee_count . ' Results / ' . $limit_employees_str; ?> )</span></label>
 									<div class="select-dark-simple">
 										<select class="company-employees" name="company_employees[]" multiple="true" id="company_employees">
 											<?php

@@ -236,19 +236,25 @@
 .add-address-popup .address-title{text-transform:inherit!important;}
 
 /* Downloadable PDF */
+.nab-modal .form-field-error.global-notice{padding:10px;border:1px dashed #fdd80f;font-size:18px!important;}
 .nab-modal .form-field-error{color:#fdd80f;}
 .nab-modal .form-row p.form-field-error{margin:10px 0!important;width:100%;font-size:18px;}
 .nab-modal .pdf_media_wrapper{margin-top:-20px;}
 .nab-modal #pdf_media_wrapper .nab-pdf-media-item{position:relative;width:150px;}
 .nab-modal .remove-featred-img,
 .nab-modal .remove-attached-pdf{color:#fff;font-size:14px;border-radius:50%;position:absolute;right:-12px;top:-12px;background-color:red;width:25px;height:25px;line-height:1;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
-.nab-modal .remove-featred-img:before,
-.nab-modal .remove-attached-pdf{margin-top:-2px;}
-.nab-modal #pdf_document_wrapper .nab-pdf-media-item{position:relative;width:25px;}
-.nab-modal #pdf_document_wrapper .remove-attached-pdf{font-size:12px;width:20px;height:20px;}
-.nab-modal .nab-pdf-media-item .pdf-icon{color:#fff!important;font-size:26px;}
+.nab-modal .remove-featred-img:before{margin-top:-2px;}
+.nab-modal #pdf_document_wrapper .nab-pdf-media-item{position:relative;}
+.nab-modal #pdf_document_wrapper .remove-attached-pdf{font-size:12px;width:20px;height:20px;top:-10px;right:-10px;}
+.nab-modal .nab-pdf-media-item .pdf-icon{color:#fff!important;font-size:60px;}
 #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
 #downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;}
+#downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
+#downloadable-pdfs-list .amp-check-container{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
+#downloadable-pdfs-list .amp-check-container label{text-align:left;font-size:14px;}
+#downloadable-pdfs-list .amp-check-wrp{margin-top:5px;}
+#downloadable-pdfs-list .amp-check-wrp span{border:2px solid #ccc;}
+#downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}
 
 /* fixes for page design */
 .feature-section .amp-feature-block-inner{margin-bottom:0}
