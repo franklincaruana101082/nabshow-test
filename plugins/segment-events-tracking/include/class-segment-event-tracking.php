@@ -89,6 +89,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'wp_ajax_nopriv_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
                 add_action( 'wp_ajax_st_track_pageview', array( $this, 'st_track_pageview_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_track_pageview', array( $this, 'st_track_pageview_callback' ) );
+                add_action( 'wp_ajax_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
+                add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
             }
         }
 
@@ -874,6 +876,31 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'type'     => 'success',
             ));	
 
+        }
+
+        public function st_media_kit_download_callback() {
+            
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+            $track_event = array(
+                'event' => 'Media_Kit_Downloaded',
+            );
+
+            if ( is_user_logged_in() ) {
+
+                $user_id = get_current_user_id();                 
+                
+                $track_event['userId']      = $user_id;
+                $track_event['properties']  = $this->st_add_user_taxonomy_properties( $user_id );
+                    
+            }
+
+            $this->st_track_event( $track_event );
+
+            wp_send_json_success(array(
+                'feedback' => 'Event Track Successfully',
+                'type'     => 'success',
+            ));
         }
 
         public function st_track_taxonomy_click_callback() {
