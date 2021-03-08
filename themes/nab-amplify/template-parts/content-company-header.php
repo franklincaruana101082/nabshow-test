@@ -89,7 +89,7 @@ $username = $user_obj->user_login;
                             ?>
                         </div>
                         <div class="amp-profile-info">
-                            <h2 data-username="<?php echo get_the_title(); ?>" data-tags="<?php echo esc_attr( $username ) ?>><?php echo esc_html(get_the_title()); ?></h2>
+                            <h2 data-username="<?php echo get_the_title(); ?>" data-tags="<?php echo esc_attr( $username ) ?>"><?php echo esc_html(get_the_title()); ?></h2>
                             <?php
                             if (!empty($industry)) {
                             ?>
