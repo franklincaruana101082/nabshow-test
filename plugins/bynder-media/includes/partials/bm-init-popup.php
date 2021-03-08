@@ -62,6 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" id="bmTags" name="bmTags" value="" />
                             <div class="bm-upload-meta-fields">
                                 <input type="hidden" data-name="AssetType" name="metas[9C244856-6B94-4F0B-B99EAE34CA18BA70]" value="9A72A780-A9E6-40B1-BB63014424AE6BBF" data-value="Images" />
                                 <input type="hidden" data-name="AssetSubtype" name="metas[69D94DC0-A8C9-41F9-805BF14AF3E55514]" value="1B38FAF6-C77D-44C1-B5191A3F0CB8DBCF" data-value="Headshot" />
@@ -69,6 +70,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <input type="hidden" data-name="UserTypeName" name="metas[62BA8F9E-E03F-4636-8CC1784BAE7C738D]" value="" data-value="" />
                                 <input type="hidden" data-name="EventType" name="metas[B3477514-13BD-4E88-ACBDDAC95395246B]" value="95570080-CAC4-4EEB-9303B724525AB514" data-value="NAB Amplify" />
                                 <input type="hidden" data-name="Channel" name="metas[B3FD1CDB-9E2E-49B1-AC233CCA40C5257A]" value="86640051-742A-41BB-86D485534C13C1D5" data-value="Website" />
+
+                                <!-- -->
+
                             </div>
                             <div class="bm-submit-wrap">
                                 <input type="submit" value="Upload" id="bm-upload-btn" class="bm-btn-pink" disabled/>
