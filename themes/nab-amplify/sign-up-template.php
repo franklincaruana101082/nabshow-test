@@ -15,7 +15,7 @@ $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 if ( empty( $redirect_url ) ) {
 
 	if ( isset( $_POST[ 'checkout_redirect' ] ) && ! empty( $_POST[ 'checkout_redirect' ] ) ) {
-		$redirect_url = $_POST[ 'checkout_redirect' ];
+		$redirect_url = esc_url_raw($_POST[ 'checkout_redirect' ]);
 	} else {
 		
 		$referer_url  = $_SERVER[ 'HTTP_REFERER' ];
