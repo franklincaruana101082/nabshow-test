@@ -4,8 +4,8 @@
  */
 
 if ( is_user_logged_in() ) {
-	//wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
-	//exit;
+	wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
+	exit;
 }
 
 get_header();
@@ -31,9 +31,9 @@ if ( empty( $redirect_url ) ) {
 
 				if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
 										
-					//$redirect_url = wc_get_page_permalink( 'myaccount' );
+					$redirect_url = wc_get_page_permalink( 'myaccount' );
 					
-					// setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
+					 setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
 				}
 			}
 		}
@@ -105,10 +105,6 @@ while ( have_posts() ) :
 
 					<div class="signup__socials">
 						<?php echo do_shortcode( '[miniorange_social_login apps="google,fb"]' ); ?>
-						<?php /*<ul class="button-stack">
-							<li><a href="#" class="button">Sign up with Google</a></li>
-							<li><a href="#" class="button">Sign up with Facebook</a></li>
-						</ul>*/?>
 					</div>
 
 					<div class="signup__roles">
