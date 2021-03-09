@@ -146,20 +146,10 @@ if ( empty( $redirect_url ) ) {
 												<input type="checkbox" name="press_member" class="signup-press-member" id="signup-press-member" value="1">
 												<span class="amp-check"></span>
 											</div>
-											<label for="signup-press-member" class="tooltip-container">
-												<div class="member-tooltip">
-													<div class="tooltip-label">I am a qualified member of the press.</div>
-													<div class="tooltip-wrap">
-														<i class="fa fa-info-circle" aria-hidden="true"></i>
-														<div class="tooltip">
-															Qualified members of the <a href="https://nabshow.com/2021/partner/press/">press</a> should select “Press” when registering to ensure future access to Amplify’s original content, networking and engagement opportunities, and exclusive events. To qualify, all members must agree with Amplify’s <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>. Contact information will not be shared unless press opt-in to share information.
-														</div>
-													</div>
-												</div>
-											</label>
+											<label for="signup-press-member">I am a qualified member of the press.</label>
 										</div>
 									</div>
-
+									<hr>
 									<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
 										<div class="amp-check-container check-align-top">
 											<div class="amp-check-wrp">
@@ -211,6 +201,35 @@ if ( empty( $redirect_url ) ) {
 		?>
 
 	</main><!-- #main -->
+	<div id="modal-member-press" class="nab-modal theme-dark">
+	    <div class="nab-modal-inner">
+	        <div class="modal-content">
+	            <span class="nab-modal-close fa fa-times"></span>
+	            <div class="modal-content-wrap">
+	                <h4>Qualified Members of the Press Include:</h4>
+					<strong>Print / Online Media</strong>
+					<ul>
+						<li>Masthead from a current publication listing you as an editorial contributor.</li>
+						<li>A recent article (or link) with your by-line.</li>
+					</ul>
+					<strong>Broadcast Media</strong>
+					<ul>
+						<li>Letter from the editor/producer on station/network letterhead or from a company email address that states you are covering NAB Show on assignment.</li>
+						<li>Government-issued or media outlet press ID.</li>
+						<li>A news outlet webpage listing you as news staff (news director, editor, producer, reporter, anchor).</li>
+						<li>Business card from your media outlet reflecting your editorial role.</li>
+					</ul>
+					<strong>Industry Analysts</strong>
+					<ul>
+						<li>Recent article with your byline.</li>
+						<li>Recent/relevant article quoting you as an industry analyst.</li>
+						<li>Cover of a recent market research report listing you as a contributor (report must not be solicited by an exhibiting company).</li>
+					</ul>
+					<p>Qualified members of the press should select “Press” when registering to ensure future access to Amplify’s original content, networking and engagement opportunities, and exclusive events. To qualify, all members must agree with Amplify’s privacy policy, terms of use and code of conduct. Contact information will not be shared unless press opt-in to share information.</p>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	</div><!-- .container -->
 	<!-- END legacy-template -->
 
