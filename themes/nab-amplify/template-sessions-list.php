@@ -169,8 +169,10 @@ $sessions = get_posts( array(
 	
 
 <?php else : ?>
-	<h3>No Results</h3>
-	<p>There are no upcoming sessions to show.</p>
+	<div class="events__noresults">
+		<h3>No Results</h3>
+		<p>There are no upcoming sessions to show.</p>
+	</div>
 	<?php //get_template_part( 'template-parts/content/content-none' ); ?>
 <?php endif; ?>
 	</div><!--.container -->
