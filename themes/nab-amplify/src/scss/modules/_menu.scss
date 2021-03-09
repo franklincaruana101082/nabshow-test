@@ -102,6 +102,11 @@
 				padding: rem(7) 0;
 			}
 		}
+		&._pink {
+			a, a:visited {
+				color: $color__pink;
+			}
+		}
 		&._logo {
 			>a {
 				display: block;

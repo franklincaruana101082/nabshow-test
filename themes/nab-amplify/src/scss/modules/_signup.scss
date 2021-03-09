@@ -59,6 +59,11 @@
       grid-template-columns: 1fr 1fr 1fr rem(63) 1fr 1fr 1fr;
       grid-template-rows: auto rem(230) auto;
     }
+    &._simple {
+      grid-gap: rem(20) rem(19);
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+    }
     &__titles {
       grid-column: 1 / 2;
       display: flex;
@@ -67,11 +72,17 @@
       ._signin & {
         grid-column: 1 / 4;
       }
+      ._simple & {
+        grid-column: 2 / 4;
+      }
     }
     &__text {
       grid-column: 2 / 5;
       ._signin & {
         grid-column: 4 / 8;
+      }
+      ._simple & {
+        grid-column: 2 / 4;
       }
     }
 
@@ -80,6 +91,9 @@
       ._signin & {
         grid-column: 2 / 4;
         grid-row: 2 / 4;
+      }
+      ._simple & {
+        grid-column: 2 / 4;
       }
       .field {
         width: calc(50% - #{rem(9)});
@@ -95,7 +109,7 @@
           float: right;
           margin-bottom: 0;
         }
-        ._signin & {
+        ._signin &, ._simple & {
           width: 100%;
         }
       }
@@ -146,6 +160,9 @@
     &__cta {
       grid-column: 1 / 2;
       ._signin & {
+        grid-column: 2 / 4;
+      }
+      ._simple & {
         grid-column: 2 / 4;
       }
     }

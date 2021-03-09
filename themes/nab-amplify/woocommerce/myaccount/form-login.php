@@ -66,6 +66,17 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 <div class="signup _signin">
 	<div class="signup__titles">
 		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
+		<?php
+		$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
+		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
+			$sign_up_page_url = get_permalink( $sign_up_page->ID );
+			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
+				$sign_up_page_url = add_query_arg( 'r', $redirect_url, $sign_up_page_url );
+			}
+		} else {
+			$sign_up_page_url = 'javascript:void(0)';
+		}
+		?>
 		<a href="<?php echo esc_url( $sign_up_page_url ); ?>"><b><?php esc_html_e( "Don't have an account? Sign Up", 'nab-amplify');?></b></a>
 	</div>
 	<div class="signup__text">
@@ -117,17 +128,6 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 	<div class="signup__socials">
 		<?php echo do_shortcode( '[miniorange_social_login apps="google,fb"]' ); ?>
 	</div>
-	<?php
-	$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
-	if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
-		$sign_up_page_url = get_permalink( $sign_up_page->ID );
-		if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-			$sign_up_page_url = add_query_arg( 'r', $redirect_url, $sign_up_page_url );
-		}
-	} else {
-		$sign_up_page_url = 'javascript:void(0)';
-	}
-	?>
 </div>
 
 
