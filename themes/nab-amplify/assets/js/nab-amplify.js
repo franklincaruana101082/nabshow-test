@@ -181,10 +181,14 @@
           $(this)
             .parents('.nab-modal')
             .removeClass('nab-modal-active')
+          $('body')
+            .removeClass('nab-modal-off-scroll')
         } else {
           $(this)
             .parents('.nab-modal')
             .hide()
+          $('body')
+            .removeClass('nab-modal-off-scroll')
         }
 
         // Remove class added when connection request popup dispalyed.
@@ -4500,6 +4504,9 @@
   });
   
   $(document).on( 'click', '#downloadable-pdfs-list .amp-action-remove .remove-pdf', function(){
+
+    $('body').addClass('nab-modal-off-scroll');
+
     var pdf_id = $(this).attr('data-id');
     if ( undefined === pdf_id || '' === pdf_id ) {
       return false;
@@ -4524,7 +4531,7 @@
     var contentWrapper = document.createElement('div');
     contentWrapper.setAttribute('class', 'modal-content-wrap');
 
-    var heading = document.createElement('h4');
+    var heading = document.createElement('h3');
     heading.innerText = 'Are you sure want to remove?';
 
     contentWrapper.appendChild(heading);
@@ -4577,6 +4584,7 @@
 
   $(document).on('click', '.error-message-popup .btn-confirm-no', function(){
     $('.error-message-popup').remove();
+    $('body').removeClass('nab-modal-off-scroll');
   });
 
   $(document).on( 'click', '#nab-add-edit-pdf-form #nab-edit-pdf-submit', function(){

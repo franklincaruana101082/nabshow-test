@@ -134,7 +134,7 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .btn-link{color:#fff!important}
 .btn-link:hover{text-decoration:underline}
 .btn[disabled], .button[disabled]{background-color:#666;border-color:#666;cursor:default;color:#a0a5aa}
-.btn[disabled]:hover, .button[disabled]:hover{background-color:#666;}
+.btn[disabled]:hover, .button[disabled]:hover{background-color:#666}
 
 /* woocommerce default */
 .woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
@@ -856,6 +856,7 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 
 /* popup design */
 .nab-modal{display:none}
+body.nab-modal-off-scroll{overflow:hidden}
 .nab-modal.nab-modal-active{display:block}
 .nab-modal .nab-modal-inner{position:fixed;z-index:99;left:0;top:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.4);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 .nab-modal .modal-content{background-color:#fefefe;border:1px solid #888;width:90%;max-width:800px;position:relative;max-height:80vh;padding:0}
@@ -1786,5 +1787,7 @@ body .is_friend .remove::before{font-size:22px}
 .header .header__navwrapper{z-index:10}
 
 /* Error message popup */
-.error-message-popup h4{text-transform:inherit!important}
-.error-message-popup .btn-group .btn{min-width:100px;margin:5px 10px 5px 0}
+.nab-modal.error-message-popup{text-align:center}
+.nab-modal.error-message-popup h3{text-transform:inherit!important;text-align:center}
+.nab-modal.error-message-popup .modal-content{max-width:600px}
+.nab-modal.error-message-popup .btn-group .btn{min-width:100px;margin:5px 10px 5px 0}

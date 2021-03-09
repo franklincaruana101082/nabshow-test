@@ -11,7 +11,7 @@
             <span class="nab-modal-close fa fa-times"></span>
             <div class="modal-content-wrap">
                 
-                <h4><?php echo $message; ?></h4>
+                <h3><?php echo $message; ?></h3>
                 <?php if($confirm == '1'){
                 ?>
                     <div class="btn-group">

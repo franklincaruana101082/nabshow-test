@@ -441,10 +441,9 @@ function nab_company_produts_render_callback($attributes)
 
         $company_id         = get_the_ID();
         $user_id            = get_current_user_id();
-        $admin_id           = get_field('company_user_id', $company_id);
-        $can_add_product    = get_field('admin_can_add_product', $company_id);
+        $admin_id           = get_field('company_user_id', $company_id);        
 
-        if (!empty($admin_id) && in_array($user_id, $admin_id) && $can_add_product) {
+        if (!empty($admin_id) && in_array($user_id, $admin_id) ) {
 
             $is_company_admin   = true;
             $posts_per_page     = $posts_per_page - 1;
