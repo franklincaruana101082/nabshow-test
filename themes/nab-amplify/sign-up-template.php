@@ -144,7 +144,7 @@ if ( empty( $redirect_url ) ) {
 												<input type="checkbox" name="press_member" class="signup-press-member" id="signup-press-member" value="1">
 												<span class="amp-check"></span>
 											</div>
-											<label for="signup-press-member" class="tooltip-container">I am a qualified member of the press.</label>
+											<label for="signup-press-member">I am a qualified member of the press.</label>
 										</div>
 									</div>
 									<hr>

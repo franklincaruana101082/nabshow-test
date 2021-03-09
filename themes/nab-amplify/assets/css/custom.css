@@ -133,7 +133,7 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .blue-color{color:#6363df!important}
 .btn-link{color:#fff!important}
 .btn-link:hover{text-decoration:underline}
-.btn[disabled], .button[disabled]{background-color:#666;border-color:#666;cursor:not-allowed;}
+.btn[disabled], .button[disabled]{background-color:#666;border-color:#666;cursor:default;color:#a0a5aa}
 .btn[disabled]:hover, .button[disabled]:hover{background-color:#666;}
 
 /* woocommerce default */
@@ -431,7 +431,8 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top .amp-check-wrp{margin-top:7px}
-#modal-member-press ul{margin:0 0 20px;padding:0 0 0 20px;font-family:'OpenSans-Regular', Arial, sans-serif}
+#modal-member-press ul{margin:0 0 20px;padding:0 0 0 20px;font-family:'OpenSans-Regular',Arial,sans-serif}
+#modal-member-press p{font-size:16px}
 
 /* login page css */
 

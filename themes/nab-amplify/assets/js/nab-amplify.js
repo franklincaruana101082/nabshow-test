@@ -4456,7 +4456,7 @@
         $('body').append(response);
         $('#addProductModal').show().addClass('nab-modal-active');
       }
-    })
+    });
   });
 
   $(document).on( 'change', '#nab-add-edit-pdf-form #pdf-featured-image', function() {
@@ -4470,6 +4470,14 @@
   $(document).on('click', '#pdf_media_wrapper .remove-featred-img', function(){
     if ( confirm( 'Are you sure want to remove?' ) ) {
       $(this).parents('.nab-pdf-media-item').remove();
+      $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val('');
+    }
+  });
+
+  $(document).on('click', '#pdf_document_wrapper .remove-attached-pdf', function(){
+    if ( confirm( 'Are you sure want to remove?' ) ) {
+      $(this).parents('.nab-pdf-media-item').remove();
+      $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val('');
     }
   });
 
@@ -4478,6 +4486,97 @@
     var currentCount = $(this).val().length;
     var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
     $(this).parents('.form-row').find('.info-msg #pdf-desc-count').text( remaining + ' Characters Remaining');
+  });
+
+  $(document).on( 'change', '.download-pdf-input .dowload-checkbox', function(){
+    
+    if ( this.checked ) {
+      $(this).parents('.amp-item-content').find('.amp-actions a.button').removeAttr('disabled');
+      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('data-pdf') );      
+    } else {
+      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('disabled', 'disabled');
+      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', 'javascript:void(0);' );
+    }
+  });
+  
+  $(document).on( 'click', '#downloadable-pdfs-list .amp-action-remove .remove-pdf', function(){
+    var pdf_id = $(this).attr('data-id');
+    if ( undefined === pdf_id || '' === pdf_id ) {
+      return false;
+    }
+
+    $('.error-message-popup').remove();
+
+    var modalOuter = document.createElement('div');
+    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup');
+    
+    var modalInner = document.createElement('div');
+    modalInner.setAttribute('class', 'nab-modal-inner');
+
+    var modalContent = document.createElement('div');
+    modalContent.setAttribute('class', 'modal-content');
+
+    var modalClose = document.createElement('div');
+    modalClose.setAttribute('class', 'nab-modal-close fa fa-times');
+
+    modalContent.appendChild(modalClose);
+
+    var contentWrapper = document.createElement('div');
+    contentWrapper.setAttribute('class', 'modal-content-wrap');
+
+    var heading = document.createElement('h4');
+    heading.innerText = 'Are you sure want to remove?';
+
+    contentWrapper.appendChild(heading);
+
+    var buttonGroup = document.createElement('div');
+    buttonGroup.setAttribute('class', 'btn-group');
+
+    var buttonYes = document.createElement('button');
+    buttonYes.setAttribute('class', 'btn btn-confirm-yes');
+    buttonYes.innerText = 'Yes';
+    buttonYes.setAttribute('data-pdf-id', pdf_id);
+
+    buttonGroup.appendChild( buttonYes );
+
+    var buttonNo = document.createElement('button');
+    buttonNo.setAttribute('class', 'btn btn-confirm-no');
+    buttonNo.innerText = 'No';
+
+    buttonGroup.appendChild( buttonNo );
+    contentWrapper.appendChild( buttonGroup );
+    modalContent.appendChild( contentWrapper );
+    modalInner.appendChild(modalContent);
+    modalOuter.appendChild(modalInner);
+
+    $('body').append(modalOuter);
+
+    $('.error-message-popup').show();
+
+  });
+
+  $(document).on('click', '.error-message-popup .btn-confirm-yes', function(){
+    var pdf_id = $(this).attr('data-pdf-id');
+    $('body').addClass('is-loading');
+    $('.error-message-popup').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_remove_downloadable_pdf',
+        pdf_id: pdf_id,        
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        location.reload();       
+      }
+    });
+
+  });
+
+  $(document).on('click', '.error-message-popup .btn-confirm-no', function(){
+    $('.error-message-popup').remove();
   });
 
   $(document).on( 'click', '#nab-add-edit-pdf-form #nab-edit-pdf-submit', function(){
@@ -4502,22 +4601,29 @@
       $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document attachment is required field.').show();
       return false;
     }
+    
+    $('body').addClass('nab-close-reload');
 
     var form_data = new FormData();
     var companyId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').val() : 0;
-    var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').val() : 0;    
-    form_data.append( 'action', 'nab_downloadable_pdf' );
+    var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').val() : 0;
+    var _this = $(this);
+    form_data.append( 'action', 'nab_downloadable_pdf' );    
     form_data.append( 'nabNonce', amplifyJS.nabNonce );
     form_data.append( 'company_id', companyId );
     form_data.append( 'pdf_id', pdfId );
     form_data.append( 'pdf_title', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val() );
     form_data.append( 'pdf_desc', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-description').val() );
 
-    if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val() ) {
-      form_data.append( 'featured_img', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document')[0].files );
+    if ( 0 === $(this).parents('#nab-add-edit-pdf-form').find('#pdf_media_wrapper .remove-featred-img').length ) {
+      form_data.append( 'remove_featured_img', true );
     }
+
     if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val() ) {
-      form_data.append( 'pdf_file', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image')[0].files );
+      form_data.append( 'featured_img', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image')[0].files[0] );
+    }
+    if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val() ) {
+      form_data.append( 'pdf_file', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document')[0].files[0] );
     }
 
     jQuery.ajax({
@@ -4531,6 +4637,26 @@
       },
       success: function (response) {
         $('body').removeClass('is-loading');
+        var pdfData = response;
+
+        if ( undefined !== pdfData.data.msg ) {
+          _this.parents('#nab-add-edit-pdf-form').find('.global-notice').text(pdfData.data.msg).show();
+        }
+        if ( pdfData.success ) {
+          if ( undefined !== pdfData.data.featured_attachment_id ) {
+            _this.parents('#nab-add-edit-pdf-form').find('.remove-featred-img').attr('data-attachment-id', pdfData.data.featured_attachment_id );
+          }
+          if ( undefined !== pdfData.data.pdf_attachment_id ) {
+            _this.parents('#nab-add-edit-pdf-form').find('.remove-attached-pdf').attr('data-attachment-id', pdfData.data.pdf_attachment_id );
+          }
+          if ( undefined !== pdfData.data.pdf_id ) {
+            _this.parents('#nab-add-edit-pdf-form').find('#pdf_id').val( pdfData.data.pdf_id );
+          }
+          _this.parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val('');
+          _this.parents('#nab-add-edit-pdf-form').find('#pdf-document').val('');
+          _this.parents('#nab-add-edit-pdf-form').find('#nab-edit-pdf-submit').val('Update');
+          _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Downloadable PDF');          
+        }
       }
     });        
     return false;

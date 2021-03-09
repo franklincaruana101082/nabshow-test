@@ -3291,10 +3291,18 @@ function nab_downloadable_pdf_callback() {
 
 	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
-	$company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
-	$pdf_id		= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
-	$pdf_title	= filter_input( INPUT_POST, 'pdf_title', FILTER_SANITIZE_STRING );
-	$pdf_desc	= filter_input( INPUT_POST, 'pdf_desc', FILTER_SANITIZE_STRING );
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_id					= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_title				= filter_input( INPUT_POST, 'pdf_title', FILTER_SANITIZE_STRING );
+	$pdf_desc				= filter_input( INPUT_POST, 'pdf_desc', FILTER_SANITIZE_STRING );
+	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
+	$msg					= '';
+	$action					= empty( $pdf_id ) || 0 === (int) $pdf_id ? 'add' : 'update';
+	$member_restriction		= nab_company_member_validation( $company_id, $action );	
+
+	if ( ! $member_restriction['success'] ) {
+		wp_send_json_error( array( 'msg' => $member_restriction['message'] ) );
+	}
 
 	if ( empty( $company_id ) || 0 === (int) $company_id ) {
 		
@@ -3319,16 +3327,80 @@ function nab_downloadable_pdf_callback() {
 		if ( is_wp_error( $pdf_id ) ) {
 			wp_send_json_error( array( 'msg' => 'Something went wrong while add new Downloadable PDF. Please try again.' ) );
 		}
+
+		$msg = 'Downloadable PDF added successfully.';
 	} else {
 		
-        //$pdf_post_data['ID']	= $pdf_id;
-        //$pdf_id					= wp_update_post( $pdf_post_data );
-	}
+        $pdf_post_data['ID']	= $pdf_id;
+        $pdf_id					= wp_update_post( $pdf_post_data );
+		$msg 					= 'Downloadable PDF updated successfully.';
+	}	    
 
 	if ( $pdf_id ) {
-		update_field( 'description', $pdf_desc, $pdf_id );
-		update_field( 'nab_selected_company_id', $pdf_desc, $pdf_id );
-	}	
 
-	wp_send_json_success( array( 'msg' => 'Downloadable PDF added successfully!' ) );
+		$success = array( 'msg' => $msg, 'pdf_id' => $pdf_id );
+
+		if ( $remove_featured_img && has_post_thumbnail( $pdf_id ) ) {
+			delete_post_thumbnail( $pdf_id );
+		}
+		
+		// Upload images.
+		$file_names				= array( 'featured_img', 'pdf_file' );
+		$dependencies_loaded 	= false;
+
+		foreach ( $_FILES as $file_key => $file_details ) {
+
+			if ( in_array( $file_key, $file_names, true ) ) {
+	
+				if ( $dependencies_loaded ) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = true;
+				}
+	
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( $file_key, 0 );
+	
+				if ( ! is_wp_error( $attachment_id ) ) {
+					
+					if ( 'featured_img' === $file_key ) {
+						set_post_thumbnail( $pdf_id, $attachment_id );
+						$success['featured_attachment_id'] = $attachment_id;
+					} else if ( 'pdf_file' === $file_key ) {
+						update_field( 'pdf_file', $attachment_id, $pdf_id );
+						$success['pdf_attachment_id'] = $attachment_id;						
+					}
+				}
+			}
+		}
+
+		$member_level = get_field( 'member_level', $company_id );
+
+		update_field( 'description', $pdf_desc, $pdf_id );
+		update_field( 'nab_selected_company_id', $company_id, $pdf_id );
+		update_post_meta( $pdf_id, '_pdf_member_level', $member_level );
+		wp_send_json_success( $success );
+
+	} else {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while add or update Downloadable PDF. Please try again.' ) );
+	}	
+}
+
+add_action('wp_ajax_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
+add_action('wp_ajax_nopriv_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
+
+function nab_remove_downloadable_pdf_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );	
+	
+	$pdf_id = filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( ! empty( $pdf_id ) ) {
+		
+		wp_delete_post( $pdf_id );
+	}
+
+	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
 }

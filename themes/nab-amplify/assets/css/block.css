@@ -637,6 +637,8 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 #downloadable-pdfs-list .amp-check-wrp{margin-top:5px;}
 #downloadable-pdfs-list .amp-check-wrp span{border:2px solid #ccc;}
 #downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}
+#downloadable-pdfs-list .button[disabled]{background-color:#666!important;border-color:#666!important;cursor:default!important}
+#downloadable-pdfs-list .button[disabled]:hover{background-color:#666!important;}
 
 @media (max-width:1400px) {
 	/* company detail */

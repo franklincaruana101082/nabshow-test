@@ -255,6 +255,9 @@
 #downloadable-pdfs-list .amp-check-wrp{margin-top:5px;}
 #downloadable-pdfs-list .amp-check-wrp span{border:2px solid #ccc;}
 #downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}
+#downloadable-pdfs-list .amp-pdf-login-msg p{margin:0;color:#ccc;font-style:italic;font-size:14px;}
+#downloadable-pdfs-list .amp-pdf-login-msg a{text-decoration:underline;color:#fff}
+#downloadable-pdfs-list .amp-pdf-login-msg a:hover{text-decoration:none;}
 
 /* fixes for page design */
 .feature-section .amp-feature-block-inner{margin-bottom:0}
