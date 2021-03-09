@@ -1165,7 +1165,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                                             <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
                                                             <span class="amp-check"></span>
                                                         </div>
-                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I would like to receive additional information from <?php echo esc_html(get_the_title($company_id)); ?></label>
+                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
                                                     </div>
                                                 </div>
                                                 <div class="amp-actions">

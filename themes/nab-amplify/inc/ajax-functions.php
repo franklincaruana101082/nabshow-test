@@ -3399,7 +3399,7 @@ function nab_remove_downloadable_pdf_callback() {
 
 	if ( ! empty( $pdf_id ) ) {
 		
-		wp_delete_post( $pdf_id );
+		wp_trash_post( $pdf_id );
 	}
 
 	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
