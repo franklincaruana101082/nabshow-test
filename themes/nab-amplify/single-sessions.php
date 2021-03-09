@@ -34,7 +34,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 				$time_start    = str_replace(':00', '', gmdate('g:i', strtotime($session_start)));	
 			}
 
-			$date_start    = gmdate('F d, Y', strtotime($session_start));
+			$date_start    = gmdate('F j, Y', strtotime($session_start));
 			$time_end      = str_replace(array(':00', 'am', 'pm'), array('', 'a.m.', 'p.m.'), gmdate('g:i a', strtotime($session_end)));
 
 			?>
