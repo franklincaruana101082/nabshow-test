@@ -57,7 +57,7 @@ if ( ! empty( $referer_url ) ) {
 }
 
 if ( empty( $redirect_url ) && isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
-	$redirect_url = $_POST[ 'redirect' ];
+	$redirect_url = esc_url_raw($_POST[ 'redirect' ]);
 }
 
 
@@ -72,34 +72,31 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		
 	</div>
 
-	<form class="woocommerce-form woocommerce-form-login login" method="post">
+	<form class="signup__fields" method="post">
 
 		<?php do_action( 'woocommerce_login_form_start' ); ?>
 
-		<div class="signup__fields">
+		<div class="field">
+			<label class="field__label" for="username"><?php esc_html_e( 'Username or Email Address', 'woocommerce' ); ?></label>
+			<input type="text" class="field__input" name="username" id="username" autocomplete="username"
+			       value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/>
+		</div>
+		<div class="field">
+			<label class="field__label" for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?></label>
+			<input class="field__input" type="password" name="password"
+			       id="password" autocomplete="current-password"/>
+		</div>
 
-			<div class="field">
-				<label class="field__label" for="username"><?php esc_html_e( 'Username or Email Address', 'woocommerce' ); ?></label>
-				<input type="text" class="field__input" name="username" id="username" autocomplete="username"
-				       value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/>
-			</div>
-			<div class="field">
-				<label class="field__label" for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?></label>
-				<input class="field__input" type="password" name="password"
-				       id="password" autocomplete="current-password"/>
-			</div>
+		<?php do_action( 'woocommerce_login_form' ); ?>
 
-			<?php do_action( 'woocommerce_login_form' ); ?>
-
-			<div class="field">
-				<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Forgot password?', 'woocommerce' ); ?></a>
-			</div>
+		<div class="field">
+			<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Forgot password?', 'woocommerce' ); ?></a>
 		</div>
 
 		<div class="signup__cta">
-			<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"
-			       style="display: none"
-			       checked/>
+			<input class="woocommerce-form__input woocommerce-form__input-checkbox" 
+					name="rememberme" type="checkbox" id="rememberme" value="forever"
+			    	style="display: none" checked/>
 			<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 				<input type="hidden" name="redirect" value="<?php echo $redirect_url; ?>">
 			<?php } else { ?>
@@ -108,7 +105,6 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 			<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 			<button type="submit" class="button _gradientpink" name="login"
 			        value="<?php esc_attr_e( 'Sign in', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></button>
-
 		</div>
 
 

@@ -131,8 +131,21 @@
   a.btn.btn-mo.btn-block.btn-social.btn-customtheme.btn-custom-dec.login-button {
     @extend .button;
     line-height: rem(10);
+    @include bp-768 {
+      margin-right: rem(32);
+    }
+    @include bp-1024 {
+      margin-right: 0;
+    }
     &:last-child {
       margin-top: rem(32);
+      @include bp-768 {
+        margin-top: 0;
+        margin-right: 0;
+      }
+      @include bp-1024 {
+        margin-top: rem(32);
+      }
     }
 
     .mofa {
