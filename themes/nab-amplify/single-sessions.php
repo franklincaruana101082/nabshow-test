@@ -26,8 +26,17 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 			$session_start = get_field( 'session_date' );
 			$session_end   = get_field( 'session_end_time' );
 
-			$time_start    = gmdate('g:i', strtotime($session_start));
-			$time_end      = gmdate('g:i A', strtotime($session_end));
+			$start_m       = gmdate('A', strtotime($session_start));
+			$end_m         = gmdate('A', strtotime($session_end));
+			if($start_m !== $end_m) {
+				$time_start    = str_replace(array(':00', 'am', 'pm'), array('', 'a.m.', 'p.m.'), gmdate('g:i a', strtotime($session_start)));
+			} else {
+				$time_start    = str_replace(':00', '', gmdate('g:i', strtotime($session_start)));	
+			}
+
+			$date_start    = gmdate('F d, Y', strtotime($session_start));
+			$time_end      = str_replace(array(':00', 'am', 'pm'), array('', 'a.m.', 'p.m.'), gmdate('g:i a', strtotime($session_end)));
+			
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
