@@ -431,6 +431,8 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb;}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top .amp-check-wrp{margin-top:7px}
+#modal-member-press ul{margin:0 0 20px;padding:0 0 0 20px}
+#modal-member-press p{font-size:16px}
 
 /* login page css */
 

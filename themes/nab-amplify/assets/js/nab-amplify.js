@@ -493,6 +493,13 @@
     filter_states(country_code)
   })
 
+   // sign up template memberpress popup
+    $(document).on('change', '#signup-press-member', function(){
+      if (this.checked) {
+        $('#modal-member-press').addClass('nab-modal-active');
+      }
+    });
+
   function validateURL(urltext) {
     if (urltext !== "") {
       var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
