@@ -36,7 +36,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 
 			$date_start    = gmdate('F d, Y', strtotime($session_start));
 			$time_end      = str_replace(array(':00', 'am', 'pm'), array('', 'a.m.', 'p.m.'), gmdate('g:i a', strtotime($session_end)));
-			
+
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
@@ -45,7 +45,10 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						the_title( '<h1 class="intro__title">', '</h1>' );
 					?>
 					<div class="intro__time introtext">
-								<p><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET</p>
+								<p>
+									<?php echo esc_html($date_start); ?><br />
+									<?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET
+								</p>
 							</div>
 							<?php
 								$company =  get_field( 'company' );
