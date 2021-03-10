@@ -160,7 +160,7 @@
 		&__time, &__host-name {
 			font-family: $font__secondary;
 			font-size: rem(16);
-			line-height: 1.5;
+			line-height: 1.2;
 			letter-spacing: -0.01em;
 			color: $color__gray-lightest;
 		}
@@ -191,12 +191,15 @@
 			@include bp-1024 {
 				flex: 0 1 auto;
 			}
+			&._company {
+				padding-top: rem(24);
+			}
 		}
 			
 			&__host-photo {
 				border-radius: 50%;
-				width: rem(40) !important;
-				height: rem(40) !important;
+				width: rem(40);// !important;
+				height: rem(40); // !important;
 			}
 			&__host-info {
 				padding-left: rem(14);

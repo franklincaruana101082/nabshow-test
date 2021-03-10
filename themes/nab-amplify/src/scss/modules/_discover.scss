@@ -17,8 +17,10 @@
 		&__feedchooser {
 			@include bp-768 {
 				text-align: left;
-				left: auto;
-				right: 0;	
+				left: 60%;
+				right: 0;
+				top: calc(100% - 10px);
+				width: rem(252);
 			}
 		}
 
