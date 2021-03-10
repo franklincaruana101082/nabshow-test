@@ -631,14 +631,14 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 /* Downloadable PDF */
 #downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;color:#fff;}
 #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
-#downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
+.company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
 #downloadable-pdfs-list .amp-check-container{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
 #downloadable-pdfs-list .amp-check-container label{text-align:left;font-size:14px;}
 #downloadable-pdfs-list .amp-check-wrp{margin-top:5px;}
 #downloadable-pdfs-list .amp-check-wrp span{border:2px solid #ccc;}
 #downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}
-#downloadable-pdfs-list .button[disabled]{background-color:#666!important;border-color:#666!important;cursor:default!important}
-#downloadable-pdfs-list .button[disabled]:hover{background-color:#666!important;}
+#downloadable-pdfs-list .button[disabled]{background-color:#bbb!important;border-color:#bbb!important;cursor:default!important}
+#downloadable-pdfs-list .button[disabled]:hover{background-color:#808080!important;}
 
 @media (max-width:1400px) {
 	/* company detail */

@@ -1024,6 +1024,7 @@
   })
 
   $(document).on('click', '.action-edit ', function () {
+
     const prod_id = undefined !== $(this).data('id') ? $(this).data('id') : ''
     const company_id = amplifyJS.postID
     const _this = $(this)
@@ -1042,6 +1043,10 @@
           jQuery('#addProductModal')
             .show()
             .addClass('nab-modal-active')
+
+          // Make image draggable.
+          makeDraggable('#product_media_wrapper');
+
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
           }
@@ -1423,8 +1428,12 @@
     // If bynder images selected.
     if( 'function' === typeof addBMpopup ) {
         let product_media_bm_src = [];
+        let countImgs = 1;
         $('.nab-product-media-item img').each(function () {
-            product_media_bm_src.push($(this).attr('src'));
+            if( countImgs < 5 ) {
+              product_media_bm_src.push($(this).attr('src'));
+            }
+            countImgs++;
         });
         product_media_bm_src = product_media_bm_src.join(',');
         form_data.append('product_media_bm', product_media_bm_src)
@@ -4493,16 +4502,16 @@
   });
 
   $(document).on( 'change', '.download-pdf-input .dowload-checkbox', function(){
-    
+
     if ( this.checked ) {
       $(this).parents('.amp-item-content').find('.amp-actions a.button').removeAttr('disabled');
-      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('data-pdf') );      
+      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('data-pdf') );
     } else {
       $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('disabled', 'disabled');
       $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', 'javascript:void(0);' );
     }
   });
-  
+
   $(document).on( 'click', '#downloadable-pdfs-list .amp-action-remove .remove-pdf', function(){
 
     $('body').addClass('nab-modal-off-scroll');
@@ -4516,7 +4525,7 @@
 
     var modalOuter = document.createElement('div');
     modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup');
-    
+
     var modalInner = document.createElement('div');
     modalInner.setAttribute('class', 'nab-modal-inner');
 
@@ -4571,12 +4580,12 @@
       url: amplifyJS.ajaxurl,
       data: {
         action: 'nab_remove_downloadable_pdf',
-        pdf_id: pdf_id,        
+        pdf_id: pdf_id,
         nabNonce: amplifyJS.nabNonce
       },
       success: function (response) {
         $('body').removeClass('is-loading');
-        location.reload();       
+        location.reload();
       }
     });
 
@@ -4609,14 +4618,14 @@
       $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document attachment is required field.').show();
       return false;
     }
-    
+
     $('body').addClass('nab-close-reload');
 
     var form_data = new FormData();
     var companyId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').val() : 0;
     var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').val() : 0;
     var _this = $(this);
-    form_data.append( 'action', 'nab_downloadable_pdf' );    
+    form_data.append( 'action', 'nab_downloadable_pdf' );
     form_data.append( 'nabNonce', amplifyJS.nabNonce );
     form_data.append( 'company_id', companyId );
     form_data.append( 'pdf_id', pdfId );
@@ -4663,10 +4672,10 @@
           _this.parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val('');
           _this.parents('#nab-add-edit-pdf-form').find('#pdf-document').val('');
           _this.parents('#nab-add-edit-pdf-form').find('#nab-edit-pdf-submit').val('Update');
-          _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Downloadable PDF');          
+          _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Downloadable PDF');
         }
       }
-    });        
+    });
     return false;
   });
 
@@ -4675,7 +4684,7 @@
       var reader = new FileReader();
       reader.onload = function(e) {
         var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {            
+        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
             $('#nab-add-edit-pdf-form #pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
             input.value = '';
             return false;
@@ -4695,26 +4704,198 @@
 
   function renderUploadedPDFFile(input) {
     if (input.files && input.files[0]) {
-      var reader = new FileReader();      
+      var reader = new FileReader();
       reader.onload = function(e) {
         var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( 'pdf' !== fileExt ) {            
+        if ( 'pdf' !== fileExt ) {
             $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').append('<p class="form-field-error">Invalid file type. Only .pdf file type acceptable.</p>');
             input.value = '';
             return false;
         } else {
           $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').find('.form-field-error').remove();
         }
-        if ( 0 == $('#pdf_document_wrapper .pdf-icon').length ) {          
+        if ( 0 == $('#pdf_document_wrapper .pdf-icon').length ) {
           var previewFile = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-attached-pdf" aria-hidden="true"></i><span class="pdf-icon fa fa-file-pdf-o"></span></div>';
           $('#pdf_document_wrapper').append(previewFile);
-        }        
+        }
       }
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
 
+  /* Company Search Filters*/
+  $(document).on('click', '#load-more-pdf a', function () {
+    let pdfPageNumber = parseInt( $(this).attr('data-page-number') );
+    nabSearchDownloadablePDFAjax( true, pdfPageNumber );
+  })
+
+  $(document).on( 'click', '.other-search-filter .sort-pdf a.sort-order', function () {
+    if ( ! $(this).hasClass('active') ) {
+      $(this).addClass('active').siblings().removeClass('active');
+      nabSearchDownloadablePDFAjax(false, 1);
+    }
+  });
+  // Downloadable PDF code end.
+
 })(jQuery)
+
+// Downloadable PDF Search Ajax.
+function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
+
+  let postPerPage = jQuery('#load-more-pdf a').attr('data-post-limit') ? parseInt(jQuery('#load-more-pdf a').attr('data-post-limit')) : 12;
+  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let orderBy = 0 < jQuery('.other-search-filter .sort-pdf a.active').length ? jQuery('.other-search-filter .sort-pdf a.active').attr('data-order') : 'date';
+
+  jQuery('body').addClass('is-loading');
+
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      action: 'nab_pdf_search_filter',
+      nabNonce: amplifyJS.nabNonce,
+      page_number: pageNumber,
+      post_limit: postPerPage,
+      search_term: searchTerm,      
+      orderby: orderBy
+    },
+    success: function (response) {
+      if (!loadMore) {
+        jQuery('#downloadable-pdfs-list').empty()
+      }
+      let pdfObj = jQuery.parseJSON(response)
+
+      if ('' !== pdfObj.result_post && 0 < pdfObj.result_post.length ) {
+        let pdfListDiv = document.getElementById('downloadable-pdfs-list');
+
+        jQuery.each(pdfObj.result_post, function (key, value) {
+          let itemCol = document.createElement('div');
+          itemCol.setAttribute('class', 'amp-item-col');
+
+          let itemInner = document.createElement('div');
+          itemInner.setAttribute('class', 'amp-item-inner');
+
+          let searchItemCover = document.createElement('div');
+          searchItemCover.setAttribute('class', 'amp-item-cover');
+
+          let thumbnail = document.createElement('img');
+          thumbnail.setAttribute('src', value.thumbnail);
+          thumbnail.setAttribute('alt', 'PDF Thumbnail');
+
+          searchItemCover.appendChild(thumbnail);
+
+          itemInner.appendChild(searchItemCover);
+
+          let itemInfo = document.createElement('div');
+          itemInfo.setAttribute('class', 'amp-item-info');
+
+          let itemContent = document.createElement('div');
+          itemContent.setAttribute('class', 'amp-item-content');
+
+          let heading = document.createElement('h4');
+          heading.innerText = value.title;
+
+          itemContent.appendChild(heading);
+
+          if ( pdfObj.login ) {
+            let inputDiv = document.createElement('div');
+            inputDiv.setAttribute('class', 'download-pdf-input');
+
+            let checkContainer = document.createElement('div');
+            checkContainer.setAttribute('class', 'amp-check-container');
+
+            let checkWrp = document.createElement('div');
+            checkWrp.setAttribute('class', 'amp-check-wrp');
+
+            let inputCheckBox = document.createElement('input');
+            inputCheckBox.setAttribute('class', 'dowload-checkbox');
+            inputCheckBox.setAttribute('type', 'checkbox');
+            inputCheckBox.setAttribute('id', 'download-checkbox-' + value.pdf_id);
+
+            let checkSpan = document.createElement('span');
+            checkSpan.setAttribute('class', 'amp-check');
+
+            checkWrp.appendChild(inputCheckBox);
+            checkWrp.appendChild(checkSpan);
+            checkContainer.appendChild(checkWrp);
+
+            let inputLabel = document.createElement('label');
+            inputLabel.setAttribute('for', 'download-checkbox-' + value.pdf_id );
+            inputLabel.innerText = 'I agree to receive additional information and communications from ' + value.company;
+
+            checkContainer.appendChild(inputLabel);
+            inputDiv.appendChild(checkContainer);
+            itemContent.appendChild(inputDiv);
+
+            let actions = document.createElement('div');
+            actions.setAttribute('class', 'amp-actions');
+
+            let searchActions = document.createElement('div');
+            searchActions.setAttribute('class', 'search-actions nab-action');
+
+            let downloadLink = document.createElement('a');
+            downloadLink.setAttribute('class', 'button');
+            downloadLink.setAttribute('data-pdf', value.pdf_url);
+            downloadLink.setAttribute('disabled', 'disabled');
+            downloadLink.setAttribute('download', 'download');
+            downloadLink.setAttribute('href', 'javascript:void(0);');
+            downloadLink.innerText = 'Download';
+
+            searchActions.appendChild(downloadLink);
+            actions.appendChild(searchActions);
+            itemContent.appendChild(actions);
+          } else {
+            let msgDiv = document.createElement('div');
+            msgDiv.setAttribute('class', 'amp-pdf-login-msg');
+
+            let msgP = document.createElement('p');            
+
+            let loginLink = document.createElement('a');
+            loginLink.setAttribute('href', pdfObj.login_url);
+            loginLink.innerText = "Sign in now";
+
+            msgP.innerText = "You must be signed in to download this content. ";
+            msgP.appendChild(loginLink);
+            msgP.innerHTML = msgP.innerHTML + '.';
+            msgDiv.appendChild(msgP);
+            itemContent.appendChild(msgDiv);
+          }
+
+          itemInfo.appendChild(itemContent);
+          itemInner.appendChild(itemInfo);
+          itemCol.appendChild(itemInner);
+
+          pdfListDiv.appendChild(itemCol);
+
+          if ( value.banner ) {
+            jQuery('#downloadable-pdfs-list').append(value.banner);
+          }
+        });
+      }
+      jQuery('#load-more-pdf a').attr('data-page-number', pdfObj.next_page_number );
+
+      if ( pdfObj.next_page_number > pdfObj.total_page ) {
+        jQuery('#load-more-pdf').hide();
+      } else {
+        jQuery('#load-more-pdf').show();
+      }
+
+      if (0 === pdfObj.total_page) {
+        jQuery('#downloadable-pdfs-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+      } else {
+        jQuery('#downloadable-pdfs-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+      }
+      jQuery('.search-view-top-head .pdf-search-count').text( pdfObj.total_pdf + ' Results for ');
+      jQuery('body').removeClass('is-loading');
+    }
+  })
+}
+
+function makeDraggable(selector) {
+    $(selector).sortable(function (){
+      connectWith: selector
+    }).disableSelection();
+}
 
 function nabAddProdBlankImage(unique_key) {
   $('#product_media_wrapper').append(

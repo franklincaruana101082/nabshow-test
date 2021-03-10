@@ -133,8 +133,8 @@ p{font-size:16px;color:#404040;font-family:'OpenSans-Regular', Arial, sans-serif
 .blue-color{color:#6363df!important}
 .btn-link{color:#fff!important}
 .btn-link:hover{text-decoration:underline}
-.btn[disabled], .button[disabled]{background-color:#666;border-color:#666;cursor:default;color:#a0a5aa}
-.btn[disabled]:hover, .button[disabled]:hover{background-color:#666}
+.btn[disabled], .button[disabled]{background-color:#bbb;border-color:#bbb;cursor:default;color:#808080}
+.btn[disabled]:hover, .button[disabled]:hover{background-color:#bbb}
 
 /* woocommerce default */
 .woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}

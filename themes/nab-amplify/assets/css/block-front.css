@@ -249,9 +249,9 @@
 .nab-modal .nab-pdf-media-item .pdf-icon{color:#fff!important;font-size:60px;}
 #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
 #downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;}
-#downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
+.company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
 #downloadable-pdfs-list .amp-check-container{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
-#downloadable-pdfs-list .amp-check-container label{text-align:left;font-size:14px;}
+#downloadable-pdfs-list .amp-check-container label{text-align:left;font-size:14px;color:#fff}
 #downloadable-pdfs-list .amp-check-wrp{margin-top:5px;}
 #downloadable-pdfs-list .amp-check-wrp span{border:2px solid #ccc;}
 #downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}

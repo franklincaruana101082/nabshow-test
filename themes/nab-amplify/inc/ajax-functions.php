@@ -3404,3 +3404,92 @@ function nab_remove_downloadable_pdf_callback() {
 
 	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
 }
+
+//Ajax for Downloadable PDF search.
+add_action('wp_ajax_nab_pdf_search_filter', 'nab_pdf_search_filter_callback');
+add_action('wp_ajax_nopriv_nab_pdf_search_filter', 'nab_pdf_search_filter_callback');
+
+/**
+ * Downloadable search result filter ajax.
+ */
+function nab_pdf_search_filter_callback()
+{
+
+	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
+
+	$final_result 	= array();
+	$result_post	= array();
+
+	$page_number		= filter_input( INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit			= filter_input( INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
+	$search_term		= filter_input( INPUT_POST, 'search_term', FILTER_SANITIZE_STRING );
+	$orderby			= filter_input( INPUT_POST, 'orderby', FILTER_SANITIZE_STRING );
+	$order				= 'title' === $orderby ? 'ASC' : 'DESC';	
+
+	$pdf_args = array(
+		'post_type'         => 'downloadable-pdfs',
+		'post_status'       => 'publish',
+		'posts_per_page'    => $post_limit,
+		's'					=> $search_term,
+		'paged'				=> $page_number,
+		'meta_key'          => '_pdf_member_level',
+		'meta_value'        => 'Premium',				
+	);
+	
+	if ( 'date' !== $orderby ) {
+
+		$pdf_args['orderby']	= $orderby;
+		$pdf_args['order']		= $order;
+	}	
+
+	$pdf_query	= new WP_Query( $pdf_args );
+
+	$total_pages	= $pdf_query->max_num_pages;
+	$total_pdf		= $pdf_query->found_posts;
+
+	if ( $pdf_query->have_posts() ) {
+
+		$cnt = 0;
+
+		while ( $pdf_query->have_posts() ) {
+
+			$pdf_query->the_post();
+
+			$pdf_id				= get_the_ID();
+			$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id );
+			$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
+			$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
+			$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+
+			$result_post[$cnt]['pdf_id']	= $pdf_id;
+			$result_post[$cnt]['pdf_url'] 	= $pdf_url;
+			$result_post[$cnt]['title'] 	= html_entity_decode( get_the_title() );
+			$result_post[$cnt]['company'] 	= html_entity_decode( get_the_title( $company_id ) );
+			$result_post[$cnt]['thumbnail'] = $thumbnail_url;			
+
+			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			}
+
+			$cnt++;
+		}
+	}
+	wp_reset_postdata();
+
+	$site_url		= get_site_url();
+	$current_url	= add_query_arg( array( 's' => $search_term, 'v' => 'pdf' ), $site_url );
+	$login_url		= add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+
+	$final_result['next_page_number'] 	= $page_number + 1;
+	$final_result['total_page']       	= $total_pages;
+	$final_result['total_pdf']			= $total_pdf;
+	$final_result['result_post']      	= $result_post;
+	$final_result['login']				= is_user_logged_in();
+	$final_result['login_url']			= $login_url;
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+}

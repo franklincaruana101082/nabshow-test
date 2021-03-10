@@ -1077,7 +1077,8 @@ function nab_company_downlodable_pdfs_callback($attributes)
             if (!empty($admin_id) && in_array($user_id, (array) $admin_id, true)) {            
     
                 if ('plus' === strtolower($member_level) || 'premium' === strtolower($member_level)) {
-                    $add_pdf = true;
+                    $add_pdf    = true;
+                    $class_name .= ' company-admin';
                 }
     
                 $is_company_admin   = true;
@@ -1153,9 +1154,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                     </div>
                                     <div class="amp-item-info">
                                         <div class="amp-item-content">
-                                            <h4>
-                                                <a href="<?php echo esc_url(get_the_permalink()); ?>"><?php echo esc_html(get_the_title()); ?></a>
-                                            </h4>
+                                            <h4><?php echo esc_html(get_the_title()); ?></h4>
                                             <?php
                                             if ( is_user_logged_in() ) {
                                                 ?>
