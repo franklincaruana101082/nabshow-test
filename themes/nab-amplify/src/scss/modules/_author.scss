@@ -29,6 +29,10 @@
 			  width: rem(52);
 			  border: 3px solid $color__gray-darker;
 		  }
+		  &.event__host-photo {
+		  	width: rem(46);
+		  	height: rem(46);
+		  }
 		}
 	  }
 

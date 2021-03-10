@@ -88,7 +88,7 @@ $sessions = get_posts( array(
 	foreach ( $sessions as $post ) { 
 
 		
-
+		$speakers                   = get_field( 'speakers' );
 		$session_status             = get_field( 'session_status' );
         $session_start              = get_field( 'session_date' );
         $session_end                = get_field( 'session_end_time' );
@@ -97,7 +97,6 @@ $sessions = get_posts( array(
         $day						= gmdate('d', strtotime($session_start));
         $time_start					= gmdate('g:i', strtotime($session_start));
         $time_end					= gmdate('g:i A', strtotime($session_end));
-        $speakers = '';
 		
 		if($i === 0) : ?>
 		<div class="nabcard">
