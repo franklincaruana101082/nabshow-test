@@ -3852,7 +3852,6 @@ function nab_generate_users_export_csv_file() {
 
          // CSV header row fields titles
          $csv_fields   = array();
-         $csv_fields[] = 'ID';
          $csv_fields[] = 'First Name';
          $csv_fields[] = 'Last Name';
          $csv_fields[] = 'Email';
@@ -3886,7 +3885,6 @@ function nab_generate_users_export_csv_file() {
 
                 $registered_date = date_format(date_create($current_user->user_registered), 'm-d-Y H:i:s');
 
-                $dynamic_fields[] = $current_user->ID;
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
                 $dynamic_fields[] = $current_user->user_email;
