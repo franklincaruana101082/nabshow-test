@@ -60,6 +60,32 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 			add_action( "wp_ajax_bm_get_single_asset", array( $this, "bm_get_single_asset" ) );
 			add_action( "wp_ajax_nopriv_bm_get_single_asset", array( $this, "bm_get_single_asset" ) );
+
+			add_action( "wp_ajax_bm_get_user_details", array( $this, "bm_get_user_details" ) );
+		}
+
+		public function bm_get_user_details() {
+
+			$return_array = array();
+
+			$current_user_id = get_current_user_id();
+
+			// Get user meta.
+			$user_data = get_user_meta( $current_user_id );
+
+			// Get user display name.
+			$member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
+			$user_obj    = get_user_by( 'id', $current_user_id );
+			if ( empty( trim( $member_name ) ) ) {
+				$member_name = $user_obj->display_name;
+			}
+
+			$return_array['username']     = $user_obj->user_login;
+			$return_array['display_name'] = $member_name;
+
+			echo wp_json_encode( $return_array );
+			wp_die();
+
 		}
 
 		private function bm_get_meta_ids() {
@@ -321,6 +347,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$this->collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
 			$this->collection_id   = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
 			$assets_page           = filter_input( INPUT_POST, 'assetsPage', FILTER_SANITIZE_NUMBER_INT );
+			$bm_search             = filter_input( INPUT_POST, 'bmSearch', FILTER_SANITIZE_STRING );
 			$this->is_admin        = filter_input( INPUT_POST, 'isAdmin', FILTER_VALIDATE_BOOLEAN );
 
 			// Prepare required data.
@@ -382,6 +409,11 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 				// Include collection ID if available.
 				if ( isset( $this->args['collectionId'] ) && ! empty( $this->args['collectionId'] ) ) {
 					$this->query['collectionId'] = $this->args['collectionId'];
+				}
+
+				// Include search term if available.
+				if ( ! empty( $bm_search ) ) {
+					$this->query['keyword'] = $bm_search;
 				}
 
 				$this->bm_assets_api();

@@ -9,10 +9,50 @@
             addBMpopup();
         }
 
+        // Add username, usertypename & tags inbody tag to use for bynder.
+        if( $('body').hasClass('wp-admin') ) {
+
+            var bmTags = '';
+            var username = '';
+            var displayname = '';
+
+            if( 0 !== $('.post-type-company .editor-post-title__input').length ) {
+                displayname = username = $('.post-type-company .editor-post-title__input').text();
+            } else if ( 0 !== $('#select2-acf-field_5fc881bd20fa0-container').length ) {
+                displayname = username = $('#select2-acf-field_5fc881bd20fa0-container').text();
+            }
+
+            const bmData = new FormData();
+            bmData.append('action', 'bm_get_user_details');
+            $.ajax({
+                type: 'POST',
+                url: bmObj.ajaxurl,
+                data: bmData,
+                contentType: false,
+                processData: false,
+                success(result) {
+                    result = JSON.parse(result);
+                    if( '' === username && undefined !== result.username ) {
+                        username = result.username;
+                    }
+                    if( undefined !== result.display_name ) {
+                        if( '' === displayname ) {
+                            displayname = result.display_name;
+                        }
+                        bmTags = result.username;
+                    }
+
+                    $('body').attr('data-tags', bmTags);
+                    $('body').attr('data-username', username);
+                    $('body').attr('data-displayname', displayname);
+                },
+            });
+
+        }
+
         // Temporarily hiding the Upload sections as its still in development mode.
         $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;</style>');
     });
-
 
     // Load.
     /*$(window).on('load', function(){
@@ -46,6 +86,15 @@
 
     // Trigger fetch process again on 'Try again' button click.
     $(document).on('click', '#bm-try-again-fetch', function (e) {
+        $('.bm-select-media.active').trigger('click');
+    });
+
+    $(document).on('submit', '#bm-search-form', function (e) {
+        e.preventDefault();
+        $('#bm-main-outer .bm-modal-body').addClass('bm-search');
+        $('.bm-media-main').html('');
+        $('#assets-load-more').attr('data-page', 1).hide();
+        $('#assets-load-more').removeAttr('data-fetched');
         $('.bm-select-media.active').trigger('click');
     });
 
@@ -323,14 +372,9 @@ function bmFetchAssets(_this) {
         bmData.append('collectionID', collectionID);
     } else {
 
-        if( $('body').hasClass('wp-admin') ) {
-
-            if( 0 !== $('.post-type-company .editor-post-title__input').length ) {
-                collectionName = $('.post-type-company .editor-post-title__input').text();
-            } else if ( 0 !== $('#select2-acf-field_5fc881bd20fa0-container').length ) {
-                collectionName = $('#select2-acf-field_5fc881bd20fa0-container').text();
-            }
-
+        // Fetch collection wise in backend for the Company posts only.
+        if( $('body').hasClass('wp-admin') && $('body').hasClass('post-type-company')  ) {
+            collectionName = $('body').attr('data-username');
         } else {
             collectionName = $('.amp-profile-info h2').attr('data-username');
         }
@@ -343,6 +387,16 @@ function bmFetchAssets(_this) {
     // Requested Page Number.
     let assetsPage = $('#assets-load-more').attr('data-page');
     bmData.append('assetsPage', assetsPage);
+
+    // Check if search term active.
+    if( $('#bm-main-outer .bm-modal-body').hasClass('bm-search') ) {
+        const bmSearch = $('#bm-search').val();
+        if( '' !== bmSearch ) {
+            bmData.append('bmSearch', bmSearch);
+        } else {
+            $('#bm-main-outer .bm-modal-body').removeClass('bm-search');
+        }
+    }
 
     // Remove previous msg div.
     $('#bm-msg').remove();
@@ -532,12 +586,21 @@ function bmGetMetas() {
 
 function bmFillMetaValues() {
 
-    const userTypeName = $('.amp-profile-info h2').text();
+    let bmTags  = '';
+    let userTypeName = '';
+
+    if( $('body').hasClass('wp-admin') ) {
+        userTypeName = $('body').attr('data-displayname');
+        bmTags = $('body').attr('data-tags');
+    } else {
+        userTypeName = $('.amp-profile-info h2').text();
+        bmTags = $('.amp-profile-info h2').attr('data-tags');
+    }
+
     if( undefined !== userTypeName && '' !== userTypeName ) {
         $('[data-name="UserTypeName"]').attr('data-value', userTypeName);
     }
 
-    const bmTags = $('.amp-profile-info h2').attr('data-tags');
     if( undefined !== bmTags && '' !== bmTags ) {
         $('#bmTags').val(bmTags);
     }
