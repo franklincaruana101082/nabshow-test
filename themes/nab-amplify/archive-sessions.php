@@ -55,10 +55,7 @@ $sessions = get_posts( array(
 				$i = 0;
 				$last_event = count($sessions);
 				foreach ( $sessions as $post ) {
-				
-					//the_post();
 								
-					$speakers                   = get_field( 'speakers' );
 					$company                    = get_field( 'company' );
 					$session_status             = get_field( 'session_status' );
 					$session_start              = get_field( 'session_date' );
@@ -97,27 +94,13 @@ $sessions = get_posts( array(
 										<h4 class="event__title"><?php echo esc_html( get_the_title() ); ?></h4>
 										<div class="event__time"><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET</div>
 										<?php
-										// list session speaker
-										if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
+										if ( ! empty( $company ) ) {
 										?>
-										<div class="event__host">
-										<?php
-										// only display 1st speaker.
-											$first_name         = get_field( 'first_name', $speakers[0] );
-											$last_name          = get_field( 'last_name', $speakers[0] );
-											$title              = get_field( 'title', $speakers[0] );
-											$speaker_company    = get_field( 'company', $speakers[0] );
-											$headshot           = get_field( 'headshot', $speakers[0] );
-											
-											if ( ! empty( $headshot ) ) {
+										<div class="event__host _company" data-company="<?php echo $company ?>">
+											<?php 
+												echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo', 'style' => 'width: auto; height: auto;') );
 											?>
-											<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-											<?php	} ?>
-											<div class="event__host-info">
-												<div class="event__host-name"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></div>
-												<div class="event__host-title"><?php echo esc_html( $title ); ?></div>
-												<div class="event__host-company"><?php echo esc_html( $speaker_company ); ?></div>
-											</div>
+											<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
 										</div>
 										<?php } ?>
 									</div>
