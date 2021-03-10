@@ -197,6 +197,7 @@
 			line-height: rem(30);
 			margin: rem(4) 0;
 			color: $color__gray;
+			width: 100% !important; //important because marketo puts width in an inline style on the inputs
 			&::placeholder {
 				color: $color__gray-lighter;
 			}
