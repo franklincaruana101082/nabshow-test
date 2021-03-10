@@ -128,6 +128,7 @@
 				display: flex;
 				flex-flow: row wrap;
 				align-items: center;
+				justify-content: flex-start;
 			}
 			._wide & {
 				grid-column: 1 / 2;

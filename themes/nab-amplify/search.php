@@ -319,7 +319,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<img class="result__image" src="<?php echo esc_url($user_images['profile_picture']); ?>">
 										</a>
 										<h4 class="result__title"><a href="<?php echo esc_url($member_profile_url); ?>"><?php echo esc_html($user_full_name); ?></a></h4>
-										<a href="<?php echo esc_url($member_profile_url); ?>" class="button result__button">View Now</a>
+										<a href="<?php echo esc_url($member_profile_url); ?>" class="button result__button _gradientpink">View Now</a>
 										<?php echo nab_amplify_bp_get_friendship_button($member_user_id); ?>
 										<!-- <a href="#" class="link _plus result__message">Message Rep</a> -->
 										<?php /* <img src="<?php echo esc_url($user_images['banner_image']); ?>" alt="Cover Image"> */ ?>
@@ -424,7 +424,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
 										<h5 class="result__lede"><?php echo esc_html($product_company); ?></h5>
-										<a href="<?php echo esc_url($product_link); ?>" class="button result__button">View Now</a>
+										<a href="<?php echo esc_url($product_link); ?>" class="button result__button _gradientpink">View Now</a>
 									</div>
 								</li>
 							<?php
@@ -529,7 +529,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<div class="result__image no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
 										<?php } ?>
 										<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
-										<a href="<?php echo esc_url($company_url); ?>" class="button result__button">View Now</a>
+										<a href="<?php echo esc_url($company_url); ?>" class="button result__button _gradientpink">View Now</a>
 										<?php
 											if ($company_poc !== '' && !empty($company_poc)) {
 												if ($user_logged_in) {
@@ -631,7 +631,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-										<a href="<?php echo esc_url($product_link); ?>" class="button result__button">View Now</a>
+										<a href="<?php echo esc_url($product_link); ?>" class="button result__button _gradientpink">View Now</a>
 									</div>
 								</li>
 							<?php
@@ -1003,7 +1003,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<img class="result__image" src="<?php echo esc_url($user_images['profile_picture']); ?>">
 									</a>
 									<h4 class="result__title"><a href="<?php echo esc_url($member_profile_url); ?>"><?php echo esc_html($user_full_name); ?></a></h4>
-									<a href="<?php echo esc_url($member_profile_url); ?>" class="button result__button">View Now</a>
+									<a href="<?php echo esc_url($member_profile_url); ?>" class="button result__button _gradientpink">View Now</a>
 									<?php echo nab_amplify_bp_get_friendship_button($member_user_id); ?>
 									<!-- <a href="#" class="link _plus result__message">Message Rep</a> -->
 									<?php /* <img src="<?php echo esc_url($user_images['banner_image']); ?>" alt="Cover Image"> */ ?>
@@ -1101,7 +1101,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
 									<h5 class="result__lede"><?php echo esc_html($product_company); ?></h5>
-									<a href="<?php echo esc_url($product_link); ?>" class="button result__button">View Now</a>
+									<a href="<?php echo esc_url($product_link); ?>" class="button result__button _gradientpink">View Now</a>
 								</div>
 							</li>
 						<?php
@@ -1192,7 +1192,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="result__image no-image-avtar"><?php echo mb_strimwidth(get_the_title(), 0, 20, '...'); ?></div>
 									<?php } ?>
 									<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
-									<a href="<?php echo esc_url($company_url); ?>" class="button result__button">View Now</a>
+									<a href="<?php echo esc_url($company_url); ?>" class="button result__button _gradientpink">View Now</a>
 									<?php
 										if ($company_poc !== '' && !empty($company_poc)) {
 											if ($user_logged_in) { ?>
@@ -1280,7 +1280,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-									<a href="<?php echo esc_url($product_link); ?>" class="button result__button">View Now</a>
+									<a href="<?php echo esc_url($product_link); ?>" class="button result__button _gradientpink">View Now</a>
 								</div>
 							</li>
 						<?php

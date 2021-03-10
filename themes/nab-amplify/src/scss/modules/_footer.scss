@@ -176,6 +176,12 @@
 				}
 			}
 		}
+		.mktoForm .mktoFormCol {
+			width: 100%;
+			.mktoFieldWrap {
+				width: 100%;
+			}
+		}
 
 		.mktoForm input[type="text"],
 		.mktoForm input[type="url"],
@@ -186,8 +192,9 @@
 		.mktoForm textarea.mktoField,
 		.mktoForm select.mktoField,
 		input[type="text"], input[type="email"] {
+			font-family: $font__secondary;
 			font-size: rem(10);
-				line-height: rem(30);
+			line-height: rem(30);
 			margin: rem(4) 0;
 			color: $color__gray;
 			&::placeholder {
