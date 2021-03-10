@@ -168,7 +168,7 @@
 		&__time {
 			@include bp-1024 {
 				flex: 0 1 auto;
-				height: rem(40);
+				//height: rem(40);
 				margin-right: rem(30);
 			}
 		}
@@ -201,6 +201,11 @@
 				border-radius: 50%;
 				width: rem(40);// !important;
 				height: rem(40); // !important;
+				._company & {
+					//important because WP adds inline styles of auto width and height
+					width: rem(40) !important;
+					height: rem(40) !important;
+				}
 			}
 			&__host-info {
 				padding-left: rem(14);
