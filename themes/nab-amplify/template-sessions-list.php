@@ -128,7 +128,7 @@ $sessions = get_posts( array(
 									<?php 
 										echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo', 'style' => 'width: auto; height: auto;') );
 									?>
-									<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
+									<div class="event__host-name">Hosted by <?php echo get_the_title($company);?></div>
 								</div>
 								<?php } ?>
 							</div>
