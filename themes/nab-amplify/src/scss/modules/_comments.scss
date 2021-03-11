@@ -4,6 +4,8 @@
 	.comment-section-title {
 		border-bottom: 3px solid $color__purple;
 		border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+		border-width: 0;
+		border-bottom-width: 3px;
 		margin-bottom: rem(30);
 		h2 {
 			color: $color__white;
@@ -99,6 +101,8 @@
 	.comment-respond {
 		border-left: 3px solid $color__purple;
 		border-image: linear-gradient(0deg, $color__purple, $color__pink) 3;
+		border-width: 0;
+		border-left-width: 3px;
 		padding-left: rem(20);
 		max-width: rem(1000);
 	}
