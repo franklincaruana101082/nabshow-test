@@ -150,6 +150,9 @@
 	position: relative;
 	margin: 2rem auto 3rem;
 	max-width: rem(1277);
+	&._shrink {
+		display: inline-block;
+	}
 	&__content {
 		background-color: $color__gray-darker;
 		position: relative;
