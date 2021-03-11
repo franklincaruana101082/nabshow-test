@@ -50,6 +50,8 @@
 .bm-tab-main .bm-tab-content{display:none;}
 .bm-tab-main .bm-tab-content.bm-tab-active{display:block;}
 
+.bm-select-media.creating-popup, .bm-select-media.creating-popup *{cursor:not-allowed;}
+
 /* Media Items */
 .bm-media-count-wrap{margin-bottom:20px;}
 .bm-media-count-wrap .bm-media-count{font-size:16px;color:#000;}

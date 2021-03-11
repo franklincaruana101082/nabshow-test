@@ -148,7 +148,7 @@ function addBMpopup() {
 
     if( 0 === jQuery('#bm-main-outer').length ) {
 
-        jQuery('.bm-select-media').addClass('disabled').text('Loading...');
+        jQuery('.bm-select-media').addClass('creating-popup');
 
         const bmData = new FormData();
         bmData.append('action', 'bm_init_popup');
@@ -160,12 +160,21 @@ function addBMpopup() {
             contentType: false,
             processData: false,
             success(result) {
+
+                // Prevent multiple popup addition if there
+                // were simultaneous requests to add a popup.
+                if( 0 !== jQuery('#bm-main-outer').length ) {
+                    return false;
+                }
+
                 result = JSON.parse(result);
                 if( result.bmInitPop ) {
                     jQuery('body').append(result.bmInitPop);
-                    jQuery('.bm-select-media').removeClass('disabled');
-                    //jQuery('.bm-select-media').removeClass('disabled').text('Select Bynder Image');
+
+                    // Remove class to enable popup.
+                    jQuery('.bm-select-media').removeClass('creating-popup');
                 }
+
             },
             error() {
                 console.log('Fetch error! Try again or contact Plugin Developer.');
