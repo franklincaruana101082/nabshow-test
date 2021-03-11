@@ -1775,12 +1775,14 @@ function amplify_get_header_logos(WP_REST_Request $request)
 
     if (have_rows('nab_logos', 'option')) :
         while (have_rows('nab_logos', 'option')) : the_row();
-            $logos          = [];
-            $nab_logo_id    = get_sub_field('logos');
-            $nab_logo_img   = wp_get_attachment_image_src($nab_logo_id, 'medium');
-            $nab_logo_url   = get_sub_field('logo_url');
-            $logos['url']   = (isset($nab_logo_url) && !empty($nab_logo_url)) ? $nab_logo_url : '#';
-            $logos['image'] = (isset($nab_logo_img) && !empty($nab_logo_img)) ? $nab_logo_img[0] : '';
+            $logos                  = [];
+            $nab_logo_id            = get_sub_field('logos');
+            $nab_site_label         = get_sub_field('site_label');
+            $nab_logo_img           = wp_get_attachment_image_src($nab_logo_id, 'medium');
+            $nab_logo_url           = get_sub_field('logo_url');
+            $logos['url']           = (isset($nab_logo_url) && !empty($nab_logo_url)) ? $nab_logo_url : '#';
+            $logos['site_label']    = (isset($nab_site_label) && !empty($nab_site_label)) ? $nab_site_label : '';
+            $logos['image']         = (isset($nab_logo_img) && !empty($nab_logo_img)) ? $nab_logo_img[0] : '';
             array_push($response, $logos);
         endwhile;
     endif;

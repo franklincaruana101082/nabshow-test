@@ -12,16 +12,18 @@
 
     $(document).on('click', '#bm-featured-remove', function(){
         // Remove the selected image src in hidden meta field.
-        $('#bm_meta_featured_image').val('');
+        $(this).parent().find('input').val('');
 
         // Remove the selected image src in hidden image.
-        $('#bm_meta_featured_image_src').attr('src', '');
+        $(this).parent().find('img').attr('src', '');
 
         // Replace the link into a select area.
-        $('#bm_meta_featured_outer').removeClass('selected');
+        $(this).parent().removeClass('selected');
 
         // Change the label name.
-        $('#bm-featured-image').text('Set Bynder Image');
+        let bynderLabel = $(this).text();
+        bynderLabel = bynderLabel.replace('Replace', 'Set');
+        $(this).text(bynderLabel);
     });
 
     $(document).on('click', '.bm-select-media', function () {
@@ -39,7 +41,8 @@
 
         // Add clicked element's ID in #bm-tab-media
         // to perform respective actions later.
-        const requestedBy = $(this).attr('id');
+        //const requestedBy = $(this).attr('id');
+        const requestedBy = $(this).attr('bynder-for');
         $('#bm-tab-media').attr('bynder-request-by', requestedBy);
 
         $("#bm-main-outer").addClass('bm-modal-active');
@@ -83,7 +86,7 @@
         let assetSrc = assetCard.find('[data-name]:checked').val();
 
         // Check the Featured derivative if the request is for the featured image.
-        if( 'bm-featured-image' === requestedBy ) {
+        if( 'profile_picture' === requestedBy ) {
             assetCard.find('[data-name="Featured"]').prop('checked',true);
             assetSrc = assetCard.find('[data-name]:checked').val();
         }
@@ -95,18 +98,18 @@
         }
 
         // Add the selected image src in hidden meta field.
-        if( 'bm-featured-image' === requestedBy ) {
+        if( 'profile_picture' === requestedBy || 'product_media_bm' === requestedBy ) {
             // Add the selected image src in hidden meta field.
-            $('#bm_meta_featured_image').val(assetSrc);
+            $('.bm-select-media.active').parent().find('input').val(assetSrc);
 
             // Add the selected image src in hidden image.
-            $('#bm_meta_featured_image_src').attr('src', assetSrc);
+            $('.bm-select-media.active').parent().find('img').attr('src', assetSrc);
 
             // Replace the select area into a link.
-            $('#bm_meta_featured_outer').addClass('selected');
+            $('.bm-select-media.active').parent().addClass('selected');
 
             // Change the label name.
-            $('#bm-featured-image').text('Change Bynder Image');
+            $('.bm-select-media.active').text('Change Image');
 
         } else if ( 'bm-block-image' === requestedBy ) {
 
@@ -146,7 +149,7 @@ function addBMpopup() {
 
     if( 0 === jQuery('#bm-main-outer').length ) {
 
-        jQuery('.bm-select-media').addClass('disabled').text('Loading...');
+        jQuery('.bm-select-media').addClass('creating-popup');
 
         const bmData = new FormData();
         bmData.append('action', 'bm_init_popup');
@@ -158,14 +161,24 @@ function addBMpopup() {
             contentType: false,
             processData: false,
             success(result) {
+
+                // Prevent multiple popup addition if there
+                // were simultaneous requests to add a popup.
+                if( 0 !== jQuery('#bm-main-outer').length ) {
+                    return false;
+                }
+
                 result = JSON.parse(result);
                 if( result.bmInitPop ) {
                     jQuery('body').append(result.bmInitPop);
-                    jQuery('.bm-select-media').removeClass('disabled').text('Select Bynder Image');
+
+                    // Remove class to enable popup.
+                    jQuery('.bm-select-media').removeClass('creating-popup');
                 }
+
             },
             error() {
-                alert('Fetch error! Try again or contact Plugin Developer.');
+                console.log('Fetch error! Try again or contact Plugin Developer.');
             },
         });
     }
