@@ -30,10 +30,10 @@
 .nab-open-menu .nab-mobile-toggle .nab-mobile-icon::before{transform:rotate(-45deg);}
 .nab-open-menu .nab-mobile-toggle .nab-mobile-icon::after{transform:rotate(45deg);}
 .nab-header-secondary .nab-navigation-menu{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;list-style:none;margin:0;padding:19px 0;}
+.nab-header-secondary .nab-navigation-menu:before{content:"More NAB:";color:#707070;font-family:'proxima-nova',sans-serif;font-size:12px;font-weight:600;padding:0 10px;line-height:1;}
 .nab-header-secondary .nab-navigation-menu li{line-height:1;margin:0;}
 .nab-header-secondary .nab-navigation-menu li a{font-size:12px;text-transform:uppercase;color:#fff;padding:0 10px;display:block;text-decoration:none;font-weight:600;transition:color .3s ease-in-out;}
 .nab-header-secondary .nab-navigation-menu li a:hover{color:#fdd80f;}
-.nab-header-secondary .nab-navigation-menu li:first-child a[href="#"]{color:#707070;}
 
 /* Secondary Header css */
 .show_sec_menu .nab-header-secondary{position:absolute;left:0;right:0;top:0;display:block;}
@@ -72,6 +72,7 @@
     .nab-header-secondary .nab-nav-wrap{height:0;position:absolute;top:70px;left:0;right:0;background-color:#181818;background-image:url(../images/nab-brand.png);background-position:100vw 0;background-repeat:no-repeat;background-size:28.75rem 28.75rem;overflow:hidden;transition:height .25s ease-in-out,padding-bottom .25s ease-in-out,background-position .5s ease-in-out .2s;overflow:auto;display:block;}
     .nab-header-secondary .nab-open-menu .nab-nav-wrap{height:calc(100vh - 70px);background-position: 60vw 0;padding-bottom:110px;}
     .nab-header-secondary .nab-left-navigation{width:100%;height:100%;overflow:auto;}
+    .nab-header-secondary .nab-navigation-menu:before{padding:13px 24px;font-size:14px;width:100%}
     .nab-header-secondary .nab-navigation-menu li{width:100%;}
     .nab-header-secondary .nab-navigation-menu li a{padding:13px 24px;font-size:14px;}
     .nab-header-secondary .nab-sec-navigation{width:100%;position:absolute;bottom:0;left:0;right:0;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
@@ -93,8 +94,7 @@
     .fusion-body .nab-header-secondary + div header.fusion-header-wrapper{padding-top:0;}
 }
 @media (max-width:767px){
+    .nab-header-secondary .nab-navigation-menu:before{font-size:12px;}
     .nab-header-secondary .nab-navigation-menu li a{font-size:12px;}
     .nab-header-secondary .nab-profile-menu a{font-size:16px;}
-}
-@media (max-width:567px){
 }
