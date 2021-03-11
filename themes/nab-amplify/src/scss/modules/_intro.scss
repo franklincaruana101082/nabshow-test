@@ -97,6 +97,8 @@
       background: $color__gray-darker;
       border-bottom: rem(4) solid $color__purple; //fallback
       border-image: linear-gradient(90deg, $color__purple, $color__blue) 4;
+      border-width: 0;
+	  border-bottom-width: rem(4);
     }
   }
   &__media {

@@ -349,7 +349,7 @@ function nab_company_details_render_callback($attributes)
                                     </li>
                                 <?php
                                 }
-                                if (!empty($company_website)) {
+                                if (!empty($company_website) ) {
                                 ?>
                                     <li>
                                         <span>Website:</span>
