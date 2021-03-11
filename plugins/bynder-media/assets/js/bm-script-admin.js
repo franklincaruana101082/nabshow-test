@@ -98,7 +98,7 @@
         }
 
         // Add the selected image src in hidden meta field.
-        if( 'profile_picture' === requestedBy ) {
+        if( 'profile_picture' === requestedBy || 'product_media_bm' === requestedBy ) {
             // Add the selected image src in hidden meta field.
             $('.bm-select-media.active').parent().find('input').val(assetSrc);
 
