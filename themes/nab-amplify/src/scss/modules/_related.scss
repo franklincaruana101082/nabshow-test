@@ -48,6 +48,15 @@
 				flex: 0 1 auto;
 			}
 		}
+		._events & {
+			@include bp-768 {
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: space-between;
+				margin-left: rem(-10);
+				margin-right: rem(-10);
+			}
+		}
 	}
 	&__item,
 	&__list .relatedlink {
@@ -55,16 +64,21 @@
 			flex: 0 1 50%;
 			margin-left: rem(10);
 			margin-right: rem(10);
-			._events & {
-				flex: 0 1 auto;
-				&._wide {
-					flex: 0 1 50%;
-				}
-			}
 		}
 		@include bp-1440 {
 			margin-left: rem(38);
 			margin-right: rem(38);
+		}
+		._events & {
+			//flex: 0 1 auto;
+			@include bp-768 {
+				flex: 0 1 calc(50% - 20px);
+				margin-left: rem(10);
+				margin-right: rem(10);
+			}
+			@include bp-1024 {
+				flex: 0 1 calc(33.33333% - 20px);
+			}
 		}
 	}
 		&__link {

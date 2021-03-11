@@ -288,7 +288,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					if ( ! empty( $related ) && is_array( $related ) && count( $related ) > 0 ) {
 					?>
 					<div class="container">
-					<div class="nabcard _shrink">
+					<div class="nabcard">
 						<div class="nabcard__content">
 							<div class="related _events">
 								<h2 class="related__title">Related Sessions</h2>
@@ -322,7 +322,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 														<?php 
 															echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo', 'style' => 'width: auto; height: auto;') );
 														?>
-														<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
+														<div class="event__host-name">Hosted by <?php echo get_the_title($company);?></div>
 													</div>
 												<?php
 												}
