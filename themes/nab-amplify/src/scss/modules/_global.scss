@@ -169,9 +169,16 @@
 		border-radius: 8px;
 		background: $color__gray-darkest;
 		transform-origin: center;
-		transform: rotate(-2deg);
+		transform: rotate(-.5deg);
+		@include bp-768 {
+			transform: rotate(-1deg);
+		}
+		@include bp-1024 {
+			transform: rotate(-2deg);
+		}
 	}
-	}
+	
+}
 
 .radiolist {
 	background-color: black;
