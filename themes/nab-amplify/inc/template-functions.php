@@ -1006,6 +1006,32 @@ function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url
 	return $featured_image;
 }
 
+/**
+ * @param int $post_ID Post ID.
+ * @param bool $default Whether to send a default image back or not.
+ *
+ * @return string Image URL.
+ */
+function nab_amplify_get_comapny_banner( $post_ID, $default = true, $default_url = '' ) {
+
+	$bynder_cover = get_post_meta( $post_ID, 'banner_image', true );
+	if ( null !== $bynder_cover && ! empty( $bynder_cover )
+	     && strpos( $bynder_cover, 'assets') !== false) {
+		$featured_image = $bynder_cover;
+	} else {
+		$featured_image = get_field('cover_image', $post_ID );
+		$featured_image = isset( $featured_image['url'] ) ? $featured_image['url'] : '';
+
+		// Send back default if not found?
+		if ( $default ) {
+			$default_url = ! empty( $default_url ) ? $default_url : get_template_directory_uri() . '/assets/images/banner-header-background.png';
+			$featured_image = ! empty( $featured_image ) ? $featured_image : $default_url;
+		}
+	}
+
+	return $featured_image;
+}
+
 function nab_amplify_get_bynder_products( $post_id ) {
 
     $product_media = array();
@@ -1086,11 +1112,11 @@ function nab_get_pdf_limit_by_member_level( $member_level ) {
 }
 
 function nab_company_member_validation( $company_id = 0, $action_type = 'update' ) {
-	
+
 	$result = array( 'success' => true );
 
 	if ( empty( $company_id ) || 0 === $company_id ) {
-		
+
 		$result['success'] = false;
 		$result['message'] = 'Something went wrong while fetching company ID. Please try again.';
 
@@ -1117,9 +1143,9 @@ function nab_company_member_validation( $company_id = 0, $action_type = 'update'
 		if ( 'add' === $action_type ) {
 			$total_pdf += 1;
 		}
-		
+
 		if ( $total_pdf > $max_limit ) {
-			
+
 			$result['success'] = false;
 
 			if ( 'premium' === strtolower( $member_level ) ) {
@@ -1132,7 +1158,7 @@ function nab_company_member_validation( $company_id = 0, $action_type = 'update'
 	} else {
 
 		$result['success'] = false;
-		$result['message'] = 'You can\'t add or update downloadable PDF with your current package. Please contact your sales rep to upgrade the package.';		
+		$result['message'] = 'You can\'t add or update downloadable PDF with your current package. Please contact your sales rep to upgrade the package.';
 	}
 
 	return $result;
@@ -1173,7 +1199,7 @@ function nab_get_total_company_count() {
  * @return string
  */
 function nab_maritz_redirect_url( $user_id ) {
-	
+
 	if ( empty( $user_id ) || 0 === $user_id ) {
 		return;
 	}
@@ -1181,7 +1207,7 @@ function nab_maritz_redirect_url( $user_id ) {
 	$url_parse = wp_parse_url( get_site_url() );
 
 	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
-	
+
 	$params		= array( 'user_id' => $user_id );
 	$first_name	= get_user_meta( $user_id, 'first_name', true );
 	$last_name	= get_user_meta( $user_id, 'last_name', true );

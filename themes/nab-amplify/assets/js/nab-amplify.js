@@ -1034,7 +1034,8 @@
       url: amplifyJS.ajaxurl,
       data: {
         action: 'nab_amplify_edit_product',
-        product_id: prod_id
+        product_id: prod_id,
+        company_id: company_id,
       },
       success: function (data) {
         _this.removeClass('loading')
@@ -1045,7 +1046,9 @@
             .addClass('nab-modal-active')
 
           // Make image draggable.
-          makeDraggable('#product_media_wrapper');
+          $('#product_media_wrapper').sortable(function (){
+            connectWith: '#product_media_wrapper'
+          }).disableSelection();
 
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
@@ -1377,9 +1380,7 @@
     var nab_product_specs = jQuery(
       '#nab-edit-product-form #nab_product_specs'
     ).val()
-    var nab_product_contact = jQuery(
-      '#nab-edit-product-form #nab_product_contact'
-    ).val()
+    var nab_product_contact = 0 < jQuery('#nab-edit-product-form #nab_product_contact').length ? jQuery('#nab-edit-product-form #nab_product_contact').val() : '';
     var nab_feature_product = jQuery(
       '#nab-edit-product-form #nab_feature_product'
     ).prop('checked')
@@ -4737,6 +4738,26 @@
   });
   // Downloadable PDF code end.
 
+  // Content submissions.
+  $(document).on( 'click', '.company-content #company-content-list .content-add-action', function () {
+    $('body').addClass('is-loading');
+    $('#addProductModal').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_add_company_content_form',
+        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        $('body').append(response);
+        $('#addProductModal').show().addClass('nab-modal-active');
+      }
+    });
+  });
+
 })(jQuery)
 
 // Downloadable PDF Search Ajax.
@@ -4756,7 +4777,7 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
       nabNonce: amplifyJS.nabNonce,
       page_number: pageNumber,
       post_limit: postPerPage,
-      search_term: searchTerm,      
+      search_term: searchTerm,
       orderby: orderBy
     },
     success: function (response) {
@@ -4848,7 +4869,7 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             let msgDiv = document.createElement('div');
             msgDiv.setAttribute('class', 'amp-pdf-login-msg');
 
-            let msgP = document.createElement('p');            
+            let msgP = document.createElement('p');
 
             let loginLink = document.createElement('a');
             loginLink.setAttribute('href', pdfObj.login_url);
@@ -4889,12 +4910,6 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
       jQuery('body').removeClass('is-loading');
     }
   })
-}
-
-function makeDraggable(selector) {
-    $(selector).sortable(function (){
-      connectWith: selector
-    }).disableSelection();
 }
 
 function nabAddProdBlankImage(unique_key) {

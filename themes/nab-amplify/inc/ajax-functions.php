@@ -3493,3 +3493,11 @@ function nab_pdf_search_filter_callback()
 
 	wp_die();
 }
+
+add_action( 'wp_ajax_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
+
+function nab_add_company_content_form_callback() {
+
+	require_once get_template_directory() . '/inc/nab-add-content.php';
+	wp_die();
+}
