@@ -51,7 +51,11 @@
         }
 
         // Temporarily hiding the Upload sections as its still in development mode.
-        $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;</style>');
+        $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;}</style>');
+
+        $(document).on('click', '.bm-search-toggle', function(){
+            $(this).parent('#bm-search-container').toggleClass('bm-search-active');
+        });
     });
 
     // Load.
@@ -342,7 +346,7 @@ function bmFetchAssets(_this) {
 
     // Prevent simultaneous requests.
     if( 0 !== $('.in-use').length) {
-        alert('Loading... Please wait! Please contact administrator if you see this message repeatedly.');
+        alert('Loading... please wait! Please contact administrator if you see this message repeatedly.');
         return false;
     }
 
@@ -800,7 +804,9 @@ function addUploadedAsset(result) {
             success(result2) {
                 result2 = JSON.parse(result2);
                 result2.mediaid = result.mediaid;
-                addUploadedAsset(result2);
+                setTimeout(function (){
+                    addUploadedAsset(result2);
+                }, 3000);
             }
         });
 
@@ -841,7 +847,7 @@ function addBMpopup() {
                 }
             },
             error() {
-                alert('Fetch error! Try again or contact Plugin Developer.');
+                console.log("Bynder popup can't be created! Try reload or contact plugin developer.");
             },
         });
     }

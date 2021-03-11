@@ -33,10 +33,6 @@ add_filter( 'block_categories', 'nab_amplify_plugin_block_categories', 10, 2 );
 /* Action to check if password matches confirm password */
 add_action( 'woocommerce_registration_errors', 'nab_confirm_password_matches_checkout', 10, 3 );
 
-// Ajax to upload user images.
-add_action( "wp_ajax_nab_amplify_upload_images", "nab_amplify_upload_images" );
-add_action( "wp_ajax_nopriv_nab_amplify_upload_images", "nab_amplify_upload_images" );
-
 // Ajax to remove user images.
 add_action( "wp_ajax_nab_amplify_remove_images", "nab_amplify_remove_images" );
 add_action( "wp_ajax_nopriv_nab_amplify_remove_images", "nab_amplify_remove_images" );

@@ -170,53 +170,6 @@ function product_video_text_box_html($post)
 }
 
 /**
- * Ajax to upload user images.
- */
-function nab_amplify_upload_images()
-{
-
-    $user_id = get_current_user_id();
-    $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-
-    // Upload images.
-    $images_names         = array('profile_picture', 'banner_image', 'company_profile_picture', 'company_banner_image');
-    $dependencies_loaded = 0;
-
-    foreach ($_FILES as $file_key => $file_details) {
-
-        if (in_array($file_key, $images_names, true)) {
-
-            if (0 === $dependencies_loaded) {
-                // These files need to be included as dependencies when on the front end.
-                require_once ABSPATH . 'wp-admin/includes/image.php';
-                require_once ABSPATH . 'wp-admin/includes/file.php';
-                require_once ABSPATH . 'wp-admin/includes/media.php';
-                $dependencies_loaded = 1;
-            }
-
-            // Let WordPress handle the upload.
-            $attachment_id = media_handle_upload($file_key, 0);
-
-            if (!is_wp_error($attachment_id)) {
-                // update in meta
-                if ($file_key === 'company_profile_picture') {
-                    set_post_thumbnail($company_id, $attachment_id);
-                    do_action( 'nab_company_profile_image_update', $company_id );
-                } else if ($file_key === 'company_banner_image') {
-                    update_field('field_5fb60d61ce131', $attachment_id, $company_id);
-                    do_action( 'nab_company_profile_image_update', $company_id );
-                } else {
-                    update_user_meta($user_id, $file_key, $attachment_id);
-                    do_action( 'nab_user_profile_image_updated', $user_id );
-                    update_user_meta($user_id, 'profile_update_two', '1');
-                }
-            }
-        }
-    }
-    wp_die();
-}
-
-/**
  * Ajax to show edit product.
  */
 function nab_amplify_edit_product()
@@ -605,7 +558,7 @@ function nab_amplify_register_post_types() {
         'exclude_from_search' => true,
         'publicly_queryable'  => false,
         'capability_type'     => 'post',
-        'show_in_rest'        => true,        
+        'show_in_rest'        => true,
         'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
@@ -807,11 +760,11 @@ function nab_amplify_template_redirect()
     if ( $user_logged_in ) {
 
         $request = explode( '/', $wp->request );
-        
+
         $page_param = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 
         if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
-            
+
             $maritz_url = nab_maritz_redirect_url( $current_user_id );
 
             if ( ! empty( $maritz_url ) ) {

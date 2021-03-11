@@ -40,11 +40,10 @@ $username = $user_obj->user_login;
 						?>
 
                         <div class="update-banner-image">
-                            <label for="banner_image_file" class="bm-select-media" bynder-for="banner_image">
+                            <label class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" style="display:none;" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
                             <span class="remove-bg-pic" style="display:none;" id="banner_image_remove" data-bp-tooltip="Remove Image"><i class="fa fa-times"></i></span>
-                            <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
                         </div>
                         <div id="edit-mode-buttons">
                             <a href="javascript:void(0);" class="button edit-company-mode">Edit profile</a>
@@ -71,7 +70,6 @@ $username = $user_obj->user_login;
 										?>
                                         <div class="profile-actions">
                                             <span class="edit-profile-pic bm-select-media" bynder-for="profile_picture" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
-                                            <!--<input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>-->
                                         </div>
 										<?php
 									}
