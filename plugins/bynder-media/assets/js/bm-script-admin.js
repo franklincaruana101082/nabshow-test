@@ -41,7 +41,8 @@
 
         // Add clicked element's ID in #bm-tab-media
         // to perform respective actions later.
-        const requestedBy = $(this).attr('id');
+        //const requestedBy = $(this).attr('id');
+        const requestedBy = $(this).attr('bynder-for');
         $('#bm-tab-media').attr('bynder-request-by', requestedBy);
 
         $("#bm-main-outer").addClass('bm-modal-active');
