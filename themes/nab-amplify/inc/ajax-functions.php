@@ -1331,9 +1331,8 @@ function nab_company_search_filter_callback()
 
 			$company_query->the_post();
 
-			$cover_image        = get_field('banner_image');
 			$profile_picture    = get_field('profile_picture');
-			$cover_image        = !empty($cover_image) ? $cover_image : $default_company_cover;
+			$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 			$featured_image     = nab_amplify_get_featured_image(get_the_ID(), false);
 			$profile_picture    = $featured_image;
 			$company_url		= get_the_permalink();
@@ -3204,6 +3203,7 @@ function nab_amplify_banner_image_remove()
 {
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	update_field('banner_image', '', $company_id);
+	update_field('cover_image', '', $company_id);
 	update_post_meta($company_id, 'banner_image', '');
 }
 
@@ -3298,26 +3298,26 @@ function nab_downloadable_pdf_callback() {
 	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
 	$msg					= '';
 	$action					= empty( $pdf_id ) || 0 === (int) $pdf_id ? 'add' : 'update';
-	$member_restriction		= nab_company_member_validation( $company_id, $action );	
+	$member_restriction		= nab_company_member_validation( $company_id, $action );
 
 	if ( ! $member_restriction['success'] ) {
 		wp_send_json_error( array( 'msg' => $member_restriction['message'] ) );
 	}
 
 	if ( empty( $company_id ) || 0 === (int) $company_id ) {
-		
+
 		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
 	}
 
 	if ( empty( $pdf_title ) ) {
-		
+
 		wp_send_json_error( array( 'msg' => 'Document name can not be empty.' ) );
 	}
 
 	$pdf_post_data = array(
         'post_title'   => $pdf_title,
         'post_status'  => 'publish',
-        'post_type'    => 'downloadable-pdfs'        
+        'post_type'    => 'downloadable-pdfs'
     );
 
 	if ( empty( $pdf_id ) || 0 === (int) $pdf_id ) {
@@ -3330,11 +3330,11 @@ function nab_downloadable_pdf_callback() {
 
 		$msg = 'Downloadable PDF added successfully.';
 	} else {
-		
+
         $pdf_post_data['ID']	= $pdf_id;
         $pdf_id					= wp_update_post( $pdf_post_data );
 		$msg 					= 'Downloadable PDF updated successfully.';
-	}	    
+	}
 
 	if ( $pdf_id ) {
 
@@ -3343,7 +3343,7 @@ function nab_downloadable_pdf_callback() {
 		if ( $remove_featured_img && has_post_thumbnail( $pdf_id ) ) {
 			delete_post_thumbnail( $pdf_id );
 		}
-		
+
 		// Upload images.
 		$file_names				= array( 'featured_img', 'pdf_file' );
 		$dependencies_loaded 	= false;
@@ -3351,7 +3351,7 @@ function nab_downloadable_pdf_callback() {
 		foreach ( $_FILES as $file_key => $file_details ) {
 
 			if ( in_array( $file_key, $file_names, true ) ) {
-	
+
 				if ( $dependencies_loaded ) {
 					// These files need to be included as dependencies when on the front end.
 					require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -3359,18 +3359,18 @@ function nab_downloadable_pdf_callback() {
 					require_once ABSPATH . 'wp-admin/includes/media.php';
 					$dependencies_loaded = true;
 				}
-	
+
 				// Let WordPress handle the upload.
 				$attachment_id = media_handle_upload( $file_key, 0 );
-	
+
 				if ( ! is_wp_error( $attachment_id ) ) {
-					
+
 					if ( 'featured_img' === $file_key ) {
 						set_post_thumbnail( $pdf_id, $attachment_id );
 						$success['featured_attachment_id'] = $attachment_id;
 					} else if ( 'pdf_file' === $file_key ) {
 						update_field( 'pdf_file', $attachment_id, $pdf_id );
-						$success['pdf_attachment_id'] = $attachment_id;						
+						$success['pdf_attachment_id'] = $attachment_id;
 					}
 				}
 			}
@@ -3385,7 +3385,7 @@ function nab_downloadable_pdf_callback() {
 
 	} else {
 		wp_send_json_error( array( 'msg' => 'Something went wrong while add or update Downloadable PDF. Please try again.' ) );
-	}	
+	}
 }
 
 add_action('wp_ajax_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
@@ -3393,12 +3393,12 @@ add_action('wp_ajax_nopriv_nab_remove_downloadable_pdf', 'nab_remove_downloadabl
 
 function nab_remove_downloadable_pdf_callback() {
 
-	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );	
-	
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
 	$pdf_id = filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
 
 	if ( ! empty( $pdf_id ) ) {
-		
+
 		wp_trash_post( $pdf_id );
 	}
 
@@ -3424,7 +3424,7 @@ function nab_pdf_search_filter_callback()
 	$post_limit			= filter_input( INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
 	$search_term		= filter_input( INPUT_POST, 'search_term', FILTER_SANITIZE_STRING );
 	$orderby			= filter_input( INPUT_POST, 'orderby', FILTER_SANITIZE_STRING );
-	$order				= 'title' === $orderby ? 'ASC' : 'DESC';	
+	$order				= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$pdf_args = array(
 		'post_type'         => 'downloadable-pdfs',
@@ -3433,14 +3433,14 @@ function nab_pdf_search_filter_callback()
 		's'					=> $search_term,
 		'paged'				=> $page_number,
 		'meta_key'          => '_pdf_member_level',
-		'meta_value'        => 'Premium',				
+		'meta_value'        => 'Premium',
 	);
-	
+
 	if ( 'date' !== $orderby ) {
 
 		$pdf_args['orderby']	= $orderby;
 		$pdf_args['order']		= $order;
-	}	
+	}
 
 	$pdf_query	= new WP_Query( $pdf_args );
 
@@ -3465,7 +3465,7 @@ function nab_pdf_search_filter_callback()
 			$result_post[$cnt]['pdf_url'] 	= $pdf_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode( get_the_title() );
 			$result_post[$cnt]['company'] 	= html_entity_decode( get_the_title( $company_id ) );
-			$result_post[$cnt]['thumbnail'] = $thumbnail_url;			
+			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
 
 			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();

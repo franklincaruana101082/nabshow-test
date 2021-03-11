@@ -25,16 +25,20 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="bm-modal-action">
                     <span class="bm-modal-close dashicons dashicons-no-alt"></span>
                 </div>
+                <div class="bm-tab-form">
+                    <div id="bm-search-container">
+                        <form method="post" id="bm-search-form">
+                            <input type="text" name="bm-search" id="bm-search" placeholder="Search Assets...">
+                            <button type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="bm-modal-body">
                 <div class="bm-tab-main">
                     <div id="bm-tab-assets" class="bm-tab-content bm-tab-active">
-                        <!--<div id="bm-search-container">
-                            <form method="post" id="bm-search-form">
-                                <input type="text" name="bm-search" id="bm-search" placeholder="Search Assets...">
-                                <input type="submit" class="btn" value="Search">
-                            </form>
-                        </div>-->
                         <div id="bm-tab-media">
                             <div class="bm-media-main"></div>
                         </div>
@@ -51,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <div class="bm-drag-drop-inside">
                                         <div class="bm-drag-drop-buttons">
                                             <label id="bm-browse-button" for="profile_picture_file">Select File</label>
-                                            <input id="bynder_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" accept="image/*"/>
+                                            <input type="file" class="cropper_img_file" name="company_profile_picture" accept="image/*"/>
                                         </div>
                                         <div class="bm-show-cropping-area">
                                             <div class="bm-adjust-crop-actions">

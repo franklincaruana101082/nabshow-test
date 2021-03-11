@@ -75,10 +75,9 @@ if ( $user_logged_in ) {
 
 					<?php if ( 2 === $edit_mode ) { ?>
                         <div class="update-banner-image">
-                            <label for="banner_image_file" class="bm-select-media" bynder-for="banner_image">
+                            <label class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="banner_image" style="display: none;"/>
                         </div>
 					<?php } ?>
 
@@ -101,7 +100,6 @@ if ( $user_logged_in ) {
                                                 <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
                                             </label>
                                             <span class="remove-profile-pic" id="profile_picture_remove" name="profile_picture_remove" data-bp-tooltip="Remove Profile Image"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                            <!--<input id="profile_picture_file" class="cropper_img_file" type="file" name="profile_picture" data-action="nab_amplify_upload_images" style="display: none;"/>-->
                                         </div>
 			                        <?php } else {
 				                        echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );

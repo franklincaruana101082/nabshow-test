@@ -64,7 +64,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						?>
 						<div class="sort-pdf sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
-							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>							
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 						<?php
 					} else if ('company' === $view_type) {
@@ -306,7 +306,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								bp_the_member();
 
 								$member_user_id = bp_get_member_user_id();
-								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);								
+								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 								if (empty(trim($user_full_name))) {
 									$user_full_name = bp_get_member_name();
 								}
@@ -543,13 +543,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$company_query->the_post();
 
-								$cover_image        = get_field('banner_image');
-								$profile_picture    = get_field('profile_picture');
-								$cover_image        = !empty($cover_image) ? $cover_image : $default_company_cover;
-								$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
-								$profile_picture    = $featured_image;
-								$company_url		= get_the_permalink();
-								$company_poc        = get_field('point_of_contact');
+								$profile_picture = get_field( 'profile_picture' );
+								$cover_image     = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
+								$featured_image  = nab_amplify_get_featured_image( get_the_ID(), false );
+								$profile_picture = $featured_image;
+								$company_url     = get_the_permalink();
+								$company_poc     = get_field( 'point_of_contact' );
 							?>
 								<div class="search-item">
 									<div class="search-item-inner">
@@ -730,9 +729,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$current_date   = current_time('Y-m-d');
 				$compare		= '>=';
-		
+
 				$event_args['meta_query'] = array(
-		
+
 					array(
 						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
@@ -819,10 +818,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</div>
-				</div>				
+				</div>
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				$style = '';				
+				$style = '';
 				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
 					$style = 'display:none;';
 				}
@@ -929,18 +928,18 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				wp_reset_postdata();
 
 			} else if ( 'pdf' === $view_type ) {
-				
+
 				$pdf_args = array(
 					'post_type'         => 'downloadable-pdfs',
 					'post_status'       => 'publish',
 					'posts_per_page'    => 12,
 					's'					=> $search_term,
 					'meta_key'          => '_pdf_member_level',
-					'meta_value'        => 'Premium',				
+					'meta_value'        => 'Premium',
 				);
-	
+
 				$pdf_query = new WP_Query( $pdf_args );
-	
+
 				if ( $pdf_query->have_posts() ) {
 
 					$total_pdf = $pdf_query->found_posts;
@@ -952,22 +951,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					<div class="search-section search-pdf-section">
 						<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
 							<?php
-							
+
 							$cnt = 1;
 
 							while ( $pdf_query->have_posts() ) {
-	
+
 								$pdf_query->the_post();
-	
+
 								$pdf_id				= get_the_ID();
 								$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id );
-								$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );							
+								$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
 								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 
 								?>
 								<div class="amp-item-col">
-									<div class="amp-item-inner">                                    
+									<div class="amp-item-inner">
 										<div class="amp-item-cover">
 											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
 										</div>
@@ -988,7 +987,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 													</div>
 													<div class="amp-actions">
 														<div class="search-actions nab-action">
-															<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>                                                        
+															<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
 														</div>
 													</div>
 													<?php
@@ -1076,7 +1075,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							bp_the_member();
 
 							$member_user_id = bp_get_member_user_id();
-							
+
 							$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
 
 							if (empty(trim($user_full_name))) {
@@ -1295,13 +1294,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$company_query->the_post();
 
-							$cover_image        = get_field('banner_image');
-							$profile_picture    = get_field('profile_picture');
-							$cover_image        = !empty($cover_image) ? $cover_image : $default_company_cover;
-							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
-							$profile_picture  	= $featured_image;
-							$company_url		= get_the_permalink();
-							$company_poc		= get_field('point_of_contact');
+							$profile_picture = get_field( 'profile_picture' );
+							$cover_image     = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
+							$featured_image  = nab_amplify_get_featured_image( get_the_ID(), false );
+							$profile_picture = $featured_image;
+							$company_url     = get_the_permalink();
+							$company_poc     = get_field( 'point_of_contact' );
 						?>
 							<div class="search-item">
 								<div class="search-item-inner">
@@ -1623,7 +1621,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'posts_per_page'    => 4,
 				's'					=> $search_term,
 				'meta_key'          => '_pdf_member_level',
-				'meta_value'        => 'Premium',				
+				'meta_value'        => 'Premium',
 			);
 
 			$pdf_query = new WP_Query( $pdf_args );
@@ -1656,12 +1654,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$pdf_id				= get_the_ID();
 							$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id );
-							$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );							
+							$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
 							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 							?>
 							<div class="amp-item-col">
-                                <div class="amp-item-inner">                                    
+                                <div class="amp-item-inner">
                                     <div class="amp-item-cover">
                                         <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
                                     </div>
@@ -1682,7 +1680,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 </div>
                                                 <div class="amp-actions">
                                                     <div class="search-actions nab-action">
-                                                        <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>                                                        
+                                                        <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
                                                     </div>
                                                 </div>
                                                 <?php
@@ -1708,7 +1706,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 				<?php
 			}
-			
+
 			wp_reset_postdata();
 
 			if (!$search_found) {
