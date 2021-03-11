@@ -306,7 +306,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 										<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="event">
 											<div class="event__date">
 												<div class="event__month"><?php echo esc_html($month); ?></div>
-												<div class="event__day number _blue"><?php echo esc_html($day); ?></div>
+												<div class="event__day text-gradient _blue"><?php echo esc_html($day); ?></div>
 											</div>
 											<div class="event__photo">
 												<div class="event__link link _plus">Learn More</div>
