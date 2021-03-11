@@ -52,7 +52,6 @@
 			@include bp-768 {
 				display: flex;
 				flex-flow: row wrap;
-				justify-content: space-between;
 				margin-left: rem(-10);
 				margin-right: rem(-10);
 			}
