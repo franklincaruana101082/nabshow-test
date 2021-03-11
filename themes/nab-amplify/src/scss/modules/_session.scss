@@ -7,6 +7,8 @@
 		.involveme_embed {
 			border-top: 4px solid $color__purple;
 			border-image: linear-gradient(90deg, $color__pink, $color__purple) 4;
+			border-width: 0;
+			border-top-width: 4px;
 			background-color: $color__black;
 		}
 	}

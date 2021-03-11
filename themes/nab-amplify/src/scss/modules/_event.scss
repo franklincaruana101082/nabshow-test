@@ -1,6 +1,8 @@
 .event {
 	border-top: 3px solid $color__blue;
 	border-image: linear-gradient(90deg, $color__blurple, $color__blue) 3;
+	border-width: 0;
+	border-top-width: 3px;
 	padding-top: rem(22);
 	padding-bottom: rem(30);
 	display: grid;
@@ -128,6 +130,7 @@
 				display: flex;
 				flex-flow: row wrap;
 				align-items: center;
+				justify-content: flex-start;
 			}
 			._wide & {
 				grid-column: 1 / 2;
@@ -160,14 +163,14 @@
 		&__time, &__host-name {
 			font-family: $font__secondary;
 			font-size: rem(16);
-			line-height: 1.5;
+			line-height: 1.2;
 			letter-spacing: -0.01em;
 			color: $color__gray-lightest;
 		}
 		&__time {
 			@include bp-1024 {
 				flex: 0 1 auto;
-				height: rem(40);
+				//height: rem(40);
 				margin-right: rem(30);
 			}
 		}
@@ -191,12 +194,20 @@
 			@include bp-1024 {
 				flex: 0 1 auto;
 			}
+			&._company {
+				padding-top: rem(24);
+			}
 		}
 			
 			&__host-photo {
 				border-radius: 50%;
-				width: rem(40) !important;
-				height: rem(40) !important;
+				width: rem(40);// !important;
+				height: rem(40); // !important;
+				._company & {
+					//important because WP adds inline styles of auto width and height
+					width: rem(40) !important;
+					height: rem(40) !important;
+				}
 			}
 			&__host-info {
 				padding-left: rem(14);

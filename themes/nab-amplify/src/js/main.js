@@ -5,6 +5,7 @@ jQuery(function($) {
 		jQuery(this).closest('.header').toggleClass('_open');
 	});
 	jQuery('.js-toggle-feedchooser').on('click', function() {
+		console.log('poop');
 		jQuery(this).parent().toggleClass('_open');
 	});
 	var closeFeedchooser;

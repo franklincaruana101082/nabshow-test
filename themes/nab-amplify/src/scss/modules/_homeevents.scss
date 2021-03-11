@@ -24,6 +24,15 @@
 	}
 	&__introtext {
 		margin-bottom: rem(30);
+		&.introtext {
+			p {
+				font-family: $font__primary;
+				@include bp-1024 {
+					font-size: rem(22);
+					line-height: 1.2;
+				}
+			}
+		}
 	}
 
 	&__events {

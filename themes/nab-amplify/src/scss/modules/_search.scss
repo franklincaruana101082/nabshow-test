@@ -208,6 +208,8 @@
   	display: block;
 	border-top: 3px solid $color__purple;
 	border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+	border-width: 0;
+	border-top-width: 3px;
 	background-color: $color__gray-darkest;
 	padding: rem(18) rem(18) rem(46);
 	height: 100%;

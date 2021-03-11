@@ -1,6 +1,8 @@
 .feature {
 	border-left: 5px solid $color__blue;
 	border-image: linear-gradient(0deg, $color__blurple, $color__blue) 5;
+	border-width: 0;
+	border-left-width: 5px;
 	background: $color__black;
 	padding: rem(20);
 	margin-bottom: rem(60);
@@ -20,6 +22,7 @@
 	}
 	&__title {
 		margin-bottom: rem(20);
+		color: $color__yellow;
 	}
 	&__event {
 		@include bp-768 {

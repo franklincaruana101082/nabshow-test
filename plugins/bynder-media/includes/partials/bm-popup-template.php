@@ -33,7 +33,7 @@ $requested_by = $this->requested_by;
         }
 
 		// If featured image is requested, skip if featured derivative is absent.
-		if ( 'bm-featured-image' === $requested_by ) {
+		if ( 'profile_picture' === $requested_by ) {
 			foreach ( $derivatives as $derv ) {
 				$pass = 0;
 				if ( 'Featured' === $derv->name ) {
@@ -44,6 +44,7 @@ $requested_by = $this->requested_by;
 				continue;
 			}
 		}
+
 		?>
         <div class="bm-item">
             <div class="bm-item-inner">
