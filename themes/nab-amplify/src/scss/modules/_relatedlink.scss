@@ -4,9 +4,12 @@
 	margin-bottom: rem(30);
 	border-top: 2px solid $color__purple;
 	border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
+	border-width: 0;
+	border-top-width: 2px;
 	&._sponsored {
 		border-top: 8px solid $color__purple;
 		border-image: linear-gradient(90deg, $color__purple, $color__pink) 8;
+		border-top-width: 8px;
 	}
 
 	&__image {

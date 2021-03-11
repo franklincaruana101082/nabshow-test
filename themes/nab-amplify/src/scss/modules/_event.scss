@@ -1,6 +1,8 @@
 .event {
 	border-top: 3px solid $color__blue;
 	border-image: linear-gradient(90deg, $color__blurple, $color__blue) 3;
+	border-width: 0;
+	border-top-width: 3px;
 	padding-top: rem(22);
 	padding-bottom: rem(30);
 	display: grid;
