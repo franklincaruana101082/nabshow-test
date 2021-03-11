@@ -3,7 +3,11 @@
 		display: flex;
 		flex-flow: row wrap;
 		justify-content: space-between;
+		&._events {
+			display: block;
+		}
 	}
+
 	&__title {
 		@include bp-768 {
 			flex: 0 1 100%;
@@ -33,6 +37,17 @@
 			margin-left: rem(-38);
 			margin-right: rem(-38);
 		}
+		&._full {
+			@include bp-768 {
+				flex: 0 1 auto;
+			}
+			@include bp-1280 {
+				flex: 0 1 auto;
+			}
+			@include bp-1440 {
+				flex: 0 1 auto;
+			}
+		}
 	}
 	&__item,
 	&__list .relatedlink {
@@ -40,6 +55,12 @@
 			flex: 0 1 50%;
 			margin-left: rem(10);
 			margin-right: rem(10);
+			._events & {
+				flex: 0 1 auto;
+				&._wide {
+					flex: 0 1 50%;
+				}
+			}
 		}
 		@include bp-1440 {
 			margin-left: rem(38);

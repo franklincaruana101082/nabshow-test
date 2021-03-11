@@ -282,6 +282,63 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							</div>
 						</div>
 					</div>
+
+					<?php
+					$related = get_field( 'related_sessions' );
+					if ( ! empty( $related ) && is_array( $related ) && count( $related ) > 0 ) {
+					?>
+					<div class="container">
+					<div class="nabcard _shrink">
+						<div class="nabcard__content">
+							<div class="related _events">
+								<h2 class="related__title">Related Sessions</h2>
+								<ul class="related__list _full">
+									<?php foreach ($related as $event_id) {
+										$session_start	= get_field( 'session_date', $event_id );
+										$session_end	= get_field( 'session_end_time', $event_id );
+										$month			= gmdate('F', strtotime($session_start));
+										$day			= gmdate('d', strtotime($session_start));
+										$time_start		= gmdate('g:i', strtotime($session_start));
+										$time_end		= gmdate('g:i A', strtotime($session_end));
+										$company		= get_field( 'company', $event_id );
+									?>
+									<li class="related__item">
+										<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="event">
+											<div class="event__date">
+												<div class="event__month"><?php echo esc_html($month); ?></div>
+												<div class="event__day number _blue"><?php echo esc_html($day); ?></div>
+											</div>
+											<div class="event__photo">
+												<div class="event__link link _plus">Learn More</div>
+												<!-- <img class="event__image" src="square-image" /> -->
+											</div>
+											<div class="event__info">
+												<h4 class="event__title"><?php echo esc_html( get_the_title($event_id) ); ?></h4>
+												<div class="event__time"><?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET</div>
+												<?php
+													if ( ! empty( $company ) ) {
+													?>
+													<div class="event__host _company" data-company="<?php echo $company ?>">
+														<?php 
+															echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo', 'style' => 'width: auto; height: auto;') );
+														?>
+														<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
+													</div>
+												<?php
+												}
+												?>
+											</div>
+											<div class="event__link link _plus">Learn More</div>
+										</a>
+									</li>
+									<?php } //end foreach ?>
+								</ul>
+							</div>
+						</div>
+					</div>
+					</div>
+					<?php } //end related if ?>
+
 					<?php 
 					} else { //if user NOT logged in
 					 ?>
