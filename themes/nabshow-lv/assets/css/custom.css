@@ -496,8 +496,8 @@ nav#site-navigation{margin-top:40px;position:static}
 .logged-in .site-header{top:32px;z-index:10000;}
 #page{padding-top:141px}
 .logged-in #page{padding-top:141px}
-.show_sec_menu #page{padding-top:231px}
-.show_sec_menu.logged-in #page{padding-top:231px}
+.show_sec_menu #page{padding-top:211px}
+.show_sec_menu.logged-in #page{padding-top:211px}
 .dark-header.site-header{color:#fff;padding:18px 0;background:#150c28;height:141px}
 .dark-header.site-header a{color:#fff}
 .dark-header.site-header .super-menu-main .super-menu-icons li{margin-bottom:0}
