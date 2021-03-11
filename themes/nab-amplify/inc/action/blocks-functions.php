@@ -297,6 +297,7 @@ function nab_company_details_render_callback($attributes)
     $user_id            = get_current_user_id();
     $admin_id           = get_field('company_user_id', $company_id);
     $company_product_categories = get_field('product_categories', $company_id);
+    $member_level       = get_field( 'member_level', $company_id );
 
 
     // Get images.
@@ -348,7 +349,7 @@ function nab_company_details_render_callback($attributes)
                                     </li>
                                 <?php
                                 }
-                                if (!empty($company_website)) {
+                                if (!empty($company_website) ) {
                                 ?>
                                     <li>
                                         <span>Website:</span>
@@ -356,7 +357,7 @@ function nab_company_details_render_callback($attributes)
                                     </li>
                                 <?php
                                 }
-                                if (!empty($point_of_contact)) {
+                                if (!empty($point_of_contact) && ( 'plus' === strtolower( $member_level ) || 'premium' === strtolower( $member_level ) ) ) {
                                 ?>
                                     <li>
                                         <span>Point of contact:</span>

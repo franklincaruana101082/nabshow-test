@@ -1,5 +1,11 @@
 <?php
 global $post;
+
+$company_id 	= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+$member_level	= '';
+if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id ) {
+	$member_level = get_field( 'member_level', $company_id );
+}
 ?>
 <div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
@@ -94,40 +100,46 @@ global $post;
 									</div>
 								</div>
 								<div class="form-col-6">
-									<div class="form-row">
-										<label for="" class="tooltip-container large-label-tooltip">
-											<div class="field-label">Add Point of Contact</div>
-											<div class="tooltip-wrap">
-												<i class="fa fa-info-circle" aria-hidden="true"></i>
-												<div class="tooltip">
-													Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your product. NOTE: You can only add one Point of Contact for each product at this time. A NAB Amplify user does not need to be a company admin to be a POC.
+									<?php
+									if ( 'plus' === strtolower( $member_level ) || 'premium' === strtolower( $member_level ) ) {
+										?>
+										<div class="form-row">
+											<label for="" class="tooltip-container large-label-tooltip">
+												<div class="field-label">Add Point of Contact</div>
+												<div class="tooltip-wrap">
+													<i class="fa fa-info-circle" aria-hidden="true"></i>
+													<div class="tooltip">
+														Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your product. NOTE: You can only add one Point of Contact for each product at this time. A NAB Amplify user does not need to be a company admin to be a POC.
+													</div>
 												</div>
-											</div>
-										</label>									
-										<div class="select-dark-simple">
-											<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
-												<?php
-												if ( ! empty( $post_data->product_point_of_contact ) ) {
+											</label>									
+											<div class="select-dark-simple">
+												<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
+													<?php
+													if ( ! empty( $post_data->product_point_of_contact ) ) {
 
-													$product_user = get_user_by( 'ID', $post_data->product_point_of_contact );
+														$product_user = get_user_by( 'ID', $post_data->product_point_of_contact );
 
-													if ( $product_user ) {
-														
-														$user_name		= $product_user->user_login;
-														$user_full_name	= get_user_meta( $product_user->ID, 'first_name', true ) . ' ' . get_user_meta( $product_user->ID, 'last_name', true );
+														if ( $product_user ) {
+															
+															$user_name		= $product_user->user_login;
+															$user_full_name	= get_user_meta( $product_user->ID, 'first_name', true ) . ' ' . get_user_meta( $product_user->ID, 'last_name', true );
 
-														if ( ! empty( trim( $user_full_name ) ) ) {
-															$user_name .= ' (' . $user_full_name . ')';					
+															if ( ! empty( trim( $user_full_name ) ) ) {
+																$user_name .= ' (' . $user_full_name . ')';					
+															}
+															?>
+															<option value="<?php echo esc_attr( $product_user->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
+															<?php
 														}
-														?>
-														<option value="<?php echo esc_attr( $product_user->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
-														<?php
 													}
-												}
-												?>
-											</select>
+													?>
+												</select>
+											</div>
 										</div>
-									</div>
+										<?php	
+									}
+									?>									
 									<div class="form-row">
 										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
 										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
@@ -181,7 +193,7 @@ global $post;
 								}
 								?>
 								<input type="hidden" name="nab_product_id" id="nab_product_id" value="<?php echo isset($post_data->ID) ? $post_data->ID : 0 ?>" />
-								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $post_data->company_id; ?>" />
+								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo esc_attr( $company_id ); ?>" />
 							</div>
 						</form>
 						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>

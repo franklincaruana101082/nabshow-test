@@ -815,6 +815,7 @@
       data: {
         action: "nab_amplify_edit_product",
         product_id: prod_id,
+        company_id: company_id,
       },
       success: function (data) {
         _this.removeClass("loading");
@@ -1132,9 +1133,7 @@
     var nab_product_specs = jQuery(
       "#nab-edit-product-form #nab_product_specs"
     ).val();
-    var nab_product_contact = jQuery(
-      "#nab-edit-product-form #nab_product_contact"
-    ).val();
+    var nab_product_contact = 0 < jQuery("#nab-edit-product-form #nab_product_contact").length ? jQuery("#nab-edit-product-form #nab_product_contact").val() : '';
     var nab_feature_product = jQuery(
       "#nab-edit-product-form #nab_feature_product"
     ).prop("checked")
