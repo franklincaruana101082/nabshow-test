@@ -30,7 +30,7 @@
 .nab-open-menu .nab-mobile-toggle .nab-mobile-icon::before{transform:rotate(-45deg);}
 .nab-open-menu .nab-mobile-toggle .nab-mobile-icon::after{transform:rotate(45deg);}
 .nab-header-secondary .nab-navigation-menu{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;list-style:none;margin:0;padding:19px 0;}
-.nab-header-secondary .nab-navigation-menu:before{content:"More NAB:";color:#707070;font-family:'proxima-nova',sans-serif;font-size:12px;font-weight:600;padding:0 10px;line-height:1;}
+.nab-header-secondary .nab-navigation-menu:before{content:"More NAB:";color:#707070;font-family:'proxima-nova',sans-serif;font-size:12px;font-weight:600;padding:0 10px;line-height:1;text-transform:uppercase;}
 .nab-header-secondary .nab-navigation-menu li{line-height:1;margin:0;}
 .nab-header-secondary .nab-navigation-menu li a{font-size:12px;text-transform:uppercase;color:#fff;padding:0 10px;display:block;text-decoration:none;font-weight:600;transition:color .3s ease-in-out;}
 .nab-header-secondary .nab-navigation-menu li a:hover{color:#fdd80f;}
