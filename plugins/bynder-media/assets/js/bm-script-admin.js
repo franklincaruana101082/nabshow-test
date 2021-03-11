@@ -86,7 +86,7 @@
         let assetSrc = assetCard.find('[data-name]:checked').val();
 
         // Check the Featured derivative if the request is for the featured image.
-        if( 'bm-featured-image' === requestedBy ) {
+        if( 'profile_picture' === requestedBy ) {
             assetCard.find('[data-name="Featured"]').prop('checked',true);
             assetSrc = assetCard.find('[data-name]:checked').val();
         }
@@ -98,7 +98,7 @@
         }
 
         // Add the selected image src in hidden meta field.
-        if( 'bm-featured-image' === requestedBy ) {
+        if( 'profile_picture' === requestedBy ) {
             // Add the selected image src in hidden meta field.
             $('.bm-select-media.active').parent().find('input').val(assetSrc);
 
