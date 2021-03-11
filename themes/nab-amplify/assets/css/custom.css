@@ -385,17 +385,11 @@ span.user-bookmark-action{cursor:pointer}
 /* products */
 
 /* login page css */
-.nab-without-login-account .woocommerce{background:#fff;padding:90px 50px;border-radius:20px;-webkit-box-shadow:0 0 18px 0 rgb(0 0 0 / 10%);box-shadow:0 0 18px 0 rgb(0 0 0 / 10%);margin:130px 0 120px 0}
 .nab-without-login-account .woocommerce .nab-login-wrap{display:-webkit-box;display:-ms-flexbox;display:flex}
-.nab-without-login-account .woocommerce input{width:100%;height:40px;padding:0 10px;border:1px solid #d2d3d5;outline:none;border-radius:0}
-.nab-without-login-account .woocommerce>div, .nab-without-login-account .woocommerce>p{width:600px;margin:0 auto;max-width:100%}
-.nab-without-login-account .woocommerce h2{text-align:center;text-transform:uppercase;font-weight:normal;color:#3d3d3d;margin-bottom:40px;font-size:36px;line-height:40px}
 .nab-without-login-account header.entry-header{display:none}
 .nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:50%;width:calc(50% - 35px)}
 .nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:50%;width:calc(50% - 35px)}
 .nab-without-login-account .woocommerce .nab-login-wrap>span{width:70px;text-align:center;padding-top:40px;text-transform:uppercase;font-weight:bold;color:#282828;}
-.nab-without-login-account .mo-openid-app-icons{width:100%;display:inline-block}
-.nab-without-login-account .mo-openid-app-icons a.btn{border:1px solid #d2d3d5;color:#666666!important;min-width:100%;position:relative;left:-12px}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login p{margin:0 0 20px 0;width:100%}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password{text-align:center;font-size:12px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password a{color:inherit;text-decoration:underline;font-weight:bold}
@@ -408,7 +402,6 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-signup-now a{color:inherit;text-decoration:underline}
 /*.nab-without-login-account{background:#b4b4b4}*/
 .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}
-.nab-without-login-account .woocommerce form label{font-weight:bold;margin-bottom:10px;display:block;font-size:15px; color: #282828;}
 .nab-without-login-account .woocommerce form.woocommerce-ResetPassword{width:600px;margin:0 auto;max-width:100%}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):hover, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):hover{background:#6363df}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):focus, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):focus{background:#666666}
@@ -431,6 +424,7 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb;}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top .amp-check-wrp{margin-top:7px}
+*/
 #modal-member-press ul{margin:0 0 20px;padding:0 0 0 20px}
 #modal-member-press p{font-size:16px}
 
@@ -854,22 +848,6 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 .nab-bulk-quantity-wrapper .nab_bulk_select select{padding:5px;min-width:200px}
 .nab-bulk-quantity-wrapper .nab_bulk_passes{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;border-bottom:1px solid #e0e0e0;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 
-/* popup design */
-.nab-modal{display:none}
-.nab-modal.nab-modal-active{display:block}
-.nab-modal .nab-modal-inner{position:fixed;z-index:99;left:0;top:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.4);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
-.nab-modal .modal-content{background-color:#fefefe;border:1px solid #888;width:90%;max-width:800px;position:relative;max-height:80vh;padding:0}
-.nab-modal .modal-content-wrap{height:100%;overflow:auto;padding:30px;max-height:78vh}
-.nab-modal .nab-modal-close.fa{color:#fff;font-size:16px;border-radius:50%;position:absolute;right:-15px;top:-15px;background-color:#e5018b;width:30px;height:30px;line-height:27px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer}
-.nab-modal .nab-modal-close:not(.fa){color:#999!important;text-decoration:underline;cursor:pointer;font-size:22px;display:block;text-align:right;max-width:-webkit-max-content;max-width:-moz-max-content;max-width:max-content;margin-left:auto}
-.nab-modal .modal-content-wrap h3{text-transform:uppercase;width:100%;text-align:center;color:#6363df;font-weight:700}
-.nab-modal .modal-content-wrap a, .nab-modal .modal-content-wrap span{color:#000!important}
-.nab-modal .woocommerce-message{margin-top:15px!important;color:green}
-.attendee-view-wrap .attendee-title-wrapper .nab-view-add-attendee{position:absolute;top:21px;right:20px}
-.attendee-view-wrap .attendee-details-message{text-align:center;padding-bottom:5px}
-.attendee-view-wrap .attendee-details-message.success{color:#008000}
-.attendee-view-wrap .attendee-details-message.failed{color:#ff0000}
-
 /* attendee-bulk-upload popup */
 #nabAddAttendeeModal.nab-modal .modal-content{max-width:600px}
 .attendee-bulk-upload-form-wrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:120px}
@@ -885,6 +863,10 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 .attendee-bulk-upload-form-wrap .nab-download-sample-data{color:#23282d;display:block;margin-bottom:10px;font-size:13px;margin-top:10px}
 
 /* attendee view popup */
+.attendee-view-wrap .attendee-title-wrapper .nab-view-add-attendee {position: absolute;top: 21px;right: 20px}
+.attendee-view-wrap .attendee-details-message {text-align: center;padding-bottom: 5px}
+.attendee-view-wrap .attendee-details-message.success {color: #008000}
+.attendee-view-wrap .attendee-details-message.failed {color: #ff0000}
 #nabViewAttendeeModal.nab-modal .modal-content{max-width:980px}
 .attendee-view-wrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:120px;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .attendee-view-wrap h3{text-transform:uppercase;width:100%;text-align:center;color:#6363df;font-weight:700}
@@ -939,7 +921,7 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 a.woocommerce-button.button.return-btn{text-transform:none}
 
 /* New Amplify CSS */
-.my-account h1, .messages h1, .woocommerce-account h1, .my-account h2, .woocommerce-account h2, .my-account h3, .woocommerce-account h3, .my-account h4, .woocommerce-account h4{color:#fdd80f}
+.my-account h1, .messages h1, .woocommerce-account h1, .my-account h2, .woocommerce-account h2, .my-account h3, .woocommerce-account h3, .my-account h4, .woocommerce-account h4{color:#fff}
 
 /* common page bg */
 /*.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}*/
@@ -1064,7 +1046,6 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 /* search */
 
 /* my-account */
-.woocommerce-account .button, .woocommerce-account .btn{border-radius:6px}
 /*.nab-custom-select{max-width:100%;margin:0 auto;width:300px}
 .nab-custom-select .chosen-container, .nab-custom-select .chosen-drop, .nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{width:100%;background:#3f3f3f;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-radius:0}
 .nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{border:0;border-top:2px solid #fff;border-bottom:1px solid #fff!important;padding:10px 20px!important;height:auto;font-size:20px}

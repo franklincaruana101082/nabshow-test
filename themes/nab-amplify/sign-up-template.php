@@ -189,10 +189,7 @@ while ( have_posts() ) :
 endwhile; // End of the loop.
 ?>
 
-<<<<<<< HEAD
-</main><!-- #main -->
-<!-- END legacy-template -->
-=======
+
 	</main><!-- #main -->
 	<div id="modal-member-press" class="nab-modal theme-dark">
 	    <div class="nab-modal-inner">
@@ -223,10 +220,7 @@ endwhile; // End of the loop.
 	        </div>
 	    </div>
 	</div>
-	</div><!-- .container -->
 	<!-- END legacy-template -->
->>>>>>> qa
-
 <?php
 
 get_footer();
