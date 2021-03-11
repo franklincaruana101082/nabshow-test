@@ -44,6 +44,7 @@ $requested_by = $this->requested_by;
 				continue;
 			}
 		}
+
 		?>
         <div class="bm-item">
             <div class="bm-item-inner">
