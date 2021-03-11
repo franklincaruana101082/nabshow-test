@@ -12,16 +12,18 @@
 
     $(document).on('click', '#bm-featured-remove', function(){
         // Remove the selected image src in hidden meta field.
-        $('#bm_meta_featured_image').val('');
+        $(this).parent().find('input').val('');
 
         // Remove the selected image src in hidden image.
-        $('#bm_meta_featured_image_src').attr('src', '');
+        $(this).parent().find('img').attr('src', '');
 
         // Replace the link into a select area.
-        $('#bm_meta_featured_outer').removeClass('selected');
+        $(this).parent().removeClass('selected');
 
         // Change the label name.
-        $('#bm-featured-image').text('Set Bynder Image');
+        let bynderLabel = $(this).text();
+        bynderLabel = bynderLabel.replace('Replace', 'Set');
+        $(this).text(bynderLabel);
     });
 
     $(document).on('click', '.bm-select-media', function () {
@@ -97,16 +99,16 @@
         // Add the selected image src in hidden meta field.
         if( 'bm-featured-image' === requestedBy ) {
             // Add the selected image src in hidden meta field.
-            $('#bm_meta_featured_image').val(assetSrc);
+            $('.bm-select-media.active').parent().find('input').val(assetSrc);
 
             // Add the selected image src in hidden image.
-            $('#bm_meta_featured_image_src').attr('src', assetSrc);
+            $('.bm-select-media.active').parent().find('img').attr('src', assetSrc);
 
             // Replace the select area into a link.
-            $('#bm_meta_featured_outer').addClass('selected');
+            $('.bm-select-media.active').parent().addClass('selected');
 
             // Change the label name.
-            $('#bm-featured-image').text('Change Bynder Image');
+            $('.bm-select-media.active').text('Change Image');
 
         } else if ( 'bm-block-image' === requestedBy ) {
 
