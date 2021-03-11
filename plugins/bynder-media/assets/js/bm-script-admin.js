@@ -163,11 +163,12 @@ function addBMpopup() {
                 result = JSON.parse(result);
                 if( result.bmInitPop ) {
                     jQuery('body').append(result.bmInitPop);
-                    jQuery('.bm-select-media').removeClass('disabled').text('Select Bynder Image');
+                    jQuery('.bm-select-media').removeClass('disabled');
+                    //jQuery('.bm-select-media').removeClass('disabled').text('Select Bynder Image');
                 }
             },
             error() {
-                alert('Fetch error! Try again or contact Plugin Developer.');
+                console.log('Fetch error! Try again or contact Plugin Developer.');
             },
         });
     }
