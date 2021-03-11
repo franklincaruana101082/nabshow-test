@@ -1,0 +1,156 @@
+.field {
+  margin-bottom: rem(25);
+  @include bp-1024 {
+    margin-bottom: rem(30);
+  }
+}
+
+.field__label {
+  display: block;
+  color: $color__white;
+  font-size: rem(12);
+  font-weight: 600;
+  margin-bottom: rem(6);
+  text-transform: uppercase;
+}
+
+.field__required {
+  color: $color__pink;
+}
+
+.field__error {
+  display: block;
+  color: $color__pink;
+  font-size: rem(12);
+  font-weight: 600;
+  margin: rem(8) 0 0;
+  text-transform: uppercase;
+}
+
+.field__input {
+  &[type="text"],
+  &[type="email"],
+  &[type="password"],
+  &[type="color"],
+  &[type="date"],
+  &[type="month"],
+  &[type="number"],
+  &[type="tel"],
+  &[type="time"],
+  &[type="url"] {
+    background: $color__gray;
+    border-radius: rem(4);
+    border: 1px solid $color__gray;
+    color: white;
+    font-size: rem(18);
+    font-weight: 600;
+    line-height: rem(52);
+    text-decoration: none;
+    padding: 0 rem(14);
+    transition: border-color 0.25s;
+    &:hover {
+      border-color: $color__blurple;
+    }
+    &:focus {
+      outline: none;
+      border-color: $color__pink;
+    }
+  }
+}
+
+.field__input {
+  &[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: $color__gray;
+    border-radius: rem(4);
+    border: 1px solid $color__gray;
+    height: rem(24);
+    width: rem(24);
+    transition: border-color 0.25s;
+    &:hover {
+      border-color: $color__blurple;
+    }
+    &:focus {
+      outline: none;
+      border-color: $color__pink;
+    }
+    &:checked {
+      background: $color__pink;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEHElEQVR4Xu2aSagVRxSGPydUEudZkWycZ40xaly8EHAlgggKgTiLioqKCoq4EYmCJk4kASFBIsbgQhBxHqJx4d6lMQ7RZJ+ds/JD1bNt+91bXdX33u57b+8et051ff/563TX6deOBr/aNTg/TQGaDmhwBZpboMEN0BBFsCPwsq1E1/MWGAacAUYBvwCrgVdxIepVgOHAH8CQCPBJ4Ju4CPUowAgDPzjB9ieARcBr+1u9CVAK3jIfB5ZYEepJgJEm84Mcnmy/AkslQr0IoEJ3HXCBt/ocA5bXgwCjDfxAh8zHh3xXdAEEr2o/wANeIf8XWYAxBr6/J7zCbhdVgLHG9iHw/wAtRRRgHHANCIYHHhRNgPEGvl+A7R8BXwpecxRJAMHrUdc3K/giCTDBZD4UvgV4GBWwCA6YaOD7BGb+A/giOGAScBWoCHw5AaYBawAVjb3A04AM+IRONvC9fYJNjNaemPlyp8F5wG9AFzPwMjAXeBawmDShU4ArQEXh23KAOic/AO1jKz4PSJjnaUg8xgpetu/lEWtDVOiUeTmg5BUvgruAnSUizgLzgRflJvb8/VOT+arARx3QAfgJWOmw8NPAwlKNRoc5koZMNfA9PeMV5pz5aA3oCvxu9rjrvU8BXyc1GV0niI37DFCdCYHXm53e8MraPnpvbQFlVHs77aUiqSZja38t7QRmvJ42gu/hGa8wL3i7BbSf1Tv3uVpbSz7BwOfApQzgVfB0ukt9yQFawOzUke8C1HNfAbxJOYfglfnuKeOiw5V5b3jrAL1l3QB0zPS9jpoPD64iTDfCh8DfN3veK/MW1D4G1U/7E9AHBd/rR2CtQ/AMA9/NYWxbQzKBtw6wNxkK3AI+CVjYIWBjifiZwEUgF/BxAfS3vqfJCWnay3He/cDWBBG+AC5kAK89/zggSe+FJh2H1W+7GXgC0+Fpe+ROswz8xwELl+0zhU9ygF2f3sfVfQl5NuvN8mdAp7oDQAj836bgZZb5eBFMSowsq0fkRwFZyyK0YvClHGAX/hVwDuicBYnHHBWFdxFAY+aY1+VOHgAhIYLXnn8SMkm5WNee4AJA/2AQ7xGUm9/396rAuzrAQuhzsoqaq2i+8PdMwato5l2KYBLAeuCwL5lDXFXh0zrArn8bsMcBJu0QwWvP/5s2MGS8r513AztCbhyLrQm8rwPs2vcBWzIQoWbwoQIoPlSEv0zBq6rto0nz3QLROXT42ezhhJrDZ+EAy/09sCmFCIJXwfsvRUxFhmbhALuwg8AGh1XmBj5LB1juI8C6EiLcNXu+5pn3fRFySDBqjemjavzKHXwlHGDnVC9gVUSBXMJXSgA777fAMuAOsDgPBS/JvlkWQZftkbsxTQFyl5IqL6jpgCoLnrvbNR2Qu5RUeUEN74C3X6mzptvS5S0AAAAASUVORK5CYII=");
+      background-position: 50% 50%;
+      background-size: 75% 75%;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+.field__title {
+  font-size: rem(20);
+  //line-height: rem(40);
+  margin-bottom: 0;
+}
+.field__subtitle {
+  font-size: rem(14);
+  line-height: 1.1;
+  font-style: italic;
+  margin-bottom: rem(20);
+}
+
+.field__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    display: block;
+    & + li {
+      margin-top: rem(20);
+    }
+  }
+}
+
+.field__list-input {
+  display: block;
+  position: relative;
+  padding: rem(4) 0 0 rem(36);
+  font-size: rem(16);
+  line-height: rem(20);
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+
+.mo-openid-app-icons {
+  p {
+    display: none;
+  } 
+  a.btn.btn-mo.btn-block.btn-social.btn-customtheme.btn-custom-dec.login-button {
+    @extend .button;
+    line-height: rem(10);
+    @include bp-768 {
+      margin-right: rem(32);
+    }
+    @include bp-1024 {
+      margin-right: 0;
+    }
+    &:last-child {
+      margin-top: rem(32);
+      @include bp-768 {
+        margin-top: 0;
+        margin-right: 0;
+      }
+      @include bp-1024 {
+        margin-top: rem(32);
+      }
+    }
+
+    .mofa {
+      top: rem(-5);
+      left: rem(14);
+    }
+  }
+}

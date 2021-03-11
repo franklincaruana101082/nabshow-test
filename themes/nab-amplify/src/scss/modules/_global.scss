@@ -593,3 +593,27 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 		padding-bottom: rem(50);
 	}
 }
+
+
+//woocommerce stuff {
+.woocommerce {
+	margin: rem(40) 0 rem(60);
+	p {
+		@extend .introtext;
+	}
+	&-message {
+		background-color: $color__black;
+		color: $color__white;
+		border-top: 2px solid $color__purple; //fallback
+		border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
+		border-width: 0;
+		border-top-width: rem(2);
+	}
+	&-error {
+		background-color: $color__pink;
+		color: $color__white;
+		> li {
+			color: $color__white;
+		}
+	}
+}

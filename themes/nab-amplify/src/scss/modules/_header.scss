@@ -89,10 +89,11 @@
 		._open & {
 			height: calc(100vh - 120px); //72px for top navbar; 48px for bottom share links
 			background-position: 60vw 0;
+			@media(min-width: 61.25em) {
+				height: calc(100vh - 72px); //72px for top navbar; share links should move to the side at this point
+			}
 		}
-		@media(min-width: 61.25em) {
-			height: calc(100vh - 72px); //72px for top navbar; share links should move to the side at this point
-		}
+		
 		@include bp-1024 {
 			max-width: 63rem;
 			position: static;
