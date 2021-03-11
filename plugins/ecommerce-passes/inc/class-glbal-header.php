@@ -53,6 +53,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
          * Adds styles and scripts on frontend
          */
         public function ep_enqueue_required_scripts() {
+
+            wp_enqueue_style( 'ep-roboto-mono', 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&display=swap' );
+            wp_enqueue_style( 'ep-proxima-nova', 'https://use.typekit.net/iig3loy.css');
             wp_enqueue_style( 'ep-amplify-style', EP_PLUGIN_URL . 'assets/css/ep-amplify.css' );
 
             wp_enqueue_script( 'ep-add-cart', EP_PLUGIN_URL . 'assets/js/ep-add-to-cart.js', array('jquery'), '1.0.1', true );
@@ -109,69 +112,67 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             <div class="nab-header-secondary">
                 <div class="container">
-                    <div class="header-inner">
-                        <div class="nab-logos">
-                            <?php
-                            $header_logos = $this->ep_get_header_logos();
-                            if( ! empty( $header_logos ) ) { ?>
-                                <ul>
-                                <?php foreach( $header_logos as $logo ) { ?>
-                                    <li><a href="<?php echo esc_url( $logo['url'] ); ?>"><img src="<?php echo esc_url( $logo['image'] ); ?>" alt="nab-logo"></a></li>
-                                <?php } ?>
-                                </ul>
-                            <?php } ?>
-                        </div>
-                        <?php
-                        $parent_url = get_option( 'ep_parent_site_url' );
-                        $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
-                        $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
-                        ?>
-                        <nav class="nab-sec-navigation">
-                            <div class="nab-header-cart">
-                                <a href="<?php echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
-                                <span class="nab-cart-count "><?php echo $this->ep_get_cart(); ?></span>
+                    <div class="nab-header-inner">
+                        <div class="nab-head-mobile">
+                            <div class="nab-mobile-toggle">
+                                <div class="nab-mobile-icon"></div>
                             </div>
-                            <div class="nab-profile-menu">
+                        </div>
+                        <div class="nab-nav-wrap">
+                            <nav class="nab-left-navigation">
+                                <?php
+                                $header_logos = $this->ep_get_header_logos();
+                                if( ! empty( $header_logos ) ) { ?>
+                                    <ul class="nab-navigation-menu">
+                                    <?php foreach( $header_logos as $logo ) { ?>
+                                        <li>
+                                            <a href="<?php echo esc_url( $logo['url'] ); ?>"><?php echo esc_html($logo['site_label']); ?></a>
+                                        </li>
+                                    <?php } ?>
+                                    </ul>
+                                <?php } ?>
+                            </nav>
                             <?php
-                                if ( is_user_logged_in() ) {
-                                    $current_user    = wp_get_current_user();
-                                    $user_thumb      = get_avatar_url( $current_user->ID );
-                                    $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
-                                    $edit_account    = ( ! empty( $parent_url ) ) ? $my_account . 'edit-account/' : '#';
-                                    $orders          = ( ! empty( $parent_url ) ) ? $my_account . 'orders/' : '#';
-                                    $logout          = ( ! empty( $parent_url ) ) ? wp_nonce_url( $my_account . 'customer-logout/', 'customer-logout' ) : '#';
-                                    ?>
-                                <div class="nab-profile">
-                                    <a href="<?php echo esc_url( $edit_my_profile ); ?>">
-                                        <div class="nab-avatar-wrp">
-                                            <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
-                                            <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
-                                        </div>
-                                    </a>
-                                    <div class="nab-profile-dropdown">
-                                        <ul>
+                            $parent_url = get_option( 'ep_parent_site_url' );
+                            $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
+                            $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
+                            $sign_up = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'sign-up/' : '#';
+                            ?>
+                            <nav class="nab-sec-navigation">
+                                <!-- <div class="nab-header-cart">
+                                    <a href="<?php // echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
+                                    <span class="nab-cart-count "><?php // echo $this->ep_get_cart(); ?></span>
+                                </div> -->
+                                <div class="nab-profile-menu">
+                                <?php
+                                    if ( is_user_logged_in() ) {
+                                        $current_user    = wp_get_current_user();
+                                        $user_thumb      = get_avatar_url( $current_user->ID );
+                                        $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                                        ?>
+                                        <ul class="nab-profile nab-logged-in">
                                             <li>
-                                                <a href="<?php echo esc_url( $edit_my_profile ); ?>">Edit My Profile</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo esc_url( $edit_account ); ?>">Edit My Account</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo esc_url( $orders ); ?>">Order History</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo esc_url( $logout ); ?>">Logout</a>
+                                                <a href="<?php echo esc_url( $edit_my_profile ); ?>">
+                                                    <div class="nab-avatar-wrp">
+                                                        <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
+                                                        <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
+                                                    </div>
+                                                </a>
                                             </li>
                                         </ul>
-                                    </div>
+                                    <?php } else { ?>
+                                        <ul class="nab-profile">
+                                            <li>
+                                                <a class="amplifySignUp" href="<?php echo esc_url( $sign_up ); ?>"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a>
+                                            </li>
+                                            <li>
+                                                <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+                                            </li>
+                                        </ul>
+                                    <?php } ?>
                                 </div>
-                                <?php } else { ?>
-                                    <div class="nab-profile">
-                                        <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </nav><!-- #site-navigation -->
+                            </nav><!-- #site-navigation -->
+                        </div>
                     </div>
                 </div>
             </div>
