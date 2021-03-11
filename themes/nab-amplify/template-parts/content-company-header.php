@@ -186,3 +186,18 @@ $company_poc      = get_field('point_of_contact');
         </div>
     </div>
 </div>
+<?php
+if ( $user_logged_in ) {
+    $company_admin_id = get_field('company_user_id', $company_id);
+
+    if (empty($company_admin_id)) {
+        ?>
+        <div class="company-message-box company-claim-box">
+            <div class="company-message-inner" data-item="<?php echo esc_attr($company_id); ?>">
+                <h3 class="company-message-title">Do you work for <?php echo esc_html(get_the_title()); ?>? <a href="javascript:void(0)" class="company-message-link claim-link">Claim this page</a>.</h3>
+            </div>
+        </div>
+        <?php
+    }
+}
+?>
