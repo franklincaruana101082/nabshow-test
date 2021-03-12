@@ -172,6 +172,7 @@ while ( have_posts() ) :
 					*/?>
 
 					<div class="signup__cta">
+						<input type="hidden" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
 						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
 						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
 					</div>
