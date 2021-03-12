@@ -98,40 +98,46 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
 										</select>
 									</div>
 								</div>
-								<div class="form-row">
-									<label for="" class="tooltip-container large-label-tooltip">
-										<div class="field-label">Additional Search-Only Categories</div>
-										<div class="tooltip-wrap">
-											<i class="fa fa-info-circle" aria-hidden="true"></i>
-											<div class="tooltip">
-												<p>The number of Search-Only Categories allowed varies by Partner Package level:</p>
-												<ul>
-													<li>Standard: 0</li>
-													<li>Plus: 5</li>
-													<li>Premium: Unlimited</li>
-												</ul>
+								<?php
+								if ( 'plus' === strtolower( $member_level ) || 'premium' === strtolower( $member_level ) ) {
+									?>
+									<div class="form-row">
+										<label for="" class="tooltip-container large-label-tooltip">
+											<div class="field-label">Additional Search-Only Categories</div>
+											<div class="tooltip-wrap">
+												<i class="fa fa-info-circle" aria-hidden="true"></i>
+												<div class="tooltip">
+													<p>The number of Search-Only Categories allowed varies by Partner Package level:</p>
+													<ul>
+														<li>Standard: 0</li>
+														<li>Plus: 5</li>
+														<li>Premium: Unlimited</li>
+													</ul>
+												</div>
 											</div>
-										</div>
-									</label>
-									<div class="select-dark-simple select-multiple">
-										<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e($category_limit['search']); ?>">
-											<option value=""></option>
-											<?php
-											foreach ($terms as $current_term) {
+										</label>
+										<div class="select-dark-simple select-multiple">
+											<select name="search_product_categories[]" multiple="true" id="search_product_categories" data-limit="<?php esc_attr_e($category_limit['search']); ?>">
+												<option value=""></option>
+												<?php
+												foreach ($terms as $current_term) {
 
-												$selected_term = '';
+													$selected_term = '';
 
-												if (is_array($company_data['search_product_categories']) && in_array($current_term->term_id, $company_data['search_product_categories'], true)) {
-													$selected_term = $current_term->term_id;
+													if (is_array($company_data['search_product_categories']) && in_array($current_term->term_id, $company_data['search_product_categories'], true)) {
+														$selected_term = $current_term->term_id;
+													}
+												?>
+													<option value="<?php echo esc_attr($current_term->term_id); ?>" <?php selected($selected_term, $current_term->term_id); ?>><?php echo esc_html($current_term->name); ?></option>
+												<?php
 												}
-											?>
-												<option value="<?php echo esc_attr($current_term->term_id); ?>" <?php selected($selected_term, $current_term->term_id); ?>><?php echo esc_html($current_term->name); ?></option>
-											<?php
-											}
-											?>
-										</select>
+												?>
+											</select>
+										</div>
 									</div>
-								</div>
+									<?php
+								}
+								?>								
 
 								<div class="form-row">
 									<label for="" class="tooltip-container large-label-tooltip">
