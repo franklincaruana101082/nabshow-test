@@ -593,7 +593,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-account .form-row .select2-container .select2-selection--single{height:40px}
 .woocommerce-account .form-row .select2-container--default .select2-selection--single .select2-selection__rendered{line-height:40px}
 .woocommerce-account .form-row .select2-container--default .select2-selection--single .select2-selection__arrow{height:40px}
-.woocommerce-account .form-row label, .woocommerce-account .nab-form-row label{margin-bottom:5px;display:block;font-size:14px;width:100%}
+/*.woocommerce-account .form-row label, .woocommerce-account .nab-form-row label{margin-bottom:5px;display:block;font-size:14px;width:100%}*/
 .woocommerce-account:not(.nab-without-login-account) .form-row .password-input{display:block;width:100%;max-width:100%}
 .woocommerce-MyAccount-content p em{font-size:12px}
 .woocommerce button{outline:none}
