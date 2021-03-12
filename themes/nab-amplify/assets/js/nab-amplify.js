@@ -8,6 +8,30 @@
   var skippedErrs = []
   var addedAttendee = 0
 
+  if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined') {
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'nab_add_company_admin_popup',
+        company_id: amplifyJS.postID
+      },
+      success: function (data) {
+        if (0 === $('#addAdminModal').length) {
+          $('body').append(data)
+          $('#addAdminModal').show()
+          $('body').addClass('connection-popup-added')
+        } else {
+          $('body').addClass('connection-popup-added')
+          $('#addAdminModal').remove()
+          $('body').append(data)
+          $('#addAdminModal').show()
+        }
+        jQuery.removeCookie('new_company_admin_popup', { path: '/' })
+      }
+    })
+  }
+
   // Ready.
   $(document).ready(function () {
     $('.section-professional-details .user-job-role-select').select2({
@@ -281,31 +305,7 @@
       minimumInputLength: 3,
       placeholder: 'Select Point of contact',
       allowClear: true
-    })
-
-    if (typeof jQuery.cookie('new_company_admin_popup') != 'undefined') {
-      jQuery.ajax({
-        url: amplifyJS.ajaxurl,
-        type: 'POST',
-        data: {
-          action: 'nab_add_company_admin_popup',
-          company_id: amplifyJS.postID
-        },
-        success: function (data) {
-          if (0 === $('#addAdminModal').length) {
-            $('body').append(data)
-            $('#addAdminModal').show()
-            $('body').addClass('connection-popup-added')
-          } else {
-            $('body').addClass('connection-popup-added')
-            $('#addAdminModal').remove()
-            $('body').append(data)
-            $('#addAdminModal').show()
-          }
-          jQuery.removeCookie('new_company_admin_popup', { path: '/' })
-        }
-      })
-    }
+    })    
 
     $(document).on('click', '.action-add-address ', function () {
       const address_id =
