@@ -19,7 +19,8 @@ $requested_by = $this->requested_by;
 		$asset_name = $asset->name;
 		$asset_type = $asset->type;
 		//$asset_img = $asset->thumbnails->Featured;
-		$asset_img   = $asset->thumbnails->thul;
+		//$asset_img   = $asset->thumbnails->thul;
+		$asset_img   = $asset->thumbnails->webimage;
 		$derivatives = $asset->mediaItems;
 
 		// Skip if its not an image.
@@ -54,6 +55,15 @@ $requested_by = $this->requested_by;
                 <div class="bm-content-wrap">
                     <h4 class="bm-img-name"><?php echo esc_html( $asset_name ) ?></h4>
                     <div class="bm-derivatives-section">
+
+                        <div class="bm-radio-container">
+                            <div class="bm-radio-wrp">
+                                <input type="radio" value="<?php echo esc_url( $asset_img ) ?>" data-type="Webimage" name="bm-derivatives" id="<?php echo esc_url( $asset_img ) ?>" data-name="Original">
+                                <span class="bm-radio"></span>
+                            </div>
+                            <label for="<?php echo esc_url( $asset_img ) ?>">Original</label>
+                        </div>
+
 						<?php foreach ( $derivatives as $derv ) { ?>
                             <div class="bm-radio-container">
                                 <div class="bm-radio-wrp">
