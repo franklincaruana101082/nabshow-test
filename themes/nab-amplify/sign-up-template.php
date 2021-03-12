@@ -69,7 +69,7 @@ while ( have_posts() ) :
 						} else {
 							$my_account_url = wc_get_page_permalink( 'myaccount' );
 						} ?>
-						<a href="<?php echo esc_url( $my_account_url ); ?>"><b><?php esc_html_e( 'Already have an account?' ); ?> <?php esc_html_e( 'Sign In', 'woocommerce' ); ?></b></a>
+						<a class="js-signupLink" href="<?php echo esc_url( $my_account_url ); ?>"><b><?php esc_html_e( 'Already have an account?' ); ?> <?php esc_html_e( 'Sign In', 'woocommerce' ); ?></b></a>
 					</div>
 					<div class="signup__text">
 						<div class="introtext"><?php the_content(); ?></div>

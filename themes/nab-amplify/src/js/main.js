@@ -63,5 +63,8 @@ jQuery(function($) {
 	}, 10000);
 
 	jQuery('.homeproducts__image').wrap('<div class="homeproducts__imageWrap"></div>');
+
+	//set the url for this woocommerce error link because it's impossible to find where this is in the code/DB
+	jQuery('.woocommerce-error a.showlogin').attr('href', jQuery('.signup__titles .js-signupLink').attr('href'));
 	
 });
