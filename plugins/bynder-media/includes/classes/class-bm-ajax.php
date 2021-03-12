@@ -129,7 +129,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 							$new_option_id = $response['body']->existingUUID;
 						} else {
 							// Now fetch again to get the created option's id.
-							$url      = $this->bm_domain . '/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/?name=' . $user_type_name;
+							$url      = $this->bm_domain . '/api/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/?name=' . $user_type_name_validated;
 							$response = $this->bm_run_api( $url, 'GET' );
 
 							$new_option_id = '';
