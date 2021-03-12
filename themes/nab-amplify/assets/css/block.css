@@ -126,6 +126,7 @@ div[data-type="md/blc"]{padding-top:5px;padding-bottom:5px}
 .inspector-field button.components-color-palette__clear{font-family:'FontAwesome', sans-serif;color:#8D96A0!important;border:0!important;background:transparent!important;font-size:0!important;-webkit-box-shadow:none!important;box-shadow:none!important}
 .inspector-field button.components-color-palette__clear::after{content:"\f0e2";font-size:16px}
 .inspector-field-color .inspector-ml-auto{display:inline-block}
+.inspector-field-color .inspector-ml-auto .components-circular-option-picker{min-width:auto}
 .inspector-field-color label.inspector-mb-0{width:65%;display:inline-block;line-height:18px;margin-bottom:0!important;float:left}
 .inspector-field-color .components-color-palette__custom-clear-wrapper{width:100%;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
 .inspector-field .components-range-control .components-range-control__slider{-webkit-appearance:none;width:100%;padding-left:0;background:transparent;height:35px!important;border-radius:3px!important;padding-right:8px;border:0}
@@ -159,7 +160,7 @@ div[data-type="md/blc"]{padding-top:5px;padding-bottom:5px}
 .border-setting .components-panel__body.border-setting .components-panel__row, .bg-setting .components-panel__body.bg-setting .components-panel__row{padding:0}
 .border-setting .components-panel__body.border-setting.is-opened h2.components-panel__body-title, .bg-setting .components-panel__body.bg-setting.is-opened h2.components-panel__body-title{margin-bottom:10px!important}
 .bg-img-setting>button.components-button{margin-top:0!important;margin-left:15px!important}
-.bg-img-setting>button.components-button.image-button{margin-bottom:15px}
+.bg-img-setting>button.components-button.image-button{margin-bottom:15px;height:auto;max-width:100%;padding:0}
 .edit-post-settings-sidebar__panel-block .custom-inspactor-setting .components-panel__body .components-panel__body.bg-setting .components-base-control .components-base-control{padding-left:0;padding-right:0;padding-right:40px}
 .components-toggle-control .components-base-control__field span.components-form-toggle{position:absolute;right:0;margin:0}
 .components-toggle-control .components-base-control__field .components-toggle-control__label{padding-right:75px;max-width:100%}
