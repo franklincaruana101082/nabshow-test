@@ -56,6 +56,18 @@
         $(document).on('click', '.bm-search-toggle', function(){
             $(this).parent('#bm-search-container').toggleClass('bm-search-active');
         });
+        $(document).on('keyup', '#bm-search-form #bm-search', function(){
+            if ( '' !== $(this).val() ) {
+                $('#bm-search-form .bm-search-clear').show();
+            } else {
+                $('#bm-search-form .bm-search-clear').hide();
+            }
+        });
+        $(document).on('click', '#bm-search-form .bm-search-clear', function(){
+            $('#bm-search-form #bm-search').val('');
+            $(this).hide();
+            $('#bm-search-form').submit();
+        });
     });
 
     // Load.
@@ -818,7 +830,6 @@ function addBMpopup() {
     if( 0 === jQuery('#bm-main-outer').length ) {
 
         jQuery('.bm-select-media').addClass('creating-popup');
-        //jQuery('.bm-select-media').addClass('disabled').text('Loading...');
 
         const bmData = new FormData();
         bmData.append('action', 'bm_init_popup');
@@ -840,7 +851,6 @@ function addBMpopup() {
                 result = JSON.parse(result);
                 if( result.bmInitPop ) {
                     jQuery('body').append(result.bmInitPop);
-                    //jQuery('.bm-select-media').removeClass('disabled').text('Select Bynder Image');
 
                     // Remove class to enable popup.
                     jQuery('.bm-select-media').removeClass('creating-popup');

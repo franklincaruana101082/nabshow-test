@@ -38,8 +38,9 @@ body.bm-modal-off-scroll{overflow:hidden;}
 .bm-modal-main .bm-tab-form{width:calc(100% - 300px);}
 .bm-modal-main .bm-tab-form #bm-search-container{width:600px;max-width:90%;position:relative;text-align:right;}
 .bm-modal-main .bm-tab-form #bm-search-form{display:flex;align-items:center;justify-content:center;width:100%;position:relative;}
-.bm-modal-main .bm-tab-form #bm-search-form #bm-search{width:100%;padding:0 60px 0 20px;border:1px solid #e3e3e3;border-right:0;line-height:1;height:50px;font-size:14px;}
+.bm-modal-main .bm-tab-form #bm-search-form #bm-search{width:100%;padding:0 80px 0 20px;border:1px solid #e3e3e3;border-right:0;line-height:1;height:50px;font-size:14px;}
 .bm-modal-main .bm-tab-form #bm-search-form #bm-search:focus{outline:none;box-shadow:none;}
+.bm-modal-main .bm-tab-form #bm-search-form .bm-search-clear{position:absolute;right:60px;display:none;cursor:pointer;}
 .bm-modal-main .bm-tab-form #bm-search-form button{width:50px;height:50px;background-color:#fff;border:1px solid #e3e3e3;position:absolute;right:0;top:0;z-index:1;cursor:pointer;font-size:15px;padding:0;display:flex;justify-content:center;align-items:center;}
 .bm-modal-main .bm-tab-form #bm-search-form button:focus{outline:none;box-shadow:none;cursor:pointer;font-size:15px;}
 .bm-modal-main .bm-modal-header .bm-modal-action{position:absolute;right:0;top:0;bottom:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:50px;}
@@ -173,8 +174,9 @@ a#bm-featured-remove{margin-bottom:20px;}
 	.edit-post-header__settings .bm-select-media{margin-right:4px;}
 	.bm-modal-main .bm-modal-header .bm-tab-list{width:100%;margin-bottom:20px;}
 	.bm-modal-main .bm-tab-form{width:100%}
-	.bm-modal-main .bm-tab-form #bm-search-form #bm-search{height:40px;}
+	.bm-modal-main .bm-tab-form #bm-search-form #bm-search{height:40px;padding:0 70px 0 20px}
 	.bm-modal-main .bm-tab-form #bm-search-form button{width:40px;height:40px;}
+	.bm-modal-main .bm-tab-form #bm-search-form .bm-search-clear{right:50px}
 	.bm-modal-main .bm-modal-header .bm-modal-action{height:50px}
 }
 @media (max-width:480px){

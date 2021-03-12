@@ -56,12 +56,12 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 				$this->bm_add_products_meta_box();
 			} else {
 				// Add Featured Image.
-				$this->bm_add_signle_meta_box( 'profile_picture' );
+				$this->bm_add_single_meta_box( 'profile_picture' );
 			}
 
 		}
 
-		public function bm_add_signle_meta_box( $key ) {
+		public function bm_add_single_meta_box( $key ) {
 
 			global $post;
 
@@ -89,7 +89,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 					echo '[]';
 				} ?>" id="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $bm_meta_image ); ?>"/>
                 <p><img src="<?php echo esc_url( $bm_meta_image ); ?>" id="<?php echo esc_attr( $key ); ?>_src" style="width: 100%;"/></p>
-                <a href="javascript:void(0)" class="bm-select-media components-button is-secondary" bynder-for="<?php echo esc_attr( $bynder_for ) ?>" class="bm-image"><?php echo esc_html( $bm_featured_action ); ?></a>
+                <a href="javascript:void(0)" class="bm-select-media components-button is-secondary" bynder-for="<?php echo esc_attr( $bynder_for ) ?>" id="bm-image"><?php echo esc_html( $bm_featured_action ); ?></a>
                 <a href="javascript:void(0)" class="components-button is-link is-destructive" id="bm-featured-remove">Remove <?php echo esc_html( $label ); ?></a>
             </div>
 			<?php

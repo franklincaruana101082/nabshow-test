@@ -29,6 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <div id="bm-search-container">
                         <form method="post" id="bm-search-form">
                             <input type="text" name="bm-search" id="bm-search" placeholder="Search Assets...">
+                            <span class="bm-search-clear dashicons dashicons-no-alt"></span>
                             <button type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
