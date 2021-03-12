@@ -608,6 +608,8 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 		border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
 		border-width: 0;
 		border-top-width: rem(2);
+		padding: rem(20);
+		margin-bottom: rem(30);
 	}
 	
 	label {

@@ -4,6 +4,9 @@
   background: $color__gray-darker;
   padding-top: rem(30);
   padding-bottom: rem(60);
+  .woocommerce & {
+    padding-top: 0;
+  }
   &__titles {
     h1 {
       margin-bottom: rem(15);

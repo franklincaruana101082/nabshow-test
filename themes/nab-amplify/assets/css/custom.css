@@ -135,7 +135,7 @@ h5, .article-byline{font-size:18px}
 .btn-link:hover{text-decoration:underline}
 
 /* woocommerce default */
-.woocommerce-message, .woocommerce-info, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
+.woocommerce-info, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
 /*.woocommerce-error{background:none;color:red;margin:0 0 25px 0}*/
 .close-message{color:inherit!important;position:absolute;right:10px;top:50%;-webkit-transform:translate(0, -50%);-ms-transform:translate(0, -50%);transform:translate(0, -50%);cursor:pointer}
 
@@ -728,7 +728,6 @@ body.single-product .woocommerce-breadcrumb{color:#fff;margin-bottom:20px}
 .single-product div.product .join-today-section .has-fixed .button:focus{background:#fff;color:#666666!important}
 .single-product div.product .woocommerce-product-gallery::before{content:"";background-image:url('../images/product-bg-graphic.png');width:950px;height:730px;display:inline-block;background-repeat:no-repeat;background-size:cover;position:absolute;background-position:center;left:-70px;top:-110px}
 body.single-product .woocommerce-notices-wrapper{position:relative;z-index:1;margin-bottom:20px;margin-top:40px;margin-top:20px}
-body.single-product .woocommerce-notices-wrapper .woocommerce-message{background:none;color:#fff}
 body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-right:10px}
 .single-product div.product .summary .tagged_as strong{display:block;margin-bottom:15px;text-transform:uppercase}
 .single-product div.product .summary .tagged_as a{padding:8px 25px;background:#999999;border-radius:10px;margin-right:15px;text-transform:uppercase;display:inline-block;margin-bottom:15px}
@@ -922,12 +921,6 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 /* common page bg */
 /*.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}*/
 
-/* common message design */
-.woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
-.search .woocommerce-message, .search .woocommerce-info, .search .woocommerce-error, .search .woocommerce-noreviews, .search p.no-comments{color:#fdd80f}
-.bbp-user-page .woocommerce-message, .bbp-user-page .woocommerce-info, .bbp-user-page .woocommerce-error, .bbp-user-page .woocommerce-noreviews, .bbp-user-page p.no-comments{color:#fdd80f}
-.members .woocommerce-message, .members .woocommerce-info, .members .woocommerce-error, .members .woocommerce-noreviews, .members p.no-comments{color:#fdd80f}
-
 /* genaral heading style */
 /*.search-section .search-section-heading h2{color:#fdd80f;font-size:36px;margin:0 10px 0 0;line-height:1}
 .search-section .search-section-heading h2 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block}
@@ -936,7 +929,6 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 
 /* common elements style */
 .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fff}
-.woocommerce-account .woocommerce a{color:#fff;text-decoration:underline}
 
 /* search page */
 .search-result-filter{margin-top:40px;padding:20px 0}
