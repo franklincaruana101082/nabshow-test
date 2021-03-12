@@ -1301,7 +1301,7 @@ body .is_friend .remove::before{font-size:22px}
 #unfriend-confirmation .modal-content{max-width:600px}
 
 /* connection popup */
-#connection-message-popup p{margin:0 0 20px;color:#000}
+#connection-message-popup p{margin:0 0 20px}
 #connection-message-popup textarea{resize:vertical;width:100%!important;color:#000;background-color:#fff}
 #connection-message-popup textarea.error{border-color:red}
 #connection-message-popup .error{color:red}
