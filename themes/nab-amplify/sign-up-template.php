@@ -173,7 +173,7 @@ while ( have_posts() ) :
 
 					<div class="signup__cta">
 						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-						<button disabled type="submit" name="register" class="woocommerce-form-register__submit button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
+						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
 					</div>
 
 					<?php do_action( 'woocommerce_register_form_end' ); ?>
