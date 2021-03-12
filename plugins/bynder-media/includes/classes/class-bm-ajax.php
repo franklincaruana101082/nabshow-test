@@ -136,8 +136,8 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 							if ( ! isset( $response['body']['message'] ) ) {
 								$metaoptions = $response['body'];
 								foreach ( $metaoptions as $mop ) {
-									if ( $user_type_name === $mop['label'] ) {
-										$new_option_id = $mop['id'];
+									if ( $user_type_name === $mop->label ) {
+										$new_option_id = $mop->id;
 									}
 								}
 							}
