@@ -191,7 +191,7 @@ endwhile; // End of the loop.
 
 
 	</main><!-- #main -->
-	<div id="modal-member-press" class="nab-modal theme-dark">
+	<div id="modal-member-press" class="nab-modal">
 	    <div class="nab-modal-inner">
 	        <div class="modal-content">
 	            <span class="nab-modal-close fa fa-times"></span>
