@@ -150,7 +150,7 @@ while ( have_posts() ) :
 						<?php dynamic_sidebar('sign-up-terms'); ?>
 						<ul class="field__list">
 							<li>
-								<label class="field__list-input" for="list-a">
+								<label class="field__list-input" for="signup-press-member">
 									<input class="field__input" value="1" type="checkbox" id="signup-press-member" name="press_member" /> 
 									<?php esc_html_e('Are you a member of the press?');?>
 								</label>
