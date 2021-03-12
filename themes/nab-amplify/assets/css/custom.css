@@ -135,8 +135,8 @@ h5, .article-byline{font-size:18px}
 .btn-link:hover{text-decoration:underline}
 
 /* woocommerce default */
-.woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
-.woocommerce-error{background:none;color:red;margin:0 0 25px 0}
+.woocommerce-message, .woocommerce-info, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
+/*.woocommerce-error{background:none;color:red;margin:0 0 25px 0}*/
 .close-message{color:inherit!important;position:absolute;right:10px;top:50%;-webkit-transform:translate(0, -50%);-ms-transform:translate(0, -50%);transform:translate(0, -50%);cursor:pointer}
 
 /************* Default style variables *************/
@@ -923,7 +923,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 /*.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}*/
 
 /* common message design */
-.woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-error, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
+.woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
 .search .woocommerce-message, .search .woocommerce-info, .search .woocommerce-error, .search .woocommerce-noreviews, .search p.no-comments{color:#fdd80f}
 .bbp-user-page .woocommerce-message, .bbp-user-page .woocommerce-info, .bbp-user-page .woocommerce-error, .bbp-user-page .woocommerce-noreviews, .bbp-user-page p.no-comments{color:#fdd80f}
 .members .woocommerce-message, .members .woocommerce-info, .members .woocommerce-error, .members .woocommerce-noreviews, .members p.no-comments{color:#fdd80f}
