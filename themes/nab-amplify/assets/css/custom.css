@@ -395,16 +395,12 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password a{color:inherit;text-decoration:underline;font-weight:bold}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row{text-align:center;margin-top:0}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;height:50px;width:180px;font-size:26px;line-height:26px!important;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:0;border:none!important;outline:none}
-.nab-without-login-account .mo-openid-app-icons a.btn i{border:none}
 .nab-without-login-account .woocommerce .nab-signup-now{margin-top:30px;margin-bottom:50px;width:870px}
 .nab-without-login-account .woocommerce .nab-signup-now h4{margin:0;text-align:center;font-size:18px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-signup-now h4:last-child{margin:0}
 .nab-without-login-account .woocommerce .nab-signup-now a{color:inherit;text-decoration:underline}
 /*.nab-without-login-account{background:#b4b4b4}*/
-.nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}
 .nab-without-login-account .woocommerce form.woocommerce-ResetPassword{width:600px;margin:0 auto;max-width:100%}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):hover, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):hover{background:#6363df}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):focus, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):focus{background:#666666}
 .nab-without-login-account .select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 4px;font-size:14px}
 .nab-without-login-account .select2-container--default .select2-selection--multiple{border-radius:0;border-color:#d2d3d5!important;padding-right:20px}
 .nab-without-login-account .woocommerce .form-row .select2-container{text-align:left}

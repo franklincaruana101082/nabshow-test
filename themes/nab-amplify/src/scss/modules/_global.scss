@@ -616,4 +616,7 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 			color: $color__white;
 		}
 	}
+	label {
+		@extend .field__label;
+	}
 }
