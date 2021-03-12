@@ -103,7 +103,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 			if ( $user_type_name ) {
 
-				$bynder_usertypename_meta = get_transient( "bynder_usertypename_meta" );
+				$bynder_usertypename_meta = get_transient( "bynder_usertypename_meta_" . $user_type_name );
 
 				if ( $bynder_usertypename_meta ) {
 					$return_array = array( "bmHTML" => $bynder_usertypename_meta );
@@ -144,7 +144,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 						}
 						$return_array = array( "bmHTML" => $new_option_id );
 
-						set_transient( "bynder_usertypename_meta", $new_option_id, 24 * 7 * 60 * 60 );
+						set_transient( "bynder_usertypename_meta_" . $user_type_name, $new_option_id, 24 * 7 * 60 * 60 );
 					} else {
 						$return_array = array( "error" => $response );
 					}
@@ -305,7 +305,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 		public function bm_get_metas() {
 
-			//$bm_metas = get_transient( "bynder_metas" );
+			//$bm_metas = get_transient( "bynder_metas" . $someunique_key );
 
 			//if ( ! $bm_metas ) {
 
@@ -365,7 +365,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			if ( $this->collection_name ) {
 
 				// Try to get data from transient.
-				//$bm_popup = get_transient( 'bynder_col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page );
+				//$bm_popup = get_transient( 'bynder_col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page / $also_add_search_term );
 
 				//if ( ! $bm_popup ) {
 				$bm_col_id = $this->bm_get_collection_id();
