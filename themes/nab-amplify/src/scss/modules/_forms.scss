@@ -27,7 +27,7 @@
   text-transform: uppercase;
 }
 
-.field__input {
+.field__input, .woocommerce-Input {
   &[type="text"],
   &[type="email"],
   &[type="password"],
@@ -58,7 +58,7 @@
   }
 }
 
-.field__input {
+.field__input, .woocommerce-Input {
   &[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -147,7 +147,9 @@
         margin-top: rem(32);
       }
     }
-
+    i {
+      border: none;
+    }
     .mofa {
       top: rem(-5);
       left: rem(14);
