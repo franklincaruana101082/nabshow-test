@@ -107,6 +107,7 @@
 
     $(document).on('submit', '#bm-search-form', function (e) {
         e.preventDefault();
+
         $('#bm-main-outer .bm-modal-body').addClass('bm-search');
         $('.bm-media-main').html('');
         $('#assets-load-more').attr('data-page', 1).hide();
@@ -349,7 +350,6 @@ function bmFetchAssets(_this) {
 
     // Show popup by adding a class.
     $("#bm-main-outer").addClass('bm-modal-active');
-    $("body").addClass('bm-modal-off-scroll');
 
     if ( popupOpenedAgain ) {
         _this.addClass('active');
@@ -369,6 +369,9 @@ function bmFetchAssets(_this) {
 
     // Add active class to prevent further simultaneous requests.
     _this.addClass('active in-use');
+
+    // Prevent body scroll.
+    $("body").addClass('bm-modal-off-scroll');
 
     // Show loader by adding a class.
     $('#bm-main-outer .bm-modal-body').addClass('bm-loading');
