@@ -53,21 +53,6 @@
         // Temporarily hiding the Upload sections as its still in development mode.
         $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;}</style>');
 
-        $(document).on('click', '.bm-search-toggle', function(){
-            $(this).parent('#bm-search-container').toggleClass('bm-search-active');
-        });
-        $(document).on('keyup', '#bm-search-form #bm-search', function(){
-            if ( '' !== $(this).val() ) {
-                $('#bm-search-form .bm-search-clear').show();
-            } else {
-                $('#bm-search-form .bm-search-clear').hide();
-            }
-        });
-        $(document).on('click', '#bm-search-form .bm-search-clear', function(){
-            $('#bm-search-form #bm-search').val('');
-            $(this).hide();
-            $('#bm-search-form').submit();
-        });
     });
 
     // Load.
@@ -79,6 +64,19 @@
             $(".edit-post-header .edit-post-header__settings").prepend(uploadAssetBtn);
         }
     });*/
+
+    $(document).on('keyup', '#bm-search-form #bm-search', function(){
+        if ( '' !== $(this).val() ) {
+            $('#bm-search-form .bm-search-clear').show();
+        } else {
+            $('#bm-search-form .bm-search-clear').hide();
+        }
+    });
+    $(document).on('click', '#bm-search-form .bm-search-clear', function(){
+        $('#bm-search-form #bm-search').val('');
+        $(this).hide();
+        $('#bm-search-form').submit();
+    });
 
     // Clicking the cross icon at top right
     // side of the popup closes the popup.
