@@ -3495,9 +3495,178 @@ function nab_pdf_search_filter_callback()
 }
 
 add_action( 'wp_ajax_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
-
+add_action( 'wp_ajax_nopriv_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
 function nab_add_company_content_form_callback() {
 
 	require_once get_template_directory() . '/inc/nab-add-content.php';
 	wp_die();
+}
+
+add_action('wp_ajax_nab_content_submission', 'nab_content_submission_callback');
+add_action('wp_ajax_nopriv_nab_content_submission', 'nab_content_submission_callback');
+
+function nab_content_submission_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$content_title			= filter_input( INPUT_POST, 'content_title', FILTER_SANITIZE_STRING );
+	$content_copy			= filter_input( INPUT_POST, 'content_copy', FILTER_UNSAFE_RAW );
+	$msg					= '';
+	$submit_limit			= 3;
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	$member_level = get_field( 'member_level', $company_id );
+	$member_level = strtolower( $member_level );
+
+	if ( 'premium' !== $member_level || ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'msg' => 'You can not submit the content with your current package.' ) );
+	}
+
+	$query_args = array(
+		'post_type'         => 'content-submission',
+		'post_status'       => 'publish',
+		'posts_per_page'    => -1,
+		'meta_key'          => 'nab_selected_company_id',
+		'meta_value'        => $company_id,
+		'fields'            => 'ids',
+	);
+
+	$content_query	= new WP_Query( $query_args );
+	$total_content	= count( $content_query->posts );
+
+	if (  'premium' === $member_level && $total_content >= $submit_limit ) {
+
+		$result['success'] = false;
+
+		wp_send_json_error( array( 'msg' => 'You have used up your allotted three submissions, but additional sponsored articles can be purchased a la carte. Contact your sales rep for details.' ) );
+	}
+
+	if ( empty( $content_title ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Title can not be empty.' ) );
+	}
+
+	if ( empty( $content_copy ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Content copy can not be empty.' ) );
+	}
+
+	$content_post_data = array(
+        'post_title'   => $content_title,
+        'post_status'  => 'publish',
+        'post_type'    => 'content-submission',
+		'post_content' => $content_copy,
+    );
+	
+	$content_id 	= wp_insert_post( $content_post_data );
+	$attachment_id	= '';
+
+	if ( is_wp_error( $content_id ) ) {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while submit the content. Please try again.' ) );
+	} else {
+		
+		$msg = 'Content submitted successfully.';
+
+		$success = array( 'msg' => $msg, 'content_id' => $content_id );
+
+		// Upload images.
+		$file_names				= array( 'featured_img' );
+		$dependencies_loaded 	= false;
+
+		foreach ( $_FILES as $file_key => $file_details ) {
+
+			if ( in_array( $file_key, $file_names, true ) ) {
+
+				if ( $dependencies_loaded ) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = true;
+				}
+
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( $file_key, 0 );
+
+				if ( ! is_wp_error( $attachment_id ) ) {
+
+					if ( 'featured_img' === $file_key ) {
+						set_post_thumbnail( $content_id, $attachment_id );						
+					}
+				}
+			}
+		}		
+		update_field( 'nab_selected_company_id', $company_id, $content_id );
+
+		$company_name 	= get_the_title( $company_id );
+		$user_id		= get_current_user_id();
+		$user_full_name	= get_user_meta( $user_id, 'first_name', true ) . ' ' . get_user_meta( $user_id, 'last_name', true );
+		$attachment_url	= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
+		
+		if ( empty( trim( $user_full_name ) ) ) {
+			$user_data 		= get_user_by( 'id', $user_id );
+			$user_full_name	= $user_data->display_name;
+		}
+
+		$subject = 'Content submitted by ' . $user_full_name;
+
+		$headers = "From: NAB Amplify <noreply@nabshow.com>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+		ob_start();
+		?>
+		<html>
+			<body>
+				<p>Please check the following details for content submitted by <?php echo esc_html( $user_full_name ); ?>.</p>
+				<table cellpadding="10" border="1">
+					<tr>
+						<th>Company Name</th>
+						<td><?php echo esc_html( $company_name ); ?></td>
+					</tr>
+					<tr>
+						<th>Admin Name</th>
+						<td><?php echo esc_html( $user_full_name ); ?></td>
+					</tr>
+					<tr>
+						<th>Title</th>
+						<td><?php echo esc_html( $content_title ); ?></td>
+					</tr>
+					<tr>
+						<th>Submission Date</th>
+						<td><?php echo esc_html( current_time('M. j, Y') ); ?></td>
+					</tr>
+					<?php
+					if ( ! empty( $attachment_url ) && is_array( $attachment_url ) ) {
+						?>
+						<tr>
+							<th>Featured Image</th>
+							<td><img src="<?php echo esc_url( $attachment_url[0] ); ?>" height="200" width="200" /></td>
+						</tr>							
+						<?php
+					}
+					?>					
+				</table>
+				<?php
+				if ( ! empty( $content_copy ) ) {
+					?>
+					<p><strong>Copy:</strong></p>					
+					<?php
+					echo $content_copy;
+				}
+				?>
+			</body>
+		</html>	
+		<?php
+		$message = ob_get_clean();
+
+		wp_mail( 'nitish.kaila@multidots.com,nayana.maradia@multidots.com', $subject, $message, $headers );
+
+		wp_send_json_success( $success );
+	}
 }

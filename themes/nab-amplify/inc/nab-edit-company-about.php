@@ -137,8 +137,7 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
 									</div>
 									<?php
 								}
-								?>								
-
+								?>
 								<div class="form-row">
 									<label for="" class="tooltip-container large-label-tooltip">
 										<div class="field-label">Company Admins</div>

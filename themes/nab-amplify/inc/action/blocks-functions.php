@@ -784,26 +784,12 @@ function nab_company_content_render_callback($attributes)
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
                                     <div class="amp-item-cover">
-                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
+                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Content Image">
                                     </div>
                                     <div class="amp-item-info">
                                         <div class="amp-item-content">
-                                            <h4>
-                                                <a href="<?php echo esc_url($event_link); ?>"><?php echo esc_html(get_the_title()); ?></a>
-                                            </h4>
-                                            <?php
-                                            if (!empty($post_date)) {
-    
-                                            ?>
-                                                <span class="event-date">Date Published: <?php echo esc_html($post_date); ?></span>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div class="amp-actions">
-                                                <div class="search-actions">
-                                                    <a href="<?php echo esc_url($event_link); ?>" class="button">Read More</a>
-                                                </div>
-                                            </div>
+                                            <h4><?php echo esc_html( get_the_title() ); ?></h4>
+                                            <span class="event-date">Submitted Date: <?php echo esc_html( $post_date ); ?></span>
                                         </div>
                                     </div>
                                 </div>

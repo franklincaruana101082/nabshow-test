@@ -1,7 +1,8 @@
 <?php
 check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
-$company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+$company_id		= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+$content_copy	= nab_get_wp_editor( '', 'nab_content_copy', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
 ?>
 <div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
@@ -11,16 +12,16 @@ $company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT
 				<div class="add-product-content-popup">
 					<h2>Add Content</h2>
 					<div class="form-wrapper">
-						<form method="post" id="nab-add-edit-pdf-form" enctype="multipart/form-data">
+						<form method="post" id="nab-add-content-form" enctype="multipart/form-data">
 							<div class="form-row">
-								<label for="pdf-document-name">Document Name</label>
-								<input type="text" required maxlength="60" class="input-text" name="document_name" id="pdf-document-name">								
+								<label for="content-title">Title</label>
+								<input type="text" required maxlength="60" class="input-text" name="content_title" id="content-title">								
 							</div>														
 							<div class="form-row">								
-								<label for="pdf-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
+								<label for="content-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
-										<input type="file" id="pdf-featured-image" class="button" name="featured_image">
+										<input type="file" id="content-featured-image" class="button" name="featured_image">
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">
@@ -29,27 +30,10 @@ $company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT
 									</div>									
 								</div>								
 							</div>
-							<div class="form-row" id="pdf_media_wrapper">								
-							</div>
+							<div class="form-row common-img-wrapper" id="content_media_wrapper"></div>
 							<div class="form-row">
-								<label for="pdf-description">Description</label>
-								<textarea name="pdf_desc" id="pdf-description" maxlength="200"></textarea>
-								<span class="info-msg"><span id="pdf-desc-count">200 Characters Remaining</span></span>
-							</div>
-							<div class="form-row">								
-								<label for="pdf-document">Document Upload <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable Document Type: .pdf."></i></label>
-								<div class="form-control">
-									<div class="file-input">
-										<input type="file" id="pdf-document" class="button" name="pdf_document">
-									</div>
-									<div class="nab-action left-action">
-										<div class="nab-action-row">
-											<i class="action-add fa fa-plus"></i>
-										</div>
-									</div>									
-								</div>								
-							</div>
-							<div class="form-row" id="pdf_document_wrapper">								
+								<label for="content-copy">Copy</label>
+								<textarea name="content_copy" id="content-copy"><?php echo isset( $content_copy ) ? $content_copy : ''; ?></textarea>								
 							</div>
 							<p class="form-field-error global-notice" style="display: none;"></p>
 							<div class="form-row">								

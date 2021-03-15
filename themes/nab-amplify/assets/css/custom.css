@@ -1675,7 +1675,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal-with-form .add-product-content-popup form+p{font-size:16px;color:#999999;margin-bottom:10px}
 .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-company_point_of_contact-container"], .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-nab_product_contact-container"]{padding-right:90px}
 .nab-product-media-item{width:150px;height:150px;margin-right:15px;margin-bottom:15px;border:1px solid gray;position:relative}
-.nab-product-media-item img{display:block;width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center}
+.nab-product-media-item img{display:block;width:100%;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;cursor: grabbing;}
 .nab-product-media-item .nab-remove-attachment,.nab-remove-featured-attachment{position:absolute;right:-10px;top:-10px;width:25px;height:25px;background-color:red;color:#fff;line-height:normal;border-radius:50%;cursor:pointer;padding:0 0 2px;font-weight:bold;font-family:'Open Sans', sans-serif;text-transform:lowercase;border:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:14px}
 .nab-modal .modal-content-wrap .btn-link{color:#fff!important}
 .nab-modal .modal-content-wrap .btn-link:hover{text-decoration:underline}
