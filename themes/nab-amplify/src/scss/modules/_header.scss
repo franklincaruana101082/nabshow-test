@@ -86,7 +86,7 @@
 		background-position: 100vw 0;
 		background-repeat: no-repeat;
 		background-size: rem(460) rem(460);
-		//overflow: hidden;
+		overflow: hidden;
 		height: 0;
 		transition: height .25s ease-in-out, background-position .5s .2s ease-in-out;
 		._open & {
