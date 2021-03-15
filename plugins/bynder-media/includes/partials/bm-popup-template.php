@@ -29,9 +29,9 @@ $requested_by = $this->requested_by;
         }
 
 		// Skip if there are no derivatives.
-	    if ( 0 === count( $derivatives ) ) {
+	    /*if ( 0 === count( $derivatives ) ) {
 	        continue;
-        }
+        }*/
 
 		// If featured image is requested, skip if featured derivative is absent.
 		if ( 'profile_picture' === $requested_by ) {
