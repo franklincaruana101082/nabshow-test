@@ -196,6 +196,12 @@
 			}
 			&._company {
 				padding-top: rem(24);
+				text-decoration: none;
+				&:hover, &:active, &:focus {
+					.event__host-name {
+						color: $color__yellow;
+					}
+				}
 			}
 		}
 			
@@ -215,6 +221,7 @@
 				&__host-name {
 					margin-bottom: 0;
 					padding-left: rem(14);
+					transition: color .25s ease-in-out;
 					.event__host-info & {
 						padding-left: 0;
 					}	
