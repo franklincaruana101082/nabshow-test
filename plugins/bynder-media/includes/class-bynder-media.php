@@ -24,63 +24,6 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 
 			// Include required clasess.
 			$this->bm_included_classes();
-
-			add_action( 'init', array( $this, 'bm_test' ) );
-		}
-
-		public function bm_test() {
-			$test = filter_input( INPUT_GET, 'test', FILTER_SANITIZE_STRING );
-			$prod_images = filter_input( INPUT_GET, 'prod_images', FILTER_SANITIZE_STRING );
-
-			//$product_medias = get_field('product_media');
-
-			if( $test ) {
-
-			    global $wpdb;
-
-				if ( $prod_images ) {
-					$prod_images_query = $wpdb->prepare(
-					        "SELECT p.ID, pm.meta_key, pm.meta_value FROM {$wpdb->prefix}posts as p
-                                    LEFT JOIN {$wpdb->prefix}postmeta as pm ON pm.post_id = p.ID
-                                    WHERE pm.meta_key = 'product_media'
-                                    /*AND pm.meta_value != ''*/
-                                    AND p.post_type = 'company-products'"
-                    );
-
-					$prod_images_result       = $wpdb->get_results($prod_images_query, ARRAY_A);
-
-					echo '<table>';
-					echo '<tr>';
-                        echo '<th>';
-                            echo 'ID';
-                        echo '</th>';
-                        echo '<th>';
-                            echo 'Key - product_media';
-                        echo '</th>';
-                        echo '<th>';
-                            echo 'Value';
-                        echo '</th>';
-					echo '</tr>';
-					foreach ($prod_images_result as $pi) {
-                        echo '<tr>';
-						foreach ( $pi as $k => $item ) {
-							echo '<td>';
-							    echo $item;
-							echo '</td>';
-					    }
-                        echo '</tr>';
-
-                    }
-					echo '</table>';
-
-					//$prod_images_result = $wpdb->query($prod_images_query);
-
-					echo '<pre>';
-					print_r($prod_images_result);
-					die('<br><---died here');
-                }
-            }
-
 		}
 
 		public function bm_included_classes() {
