@@ -834,10 +834,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$post_link		= get_the_permalink();
 								?>
 								<li>
-									<a href="<?php echo esc_url($post_link); ?>" class="result _content">
-										<img class="result__image" src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
-										<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
-									</a>
+									<div class="result _content">
+										<a href="<?php echo esc_url($post_link); ?>">
+											<img class="result__image" src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
+										</a>
+										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
+										<a href="<?php echo esc_url($post_link); ?>">
+											<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+										</a>
+									</div>
 								</li>
 							<?php
 
@@ -929,10 +934,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$post_link		= get_the_permalink();
 							?>
 							<li>
-								<a href="<?php echo esc_url($post_link); ?>" class="result _content">
-									<img class="result__image" src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
-									<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
-								</a>
+								<div class="result _content">
+									<a href="<?php echo esc_url($post_link); ?>">
+										<img class="result__image" src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
+									</a>
+									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
+									<a href="<?php echo esc_url($post_link); ?>">
+										<h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+									</a>
+								</div>
 							</li>
 						<?php
 						}

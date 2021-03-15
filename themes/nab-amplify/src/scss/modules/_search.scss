@@ -217,6 +217,9 @@
 	text-decoration: none;
 	&._content {
 		padding: 0 0 rem(36);
+		a {
+			text-decoration: none;
+		}
 
 	}
 	.amp-bookmark {
@@ -260,23 +263,23 @@
 	  line-height: rem(27);
 	  min-height: rem(54);
 	  color: $color__white;
-	  a {
+	  a, a & {
 	  	text-decoration: none;
 	  	color: $color__white;
+	  	transition: color .25s ease-in-out;
 	  	&:hover, &:focus, &:active {
 	  		color: $color__yellow;
 	  	}
 	  }
 	  ._content & {
-	  	padding: rem(24) rem(18) 0;
-	  	margin-bottom: 0;
-	  	transition: color .25s ease-in-out;
-	  	overflow: hidden;
-	  	max-height: rem(105);
+	  		padding: rem(24) rem(18) 0;
+	  	 	margin-bottom: 0;
+	  	 	overflow: hidden;
+	  	 	max-height: rem(105);
 	  }
-	  ._content:hover &, ._content:focus &, ._content:active & {
-	  	color: $color__yellow;
-	  }
+	  // ._content:hover &, ._content:focus &, ._content:active & {
+	  // 	color: $color__yellow;
+	  // }
 
 	}
 	&__button {
