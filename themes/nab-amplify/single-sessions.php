@@ -235,6 +235,11 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
+								<div class="embed-group _video">
+									<div class="embed-wrapper _video">
+										<?php echo $video_embed; ?>
+									</div>
+								</div>
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
@@ -271,7 +276,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' || $session_status == "post-event") {
+							if($session_status == 'pre-event') {
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
