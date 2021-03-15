@@ -60,12 +60,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								// list company host
 								if ( ! empty( $company ) ) {
 								?>
-									<div class="event__host _company">
+									<a href="<?php echo esc_url( get_the_permalink($company) ); ?>" class="event__host _company">
 										<?php 
 											echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo') );
 										?>
 										<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
-									</div>
+									</a>
 								<?php 
 								}
 								
@@ -303,7 +303,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 										$company		= get_field( 'company', $event_id );
 									?>
 									<li class="related__item">
-										<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="event">
+										<a href="<?php echo esc_url( get_the_permalink($event_id) ); ?>" class="event">
 											<div class="event__date">
 												<div class="event__month"><?php echo esc_html($month); ?></div>
 												<div class="event__day text-gradient _blue"><?php echo esc_html($day); ?></div>
