@@ -17,7 +17,7 @@ function destroyCometChatProSession()
     }
 }
 
-add_action('wp_login', 'registerCometChatProSession', 9);
+add_action('wp_login', 'registerCometChatProSession');
 add_action('wp_logout', 'destroyCometChatProSession');
 
 
@@ -50,12 +50,11 @@ function addUserToCometChatPro($id)
             'users',
             [
                 'uid' => $id,
-                'name' => $username,
-                'avatar' => $avatar,
+                'name' => $username
             ]
         );
-        $result = json_decode(wp_remote_retrieve_body($result));
 
+        $result = json_decode(wp_remote_retrieve_body($result));
         if (!empty($result)) {
             if (property_exists($result, 'data')) {
                 add_user_meta($id, 'registered_in_cometchat_pro_'.$appid, true);
@@ -65,7 +64,7 @@ function addUserToCometChatPro($id)
   }
 }
 
-add_action('wp_login', 'addUserToCometChatProPreCheck', 1, 2);
+add_action('wp_login', 'addUserToCometChatProPreCheck', 10, 2);
 add_action('user_register', 'addUserToCometChatPro');
 
 // Update the user when profile is updated
@@ -89,8 +88,7 @@ function updateUserInCometChatPro($id)
         $result = callCometChatProAPI(
             'users/' . $id,
             [
-                'name' => $username,
-                'avatar' => $avatar,
+                'name' => $username
             ],
             'PUT'
         );
