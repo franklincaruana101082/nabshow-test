@@ -17,7 +17,7 @@ function destroyCometChatProSession()
     }
 }
 
-add_action('wp_login', 'registerCometChatProSession');
+add_action('wp_login', 'registerCometChatProSession', 9);
 add_action('wp_logout', 'destroyCometChatProSession');
 
 
@@ -65,7 +65,7 @@ function addUserToCometChatPro($id)
   }
 }
 
-add_action('wp_login', 'addUserToCometChatProPreCheck', 10, 2);
+add_action('wp_login', 'addUserToCometChatProPreCheck', 1, 2);
 add_action('user_register', 'addUserToCometChatPro');
 
 // Update the user when profile is updated
