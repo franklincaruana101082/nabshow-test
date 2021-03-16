@@ -61,16 +61,16 @@ if ( 0 === count( $bm_assets ) ) { ?>
 
                         <div class="bm-radio-container">
                             <div class="bm-radio-wrp">
-                                <input type="radio" value="<?php echo esc_url( $asset_img ) ?>" data-type="Webimage" name="bm-derivatives" id="<?php echo esc_url( $asset_img ) ?>" data-name="Original">
+                                <input type="radio" value="<?php echo esc_url( $asset_img ) ?>" data-type="Webimage" name="bm-derivatives" id="<?php echo esc_url( $asset_img ) ?>" data-name="Webimage">
                                 <span class="bm-radio"></span>
                             </div>
-                            <label for="<?php echo esc_url( $asset_img ) ?>">Original</label>
+                            <label for="<?php echo esc_url( $asset_img ) ?>">Webimage</label>
                         </div>
 
 						<?php foreach ( $derivatives as $derv ) { ?>
                             <div class="bm-radio-container">
                                 <div class="bm-radio-wrp">
-                                    <input type="radio" value="<?php echo esc_url( $derv['publicUrl'] ) ?>" data-type="<?php echo esc_url( $derv['type'] ) ?>" name="bm-derivatives" id="<?php echo esc_html( $derv['publicUrl'] ) ?>" data-name="<?php echo esc_html( $derv['name'] ) ?>">
+                                    <input type="radio" value="<?php echo esc_url( $derv['publicUrl'] ) ?>" data-type="<?php echo esc_url( $derv['type'] ) ?>" name="bm-derivatives" id="<?php echo esc_html( $derv['publicUrl'] ) ?>" data-name="<?php echo esc_html( ucfirst( $derv['name'] ) ) ?>">
                                     <span class="bm-radio"></span>
                                 </div>
                                 <label for="<?php echo esc_html( $derv['publicUrl'] ) ?>"><?php echo esc_html( $derv['name'] ) ?></label>
