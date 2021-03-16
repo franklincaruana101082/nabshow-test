@@ -235,10 +235,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
-								<div class="embed-group _video">
-									<div class="embed-wrapper _video">
-										<?php echo $video_embed; ?>
-									</div>
+								<div class="embed-group _post">
+									<?php echo $video_embed; ?>
 								</div>
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"

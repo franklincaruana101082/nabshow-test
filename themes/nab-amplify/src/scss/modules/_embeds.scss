@@ -50,4 +50,9 @@
 			}
 		}
 	}
+	&._post {
+		@include bp-1024 {
+			display: block;
+		}
+	}
 }
