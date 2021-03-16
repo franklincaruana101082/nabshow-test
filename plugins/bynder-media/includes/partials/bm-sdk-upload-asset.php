@@ -18,6 +18,7 @@ try {
 		'filePath' => $this->args['image_url'],
 		'brandId'  => $brandsList[0]['id'],
 		'tags'     => $this->args['tags'],
+		'isPublic' => 1,
 	];
 
 	// Add metas.

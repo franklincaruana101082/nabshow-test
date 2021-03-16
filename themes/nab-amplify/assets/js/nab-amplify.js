@@ -1139,6 +1139,12 @@
           if (jQuery('#nab_company_id').length > 0) {
             jQuery('#nab_company_id').val(company_id)
           }
+
+          // Make image draggable.
+          $('#product_media_wrapper').sortable(function (){
+            connectWith: '#product_media_wrapper'
+          }).disableSelection();
+
           jQuery('#product_categories').select2()
           jQuery('#company_point_of_contact').select2({
             ajax: {
