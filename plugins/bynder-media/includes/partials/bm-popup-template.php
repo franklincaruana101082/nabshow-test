@@ -73,7 +73,7 @@ if ( 0 === count( $bm_assets ) ) { ?>
                                     <input type="radio" value="<?php echo esc_url( $derv['publicUrl'] ) ?>" data-type="<?php echo esc_url( $derv['type'] ) ?>" name="bm-derivatives" id="<?php echo esc_html( $derv['publicUrl'] ) ?>" data-name="<?php echo esc_html( ucfirst( $derv['name'] ) ) ?>">
                                     <span class="bm-radio"></span>
                                 </div>
-                                <label for="<?php echo esc_html( $derv['publicUrl'] ) ?>"><?php echo esc_html( $derv['name'] ) ?></label>
+                                <label for="<?php echo esc_html( $derv['publicUrl'] ) ?>"><?php echo esc_html( ucfirst( $derv['name'] ) ) ?></label>
                             </div>
 						<?php } ?>
                     </div>
