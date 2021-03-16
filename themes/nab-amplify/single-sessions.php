@@ -214,7 +214,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='8865f1e8-c69e-42f0-ba2d-e4cfe85dfb50' widget-height='551px' widget-width='100%' widget-docked='false' widget-version='v2' rounded-corners='false']";
 										} else {
 											// This code runs everywhere except production
-											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='056efe6a-fcf1-4117-b84b-f44b12c532a7' widget-height='551px' widget-width='100%' widget-docked='false' widget-version='v2' rounded-corners='false']";
+											$cometchat_shortcode = "[cometchat-pro default-id='" .$chat_room_id. "' default-type='group' widget-id='b1d623a8-693c-4b68-81ee-73afd1e4d43a' widget-height='551px' widget-width='100%' widget-docked='false' widget-version='v2' rounded-corners='false']";
 										}
 										echo do_shortcode($cometchat_shortcode); 
 										?>
