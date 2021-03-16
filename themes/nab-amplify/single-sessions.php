@@ -171,6 +171,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					$user_firstname			= get_user_meta( $user_id, "first_name", true);
 					$user_lastname			= get_user_meta( $user_id, "last_name", true);
 
+					addUserToCometChatPro($user_id);
+
 					if($session_status == "pre-event") {
 					?>
 						<div class="session__pre">
