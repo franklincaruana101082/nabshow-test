@@ -40,9 +40,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			$this->requested_by = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
 
 			// Check if data available in transient.
-			$bm_popup = get_transient( "bynder_" . $this->requested_by );
+			//$bm_popup = get_transient( "bynder_" . $this->requested_by );
 
-			if( ! $bm_popup ) {
+			//if( ! $bm_popup ) {
 				// Get the Bynder key.
 				$bm_domain = $this->bm_get_meta( 'bm_domain' );
 
@@ -66,9 +66,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$return_array = array( "error" => $response['body']->error );
 				}
 
-			} else {
+			/*} else {
 				$return_array = array( "bmHTML" => $bm_popup );
-			}
+			}*/
 
 			echo wp_json_encode( $return_array );
 			wp_die();
