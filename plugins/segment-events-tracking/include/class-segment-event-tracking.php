@@ -1066,6 +1066,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'company'           => 'st_add_company_taxonomy_properties',
                     'company-products'  => 'st_add_company_products_taxonomy_properties',
                     'product'           => 'st_add_product_taxonomy_properties',
+                    'sessions'          => 'st_add_session_taxonomy_properties',
                 );
 
                 if ( isset( $post_type_taxonomy_func[ $current_post_type ] ) ) {
@@ -1257,6 +1258,72 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $properties['Sponsored_Content_Advertiser'] = $advertiser;
             }
             
+            return $properties;
+        }
+
+        /**
+         * Set session post type segment tracking properties.
+         *
+         * @param  array $properties
+         * @return array
+         */
+        public function st_add_session_taxonomy_properties( $properties = array(), $post_id = 0 ) {
+            global $post;            
+
+            if ( 0 === $post_id || empty( $post_id ) ) {
+                $post_id = $post->ID;
+            }
+
+            $session_terms = get_the_terms( $post_id, 'session_categories' );
+
+            if ( $session_terms && ! is_wp_error( $session_terms ) ) {
+                
+                $session_category_name = wp_list_pluck( $session_terms, 'name' );
+                
+                if ( is_array( $session_category_name ) && count( $session_category_name ) > 0 ) {
+                    $properties['Session_Category'] = implode( ', ', $session_category_name );
+                }
+            }
+
+            $company_id = get_field( 'company', $post_id );
+
+            if ( ! empty( $company_id ) ) {
+                $properties['Company'] = get_the_title( $company_id );
+            }
+
+            $speakers = get_field( 'speakers', $post_id );
+
+            if ( ! empty( $speakers ) && is_array( $speakers ) ) {
+                
+                $speakers_name = array();
+                
+                foreach ( $speakers as $speaker_id ) {
+                    $speakers_name[] = get_the_title( $speaker_id );
+                }
+
+                if ( count( $speakers_name ) > 0 ) {
+                    $properties['Speakers'] = implode( ', ', $speakers_name );
+                }
+            }
+
+            $session_status = get_field( 'session_status', $post_id );
+
+            if ( ! empty( $session_status ) && 'select' !== strtolower( $session_status ) ) {
+                $properties['Session_Status'] = $session_status;
+            }
+
+            $session_date = get_field( 'session_date', $post_id );
+
+            if ( ! empty( $session_date ) ) {
+                $properties['Session_Date_Start_Time'] = date_format( date_create( $session_date ), 'F j, Y g:i a' );
+            }
+
+            $session_end_time = get_field( 'session_end_time', $post_id );
+
+            if ( ! empty( $session_end_time ) ) {
+                $properties['Session_Date_End_Time'] = date_format( date_create( $session_end_time ), 'F j, Y g:i a' );
+            }
+
             return $properties;
         }
 
