@@ -32,6 +32,8 @@
 	border-top-width: 4px;
 	@include bp-1024 {
 		display: flex;
+		align-items: center;
+		background-color: $color__black;
 	}
 	&._video_and_chat {
 		@include bp-1024 {
