@@ -43,4 +43,16 @@
 			}
 		}
 	}
+	&._video {
+		@include bp-1024 {
+			.embed-wrapper._video {
+				width: 100%;
+			}
+		}
+	}
+	&._post {
+		@include bp-1024 {
+			display: block;
+		}
+	}
 }

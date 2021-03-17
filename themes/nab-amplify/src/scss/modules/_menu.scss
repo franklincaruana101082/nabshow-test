@@ -1,5 +1,12 @@
 .menu {
 	list-style: none;
+	.header__brandnav & {
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: space-around;
+		height: calc(100% - 61px);
+		max-height: rem(250);
+	}
 	@include bp-1024 {
 		display: flex;
 		flex-flow: row nowrap;
@@ -10,9 +17,12 @@
 		}
 		.header__mainnav & {
 			align-items: center;
-			@include bp-1024 {
-				flex: 0 1 100%;
-			}
+			flex: 0 1 100%;
+		}
+		.header__brandnav & {
+			flex-flow: row nowrap;
+			justify-content: flex-start;
+			height: auto;
 		}
 	}
 	&__item {
@@ -91,6 +101,10 @@
 			.header__brandnav & {
 				font-size: rem(12);
 				text-transform: uppercase;
+				padding: rem(3) rem(24);
+				@include bp-1024 {
+					padding: 0 rem(20);	
+				}
 			}
 			.header__utilitynav & {
 				@include bp-1024 {
@@ -131,9 +145,15 @@
 		
 		@include bp-360 {
 			padding: rem(13) rem(24);
+			.header__brandnav & {
+				padding: rem(3) rem(24);
+			}
 		}
 		@include bp-1024 {
 			padding: 0 rem(10);	
+			.header__brandnav & {
+				padding: 0 rem(10);	
+			}
 		}
 		.header__brandnav & {
 			font-size: rem(12);

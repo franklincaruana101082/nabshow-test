@@ -74,10 +74,13 @@
 	
 	&__navwrapper {
 		position: absolute;
-		z-index: 10000000;
+		z-index: 10;
 		top: rem(72);
 		left: 0;
 		right: 0;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: space-between;
 		background-color: $color__gray-darker;
 		background-image: url('/wp-content/themes/nab-amplify/assets/images/nab-brand.png');
 		background-position: 100vw 0;
@@ -87,12 +90,13 @@
 		height: 0;
 		transition: height .25s ease-in-out, background-position .5s .2s ease-in-out;
 		._open & {
-			height: calc(100vh - 120px); //72px for top navbar; 48px for bottom share links
+			height: calc(100% - 120px); //72px for top navbar; 48px for bottom share links
 			background-position: 60vw 0;
+			@media(min-width: 61.25em) {
+				height: calc(100% - 72px); //72px for top navbar; share links should move to the side at this point
+			}
 		}
-		@media(min-width: 61.25em) {
-			height: calc(100vh - 72px); //72px for top navbar; share links should move to the side at this point
-		}
+		
 		@include bp-1024 {
 			max-width: 63rem;
 			position: static;
@@ -101,7 +105,6 @@
 			width: 100%;
 			margin-left: auto;
 			margin-right: auto;
-			display: flex;
 			flex-flow: row wrap;
 			justify-content: space-between;
 			align-items: center;
@@ -147,6 +150,7 @@
 
 
 	&__brandnav {
+		flex: 0 1 100%;
 		&:before {
 			content: '';
 			display: block;
@@ -170,18 +174,8 @@
 	}
 
 	&__utilitynav {
-		position: absolute;
-		top: calc(100vh - 120px); //72px for top navbar 48px for bottom share links
-		left: 0;
-		right: 0;
 		text-align: center;
-		transform: translateY(-100%);
-		@media(min-width: 61.25em) {
-			top: calc(100vh - 72px); //72px for top navbar; share links should move to the side at this point
-		}
 		@include bp-1024 {
-			position: static;
-			transform: none;
 			order: 2;
 			flex: 0 1 34%;
 		}

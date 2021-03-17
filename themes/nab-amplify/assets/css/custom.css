@@ -135,8 +135,8 @@ h5, .article-byline{font-size:18px}
 .btn-link:hover{text-decoration:underline}
 
 /* woocommerce default */
-.woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
-.woocommerce-error{background:none;color:red;margin:0 0 25px 0}
+.woocommerce-info, .woocommerce-noreviews, p.no-comments{background:none;color:#0f834d;margin-bottom:15px!important;border:1px dotted;padding:10px 35px 10px 25px;position:relative}
+/*.woocommerce-error{background:none;color:red;margin:0 0 25px 0}*/
 .close-message{color:inherit!important;position:absolute;right:10px;top:50%;-webkit-transform:translate(0, -50%);-ms-transform:translate(0, -50%);transform:translate(0, -50%);cursor:pointer}
 
 /************* Default style variables *************/
@@ -385,33 +385,22 @@ span.user-bookmark-action{cursor:pointer}
 /* products */
 
 /* login page css */
-.nab-without-login-account .woocommerce{background:#fff;padding:90px 50px;border-radius:20px;-webkit-box-shadow:0 0 18px 0 rgb(0 0 0 / 10%);box-shadow:0 0 18px 0 rgb(0 0 0 / 10%);margin:130px 0 120px 0}
 .nab-without-login-account .woocommerce .nab-login-wrap{display:-webkit-box;display:-ms-flexbox;display:flex}
-.nab-without-login-account .woocommerce input{width:100%;height:40px;padding:0 10px;border:1px solid #d2d3d5;outline:none;border-radius:0}
-.nab-without-login-account .woocommerce>div, .nab-without-login-account .woocommerce>p{width:600px;margin:0 auto;max-width:100%}
-.nab-without-login-account .woocommerce h2{text-align:center;text-transform:uppercase;font-weight:normal;color:#3d3d3d;margin-bottom:40px;font-size:36px;line-height:40px}
 .nab-without-login-account header.entry-header{display:none}
 .nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:50%;width:calc(50% - 35px)}
 .nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:50%;width:calc(50% - 35px)}
 .nab-without-login-account .woocommerce .nab-login-wrap>span{width:70px;text-align:center;padding-top:40px;text-transform:uppercase;font-weight:bold;color:#282828;}
-.nab-without-login-account .mo-openid-app-icons{width:100%;display:inline-block}
-.nab-without-login-account .mo-openid-app-icons a.btn{border:1px solid #d2d3d5;color:#666666!important;min-width:100%;position:relative;left:-12px}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login p{margin:0 0 20px 0;width:100%}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password{text-align:center;font-size:12px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .lost_password a{color:inherit;text-decoration:underline;font-weight:bold}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row{text-align:center;margin-top:0}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;height:50px;width:180px;font-size:26px;line-height:26px!important;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:0;border:none!important;outline:none}
-.nab-without-login-account .mo-openid-app-icons a.btn i{border:none}
 .nab-without-login-account .woocommerce .nab-signup-now{margin-top:30px;margin-bottom:50px;width:870px}
 .nab-without-login-account .woocommerce .nab-signup-now h4{margin:0;text-align:center;font-size:18px;color:#3d3d3d}
 .nab-without-login-account .woocommerce .nab-signup-now h4:last-child{margin:0}
 .nab-without-login-account .woocommerce .nab-signup-now a{color:inherit;text-decoration:underline}
 /*.nab-without-login-account{background:#b4b4b4}*/
-.nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove){background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:20px;padding:12px 20px;border:none!important;outline:none}
-.nab-without-login-account .woocommerce form label{font-weight:bold;margin-bottom:10px;display:block;font-size:15px; color: #282828;}
 .nab-without-login-account .woocommerce form.woocommerce-ResetPassword{width:600px;margin:0 auto;max-width:100%}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):hover, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):hover{background:#6363df}
-.nab-without-login-account .woocommerce .nab-login-wrap .form-row button:not(.select2-selection__choice__remove):focus, .nab-without-login-account .woocommerce form .woocommerce-form-row button:not(.select2-selection__choice__remove):focus{background:#666666}
 .nab-without-login-account .select2-container .select2-selection--multiple .select2-selection__rendered{margin:0 4px;font-size:14px}
 .nab-without-login-account .select2-container--default .select2-selection--multiple{border-radius:0;border-color:#d2d3d5!important;padding-right:20px}
 .nab-without-login-account .woocommerce .form-row .select2-container{text-align:left}
@@ -431,6 +420,7 @@ span.user-bookmark-action{cursor:pointer}
 .nab-without-login-account .woocommerce .nab-login-wrap .form-row button[disabled]:hover{background-color:#bbb;}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}
 .nab-without-login-account .woocommerce .amp-check-container.check-align-top .amp-check-wrp{margin-top:7px}
+*/
 #modal-member-press ul{margin:0 0 20px;padding:0 0 0 20px}
 #modal-member-press p{font-size:16px}
 
@@ -603,7 +593,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-account .form-row .select2-container .select2-selection--single{height:40px}
 .woocommerce-account .form-row .select2-container--default .select2-selection--single .select2-selection__rendered{line-height:40px}
 .woocommerce-account .form-row .select2-container--default .select2-selection--single .select2-selection__arrow{height:40px}
-.woocommerce-account .form-row label, .woocommerce-account .nab-form-row label{margin-bottom:5px;display:block;font-size:14px;width:100%}
+/*.woocommerce-account .form-row label, .woocommerce-account .nab-form-row label{margin-bottom:5px;display:block;font-size:14px;width:100%}*/
 .woocommerce-account:not(.nab-without-login-account) .form-row .password-input{display:block;width:100%;max-width:100%}
 .woocommerce-MyAccount-content p em{font-size:12px}
 .woocommerce button{outline:none}
@@ -738,7 +728,6 @@ body.single-product .woocommerce-breadcrumb{color:#fff;margin-bottom:20px}
 .single-product div.product .join-today-section .has-fixed .button:focus{background:#fff;color:#666666!important}
 .single-product div.product .woocommerce-product-gallery::before{content:"";background-image:url('../images/product-bg-graphic.png');width:950px;height:730px;display:inline-block;background-repeat:no-repeat;background-size:cover;position:absolute;background-position:center;left:-70px;top:-110px}
 body.single-product .woocommerce-notices-wrapper{position:relative;z-index:1;margin-bottom:20px;margin-top:40px;margin-top:20px}
-body.single-product .woocommerce-notices-wrapper .woocommerce-message{background:none;color:#fff}
 body.single-product .woocommerce-notices-wrapper .woocommerce-message a{margin-right:10px}
 .single-product div.product .summary .tagged_as strong{display:block;margin-bottom:15px;text-transform:uppercase}
 .single-product div.product .summary .tagged_as a{padding:8px 25px;background:#999999;border-radius:10px;margin-right:15px;text-transform:uppercase;display:inline-block;margin-bottom:15px}
@@ -854,22 +843,6 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 .nab-bulk-quantity-wrapper .nab_bulk_select select{padding:5px;min-width:200px}
 .nab-bulk-quantity-wrapper .nab_bulk_passes{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;border-bottom:1px solid #e0e0e0;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 
-/* popup design */
-.nab-modal{display:none}
-.nab-modal.nab-modal-active{display:block}
-.nab-modal .nab-modal-inner{position:fixed;z-index:99;left:0;top:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.4);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
-.nab-modal .modal-content{background-color:#fefefe;border:1px solid #888;width:90%;max-width:800px;position:relative;max-height:80vh;padding:0}
-.nab-modal .modal-content-wrap{height:100%;overflow:auto;padding:30px;max-height:78vh}
-.nab-modal .nab-modal-close.fa{color:#fff;font-size:16px;border-radius:50%;position:absolute;right:-15px;top:-15px;background-color:#e5018b;width:30px;height:30px;line-height:27px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer}
-.nab-modal .nab-modal-close:not(.fa){color:#999!important;text-decoration:underline;cursor:pointer;font-size:22px;display:block;text-align:right;max-width:-webkit-max-content;max-width:-moz-max-content;max-width:max-content;margin-left:auto}
-.nab-modal .modal-content-wrap h3{text-transform:uppercase;width:100%;text-align:center;color:#6363df;font-weight:700}
-.nab-modal .modal-content-wrap a, .nab-modal .modal-content-wrap span{color:#000!important}
-.nab-modal .woocommerce-message{margin-top:15px!important;color:green}
-.attendee-view-wrap .attendee-title-wrapper .nab-view-add-attendee{position:absolute;top:21px;right:20px}
-.attendee-view-wrap .attendee-details-message{text-align:center;padding-bottom:5px}
-.attendee-view-wrap .attendee-details-message.success{color:#008000}
-.attendee-view-wrap .attendee-details-message.failed{color:#ff0000}
-
 /* attendee-bulk-upload popup */
 #nabAddAttendeeModal.nab-modal .modal-content{max-width:600px}
 .attendee-bulk-upload-form-wrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:120px}
@@ -885,6 +858,10 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 .attendee-bulk-upload-form-wrap .nab-download-sample-data{color:#23282d;display:block;margin-bottom:10px;font-size:13px;margin-top:10px}
 
 /* attendee view popup */
+.attendee-view-wrap .attendee-title-wrapper .nab-view-add-attendee {position: absolute;top: 21px;right: 20px}
+.attendee-view-wrap .attendee-details-message {text-align: center;padding-bottom: 5px}
+.attendee-view-wrap .attendee-details-message.success {color: #008000}
+.attendee-view-wrap .attendee-details-message.failed {color: #ff0000}
 #nabViewAttendeeModal.nab-modal .modal-content{max-width:980px}
 .attendee-view-wrap{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-height:120px;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .attendee-view-wrap h3{text-transform:uppercase;width:100%;text-align:center;color:#6363df;font-weight:700}
@@ -939,16 +916,10 @@ section.woocommerce-customer-details a.button:focus, section.woocommerce-custome
 a.woocommerce-button.button.return-btn{text-transform:none}
 
 /* New Amplify CSS */
-.my-account h1, .messages h1, .woocommerce-account h1, .my-account h2, .woocommerce-account h2, .my-account h3, .woocommerce-account h3, .my-account h4, .woocommerce-account h4{color:#fdd80f}
+.my-account h1, .messages h1, .woocommerce-account h1, .my-account h2, .woocommerce-account h2, .my-account h3, .woocommerce-account h3, .my-account h4, .woocommerce-account h4{color:#fff}
 
 /* common page bg */
 /*.woocommerce-account, .search, .bbp-user-page, .members{background-color:#404040}*/
-
-/* common message design */
-.woocommerce-account .woocommerce-message, .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-error, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fdd80f}
-.search .woocommerce-message, .search .woocommerce-info, .search .woocommerce-error, .search .woocommerce-noreviews, .search p.no-comments{color:#fdd80f}
-.bbp-user-page .woocommerce-message, .bbp-user-page .woocommerce-info, .bbp-user-page .woocommerce-error, .bbp-user-page .woocommerce-noreviews, .bbp-user-page p.no-comments{color:#fdd80f}
-.members .woocommerce-message, .members .woocommerce-info, .members .woocommerce-error, .members .woocommerce-noreviews, .members p.no-comments{color:#fdd80f}
 
 /* genaral heading style */
 /*.search-section .search-section-heading h2{color:#fdd80f;font-size:36px;margin:0 10px 0 0;line-height:1}
@@ -958,7 +929,6 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 
 /* common elements style */
 .woocommerce-account .woocommerce-info, .woocommerce-account .woocommerce-noreviews, .woocommerce-account p.no-comments{color:#fff}
-.woocommerce-account .woocommerce a{color:#fff;text-decoration:underline}
 
 /* search page */
 .search-result-filter{margin-top:40px;padding:20px 0}
@@ -1064,7 +1034,6 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 /* search */
 
 /* my-account */
-.woocommerce-account .button, .woocommerce-account .btn{border-radius:6px}
 /*.nab-custom-select{max-width:100%;margin:0 auto;width:300px}
 .nab-custom-select .chosen-container, .nab-custom-select .chosen-drop, .nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{width:100%;background:#3f3f3f;-webkit-box-shadow:none;box-shadow:none;color:#fff;border-radius:0}
 .nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{border:0;border-top:2px solid #fff;border-bottom:1px solid #fff!important;padding:10px 20px!important;height:auto;font-size:20px}
@@ -1324,7 +1293,7 @@ body .is_friend .remove::before{font-size:22px}
 #unfriend-confirmation .modal-content{max-width:600px}
 
 /* connection popup */
-#connection-message-popup p{margin:0 0 20px;color:#000}
+#connection-message-popup p{margin:0 0 20px}
 #connection-message-popup textarea{resize:vertical;width:100%!important;color:#000;background-color:#fff}
 #connection-message-popup textarea.error{border-color:red}
 #connection-message-popup .error{color:red}

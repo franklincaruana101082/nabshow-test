@@ -235,6 +235,30 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h3>',	
 		)
 	);
+
+	register_sidebar(
+		array(
+			'name'			=> esc_html__( 'Member of the press modal', 'nab-amplify' ),
+			'id'			=> 'member-press-modal',
+			'description'	=> esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h4>',
+			'after_title'   => '</h4>',	
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'			=> esc_html__( 'Sign Up Terms', 'nab-amplify' ),
+			'id'			=> 'sign-up-terms',
+			'description'	=> esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h4>',
+			'after_title'   => '</h4>',	
+		)
+	);
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );

@@ -57,71 +57,15 @@ if ( ! empty( $referer_url ) ) {
 }
 
 if ( empty( $redirect_url ) && isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
-	$redirect_url = $_POST[ 'redirect' ];
+	$redirect_url = esc_url_raw($_POST[ 'redirect' ]);
 }
 
 
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 
-<?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
-
-<div class="u-columns col2-set" id="customer_login">
-
-	<div class="u-column1 col-1">
-
-		<?php endif; ?>
-
+<div class="signup _signin">
+	<div class="signup__titles">
 		<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
-
-
-		<div class="nab-login-wrap" >
-			<div class="nab-normal-login">
-				<form class="woocommerce-form woocommerce-form-login login" method="post">
-
-					<?php do_action( 'woocommerce_login_form_start' ); ?>
-
-					<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-						<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="username" autocomplete="username"
-						       placeholder="<?php esc_html_e( 'Username or email address', 'woocommerce' ); ?>"
-						       value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/><?php // @codingStandardsIgnoreLine ?>
-					</p>
-					<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-						<input class="woocommerce-Input woocommerce-Input--text input-text" placeholder="<?php esc_html_e( 'Password', 'woocommerce' ); ?>" type="password"
-						       name="password"
-						       id="password" autocomplete="current-password"/>
-					</p>
-
-					<?php do_action( 'woocommerce_login_form' ); ?>
-
-					<p class="woocommerce-LostPassword lost_password">
-						<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Forgot password?', 'woocommerce' ); ?></a>
-					</p>
-
-					<p class="form-row">
-						<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"
-						       style="display: none"
-						       checked/>
-						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
-							<input type="hidden" name="redirect" value="<?php echo $redirect_url; ?>">
-						<?php } else { ?>
-							<input type="hidden" name="redirect" value="<?php echo esc_url( home_url() ); ?>">
-						<?php } ?>
-						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
-						<button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login"
-						        value="<?php esc_attr_e( 'Sign in', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></button>
-
-					</p>
-
-
-					<?php do_action( 'woocommerce_login_form_end' ); ?>
-
-				</form>
-			</div>
-			<span><?php esc_html_e( 'Or', 'woocommerce' ); ?></span>
-			<div class="nab-social-login">
-				<?php echo do_shortcode( '[miniorange_social_login apps="google,fb"]' ); ?>
-			</div>
-		</div>
 		<?php
 		$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
@@ -133,20 +77,59 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 		?>
-		<div class="nab-signup-now">
-			<h4 class="text-transform-initial">Don't have an account? <a href="<?php echo esc_url( $sign_up_page_url ); ?>">Sign Up</a></h4>
+		<a href="<?php echo esc_url( $sign_up_page_url ); ?>"><b><?php esc_html_e( "Don't have an account? Sign Up", 'nab-amplify');?></b></a>
+	</div>
+	<div class="signup__text">
+		
+	</div>
+
+	<form class="signup__fields" method="post">
+
+		<?php do_action( 'woocommerce_login_form_start' ); ?>
+
+		<div class="field">
+			<label class="field__label" for="username"><?php esc_html_e( 'Username or Email Address', 'woocommerce' ); ?></label>
+			<input type="text" class="field__input" name="username" id="username" autocomplete="username"
+			       value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"/>
+		</div>
+		<div class="field">
+			<label class="field__label" for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?></label>
+			<input class="field__input" type="password" name="password"
+			       id="password" autocomplete="current-password"/>
+		</div>
+
+		<?php do_action( 'woocommerce_login_form' ); ?>
+
+		<div class="field">
+			<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Forgot password?', 'woocommerce' ); ?></a>
+		</div>
+
+		<div class="signup__cta">
+			<input class="woocommerce-form__input woocommerce-form__input-checkbox" 
+					name="rememberme" type="checkbox" id="rememberme" value="forever"
+			    	style="display: none" checked/>
+			<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
+				<input type="hidden" name="redirect" value="<?php echo $redirect_url; ?>">
+			<?php } else { ?>
+				<input type="hidden" name="redirect" value="<?php echo esc_url( home_url() ); ?>">
+			<?php } ?>
+			<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
+			<button type="submit" class="button _gradientpink" name="login"
+			        value="<?php esc_attr_e( 'Sign in', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></button>
 		</div>
 
 
-		<?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
+		<?php do_action( 'woocommerce_login_form_end' ); ?>
 
+	</form>
+
+	<div class="signup__separator"><span class="or-separator"><?php esc_html_e( 'Or', 'woocommerce' ); ?></span></div>
+
+	<div class="signup__socials">
+		<?php echo do_shortcode( '[miniorange_social_login apps="google,fb"]' ); ?>
 	</div>
-
-	<div class="u-column2 col-2">
-
-	</div>
-
 </div>
-<?php endif; ?>
+
+
 
 <?php do_action( 'woocommerce_after_customer_login_form' ); ?>

@@ -60,12 +60,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								// list company host
 								if ( ! empty( $company ) ) {
 								?>
-									<div class="event__host _company">
+									<a href="<?php echo esc_url( get_the_permalink($company) ); ?>" class="event__host _company">
 										<?php 
 											echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo') );
 										?>
 										<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
-									</div>
+									</a>
 								<?php 
 								}
 								
@@ -171,6 +171,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					$user_firstname			= get_user_meta( $user_id, "first_name", true);
 					$user_lastname			= get_user_meta( $user_id, "last_name", true);
 
+					registerCometChatProSession();
+					addUserToCometChatPro($user_id);
+
 					if($session_status == "pre-event") {
 					?>
 						<div class="session__pre">
@@ -235,6 +238,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
+								<div class="embed-group _post">
+									<?php echo $video_embed; ?>
+								</div>
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
@@ -271,7 +277,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' || $session_status == "post-event") {
+							if($session_status == 'pre-event') {
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
@@ -303,7 +309,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 										$company		= get_field( 'company', $event_id );
 									?>
 									<li class="related__item">
-										<a href="<?php echo esc_url( get_the_permalink() ); ?>" class="event">
+										<a href="<?php echo esc_url( get_the_permalink($event_id) ); ?>" class="event">
 											<div class="event__date">
 												<div class="event__month"><?php echo esc_html($month); ?></div>
 												<div class="event__day text-gradient _blue"><?php echo esc_html($day); ?></div>
