@@ -51,6 +51,7 @@
 		}
 	}
 	&._post {
+		background-color: $color__black;
 		@include bp-1024 {
 			display: block;
 		}
