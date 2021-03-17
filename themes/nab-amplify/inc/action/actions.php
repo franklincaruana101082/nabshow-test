@@ -217,7 +217,7 @@ add_action( 'wp', 'nab_add_comapny_admin' );
 
 add_action( 'admin_menu', 'nab_add_export_company_menu' );
 add_action( 'admin_init', 'nab_generate_company_export_csv_file' );
-add_action( 'template_redirect', 'nab_redirect_user_to_login_page' );
+//add_action( 'template_redirect', 'nab_redirect_user_to_login_page' );
 
 add_action( 'rest_api_init', 'nab_register_user_api_endpoints' );
 
