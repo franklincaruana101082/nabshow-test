@@ -12,9 +12,11 @@ while ( have_posts() ) :
 	<div class="intro">
 		<div class="container">
 			<div class="intro__image-and-copy">
+				<?php if (has_post_thumbnail()) { ?>
 				<div class="intro__image">
 					<?php echo get_the_post_thumbnail(); ?>
 				</div>
+				<?php } ?>
 				<div class="intro__copy">
 					<?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
 					<div class="introtext">
