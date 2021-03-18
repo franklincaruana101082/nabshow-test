@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <a href="javascript:void(0)" class="bm-tab-item" data-tab="bm-tab-assets">Assets</a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" class="bm-tab-item" data-tab="bm-tab-upload">Upload Asset</a>
+                            <a href="javascript:void(0)" class="bm-tab-item" data-tab="bm-tab-upload">Upload Assets</a>
                         </li>
                     </ul>
                 </div>

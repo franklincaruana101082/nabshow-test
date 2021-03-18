@@ -8,12 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $bm_assets    = $this->bm_body;
-//$requested_by = $this->requested_by;
-?>
-<?php
 
 if ( 0 === count( $bm_assets ) ) { ?>
-    <p id="bm-msg">No Assets found.!</p>
+    <p id="bm-msg"><a href="javascript:void(0)" class="bm-jump-upload bm-btn-link">Upload Assets</a> to begin adding images to NAB Amplify.</p>
 <?php } else {
 
 	foreach ( $bm_assets as $asset ) {
@@ -27,11 +24,6 @@ if ( 0 === count( $bm_assets ) ) { ?>
 		if ( 'image' !== $asset_type || empty( $asset_img ) ) {
 			continue;
 		}
-
-		// Skip if there are no derivatives.
-		/*if ( 0 === count( $derivatives ) ) {
-			continue;
-		}*/
 
 		// If featured image is requested, skip if featured derivative is absent.
 		$pass  = 0;
@@ -59,6 +51,16 @@ if ( 0 === count( $bm_assets ) ) { ?>
                     <h4 class="bm-img-name" title="<?php echo esc_html( $asset_name ) ?>"><?php echo mb_strimwidth( $asset_name, 0, 40, '...' ); ?></h4>
                     <div class="bm-derivatives-section">
 
+                        <?php foreach ( $derivatives as $derv ) { ?>
+                            <div class="bm-radio-container">
+                                <div class="bm-radio-wrp">
+                                    <input type="radio" value="<?php echo esc_url( $derv['publicUrl'] ) ?>" data-type="<?php echo esc_attr( $derv['type'] ) ?>" name="bm-derivatives" id="<?php echo esc_url( $derv['publicUrl'] ) ?>" data-name="<?php echo esc_attr( ucfirst( $derv['name'] ) ) ?>">
+                                    <span class="bm-radio"></span>
+                                </div>
+                                <label for="<?php echo esc_url( $derv['publicUrl'] ) ?>"><?php echo esc_html( ucfirst( $derv['name'] ) ) ?></label>
+                            </div>
+						<?php } ?>
+
                         <div class="bm-radio-container">
                             <div class="bm-radio-wrp">
                                 <input type="radio" value="<?php echo esc_url( $asset_img ) ?>" data-type="Webimage" name="bm-derivatives" id="<?php echo esc_url( $asset_img ) ?>" data-name="Webimage">
@@ -66,16 +68,6 @@ if ( 0 === count( $bm_assets ) ) { ?>
                             </div>
                             <label for="<?php echo esc_url( $asset_img ) ?>">Webimage</label>
                         </div>
-
-						<?php foreach ( $derivatives as $derv ) { ?>
-                            <div class="bm-radio-container">
-                                <div class="bm-radio-wrp">
-                                    <input type="radio" value="<?php echo esc_url( $derv['publicUrl'] ) ?>" data-type="<?php echo esc_url( $derv['type'] ) ?>" name="bm-derivatives" id="<?php echo esc_html( $derv['publicUrl'] ) ?>" data-name="<?php echo esc_html( ucfirst( $derv['name'] ) ) ?>">
-                                    <span class="bm-radio"></span>
-                                </div>
-                                <label for="<?php echo esc_html( $derv['publicUrl'] ) ?>"><?php echo esc_html( ucfirst( $derv['name'] ) ) ?></label>
-                            </div>
-						<?php } ?>
                     </div>
                     <div class="bm-btn-wrap">
                         <a class="bm-btn" href="javascript:void(0)">Select</a>

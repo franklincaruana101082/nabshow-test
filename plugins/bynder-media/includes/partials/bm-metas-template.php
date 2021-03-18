@@ -9,21 +9,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $bm_metas = $this->bm_body;
 
+/**
+Media Type = AssetType
+Media Subtype =  AssetSubtype
+Asset Subject = UserType
+Asset Subject Name = UserTypeName [x]
+Community (optional) = Community [already visible]
+Persona (optional) = Persona [already visible]
+Subject / Topic (optional) =  ContentSubject [x]
+Content Scope (optional) = ContentScope [x]
+Year (optional) = Year [x]
+ */
+
 $keep_only = array(
 	'AssetType',
 	'AssetSubtype',
-
-	/*'UserType',
-	'UserTypeName',
-	'EventType',
-	'Channel',*/
-
-	/*'ContentSubject',
-	'ContentSubjectType',
-	'ContentType',
-	'content-type',
 	'Community',
-	'Persona',*/
+	'Persona',
+	'ContentSubject',
+	'ContentScope',
+	'Year',
 );
 
 $show_when = array(
@@ -59,7 +64,10 @@ foreach ( $bm_metas as $meta_name => $mval ) {
 
 					<?php foreach ( $mval['options'] as $option ) { ?>
                         <div class="bm-cb-box" data-linked-options="<?php echo esc_attr( implode( ',', $option['linkedOptionIds'] ) ) ?>">
-                            <input type="checkbox" name="metas[<?php echo esc_attr( $mval['id'] ); ?>][]" id="metas[<?php echo esc_attr( $option['id'] ); ?>]" value="<?php echo esc_attr( $option['id'] ); ?>" data-name-option="<?php echo esc_html( $option['name'] ) ?>">
+                        	<div class="bm-cb-wrp">
+                        		<input type="checkbox" name="metas[<?php echo esc_attr( $mval['id'] ); ?>][]" id="metas[<?php echo esc_attr( $option['id'] ); ?>]" value="<?php echo esc_attr( $option['id'] ); ?>" data-name-option="<?php echo esc_html( $option['name'] ) ?>">
+                        		<span class="bm-check"></span>
+                        	</div>
                             <label class="meta-cb-labels" for="metas[<?php echo esc_attr( $option['id'] ); ?>]"><?php echo esc_html( $option['displayLabel'] ) ?></label>
                         </div>
 					<?php } ?>

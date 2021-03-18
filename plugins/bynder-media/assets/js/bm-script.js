@@ -8,8 +8,12 @@
         if( 0 !== $('.bm-select-media').length ) {
             addBMpopup();
         }
+    });
 
-        // Add username, usertypename & tags inbody tag to use for bynder.
+    // Load.
+    $(window).on('load', function(){
+
+        // Add username, usertypename & tags in body tag to use for bynder.
         if( $('body').hasClass('wp-admin') ) {
 
             var bmTags = '';
@@ -50,20 +54,12 @@
 
         }
 
-        // Temporarily hiding the Upload sections as its still in development mode.
-        $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;}</style>');
-
-    });
-
-    // Load.
-    /*$(window).on('load', function(){
-
         // If its edit page, add a button for Bynder upload at top right side.
         if( 0 !== $('.editor-post-title .editor-post-title__input').length ) {
             const uploadAssetBtn = "<button type='button' class='bm-select-media bm-post-header-select components-button is-tertiary' bynder-for='upload_only'>Upload Asset</button>";
             $(".edit-post-header .edit-post-header__settings").prepend(uploadAssetBtn);
         }
-    });*/
+    });
 
     $(document).on('keyup', '#bm-search-form #bm-search', function(){
         if ( '' !== $(this).val() ) {
@@ -96,6 +92,10 @@
         e.preventDefault();
 
         bmFetchAssets($(this));
+    });
+
+    $(document).on('click', '.bm-jump-upload', function (e) {
+        $('[data-tab="bm-tab-upload"]').trigger('click');
     });
 
     // Trigger fetch process again on 'Try again' button click.
@@ -529,7 +529,7 @@ function bmGetMetas() {
 
     // Fetch meta only if its a product popup.
     const requestedBy = $('#bm-tab-media').attr('bynder-request-by');
-    if( 'product_media_bm' !== requestedBy ) {
+    if( 'product_media_bm' !== requestedBy && ! $('body').hasClass('wp-admin') ) {
         // Show the upload button.
         $('#bm-upload-btn').show().removeAttr('disabled');
 
@@ -574,6 +574,8 @@ function bmGetMetas() {
             if( result.bmHTML ) {
                 $('.bm-upload-meta-fields').append(result.bmHTML);
 
+                bmMetaReorder();
+
                 // Show the upload button.
                 $('#bm-upload-btn').show().removeAttr('disabled');
 
@@ -599,6 +601,15 @@ function bmGetMetas() {
             $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
         },
     });
+}
+
+function bmMetaReorder() {
+    var dataName = $('.bm-meta-value select').parent().attr('data-name');
+    var relatedData = $('[data-show-when="'+ dataName +'"]');
+
+    $('[data-show-when="'+ dataName +'"]').remove();
+
+    $('[data-name="'+ dataName +'"]').parent('.single-meta').append(relatedData[0]);
 }
 
 function bmFillMetaValues() {
@@ -787,16 +798,20 @@ function addUploadedAsset(result) {
             $('.bm-media-main .bm-item:last-child').remove();
         }
 
-        $('.bm-media-main .bm-item:first-child [data-name="Original"]').prop('checked', true);
+        $('.bm-media-main .bm-item:first-child .bm-radio-container:first-child [data-name]').prop('checked', true);
         $('.bm-media-main .bm-item:first-child .bm-btn').trigger('click');
-
 
     } else if (undefined !== result.mediaid && '' !== result.mediaid) {
 
         if( 0 !== $('#bm-uploaded-request').length ) {
             let tryCount = parseInt( $('#bm-uploaded-request span').attr('data-try') );
             tryCount = tryCount + 1;
-            $('#bm-uploaded-request span').html('Trying again.. (attempt '+ tryCount +')').attr('data-try', tryCount);
+
+            if( 2 >= tryCount ) {
+                $('#bm-uploaded-request span').html('Standby...').attr('data-try', tryCount);
+            } else {
+                $('#bm-uploaded-request span').html('Standby... Still working...').attr('data-try', tryCount);
+            }
         } else {
             $('#bm-msg').append('<p id="bm-uploaded-request">Getting the uploaded image.. <span data-try="1"></span></p>').show();
         }
@@ -817,12 +832,12 @@ function addUploadedAsset(result) {
             success(result2) {
                 result2 = JSON.parse(result2);
                 result2.mediaid = result.mediaid;
+
                 setTimeout(function (){
                     addUploadedAsset(result2);
                 }, 3000);
             }
         });
-
     }
 }
 

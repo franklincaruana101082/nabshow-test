@@ -170,7 +170,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			// Get uploaded media details.
 			$asset_details = $this->bm_get_asset_details( $mediaid );
 
-			$this->bm_body = array( $asset_details );
+			$this->bm_body = $asset_details;
 			$bm_popup      = $this->bm_get_partial_popup();
 
 			$return_array = array( "bmHTML" => $bm_popup );
@@ -288,8 +288,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_get_asset_details( $metaid ) {
 
 			$this->query = [
-				'id'                => $metaid,
-				'limit'             => 1,
+				'ids'                => $metaid,
 				'includeMediaItems' => 1,
 			];
 
@@ -316,8 +315,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 			// If 'media' received, the call was successful!
 
-
-			// ne_pending ; change the condition to corerct once acc to the respnse
 			if ( is_array( $this->response ) && 0 !== count( $this->response ) ) {
 
 				$this->bm_body = $this->response;
