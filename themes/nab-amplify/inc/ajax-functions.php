@@ -3672,7 +3672,7 @@ function nab_content_submission_callback() {
 		<?php
 		$message = ob_get_clean();
 
-		wp_mail( 'nitish.kaila@multidots.com,nayana.maradia@multidots.com ', $subject, $message, $headers );
+		wp_mail( 'kvelez@nab.org,amplifycontent@nab.org', $subject, $message, $headers );
 
 		wp_send_json_success( $success );
 	}
