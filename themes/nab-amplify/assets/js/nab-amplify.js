@@ -4531,7 +4531,7 @@
     $('.error-message-popup').remove();
 
     var modalOuter = document.createElement('div');
-    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup');
+    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup trash-pdf');
 
     var modalInner = document.createElement('div');
     modalInner.setAttribute('class', 'nab-modal-inner');
@@ -4578,7 +4578,7 @@
 
   });
 
-  $(document).on('click', '.error-message-popup .btn-confirm-yes', function(){
+  $(document).on('click', '.error-message-popup.trash-pdf .btn-confirm-yes', function(){
     var pdf_id = $(this).attr('data-pdf-id');
     $('body').addClass('is-loading');
     $('.error-message-popup').remove();
@@ -4598,7 +4598,7 @@
 
   });
 
-  $(document).on('click', '.error-message-popup .btn-confirm-no', function(){
+  $(document).on('click', '.error-message-popup.trash-pdf .btn-confirm-no', function(){
     $('.error-message-popup').remove();
     $('body').removeClass('nab-modal-off-scroll');
   });
@@ -4781,7 +4781,7 @@
 
   $(document).on('click', '#event_media_wrapper .remove-featred-img', function(){
     if ( confirm( 'Are you sure want to remove?' ) ) {
-      $(this).parents('.nab-evemt-media-item').remove();
+      $(this).parents('.nab-event-media-item').remove();
       $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val('');
     }
   });
@@ -4802,6 +4802,90 @@
       $(this).val($(this).parents('#nab-add-edit-event-form').find('#event-start-time').val());
       $(this).trigger('change');
     }
+  });
+
+  $(document).on( 'click', '#company-events-list .amp-action-remove .remove-event', function(){
+
+    $('body').addClass('nab-modal-off-scroll');
+
+    var event_id = $(this).attr('data-id');
+    if ( undefined === event_id || '' === event_id ) {
+      return false;
+    }
+
+    $('.error-message-popup').remove();
+
+    var modalOuter = document.createElement('div');
+    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup trash-event');
+
+    var modalInner = document.createElement('div');
+    modalInner.setAttribute('class', 'nab-modal-inner');
+
+    var modalContent = document.createElement('div');
+    modalContent.setAttribute('class', 'modal-content');
+
+    var modalClose = document.createElement('div');
+    modalClose.setAttribute('class', 'nab-modal-close fa fa-times');
+
+    modalContent.appendChild(modalClose);
+
+    var contentWrapper = document.createElement('div');
+    contentWrapper.setAttribute('class', 'modal-content-wrap');
+
+    var heading = document.createElement('h3');
+    heading.innerText = 'Are you sure want to remove?';
+
+    contentWrapper.appendChild(heading);
+
+    var buttonGroup = document.createElement('div');
+    buttonGroup.setAttribute('class', 'btn-group');
+
+    var buttonYes = document.createElement('button');
+    buttonYes.setAttribute('class', 'btn btn-confirm-yes');
+    buttonYes.innerText = 'Yes';
+    buttonYes.setAttribute('data-event-id', event_id);
+
+    buttonGroup.appendChild( buttonYes );
+
+    var buttonNo = document.createElement('button');
+    buttonNo.setAttribute('class', 'btn btn-confirm-no');
+    buttonNo.innerText = 'No';
+
+    buttonGroup.appendChild( buttonNo );
+    contentWrapper.appendChild( buttonGroup );
+    modalContent.appendChild( contentWrapper );
+    modalInner.appendChild(modalContent);
+    modalOuter.appendChild(modalInner);
+
+    $('body').append(modalOuter);
+
+    $('.error-message-popup').show();
+
+  });
+
+  $(document).on('click', '.error-message-popup.trash-event .btn-confirm-yes', function(){
+    var event_id = $(this).attr('data-event-id');
+    $('body').addClass('is-loading');
+    $('.error-message-popup').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_remove_company_event',
+        event_id: event_id,
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        location.reload();
+      }
+    });
+
+  });
+
+  $(document).on('click', '.error-message-popup.trash-event .btn-confirm-no', function(){
+    $('.error-message-popup').remove();
+    $('body').removeClass('nab-modal-off-scroll');
   });
 
   $(document).on( 'click', '#nab-add-edit-event-form #nab-edit-event-submit', function(){
@@ -4909,7 +4993,7 @@
         if ( 0 < $('#event_media_wrapper .preview-event-featured-img').length ) {
           $('#event_media_wrapper .preview-event-featured-img').attr('src', e.target.result);
         } else {
-          var previewImg = '<div class="nab-evemt-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-event-featured-img common-preview-img" /></div>';
+          var previewImg = '<div class="nab-event-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-event-featured-img common-preview-img" /></div>';
           $('#event_media_wrapper').append(previewImg);
         }
       }

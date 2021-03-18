@@ -528,6 +528,8 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 
 /* company event block */
 .company-events .amp-item-wrap .amp-item-info .event-date{display:block;margin:0 0 30px;color:#999999;min-height:23px}
+.company-events .amp-item-wrap .amp-item-inner .amp-action-remove{z-index:2;top:10px}
+.company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 
 /* company detail */
 .company-details-wrapper{padding:50px;background:#282828}

@@ -3718,7 +3718,7 @@ function nab_company_events_callback() {
 
 	if ( 'plus' === $member_level ) {
 
-		$max_limit = 'add' === $action ? 4 : 3;
+		$max_limit = 3;
 
 		$query_args = array(
             'post_type'         => 'tribe_events',
@@ -3731,6 +3731,10 @@ function nab_company_events_callback() {
 
 		$event_query 	= new WP_Query( $query_args );
 		$total_event	= count( $event_query->posts );
+
+		if ( 'add' === $action ) {
+			$total_event += 1;
+		}
 
 		if ( $total_event > $max_limit ) {
 
@@ -3776,6 +3780,8 @@ function nab_company_events_callback() {
 			wp_send_json_error( array( 'msg' => 'Something went wrong while adding a new Event.' ) );
 		}
 		
+		wp_set_object_terms( $event_id, 'sponsor-event', 'tribe_events_cat', false );
+
 		$msg = 'Event added successfully.';
 
 	} else {
@@ -3828,9 +3834,27 @@ function nab_company_events_callback() {
 		update_field( 'nab_selected_company_id', $company_id, $event_id );
 		update_post_meta( $event_id, '_EventStartDate', $event_start_date );
 		update_post_meta( $event_id, '_EventEndDate', $event_end_date );
+		update_post_meta( $event_id, '_EventURL', $event_url );		
 		wp_send_json_success( $success );
 
 	} else {
 		wp_send_json_error( array( 'msg' => 'Something went wrong while adding or updating Event. Please try again.' ) );
 	}
+}
+
+add_action('wp_ajax_nab_remove_company_event', 'nab_remove_company_event_callback');
+add_action('wp_ajax_nopriv_nab_remove_company_event', 'nab_remove_company_event_callback');
+
+function nab_remove_company_event_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$event_id = filter_input( INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( ! empty( $event_id ) ) {
+
+		wp_trash_post( $event_id );
+	}
+
+	wp_send_json_success( array( 'msg' => 'Event removed successfully.' ) );
 }

@@ -1,10 +1,26 @@
 <?php
 check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
-$event_id			= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+$event_id			= filter_input( INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT );
 $company_id			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
 $post_data 			= isset( $event_id ) && ! empty( $event_id ) ? get_post( $event_id ) : new stdClass();
-$event_desc			= isset( $post_data->ID ) ? get_field( 'description', $post_data->ID ) : '';
+$event_desc			= isset( $post_data->ID ) ? get_the_content( '', false, $post_data->ID ) : '';
+$event_start_date	= isset( $post_data->ID ) ? get_post_meta( $post_data->ID, '_EventStartDate', true ) : '';
+$event_end_date		= isset( $post_data->ID ) ? get_post_meta( $post_data->ID, '_EventEndDate', true ) : '';
+$event_url			= isset( $post_data->ID ) ? get_post_meta( $post_data->ID, '_EventURL', true ) : '';
+$event_date			= '';
+$event_start_time	= '';
+$event_end_time		= '';
+
+if ( ! empty( $event_start_date ) ) {
+	
+	$event_date			= date_format( date_create( $event_start_date ), "F j, Y" );
+	$event_start_time	= date_format( date_create( $event_start_date ), "H:i:s" );
+}
+if ( ! empty( $event_end_date ) ) {
+	$event_end_time = date_format( date_create( $event_end_date ), "H:i:s" );
+}
+
 ?>
 <div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
@@ -21,7 +37,7 @@ $event_desc			= isset( $post_data->ID ) ? get_field( 'description', $post_data->
 							</div>
                             <div class="form-row">
 								<label for="event-description">Description</label>
-								<textarea name="event_desc" id="event-description" maxlength="200"><?php echo esc_html( $event_desc ); ?></textarea>
+								<textarea name="event_desc" id="event-description" maxlength="200"><?php echo esc_html( wp_strip_all_tags( $event_desc ) ); ?></textarea>
 								<span class="info-msg"><span id="event-desc-count">200 Characters Remaining</span></span>
 							</div>														
 							<div class="form-row">								
@@ -53,7 +69,7 @@ $event_desc			= isset( $post_data->ID ) ? get_field( 'description', $post_data->
                                 <div class="form-col-3">
                                     <div class="form-row">
                                         <label for="event-date">Date</label>
-								        <input type="text" name="event_date" id="event-date" />
+								        <input type="text" name="event_date" id="event-date" value="<?php echo esc_attr( $event_date ); ?>"/>
                                     </div>
                                 </div>
                                 <div class="form-col-3">
@@ -62,7 +78,7 @@ $event_desc			= isset( $post_data->ID ) ? get_field( 'description', $post_data->
                                         <div class="select-dark-simple">
                                         	<select name="event_start_time" id="event-start-time">
 	                                            <?php
-	                                            nab_event_time_dropdown_options();
+	                                            nab_event_time_dropdown_options( $event_start_time );
 	                                            ?>
 	                                        </select>
                                         </div>
@@ -74,7 +90,7 @@ $event_desc			= isset( $post_data->ID ) ? get_field( 'description', $post_data->
                                         <div class="select-dark-simple">
 	                                        <select name="event_end_time" id="event-end-time">
 	                                            <?php
-	                                            nab_event_time_dropdown_options();
+	                                            nab_event_time_dropdown_options( $event_end_time );
 	                                            ?>
 	                                        </select>
 	                                    </div>
@@ -83,7 +99,7 @@ $event_desc			= isset( $post_data->ID ) ? get_field( 'description', $post_data->
                             </div>
                             <div class="form-row">
 								<label for="event-url">Event URL</label>
-								<input type="text" name="event_url" id="event-url" />								
+								<input type="text" name="event_url" id="event-url" value="<?php echo esc_url( $event_url ); ?>" />								
 							</div>
 							<p class="form-field-error global-notice" style="display: none;"></p>
 							<div class="form-row">

@@ -601,7 +601,8 @@ function nab_company_events_render_callback($attributes)
             if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {            
     
                 if ( 'plus' === $member_level || 'premium' === $member_level ) {
-                    $add_event = true;
+                    $add_event  = true;
+                    $class_name .= 'company-admin';
                 }
             }
         }
@@ -680,17 +681,26 @@ function nab_company_events_render_callback($attributes)
                             $current_date   = current_time('Ymd');
                             $opening_date   = new DateTime($final_date);
                             $current_date   = new DateTime($current_date);
-                        ?>
+                            ?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
+                                    <?php
+                                    if ( $add_event ) {
+                                        ?>
+                                        <div class="amp-action-remove">
+                                            <a href="javascript:void(0);" class="remove-event" data-id="<?php echo esc_attr( $event_post_id ); ?>" title="Remove">Remove Event</a>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                     <div class="amp-item-cover">
                                         <?php
                                         if ($opening_date < $current_date) {
-                                        ?>
+                                            ?>
                                             <div class="amp-draft-wrapper">
                                                 <span class="company-product-draft">Past Event</span>
                                             </div>
-                                        <?php
+                                            <?php
                                         }
                                         ?>
                                         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
@@ -711,6 +721,15 @@ function nab_company_events_render_callback($attributes)
                                             <div class="amp-actions">
                                                 <div class="search-actions">
                                                     <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                                    <?php
+                                                    if ( $add_event ) {
+                                                        ?>
+                                                        <div class="nab-action-row">
+                                                            <i class="event-add-edit-action edit-block-icon fa fa-pencil" data-id="<?php echo esc_attr( $event_post_id ); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>

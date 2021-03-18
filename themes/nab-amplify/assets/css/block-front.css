@@ -173,9 +173,10 @@
 
 /* company events */
 .company-events .amp-item-main{padding:30px 0 0}
-.company-events .amp-item-wrap .amp-item-info h4{min-height:52px}
 .company-events .amp-item-wrap .amp-item-info .event-date{display:block;margin:0 0 30px;color:#999999;min-height:23px}
 .company-events .amp-item-wrap .amp-item-info .search-actions a.button, .company-events .amp-item-wrap .amp-item-info .search-actions .action a.button{border-radius:6px;padding:8px 20px}
+.company-events .amp-item-wrap .amp-item-inner .amp-action-remove{z-index:2;top:10px}
+.company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 
 /* company detail */
 .company-details-wrapper{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-top:30px;margin-bottom:30px;padding:50px 0;background:#282828}
@@ -456,9 +457,6 @@
 
 	/* company products */
 	.company-products .amp-item-wrap .amp-item-info h4{min-height:auto}
-
-	/* company events */
-	.company-events .amp-item-wrap .amp-item-info h4{min-height:auto}
 
 	.author-details-box .author-info{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start}
 	.author-details-box .author-info .author-details{width:100%;padding-left:0}
