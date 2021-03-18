@@ -1034,12 +1034,12 @@ function nab_amplify_get_comapny_banner( $post_ID, $default = true, $default_url
 
 function nab_amplify_get_bynder_products( $post_id ) {
 
-    $product_media = array();
+	$product_media    = get_field( 'product_media', $post_id );
+	$product_media_bm = get_field( 'product_media_bm', $post_id );
 
-	if ( class_exists('Bynder_Media') ) {
-		$product_media_bm = get_field( 'product_media_bm', $post_id );
+	if ( null !== $product_media_bm && ! empty( $product_media_bm ) ) {
 		$product_media_bm = explode( ',', $product_media_bm );
-		$count = 0;
+		$count            = 0;
 		foreach ( $product_media_bm as $media ) {
 			if ( ! empty( $media ) ) {
 				$product_media[ $count ]['product_media_file']['ID']   = $media;
@@ -1048,9 +1048,7 @@ function nab_amplify_get_bynder_products( $post_id ) {
 				$count ++;
 			}
 		}
-	} else {
-		$product_media = get_field('product_media', $post_id);
-    }
+	}
 
 	return $product_media;
 }
@@ -1232,4 +1230,64 @@ function nab_maritz_redirect_url( $user_id ) {
 	}
 
 	return add_query_arg( $params, $url );
+}
+
+function nab_event_time_dropdown_options( $selected = '' ) {
+
+	$event_time = array(
+		'00:00:00' => '12:00 AM',
+		'00:30:00' => '12:30 AM',
+		'01:00:00' => '1:00 AM',
+		'01:30:00' => '1:30 AM',
+		'02:00:00' => '2:00 AM',
+		'02:30:00' => '2:30 AM',
+		'03:00:00' => '3:00 AM',
+		'03:30:00' => '3:30 AM',
+		'04:00:00' => '4:00 AM',
+		'04:30:00' => '4:30 AM',
+		'05:00:00' => '5:00 AM',
+		'05:30:00' => '5:30 AM',
+		'06:00:00' => '6:00 AM',
+		'06:30:00' => '6:30 AM',
+		'07:00:00' => '7:00 AM',
+		'07:30:00' => '7:30 AM',
+		'08:00:00' => '8:00 AM',
+		'08:30:00' => '8:30 AM',
+		'09:00:00' => '9:00 AM',
+		'09:30:00' => '9:30 AM',
+		'10:00:00' => '10:00 AM',
+		'10:30:00' => '10:30 AM',
+		'11:00:00' => '11:00 AM',
+		'11:30:00' => '11:30 AM',
+		'12:00:00' => '12:00 PM',
+		'12:30:00' => '12:30 PM',
+		'13:00:00' => '1:00 PM',
+		'13:30:00' => '1:30 PM',
+		'14:00:00' => '2:00 PM',
+		'14:30:00' => '2:30 PM',
+		'15:00:00' => '3:00 PM',
+		'15:30:00' => '3:30 PM',
+		'16:00:00' => '4:00 PM',
+		'16:30:00' => '4:30 PM',
+		'17:00:00' => '5:00 PM',
+		'17:30:00' => '5:30 PM',
+		'18:00:00' => '6:00 PM',
+		'18:30:00' => '6:30 PM',
+		'19:00:00' => '7:00 PM',
+		'19:30:00' => '7:30 PM',
+		'20:00:00' => '8:00 PM',
+		'20:30:00' => '8:30 PM',
+		'21:00:00' => '9:00 PM',
+		'21:30:00' => '9:30 PM',
+		'22:00:00' => '10:00 PM',
+		'22:30:00' => '10:30 PM',
+		'23:00:00' => '11:00 PM',
+		'23:30:00' => '11:30 PM',
+	);
+
+	foreach ( $event_time as $key => $option_time ) {
+		?>
+		<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $selected, $key ); ?>><?php echo esc_html( $option_time ); ?></option>
+		<?php
+	}
 }

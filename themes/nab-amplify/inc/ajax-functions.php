@@ -3546,6 +3546,8 @@ function nab_content_submission_callback() {
 		wp_send_json_error( array( 'msg' => 'You have used up your allotted three submissions, but additional sponsored articles can be purchased a la carte. Contact your sales rep for details.' ) );
 	}
 
+	wp_reset_postdata();
+
 	if ( empty( $content_title ) ) {
 
 		wp_send_json_error( array( 'msg' => 'Title can not be empty.' ) );
@@ -3567,7 +3569,7 @@ function nab_content_submission_callback() {
 	$attachment_id	= '';
 
 	if ( is_wp_error( $content_id ) ) {
-		wp_send_json_error( array( 'msg' => 'Something went wrong while submit the content. Please try again.' ) );
+		wp_send_json_error( array( 'msg' => 'Something went wrong while submitting the content. Please try again.' ) );
 	} else {
 		
 		$msg = 'Content submitted successfully.';
@@ -3603,13 +3605,14 @@ function nab_content_submission_callback() {
 		}		
 		update_field( 'nab_selected_company_id', $company_id, $content_id );
 
-		$company_name 	= get_the_title( $company_id );
-		$user_id		= get_current_user_id();
-		$user_full_name	= get_user_meta( $user_id, 'first_name', true ) . ' ' . get_user_meta( $user_id, 'last_name', true );
-		$attachment_url	= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
+		$company_name 		= get_the_title( $company_id );
+		$user_id			= get_current_user_id();
+		$user_full_name		= get_user_meta( $user_id, 'first_name', true ) . ' ' . get_user_meta( $user_id, 'last_name', true );
+		$attachment_url		= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
+		$user_profile_url	= bp_core_get_user_domain( $user_id );
+		$user_data 			= get_user_by( 'id', $user_id );
 		
-		if ( empty( trim( $user_full_name ) ) ) {
-			$user_data 		= get_user_by( 'id', $user_id );
+		if ( empty( trim( $user_full_name ) ) ) {			
 			$user_full_name	= $user_data->display_name;
 		}
 
@@ -3623,15 +3626,19 @@ function nab_content_submission_callback() {
 		?>
 		<html>
 			<body>
-				<p>Please check the following details for content submitted by <?php echo esc_html( $user_full_name ); ?>.</p>
+				<p>The following content was submitted by <?php echo esc_html( $user_full_name ); ?> from <?php echo esc_html( $company_name ); ?> as a part of their Premium Company Listing. Please review and reach out to <?php echo esc_html( $user_full_name ); ?> with any questions or concerns and/or notify them when to expect their content will be posted in the editorial calendar. </p>
 				<table cellpadding="10" border="1">
 					<tr>
 						<th>Company Name</th>
-						<td><?php echo esc_html( $company_name ); ?></td>
+						<td><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( $company_name ); ?></a></td>
 					</tr>
 					<tr>
-						<th>Admin Name</th>
-						<td><?php echo esc_html( $user_full_name ); ?></td>
+						<th>Submitter’s Name</th>
+						<td><a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a></td>
+					</tr>
+					<tr>
+						<th>Submitter’s Email</th>
+						<td><?php echo esc_html( $user_data->user_email ); ?></td>
 					</tr>
 					<tr>
 						<th>Title</th>
@@ -3646,7 +3653,7 @@ function nab_content_submission_callback() {
 						?>
 						<tr>
 							<th>Featured Image</th>
-							<td><img src="<?php echo esc_url( $attachment_url[0] ); ?>" height="200" width="200" /></td>
+							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
 						</tr>							
 						<?php
 					}
@@ -3665,8 +3672,165 @@ function nab_content_submission_callback() {
 		<?php
 		$message = ob_get_clean();
 
-		wp_mail( 'kvelez@nab.org,amplifycontent@nab.org', $subject, $message, $headers );
+		wp_mail( 'nitish.kaila@multidots.com,nayana.maradia@multidots.com ', $subject, $message, $headers );
 
 		wp_send_json_success( $success );
+	}
+}
+
+add_action( 'wp_ajax_nab_edit_company_event', 'nab_edit_company_event_callback' );
+add_action( 'wp_ajax_nopriv_nab_edit_company_event', 'nab_edit_company_event_callback' );
+
+function nab_edit_company_event_callback() {
+
+	require_once get_template_directory() . '/inc/nab-add-edit-event.php';
+	wp_die();
+}
+
+add_action('wp_ajax_nab_company_events', 'nab_company_events_callback');
+add_action('wp_ajax_nopriv_nab_company_events', 'nab_company_events_callback');
+
+function nab_company_events_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$event_id				= filter_input( INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT );
+	$event_name				= filter_input( INPUT_POST, 'event_name', FILTER_SANITIZE_STRING );
+	$event_desc				= filter_input( INPUT_POST, 'event_desc', FILTER_SANITIZE_STRING );
+	$event_date				= filter_input( INPUT_POST, 'event_date', FILTER_SANITIZE_STRING );
+	$event_start_time		= filter_input( INPUT_POST, 'event_start_time', FILTER_SANITIZE_STRING );
+	$event_end_time			= filter_input( INPUT_POST, 'event_end_time', FILTER_SANITIZE_STRING );
+	$event_url				= filter_input( INPUT_POST, 'event_url', FILTER_SANITIZE_STRING );
+	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
+	$msg					= '';
+	$action					= empty( $event_id ) || 0 === (int) $event_id ? 'add' : 'update';
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	$member_level = strtolower( get_field( 'member_level', $company_id ) );
+	
+	if ( 'plus' !== $member_level && 'premium' !== $member_level ) {
+		wp_send_json_error( array( 'msg' => 'You can\'t add or update event with your current package. Please contact your sales rep to upgrade the package.' ) );
+	}
+
+	if ( 'plus' === $member_level ) {
+
+		$max_limit = 'add' === $action ? 4 : 3;
+
+		$query_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => -1,
+            'meta_key'          => 'nab_selected_company_id',
+            'meta_value'        => $company_id,
+            'fields'            => 'ids',
+        );
+
+		$event_query 	= new WP_Query( $query_args );
+		$total_event	= count( $event_query->posts );
+
+		if ( $total_event > $max_limit ) {
+
+			$result['success'] = false;
+
+			wp_send_json_error( array( 'msg' => 'With the Plus Package you are limited to three event listings at a time. Please delete one or contact your sales rep to upgrade to the Premium Package for unlimited events.' ) );
+		}
+
+	}
+
+	if ( empty( $event_name ) ) {
+		wp_send_json_error( array( 'msg' => 'Event name is required field.' ) );
+	}
+
+	if ( empty( $event_date ) ) {
+		wp_send_json_error( array( 'msg' => 'Event date is required field.' ) );
+	}
+
+	if ( empty( $event_start_time ) ) {
+		wp_send_json_error( array( 'msg' => 'Start time is required field.' ) );
+	}
+
+	if ( empty( $event_end_time ) ) {
+		wp_send_json_error( array( 'msg' => 'End time is required field.' ) );
+	}
+
+	if ( empty( $event_url ) ) {
+		wp_send_json_error( array( 'msg' => 'Event URL is required field.' ) );
+	}
+
+	$event_data = array(
+        'post_title'   => $event_name,
+        'post_status'  => 'publish',
+        'post_type'    => 'tribe_events',
+		'post_content' => $event_desc,
+    );
+
+	if ( empty( $event_id ) || 0 === (int) $event_id ) {
+
+		$event_id = wp_insert_post( $event_data );
+
+		if ( is_wp_error( $event_id ) ) {
+			wp_send_json_error( array( 'msg' => 'Something went wrong while adding a new Event.' ) );
+		}
+		
+		$msg = 'Event added successfully.';
+
+	} else {
+
+        $event_data['ID']		= $event_id;
+        $event_id				= wp_update_post( $event_data );
+		$msg 					= 'Event updated successfully.';
+	}
+
+	if ( $event_id ) {
+
+		$success = array( 'msg' => $msg, 'event_id' => $event_id );
+
+		if ( $remove_featured_img && has_post_thumbnail( $event_id ) ) {
+			delete_post_thumbnail( $event_id );
+		}
+
+		// Upload images.
+		$file_names				= array( 'featured_img' );
+		$dependencies_loaded 	= false;
+
+		foreach ( $_FILES as $file_key => $file_details ) {
+
+			if ( in_array( $file_key, $file_names, true ) ) {
+
+				if ( $dependencies_loaded ) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = true;
+				}
+
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( $file_key, 0 );
+
+				if ( ! is_wp_error( $attachment_id ) ) {
+
+					if ( 'featured_img' === $file_key ) {
+						set_post_thumbnail( $event_id, $attachment_id );
+						$success['featured_attachment_id'] = $attachment_id;
+					}
+				}
+			}
+		}
+
+		$event_start_date	= date_format( date_create( $event_date . ' ' . $event_start_time ), 'Y-m-d H:i:s' );
+		$event_end_date		= date_format( date_create( $event_date . ' ' . $event_end_time ), 'Y-m-d H:i:s' );		
+		
+		update_field( 'nab_selected_company_id', $company_id, $event_id );
+		update_post_meta( $event_id, '_EventStartDate', $event_start_date );
+		update_post_meta( $event_id, '_EventEndDate', $event_end_date );
+		wp_send_json_success( $success );
+
+	} else {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while adding or updating Event. Please try again.' ) );
 	}
 }

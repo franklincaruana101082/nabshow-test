@@ -32,6 +32,11 @@ function amplify_front_scripts()
 	wp_enqueue_script('amplify-tag-js', get_template_directory_uri() . '/js/jquery.tagsinput.js', ['jquery'], null, true);
 	wp_enqueue_media();
 
+	if ( is_singular( 'company' ) ) {
+		wp_enqueue_script( 'jquery-ui-datepicker' );
+		wp_enqueue_style( 'nab-jquery-ui-css', get_template_directory_uri() . '/assets/css/jquery-ui.css');
+	}
+
 	wp_enqueue_style('wp-color-picker');
 	wp_enqueue_script(
 		'iris',

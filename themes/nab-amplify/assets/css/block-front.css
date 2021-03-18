@@ -262,6 +262,15 @@
 /* company content */
 .nab-modal .common-img-wrapper .common-media-item{position:relative;width:150px;}
 .nab-modal .common-img-wrapper .remove-featred-img{color:#fff;font-size:14px;border-radius:50%;position:absolute;right:-12px;top:-12px;background-color:red;width:25px;height:25px;line-height:1;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
+.company-content + .company-content .amp-item-main{padding:0 0 20px}
+.company-content .amp-item-main .amp-item-heading h3.content-main-heading{margin:0 0 10px!important}
+.company-content .amp-item-heading h4{text-transform:capitalize;color:#fff;margin:0;width:100%;font-size:26px;font-family:'OpenSans-Light', sans-serif}
+.company-content .amp-item-heading p{margin:2px 0}
+.company-content .amp-item-wrap .amp-item-info{padding:40px 15px 25px}
+.company-content .amp-item-wrap .amp-item-info span{font-family:'OpenSans-Regular', sans-serif;display:block}
+.company-content .submitted-by a{color:#fcd70f}
+.company-content #company-article-list .amp-item-info .event-date{margin-bottom:30px}
+.company-content #company-content-list .amp-item-info h4{margin:0 0 15px!important}
 
 /* fixes for page design */
 .feature-section .amp-feature-block-inner{margin-bottom:0}

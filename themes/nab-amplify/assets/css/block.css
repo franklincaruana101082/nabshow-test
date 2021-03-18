@@ -489,7 +489,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .amp-item-main{font-family:'Open Sans', Arial, sans-serif}
 .amp-item-main h3{font-size:36px;text-transform:uppercase}
 .amp-item-main p{color:#fff}
-.amp-item-main .amp-item-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative}
+.amp-item-main .amp-item-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .amp-item-main .amp-item-heading h3{color:#fdd80f;font-size:36px;margin:0 10px 0 0!important;line-height:1}
 .amp-item-main .amp-item-heading h3 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block}
 .amp-item-main .amp-item-heading h3 span{color:#999;font-size:24px;font-weight:300;line-height:1;vertical-align:middle;display:inline-block}
@@ -640,6 +640,17 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 #downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}
 #downloadable-pdfs-list .button[disabled]{background-color:#bbb!important;border-color:#bbb!important;cursor:default!important}
 #downloadable-pdfs-list .button[disabled]:hover{background-color:#808080!important;}
+
+/* company content */
+.company-content + .company-content .amp-item-main{padding:0 0 20px}
+.company-content .amp-item-main .amp-item-heading h3.content-main-heading{margin:0 0 10px!important}
+.company-content .amp-item-heading h4{text-transform:capitalize;color:#fdd80f;margin:0;width:100%;font-size:26px;font-family:'OpenSans-Light', sans-serif}
+.company-content .amp-item-heading p{margin:2px 0;color:#000}
+.company-content .amp-item-wrap .amp-item-info{padding:40px 15px 25px}
+.company-content .amp-item-wrap .amp-item-info span{font-family:'OpenSans-Regular', sans-serif;color:#fff;display:block}
+.company-content .submitted-by a{color:#fcd70f}
+.company-content #company-article-list .amp-item-info .event-date{margin-bottom:30px}
+.company-content #company-content-list .amp-item-info h4{margin:0 0 15px!important}
 
 @media (max-width:1400px) {
 	/* company detail */

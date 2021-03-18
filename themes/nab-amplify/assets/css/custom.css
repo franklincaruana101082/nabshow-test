@@ -1541,6 +1541,13 @@ body .is_friend .remove::before{font-size:22px}
 .single-company .select2-container--default .select2-search--dropdown .select2-search__field{background-color:#333;color:#fff;-webkit-box-shadow:none;box-shadow:none}
 .single-company .select2-container--default .select2-search--dropdown .select2-search__field:focus{-webkit-box-shadow:none;box-shadow:none;outline:none}
 .single-company .amp-profile-main .amp-profile-disc span:not(:last-child):not(.edit-icon):after{display:none}
+.single-company .ui-datepicker *{color:#000}
+.single-company .ui-widget.ui-widget-content{width:300px;}
+.single-company .ui-widget-header .ui-icon{background-image:url("../images/ui-icons.png")}
+.single-company .ui-datepicker .ui-datepicker-prev, 
+.single-company .ui-datepicker .ui-datepicker-next{top:2px}
+.single-company .ui-datepicker .ui-datepicker-prev{left:2px}
+.single-company .ui-datepicker .ui-datepicker-next{right:2px}
 
 /* company archive */
 .post-type-archive-company{background-color:#404040}
@@ -1632,7 +1639,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal-with-form.nab-modal .modal-content-wrap{padding:130px 110px}
 .nab-modal-with-form.nab-modal .nab-modal-close:not(.fa){-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);font-weight:bold;position:absolute;right:90px;top:50px}
 .nab-modal-with-form .add-product-content-popup h2{line-height:1;margin-bottom:35px;font-weight:bold}
-.nab-modal-with-form .add-product-content-popup p{font-size:22px;margin-bottom:50px}
+.nab-modal-with-form .add-product-content-popup p{font-size:18px;margin-bottom:50px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:28px;font-weight:bold;margin-bottom:15px;display:inline-block;vertical-align:middle}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{color:#999999!important;font-size:16px;margin-left:10px;display:inline-block;font-weight:400}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label.emp-label span{color:#fff!important;text-transform:uppercase}
@@ -1642,6 +1649,8 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .chosen-single{top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding-right:60px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper textarea{height:297px;font-size:22px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row{position:relative;margin-bottom:35px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3{width:33.333333333333336%;padding-right:20px;}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3:last-child{padding-right:0;}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{position:relative}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control{position:relative;width:100%}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:absolute;right:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:30px;margin-top:27px}

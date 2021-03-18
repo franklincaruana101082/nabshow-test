@@ -42,6 +42,8 @@
 	/* single company products */
 	.single-company-products .related-content .item, .single-company-products .amp-item-wrap .amp-item-col{width:33.333333333333336%;max-width:100%}
 	.single-company .related-content .item{width:33.333333333333336%}
+	.select-dark-simple .select2-container .select2-selection--single #select2-event-start-time-container.select2-selection__rendered,
+	.select-dark-simple .select2-container .select2-selection--single #select2-event-end-time-container.select2-selection__rendered{height:94px}
 }
 @media (min-width:768px){
 	.woocommerce-orders-table td a.button{margin:5px auto;display:block;max-width:-webkit-max-content;max-width:-moz-max-content;max-width:max-content}
@@ -176,6 +178,8 @@
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important}
 
 	/* add product */
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3{padding-right:0;width:100%}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3:last-child .form-row{margin-bottom:0;}
 	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:24px}
 	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:static;transform:none}
 	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action:last-child{margin-right:0}
@@ -200,6 +204,8 @@
 	.comments-area .comment-author .comment-avtar{width:70px}
 	.comments-area .comment-author .comment-details{width:calc(100% - 70px)}
 	.comments-area .comment-list .children{padding-left:70px}
+
+	.single-company .ui-widget.ui-widget-content{width:255px;}
 }
 @media (max-width:767px){
 	.res-padd-30{padding:0 30px!important}
@@ -476,6 +482,7 @@
 	/* add/update product */
 	.nab-product-media-item{width:70px;height:70px}
 	.nab-modal .fa-info-circle[data-bp-tooltip]::after, .nab-modal .tooltip{transform:translateX(-40%);max-width:200px}
+	.nab-modal-with-form .add-product-content-popup p{font-size:16px}
 
 	/* connection popup */
 	.nab-modal .author-info .author-details{width:100%;padding-left:0;margin-top:10px}

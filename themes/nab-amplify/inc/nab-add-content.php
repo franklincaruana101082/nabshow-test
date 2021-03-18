@@ -11,6 +11,7 @@ $content_copy	= nab_get_wp_editor( '', 'nab_content_copy', array('media_buttons'
 			<div class="modal-content-wrap">
 				<div class="add-product-content-popup">
 					<h2>Add Content</h2>
+					<p class="content-info-msg">Please use the form below to submit up to 3 pieces of editorial content for NAB Amplify. Our content team will review and post this content on your behalf based on our editorial calendar, reaching out with any questions or concerns. NOTE: Once you submit, you will not be able to make edits, so please finalize your submission before you submit.</p>
 					<div class="form-wrapper">
 						<form method="post" id="nab-add-content-form" enctype="multipart/form-data">
 							<div class="form-row">
