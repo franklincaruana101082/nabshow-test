@@ -91,6 +91,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'wp_ajax_nopriv_st_track_pageview', array( $this, 'st_track_pageview_callback' ) );
                 add_action( 'wp_ajax_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
+
+                add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
             }
         }
 
@@ -135,7 +137,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'is_pageview'   => $is_pageview,
                 'content_type'  => $content_type,
             ));
-        }
+        }        
 
         public function st_track_event( $tracking_details = array() ) {
             
@@ -1012,7 +1014,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     $search_track['properties']['Content_Type'] = $content_type;
                 }
 
-                $this->st_track_event( $search_track );
+                //$this->st_track_event( $search_track );
             }
             
             if ( $is_pageview && ! empty( $post_id ) ) {
@@ -1033,13 +1035,76 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     $page_track['properties']['Page_Name'] = html_entity_decode( get_the_title( $post_id ) );
                 }
 
-                Segment::page( $page_track );
+                //Segment::page( $page_track );
             }            
             
             wp_send_json_success(array(
                 'feedback' => 'Event Track Successfully',
                 'type'     => 'success',
             ));
+        }
+
+        public function st_add_page_view_properties_to_wc_segmentio( $event_data ) {
+            
+            global $post;
+
+            if ( isset( $event_data['event'] ) && isset( $event_data['properties'] ) ) {
+                
+                $event_data['properties']   = (array) $event_data['properties'];
+                $is_pageview                = true;
+
+                if ( is_search() && 'Viewed Search Page' === $event_data['event'] ) {
+
+                    $content_type = filter_input( INPUT_GET, 'v', FILTER_SANITIZE_STRING );
+                    
+                    if ( isset( $content_type ) && ! empty( $content_type ) ) {
+                        $event_data['properties']['Content_Type'] = $content_type;
+                    }
+                }
+
+                if ( is_admin() || ! isset( $post->ID ) || empty( $post->ID ) || is_post_type_archive() || is_tax() || is_search() ) {
+                    $is_pageview = false;
+                }
+
+                if ( $is_pageview ) {
+                                                
+                    if ( is_single() && ! is_attachment() ) {
+                        
+                        $event  = 'Viewed ' . ucfirst( get_post_type() );
+                        
+                        if ( $event === $event_data['event'] ) {
+                            
+                            $properties = $this->st_get_tracking_properties( $post->ID, 'other' );
+
+                            if ( is_array( $properties ) && count( $properties ) > 0 ) {
+                                
+                                $event_data['properties'] = array_merge( $event_data['properties'], $properties );
+                            }
+                        }
+                    }
+
+                    if ( is_front_page() || is_page() ) {
+                        
+                        $event = is_front_page() ? 'Viewed Home Page' : 'Viewed ' . single_post_title( '', false ) . ' Page';
+                        
+                        if ( $event === $event_data['event'] ) {
+                            
+                            $page_type  = is_front_page() ? 'home' : 'other';
+                            $properties = $this->st_get_tracking_properties( $post->ID, $page_type );
+
+                            if ( is_array( $properties ) && count( $properties ) > 0 ) {
+                                
+                                $event_data['properties'] = array_merge( $event_data['properties'], $properties );
+                            }
+                        }
+                    }
+                }
+
+                $event_data['properties'] = (object) $event_data['properties'];
+
+            }
+
+            return $event_data;
         }
 
         public function st_get_tracking_properties( $post_id = 0, $current_page ) {
@@ -1426,7 +1491,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $product_category_name = wp_list_pluck( $product_category, 'name' );
                 if ( is_array( $product_category_name ) && count( $product_category_name ) > 0 ) {
                     $properties['Product_Categories'] = implode( ', ', $product_category_name );
-                }
+                }                
             }
 
             $company = get_field( 'nab_selected_company_id', $post_id );
