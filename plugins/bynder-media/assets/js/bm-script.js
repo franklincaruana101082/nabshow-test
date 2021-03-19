@@ -324,11 +324,8 @@ function bmFetchAssets(_this) {
         && ( undefined !== $('#assets-load-more').attr('data-fetched') || 0 !== $('.in-use').length )
     ) {
 
-        // Update required meta options.
-        bmUpdateMetaOptions();
-
-        // If company products popup is opened
-        if( 'product_media_bm' === requestedBy ) {
+        // If its backend.
+        if( $('body').hasClass('wp-admin') ) {
 
             // If new meta is not fetched,
             // create required meta options.
@@ -338,8 +335,12 @@ function bmFetchAssets(_this) {
 
             // Show metas if hidden.
             $('.single-meta').show();
+
         } else {
-            // Hide metas if company product popup is not opened.
+            // Update required meta options for front side.
+            bmUpdateMetaOptions();
+
+            // Hide metas (if exists) for front end.
             bmResetMetaOptions();
         }
 
@@ -475,8 +476,12 @@ function bmFetchAssets(_this) {
                 bmResetMetaOptions();
             }
 
-            // Update & Create required meta options.
-            bmUpdateMetaOptions();
+            // Update required meta options for front end.
+            if( ! $('body').hasClass('wp-admin') ) {
+                bmUpdateMetaOptions();
+            }
+
+            // Fill values & Create required meta options to generate IDs.
             bmFillMetaValues();
             bmCreateMetaOptions();
         },
@@ -506,9 +511,13 @@ function bmUpdateMetaOptions() {
 
     // Update 'AssetSubtype' (Media Subtype)
     const requestedBy = $('#bm-tab-media').attr('bynder-request-by');
+
     if( -1 !== requestedBy.indexOf('banner') ) {
         $('[data-name="AssetSubtype"]').val('EBE45F04-B19F-4A11-A1E491DD01C070B7');
         $('[data-name="AssetSubtype"]').attr('data-value', 'Cover Image');
+    } else if( 'product_media_bm' === requestedBy ) {
+        $('[data-name="AssetSubtype"]').val('CC117E5A-079D-4733-945132C1AD05E06A');
+        $('[data-name="AssetSubtype"]').attr('data-value', 'Product Photo');
     } else {
         $('[data-name="AssetSubtype"]').val('1B38FAF6-C77D-44C1-B5191A3F0CB8DBCF');
         $('[data-name="AssetSubtype"]').attr('data-value', 'Headshot');
@@ -525,11 +534,35 @@ function bmUpdateMetaOptions() {
 
 }
 
+function bmMetaEnable() {
+    $('.bm-upload-meta-fields input').each(function () {
+        if (-1 !== $(this).attr('name').indexOf('disable')) {
+            let name = $(this).attr('name');
+            name = name.replace('disable-', '');
+            $(this).attr('name', name);
+        }
+    });
+}
+
+function bmMetaDisable(str) {
+    $('.bm-upload-meta-fields input').each(function () {
+        let dataName = $(this).attr('data-name');
+        dataName = 'data-name="' + dataName + '"';
+        if( -1 !== str.indexOf(dataName) ) {
+            let oldName = $(this).attr('name');
+            $(this).attr('name', 'disable-' + oldName);
+        }
+    });
+}
+
 function bmGetMetas() {
+
+    // Re-enable the meta names.
+    bmMetaEnable();
 
     // Fetch meta only if its a product popup.
     const requestedBy = $('#bm-tab-media').attr('bynder-request-by');
-    if( 'product_media_bm' !== requestedBy && ! $('body').hasClass('wp-admin') ) {
+    if( ! $('body').hasClass('wp-admin') ) {
         // Show the upload button.
         $('#bm-upload-btn').show().removeAttr('disabled');
 
@@ -572,6 +605,10 @@ function bmGetMetas() {
         success(result) {
             result = JSON.parse(result);
             if( result.bmHTML ) {
+
+                // Re-enable the meta names.
+                bmMetaDisable(result.bmHTML);
+
                 $('.bm-upload-meta-fields').append(result.bmHTML);
 
                 bmMetaReorder();

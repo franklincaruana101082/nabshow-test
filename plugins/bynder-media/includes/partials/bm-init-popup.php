@@ -81,9 +81,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <input type="hidden" data-name="UserTypeName" name="metas[62BA8F9E-E03F-4636-8CC1784BAE7C738D]" value="" data-value=""/>
                                 <input type="hidden" data-name="EventType" name="metas[B3477514-13BD-4E88-ACBDDAC95395246B]" value="95570080-CAC4-4EEB-9303B724525AB514" data-value="NAB Amplify"/>
                                 <input type="hidden" data-name="Channel" name="metas[B3FD1CDB-9E2E-49B1-AC233CCA40C5257A]" value="86640051-742A-41BB-86D485534C13C1D5" data-value="Website"/>
-
-                                <!-- -->
-
                             </div>
                             <div class="bm-submit-wrap">
                                 <input type="submit" value="Upload" id="bm-upload-btn" class="bm-btn-pink" disabled/>
