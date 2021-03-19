@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 7.0.0
  */
 
 // Exit if accessed directly.
@@ -547,14 +547,23 @@ function bp_nouveau_loop_classes() {
 		$bp_nouveau = bp_nouveau();
 
 		// @todo: this function could do with passing args so we can pass simple strings in or array of strings
+		$is_directory = bp_is_directory();
 
 		// The $component is faked if it's the single group member loop
-		if ( ! bp_is_directory() && ( bp_is_group() && 'members' === bp_current_action() ) ) {
+		if ( ! $is_directory && ( bp_is_group() && 'members' === bp_current_action() ) ) {
 			$component = 'members_group';
-		} elseif ( ! bp_is_directory() && ( bp_is_user() && 'my-friends' === bp_current_action() ) ) {
+		} elseif ( ! $is_directory && ( bp_is_user() && 'my-friends' === bp_current_action() ) ) {
 			$component = 'members_friends';
 		} else {
 			$component = sanitize_key( bp_current_component() );
+		}
+
+		/*
+		 * For the groups component, we need to take in account the
+		 * Groups directory can list Groups according to a Group Type.
+		 */
+		if ( 'groups' === $component ) {
+			$is_directory = bp_is_groups_directory();
 		}
 
 		$classes = array(
@@ -584,7 +593,7 @@ function bp_nouveau_loop_classes() {
 		);
 
 		// Only the available components supports custom layouts.
-		if ( ! empty( $available_components[ $component ] ) && ( bp_is_directory() || bp_is_group() || bp_is_user() ) ) {
+		if ( ! empty( $available_components[ $component ] ) && ( $is_directory || bp_is_group() || bp_is_user() ) ) {
 			$customizer_option = sprintf( '%s_layout', $component );
 			$layout_prefs      = bp_nouveau_get_temporary_setting(
 				$customizer_option,
@@ -1448,11 +1457,12 @@ function bp_nouveau_container_classes() {
 	 * Returns the main BuddyPress container classes.
 	 *
 	 * @since 3.0.0
+	 * @since 7.0.0 Add a class to inform about the active Theme.
 	 *
 	 * @return string CSS classes
 	 */
 	function bp_nouveau_get_container_classes() {
-		$classes           = array( 'buddypress-wrap' );
+		$classes           = array( 'buddypress-wrap', get_template() );
 		$component         = bp_current_component();
 		$bp_nouveau        = bp_nouveau();
 		$member_type_class = '';
@@ -1790,6 +1800,14 @@ function bp_nouveau_get_search_objects( $objects = array() ) {
 		$objects['secondary'] = bp_current_component();
 	} elseif ( 'group' === $primary ) {
 		$objects['secondary'] = bp_current_action();
+
+		if ( bp_is_group_home() && ! bp_is_group_custom_front() ) {
+			$objects['secondary'] = 'members';
+
+			if ( bp_is_active( 'activity' ) ) {
+				$objects['secondary'] = 'activity';
+			}
+		}
 	} else {
 
 		/**
@@ -2035,7 +2053,18 @@ function bp_nouveau_current_object() {
 		$component['data_filter']      = bp_current_action();
 
 		if ( 'activity' !== bp_current_action() ) {
-			$component['data_filter'] = 'group_' . bp_current_action();
+			/**
+			 * If the Group's front page is not used, Activities are displayed on Group's home page.
+			 * To make sure filters are behaving the right way, we need to override the component object
+			 * and data filter to `activity`.
+			 */
+			if ( bp_is_group_activity() ) {
+				$activity_id              = buddypress()->activity->id;
+				$component['object']      = $activity_id;
+				$component['data_filter'] = $activity_id;
+			} else {
+				$component['data_filter'] = 'group_' . bp_current_action();
+			}
 		}
 
 	} else {
@@ -2574,7 +2603,7 @@ function bp_nouveau_signup_privacy_policy_acceptance_section() {
  *
  * @param string $action The action to get the submit button for. Required.
  */
-function bp_nouveau_submit_button( $action ) {
+function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 	$submit_data = bp_nouveau_get_submit_button( $action );
 	if ( empty( $submit_data['attributes'] ) || empty( $submit_data['nonce'] ) ) {
 		return;
@@ -2608,6 +2637,10 @@ function bp_nouveau_submit_button( $action ) {
 	if ( empty( $submit_data['nonce_key'] ) ) {
 		wp_nonce_field( $submit_data['nonce'] );
 	} else {
+		if ( $object_id ) {
+			$submit_data['nonce_key'] .= '_' . (int) $object_id;
+		}
+
 		wp_nonce_field( $submit_data['nonce'], $submit_data['nonce_key'] );
 	}
 
