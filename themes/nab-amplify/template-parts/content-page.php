@@ -13,9 +13,18 @@
         <header class="intro entry-header">
             <?php the_title( '<h1 class="intro__title entry-title">', '</h1>' ); ?>
         </header><!-- .entry-header -->
-    <?php } ?>
+    <?php } 
 
-	<?php nab_amplify_post_thumbnail(); ?>
+    nab_amplify_post_thumbnail(); 
+
+    if ( isset( $post->ID ) && ! empty( $post->ID ) && ! is_user_logged_in() ) {
+
+		$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
+		if ( $content_accessible ) {
+			get_template_part( 'template-parts/not-signed-in' );
+		}
+	} else {
+    ?>
 
 	<div class="entry-content">
 		<?php
@@ -27,6 +36,7 @@
 				'after'  => '</div>',
 			)
 		);
+	}
 		?>
 	</div><!-- .entry-content -->
 
