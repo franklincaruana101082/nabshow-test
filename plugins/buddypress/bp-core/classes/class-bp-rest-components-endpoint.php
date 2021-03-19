@@ -156,19 +156,19 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * @since 5.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
-	 * @return bool|WP_Error
+	 * @return true|WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
-		$retval = true;
+		$retval = new WP_Error(
+			'bp_rest_authorization_required',
+			__( 'Sorry, you are not allowed to perform this action.', 'buddypress' ),
+			array(
+				'status' => rest_authorization_required_code(),
+			)
+		);
 
-		if ( ! ( is_user_logged_in() && bp_current_user_can( 'bp_moderate' ) ) ) {
-			$retval = new WP_Error(
-				'bp_rest_authorization_required',
-				__( 'Sorry, you are not allowed to perform this action.', 'buddypress' ),
-				array(
-					'status' => rest_authorization_required_code(),
-				)
-			);
+		if ( bp_current_user_can( 'manage_options' ) ) {
+			$retval = true;
 		}
 
 		/**
@@ -176,7 +176,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param bool|WP_Error   $retval  Returned value.
+		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
 		 */
 		return apply_filters( 'bp_rest_components_get_items_permissions_check', $retval, $request );
@@ -198,7 +198,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 				'bp_rest_component_nonexistent',
 				__( 'Sorry, this component does not exist.', 'buddypress' ),
 				array(
-					'status' => 500,
+					'status' => 404,
 				)
 			);
 		}
@@ -209,7 +209,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 					'bp_rest_component_already_active',
 					__( 'Sorry, this component is already active.', 'buddypress' ),
 					array(
-						'status' => 500,
+						'status' => 400,
 					)
 				);
 			}
@@ -221,7 +221,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 					'bp_rest_component_inactive',
 					__( 'Sorry, this component is not active.', 'buddypress' ),
 					array(
-						'status' => 500,
+						'status' => 400,
 					)
 				);
 			}
@@ -231,7 +231,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 					'bp_rest_required_component',
 					__( 'Sorry, you cannot deactivate a required component.', 'buddypress' ),
 					array(
-						'status' => 500,
+						'status' => 400,
 					)
 				);
 			}
@@ -267,7 +267,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * @since 5.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return bool|WP_Error
+	 * @return true|WP_Error
 	 */
 	public function update_item_permissions_check( $request ) {
 		$retval = $this->get_items_permissions_check( $request );
@@ -277,7 +277,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param bool|WP_Error   $retval  Returned value.
+		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
 		 */
 		return apply_filters( 'bp_rest_components_update_item_permissions_check', $retval, $request );

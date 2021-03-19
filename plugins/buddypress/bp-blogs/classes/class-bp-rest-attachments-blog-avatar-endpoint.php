@@ -83,7 +83,9 @@ class BP_REST_Attachments_Blog_Avatar_Endpoint extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
-		if ( empty( $this->blog->admin_user_id ) ) {
+		$no_user_grav = (bool) $request->get_param( 'no_user_gravatar' );
+
+		if ( empty( $this->blog->admin_user_id ) && ! $no_user_grav ) {
 			return new WP_Error(
 				'bp_rest_blog_avatar_get_item_user_failed',
 				__( 'There was a problem confirming the blog\'s user admin is valid.', 'buddypress' ),
@@ -93,20 +95,29 @@ class BP_REST_Attachments_Blog_Avatar_Endpoint extends WP_REST_Controller {
 			);
 		}
 
-		$admin_user_admin = (int) $this->blog->admin_user_id;
+		// Set the requested args.
+		$requested_args = array(
+			'blog_id' => $request['id'],
+			'no_grav' => $no_user_grav,
+			'html'    => (bool) $request['html'],
+		);
+
+		if ( $request['alt'] ) {
+			$requested_args['alt'] = $request['alt'];
+		}
+
+		if ( ! $no_user_grav ) {
+			$requested_args['admin_user_id'] = (int) $this->blog->admin_user_id;
+
+			if ( ! isset( $requested_args['alt'] ) ) {
+				$requested_args['alt'] = '';
+			}
+		}
 
 		$args = array();
 		foreach ( array( 'full', 'thumb' ) as $type ) {
-			$args[ $type ] = bp_get_blog_avatar(
-				array(
-					'type'          => $type,
-					'blog_id'       => $request['id'],
-					'admin_user_id' => $admin_user_admin,
-					'html'          => (bool) $request['html'],
-					'alt'           => $request['alt'],
-					'no_grav'       => (bool) $request['no_user_gravatar'],
-				)
-			);
+			$requested_args['type'] = $type;
+			$args[ $type ]          = bp_get_blog_avatar( $requested_args );
 		}
 
 		// Get the avatar object.
@@ -150,13 +161,20 @@ class BP_REST_Attachments_Blog_Avatar_Endpoint extends WP_REST_Controller {
 	 * @since 6.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return bool|WP_Error
+	 * @return true|WP_Error
 	 */
 	public function get_item_permissions_check( $request ) {
-		$retval     = true;
+		$retval = new WP_Error(
+			'bp_rest_authorization_required',
+			__( 'Sorry, you are not allowed to perform this action.', 'buddypress' ),
+			array(
+				'status' => rest_authorization_required_code(),
+			)
+		);
+
 		$this->blog = $this->blogs_endpoint->get_blog_object( $request['id'] );
 
-		if ( true === $retval && ! is_object( $this->blog ) ) {
+		if ( ! is_object( $this->blog ) ) {
 			$retval = new WP_Error(
 				'bp_rest_blog_invalid_id',
 				__( 'Invalid group ID.', 'buddypress' ),
@@ -164,9 +182,9 @@ class BP_REST_Attachments_Blog_Avatar_Endpoint extends WP_REST_Controller {
 					'status' => 404,
 				)
 			);
-		}
-
-		if ( true === $retval && ! buddypress()->avatar->show_avatars ) {
+		} elseif ( buddypress()->avatar->show_avatars ) {
+			$retval = true;
+		} else {
 			$retval = new WP_Error(
 				'bp_rest_attachments_blog_avatar_disabled',
 				__( 'Sorry, blog avatar is disabled.', 'buddypress' ),
@@ -181,7 +199,7 @@ class BP_REST_Attachments_Blog_Avatar_Endpoint extends WP_REST_Controller {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param bool|WP_Error   $retval  Returned value.
+		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
 		 */
 		return apply_filters( 'bp_rest_attachments_blog_avatar_get_item_permissions_check', $retval, $request );
