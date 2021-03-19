@@ -734,15 +734,8 @@ function bmUploadToBynder() {
 
                     $('#bm-main-outer .bm-modal-body').removeClass('bm-upload-loader bm-loading');
 
-                    // Jump to media tab and re-fetch.
-
-                    // Remove the existing HTML from media tab.
-                    //$('.bm-media-main').html('');
-
                     // Add class to remove canvas after new assets fetched.
                     $('.bm-modal-main').addClass('just-uploaded');
-                    //$('#assets-load-more').attr('data-page', 1).hide();
-                    //$('#assets-load-more').removeAttr('data-fetched');
 
                 } else if ( result.error ) {
                     console.log( result.error );
@@ -754,14 +747,6 @@ function bmUploadToBynder() {
                 if( $('.bm-modal-main').hasClass('just-uploaded') ) {
 
                     removeCropCanvas();
-
-                    /*$('#bm-precess-info').html('<p>Congratulations! Image uploaded successfully! Auto fetch will start in 3 seconds...</p>').show();
-
-                    setTimeout(function (){
-                        $('[data-tab="bm-tab-assets"], .bm-select-media.active').trigger('click');
-                        // Reset messsage div.
-                        $('#bm-precess-info').html('').hide();
-                    }, 3000);*/
 
                     // Trigger Auto Select recently uploaded image.
                     $('[data-tab="bm-tab-assets"]').trigger('click');
@@ -786,7 +771,7 @@ function bmUploadToBynder() {
 
 function addUploadedAsset(result) {
 
-    if ('' !== result.bmHTML) {
+    if ('' !== result.bmHTML && -1 === result.bmHTML.indexOf('bm-msg')) {
 
         $('#bm-msg').remove();
 
