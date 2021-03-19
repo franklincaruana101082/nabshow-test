@@ -612,12 +612,18 @@ function nab_company_events_render_callback($attributes)
             'post_status'       => 'publish',
             'posts_per_page'    => $posts_per_page,
             'orderby'           => 'date',
-            'order'             => $display_order,
-            'meta_key'          => 'nab_selected_company_id',
-            'meta_value'        => $company_id,
+            'order'             => $display_order,            
+            'meta_key'			=> '_EventStartDate',
+            'orderby'			=> 'meta_value',
+            'order'				=> 'ASC',
+            'meta_query'        => array(
+                array(
+                    'key'   => 'nab_selected_company_id',
+                    'value' => $company_id
+                )
+            )
         );
-    
-    
+        
         $event_query    = new WP_Query( $query_args );    
         $total_post     = $event_query->found_posts;
     

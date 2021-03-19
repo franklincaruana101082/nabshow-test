@@ -4429,3 +4429,23 @@ function book_sortable_columns( $columns ) {
 	$columns['companyr'] = 'company';
 	return $columns;
 }
+
+/**
+ * Exluded sponsor event category from the event calendar
+ */
+function nab_exclude_events_category( $query ) {
+        
+    if ( in_array( $query->query_vars['eventDisplay'], array( 'list', 'month', true ) ) ) {
+        $query->set( 'tax_query', array(
+                array(
+                    'taxonomy' => TribeEvents::TAXONOMY,
+                    'field' => 'slug',
+                    'terms' => array('sponsor-event'),
+                    'operator' => 'NOT IN'
+                )
+            )
+        );        
+    }
+
+    return $query;
+}
