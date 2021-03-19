@@ -40,12 +40,11 @@ if(has_category('video')) {
 				<?php echo do_shortcode( '[nab_display_author]' ); ?>
 			</div>
 			<?php 
-			if ( isset( $post->ID ) && ! empty( $post->ID ) && ! is_user_logged_in() ) {
+			$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
+			if ( ! is_user_logged_in() && $content_accessible ) {
 
-				$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
-				if ( $content_accessible ) {
-					get_template_part( 'template-parts/not-signed-in' );
-				}
+				get_template_part( 'template-parts/not-signed-in' );
+				
 			} else {
 			?>
 			<div class="content">
