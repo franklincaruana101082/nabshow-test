@@ -54,11 +54,14 @@
 
         }
 
+        // Temporarily hiding the Upload sections as its still in development mode.
+        $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;}</style>');
+
         // If its edit page, add a button for Bynder upload at top right side.
-        if( 0 !== $('.editor-post-title .editor-post-title__input').length ) {
+        /*if( 0 !== $('.editor-post-title .editor-post-title__input').length ) {
             const uploadAssetBtn = "<button type='button' class='bm-select-media bm-post-header-select components-button is-tertiary' bynder-for='upload_only'>Upload Asset</button>";
             $(".edit-post-header .edit-post-header__settings").prepend(uploadAssetBtn);
-        }
+        }*/
     });
 
     $(document).on('keyup', '#bm-search-form #bm-search', function(){
