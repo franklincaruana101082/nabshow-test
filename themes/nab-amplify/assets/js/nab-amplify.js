@@ -761,9 +761,7 @@
           editor.save() // updates this instance's textarea
           $(editor.getElement()).trigger('change') // for garlic to detect change
           if (countTag) {
-            var len = editor
-              .getContent()
-              .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
+            var len = editor.getContent().replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '').length
             var cval = jQuery(tag).val()
             var diff = limit - len
             if (len >= limit) {
@@ -1818,7 +1816,9 @@
       }
     }
     if (jQuery('#company_about').length) {
-      if (jQuery('#company_about').val().length > 2000) {
+      var aboutContent = jQuery('#company_about').val();
+      aboutContent = aboutContent.replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '');
+      if ( aboutContent.length > 2000) {
         alert(
           'The length of Company about content is ' +
             jQuery('#company_about').val().length +
