@@ -761,11 +761,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
 							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
-							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
+							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );							
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
 							$final_date         = $event_start_date;
+							$start_time         = '';
+                            $end_time           = '';
+							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -775,6 +778,30 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									$final_date = $event_end_date;
 								}
 							}
+
+							if ( ! empty( $event_start_date ) ) {
+
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+            
+                            }
+                            if ( ! empty( $event_end_date ) ) {
+            
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+            
+                            }
+                            
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+                
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
+                                }
+                            }
 
 							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
 							$current_date   = current_time('Ymd');
@@ -799,6 +826,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="search-item-content">
 											<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 											<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
+											<?php
+											if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                                ?>
+                                                <span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+                                                <?php
+                                            }
+											if ( ! empty( $company_id ) ) {
+												
+												$company_title 	= get_the_title( $company_id );
+												$company_link	= get_the_permalink( $company_id );
+												?>
+												<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
+												<?php
+											}
+											?>											
 											<div class="search-actions">
 												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
 											</div>
@@ -1483,6 +1525,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
 							$final_date         = $event_start_date;
+							$start_time         = '';
+                            $end_time           = '';
+							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -1492,6 +1537,30 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									$final_date = $event_end_date;
 								}
 							}
+
+							if ( ! empty( $event_start_date ) ) {
+
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+            
+                            }
+                            if ( ! empty( $event_end_date ) ) {
+            
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+            
+                            }
+                            
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+                
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
+                                }
+                            }
 
 							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
 							$current_date   = current_time('Ymd');
@@ -1517,6 +1586,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="search-item-content">
 											<h4><a href="<?php echo esc_url( $website_link ); ?>" target="<?php echo esc_attr( $target ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
 											<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
+											<?php
+											if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                                ?>
+                                                <span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+                                                <?php
+                                            }
+											if ( ! empty( $company_id ) ) {
+												
+												$company_title 	= get_the_title( $company_id );
+												$company_link	= get_the_permalink( $company_id );
+												?>
+												<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
+												<?php
+											}
+											?>
 											<div class="search-actions">
 												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
 											</div>

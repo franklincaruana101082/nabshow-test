@@ -1047,6 +1047,11 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section.search-company-section .search-item-avtar img{background-color:#fff}
 .search-section.company-products .amp-item-wrap .amp-item-cover{height:175px}
 .search-section.company-products .amp-item-wrap .amp-item-info .nab-action{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
+.search-section #search-event-list .search-item-info .company-name,
+.search-section #search-event-list .search-item-info .event-time{margin:0 0 5px;display:block;color:#999999;min-height:22px;}
+.search-section #search-event-list .search-item-info .company-info{margin:0 0 30px;display:block;color:#fff;min-height:22px;}
+.search-section #search-event-list .search-item-info .company-info a{color:#fff}
+.search-section #search-event-list .search-item-info .event-time + .search-actions{margin-top:25px;}
 .search-not-found{text-align:center;padding:20px 0;max-width:95%;margin:0 auto}
 .search-not-found p{display:inline-block;padding:15px;color:#fff;font-size:18px;border:1px solid #fff;margin:0}
 .no-search-data{text-align:center;padding:5vw 0;font-size:22px;color:#fff}
@@ -1502,6 +1507,10 @@ body .is_friend .remove::before{font-size:22px}
 .tribe-events-page-template .tribe-common--breakpoint-medium.tribe-common .tribe-common-c-loader{padding:0}
 .tribe-events-page-template .tribe-common .tribe-common-c-loader__dot{background-color:#e5018b;border-radius:2px;width:20px;height:20px}
 .tribe-events-page-template .tribe-events .tribe-events-calendar-month__day-cell--mobile:focus, .tribe-events-page-template .tribe-events .tribe-events-calendar-month__day-cell--mobile:hover{background-color:#999}
+.tribe-events-page-template .event-company-link{margin:5px 0;line-height:1;font-family:Helvetica Neue,Helvetica,-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif;font-size:16px;}
+.tribe-events-page-template .tooltipster-base .event-company-link{font-weight:600}
+.tribe-events-page-template .tooltipster-base .tribe-common-h7 a{color:#999!important;font-weight:500}
+.tribe-events-page-template .tooltipster-base p{font-size:14px;}
 
 /* Reactions */
 .reaction-wrapper{margin:10px 0}

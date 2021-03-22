@@ -527,7 +527,9 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .company-products .amp-item-wrap .add-new-item { display:none}
 
 /* company event block */
-.company-events .amp-item-wrap .amp-item-info .event-date{display:block;margin:0 0 30px;color:#999999;min-height:23px}
+.company-events .amp-item-wrap .amp-item-info .event-date,
+.company-events .amp-item-wrap .amp-item-info .event-time{display:block;margin:0 0 5px;color:#999999;min-height:23px}
+.company-events .amp-item-wrap .amp-item-info .event-time{margin:0 0 30px;}
 .company-events .amp-item-wrap .amp-item-inner .amp-action-remove{z-index:2;top:10px}
 .company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 

@@ -19,6 +19,16 @@
 $event_url   = tribe_get_event_meta( $post_id, '_EventURL', true );
 $event_title = strlen( $event->title ) > 49 ? substr( $event->title, 0, 50 ) . '...' : $event->title;
 ?>
+<?php
+$company_id = get_field( 'nab_selected_company_id', $post_id );
+if ( ! empty( $company_id ) ) {	
+	?>
+	<div class="event-company">
+		<p class="event-company-link"><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( get_the_title( $company_id ) ); ?></a></p>
+	</div>
+	<?php
+}
+?>
 <h3 class="tribe-events-calendar-month__calendar-event-title tribe-common-h8 tribe-common-h--alt">
     <a
             href="<?php echo esc_url( $event_url ); ?>"

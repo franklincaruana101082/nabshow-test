@@ -74,7 +74,7 @@ if ( ! empty( $event_end_date ) ) {
                                 </div>
                                 <div class="form-col-3">
                                     <div class="form-row">
-                                        <label for="event-start-time">Start Time</label>
+                                        <label for="event-start-time">Start Time (ET)</label>
                                         <div class="select-dark-simple">
                                         	<select name="event_start_time" id="event-start-time">
 	                                            <?php
@@ -86,7 +86,7 @@ if ( ! empty( $event_end_date ) ) {
                                 </div>
                                 <div class="form-col-3">
                                     <div class="form-row">
-                                        <label for="event-end-time">End Time</label>
+                                        <label for="event-end-time">End Time (ET)</label>
                                         <div class="select-dark-simple">
 	                                        <select name="event_end_time" id="event-end-time">
 	                                            <?php

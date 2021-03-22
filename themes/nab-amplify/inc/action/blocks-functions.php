@@ -606,16 +606,19 @@ function nab_company_events_render_callback($attributes)
                 }
             }
         }
-        
-        $query_args = array(
+
+        $current_timestamp = current_time( 'Y-m-d H:i:s' );
+
+        $upcoming_event_args = array(
             'post_type'         => 'tribe_events',
             'post_status'       => 'publish',
             'posts_per_page'    => $posts_per_page,
-            'orderby'           => 'date',
-            'order'             => $display_order,            
-            'meta_key'			=> '_EventStartDate',
+            'meta_key'			=> '_EventEndDate',
+            'meta_value'        => $current_timestamp,
+            'meta_compare'      => '>=',
             'orderby'			=> 'meta_value',
             'order'				=> 'ASC',
+            'fields'            => 'ids',
             'meta_query'        => array(
                 array(
                     'key'   => 'nab_selected_company_id',
@@ -623,8 +626,46 @@ function nab_company_events_render_callback($attributes)
                 )
             )
         );
+
+        $upcoming_event_query   = new WP_Query( $upcoming_event_args );
+        $upcoming_post_ids      = $upcoming_event_query->posts;
+        wp_reset_postdata();
+
+        $past_event_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'meta_key'			=> '_EventEndDate',
+            'meta_value'        => $current_timestamp,
+            'meta_compare'      => '<',
+            'orderby'			=> 'meta_value',
+            'order'				=> 'DESC',
+            'fields'            => 'ids',
+            'meta_query'        => array(
+                array(
+                    'key'   => 'nab_selected_company_id',
+                    'value' => $company_id
+                )
+            )
+        );
+
+        $past_event_query   = new WP_Query( $past_event_args );
+        $past_post_ids      = $past_event_query->posts;        
+        wp_reset_postdata();
+
+        $final_post_id = array_unique( array_merge( $upcoming_post_ids, $past_post_ids ) );
         
-        $event_query    = new WP_Query( $query_args );    
+        $query_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'meta_key'			=> 'nab_selected_company_id',
+            'meta_value'        => $company_id,
+            'post__in'          => $final_post_id,
+            'orderby'           => 'post__in',
+        );
+
+        $event_query    = new WP_Query( $query_args );        
         $total_post     = $event_query->found_posts;
     
         if ( $event_query->have_posts() || $add_event ) {
@@ -673,6 +714,8 @@ function nab_company_events_render_callback($attributes)
                             $target             = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
                             $event_date         = date_format(date_create($event_start_date), 'l, F j');
                             $final_date         = $event_start_date;
+                            $start_time         = '';
+                            $end_time           = '';
     
                             if (!empty($event_start_date) && !empty($event_end_date)) {
     
@@ -680,6 +723,30 @@ function nab_company_events_render_callback($attributes)
     
                                     $event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
                                     $final_date = $event_end_date;
+                                }
+                            }
+
+                            if ( ! empty( $event_start_date ) ) {
+
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+            
+                            }
+                            if ( ! empty( $event_end_date ) ) {
+            
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+            
+                            }
+                            
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+                
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
                                 }
                             }
     
@@ -709,7 +776,7 @@ function nab_company_events_render_callback($attributes)
                                             <?php
                                         }
                                         ?>
-                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
+                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Event Image">
                                     </div>
                                     <div class="amp-item-info">
                                         <div class="amp-item-content">
@@ -717,11 +784,15 @@ function nab_company_events_render_callback($attributes)
                                                 <a href="<?php echo esc_url($event_link); ?>" target="<?php echo esc_attr($target); ?>"><?php echo esc_html(get_the_title()); ?></a>
                                             </h4>
                                             <?php
-                                            if (!empty($event_date)) {
-    
-                                            ?>
-                                                <span class="event-date"><?php echo esc_html($event_date); ?></span>
-                                            <?php
+                                            if ( ! empty( $event_date ) ) {
+                                                ?>
+                                                <span class="event-date"><?php echo esc_html( $event_date ); ?></span>
+                                                <?php
+                                            }
+                                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                                ?>
+                                                <span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+                                                <?php
                                             }
                                             ?>
                                             <div class="amp-actions">

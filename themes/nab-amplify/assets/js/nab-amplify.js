@@ -6073,11 +6073,30 @@ function nabSearchEventAjax (loadMore, pageNumber) {
 
           searchContent.appendChild(postTitle)
 
-          postSubTitle = document.createElement('span')
+          let postSubTitle = document.createElement('span')
           postSubTitle.setAttribute('class', 'company-name')
           postSubTitle.innerText = value.event_date
 
           searchContent.appendChild(postSubTitle)
+
+          if ( undefined !== value.event_time ) {
+            let eventTime = document.createElement('span');
+            eventTime.setAttribute('class', 'event-time');
+            eventTime.innerText = value.event_time;
+            searchContent.appendChild(eventTime);
+          }
+
+          if ( undefined !== value.company_title ) {
+            let titleP = document.createElement('p');
+            titleP.setAttribute('class', 'company-info');
+
+            let companyLink = document.createElement('a');
+            companyLink.setAttribute('href', value.company_link);
+            companyLink.innerText = value.company_title;
+
+            titleP.appendChild(companyLink);
+            searchContent.appendChild(titleP);
+          }
 
           let searchAction = document.createElement('div')
           searchAction.setAttribute('class', 'search-actions')
