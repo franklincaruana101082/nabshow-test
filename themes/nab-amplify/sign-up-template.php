@@ -150,6 +150,12 @@ while ( have_posts() ) :
 						<?php dynamic_sidebar('sign-up-terms'); ?>
 						<ul class="field__list">
 							<li>
+								<label class="field__list-input" for="signup-privacy-policy">
+									<input type="checkbox" name="privacy_policy" class="field__input signup-privacy-policy" id="signup-privacy-policy" value="1" required />
+									I agree to the NAB Amplify <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>.
+								</label>
+							</li>
+							<li>
 								<label class="field__list-input" for="signup-press-member">
 									<input class="field__input" value="1" type="checkbox" id="signup-press-member" name="press_member" /> 
 									<?php esc_html_e('Are you a member of the press?');?>
@@ -157,19 +163,6 @@ while ( have_posts() ) :
 							</li>
 						</ul>
 					</div>
-
-					
-					<?php /*
-					<div class="woocommerce-form-row woocommerce-form-row--wide form-row-wide">
-						<div class="amp-check-container check-align-top">
-							<div class="amp-check-wrp">
-								<input type="checkbox" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
-								<span class="amp-check"></span>
-							</div>
-							<label for="signup-privacy-policy">I agree to the NAB Amplify <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>.</label>
-						</div>
-					</div>
-					*/?>
 
 					<div class="signup__cta">
 						<input type="hidden" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
