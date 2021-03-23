@@ -36,8 +36,7 @@ if($categories) {
 	);
 }
 
-$wptz = wp_date('T');
-$newTZ = new DateTimeZone($wptz);
+$newTZ = wp_timezone();
 $now = new DateTime(gmdate('Y-m-d H:i:s'));
 $now->setTimezone($newTZ);
 $date_now = $now->format('Y-m-d H:i:s');

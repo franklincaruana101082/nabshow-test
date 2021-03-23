@@ -257,7 +257,7 @@
       function () {
         $(this).parents(".reaction-icon-modal").removeClass("show-icon-modal");
       }
-    );    
+    );
 
     jQuery(".nab-preview-item img").click(function () {
       var currentThumb = jQuery(this);

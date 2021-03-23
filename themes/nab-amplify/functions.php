@@ -286,6 +286,34 @@ function nab_amplify_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'nab_amplify_scripts' );
 
+add_action( 'woocommerce_register_form', 'nab_add_registration_privacy_policy', 100 );
+   
+function nab_add_registration_privacy_policy() {
+ 
+woocommerce_form_field( 'privacy_policy_reg', array(
+   'type'          => 'checkbox',
+   'class'         => array('field__woowrapper'),
+   'label_class'   => array('field__list-input'),
+   'input_class'   => array('field__input'),
+   'required'      => true,
+   'label'         => 'I agree to the NAB Amplify <a href="'. site_url() . '/privacy-policy/">privacy policy</a>, <a href="' . site_url() . '/terms-of-use/">terms of use</a> and <a href="' . site_url() . '/nab-virtual-events-code-of-conduct/">code of conduct</a>.',
+));
+  
+}
+  
+// Show error if user does not tick
+   
+add_filter( 'woocommerce_registration_errors', 'nab_validate_privacy_registration', 10, 3 );
+  
+function nab_validate_privacy_registration( $errors, $username, $email ) {
+if ( ! is_checkout() ) {
+    if ( ! (int) isset( $_POST['privacy_policy_reg'] ) ) {
+        $errors->add( 'privacy_policy_reg_error', __( 'NAB Amplify Privacy Policy consent is required.', 'woocommerce' ) );
+    }
+}
+return $errors;
+}
+
 /**
  * WooCommerce - Remove Actions
  */
