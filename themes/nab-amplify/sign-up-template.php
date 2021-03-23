@@ -106,11 +106,13 @@ while ( have_posts() ) :
 						</div>
 					</div>					
 
+					<?php if($redirect_url != 'maritz') { ?>
 					<div class="signup__separator"><span class="or-separator"><?php esc_html_e( 'Or', 'woocommerce' ); ?></span></div>
 
 					<div class="signup__socials">
 						<?php echo do_shortcode( '[miniorange_social_login apps="google,fb"]' ); ?>
 					</div>
+					<?php } ?>
 
 					<div class="signup__roles">
 						<?php
