@@ -123,10 +123,58 @@
 		</div>
 
 	</div>
+	<div id="nab-amp-cookie-consent"></div>
 </footer><!-- #colophon -->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
+<?php
+$privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
+$write_key		= get_option( 'segment_tracking_api_key' );
+?>
+<script>
+  window.consentManagerConfig = function(exports) {
+    var React = exports.React
+    var inEU = exports.inEU
+
+    var bannerContent = React.createElement(
+      'span',
+      null,
+      'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our',
+      ' ',
+      React.createElement(
+        'a',
+        { href: '<?php echo esc_url( $privacy_url ); ?>', target: '_blank' },
+        'Website Data Collection Policy'
+      ),
+      '.'
+    )
+    var bannerSubContent = 'You can change your preferences at any time.'
+    var preferencesDialogTitle = 'Website Data Collection Preferences'
+    var preferencesDialogContent =
+      'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
+    var cancelDialogTitle = 'Are you sure you want to cancel?'
+    var cancelDialogContent =
+      'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
+
+    return {
+      container: '#nab-amp-cookie-consent',
+      writeKey: '<?php echo esc_attr( $write_key ); ?>',
+      shouldRequireConsent: inEU,
+      bannerContent: bannerContent,
+      bannerSubContent: bannerSubContent,
+      preferencesDialogTitle: preferencesDialogTitle,
+      preferencesDialogContent: preferencesDialogContent,
+      cancelDialogTitle: cancelDialogTitle,
+      cancelDialogContent: cancelDialogContent
+    }
+  }
+</script>
+
+<script
+  src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js"
+  defer
+></script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 </body>
 
