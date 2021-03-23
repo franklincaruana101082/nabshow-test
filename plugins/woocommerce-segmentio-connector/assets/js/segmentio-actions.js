@@ -11,7 +11,7 @@ function wooSegmentioSendData( data ) {
 		if ( segmentio.async == 'no' ) {
 			analytics.load( segmentio.api_key );
 		} else {
-			jQuery( window ).load( function() { analytics.load( segmentio.api_key ); } );
+			// jQuery( window ).load( function() { analytics.load( segmentio.api_key ); } );
 		}
 
 		// Make the first page call to load the integrations. If
