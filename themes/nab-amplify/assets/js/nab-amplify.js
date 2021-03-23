@@ -257,7 +257,7 @@
       function () {
         $(this).parents(".reaction-icon-modal").removeClass("show-icon-modal");
       }
-    );    
+    );
 
     jQuery(".nab-preview-item img").click(function () {
       var currentThumb = jQuery(this);
@@ -1067,6 +1067,7 @@
     }
   }
 
+  var productMedia = [];
   $(document).on("change", "#product_medias", function (e) {
     var fileExtension = ["png", "jpg", "jpeg", "gif"];
 
@@ -1094,6 +1095,7 @@
             e.target.result
           );
         };
+        productMedia.push($(this));
         var media_count = jQuery(".nab-product-media-item").length;
         if (media_count < 5) {
           reader.readAsDataURL(file);
@@ -1178,8 +1180,8 @@
 
     var form_data = new FormData();
 
-    $.each($("#product_medias")[0].files, function (key, file) {
-      form_data.append(key, file);
+    $.each(productMedia, function (key, file) {
+      form_data.append(key, file[0]);
     });
     if (product_title == "") {
       alert("Product title can not be empty!");
@@ -1489,7 +1491,7 @@
     if (jQuery("#company_about").length) {
       var aboutContent = jQuery('#company_about').val();
       aboutContent = aboutContent.replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '');
-      if ( aboutContent.length > 2000) {
+      if (aboutContent.length > 2000) {
         alert(
           "The length of Company about content is " +
             jQuery("#company_about").val().length +

@@ -1,164 +1,164 @@
 .intro {
-	position: relative;
-	@include bp-1024 {
-		article[id^="post"] & {
-			display: flex;
-			justify-content: space-between;
-		}
-	}
-	.amp-bookmark {
-		position: absolute;
-		top: rem(-30);
-		left: rem(10);
-		z-index: 2;
-		color: $color__pink; //#e5018b!important;
-		font-size: rem(23);
-		@include bp-768 {
-			left: auto;
-			right: rem(10);
-			top: rem(10);	
-		}
-	}
-	&._centered {
-		text-align: center;
-	}
-	a {
-		font-weight: 600;
-	}
-	&._search {
-		h1 {
-		margin-top: rem(35);
-		}
-	}
-	&__backlink {
-		margin-bottom: rem(15);
-	}
-	&__title {
-		color: $color__white;
-		letter-spacing: normal;
-		margin-bottom: rem(30);
-		@include bp-768 {
-			padding-right: rem(30);
-		}
-	}
-	&__copy {
-		max-width: rem(740);
-		._centered & {
-			margin-left: auto;
-			margin-right: auto;
-		}
-	}
-	&__cta {
-		margin-top: rem(32);
-		a:not(.button) {
-			display: block;
-		}
-		a + a {
-			margin-top: rem(32);
-		}
-		@include bp-1024 {
-			margin-top: rem(44);
-		}
-	}
-	&__meta {
-		
-	}
-	&__image {
-		display: inline-block;
-		width: auto;
-		margin: 0 auto rem(40);
-		position: relative;
-		&::before {
-			content: "";
-			position: absolute;
-			top: rem(16);
-			left: rem(16);
-			width: 100%;
-			height: 100%;
-			border: rem(4) solid $color__purple; //fallback
-			border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
-		}
-		img {
-			width: 100%;
-			height: auto;
-			position: relative;
-		}
-		@include bp-768 {
-			width: rem(600);
-			margin: 0 0 0 rem(40);
-		}
-		@include bp-1024 {
-			width: rem(300);
-		}
-	}
-	&__image-and-copy {
-		margin-bottom: rem(60);
-		@include bp-768 {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: center;
-			.intro__image {
-				order: 1;
-			}
-		}
-	}
-	&__reactions {
-		margin: 0 0 rem(30);
-		padding-left: rem(50);
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		@include bp-1024 {
-			margin: rem(30) 0 0;
-		}
-		.post-action-author {
-			margin-right: rem(20);
+  position: relative;
+  @include bp-1024 {
+    article[id^="post"] & {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  .amp-bookmark {
+    position: absolute;
+    top: rem(-30);
+    left: rem(10);
+    z-index: 2;
+    color: $color__pink; //#e5018b!important;
+    font-size: rem(23);
+    @include bp-768 {
+      left: auto;
+      right: rem(10);
+      top: rem(10);
+    }
+  }
+  &._centered {
+    text-align: center;
+  }
+  a {
+    font-weight: 600;
+  }
+  &._search {
+    h1 {
+    margin-top: rem(35);
+    }
+  }
+  &__backlink {
+    margin-bottom: rem(15);
+  }
+  &__title {
+    color: $color__white;
+    letter-spacing: normal;
+    margin-bottom: rem(30);
+    @include bp-768 {
+      padding-right: rem(30);
+    }
+  }
+  &__copy {
+    max-width: rem(740);
+    ._centered & {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  &__cta {
+    margin-top: rem(32);
+    a:not(.button) {
+      display: block;
+    }
+    a + a {
+      margin-top: rem(32);
+    }
+    @include bp-1024 {
+      margin-top: rem(44);
+    }
+  }
+  &__meta {
 
-			.no-image-avtar {
-				color: $color__black;
-				width: 100%;
-				height:100%;
-			}
-		}
-		.reaction-wrapper {
-			padding: rem(20) 0;
-			.reaction-inner { 
-				justify-content: flex-start;
-			}
-		}
-	}
-	&__time {
-		margin-top: rem(50);
-	}
+  }
+  &__image {
+    display: inline-block;
+    width: auto;
+    margin: 0 auto rem(40);
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      top: rem(16);
+      left: rem(16);
+      width: 100%;
+      height: 100%;
+      border: rem(4) solid $color__purple; //fallback
+      border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    @include bp-768 {
+      width: rem(600);
+      margin: 0 0 0 rem(40);
+    }
+    @include bp-1024 {
+      width: rem(300);
+    }
+  }
+  &__image-and-copy {
+    margin-bottom: rem(60);
+    @include bp-768 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .intro__image {
+        order: 1;
+      }
+    }
+  }
+  &__reactions {
+    margin: 0 0 rem(30);
+    padding-left: rem(50);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    @include bp-1024 {
+      margin: rem(30) 0 0;
+    }
+    .post-action-author {
+      margin-right: rem(20);
 
-	}
+      .no-image-avtar {
+        color: $color__black;
+        width: 100%;
+        height:100%;
+      }
+    }
+    .reaction-wrapper {
+      padding: rem(20) 0;
+      .reaction-inner {
+        justify-content: flex-start;
+      }
+    }
+  }
+  &__time {
+    margin-top: rem(50);
+  }
 
-	.intro-feature {
-	position: relative;
-	background: $color__gray-darker;
-	@include bp-1024 {
-		background: $color__gray-dark;
-		&::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: rem(180);
-			background: $color__gray-darker;
-			border-bottom: rem(4) solid $color__purple; //fallback
-			border-image: linear-gradient(90deg, $color__purple, $color__blue) 4;
-			border-width: 0;
-		border-bottom-width: rem(4);
-		}
-	}
-	&__media {
-		position: relative;
-		img.attachment-post-thumbnail {
-			width: 100%;
-			height: auto;
-			vertical-align: baseline;
-		}
-	}
+  }
+
+  .intro-feature {
+  position: relative;
+  background: $color__gray-darker;
+  @include bp-1024 {
+    background: $color__gray-dark;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: rem(180);
+      background: $color__gray-darker;
+      border-bottom: rem(4) solid $color__purple; //fallback
+      border-image: linear-gradient(90deg, $color__purple, $color__blue) 4;
+      border-width: 0;
+    border-bottom-width: rem(4);
+    }
+  }
+  &__media {
+    position: relative;
+    img.attachment-post-thumbnail {
+      width: 100%;
+      height: auto;
+      vertical-align: baseline;
+    }
+  }
 }
