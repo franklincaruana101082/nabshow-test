@@ -1066,7 +1066,7 @@
       input.files = dt.files;
     }
   }
-
+  var productMedia = [];
   $(document).on("change", "#product_medias", function (e) {
     var fileExtension = ["png", "jpg", "jpeg", "gif"];
 
@@ -1094,6 +1094,7 @@
             e.target.result
           );
         };
+        productMedia.push($(this));
         var media_count = jQuery(".nab-product-media-item").length;
         if (media_count < 5) {
           reader.readAsDataURL(file);
@@ -1178,8 +1179,8 @@
 
     var form_data = new FormData();
 
-    $.each($("#product_medias")[0].files, function (key, file) {
-      form_data.append(key, file);
+    $.each(productMedia, function (key, file) {
+      form_data.append(key, file[0]);
     });
     if (product_title == "") {
       alert("Product title can not be empty!");
