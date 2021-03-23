@@ -142,7 +142,6 @@ while ( have_posts() ) :
 					</div>
 
 					<div class="signup__confirmation">
-						<?php do_action( 'woocommerce_register_form' ); ?>
 
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 							<input type="hidden" name="checkout_redirect" value="<?php echo $redirect_url; ?>">
@@ -150,10 +149,7 @@ while ( have_posts() ) :
 						<?php dynamic_sidebar('sign-up-terms'); ?>
 						<ul class="field__list">
 							<li>
-								<label class="field__list-input" for="signup-privacy-policy">
-									<input type="checkbox" name="privacy_policy" class="field__input signup-privacy-policy" id="signup-privacy-policy" value="1" required />
-									I agree to the NAB Amplify <a href="<?php echo site_url(); ?>/privacy-policy/">privacy policy</a>, <a href="<?php echo site_url(); ?>/terms-of-use/">terms of use</a> and <a href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">code of conduct</a>.
-								</label>
+								<?php do_action( 'woocommerce_register_form' ); ?>
 							</li>
 							<li>
 								<label class="field__list-input" for="signup-press-member">
