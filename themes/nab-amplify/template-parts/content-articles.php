@@ -72,7 +72,6 @@ if(has_category('video')) {
 				);
 				?>		
 			</div>
-		<?php } ?>
 		</div>
 	</div><!-- .entry-content -->
 

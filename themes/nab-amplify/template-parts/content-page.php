@@ -13,7 +13,7 @@
         <header class="intro entry-header">
             <?php the_title( '<h1 class="intro__title entry-title">', '</h1>' ); ?>
         </header><!-- .entry-header -->
-    <?php } 
+    <?php }
 
     nab_amplify_post_thumbnail(); 
 
@@ -35,7 +35,6 @@
 				'after'  => '</div>',
 			)
 		);
-	}
 		?>
 	</div><!-- .entry-content -->
 
