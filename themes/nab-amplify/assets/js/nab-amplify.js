@@ -257,7 +257,7 @@
       function () {
         $(this).parents(".reaction-icon-modal").removeClass("show-icon-modal");
       }
-    );    
+    );
 
     jQuery(".nab-preview-item img").click(function () {
       var currentThumb = jQuery(this);
@@ -1066,6 +1066,7 @@
       input.files = dt.files;
     }
   }
+
   var productMedia = [];
   $(document).on("change", "#product_medias", function (e) {
     var fileExtension = ["png", "jpg", "jpeg", "gif"];
@@ -1490,7 +1491,7 @@
     if (jQuery("#company_about").length) {
       var aboutContent = jQuery('#company_about').val();
       aboutContent = aboutContent.replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '');
-      if ( aboutContent.length > 2000) {
+      if (aboutContent.length > 2000) {
         alert(
           "The length of Company about content is " +
             jQuery("#company_about").val().length +
