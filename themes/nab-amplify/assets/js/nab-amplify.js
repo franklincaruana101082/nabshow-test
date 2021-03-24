@@ -4090,8 +4090,8 @@ function nabSearchUserAjax(loadMore, pageNumber) {
     ? parseInt(jQuery("#load-more-user a").attr("data-post-limit"))
     : 15;
   let searchTerm =
-    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
-      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
       : "";
   let company =
     0 < jQuery(".other-search-filter .company-search .input-company").length
@@ -4246,7 +4246,7 @@ function nabSearchUserAjax(loadMore, pageNumber) {
 
           if (
             0 <
-            jQuery('.search-result-filter .search-form input[name="s"]').length
+            jQuery('.search-result-filter .search__form input[name="s"]').length
           ) {
             let viewSearchAction = document.createElement("div");
             viewSearchAction.setAttribute("class", "search-actions");
@@ -4321,8 +4321,8 @@ function nabSearchCompanyAjax(loadMore, pageNumber) {
     ? parseInt(jQuery("#load-more-company a").attr("data-post-limit"))
     : 15;
   let searchTerm =
-    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
-      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
       : "";
   let orderBy =
     0 < jQuery(".other-search-filter .sort-company a.active").length
@@ -4472,8 +4472,8 @@ function nabSearchCompanyProductAjax(loadMore, pageNumber) {
     ? parseInt(jQuery("#load-more-company-product a").attr("data-post-limit"))
     : 15;
   let searchTerm =
-    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
-      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
       : "";
   let orderBy =
     0 < jQuery(".other-search-filter .sort-company-product a.active").length
@@ -4634,8 +4634,8 @@ function nabSearchProductAjax(loadMore, pageNumber) {
     ? parseInt(jQuery("#load-more-product a").attr("data-post-limit"))
     : 15;
   let searchTerm =
-    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
-      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
       : "";
   let orderBy =
     0 < jQuery(".other-search-filter .sort-product a.active").length
@@ -4779,8 +4779,8 @@ function nabSearchEventAjax(loadMore, pageNumber) {
     ? parseInt(jQuery("#load-more-event a").attr("data-post-limit"))
     : 15;
   let searchTerm =
-    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
-      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
       : "";
   let eventType =
     0 < jQuery(".other-search-filter .event-type a.active").length
@@ -4924,8 +4924,8 @@ function nabSearchContentAjax(loadMore, pageNumber) {
     ? parseInt(jQuery("#load-more-content a").attr("data-post-limit"))
     : 15;
   let searchTerm =
-    0 < jQuery('.search-result-filter .search-form input[name="s"]').length
-      ? jQuery('.search-result-filter .search-form input[name="s"]').val()
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
       : "";
   let orderBy =
     0 < jQuery(".other-search-filter .sort-content a.active").length
