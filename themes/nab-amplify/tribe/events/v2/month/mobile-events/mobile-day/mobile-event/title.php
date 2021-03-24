@@ -1,9 +1,9 @@
 <?php
 /**
- * View: List View - Single Event Title
+ * View: Month View - Mobile Event Title
  *
  * Override this template in your own theme by creating a file at:
- * [your-theme]/tribe/events/v2/list/event/title.php
+ * [your-theme]/tribe/events/v2/month/mobile-events/mobile-day/mobile-event/title.php
  *
  * See more documentation about our views templating system.
  *
@@ -16,14 +16,16 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
+$classes = [ 'tribe-events-calendar-month-mobile-events__mobile-event-title', 'tribe-common-h7' ];
+
 $event->permalink   = tribe_get_event_meta( $event->ID, '_EventURL', true );
 ?>
-<h3 class="tribe-events-calendar-list__event-title tribe-common-h6 tribe-common-h4--min-medium">
+<h3 <?php tribe_classes( $classes ); ?>>
 	<a
-		href="<?php echo esc_url( $event->permalink ); ?>"
-		title="<?php echo esc_attr( $event->title ); ?>"
+		href="<?php echo esc_url( $event->permalink ) ?>"
+		title="<?php echo esc_attr( $event->title ) ?>"
 		rel="bookmark"
-		class="tribe-events-calendar-list__event-title-link tribe-common-anchor-thin"
+		class="tribe-events-calendar-month-mobile-events__mobile-event-title-link tribe-common-anchor"
 	>
 		<?php
 		// phpcs:ignore

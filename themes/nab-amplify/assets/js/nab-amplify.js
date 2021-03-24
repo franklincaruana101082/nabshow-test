@@ -51,7 +51,7 @@
       width: '100%'
     })
 
-    $('.nab-custom-select select').select2({ width: '100%' })    
+    $('.nab-custom-select select').select2({ width: '100%' })
 
     $(document).on('change', '.signup-privacy-policy', function () {
       if (this.checked) {
@@ -305,7 +305,7 @@
       minimumInputLength: 3,
       placeholder: 'Select Point of contact',
       allowClear: true
-    })    
+    })
 
     $(document).on('click', '.action-add-address ', function () {
       const address_id =
@@ -1243,7 +1243,7 @@
   })
 
   var productMedia = [];
-  var productMediaKey = []; 
+  var productMediaKey = [];
 
   /* Add nab product ajax call */
   var remove_attachment_arr = []
@@ -1322,7 +1322,7 @@
       if (index !== i) dt.items.add(file) // here you exclude the file. thus removing it.
       input.files = dt.files
     }
-  }  
+  }
 
   $(document).on('change', '#product_medias', function (e) {
 
@@ -2232,6 +2232,14 @@
       smallBtn: true
     })
   })
+
+  // Prevent Events link in Month view for multidays events.
+  // Doing so because we do not have control
+  // to change the event link to custom link.
+  $(document).on("click", 'a.tribe-events-calendar-month__multiday-event-hidden-link', function (e) {
+    e.preventDefault();
+    $(this).attr('href', 'javascript:void(0)');
+  });
 
   $(document).on('click', '.product-head .product-layout span', function () {
     $('.product-head .product-layout span').removeClass('active')
@@ -4803,7 +4811,7 @@
   $(document).on('change', '#nab-add-edit-event-form #event-end-time', function(){
     var startTimeIndex = $(this).parents('#nab-add-edit-event-form').find('#event-start-time')[0].selectedIndex;
     var endTimeIndex = $(this)[0].selectedIndex;
-    if ( endTimeIndex < startTimeIndex ) {      
+    if ( endTimeIndex < startTimeIndex ) {
       $(this).val($(this).parents('#nab-add-edit-event-form').find('#event-start-time').val());
       $(this).trigger('change');
     }
@@ -4970,11 +4978,11 @@
         if ( eventData.success ) {
           if ( undefined !== eventData.data.featured_attachment_id ) {
             _this.parents('#nab-add-edit-event-form').find('.remove-featred-img').attr('data-attachment-id', eventData.data.featured_attachment_id );
-          }          
+          }
           if ( undefined !== eventData.data.event_id ) {
             _this.parents('#nab-add-edit-event-form').find('#event_id').val( eventData.data.event_id );
           }
-          _this.parents('#nab-add-edit-event-form').find('#event-featured-image').val('');          
+          _this.parents('#nab-add-edit-event-form').find('#event-featured-image').val('');
           _this.parents('#nab-add-edit-event-form').find('#nab-edit-event-submit').val('Update');
           _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Event');
         }
@@ -5030,7 +5038,7 @@
 
   $(document).on( 'change', '#nab-add-content-form #content-featured-image', function() {
     contentUploadedFeaturedImg(this);
-  });  
+  });
 
   $(document).on('click', '#content_media_wrapper .remove-featred-img', function(){
     if ( confirm( 'Are you sure want to remove?' ) ) {
@@ -5041,10 +5049,10 @@
 
   $(document).on( 'click', '.modal-content-wrap #nab-add-content-submit', function(){
     tinyMCE.triggerSave();
-    
+
     var titleLimit = 60;
     var contentCopy =  $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-copy').val();
-    
+
     $(this).parents('.modal-content-wrap').find('.global-notice').hide();
 
     if ( $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val().length > titleLimit ) {
@@ -5063,17 +5071,17 @@
     $('body').addClass('nab-close-reload');
 
     var form_data = new FormData();
-    var companyId = 0 < $(this).parents('.modal-content-wrap').find('#nab_company_id').length ? $(this).parents('.modal-content-wrap').find('#nab_company_id').val() : 0;    
+    var companyId = 0 < $(this).parents('.modal-content-wrap').find('#nab_company_id').length ? $(this).parents('.modal-content-wrap').find('#nab_company_id').val() : 0;
     var _this = $(this);
     form_data.append( 'action', 'nab_content_submission' );
     form_data.append( 'nabNonce', amplifyJS.nabNonce );
-    form_data.append( 'company_id', companyId );    
+    form_data.append( 'company_id', companyId );
     form_data.append( 'content_title', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() );
     form_data.append( 'content_copy', contentCopy );
 
     if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
       form_data.append( 'featured_img', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image')[0].files[0] );
-    }    
+    }
 
     jQuery.ajax({
       url: amplifyJS.ajaxurl,

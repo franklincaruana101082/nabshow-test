@@ -25,16 +25,16 @@ if ( empty( $featured_image ) || null === $featured_image ) {
 }
 ?>
 <div class="ne-check tribe-events-calendar-month__calendar-event-featured-image-wrapper">
-    <a
-            href="<?php echo esc_url( $event_url ); ?>"
-            target="_blank"
-            title="<?php echo esc_attr( $event->title ); ?>"
-            rel="bookmark"
-            class="tribe-events-calendar-month__calendar-event-featured-image-link"
-    >
-        <img
-                src="<?php echo esc_url( $featured_image ); ?>"
-                class="tribe-events-calendar-month__calendar-event-featured-image"
-        />
-    </a>
+	<a
+    	href="<?php echo esc_url( $event_url ); ?>"
+        target="_blank"
+		title="<?php echo esc_attr( $event->title ); ?>"
+		rel="bookmark"
+		class="tribe-events-calendar-month__calendar-event-featured-image-link"
+	>
+		<img
+			src="<?php echo esc_url( $featured_image ); ?>"
+			class="tribe-events-calendar-month__calendar-event-featured-image"
+		/>
+	</a>
 </div>
