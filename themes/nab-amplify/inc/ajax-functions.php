@@ -1738,6 +1738,7 @@ function nab_event_search_filter_callback()
 			$start_time         = '';
 			$end_time           = '';
 			$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+			$event_content      = wp_strip_all_tags( get_the_content() );
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
@@ -1777,6 +1778,10 @@ function nab_event_search_filter_callback()
 			if ( ! empty( $company_id ) ) {
 				$result_post[$cnt]['company_title']	= html_entity_decode( get_the_title( $company_id ) );
 				$result_post[$cnt]['company_link']	= get_the_permalink( $company_id );
+			}
+
+			if ( ! empty( $event_content ) ) {
+				$result_post[$cnt]['event_content'] = html_entity_decode( $event_content );
 			}
 
 			$final_date     = date_format(date_create($final_date), 'Ymd');

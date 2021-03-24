@@ -173,18 +173,19 @@
 
 /* company events */
 .company-events .amp-item-main{padding:30px 0 0}
-.company-events .amp-item-wrap .amp-item-info{padding:25px 15px}
+.company-events .amp-item-wrap .amp-item-info{padding:25px 15px;height:calc(100% - 130px)}
+.company-events .amp-item-wrap .amp-item-inner:hover{z-index:1}
 .company-events .amp-item-wrap .amp-item-info h4{margin:0 0 20px!important}
 .company-events .amp-item-wrap .amp-item-info .event-date,
 .company-events .amp-item-wrap .amp-item-info .event-time{display:block;margin:0 0 5px;color:#999999;min-height:23px}
 .company-events .amp-item-wrap .amp-item-info .event-time{margin:0 0 20px;}
-.company-events .amp-item-wrap .amp-item-info .event-disc{position:relative;margin:0 0 20px;}
-.company-events .amp-item-wrap .amp-item-info .event-disc .tooltip-wrap{display:inline-block;vertical-align:middle;position:static;}
-.company-events .amp-item-wrap .amp-item-info .event-disc .tooltip{left:0;right:0;bottom:100%;top:auto;width:100%}
-.company-events .amp-item-wrap .amp-item-info .event-disc .read-more{cursor:pointer;}
 .company-events .amp-item-wrap .amp-item-info .search-actions a.button, .company-events .amp-item-wrap .amp-item-info .search-actions .action a.button{border-radius:6px;padding:8px 20px}
 .company-events .amp-item-wrap .amp-item-inner .amp-action-remove{z-index:2;top:10px}
+.company-events:not(.company-admin) .amp-item-wrap .amp-item-info .tooltip-wrap{font-size:20px;position:absolute;right:20px;bottom:20px;}
+.company-events .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-10px}
 .company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
+.company-events .amp-item-wrap .amp-item-info .tooltip-wrap{margin-left:10px;font-size:20px;}
+.company-events.company-admin .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{-webkit-transform:translate(-50%, 0);-ms-transform:translate(-50%, 0);transform:translate(-50%, 0);right:auto;left:0}
 
 /* company detail */
 .company-details-wrapper{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-top:30px;margin-bottom:30px;padding:50px 0;background:#282828}
@@ -441,6 +442,12 @@
 
 	/* company message box */
 	.company-message-box .company-message-title{font-size:18px}
+
+	/* company events */
+	.company-events .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{width:220px}
+	.company-events.company-admin .amp-item-wrap .amp-item-info .event-disc_btn{width:100%;margin-bottom:20px}
+	.company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.company-events.company-admin .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-20px;left:auto; -webkit-transform:translate(0); -ms-transform:translate(0); transform:translate(0);}
 }
 
 @media (max-width:480px) {

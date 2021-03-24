@@ -769,6 +769,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$start_time         = '';
                             $end_time           = '';
 							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							$event_content      = wp_strip_all_tags( get_the_content() );
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -844,6 +845,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<div class="search-actions">
 												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
 											</div>
+											<?php
+											if ( ! empty( $event_content ) ) {
+												?>
+												<i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+													<span class="tooltip"><?php echo esc_html( $event_content ); ?></span>
+												</i>
+												<?php
+											}
+											?>
 										</div>
 									</div>
 								</div>
@@ -1528,6 +1538,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$start_time         = '';
                             $end_time           = '';
 							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							$event_content      = wp_strip_all_tags( get_the_content() );
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -1604,6 +1615,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<div class="search-actions">
 												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
 											</div>
+											<?php
+											if ( ! empty( $event_content ) ) {
+												?>
+												<i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+													<span class="tooltip"><?php echo esc_html( $event_content ); ?></span>
+												</i>
+												<?php
+											}
+											?>
 										</div>
 									</div>
 								</div>

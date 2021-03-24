@@ -1042,14 +1042,17 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section.search-product-section .search-item-info{padding:25px 15px 25px;text-align:left}
 .search-section.search-product-section .search-item-info .search-actions{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start}
 .search-section.search-content-section .search-item-cover{height:175px}
-.search-section.search-content-section .search-item-info{padding:25px 15px 25px}
+.search-section.search-content-section .search-item-inner:hover{z-index:1}
+.search-section.search-content-section .search-item-info{padding:25px 15px 25px;height:calc(100% - 175px)}
 .search-section.search-company-section .search-item-info h4{margin:0 0 80px}
 .search-section.search-company-section .search-item-avtar img{background-color:#fff}
+.search-section.search-content-section .search-item-info .tooltip-wrap{font-size:20px;color:#fff;position:absolute;right:20px;bottom:20px}
+.search-section.search-content-section .search-item-info .tooltip-wrap .tooltip{right:-20px}
 .search-section.company-products .amp-item-wrap .amp-item-cover{height:175px}
 .search-section.company-products .amp-item-wrap .amp-item-info .nab-action{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
 .search-section #search-event-list .search-item-info .company-name,
-.search-section #search-event-list .search-item-info .event-time{margin:0 0 5px;display:block;color:#999999;min-height:22px;}
-.search-section #search-event-list .search-item-info .company-info{margin:0 0 30px;display:block;color:#fff;min-height:22px;}
+.search-section #search-event-list .search-item-info .event-time{margin:0 0 5px;display:block;color:#999999;min-height:22px}
+.search-section #search-event-list .search-item-info .company-info{margin:0 0 30px;display:block;color:#fff;min-height:22px}
 .search-section #search-event-list .search-item-info .company-info a{color:#fff}
 .search-section #search-event-list .search-item-info .event-time + .search-actions{margin-top:25px;}
 .search-not-found{text-align:center;padding:20px 0;max-width:95%;margin:0 auto}

@@ -716,6 +716,7 @@ function nab_company_events_render_callback($attributes)
                             $final_date         = $event_start_date;
                             $start_time         = '';
                             $end_time           = '';
+                            $event_content      = wp_strip_all_tags( get_the_content() );
     
                             if (!empty($event_start_date) && !empty($event_end_date)) {
     
@@ -797,7 +798,18 @@ function nab_company_events_render_callback($attributes)
                                             ?>
                                             <div class="amp-actions">
                                                 <div class="search-actions">
-                                                    <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                                    <div class="event-disc_btn">
+                                                        <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                                        <?php
+                                                        if ( ! empty( $event_content ) ) {
+                                                            ?>
+                                                            <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                                <span class="tooltip"><?php echo esc_html( $event_content ); ?></span>
+                                                            </i>
+                                                            <?php
+                                                        }
+                                                        ?>                                                        
+                                                    </div>
                                                     <?php
                                                     if ( $add_event ) {
                                                         ?>

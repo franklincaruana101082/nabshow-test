@@ -6116,7 +6116,20 @@ function nabSearchEventAjax (loadMore, pageNumber) {
           }
 
           searchAction.appendChild(viewPostLink)
-          searchContent.appendChild(searchAction)
+          searchContent.appendChild(searchAction);
+
+          if ( undefined !== value.event_content && '' !== value.event_content ) {
+            let iIcon = document.createElement('i');
+            iIcon.setAttribute('class', 'fa fa-info-circle tooltip-wrap');
+            iIcon.setAttribute('aria-hidden', 'true');
+
+            let contentSpan = document.createElement('span');
+            contentSpan.setAttribute('class', 'tooltip');
+            contentSpan.innerText = value.event_content;
+
+            iIcon.appendChild(contentSpan);
+            searchContent.appendChild(iIcon);
+          }
 
           searchItemInfo.appendChild(searchContent)
           searchItemInner.appendChild(searchItemInfo)
