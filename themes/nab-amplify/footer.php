@@ -159,7 +159,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 
     return {
       container: '#nab-amp-cookie-consent',
-      writeKey: 'cu0VWCbc0WL9SNlftQ9MZyowEso2rG7u',
+      writeKey: '<?php echo $write_key; ?>',
       shouldRequireConsent: inEU,
       bannerContent: bannerContent,
       bannerSubContent: bannerSubContent,
@@ -170,6 +170,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
     }
   }
 </script>
+<script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 </body>
 
