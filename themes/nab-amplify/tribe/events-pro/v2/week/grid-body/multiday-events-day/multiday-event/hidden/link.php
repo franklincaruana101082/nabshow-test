@@ -22,7 +22,7 @@ $event->permalink   = tribe_get_event_meta( $event->ID, '_EventURL', true );
 ?>
 <a
 	href="<?php echo esc_url( $event->permalink ); ?>"
-	class="tribe-events-pro-week-grid__multiday-event-hidden-link ne_test01"
+	class="tribe-events-pro-week-grid__multiday-event-hidden-link"
 	data-js="tribe-events-tooltip"
 	data-tooltip-content="#tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
 	aria-describedby="tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
