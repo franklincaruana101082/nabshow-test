@@ -1834,6 +1834,11 @@
       closeBtn: true,
       smallBtn: true,
     });
+
+    // Remove Events link in Month view.
+    // Doing so because we do not have control
+    // to change the event link to custom link.
+    $('a.tribe-events-calendar-month__multiday-event-hidden-link').attr('href', 'javascript:void(0)');
   });
 
   $(document).on("click", ".product-head .product-layout span", function () {
