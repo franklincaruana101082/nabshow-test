@@ -2957,7 +2957,7 @@ function nab_add_product()
 	$product_media = nab_amplify_get_bynder_products( $product_id );
 	$response_msg = '';
 	$product_contact = $product_contact ? $product_contact : 0;
-    $tracking_status            = 'trash' === strtolower( $product_status ) ? 'delete' : 'update';
+    $tracking_status            = 'trash' === strtolower( $product_status ) ? 'delete' : 'update';    
 
     //set product excerpt trim to first 200 characters
     $product_excerpt = wp_trim_words($product_copy, 200, '...');

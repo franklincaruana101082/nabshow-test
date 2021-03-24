@@ -54,14 +54,11 @@
 
         }
 
-        // Temporarily hiding the Upload sections as its still in development mode.
-        $('body.wp-admin').append('<style>.bm-tab-list li:nth-child(2) {display: none;}body .bm-tab-list li:not(:last-child) {border: 0;}</style>');
-
         // If its edit page, add a button for Bynder upload at top right side.
-        /*if( 0 !== $('.editor-post-title .editor-post-title__input').length ) {
+        if( 0 !== $('.editor-post-title .editor-post-title__input').length ) {
             const uploadAssetBtn = "<button type='button' class='bm-select-media bm-post-header-select components-button is-tertiary' bynder-for='upload_only'>Upload Asset</button>";
             $(".edit-post-header .edit-post-header__settings").prepend(uploadAssetBtn);
-        }*/
+        }
     });
 
     $(document).on('keyup', '#bm-search-form #bm-search', function(){
@@ -167,18 +164,20 @@
                 wp.data.dispatch('core/block-editor').replaceBlocks( blockID, bynderReadyBlock );
 
             } else {
+
+                let activeBynder = $('.bm-select-media.active');
                 // Add the selected image src in hidden meta field.
-                $('.bm-select-media.active').parent().find('input').val(assetSrc);
+                activeBynder.parent().find('input').val(assetSrc);
 
                 // Add the selected image src in hidden image.
-                $('.bm-select-media.active').parent().find('img').attr('src', assetSrc);
+                activeBynder.parent().find('img').attr('src', assetSrc);
 
                 // Replace the select area into a link.
-                $('.bm-select-media.active').parent().addClass('selected');
+                activeBynder.parent().addClass('selected');
 
                 // Change the label name.
                 //$('.bm-select-media.active #bm-featured-image').text('Change Bynder Image');
-                $('.bm-select-media.active').text('Change Image');
+                activeBynder.text('Replace ' + activeBynder.attr('data-label'));
 
             }
 
@@ -375,8 +374,12 @@ function bmFetchAssets(_this) {
     // Prevent body scroll.
     $("body").addClass('bm-modal-off-scroll');
 
-    // Show loader by adding a class.
-    $('#bm-main-outer .bm-modal-body').addClass('bm-loading');
+    if( 'upload_only' === requestedBy ) {
+        $('[data-tab="bm-tab-upload"]').trigger('click');
+    } else {
+        // Show loader by adding a class.
+        $('#bm-main-outer .bm-modal-body').addClass('bm-loading');
+    }
 
     const bmData = new FormData();
     bmData.append('action', 'bm_fetch_assets');
@@ -432,6 +435,13 @@ function bmFetchAssets(_this) {
             result = JSON.parse(result);
 
             if( result.bmHTML ) {
+
+                // If upload class exists, means no results found.
+                // And if its search result, change msg.
+                if( -1 !== result.bmHTML.indexOf('bm-jump-upload') && '' !== $('#bm-search').val() ) {
+                    result.bmHTML = 'No Assets Found.';
+                }
+
                 $('#bm-main-outer .bm-modal-body').removeClass('bm-loading');
                 $('#bm-main-outer .bm-media-main').append(result.bmHTML);
 
@@ -732,6 +742,9 @@ function bmResetMetaOptions() {
 
 function bmUploadToBynder() {
 
+    // Remove previous msg div.
+    $('#bm-msg').remove();
+
     // Variables and constants.
     const cropFileName = $('.crop-active').attr('data-filename');
 
@@ -799,7 +812,6 @@ function bmUploadToBynder() {
 
                     addUploadedAsset(result);
                 }
-
             },
             error() {
                 alert('Upload error! Try again or contact administrator.');
@@ -810,6 +822,8 @@ function bmUploadToBynder() {
 }
 
 function addUploadedAsset(result) {
+
+    let requestedBy = $('.bm-select-media.active').attr('bynder-for');
 
     if ('' !== result.bmHTML && -1 === result.bmHTML.indexOf('bm-msg')) {
 
@@ -823,8 +837,12 @@ function addUploadedAsset(result) {
             $('.bm-media-main .bm-item:last-child').remove();
         }
 
-        $('.bm-media-main .bm-item:first-child .bm-radio-container:first-child [data-name]').prop('checked', true);
-        $('.bm-media-main .bm-item:first-child .bm-btn').trigger('click');
+        // Auto Select if its not display only popup.
+        if( 'upload_only' !== requestedBy ) {
+            $('.bm-media-main .bm-item:first-child .bm-radio-container:first-child [data-name]').prop('checked', true);
+            $('.bm-media-main .bm-item:first-child .bm-btn').trigger('click');
+        }
+
 
     } else if (undefined !== result.mediaid && '' !== result.mediaid) {
 

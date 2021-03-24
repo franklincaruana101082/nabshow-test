@@ -194,7 +194,7 @@ function removeCropCanvas() {
 
     // Remove the thumbnail image from Bynder popup.
     if( 0 !== jQuery('.bm-show-cropped-thumb').length ) {
-        jQuery('.bm-show-cropped-thumb').html(''); /*, .bm-crop-upload*/
+        jQuery('.bm-show-cropped-thumb').html('');
     }
 
     // Show the canvas and file input.
@@ -205,7 +205,7 @@ function removeCropCanvas() {
     jQuery('#bm-upload-form').removeClass('canvas-active');
 
     // Hide the upload button and message div.
-    jQuery('#bm-upload-btn, #bm-precess-info').hide();
+    jQuery('#bm-upload-btn, #bm-precess-info, .single-meta').hide();
 
     // Show input button.
     $('.bm-drag-drop-buttons').show();

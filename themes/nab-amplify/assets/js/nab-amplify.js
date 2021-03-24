@@ -1242,13 +1242,17 @@
     })
   })
 
-
+  var productMedia = [];
+  var productMediaKey = []; 
 
   /* Add nab product ajax call */
   var remove_attachment_arr = []
   $(document).on('click', '.nab-remove-attachment', function (e) {
     if (confirm('Are you sure want to remove?')) {
-      remove_attachment_arr.push($(this).data('attach-id'))
+      remove_attachment_arr.push($(this).data('attach-id'));
+      if ( 0 == $(this).data('attach-id') ) {
+        var imgID = $(this).parents('.nab-product-media-item').find('img').attr('id').replace('product_media_preview_');
+      }
       $(this)
         .parent()
         .remove()
@@ -1318,12 +1322,11 @@
       if (index !== i) dt.items.add(file) // here you exclude the file. thus removing it.
       input.files = dt.files
     }
-  }
+  }  
 
   $(document).on('change', '#product_medias', function (e) {
 
     var fileExtension = ['png','jpg','jpeg','gif'];
-
 
     var global_media_count = jQuery('.nab-product-media-item').length
     if (global_media_count < 5) {
@@ -1345,6 +1348,8 @@
             e.target.result
           )
         }
+        productMedia.push($(this));
+        productMediaKey.push(unique_key);
         var media_count = jQuery('.nab-product-media-item').length
         if (media_count < 5) {
           reader.readAsDataURL(file)
@@ -1443,8 +1448,8 @@
         product_media_bm_src = product_media_bm_src.join(',');
         form_data.append('product_media_bm', product_media_bm_src)
     } else {
-      $.each($('#product_medias')[0].files, function (key, file) {
-        form_data.append(key, file)
+      $.each(productMedia, function (key, file) {
+        form_data.append(key, file[0]);
       }).length
     }
 
@@ -5274,7 +5279,7 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
 }
 
 function nabAddProdBlankImage(unique_key) {
-  $('#product_media_wrapper').append(
+  jQuery('#product_media_wrapper').append(
       '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
       unique_key +
       '" src="#" alt="your image" style="display:none;"/></div>'

@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <input type="text" name="bm-search" id="bm-search" placeholder="Search Assets...">
                             <span class="bm-search-clear dashicons dashicons-no-alt"></span>
                             <button type="submit">
-                                <i class="fa fa-search"></i>
+                                <i class="dashicons dashicons-search"></i>
                             </button>
                         </form>
                     </div>
@@ -61,10 +61,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <div class="bm-show-cropping-area">
                                             <div class="bm-adjust-crop-actions">
                                                 <div class="bm-crop-adjust">
-                                                    <a href="javascript:void(0)" class="bm-zoom-in fa fa-plus" onclick="fcZoomIn();"></a>
+                                                    <a href="javascript:void(0)" class="bm-zoom-in dashicons dashicons-plus" onclick="fcZoomIn();"></a>
                                                 </div>
                                                 <div class="bm-crop-adjust">
-                                                    <a href="javascript:void(0)" class="bm-zoom-out fa fa-minus" onclick="fcZoomOut();"></a>
+                                                    <a href="javascript:void(0)" class="bm-zoom-out dashicons dashicons-minus" onclick="fcZoomOut();"></a>
                                                 </div>
                                             </div>
                                             <div class="bm-show-cropped-thumb"></div>

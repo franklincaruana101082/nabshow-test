@@ -50,7 +50,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 								<?php $existing_media_count =  count($post_data->product_media); ?>
 								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x400"></i></label>
 								<div class="form-control">
-									<div class="file-input bm-select-media" bynder-for="product_media_bm"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
+									<div class="file-input bm-select-media" bynder-for="product_media_bm"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple>
 
 									</div>
 									<div class="nab-action left-action">
