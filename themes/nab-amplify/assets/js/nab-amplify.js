@@ -1841,6 +1841,7 @@
   // to change the event link to custom link.
   $(document).on("click", 'a.tribe-events-calendar-month__multiday-event-hidden-link', function (e) {
     e.preventDefault();
+    $(this).attr('href', 'javascript:void(0)');
   });
 
   $(document).on("click", ".product-head .product-layout span", function () {
