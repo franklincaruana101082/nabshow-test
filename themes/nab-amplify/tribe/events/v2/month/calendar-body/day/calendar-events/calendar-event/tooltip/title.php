@@ -16,7 +16,7 @@
  * @see tribe_get_event() For the format of the event object.
  */
 
-$event_url = tribe_get_event_meta( $post_id, '_EventURL', true );
+$event_url = tribe_get_event_meta( $event->ID, '_EventURL', true );
 ?>
 <h3 class="tribe-events-calendar-month__calendar-event-tooltip-title tribe-common-h7">
 	<a
