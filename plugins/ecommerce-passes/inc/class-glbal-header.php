@@ -150,14 +150,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                         if( $_GET['test'] ) {
                                             $user_images     	= $this->nab_amplify_get_user_images( $current_user->ID );
                                             $user_thumb      	= $user_images['profile_picture'];
-
-                                            echo '<pre>';
-                                            print_r(get_defined_vars());
-                                            die('<br><---died here');
                                         } else {
                                             $user_thumb      = get_avatar_url( $current_user->ID );
                                         }
-
 
                                         $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
                                         ?>
