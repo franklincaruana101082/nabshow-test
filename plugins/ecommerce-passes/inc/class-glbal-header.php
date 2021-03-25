@@ -147,13 +147,8 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 <?php
                                     if ( is_user_logged_in() ) {
                                         $current_user    = wp_get_current_user();
-                                        if( $_GET['test'] ) {
-                                            $user_images     	= $this->ep_get_user_images( $current_user->ID );
-
-                                            $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
-                                        } else {
-                                            $user_thumb      = get_avatar_url( $current_user->ID );
-                                        }
+                                        $user_images     	= $this->ep_get_user_images( $current_user->ID );
+                                        $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
 
                                         $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
                                         ?>
