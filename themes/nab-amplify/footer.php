@@ -127,50 +127,42 @@
 </footer><!-- #colophon -->
 </div><!-- #page -->
 
-<?php wp_footer(); ?>
 <?php
 $privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
 $write_key		= get_option( 'segment_tracking_api_key' );
 ?>
-<script>
-  window.consentManagerConfig = function(exports) {
-    var React = exports.React
-    var inEU = exports.inEU
+<script type="application/javascript">
+      window.consentManagerConfig = function(exports) {
+        exports.preferences.onPreferencesSaved(function(prefs) {
+          // could be used to store consent server side, or send it into an API
+        })
 
-    var bannerContent = React.createElement(
-      'span',
-      null,
-      'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our',
-      ' ',
-      React.createElement(
-        'a',
-        { href: '<?php echo esc_url( $privacy_url ); ?>', target: '_blank' },
-        'Website Data Collection Policy'
-      ),
-      '.'
-    )
-    var bannerSubContent = 'You can change your preferences at any time.'
-    var preferencesDialogTitle = 'Website Data Collection Preferences'
-    var preferencesDialogContent =
-      'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.'
-    var cancelDialogTitle = 'Are you sure you want to cancel?'
-    var cancelDialogContent =
-      'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
+        return {
+          container: '#nab-amp-cookie-consent',
+          writeKey: '<?php echo $write_key; ?>',
+          /* initialPreferences allows for customizing which categories already pre-loaded */
+          initialPreferences: {
+            marketingAndAnalytics: false,
+            // functional: true will automatically record consent for functional cookies
+            functional: true
+          },
+          /*
+      The consent manager ships with a lightweight version of 
+      React (preact) that you can use to customize the consent manager further
+    */
+          bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
+          bannerSubContent: 'Change your preferences',
+          preferencesDialogTitle: 'Website Data Collection',
+          preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
+          cancelDialogTitle: 'Are you sure you want to cancel?',
+          cancelDialogContent: 'Your preferences have not been saved.'
+        }
+      }
+    </script>
 
-    return {
-      container: '#nab-amp-cookie-consent',
-      writeKey: '<?php echo $write_key; ?>',
-      shouldRequireConsent: inEU,
-      bannerContent: bannerContent,
-      bannerSubContent: bannerSubContent,
-      preferencesDialogTitle: preferencesDialogTitle,
-      preferencesDialogContent: preferencesDialogContent,
-      cancelDialogTitle: cancelDialogTitle,
-      cancelDialogContent: cancelDialogContent
-    }
-  }
-</script>
 <script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
+
+<?php wp_footer(); ?>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 </body>
 
