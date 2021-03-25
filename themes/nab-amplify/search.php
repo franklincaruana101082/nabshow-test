@@ -68,9 +68,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						</div>
 						<?php
 					} else if ('company' === $view_type) {
-					?>
+						$active_class = '';
+
+						if ( ! empty( $search_term ) ) {
+							$active_class = 'active';
+						}
+						?>
 						<div class="sort-company sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button <?php echo esc_attr( $active_class ); ?>" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 							<?php
 
@@ -499,8 +504,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					if ( $get_search_term_id ) {
 
-						$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-						$company_args['_meta_company_order']	= true;
+						$company_args['_meta_company_term']		= $get_search_term_id->term_id;						
 					}
 				} else {
 
@@ -511,15 +515,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							'compare'	=> '!='
 						)
 					);
-				}
 
-				if ( ! isset( $company_args['_meta_company_order'] ) ) {
-					$company_args['meta_key']	= 'member_level_num';
-					$company_args['orderby']	= 'meta_value_num';
-					$company_args['order']		= 'DESC';
-				}
+					if ( ! isset( $company_args['_meta_company_order'] ) ) {
+						$company_args['meta_key']	= 'member_level_num';
+						$company_args['orderby']	= 'meta_value_num';
+						$company_args['order']		= 'DESC';
+					}
+				}				
 
-				$company_query = new WP_Query($company_args);
+				$company_query = new WP_Query($company_args);				
 
 				if ($company_query->have_posts()) {
 
@@ -1292,8 +1296,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( $get_search_term_id ) {
 
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-					$company_args['_meta_company_order']	= true;
+					$company_args['_meta_company_term']		= $get_search_term_id->term_id;					
 				}
 			} else {
 
@@ -1304,13 +1307,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						'compare'	=> '!='
 					)
 				);
-			}
 
-			if ( ! isset( $company_args['_meta_company_order'] ) ) {
-				$company_args['meta_key']	= 'member_level_num';
-				$company_args['orderby']	= 'meta_value_num';
-				$company_args['order']		= 'DESC';
-			}
+				if ( ! isset( $company_args['_meta_company_order'] ) ) {
+					$company_args['meta_key']	= 'member_level_num';
+					$company_args['orderby']	= 'meta_value_num';
+					$company_args['order']		= 'DESC';
+				}
+			}			
 
 			$company_query = new WP_Query($company_args);
 
