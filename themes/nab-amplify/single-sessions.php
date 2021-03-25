@@ -345,6 +345,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					</div>
 					<?php } //end related if ?>
 
+					<?php //opt in modal
+				
+						//use this instead of get_template_part so the partial can access the php vars from here
+						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
+					?>
+
 					<?php 
 					} else { //if user NOT logged in
 					 ?>
