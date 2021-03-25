@@ -256,7 +256,6 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             if( isset( $response ) && ! empty( $response ) ) {
               $user_images = json_decode( $response, true );
-              set_transient( 'amplify_user_images', $user_images, 1 * DAY_IN_SECONDS );
             } else {
               return '';
             }
