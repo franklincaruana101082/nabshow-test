@@ -250,7 +250,8 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
               return '';
             }
 
-            $user_images = get_transient( 'amplify_user_images' );
+            //$user_images = get_transient( 'amplify_user_images' );
+            $user_images = false;
 
             if( false === $user_images ) {
 	            $api_url         = $api_base_url . 'wp-json/nab/request/get-user-images?user_id=' . $user_id;
