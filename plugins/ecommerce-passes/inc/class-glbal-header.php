@@ -250,20 +250,15 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
               return '';
             }
 
-            //$user_images = get_transient( 'amplify_user_images' );
-            $user_images = false;
+            $api_url         = $api_base_url . 'wp-json/nab/request/get-user-images?user_id=' . $user_id;
+            $get_user_images = wp_remote_get( $api_url );
+            $response        = wp_remote_retrieve_body( $get_user_images );
 
-            if( false === $user_images ) {
-	            $api_url         = $api_base_url . 'wp-json/nab/request/get-user-images?user_id=' . $user_id;
-	            $get_user_images = wp_remote_get( $api_url );
-	            $response        = wp_remote_retrieve_body( $get_user_images );
-
-                if( isset( $response ) && ! empty( $response ) ) {
-                  $user_images = json_decode( $response, true );
-                  set_transient( 'amplify_user_images', $user_images, 1 * DAY_IN_SECONDS );
-                } else {
-                  return '';
-                }
+            if( isset( $response ) && ! empty( $response ) ) {
+              $user_images = json_decode( $response, true );
+              set_transient( 'amplify_user_images', $user_images, 1 * DAY_IN_SECONDS );
+            } else {
+              return '';
             }
 
             return $user_images;
