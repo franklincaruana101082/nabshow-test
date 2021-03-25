@@ -1330,6 +1330,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                         }
                         ?>
                         <h3>Downloadable PDFS <span>(<?php echo esc_html($result_text); ?>)</span></h3>
+                        <i class="amp-note">Transparency and choice are important to NAB. By choosing to download this content, you are selecting to share your name and email address with Sony Electronics to allow them to contact you directly. Per our agreement, Sony Electronics is not permitted to share your data with anyone else. You can stop communications from Sony Electronics or revise your communication settings at any time by directly visiting the Sony Electronics website.</i>
                     </div>
                     <div class="amp-item-wrap" id="downloadable-pdfs-list">
                         <?php

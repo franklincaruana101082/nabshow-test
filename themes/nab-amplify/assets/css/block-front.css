@@ -268,6 +268,7 @@
 #downloadable-pdfs-list .amp-pdf-login-msg p{margin:0;color:#ccc;font-style:italic;font-size:14px;}
 #downloadable-pdfs-list .amp-pdf-login-msg a{text-decoration:underline;color:#fff}
 #downloadable-pdfs-list .amp-pdf-login-msg a:hover{text-decoration:none;}
+.company-pdfs .amp-item-main .amp-item-heading .amp-note{font-family:'OpenSans-Regular', sans-serif;display:block;margin-top:5px}
 
 /* company content */
 .nab-modal .common-img-wrapper .common-media-item{position:relative;width:150px;}
