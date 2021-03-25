@@ -1814,7 +1814,8 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal.error-message-popup .btn-group .btn{min-width:100px;margin:5px 10px 5px 0}
 
 /* cookie popup */
-#nab-amp-cookie-consent .css-17ss3j2{background-color:#fff;color:#000;min-height:30px;padding:15px 80px 15px 30px;text-align:left;position:fixed;left:0;right:0;bottom:0;box-shadow:0 0 5px 0 rgb(0 0 0 / 30%)}
+#nab-amp-cookie-consent{position:fixed;left:0;right:0;bottom:0;box-shadow:0 0 5px 0 rgb(0 0 0 / 30%);z-index:999999}
+#nab-amp-cookie-consent .css-17ss3j2{background-color:#fff;color:#000;min-height:30px;padding:15px 80px 15px 30px;text-align:left;}
 #nab-amp-cookie-consent p button{margin:5px 0;color:#e10189;}
 #nab-amp-cookie-consent button[aria-label="Close"]{background-color:#e10189;color:#fff;display:inline-block;padding:0;right:20px;border-radius:50%;width:30px;height:30px;}
 #nab-amp-cookie-consent p{display:inline-block;vertical-align:middle;margin:0 5px 0 0;}
