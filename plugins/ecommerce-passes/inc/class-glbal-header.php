@@ -148,8 +148,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                     if ( is_user_logged_in() ) {
                                         $current_user    = wp_get_current_user();
                                         if( $_GET['test'] ) {
-                                            $user_images     	= $this->nab_amplify_get_user_images( $current_user->ID );
-                                            $user_thumb      	= $user_images['profile_picture'];
+                                            $user_images     	= $this->ep_get_user_images( $current_user->ID );
+
+                                            $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
                                         } else {
                                             $user_thumb      = get_avatar_url( $current_user->ID );
                                         }
@@ -197,55 +198,6 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
             echo do_shortcode( '[nab-global-header]' );
         }
 
-	    /**
-	     * Retrieves the user images.
-	     *
-	     * @return array list of user images
-	     */
-	    public function nab_amplify_get_user_images($user_id = 0)
-	    {
-
-		    $user_id           = 0 !== $user_id && null !== $user_id ? $user_id : get_current_user_id();
-		    $user_images_names = array(
-			    array(
-				    'name'    => 'profile_picture',
-				    'default' => 'avtar.jpg'
-			    ),
-			    array(
-				    'name'    => 'banner_image',
-				    'default' => 'search-box-cover.png'
-			    )
-		    );
-
-		    $user_images = array();
-		    foreach ($user_images_names as $user_image) {
-
-			    $user_image_id = get_user_meta($user_id, $user_image['name'], true);
-
-			    // If the meta value contains "assets", it has Bynder URL.
-			    if ( strpos( $user_image_id, 'assets') !== false ) {
-				    $user_images[$user_image['name']] = $user_image_id;
-
-				    // Else try to find from attachments.
-			    } else {
-				    if ('removed' === $user_image_id) {
-					    // Show default avatar if deleted from edit profile section.
-					    $user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-				    } else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
-					    // Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
-					    $user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
-				    } else {
-					    // Show uploaded images or the default ones.
-					    $user_images[$user_image['name']] = !empty($user_image_id)
-						    ? wp_get_attachment_image_src($user_image_id, 'full')[0]
-						    : get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-				    }
-			    }
-		    }
-
-		    return $user_images;
-	    }
-
         /**
          * Returns the global header logos added in Amplify
          *
@@ -288,6 +240,37 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             return $sorted_logos;
 
+        }
+
+        /**
+         * Returns the global header logos added in Amplify
+         *
+         * @return array|string
+         */
+	    public function ep_get_user_images( $user_id ) {
+
+            $api_base_url = get_option( 'ep_parent_site_url' );
+
+            if( empty( $api_base_url ) ) {
+              return '';
+            }
+
+            $user_images = get_transient( 'amplify_user_images' );
+
+            if( false === $user_images ) {
+	            $api_url         = $api_base_url . 'wp-json/nab/request/get-user-images?user_id=' . $user_id;
+	            $get_user_images = wp_remote_get( $api_url );
+	            $response        = wp_remote_retrieve_body( $get_user_images );
+
+                if( isset( $response ) && ! empty( $response ) ) {
+                  $user_images = json_decode( $response, true );
+                  set_transient( 'amplify_user_images', $user_images, 1 * DAY_IN_SECONDS );
+                } else {
+                  return '';
+                }
+            }
+
+            return $user_images;
         }
 
         /**

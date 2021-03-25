@@ -208,7 +208,7 @@ function nab_amplify_upload_images()
                     do_action( 'nab_company_profile_image_update', $company_id );
                 } else {
                     update_user_meta($user_id, $file_key, $attachment_id);
-                    do_action( 'nab_user_profile_image_updated', $user_id );                    
+                    do_action( 'nab_user_profile_image_updated', $user_id );
                 }
             }
         }
@@ -515,7 +515,7 @@ function nab_amplify_register_post_types()
     );
 
     $args = array(
-        'label'               => __('Speakers', 'nab-amplify'),        
+        'label'               => __('Speakers', 'nab-amplify'),
         'labels'              => $labels,
         'hierarchical'        => false,
         'public'              => false,
@@ -731,11 +731,11 @@ function nab_amplify_template_redirect()
     if ( $user_logged_in ) {
 
         $request = explode( '/', $wp->request );
-        
+
         $page_param = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 
         if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
-            
+
             $maritz_url = nab_maritz_redirect_url( $current_user_id );
 
             if ( ! empty( $maritz_url ) ) {
@@ -1053,11 +1053,82 @@ function amplify_register_api_endpoints()
         'permission_callback' => '__return_true',
     ));
 
+    register_rest_route('nab', '/request/get-user-images', array(
+        'methods'             => 'GET',
+        'callback'            => 'nab_amplify_get_user_images_endpoint',
+        'permission_callback' => '__return_true',
+    ));
+
     register_rest_route('nab', '/request/get-company-category', array(
         'methods'             => 'GET',
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
     ));
+}
+
+/**
+ * Get user images.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return array
+ */
+function nab_amplify_get_user_images_endpoint(WP_REST_Request $request) {
+
+	$parameters = $request->get_params();
+
+	$user_id     = isset( $parameters['user_id'] ) ? $parameters['user_id'] : 0;
+	$user_images = nab_amplify_get_user_images( $user_id );
+
+	return new WP_REST_Response( $user_images, 200 );
+}
+
+/**
+ * Retrieves the user images.
+ *
+ * @return array list of user images
+ */
+function nab_amplify_get_user_images($user_id = 0) {
+
+	$user_id           = 0 !== $user_id && null !== $user_id ? $user_id : get_current_user_id();
+	$user_images_names = array(
+		array(
+			'name'    => 'profile_picture',
+			'default' => 'avtar.jpg'
+		),
+		array(
+			'name'    => 'banner_image',
+			'default' => 'search-box-cover.png'
+		)
+	);
+
+	$user_images = array();
+	foreach ($user_images_names as $user_image) {
+
+		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
+
+		// If the meta value contains "assets", it has Bynder URL.
+		if ( strpos( $user_image_id, 'assets') !== false ) {
+			$user_images[$user_image['name']] = $user_image_id;
+
+			// Else try to find from attachments.
+		} else {
+			if ('removed' === $user_image_id) {
+				// Show default avatar if deleted from edit profile section.
+				$user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			} else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
+				// Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
+				$user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
+			} else {
+				// Show uploaded images or the default ones.
+				$user_images[$user_image['name']] = !empty($user_image_id)
+					? wp_get_attachment_image_src($user_image_id, 'full')[0]
+					: get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			}
+		}
+	}
+
+	return $user_images;
 }
 
 /**
