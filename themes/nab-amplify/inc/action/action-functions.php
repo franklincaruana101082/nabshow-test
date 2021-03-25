@@ -536,6 +536,48 @@ function nab_amplify_register_post_types()
 
     // Registering speakers post type.
     register_post_type( 'speakers', $args );
+
+
+    $labels = array(
+        'name'               => _x('Opt Ins', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Opt In', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Opt Ins', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Opt Ins', 'nab-amplify'),
+        'all_items'          => __('All Opt Ins', 'nab-amplify'),
+        'view_item'          => __('View Opt In', 'nab-amplify'),
+        'add_new_item'       => __('Add New Opt In', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Opt Ins', 'nab-amplify'),
+        'update_item'        => __('Update Opt Ins', 'nab-amplify'),
+        'search_items'       => __('Search Opt Ins', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Opt Ins', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 100,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => true,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'rewrite'             => false,
+        'delete_with_user'    => false,
+        'supports'            => array('title', 'author', 'revisions', 'custom-fields'),
+
+    );
+
+    // Registering your Custom Post Type
+    register_post_type('opt-in', $args);
 }
 
 // Hooking up our function to theme setup
