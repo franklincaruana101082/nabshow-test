@@ -360,6 +360,7 @@ function nab_reset_password_validation($errors, $user)
 function nab_amplify_add_custom_endpoints()
 {
     add_rewrite_endpoint('edit-my-profile', EP_ROOT | EP_PAGES);
+    add_rewrite_endpoint('edit-companies', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('my-purchases', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('my-connections', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('my-events', EP_ROOT | EP_PAGES);
@@ -372,6 +373,14 @@ function nab_amplify_add_custom_endpoints()
 function nab_amplify_my_purchases_content_callback()
 {
     get_template_part('template-parts/content', 'my-purchases');
+}
+
+/**
+ * Edit My companies.
+ */
+function nab_amplify_edit_companies_content_callback()
+{
+    get_template_part('template-parts/content', 'edit-companies');
 }
 
 /**
@@ -404,6 +413,14 @@ function nab_amplify_my_bookmarks_content_callback()
 function nab_amplify_my_purchases_endpoint()
 {
     add_rewrite_endpoint('my-purchases', EP_ROOT | EP_PAGES);
+}
+
+/**
+ * Register edit my companies endpoint to use for My Account page.
+ */
+function nab_amplify_edit_companies_endpoint()
+{
+    add_rewrite_endpoint('edit-companies', EP_ROOT | EP_PAGES);
 }
 
 /**

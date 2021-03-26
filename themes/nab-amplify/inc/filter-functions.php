@@ -37,16 +37,16 @@ function nab_registration_redirect()
  *
  * @param  string $redirect
  * @param  object $user
- * 
+ *
  * @return string
  */
 function nab_wc_login_redirect( $redirect, $user ) {
-     
+
     if ( 'maritz' === strtolower( $redirect ) ) {
-		
+
 		$redirect = nab_maritz_redirect_url( $user->ID );
 	}
-  
+
     return $redirect;
 }
 
@@ -54,11 +54,11 @@ function nab_wc_login_redirect( $redirect, $user ) {
  * Allowed other site host for redirect.
  *
  * @param  array $hosts
- * 
+ *
  * @return array
  */
 function nab_allowed_redirect_hotsts( $hosts ) {
-    
+
 	$redirect_hosts = array(
         'qawebreg.experientevent.com',
 		'registration.experientevent.com',
@@ -257,6 +257,7 @@ function nab_amplify_custom_menu_query_vars($vars)
 {
 
 	$vars[] = 'my-purchases';
+	$vars[] = 'edit-companies';
 	$vars[] = 'my-connections';
 	$vars[] = 'my-events';
 	$vars[] = 'my-bookmarks';
@@ -1464,7 +1465,7 @@ function nab_add_query_vars_filter( $vars ){
 add_filter( 'query_vars', 'nab_add_query_vars_filter' );
 
 function nab_increase_session_archive_post_limit( $query ) {
-	
+
 	if ( ! is_admin() && $query->is_archive( 'sessions' ) && $query->is_main_query() ) {
 		$query->set( 'posts_per_page', 100 );
 	}

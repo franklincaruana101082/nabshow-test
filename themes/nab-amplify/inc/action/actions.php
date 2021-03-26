@@ -143,6 +143,9 @@ add_action( 'woocommerce_order_status_changed', 'nab_update_product_in_user_meta
 
 add_action( 'woocommerce_edit_account_form', 'nab_edit_acount_additional_form_fields' );
 
+// Edit My Companies.
+add_action( 'woocommerce_account_edit-companies_endpoint', 'nab_amplify_edit_companies_content_callback' );
+
 add_action( 'woocommerce_save_account_details', 'nab_save_edit_account_additional_form_fields' );
 
 // add woocommerce edit account details in the edit my account.
