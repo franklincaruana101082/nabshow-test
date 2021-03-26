@@ -3493,12 +3493,17 @@ function nab_pdf_search_filter_callback()
 			$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
 			$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 			$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+			$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
 
 			$result_post[$cnt]['pdf_id']	= $pdf_id;
 			$result_post[$cnt]['pdf_url'] 	= $pdf_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode( get_the_title() );
 			$result_post[$cnt]['company'] 	= html_entity_decode( get_the_title( $company_id ) );
 			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
+
+			if ( ! empty( $pdf_content ) ) {
+				$result_post[$cnt]['content'] = $pdf_content;
+			}			
 
 			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();

@@ -5239,6 +5239,19 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             searchActions.appendChild(downloadLink);
             actions.appendChild(searchActions);
             itemContent.appendChild(actions);
+
+            if ( undefined !== value.content && '' !== value.content ) {
+              let iIcon = document.createElement('i');
+              iIcon.setAttribute('class', 'fa fa-info-circle tooltip-wrap');
+              iIcon.setAttribute('aria-hidden', 'true');
+
+              let contentTooltip = document.createElement('span');
+              contentTooltip.setAttribute('class', 'tooltip');
+              contentTooltip.innerText = value.content;
+
+              iIcon.appendChild(contentTooltip);
+              itemContent.appendChild(iIcon);
+            }            
           } else {
             let msgDiv = document.createElement('div');
             msgDiv.setAttribute('class', 'amp-pdf-login-msg');

@@ -54,13 +54,13 @@
 								$user_images     	= nab_amplify_get_user_images( $current_user->ID );
 								$user_thumb      	= $user_images['profile_picture'];
 								$my_profile_link 	= bp_core_get_user_domain( $current_user->ID );
-								$user_full_name		= get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );														
-								
+								$user_full_name		= get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );
+
 								if ( empty( trim( $user_full_name ) ) ) {
 
 									$user_full_name	= $current_user->display_name;
 								}
-								
+
 								?>
 								<div class="nab-profile">
 	                                <a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
@@ -77,7 +77,8 @@
 											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-purchases' ) ); ?>"><?php esc_html_e( 'Access My Content', 'nab-amplify' ); ?></a></li>
 											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>"><?php esc_html_e( 'Order History', 'nab-amplify' ); ?></a></li>
 											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'my-bookmarks' ) ); ?>"><?php esc_html_e( 'Bookmarks', 'nab-amplify' ); ?></a></li>
-											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit Account', 'nab-amplify' ); ?></a></li>											
+											<!--<li><a href="<?php /*echo esc_url( wc_get_account_endpoint_url( 'edit-companies' ) ); */?>"><?php /*esc_html_e( 'Edit My Companies', 'nab-amplify' ); */?></a></li>-->
+											<li><a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Edit Account', 'nab-amplify' ); ?></a></li>
 	                                        <li><a href="<?php echo esc_url( wc_logout_url() ); ?>"><?php esc_html_e( 'Sign Out', 'nab-amplify' ); ?></a></li>
 										</ul>
 									</div>
@@ -135,7 +136,7 @@
 					<div class="header-bottom-actions">
 						<?php nab_get_bp_notification_menu();
                         if (is_user_logged_in()) {
-                            ?>						
+                            ?>
 						<div class="nab-suggetion">
 							<a href="https://nab-amplify-c076.nolt.io/top" target="_blank" data-bp-tooltip="Suggest an Idea">
 								<img src="<?php echo get_template_directory_uri(); ?>/assets/images/bulb.svg" alt="Suggest an Idea" />

@@ -44,6 +44,9 @@ add_action( "wp_ajax_nopriv_nab_amplify_edit_product", "nab_amplify_edit_product
 // My Purchases content.
 add_action( 'woocommerce_account_my-purchases_endpoint', 'nab_amplify_my_purchases_content_callback' );
 
+// Edit My Companies.
+add_action( 'woocommerce_account_edit-companies_endpoint', 'nab_amplify_edit_companies_content_callback' );
+
 // My Connections content.
 add_action( 'woocommerce_account_my-connections_endpoint', 'nab_amplify_my_connections_content_callback' );
 

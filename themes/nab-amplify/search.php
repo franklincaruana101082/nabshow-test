@@ -1015,11 +1015,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$pdf_query->the_post();
 
 								$pdf_id				= get_the_ID();
-								$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id );
+								$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id, true, nab_product_company_placeholder_img() );
 								$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
 								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
-
+								$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
 								?>
 								<div class="amp-item-col">
 									<div class="amp-item-inner">
@@ -1046,6 +1046,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 															<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
 														</div>
 													</div>
+													<?php if ( ! empty( $pdf_content ) ) { ?>
+                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                        </i>
+                                                    <?php } ?>
 													<?php
 												} else {
 													$current_url = home_url(add_query_arg(NULL, NULL));
@@ -1055,6 +1060,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 													<div class="amp-pdf-login-msg">
 														<p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
 													</div>
+													<?php if ( ! empty( $pdf_content ) ) { ?>
+                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                        </i>
+                                                    <?php } ?>
 													<?php
 												}
 												?>
@@ -1760,10 +1770,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$pdf_query->the_post();
 
 							$pdf_id				= get_the_ID();
-							$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id );
+							$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id, true, nab_product_company_placeholder_img() );
 							$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
 							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+							$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
 							?>
 							<div class="amp-item-col">
                                 <div class="amp-item-inner">
@@ -1790,6 +1801,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                         <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
                                                     </div>
                                                 </div>
+                                                <?php if ( ! empty( $pdf_content ) ) { ?>
+                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                    </i>
+                                                <?php } ?>
                                                 <?php
                                             } else {
                                                 $current_url = home_url(add_query_arg(NULL, NULL));
@@ -1799,6 +1815,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 <div class="amp-pdf-login-msg">
                                                     <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
                                                 </div>
+                                                <?php if ( ! empty( $pdf_content ) ) { ?>
+                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                    </i>
+                                                <?php } ?>
                                                 <?php
                                             }
                                             ?>

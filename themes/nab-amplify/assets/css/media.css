@@ -379,6 +379,10 @@
 
 	/* comments */
 	.comments-area .comment-filter{width:100%}
+
+	/* search */
+	.search-section.search-content-section .search-item-info .tooltip-wrap .tooltip{width:220px}
+	.search-section.search-pdf-section .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{width:220px}
 }
 @media (max-width:567px){
 	.site-header .nab-logos ul li{padding-right:10px;margin-right:10px}

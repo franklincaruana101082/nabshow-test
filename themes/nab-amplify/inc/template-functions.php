@@ -31,55 +31,6 @@ function nab_amplify_body_classes($classes)
 add_filter('body_class', 'nab_amplify_body_classes');
 
 /**
- * Retrieves the user images.
- *
- * @return array list of user images
- */
-function nab_amplify_get_user_images($user_id = 0)
-{
-
-	$user_id           = 0 !== $user_id && null !== $user_id ? $user_id : get_current_user_id();
-	$user_images_names = array(
-		array(
-			'name'    => 'profile_picture',
-			'default' => 'avtar.jpg'
-		),
-		array(
-			'name'    => 'banner_image',
-			'default' => 'search-box-cover.png'
-		)
-	);
-
-	$user_images = array();
-	foreach ($user_images_names as $user_image) {
-
-		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
-
-		// If the meta value contains "assets", it has Bynder URL.
-		if ( strpos( $user_image_id, 'assets') !== false ) {
-			$user_images[$user_image['name']] = $user_image_id;
-
-        // Else try to find from attachments.
-		} else {
-			if ( 'removed' === $user_image_id ) {
-				// Show default avatar if deleted from edit profile section.
-				$user_images[ $user_image['name'] ] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-			} else if ( 'profile_picture' === $user_image['name'] && empty( $user_image_id ) ) {
-				// Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
-				$user_images[ $user_image['name'] ] = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false ) );
-			} else {
-				// Show uploaded images or the default ones.
-				$user_images[ $user_image['name'] ] = ! empty( $user_image_id )
-					? wp_get_attachment_image_src( $user_image_id, 'full' )[0]
-					: get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-			}
-		}
-	}
-
-	return $user_images;
-}
-
-/**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
 function nab_amplify_pingback_header()

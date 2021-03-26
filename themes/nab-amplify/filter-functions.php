@@ -217,6 +217,7 @@ function nab_amplify_custom_menu_query_vars($vars)
 {
 
 	$vars[] = 'my-purchases';
+	$vars[] = 'edit-companies';
 	$vars[] = 'my-connections';
 	$vars[] = 'my-events';
 	$vars[] = 'my-bookmarks';
@@ -248,6 +249,7 @@ function nab_amplify_update_my_account_menu_items($items)
 		+ array('my-purchases' => __('Access My Content', 'nab-amplify'))
 		+ array('orders' => __('Order History', 'nab-amplify'))
 		+ array('my-bookmarks' => __('Bookmarks', 'nab-amplify'))
+		+ array('edit-companies' => __('Edit My Companies', 'nab-amplify'))
 		+ array('edit-account' => __('Edit Account', 'nab-amplify'))
 		+ array('edit-address' => __('Edit Address', 'nab-amplify'));
 
@@ -1084,7 +1086,7 @@ function nab_add_bookmark_icon_in_product($html, $post_thumbnail_id)
  *
  * @param  string $search
  * @param  mixed $wp_query
- * 
+ *
  * @return string
  */
 function nab_modified_search_query_to_include_meta_search($search, $wp_query)
@@ -1178,7 +1180,7 @@ function nab_modified_search_query_to_include_meta_search($search, $wp_query)
  *
  * @param  array $clauses
  * @param  mixed $query_object
- * 
+ *
  * @return array
  */
 function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
@@ -1262,7 +1264,7 @@ JS;
  * Apply html entity decode function in the message thread to avoid html entity code.
  *
  * @param  string $message_excerpt
- * 
+ *
  * @return string
  */
 function nab_filter_message_to_avoid_html_entity($message_excerpt)
@@ -1283,23 +1285,23 @@ function nab_reorder_comment_form($content)
 
 	//fetch comment form template from shortcode
 	$comment_template = do_shortcode('[nab_comment_form]');
-	
+
 	// Check if we're inside the main loop in a single Post.
 	if (get_post_type() === 'articles') {
 		$blocks = parse_blocks($content);
 
 		foreach ($blocks as $block) {
             if ('rg/related-content-2' === $block['blockName']) {
-			
+
             if (strpos($content, '<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>')) {
                 $new_content = str_replace('<h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $comment_template.' <h2 class="has-text-color" style="color:#fdd80f">Related Content</h2>', $content);
             }else{
 				$new_content = str_replace('<!-- wp:rg/related-content-2',$comment_template.' <!-- wp:rg/related-content-2',$content);
 			}
-                
+
             }
 		}
-		
+
 		return $new_content;
 	}
 

@@ -1043,10 +1043,10 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section.search-product-section .search-item-info .search-actions{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start}
 .search-section.search-content-section .search-item-cover{height:175px}
 .search-section.search-content-section .search-item-inner:hover{z-index:1}
-.search-section.search-content-section .search-item-info{padding:25px 15px 25px;height:calc(100% - 175px)}
+.search-section.search-content-section .search-item-info{padding:25px 15px 40px;height:calc(100% - 175px)}
 .search-section.search-company-section .search-item-info h4{margin:0 0 80px}
 .search-section.search-company-section .search-item-avtar img{background-color:#fff}
-.search-section.search-content-section .search-item-info .tooltip-wrap{font-size:20px;color:#fff;position:absolute;right:20px;bottom:20px}
+.search-section.search-content-section .search-item-info .tooltip-wrap{font-size:20px;color:#fff;position:absolute;right:20px;bottom:15px}
 .search-section.search-content-section .search-item-info .tooltip-wrap .tooltip{right:-20px}
 .search-section.company-products .amp-item-wrap .amp-item-cover{height:175px}
 .search-section.company-products .amp-item-wrap .amp-item-info .nab-action{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
@@ -1055,6 +1055,10 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section #search-event-list .search-item-info .company-info{margin:0 0 30px;display:block;color:#fff;min-height:22px}
 .search-section #search-event-list .search-item-info .company-info a{color:#fff}
 .search-section #search-event-list .search-item-info .event-time + .search-actions{margin-top:25px;}
+.search-section.search-pdf-section #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px 40px}
+.search-section.search-pdf-section .amp-item-wrap .amp-item-info .tooltip-wrap{font-size:20px;position:absolute;right:20px;bottom:15px;color:#fff;}
+.search-section.search-pdf-section .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-10px}
+.search-section.search-pdf-section .amp-item-wrap .amp-item-inner:hover{z-index:3}
 .search-not-found{text-align:center;padding:20px 0;max-width:95%;margin:0 auto}
 .search-not-found p{display:inline-block;padding:15px;color:#fff;font-size:18px;border:1px solid #fff;margin:0}
 .no-search-data{text-align:center;padding:5vw 0;font-size:22px;color:#fff}

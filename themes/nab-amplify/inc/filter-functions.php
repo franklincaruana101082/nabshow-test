@@ -22,7 +22,7 @@ function nab_registration_redirect()
 
 			$redirect_url = nab_maritz_redirect_url( get_current_user_id() );
 		}
-		
+
 	} else {
 		$args         = array(
 			'nab_registration_complete' => 'true',
@@ -32,22 +32,22 @@ function nab_registration_redirect()
 
 	return $redirect_url;
 }
- 
+
 /**
  * Woocomerce login redirect.
  *
  * @param  string $redirect
  * @param  object $user
- * 
+ *
  * @return string
  */
 function nab_wc_login_redirect( $redirect, $user ) {
-     
+
     if ( 'maritz' === strtolower( $redirect ) ) {
-		
+
 		$redirect = nab_maritz_redirect_url( $user->ID );
 	}
-  
+
     return $redirect;
 }
 
@@ -55,11 +55,11 @@ function nab_wc_login_redirect( $redirect, $user ) {
  * Allowed other site host for redirect.
  *
  * @param  array $hosts
- * 
+ *
  * @return array
  */
 function nab_allowed_redirect_hotsts( $hosts ) {
-    
+
 	$redirect_hosts = array(
         'qawebreg.experientevent.com',
 		'registration.experientevent.com',
@@ -258,6 +258,7 @@ function nab_amplify_custom_menu_query_vars($vars)
 {
 
 	$vars[] = 'my-purchases';
+	$vars[] = 'edit-companies';
 	$vars[] = 'my-connections';
 	$vars[] = 'my-events';
 	$vars[] = 'my-bookmarks';
@@ -290,6 +291,7 @@ function nab_amplify_update_my_account_menu_items($items)
 		+ array('my-purchases' => __('Access My Content', 'nab-amplify'))
 		+ array('orders' => __('Order History', 'nab-amplify'))
 		+ array('my-bookmarks' => __('Bookmarks', 'nab-amplify'))
+		/*+ array('edit-companies' => __('Edit My Companies', 'nab-amplify'))*/
 		+ array('edit-account' => __('Edit Account', 'nab-amplify'))
 		+ array('edit-address' => __('Edit Address', 'nab-amplify'));
 
@@ -1231,7 +1233,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
 
 	$tax_search			= $query_object->get('_tax_search');
-	$meta_company_term	= $query_object->get('_meta_company_term');	
+	$meta_company_term	= $query_object->get('_meta_company_term');
 
 	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
