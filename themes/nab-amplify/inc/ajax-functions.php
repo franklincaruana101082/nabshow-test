@@ -2942,10 +2942,13 @@ function nab_reset_csv_processed()
 add_action("wp_ajax_nab_get_error_popup", "nab_get_error_popup");
 add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
 
-function nab_get_error_popup(){
+function nab_get_error_popup()
+{
 	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
 	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
 	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_confirm     = filter_input(INPUT_POST, 'employee_remove', FILTER_SANITIZE_NUMBER_INT);
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-error-popup.php';
@@ -2989,7 +2992,6 @@ function nab_amplify_add_address()
 	wp_send_json($popup_html, 200);
 
 	wp_die();
-
 }
 
 /*Update regional addresses */
@@ -3067,8 +3069,6 @@ function nab_amplify_submit_address()
 		default:
 			$final_result['success'] = false;
 			$final_result['content'] = '';
-
-
 	}
 
 	echo wp_json_encode($final_result);
@@ -3080,7 +3080,8 @@ function nab_amplify_submit_address()
 add_action('wp_ajax_nab_amplify_remove_address', 'nab_amplify_remove_address');
 add_action('wp_ajax_nopriv_nab_amplify_remove_address', 'nab_amplify_remove_address');
 
-function nab_amplify_remove_address(){
+function nab_amplify_remove_address()
+{
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -3144,39 +3145,35 @@ function nab_amplify_remove_address(){
 		default:
 			$final_result['success'] = false;
 			$final_result['content'] = '';
-
-
 	}
 
 	wp_send_json($final_result, 200);
 	wp_die();
 }
 
-
-
 // Ajax to show Add Address popup.
 add_action("wp_ajax_nab_amplify_state_filter", "nab_amplify_state_filter");
 add_action("wp_ajax_nopriv_nab_amplify_state_filter", "nab_amplify_state_filter");
 
-function nab_amplify_state_filter(){
+function nab_amplify_state_filter()
+{
 
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
-    $country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
+	$country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
 	$filtered_states = array();
 	$states          = nab_get_states();
 
 
-	foreach($states as $state){
+	foreach ($states as $state) {
 
-		if($state['Country'] == $country_code){
+		if ($state['Country'] == $country_code) {
 
 			$filtered_states[] = $state;
 		}
 	}
 
 	wp_send_json($filtered_states, 200);
-
 }
 
 add_action("wp_ajax_nab_check_for_opt_in", "nab_check_for_opt_in");

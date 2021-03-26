@@ -300,7 +300,8 @@
       minimumInputLength: 3,
       placeholder: "Select Point of contact",
       allowClear: true,
-    });
+    });    
+
   });
   charcount("keyup", "#company_about", "#character-count-comp-about", 2000);
   charcount(
