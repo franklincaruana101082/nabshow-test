@@ -489,7 +489,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .amp-item-main{font-family:'Open Sans', Arial, sans-serif}
 .amp-item-main h3{font-size:36px;text-transform:uppercase}
 .amp-item-main p{color:#fff}
-.amp-item-main .amp-item-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative}
+.amp-item-main .amp-item-heading{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:30px;position:relative;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .amp-item-main .amp-item-heading h3{color:#fdd80f;font-size:36px;margin:0 10px 0 0!important;line-height:1}
 .amp-item-main .amp-item-heading h3 strong{line-height:1;font-weight:700;vertical-align:middle;display:inline-block}
 .amp-item-main .amp-item-heading h3 span{color:#999;font-size:24px;font-weight:300;line-height:1;vertical-align:middle;display:inline-block}
@@ -527,7 +527,11 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .company-products .amp-item-wrap .add-new-item { display:none}
 
 /* company event block */
-.company-events .amp-item-wrap .amp-item-info .event-date{display:block;margin:0 0 30px;color:#999999;min-height:23px}
+.company-events .amp-item-wrap .amp-item-info .event-date,
+.company-events .amp-item-wrap .amp-item-info .event-time{display:block;margin:0 0 5px;color:#999999;min-height:23px}
+.company-events .amp-item-wrap .amp-item-info .event-time{margin:0 0 30px;}
+.company-events .amp-item-wrap .amp-item-inner .amp-action-remove{z-index:2;top:10px}
+.company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 
 /* company detail */
 .company-details-wrapper{padding:50px;background:#282828}
@@ -618,6 +622,39 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 #company-address-list .amp-item-inner{padding-bottom:30px;position:relative}
 #company-address-list .add-new-item .amp-item-inner{padding-bottom:0}
 #company-address-list .amp-item-inner .edit-block-icon{position:absolute;right:20px;bottom:20px}
+#company-address-list .add-new-item{display:block!important;}
+
+/* custom checkbox design */
+.amp-check-container label{font-family:'OpenSans-Light', Arial, sans-serif;font-size:16px;font-weight:500;max-width:calc(100% - 35px);margin:0}
+.amp-check-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:20px}
+.amp-check-wrp{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-right:10px;position:relative;width:22px;height:22px}
+.amp-check-wrp span{position:absolute;top:0;left:0;height:100%;width:100%;background-color:transparent;border:1px solid #ccc}
+.amp-check-wrp input{position:absolute;opacity:0;cursor:pointer;width:100%;height:100%;top:0;left:0;z-index:2}
+.amp-check-wrp span::after{content:"";position:absolute;display:none;top:1px;left:1px;right:1px;bottom:1px;background:#e5018b}
+.amp-check-wrp input:checked~span::after{display:block}
+
+/* Downloadable PDF */
+#downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;color:#fff;}
+#downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
+.company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
+#downloadable-pdfs-list .amp-check-container{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
+#downloadable-pdfs-list .amp-check-container label{text-align:left;font-size:14px;}
+#downloadable-pdfs-list .amp-check-wrp{margin-top:5px;}
+#downloadable-pdfs-list .amp-check-wrp span{border:2px solid #ccc;}
+#downloadable-pdfs-list .amp-check-wrp input:checked~span{border:2px solid #fff;}
+#downloadable-pdfs-list .button[disabled]{background-color:#bbb!important;border-color:#bbb!important;cursor:default!important}
+#downloadable-pdfs-list .button[disabled]:hover{background-color:#808080!important;}
+
+/* company content */
+.company-content + .company-content .amp-item-main{padding:0 0 20px}
+.company-content .amp-item-main .amp-item-heading h3.content-main-heading{margin:0 0 10px!important}
+.company-content .amp-item-heading h4{text-transform:capitalize;color:#fdd80f;margin:0;width:100%;font-size:26px;font-family:'OpenSans-Light', sans-serif}
+.company-content .amp-item-heading p{margin:2px 0;color:#000}
+.company-content .amp-item-wrap .amp-item-info{padding:40px 15px 25px}
+.company-content .amp-item-wrap .amp-item-info span{font-family:'OpenSans-Regular', sans-serif;color:#fff;display:block}
+.company-content .submitted-by a{color:#fcd70f}
+.company-content #company-article-list .amp-item-info .event-date{margin-bottom:30px}
+.company-content #company-content-list .amp-item-info h4{margin:0 0 15px!important}
 
 @media (max-width:1400px) {
 	/* company detail */
@@ -630,9 +667,4 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 
 	/* company block */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
-}
-
-/* Regional adresses backend css*/
-#company-address-list .add-new-item{
-	display: block !important;
 }
