@@ -3477,6 +3477,7 @@ function nab_update_company_profile_callback()
     $company_product_categories     = filter_input(INPUT_POST, 'company_product_categories', FILTER_SANITIZE_STRING);
     $company_search_categories      = filter_input(INPUT_POST, 'company_search_categories', FILTER_SANITIZE_STRING);
     $company_youtube                = filter_input(INPUT_POST, 'company_youtube', FILTER_SANITIZE_STRING);
+    $company_admins                 = filter_input(INPUT_POST, 'company_admins', FILTER_SANITIZE_STRING);
 
     $category_limit = nab_get_company_member_category_limit($company_id);
 
@@ -3594,6 +3595,37 @@ function nab_update_company_profile_callback()
         update_field('youtube_url', $company_youtube, $company_id);
     }
 
+    if ( isset( $company_admins ) && 'null' !== $company_admins ) {
+
+        $company_admins = explode(',', $company_admins);
+        $get_member_level = get_field('member_level', $company_id);
+        $exisitng_admins = [];
+        $exisitng_admins = get_field('company_user_id', $company_id);
+        if ($get_member_level === 'select' || $get_member_level === 'Standard') {
+            foreach ($company_admins as $comp_admin) {
+               if(!in_array($comp_admin,$exisitng_admins)){
+                wp_send_json_error('Update Failed. With the Standard Package you are limited to one company admin at a time. Contact your sales rep to upgrade to the Plus or Premium Package for unlimited admin accounts.');
+               }
+            }
+
+        } else {
+            if ( empty( $exisitng_admins ) || ! is_array( $exisitng_admins ) ) {
+                $exisitng_admins = array();
+            }
+            $admin_removed  = array_diff( $exisitng_admins, $company_admins );
+            $admin_added    = array_diff( $company_admins, $exisitng_admins );
+
+            if ( is_array( $admin_removed ) && count( $admin_removed ) > 0 ) {
+                do_action( 'nab_company_admin_add_remove', $company_id, 'remove' );
+            }
+            if ( is_array( $admin_added ) && count( $admin_added ) > 0 ) {
+                do_action( 'nab_company_admin_add_remove', $company_id, 'add' );
+            }
+            update_field('company_user_id', $company_admins, $company_id);
+        }
+
+    }
+
     $final_result['success'] = true;
     $final_result['content'] = '';
 
@@ -3617,6 +3649,7 @@ function nab_edit_company_about_callback()
     $company_data['product_categories'] = get_field('product_categories', $company_id);
     $company_data['search_product_categories']  = get_field('search_product_categories', $company_id);
     $company_data['company_youtube'] = get_field('company_youtube', $company_id);
+    $company_data['company_admins']             = get_field('company_user_id', $company_id);
     $company_data['company_about_html']         = nab_get_wp_editor('', 'company_about_html', array('media_buttons' => false, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'toolbar2' => '', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
     $terms = get_terms('company-product-category', array(
         'hide_empty' => false,

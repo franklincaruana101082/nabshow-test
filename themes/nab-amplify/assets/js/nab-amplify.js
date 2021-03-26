@@ -1781,6 +1781,10 @@
       }
     }
 
+    if (jQuery('#company_admins').length) {
+      fd.append('company_admins', jQuery('#company_admins').val())
+    }
+
     jQuery.ajax({
       type: "POST",
       url: amplifyJS.ajaxurl,
