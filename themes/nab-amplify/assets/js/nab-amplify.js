@@ -4281,6 +4281,123 @@
       location.reload();
     }
   });
+
+  // Content submissions.
+  $(document).on( 'click', '.company-content #company-content-list .content-add-action', function () {
+    $('body').addClass('is-loading');
+    $('#addProductModal').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_add_company_content_form',
+        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        $('body').append(response);
+        load_tinyMCE_withPlugins('#content-copy');
+        $('#addProductModal').show().addClass('nab-modal-active');
+      }
+    });
+  });
+
+  $(document).on( 'change', '#nab-add-content-form #content-featured-image', function() {
+    contentUploadedFeaturedImg(this);
+  });
+
+  $(document).on('click', '#content_media_wrapper .remove-featred-img', function(){
+    if ( confirm( 'Are you sure want to remove?' ) ) {
+      $(this).parents('.nab-content-media-item').remove();
+      $(this).parents('#nab-add-content-form').find('#content-featured-image').val('');
+    }
+  });
+
+  $(document).on( 'click', '.modal-content-wrap #nab-add-content-submit', function(){
+    tinyMCE.triggerSave();
+
+    var titleLimit = 60;
+    var contentCopy =  $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-copy').val();
+
+    $(this).parents('.modal-content-wrap').find('.global-notice').hide();
+
+    if ( $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val().length > titleLimit ) {
+      $(this).parents('.modal-content-wrap').find('.global-notice').text('Title can not be more than ' + titleLimit + ' characters.').show();
+      return false;
+    } else if ( '' === $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() ) {
+      $(this).parents('.modal-content-wrap').find('.global-notice').text('Title can not be empty.').show();
+      return false;
+    }
+
+    if ( '' === contentCopy ) {
+      $(this).parents('.modal-content-wrap').find('.global-notice').text('Content copy can not be empty.').show();
+      return false;
+    }
+
+    $('body').addClass('nab-close-reload');
+
+    var form_data = new FormData();
+    var companyId = 0 < $(this).parents('.modal-content-wrap').find('#nab_company_id').length ? $(this).parents('.modal-content-wrap').find('#nab_company_id').val() : 0;
+    var _this = $(this);
+    form_data.append( 'action', 'nab_content_submission' );
+    form_data.append( 'nabNonce', amplifyJS.nabNonce );
+    form_data.append( 'company_id', companyId );
+    form_data.append( 'content_title', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() );
+    form_data.append( 'content_copy', contentCopy );
+
+    if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
+      form_data.append( 'featured_img', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image')[0].files[0] );
+    }
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      data: form_data,
+      beforeSend: function () {
+        $('body').addClass('is-loading');
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        var contentData = response;
+
+        if ( undefined !== contentData.data.msg ) {
+          _this.parents('.modal-content-wrap').find('.global-notice').text(contentData.data.msg).show();
+        }
+        if ( contentData.success ) {
+          _this.parents('.modal-content-wrap').find('#nab-add-content-form .nab-content-media-item').remove();
+          _this.parents('.modal-content-wrap').find('#nab-add-content-form').trigger('reset');
+        }
+      }
+    });
+    return false;
+
+  });
+
+  function contentUploadedFeaturedImg(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var fileExt = input.value.split('.').pop().toLowerCase();
+        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
+            $('#nab-add-content-form #content-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
+            input.value = '';
+            return false;
+        } else {
+          $('#nab-add-content-form #content-featured-image').parents('.form-row').find('.form-field-error').remove();
+        }
+        if ( 0 < $('#content_media_wrapper .preview-content-featured-img').length ) {
+          $('#content_media_wrapper .preview-content-featured-img').attr('src', e.target.result);
+        } else {
+          var previewImg = '<div class="nab-content-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-content-featured-img common-preview-img" /></div>';
+          $('#content_media_wrapper').append(previewImg);
+        }
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 })(jQuery);
 
 // Get friend button
