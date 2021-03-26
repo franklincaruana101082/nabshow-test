@@ -1547,6 +1547,8 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .chosen-single{top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);padding-right:60px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper textarea{height:297px;font-size:22px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row{position:relative;margin-bottom:35px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3{width:33.333333333333336%;padding-right:20px;}
+.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3:last-child{padding-right:0;}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{position:relative}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-control{position:relative;width:100%}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:absolute;right:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);margin-right:30px;margin-top:27px}
