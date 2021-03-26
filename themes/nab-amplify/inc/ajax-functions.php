@@ -3247,3 +3247,79 @@ function nab_create_opt_in_out() {
 		wp_send_json_error();
 	}
 }
+
+add_action("wp_ajax_nab_amplify_add_employee", "nab_amplify_add_employee");
+add_action("wp_ajax_nopriv_nab_amplify_add_employee", "nab_amplify_add_employee");
+
+function nab_amplify_add_employee()
+{
+
+	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_data['company_employees'] = get_field('company_employees', $company_id);
+	$company_data['ID'] = $company_id;
+	$member_level = get_field('member_level', $company_id);
+
+	if ($member_level === 'Plus') {
+		$limit_employees_str = '4 TOTAL';
+	} elseif ($member_level === 'Premium') {
+		$limit_employees_str = 'UNLIMITED';
+	}
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-edit-company-employees.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+}
+
+/*Update Company Empoloyees */
+add_action('wp_ajax_nab_amplify_submit_employee', 'nab_amplify_submit_employee');
+add_action('wp_ajax_nopriv_nab_amplify_submit_employee', 'nab_amplify_submit_employee');
+
+function nab_amplify_submit_employee()
+{
+
+	$company_id			= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_employees	= filter_input(INPUT_POST, 'company_employees', FILTER_SANITIZE_STRING);
+	$company_employees	= explode(',', $company_employees);
+	$member_level		= get_field('member_level', $company_id);
+	$existing_employees = get_field('company_employees', $company_id);
+	$total_employees	= count($existing_employees);
+
+	if ( $member_level === 'Plus' && is_array( $company_employees ) && count( $company_employees ) > 4 ) {
+		$final_result['success'] = false;
+		$final_result['content'] = 'With the Plus Package you are limited to four employee listings. Please delete one, or contact your sales rep to upgrade to the Premium Package for unlimited employees.';
+	} else {
+		update_field('company_employees', $company_employees, $company_id);
+		$final_result['success'] = TRUE;
+		$final_result['content'] = '';
+	}
+
+	wp_send_json($final_result, 200);
+	wp_die();
+}
+
+/* Remove employee */
+
+add_action('wp_ajax_nab_amplify_remove_employee', 'nab_amplify_remove_employee');
+add_action('wp_ajax_nopriv_nab_amplify_remove_employee', 'nab_amplify_remove_employee');
+
+function nab_amplify_remove_employee()
+{
+	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$existing_employees  = get_field('company_employees', $company_id);
+	if (($key = array_search($employee_id, $existing_employees)) !== false) {
+		unset($existing_employees[$key]);
+	}
+
+	update_field('company_employees', $existing_employees, $company_id);
+	$final_result['success'] = true;
+	$final_result['content'] = '';
+	wp_send_json($final_result, 200);
+	wp_die();
+}
