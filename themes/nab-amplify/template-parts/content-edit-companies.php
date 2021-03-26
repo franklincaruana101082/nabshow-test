@@ -18,9 +18,11 @@ $query_args = array(
 );
 
 $query_args['meta_query'] = array(
-	'key'     => 'company_user_id',
-	'value'   => '"' . $user_id . '"',
-	'compare' => 'LIKE'
+	array(
+		'key'     => 'company_user_id',
+		'value'   => '"' . $user_id . '"',
+		'compare' => 'LIKE'
+	)
 );
 
 $my_companies = new WP_Query( $query_args );
