@@ -173,8 +173,8 @@
 
 /* company events */
 .company-events .amp-item-main{padding:30px 0 0}
-.company-events .amp-item-wrap .amp-item-info{padding:25px 15px;height:calc(100% - 130px)}
-.company-events .amp-item-wrap .amp-item-inner:hover{z-index:1}
+.company-events .amp-item-wrap .amp-item-info{padding:25px 15px 50px;height:calc(100% - 130px)}
+.company-events .amp-item-wrap .amp-item-inner:hover{z-index:3}
 .company-events .amp-item-wrap .amp-item-info h4{margin:0 0 20px!important}
 .company-events .amp-item-wrap .amp-item-info .event-date,
 .company-events .amp-item-wrap .amp-item-info .event-time{display:block;margin:0 0 5px;color:#999999;min-height:23px}
@@ -182,6 +182,7 @@
 .company-events .amp-item-wrap .amp-item-info .search-actions a.button, .company-events .amp-item-wrap .amp-item-info .search-actions .action a.button{border-radius:6px;padding:8px 20px}
 .company-events .amp-item-wrap .amp-item-inner .amp-action-remove{z-index:2;top:10px}
 .company-events:not(.company-admin) .amp-item-wrap .amp-item-info .tooltip-wrap{font-size:20px;position:absolute;right:20px;bottom:20px;}
+.company-events.company-admin .amp-item-wrap .amp-item-info{padding:25px 15px;}
 .company-events .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-10px}
 .company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
 .company-events .amp-item-wrap .amp-item-info .tooltip-wrap{margin-left:10px;font-size:20px;}
@@ -257,7 +258,8 @@
 .nab-modal #pdf_document_wrapper .nab-pdf-media-item{position:relative;}
 .nab-modal #pdf_document_wrapper .remove-attached-pdf{font-size:12px;width:20px;height:20px;top:-10px;right:-10px;}
 .nab-modal .nab-pdf-media-item .pdf-icon{color:#fff!important;font-size:60px;}
-#downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
+#downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px 50px}
+.company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
 #downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;}
 .company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
 #downloadable-pdfs-list .amp-check-container{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
@@ -268,15 +270,20 @@
 #downloadable-pdfs-list .amp-pdf-login-msg p{margin:0;color:#ccc;font-style:italic;font-size:14px;}
 #downloadable-pdfs-list .amp-pdf-login-msg a{text-decoration:underline;color:#fff}
 #downloadable-pdfs-list .amp-pdf-login-msg a:hover{text-decoration:none;}
+#downloadable-pdfs-list.amp-item-wrap .amp-item-inner:hover{z-index:1}
 .company-pdfs .amp-item-main .amp-item-heading .amp-note{font-family:'OpenSans-Regular', sans-serif;display:block;margin-top:5px}
+.company-pdfs:not(.company-admin) .amp-item-wrap .amp-item-info .tooltip-wrap{font-size:20px;position:absolute;right:20px;bottom:20px;}
+.company-pdfs .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-10px}
+.company-pdfs .amp-item-wrap .amp-item-info .tooltip-wrap{margin-left:10px;font-size:20px;}
+.company-pdfs.company-admin .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{-webkit-transform:translate(-50%, 0);-ms-transform:translate(-50%, 0);transform:translate(-50%, 0);right:auto;left:0}
 
 /* company content */
 .nab-modal .common-img-wrapper .common-media-item{position:relative;width:150px;}
 .nab-modal .common-img-wrapper .remove-featred-img{color:#fff;font-size:14px;border-radius:50%;position:absolute;right:-12px;top:-12px;background-color:red;width:25px;height:25px;line-height:1;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;}
 .company-content + .company-content .amp-item-main{padding:0 0 20px}
 .company-content .amp-item-main .amp-item-heading h3.content-main-heading{margin:0 0 10px!important}
-.company-content .amp-item-heading h4{text-transform:capitalize;color:#fff;margin:0;width:100%;font-size:26px;font-family:'OpenSans-Light', sans-serif}
-.company-content .amp-item-heading p{margin:2px 0}
+.amp-item-main .amp-item-heading h4{text-transform:capitalize;color:#fff;margin:0;width:100%;font-size:26px;font-family:'OpenSans-Light', sans-serif}
+.amp-item-main .amp-item-heading p{margin:2px 0}
 .company-content .amp-item-wrap .amp-item-info{padding:40px 15px 25px}
 .company-content .amp-item-wrap .amp-item-info span{font-family:'OpenSans-Regular', sans-serif;display:block}
 .company-content .submitted-by a{color:#fcd70f}
@@ -449,6 +456,12 @@
 	.company-events.company-admin .amp-item-wrap .amp-item-info .event-disc_btn{width:100%;margin-bottom:20px}
 	.company-events.company-admin .amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.company-events.company-admin .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-20px;left:auto; -webkit-transform:translate(0); -ms-transform:translate(0); transform:translate(0);}
+
+	/* downloadable pdf */
+	.company-pdfs .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{width:220px}
+	.company-pdfs.company-admin .amp-item-wrap .amp-item-info .pdf-disc_btn{width:100%;margin-bottom:20px}
+	.company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+	.company-pdfs.company-admin .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-20px;left:auto; -webkit-transform:translate(0); -ms-transform:translate(0); transform:translate(0);}
 }
 
 @media (max-width:480px) {
