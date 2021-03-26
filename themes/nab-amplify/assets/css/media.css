@@ -42,6 +42,8 @@
 	/* single company products */
 	.single-company-products .related-content .item, .single-company-products .amp-item-wrap .amp-item-col{width:33.333333333333336%;max-width:100%}
 	.single-company .related-content .item{width:33.333333333333336%}
+	.select-dark-simple .select2-container .select2-selection--single #select2-event-start-time-container.select2-selection__rendered,
+	.select-dark-simple .select2-container .select2-selection--single #select2-event-end-time-container.select2-selection__rendered{height:94px}
 }
 @media (min-width:768px){
 	.woocommerce-orders-table td a.button{margin:5px auto;display:block;max-width:-webkit-max-content;max-width:-moz-max-content;max-width:max-content}
@@ -76,6 +78,7 @@
 	.site-header .nab-header-search .search-form .search-field{width:400px}
 }
 @media (max-width:1200px){
+	.banner-header .update-banner-image{width:55px}
 	.site-header .nab-header-search .search-form .search-field{width:300px}
 	.site-header .nab-header-search .search-form.long-placeholder .search-field{width:300px}
 	.product-list .product-item{width:50%}
@@ -116,8 +119,8 @@
 
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
-	.amp-profile-main .amp-profile-social ul li a, .banner-header .edit-profile-pic, .amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px}
-	.amp-profile-main .amp-profile-social ul li a i, .banner-header .edit-profile-pic i, .amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px}
+	.amp-profile-main .amp-profile-social ul li a, .amp-profile-main .amp-profile-social .edit-profile-pic{width:55px;height:55px}
+	.amp-profile-main .amp-profile-social ul li a i, .amp-profile-main .amp-profile-social .edit-profile-pic i{font-size:26px}
 	.banner-header .profile-avtar img, .banner-header .profile-avtar .no-image-avtar{width:160px;height:160px}
 
 	/* single company product */
@@ -164,6 +167,9 @@
 	/* New Amplify CSS */
 
 	/* My Account page */
+	.banner-header .update-banner-image{width:auto}
+	.banner-header .update-banner-image .edit-bg-pic,
+	.banner-header .update-banner-image .remove-bg-pic{margin:0 10px 0 0;width:35px;height:35px;font-size:20px}
 	.banner-header #edit-mode-buttons, .banner-header .update-banner-image{position:static}
 	.banner-header .bannner-actions{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;padding:20px 0;width:100%}
 	.banner-header .edit-bg-pic::after{left:0}
@@ -197,8 +203,7 @@
 	.comments-area .comment-author .comment-details{width:calc(100% - 70px)}
 	.comments-area .comment-list .children{padding-left:70px}*/
 
-	/* popup design */
-	.nab-modal .modal-content-wrap{max-height:70vh}
+	.single-company .ui-widget.ui-widget-content{width:255px;}
 }
 @media (max-width:767px){
 	.res-padd-30{padding:0 30px!important}
@@ -210,6 +215,7 @@
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:first-child{width:100%}
 	.nab-without-login-account .woocommerce .nab-login-wrap{-ms-flex-wrap:wrap;flex-wrap:wrap}
 	.nab-without-login-account .woocommerce .nab-login-wrap>div:last-child{width:100%;margin-bottom:20px;text-align:center}
+	.nab-without-login-account .mo-openid-app-icons a.btn{max-width:100%!important}
 	.nab-without-login-account .woocommerce .nab-login-wrap>span{width:100%;padding:10px 0 30px 0}
 	.nab-without-login-account .woocommerce .nab-login-wrap .nab-normal-login .form-row button{font-size:16px;height:40px;width:140px}
 	.nab-without-login-account .woocommerce{margin:50px 0 50px 0}
@@ -344,6 +350,9 @@
 	.single-articles .related-title{padding:20px 30px}
 	.single-articles .related-content-2{padding:0 30px}
 	.single-articles .select2-container--default .select2-results__option{font-size:16px}
+
+	/* popup design */
+	.nab-modal .modal-content-wrap{max-height:70vh}
 }
 @media (max-width:600px){
 	.site-header .main-navigation{-ms-flex-wrap:wrap;flex-wrap:wrap}
@@ -363,10 +372,15 @@
 
 	/* tooltip */
 	.tooltip-container.large-label-tooltip .field-label{width:100%}
+	.nab-modal .large-label-tooltip.fa-info-circle[data-bp-tooltip]{width:100%}
 	.nab-modal .large-label-tooltip.fa-info-circle[data-bp-tooltip]::after, .nab-modal .large-label-tooltip .tooltip{transform:translateX(0)}
 
 	/* comments */
 	.comments-area .comment-filter{width:100%}
+
+	/* search */
+	.search-section.search-content-section .search-item-info .tooltip-wrap .tooltip{width:220px}
+	.search-section.search-pdf-section .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{width:220px}
 }
 @media (max-width:567px){
 	.site-header .nab-logos ul li{padding-right:10px;margin-right:10px}
@@ -470,12 +484,13 @@
 	/* add/update product */
 	.nab-product-media-item{width:70px;height:70px}
 	.nab-modal .fa-info-circle[data-bp-tooltip]::after, .nab-modal .tooltip{transform:translateX(-40%);max-width:200px}
+	.nab-modal-with-form .add-product-content-popup p{font-size:16px}
 
 	/* connection popup */
 	.nab-modal .author-info .author-details{width:100%;padding-left:0;margin-top:10px}
 }
 @media (max-width:400px){
-
+	
 }
 @media (max-width:350px){
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px}
