@@ -1030,6 +1030,7 @@ function nab_maritz_redirect_url( $user_id ) {
 
 	if($_GET['test']) {
 	    echo $marketing_code;
+	    die();
     }
 
 	if ( empty( $user_id ) || 0 === $user_id ) {
