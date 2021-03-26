@@ -1729,6 +1729,10 @@ function nab_event_search_filter_callback()
 			$event_month		= date_format(date_create($event_start_date), 'F');
 			$event_day			= date_format(date_create($event_start_date), 'j');
 			$final_date         = $event_start_date;
+			$start_time         = '';
+			$end_time           = '';
+			$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+			$event_content      = wp_strip_all_tags( get_the_content() );
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
@@ -1737,6 +1741,41 @@ function nab_event_search_filter_callback()
 					$event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
 					$final_date = $event_end_date;
 				}
+			}
+
+			if ( ! empty( $event_start_date ) ) {
+
+				$start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+				$start_time = str_replace(':00', '', $start_time );
+
+			}
+			if ( ! empty( $event_end_date ) ) {
+
+				$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+				$end_time   = str_replace(':00', '', $end_time );
+
+			}
+			
+			if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+				
+				if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+					$start_time = str_replace(' a.m.', '', $start_time );
+				}
+
+				if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+					$start_time = str_replace(' p.m.', '', $start_time );
+				}
+
+				$result_post[$cnt]['event_time'] = $start_time . ' - ' . $end_time . ' ET';				
+			}
+
+			if ( ! empty( $company_id ) ) {
+				$result_post[$cnt]['company_title']	= html_entity_decode( get_the_title( $company_id ) );
+				$result_post[$cnt]['company_link']	= get_the_permalink( $company_id );
+			}
+
+			if ( ! empty( $event_content ) ) {
+				$result_post[$cnt]['event_content'] = html_entity_decode( $event_content );
 			}
 
 			$final_date     = date_format( date_create( $final_date ), 'Ymd' );

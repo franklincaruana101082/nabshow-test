@@ -5918,14 +5918,48 @@ function nabSearchEventAjax(loadMore, pageNumber) {
 
           let postTitle = document.createElement("h4");
           postTitle.setAttribute("class", "event__title");
-          postTitle.innerText = value.title;
+          postTitle.innerText = value.title;          
 
           let eventLink = document.createElement("div");
           eventLink.setAttribute("class", "event__link link _plus");
           eventLink.innerText = "Learn More";
 
           searchItemInfo.appendChild(postTitle);
+          
+          if ( undefined !== value.event_time ) {
+            let eventTime = document.createElement('span');
+            eventTime.setAttribute('class', 'event-time');
+            eventTime.innerText = value.event_time;
+            searchItemInfo.appendChild(eventTime);
+          }
+
+          if ( undefined !== value.company_title ) {
+            let titleP = document.createElement('p');
+            titleP.setAttribute('class', 'company-info');
+
+            let companyLink = document.createElement('a');
+            companyLink.setAttribute('href', value.company_link);
+            companyLink.innerText = value.company_title;
+
+            titleP.appendChild(companyLink);
+            searchItemInfo.appendChild(titleP);
+          }
+
           searchItemInfo.appendChild(eventLink);
+
+          if ( undefined !== value.event_content && '' !== value.event_content ) {
+            let iIcon = document.createElement('i');
+            iIcon.setAttribute('class', 'fa fa-info-circle tooltip-wrap');
+            iIcon.setAttribute('aria-hidden', 'true');
+
+            let contentSpan = document.createElement('span');
+            contentSpan.setAttribute('class', 'tooltip');
+            contentSpan.innerText = value.event_content;
+
+            iIcon.appendChild(contentSpan);
+            searchItemInfo.appendChild(iIcon);
+          }
+
           searchItemInner.appendChild(searchItemInfo);
           searchItemDiv.appendChild(searchItemInner);
 
