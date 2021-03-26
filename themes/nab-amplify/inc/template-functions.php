@@ -1026,6 +1026,12 @@ function nab_get_total_company_count() {
  */
 function nab_maritz_redirect_url( $user_id ) {
 
+	$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+
+	if($_GET['test']) {
+	    echo $marketing_code;
+    }
+
 	if ( empty( $user_id ) || 0 === $user_id ) {
 		return;
 	}
