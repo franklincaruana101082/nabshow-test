@@ -616,6 +616,45 @@ function nab_amplify_register_post_types()
 
     // Registering Content Submission post type.
     register_post_type( 'content-submission', $args );
+
+    $labels = array(
+        'name'               => _x('Downloadable PDFs', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Downloadable PDF', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Downloadable PDFs', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Downloadable PDFs', 'nab-amplify'),
+        'all_items'          => __('All Downloadable PDFs', 'nab-amplify'),
+        'view_item'          => __('View Downloadable PDF', 'nab-amplify'),
+        'add_new_item'       => __('Add New Downloadable PDF', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Downloadable PDFs', 'nab-amplify'),
+        'update_item'        => __('Update Downloadable PDFs', 'nab-amplify'),
+        'search_items'       => __('Search Downloadable PDFs', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Downloadable PDFs', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => false,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => false,
+        'menu_icon'           => 'dashicons-pdf',
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'supports'            => array('title', 'thumbnail', 'author', 'excerpt', 'revisions', 'custom-fields'),
+
+    );
+
+    // Registering your Custom Post Type
+    register_post_type('downloadable-pdfs', $args);
 }
 
 // Hooking up our function to theme setup

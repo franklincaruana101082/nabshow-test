@@ -13,7 +13,7 @@ get_header();
 $search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
-$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event');
+$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf');
 $allowed_tags 		= wp_kses_allowed_html('post');
 
 $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
@@ -62,6 +62,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					<?php
+					} else if ( 'pdf' === $view_type ) {
+						?>
+						<div class="sort-pdf sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+						</div>
+						<?php
 					} else if ('company' === $view_type) {
 					?>
 						<div class="sort-company sort-order-btn">
@@ -871,6 +878,120 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				wp_reset_postdata();
+			} else if ( 'pdf' === $view_type ) {
+
+				$pdf_args = array(
+					'post_type'         => 'downloadable-pdfs',
+					'post_status'       => 'publish',
+					'posts_per_page'    => 12,
+					's'					=> $search_term,
+					'meta_key'          => '_pdf_member_level',
+					'meta_value'        => 'Premium',
+				);
+
+				$pdf_query = new WP_Query( $pdf_args );
+
+				if ( $pdf_query->have_posts() ) {
+
+					$total_pdf = $pdf_query->found_posts;
+					?>
+					<div class="search-view-top-head">
+						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Results for </span><strong>DOWNLOADABLE PDFS</strong></h2>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+					</div>
+					<div class="search-section search-pdf-section">
+						<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+							<?php
+
+							$cnt = 1;
+
+							while ( $pdf_query->have_posts() ) {
+
+								$pdf_query->the_post();
+
+								$pdf_id				= get_the_ID();
+								$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id, true, nab_product_company_placeholder_img() );
+								$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
+								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
+								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+								$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+								?>
+								<div class="amp-item-col">
+									<div class="amp-item-inner">
+										<div class="amp-item-cover">
+											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+										</div>
+										<div class="amp-item-info">
+											<div class="amp-item-content">
+												<h4><?php echo esc_html(get_the_title()); ?></h4>
+												<?php
+												if ( is_user_logged_in() ) {
+													?>
+													<div class="download-pdf-input">
+														<div class="amp-check-container">
+															<div class="amp-check-wrp">
+																<input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
+																<span class="amp-check"></span>
+															</div>
+															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
+														</div>
+													</div>
+													<div class="amp-actions">
+														<div class="search-actions nab-action">
+															<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+														</div>
+													</div>
+													<?php if ( ! empty( $pdf_content ) ) { ?>
+                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                        </i>
+                                                    <?php } ?>
+													<?php
+												} else {
+													$current_url = home_url(add_query_arg(NULL, NULL));
+													$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+													$current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+													?>
+													<div class="amp-pdf-login-msg">
+														<p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+													</div>
+													<?php if ( ! empty( $pdf_content ) ) { ?>
+                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                        </i>
+                                                    <?php } ?>
+													<?php
+												}
+												?>
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php
+								if ( 8 === $cnt) {
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+								}
+								$cnt++;
+							}
+							if ( $cnt < 8 ) {
+								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+							}
+							?>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+				<p class="no-search-data" style="display: none;">Result not found.</p>
+				<?php
+				if ( $pdf_query->max_num_pages > 1 ) {
+					?>
+					<div class="load-more text-center" id="load-more-pdf">
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $pdf_query->max_num_pages ); ?>">Load More</a>
+					</div>
+					<?php
+				}
+				wp_reset_postdata();
 			}
 		} else {
 
@@ -1397,6 +1518,111 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 				<?php
 			}
+			wp_reset_postdata();
+
+			$pdf_args = array(
+				'post_type'         => 'downloadable-pdfs',
+				'post_status'       => 'publish',
+				'posts_per_page'    => 4,
+				's'					=> $search_term,
+				'meta_key'          => '_pdf_member_level',
+				'meta_value'        => 'Premium',
+			);
+
+			$pdf_query = new WP_Query( $pdf_args );
+
+			if ( $pdf_query->have_posts() ) {
+
+				$search_found	= true;
+				$total_pdf		= $pdf_query->found_posts;
+				?>
+				<div class="search-section search-pdf-section">
+					<div class="search-section-heading">
+						<h2><strong>DOWNLOADABLE PDFS</strong> <span>(<?php echo esc_html( $total_pdf . ' RESULTS'); ?>)</span></h2>
+						<?php
+						if ($total_pdf > 4 ) {
+
+							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'pdf'), $current_site_url );
+						?>
+							<div class="section-view-more">
+								<a href="<?php echo esc_html( $content_view_more_link ); ?>" class="view-more-link">View All</a>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+					<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+						<?php
+						while ( $pdf_query->have_posts() ) {
+
+							$pdf_query->the_post();
+
+							$pdf_id				= get_the_ID();
+							$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id, true, nab_product_company_placeholder_img() );
+							$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
+							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
+							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+							$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+							?>
+							<div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <div class="amp-item-cover">
+                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4><?php echo esc_html(get_the_title()); ?></h4>
+                                            <?php
+                                            if ( is_user_logged_in() ) {
+                                                ?>
+                                                <div class="download-pdf-input">
+                                                    <div class="amp-check-container">
+                                                        <div class="amp-check-wrp">
+                                                            <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
+                                                            <span class="amp-check"></span>
+                                                        </div>
+                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
+                                                    </div>
+                                                </div>
+                                                <div class="amp-actions">
+                                                    <div class="search-actions nab-action">
+                                                        <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+                                                    </div>
+                                                </div>
+                                                <?php if ( ! empty( $pdf_content ) ) { ?>
+                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                    </i>
+                                                <?php } ?>
+                                                <?php
+                                            } else {
+                                                $current_url = home_url(add_query_arg(NULL, NULL));
+		                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+                                                $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+                                                ?>
+                                                <div class="amp-pdf-login-msg">
+                                                    <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+                                                </div>
+                                                <?php if ( ! empty( $pdf_content ) ) { ?>
+                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                    </i>
+                                                <?php } ?>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+				<?php
+			}
+
 			wp_reset_postdata();
 
 			if (!$search_found) {
