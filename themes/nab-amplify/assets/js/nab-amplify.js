@@ -4686,6 +4686,264 @@
     }
   });
   // Downloadable PDF code end.
+
+  // Add Events
+  $(document).on( 'click', '#company-events-list .event-add-edit-action', function () {
+    $('body').addClass('is-loading');
+    $('#addProductModal').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_edit_company_event',
+        event_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
+        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        $('body').append(response);
+        $('#addProductModal').show().addClass('nab-modal-active');
+        $('#event-date').datepicker();
+        $('#event-start-time').select2({ width: '100%', minimumResultsForSearch: -1 });
+        $('#event-end-time').select2({ width: '100%', minimumResultsForSearch: -1 });
+      }
+    });
+  });
+
+  $(document).on( 'keyup', '#nab-add-edit-event-form #event-description', function(){
+    var maxLimit  = 200;
+    var currentCount = $(this).val().length;
+    var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
+    $(this).parents('.form-row').find('.info-msg #event-desc-count').text( remaining + ' Characters Remaining');
+  });
+
+  $(document).on( 'change', '#nab-add-edit-event-form #event-featured-image', function() {
+    eventUploadedFeaturedImg(this);
+  });
+
+  $(document).on('click', '#event_media_wrapper .remove-featred-img', function(){
+    if ( confirm( 'Are you sure want to remove?' ) ) {
+      $(this).parents('.nab-event-media-item').remove();
+      $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val('');
+    }
+  });
+
+  $(document).on('change', '#nab-add-edit-event-form #event-start-time', function(){
+    var startTimeIndex = $(this)[0].selectedIndex;
+    var endTimeIndex = $(this).parents('#nab-add-edit-event-form').find('#event-end-time')[0].selectedIndex;
+    if ( endTimeIndex < startTimeIndex ) {
+      $(this).parents('#nab-add-edit-event-form').find('#event-end-time').val($(this).val());
+      $(this).parents('#nab-add-edit-event-form').find('#event-end-time').trigger('change');
+    }
+  });
+
+  $(document).on('change', '#nab-add-edit-event-form #event-end-time', function(){
+    var startTimeIndex = $(this).parents('#nab-add-edit-event-form').find('#event-start-time')[0].selectedIndex;
+    var endTimeIndex = $(this)[0].selectedIndex;
+    if ( endTimeIndex < startTimeIndex ) {
+      $(this).val($(this).parents('#nab-add-edit-event-form').find('#event-start-time').val());
+      $(this).trigger('change');
+    }
+  });
+
+  $(document).on( 'click', '#company-events-list .amp-action-remove .remove-event', function(){
+
+    $('body').addClass('nab-modal-off-scroll');
+
+    var event_id = $(this).attr('data-id');
+    if ( undefined === event_id || '' === event_id ) {
+      return false;
+    }
+
+    $('.error-message-popup').remove();
+
+    var modalOuter = document.createElement('div');
+    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup trash-event');
+
+    var modalInner = document.createElement('div');
+    modalInner.setAttribute('class', 'nab-modal-inner');
+
+    var modalContent = document.createElement('div');
+    modalContent.setAttribute('class', 'modal-content');
+
+    var modalClose = document.createElement('div');
+    modalClose.setAttribute('class', 'nab-modal-close fa fa-times');
+
+    modalContent.appendChild(modalClose);
+
+    var contentWrapper = document.createElement('div');
+    contentWrapper.setAttribute('class', 'modal-content-wrap');
+
+    var heading = document.createElement('h3');
+    heading.innerText = 'Are you sure want to remove?';
+
+    contentWrapper.appendChild(heading);
+
+    var buttonGroup = document.createElement('div');
+    buttonGroup.setAttribute('class', 'btn-group');
+
+    var buttonYes = document.createElement('button');
+    buttonYes.setAttribute('class', 'btn btn-confirm-yes');
+    buttonYes.innerText = 'Yes';
+    buttonYes.setAttribute('data-event-id', event_id);
+
+    buttonGroup.appendChild( buttonYes );
+
+    var buttonNo = document.createElement('button');
+    buttonNo.setAttribute('class', 'btn btn-confirm-no');
+    buttonNo.innerText = 'No';
+
+    buttonGroup.appendChild( buttonNo );
+    contentWrapper.appendChild( buttonGroup );
+    modalContent.appendChild( contentWrapper );
+    modalInner.appendChild(modalContent);
+    modalOuter.appendChild(modalInner);
+
+    $('body').append(modalOuter);
+
+    $('.error-message-popup').show();
+
+  });
+
+  $(document).on('click', '.error-message-popup.trash-event .btn-confirm-yes', function(){
+    var event_id = $(this).attr('data-event-id');
+    $('body').addClass('is-loading');
+    $('.error-message-popup').remove();
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_remove_company_event',
+        event_id: event_id,
+        nabNonce: amplifyJS.nabNonce
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        location.reload();
+      }
+    });
+
+  });
+
+  $(document).on('click', '.error-message-popup.trash-event .btn-confirm-no', function(){
+    $('.error-message-popup').remove();
+    $('body').removeClass('nab-modal-off-scroll');
+  });
+
+  $(document).on( 'click', '#nab-add-edit-event-form #nab-edit-event-submit', function(){
+    var titleLimit = 60;
+    var descLimit = 200;
+    $(this).parents('#nab-add-edit-event-form').find('.global-notice').hide();
+
+    if ( $(this).parents('#nab-add-edit-event-form').find('#event-name').val().length > titleLimit ) {
+      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event name can not be more than ' + doumentLimit + ' characters.').show();
+      return false;
+    } else if ( '' === $(this).parents('#nab-add-edit-event-form').find('#event-name').val() ) {
+      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event name can not be empty.').show();
+      return false;
+    }
+
+    if ( $(this).parents('#nab-add-edit-event-form').find('#event-description').val().length > descLimit ) {
+      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event description can not more than ' + descLimit + ' characters.').show();
+      return false;
+    }
+
+    if ( '' === $(this).parents('#nab-add-edit-event-form').find('#event-date').val() ) {
+      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event date is required field.').show();
+      return false;
+    }
+
+    if ( '' === $(this).parents('#nab-add-edit-event-form').find('#event-url').val() ) {
+      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event URL is required field.').show();
+      return false;
+    }
+
+    if ( ! validateURL( $(this).parents('#nab-add-edit-event-form').find('#event-url').val() ) ) {
+      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Please enter valid event URL.').show();
+      return false;
+    }
+
+    $('body').addClass('nab-close-reload');
+
+    var form_data = new FormData();
+    var companyId = 0 < $(this).parents('#nab-add-edit-event-form').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-event-form').find('#nab_company_id').val() : 0;
+    var eventId = 0 < $(this).parents('#nab-add-edit-event-form').find('#event_id').length ? $(this).parents('#nab-add-edit-event-form').find('#event_id').val() : 0;
+    var _this = $(this);
+    form_data.append( 'action', 'nab_company_events' );
+    form_data.append( 'nabNonce', amplifyJS.nabNonce );
+    form_data.append( 'company_id', companyId );
+    form_data.append( 'event_id', eventId );
+    form_data.append( 'event_name', $(this).parents('#nab-add-edit-event-form').find('#event-name').val() );
+    form_data.append( 'event_desc', $(this).parents('#nab-add-edit-event-form').find('#event-description').val() );
+    form_data.append( 'event_date', $(this).parents('#nab-add-edit-event-form').find('#event-date').val() );
+    form_data.append( 'event_start_time', $(this).parents('#nab-add-edit-event-form').find('#event-start-time').val() );
+    form_data.append( 'event_end_time', $(this).parents('#nab-add-edit-event-form').find('#event-end-time').val() );
+    form_data.append( 'event_url', $(this).parents('#nab-add-edit-event-form').find('#event-url').val() );
+
+    if ( 0 === $(this).parents('#nab-add-edit-event-form').find('#event_media_wrapper .remove-featred-img').length ) {
+      form_data.append( 'remove_featured_img', true );
+    }
+
+    if ( '' !== $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val() ) {
+      form_data.append( 'featured_img', $(this).parents('#nab-add-edit-event-form').find('#event-featured-image')[0].files[0] );
+    }
+
+    jQuery.ajax({
+      url: amplifyJS.ajaxurl,
+      processData: false,
+      contentType: false,
+      type: 'POST',
+      data: form_data,
+      beforeSend: function () {
+        $('body').addClass('is-loading');
+      },
+      success: function (response) {
+        $('body').removeClass('is-loading');
+        var eventData = response;
+
+        if ( undefined !== eventData.data.msg ) {
+          _this.parents('#nab-add-edit-event-form').find('.global-notice').text(eventData.data.msg).show();
+        }
+        if ( eventData.success ) {
+          if ( undefined !== eventData.data.featured_attachment_id ) {
+            _this.parents('#nab-add-edit-event-form').find('.remove-featred-img').attr('data-attachment-id', eventData.data.featured_attachment_id );
+          }
+          if ( undefined !== eventData.data.event_id ) {
+            _this.parents('#nab-add-edit-event-form').find('#event_id').val( eventData.data.event_id );
+          }
+          _this.parents('#nab-add-edit-event-form').find('#event-featured-image').val('');
+          _this.parents('#nab-add-edit-event-form').find('#nab-edit-event-submit').val('Update');
+          _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Event');
+        }
+      }
+    });
+    return false;
+  });
+
+  function eventUploadedFeaturedImg(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var fileExt = input.value.split('.').pop().toLowerCase();
+        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
+            $('#nab-add-edit-event-form #event-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
+            input.value = '';
+            return false;
+        } else {
+          $('#nab-add-edit-event-form #event-featured-image').parents('.form-row').find('.form-field-error').remove();
+        }
+        if ( 0 < $('#event_media_wrapper .preview-event-featured-img').length ) {
+          $('#event_media_wrapper .preview-event-featured-img').attr('src', e.target.result);
+        } else {
+          var previewImg = '<div class="nab-event-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-event-featured-img common-preview-img" /></div>';
+          $('#event_media_wrapper').append(previewImg);
+        }
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  
 })(jQuery);
 
 // Downloadable PDF Search Ajax.
