@@ -1,7 +1,7 @@
 <?php
 global $post;
 ?>
-<div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
+<div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
 			<span class="nab-modal-close fa fa-times"></span>

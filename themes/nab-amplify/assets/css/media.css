@@ -65,8 +65,8 @@
 	.site-footer::before{width:18%}
 
 	/* add product */
-	#addProductModal.nab-modal .modal-content-wrap{padding:50px}
-	#addProductModal.nab-modal .nab-modal-close:not(.fa){right:30px;top:30px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap{padding:50px}
+	.nab-modal-with-form.nab-modal .nab-modal-close:not(.fa){right:30px;top:30px}
 }
 @media (max-width:1550px){
 	.site-footer::before{width:17%}
@@ -178,18 +178,18 @@
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important}
 
 	/* add product */
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:24px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:static;transform:none}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action:last-child{margin-right:0}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{width:100%}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{margin-top:10px;margin-right:10px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.right-action{margin-top:10px;margin-right:0}
-	#addProductModal.nab-modal.theme-dark .form-col-6:nth-child(odd){padding-right:0;margin-bottom:35px}
-	#addProductModal.nab-modal.theme-dark .form-col-6:nth-child(even){padding-left:0}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:35px}
-	#addProductModal.nab-modal .modal-content-wrap{padding:20px}
-	#addProductModal.nab-modal .nab-modal-close:not(.fa){position:static;transform:translateX(0);width:auto;height:auto;margin-bottom:10px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:static;text-align:right;margin:10px 0;width:100%;display:inline-block}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:24px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:static;transform:none}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action:last-child{margin-right:0}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6{width:100%}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.left-action{margin-top:10px;margin-right:10px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action.right-action{margin-top:10px;margin-right:0}
+	.nab-modal-with-form.nab-modal.theme-dark .form-col-6:nth-child(odd){padding-right:0;margin-bottom:35px}
+	.nab-modal-with-form.nab-modal.theme-dark .form-col-6:nth-child(even){padding-left:0}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .form-row:not(:last-child){margin-bottom:35px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap{padding:20px}
+	.nab-modal-with-form.nab-modal .nab-modal-close:not(.fa){position:static;transform:translateX(0);width:auto;height:auto;margin-bottom:10px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .info-msg{position:static;text-align:right;margin:10px 0;width:100%;display:inline-block}
 	.limited-char-field{padding-right:10px!important}
 
 	/* single company product */
@@ -308,17 +308,17 @@
 	.nab-check-btn{width:25px;height:25px}
 	.nab-action .action-edit{width:35px;height:35px;font-size:18px}
 	.nab-action .action-add{width:35px;height:35px;font-size:18px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row{margin-bottom:10px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:20px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row{margin-bottom:10px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action .nab-action-row:not(:last-child){margin-right:20px}
 	.add-product{padding-right:10px!important}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child,	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{margin-top:22px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{font-size:16px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:16px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:18px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{margin-left:5px}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:16px;min-width:150px;height:50px;font-weight:600}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper input{font-size:16px;height:60px;font-weight:600}
-	#addProductModal.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:16px;height:150px;font-weight:600}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child,	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{margin-top:22px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{font-size:16px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .check-label{font-size:16px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:18px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label span{margin-left:5px}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .btn-submit{font-size:16px;min-width:150px;height:50px;font-weight:600}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper input{font-size:16px;height:60px;font-weight:600}
+	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper textarea{font-size:16px;height:150px;font-weight:600}
 	.select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-company_point_of_contact-container"], .select-dark-simple .select2-container .select2-selection--single[aria-labelledby="select2-nab_product_contact-container"]{padding-right:70px}
 	.select-dark-simple .select2-container .select2-selection--single .select2-selection__clear{right:30px}
 	.nab-product-media-item{width:100px;height:100px}
