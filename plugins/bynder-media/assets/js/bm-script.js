@@ -803,6 +803,12 @@ function bmUploadToBynder() {
 
                     // Trigger Auto Select recently uploaded image.
                     $('[data-tab="bm-tab-assets"]').trigger('click');
+
+                    // Scroll to top the Assets tab.
+                    $('.bm-modal-main .bm-modal-body').animate({
+                        scrollTop: 0
+                    }, 500);
+
                     $('#bm-tab-assets').prepend('<p id="bm-msg" style="color:#1a841a;font-weight: 700;">Congratulations! Image uploaded successfully!</p>').show();
 
                     $('.bm-modal-main').removeClass('just-uploaded');
