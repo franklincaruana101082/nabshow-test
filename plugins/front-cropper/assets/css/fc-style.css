@@ -1,33 +1,4 @@
 /* cropper popup */
-#cropper-board .modal-content a.button {border-radius: 4px;color: #fff!important;margin-right: 10px;cursor:pointer}
+#cropper-board .modal-content a {border-radius: 4px;color: #fff!important;margin-right: 10px;cursor:pointer}
 #cropper-board.nab-modal .modal-content-wrap {text-align: center;}
 .cropper-container, #cropper-image {max-width: 100%;margin: 0 0 15px;max-height: 550px;}
-
-/* cropper */
-#cropper-board .cropper-bg{overflow:hidden;}
-#cropper-board .bm-adjust-crop-actions{position:absolute;left:40px;top:40px;background-color:rgb(0 0 0 / 50%);padding:10px;}
-#cropper-board .bm-adjust-crop-actions .bm-crop-adjust{margin-bottom:10px;}
-#cropper-board .bm-adjust-crop-actions .bm-crop-adjust:last-child{margin-bottom:0;}
-#cropper-board .bm-adjust-crop-actions a{width:35px;height:35px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border:2px solid #ccc;color:#fff!important;}
-
-@media (max-width:767px){
-	#cropper-board .modal-content .crop-button-wrap{position:absolute;right:40px;top:40px;width:32px;}
-	#cropper-board .modal-content a.button{font-size:0;margin:0 0 8px;padding:4px;width:32px;height:32px;line-height:32px;border-radius:30px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}
-	#cropper-board .modal-content a.button:before{content:"\f00c";display:inline-block;font-size:14px;font-family:fontawesome;}
-	#cropper-board .modal-content a.button.cropper-cancel:before{content:"\f00d";}
-	#cropper-board .modal-content a.button.cropper-cancel{background-color:red}
-	#cropper-board .modal-content a.button.cropper-cancel:hover{border-color:red;}
-	#cropper-board .modal-content a#cropper-button{background-color:#4BB543;border-color:#4BB543;line-height:22px;}
-}
-
-@media (max-width:600px){
-	#cropper-board .modal-content .crop-button-wrap{right:30px;top:35px;}
-	#cropper-board.nab-modal .modal-content-wrap{max-height:60vh}
-	#cropper-board .bm-adjust-crop-actions{padding:8px;left:30px;top:30px;}
-	#cropper-board .bm-adjust-crop-actions a{width:30px;height:30px;font-size:14px;}
-}
-
-@media (max-width:480px){
-	#cropper-board .bm-adjust-crop-actions{padding:6px;left:27px;top:27px;}
-	#cropper-board .bm-adjust-crop-actions a{width:27px;height:27px;font-size:12px;}
-}

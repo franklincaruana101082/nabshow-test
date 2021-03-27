@@ -74,7 +74,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 						if ( ! empty( $search_term ) ) {
 							$active_class = 'active';
-						}						
+						}
 						?>
 						<div class="sort-company sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( $active_class ); ?>" data-order='date'>Newest</a>
@@ -314,7 +314,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$member_user_id = bp_get_member_user_id();
 								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-								if (empty(trim($user_full_name))) {									
+								if (empty(trim($user_full_name))) {
 									$user_full_name = bp_get_member_name();
 								}
 
@@ -419,7 +419,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$product_link	    = get_the_permalink();
 								$company_id			= get_field('nab_selected_company_id', get_the_ID());
 								$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-								$product_medias     = get_field('product_media');
+								$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 							?>
 								<li>
 									<div class="result _content">
@@ -428,10 +428,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
 												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-											} 
+											}
 										?>
 										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -482,7 +482,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					if ( $get_search_term_id ) {
 
-						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;						
+						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;
 					}
 				} else {
 					$company_args['meta_query'] = array(
@@ -498,7 +498,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['orderby']	= 'meta_value_num';
 						$company_args['order']		= 'DESC';
 					}
-				}				
+				}
 
 				$company_query = new WP_Query($company_args);
 
@@ -524,9 +524,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$company_query->the_post();
 
-								$cover_image        = get_field('cover_image');
-								$profile_picture    = get_field('profile_picture');
-								$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+								$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 								$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
@@ -638,7 +636,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 										?>
 										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -687,9 +685,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$current_date   = current_time('Y-m-d');
 				$compare		= '>=';
-		
+
 				$event_args['meta_query'] = array(
-		
+
 					array(
 						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
@@ -698,7 +696,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					)
 				);
 
-				$event_query = new WP_Query( $event_args );				
+				$event_query = new WP_Query( $event_args );
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
@@ -744,21 +742,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
                                 $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
                                 $start_time = str_replace(':00', '', $start_time );
-            
+
                             }
                             if ( ! empty( $event_end_date ) ) {
-            
+
                                 $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
                                 $end_time   = str_replace(':00', '', $end_time );
-            
+
                             }
-                            
+
                             if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-                                
+
                                 if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
                                     $start_time = str_replace(' a.m.', '', $start_time );
                                 }
-                
+
                                 if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
                                     $start_time = str_replace(' p.m.', '', $start_time );
                                 }
@@ -794,14 +792,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<?php
 										}
 										if ( ! empty( $company_id ) ) {
-											
+
 											$company_title 	= get_the_title( $company_id );
 											$company_link	= get_the_permalink( $company_id );
 											?>
 											<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
 											<?php
 										}
-										?>	
+										?>
 										<div class="event__link link _plus">
 											Learn More
 										</div>
@@ -830,10 +828,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</ul>
-				</div>				
+				</div>
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				$style = '';				
+				$style = '';
 				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
 					$style = 'display:none;';
 				}
@@ -1129,7 +1127,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			<?php
 			}
 
-			wp_reset_postdata();			
+			wp_reset_postdata();
 
 			$members_filter = array(
 				'page' 		=> 1,
@@ -1271,7 +1269,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$product_link	    = get_the_permalink();
 							$company_id			= get_field('nab_selected_company_id', get_the_ID());
 							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-							$product_medias     = get_field('product_media');
+							$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 						?>
 							<li>
 								<div class="result _content">
@@ -1280,10 +1278,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
 											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										} 
+										}
 									?>
 									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -1311,7 +1309,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( $get_search_term_id ) {
 
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;					
+					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 				}
 			} else {
 				$company_args['meta_query'] = array(
@@ -1327,7 +1325,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['orderby']	= 'meta_value_num';
 					$company_args['order']		= 'DESC';
 				}
-			}			
+			}
 
 			$company_query = new WP_Query($company_args);
 
@@ -1363,9 +1361,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$company_query->the_post();
 
-							$cover_image        = get_field('cover_image');
-							$profile_picture    = get_field('profile_picture');
-							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+							$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
@@ -1462,7 +1458,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 									?>
 									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -1545,21 +1541,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
                                 $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
                                 $start_time = str_replace(':00', '', $start_time );
-            
+
                             }
                             if ( ! empty( $event_end_date ) ) {
-            
+
                                 $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
                                 $end_time   = str_replace(':00', '', $end_time );
-            
+
                             }
-                            
+
                             if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-                                
+
                                 if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
                                     $start_time = str_replace(' a.m.', '', $start_time );
                                 }
-                
+
                                 if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
                                     $start_time = str_replace(' p.m.', '', $start_time );
                                 }
@@ -1595,7 +1591,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											<?php
 										}
 										if ( ! empty( $company_id ) ) {
-											
+
 											$company_title 	= get_the_title( $company_id );
 											$company_link	= get_the_permalink( $company_id );
 											?>

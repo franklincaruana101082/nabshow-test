@@ -31,55 +31,6 @@ function nab_amplify_body_classes($classes)
 add_filter('body_class', 'nab_amplify_body_classes');
 
 /**
- * Retrieves the user images.
- *
- * @return array list of user images
- */
-function nab_amplify_get_user_images($user_id = 0)
-{
-
-	$user_id           = 0 !== $user_id && null !== $user_id ? $user_id : get_current_user_id();
-	$user_images_names = array(
-		array(
-			'name'    => 'profile_picture',
-			'default' => 'avtar.jpg'
-		),
-		array(
-			'name'    => 'banner_image',
-			'default' => 'search-box-cover.png'
-		)
-	);
-
-	$user_images = array();
-	foreach ($user_images_names as $user_image) {
-
-		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
-
-		// If the meta value contains "assets", it has Bynder URL.
-		if ( strpos( $user_image_id, 'assets') !== false ) {
-			$user_images[$user_image['name']] = $user_image_id;
-
-        // Else try to find from attachments.
-		} else {
-            if ('removed' === $user_image_id) {
-                // Show default avatar if deleted from edit profile section.
-                $user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-            } else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
-                // Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
-                $user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
-            } else {
-                // Show uploaded images or the default ones.
-                $user_images[$user_image['name']] = !empty($user_image_id)
-                    ? wp_get_attachment_image_src($user_image_id, 'full')[0]
-                    : get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-            }
-        }
-	}
-
-	return $user_images;
-}
-
-/**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
 function nab_amplify_pingback_header()
@@ -1006,6 +957,52 @@ function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url
 	return $featured_image;
 }
 
+/**
+ * @param int $post_ID Post ID.
+ * @param bool $default Whether to send a default image back or not.
+ *
+ * @return string Image URL.
+ */
+function nab_amplify_get_comapny_banner( $post_ID, $default = true, $default_url = '' ) {
+
+	$bynder_cover = get_post_meta( $post_ID, 'banner_image', true );
+	if ( null !== $bynder_cover && ! empty( $bynder_cover )
+	     && strpos( $bynder_cover, 'assets') !== false) {
+		$featured_image = $bynder_cover;
+	} else {
+		$featured_image = get_field('cover_image', $post_ID );
+		$featured_image = isset( $featured_image['url'] ) ? $featured_image['url'] : '';
+
+		// Send back default if not found?
+		if ( $default ) {
+			$default_url = ! empty( $default_url ) ? $default_url : get_template_directory_uri() . '/assets/images/banner-header-background.png';
+			$featured_image = ! empty( $featured_image ) ? $featured_image : $default_url;
+		}
+	}
+
+	return $featured_image;
+}
+
+function nab_amplify_get_bynder_products( $post_id ) {
+
+	$product_media    = get_field( 'product_media', $post_id );
+	$product_media_bm = get_field( 'product_media_bm', $post_id );
+
+	if ( null !== $product_media_bm && ! empty( $product_media_bm ) ) {
+		$product_media_bm = explode( ',', $product_media_bm );
+		$count            = 0;
+		foreach ( $product_media_bm as $media ) {
+			if ( ! empty( $media ) ) {
+				$product_media[ $count ]['product_media_file']['ID']   = $media;
+				$product_media[ $count ]['product_media_file']['url']  = $media;
+				$product_media[ $count ]['product_media_file']['type'] = 'image';
+				$count ++;
+			}
+		}
+	}
+
+	return $product_media;
+}
 
 /**
  * Get featured and search category limit based on company membership level.
@@ -1074,7 +1071,7 @@ function nab_get_total_company_count() {
  * @return string
  */
 function nab_maritz_redirect_url( $user_id ) {
-	
+
 	if ( empty( $user_id ) || 0 === $user_id ) {
 		return;
 	}
@@ -1082,7 +1079,7 @@ function nab_maritz_redirect_url( $user_id ) {
 	$url_parse = wp_parse_url( get_site_url() );
 
 	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
-	
+
 	$params		= array( 'user_id' => $user_id );
 	$first_name	= get_user_meta( $user_id, 'first_name', true );
 	$last_name	= get_user_meta( $user_id, 'last_name', true );

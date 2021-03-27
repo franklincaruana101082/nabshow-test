@@ -8,16 +8,16 @@
  * @package Amplify
  */
 
-$cover_image      = get_field('cover_image');
-//$profile_picture  = get_field('profile_picture');
+$company_id    = get_the_ID();
+$cover_image   = nab_amplify_get_comapny_banner( $company_id );
 $industry       = get_field('company_industary');
 $instagram_url    = get_field('instagram_url');
 $linkedin_url     = get_field('linkedin_url');
 $facebook_url     = get_field('facebook_url');
 $twitter_url      = get_field('twitter_url');
 $member_level     = get_field('member_level');
-$cover_image      = !empty($cover_image) ? $cover_image['url'] : get_template_directory_uri() . '/assets/images/banner-header-background.png';
-$company_id       = get_the_ID();
+
+$cover_image      = ! empty( $cover_image ) ? $cover_image : get_template_directory_uri() . '/assets/images/banner-header-background.png';
 $featured_image   = nab_amplify_get_featured_image( $company_id, false );
 $profile_picture  = $featured_image;
 $user_logged_in   = is_user_logged_in();
@@ -25,6 +25,10 @@ $company_admin_id = get_field('company_user_id', $company_id);
 $youtube_url      = get_field('youtube_url');
 $company_poc      = get_field('point_of_contact');
 
+// Get username to add as an Tag in Bynder upload.
+$user_id  = get_current_user_id();
+$user_obj = get_user_by( 'id', $user_id );
+$username = $user_obj->user_login;
 ?>
 <div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
     <div class="banner-container">
@@ -32,15 +36,14 @@ $company_poc      = get_field('point_of_contact');
             <div class="bannner-actions">
 
                 <?php if ($user_logged_in) {
-                    $user_id = get_current_user_id();
                     if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                 ?>
 
                         <div class="update-banner-image">
-                            <label for="banner_image_file">
+                            <label class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" style="display:none;" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_banner_image" style="display: none;"/>
+                            <span class="remove-bg-pic" style="display:none;" id="banner_image_remove" data-bp-tooltip="Remove Image"><i class="fa fa-times"></i></span>
                         </div>
                         <div id="edit-mode-buttons">
                             <a href="javascript:void(0);" class="btn edit-company-mode">Edit profile</a>
@@ -69,8 +72,7 @@ $company_poc      = get_field('point_of_contact');
                                     if (!empty($company_admin_id) && in_array($user_id, $company_admin_id)) {
                                 ?>
                                         <div class="profile-actions">
-                                            <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
-                                            <input id="profile_picture_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="company_profile_picture" style="display: none;"/>
+                                            <span class="edit-profile-pic bm-select-media" bynder-for="profile_picture" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
                                         </div>
                                 <?php
                                     }
@@ -87,7 +89,7 @@ $company_poc      = get_field('point_of_contact');
                             ?>
                         </div>
                         <div class="amp-profile-info">
-                            <h2><?php echo esc_html(get_the_title()); ?></h2>
+                            <h2 data-username="<?php echo get_the_title(); ?>" data-tags="<?php echo esc_attr( $username ) ?>"><?php echo esc_html( get_the_title() ); ?></h2>
                             <?php
                             if (!empty($industry)) {
                             ?>

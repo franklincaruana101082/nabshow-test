@@ -300,7 +300,7 @@
       minimumInputLength: 3,
       placeholder: "Select Point of contact",
       allowClear: true,
-    });    
+    });
 
   });
   charcount("keyup", "#company_about", "#character-count-comp-about", 2000);
@@ -1016,6 +1016,12 @@
         if (jQuery("#addProductModal").length === 0) {
           jQuery("body").append(data);
           jQuery("#addProductModal").show().addClass("nab-modal-active");
+
+          // Make image draggable.
+          $('#product_media_wrapper').sortable(function (){
+            connectWith: '#product_media_wrapper'
+          }).disableSelection();
+
           if (jQuery("#nab_company_id").length > 0) {
             jQuery("#nab_company_id").val(company_id);
           }
@@ -1088,6 +1094,12 @@
           if (jQuery("#nab_company_id").length > 0) {
             jQuery("#nab_company_id").val(company_id);
           }
+
+          // Make image draggable.
+          $('#product_media_wrapper').sortable(function (){
+            connectWith: '#product_media_wrapper'
+          }).disableSelection();
+
           jQuery("#product_categories").select2();
           jQuery("#company_point_of_contact").select2({
             ajax: {
@@ -1374,9 +1386,24 @@
 
     var form_data = new FormData();
 
-    $.each(productMedia, function (key, file) {
-      form_data.append(key, file[0]);
-    });
+    // If bynder images selected.
+    if( 'function' === typeof addBMpopup ) {
+      let product_media_bm_src = [];
+      let countImgs = 1;
+      $('.nab-product-media-item img').each(function () {
+        if( countImgs < 5 ) {
+          product_media_bm_src.push($(this).attr('src'));
+        }
+        countImgs++;
+      });
+      product_media_bm_src = product_media_bm_src.join(',');
+      form_data.append('product_media_bm', product_media_bm_src)
+    } else {
+      $.each(productMedia, function (key, file) {
+        form_data.append(key, file[0]);
+      })
+    }
+
     if (product_title == "") {
       alert("Product title can not be empty!");
       return false;
@@ -2075,43 +2102,13 @@
     }
   });
 
-  // Upload user images using ajax.
-  $("#profile_picture_file, #banner_image_file").on("change", function (e) {
-    // If the front cropper plugin is not active
-    // Upload the image in native way.
-    if ("undefined" === typeof Cropper) {
-      e.preventDefault();
-
-      $("body").addClass("is-loading");
-
-      var fd = new FormData();
-      var file = $(this);
-      var file_name = $(this).attr("name");
-      var individual_file = file[0].files[0];
-      fd.append(file_name, individual_file);
-      fd.append("action", "nab_amplify_upload_images");
-      fd.append("company_id", amplifyJS.postID);
-
-      jQuery.ajax({
-        type: "POST",
-        url: amplifyJS.ajaxurl,
-        data: fd,
-        contentType: false,
-        processData: false,
-        success: function () {
-          location.reload();
-        },
-      });
-    }
-  });
-
   // Remove user images using ajax.
-  $("#profile_picture_remove, #banner_image_remove").on("click", function (e) {
+  $("#profile_picture_remove").on("click", function (e) {
     e.preventDefault();
 
     $("body").addClass("is-loading");
 
-    jQuery.ajax({
+    $.ajax({
       type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
@@ -2121,6 +2118,25 @@
       success: function (data) {
         location.reload();
       },
+    });
+  });
+
+  // Remove user company bg image.
+  $('#banner_image_remove').on('click', function (e) {
+    e.preventDefault()
+
+    $('body').addClass('is-loading')
+
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_banner_image_remove',
+        company_id:amplifyJS.postID
+      },
+      success: function (data) {
+        location.reload()
+      }
     });
   });
 
@@ -4943,7 +4959,7 @@
       reader.readAsDataURL(input.files[0]);
     }
   }
-  
+
 })(jQuery);
 
 // Downloadable PDF Search Ajax.
@@ -5063,7 +5079,7 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
 
               iIcon.appendChild(contentTooltip);
               itemContent.appendChild(iIcon);
-            }            
+            }
           } else {
             let msgDiv = document.createElement('div');
             msgDiv.setAttribute('class', 'amp-pdf-login-msg');
@@ -5109,6 +5125,14 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
       jQuery('body').removeClass('is-loading');
     }
   })
+}
+
+function nabAddProdBlankImage(unique_key) {
+  jQuery('#product_media_wrapper').append(
+      '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
+      unique_key +
+      '" src="#" alt="your image" style="display:none;"/></div>'
+  );
 }
 
 // Get friend button
@@ -5918,14 +5942,14 @@ function nabSearchEventAjax(loadMore, pageNumber) {
 
           let postTitle = document.createElement("h4");
           postTitle.setAttribute("class", "event__title");
-          postTitle.innerText = value.title;          
+          postTitle.innerText = value.title;
 
           let eventLink = document.createElement("div");
           eventLink.setAttribute("class", "event__link link _plus");
           eventLink.innerText = "Learn More";
 
           searchItemInfo.appendChild(postTitle);
-          
+
           if ( undefined !== value.event_time ) {
             let eventTime = document.createElement('span');
             eventTime.setAttribute('class', 'event-time');
