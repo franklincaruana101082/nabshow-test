@@ -796,7 +796,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$company_title 	= get_the_title( $company_id );
 											$company_link	= get_the_permalink( $company_id );
 											?>
-											<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
+											<p class="company-info"><?php/*<a href="<?php echo esc_url( $company_link ); ?>">*/?><?php echo esc_html( $company_title ); ?><?php/*</a>*/?></p>
 											<?php
 										}
 										?>
@@ -1595,7 +1595,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$company_title 	= get_the_title( $company_id );
 											$company_link	= get_the_permalink( $company_id );
 											?>
-											<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
+											<p class="company-info"><?php/*<a href="<?php echo esc_url( $company_link ); ?>">*/?><?php echo esc_html( $company_title ); ?><?php/*</a>*/?></p>
 											<?php
 										}
 										?>
