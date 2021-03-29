@@ -89,7 +89,7 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 					echo '[]';
 				} ?>" id="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $bm_meta_image ); ?>"/>
                 <p><img src="<?php echo esc_url( $bm_meta_image ); ?>" id="<?php echo esc_attr( $key ); ?>_src" style="width: 100%;"/></p>
-                <a href="javascript:void(0)" class="bm-select-media components-button is-secondary" bynder-for="<?php echo esc_attr( $bynder_for ) ?>" id="bm-featured-image"><?php echo esc_html( $bm_featured_action ); ?></a>
+                <a href="javascript:void(0)" class="bm-select-media components-button is-secondary" bynder-for="<?php echo esc_attr( $bynder_for ) ?>" id="bm-image" data-label="<?php echo esc_attr( $label ); ?>"><?php echo esc_html( $bm_featured_action ); ?></a>
                 <a href="javascript:void(0)" class="components-button is-link is-destructive" id="bm-featured-remove">Remove <?php echo esc_html( $label ); ?></a>
             </div>
 			<?php

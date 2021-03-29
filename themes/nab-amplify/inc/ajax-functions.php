@@ -1182,7 +1182,7 @@ function nab_member_search_filter_callback()
 				$member_user_id	= bp_get_member_user_id();
 				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
 				$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-				if (empty(trim($user_full_name))) {					
+				if (empty(trim($user_full_name))) {
 					$user_full_name = bp_get_member_name();
 				}
 
@@ -1269,10 +1269,6 @@ function nab_company_search_filter_callback()
 		if ($get_search_term_id) {
 
 			$company_args['_meta_company_term'] = $get_search_term_id->term_id;
-
-			if ('meta' === $orderby) {
-				$company_args['_meta_company_order']	= true;
-			}
 		}
 	} else {
 		$meta_query_args[] = array(
@@ -1300,18 +1296,15 @@ function nab_company_search_filter_callback()
 		$company_args['meta_query'] = $meta_query_args;
 	}
 
-	if (!isset($company_args['_meta_company_order'])) {
+	if ('meta' === $orderby) {
 
-		if ('meta' === $orderby) {
+		$company_args['meta_key']	= 'member_level_num';
+		$company_args['orderby']	= 'meta_value_num';
+		$company_args['order']		= 'DESC';
+	} elseif ('date' !== $orderby) {
 
-			$company_args['meta_key']	= 'member_level_num';
-			$company_args['orderby']	= 'meta_value_num';
-			$company_args['order']		= 'DESC';
-		} elseif ('date' !== $orderby) {
-
-			$company_args['orderby'] 	= $orderby;
-			$company_args['order']		= $order;
-		}
+		$company_args['orderby'] 	= $orderby;
+		$company_args['order']		= $order;
 	}
 
 	$company_query = new WP_Query($company_args);
@@ -1331,9 +1324,7 @@ function nab_company_search_filter_callback()
 
 			$company_query->the_post();
 
-			$cover_image        = get_field('cover_image');
-			$profile_picture    = get_field('profile_picture');
-			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+			$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 			$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 			$profile_picture    = $featured_image;
 			$company_url		= get_the_permalink();
@@ -1478,11 +1469,13 @@ function nab_company_product_search_filter_callback()
 		$cnt 				= 0;
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
-		
+
 		while ($company_prod_query->have_posts()) {
-			
+
 			$company_prod_query->the_post();
-			$product_medias 	= get_field('product_media', get_the_ID());
+
+			$product_medias = nab_amplify_get_bynder_products(get_the_ID());
+
 			$thumbnail_url = '';
 
 			if (!empty($product_medias[0]['product_media_file'])) {
@@ -1729,6 +1722,10 @@ function nab_event_search_filter_callback()
 			$event_month		= date_format(date_create($event_start_date), 'F');
 			$event_day			= date_format(date_create($event_start_date), 'j');
 			$final_date         = $event_start_date;
+			$start_time         = '';
+			$end_time           = '';
+			$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+			$event_content      = wp_strip_all_tags( get_the_content() );
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
@@ -1737,6 +1734,41 @@ function nab_event_search_filter_callback()
 					$event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
 					$final_date = $event_end_date;
 				}
+			}
+
+			if ( ! empty( $event_start_date ) ) {
+
+				$start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+				$start_time = str_replace(':00', '', $start_time );
+
+			}
+			if ( ! empty( $event_end_date ) ) {
+
+				$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+				$end_time   = str_replace(':00', '', $end_time );
+
+			}
+
+			if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+
+				if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+					$start_time = str_replace(' a.m.', '', $start_time );
+				}
+
+				if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+					$start_time = str_replace(' p.m.', '', $start_time );
+				}
+
+				$result_post[$cnt]['event_time'] = $start_time . ' - ' . $end_time . ' ET';
+			}
+
+			if ( ! empty( $company_id ) ) {
+				$result_post[$cnt]['company_title']	= html_entity_decode( get_the_title( $company_id ) );
+				$result_post[$cnt]['company_link']	= get_the_permalink( $company_id );
+			}
+
+			if ( ! empty( $event_content ) ) {
+				$result_post[$cnt]['event_content'] = html_entity_decode( $event_content );
 			}
 
 			$final_date     = date_format( date_create( $final_date ), 'Ymd' );
@@ -2942,10 +2974,13 @@ function nab_reset_csv_processed()
 add_action("wp_ajax_nab_get_error_popup", "nab_get_error_popup");
 add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
 
-function nab_get_error_popup(){
+function nab_get_error_popup()
+{
 	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
 	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
 	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_confirm     = filter_input(INPUT_POST, 'employee_remove', FILTER_SANITIZE_NUMBER_INT);
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-error-popup.php';
@@ -2989,7 +3024,6 @@ function nab_amplify_add_address()
 	wp_send_json($popup_html, 200);
 
 	wp_die();
-
 }
 
 /*Update regional addresses */
@@ -3067,8 +3101,6 @@ function nab_amplify_submit_address()
 		default:
 			$final_result['success'] = false;
 			$final_result['content'] = '';
-
-
 	}
 
 	echo wp_json_encode($final_result);
@@ -3080,7 +3112,8 @@ function nab_amplify_submit_address()
 add_action('wp_ajax_nab_amplify_remove_address', 'nab_amplify_remove_address');
 add_action('wp_ajax_nopriv_nab_amplify_remove_address', 'nab_amplify_remove_address');
 
-function nab_amplify_remove_address(){
+function nab_amplify_remove_address()
+{
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -3144,39 +3177,35 @@ function nab_amplify_remove_address(){
 		default:
 			$final_result['success'] = false;
 			$final_result['content'] = '';
-
-
 	}
 
 	wp_send_json($final_result, 200);
 	wp_die();
 }
 
-
-
 // Ajax to show Add Address popup.
 add_action("wp_ajax_nab_amplify_state_filter", "nab_amplify_state_filter");
 add_action("wp_ajax_nopriv_nab_amplify_state_filter", "nab_amplify_state_filter");
 
-function nab_amplify_state_filter(){
+function nab_amplify_state_filter()
+{
 
 	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
-    $country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
+	$country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
 	$filtered_states = array();
 	$states          = nab_get_states();
 
 
-	foreach($states as $state){
+	foreach ($states as $state) {
 
-		if($state['Country'] == $country_code){
+		if ($state['Country'] == $country_code) {
 
 			$filtered_states[] = $state;
 		}
 	}
 
 	wp_send_json($filtered_states, 200);
-
 }
 
 add_action("wp_ajax_nab_check_for_opt_in", "nab_check_for_opt_in");
@@ -3224,7 +3253,7 @@ function nab_create_opt_in_out() {
 	$opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
 	$opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
 
-	
+
 	$new_post = array(
 		'post_title' => $post_title,
 		'post_status' => $post_status,
@@ -3249,4 +3278,682 @@ function nab_create_opt_in_out() {
 	} else {
 		wp_send_json_error();
 	}
+}
+
+add_action("wp_ajax_nab_amplify_add_employee", "nab_amplify_add_employee");
+add_action("wp_ajax_nopriv_nab_amplify_add_employee", "nab_amplify_add_employee");
+
+function nab_amplify_add_employee()
+{
+
+	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_data['company_employees'] = get_field('company_employees', $company_id);
+	$company_data['ID'] = $company_id;
+	$member_level = get_field('member_level', $company_id);
+
+	if ($member_level === 'Plus') {
+		$limit_employees_str = '4 TOTAL';
+	} elseif ($member_level === 'Premium') {
+		$limit_employees_str = 'UNLIMITED';
+	}
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-edit-company-employees.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+}
+
+/*Update Company Empoloyees */
+add_action('wp_ajax_nab_amplify_submit_employee', 'nab_amplify_submit_employee');
+add_action('wp_ajax_nopriv_nab_amplify_submit_employee', 'nab_amplify_submit_employee');
+
+function nab_amplify_submit_employee()
+{
+
+	$company_id			= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_employees	= filter_input(INPUT_POST, 'company_employees', FILTER_SANITIZE_STRING);
+	$company_employees	= explode(',', $company_employees);
+	$member_level		= get_field('member_level', $company_id);
+	$existing_employees = get_field('company_employees', $company_id);
+	$total_employees	= count($existing_employees);
+
+	if ( $member_level === 'Plus' && is_array( $company_employees ) && count( $company_employees ) > 4 ) {
+		$final_result['success'] = false;
+		$final_result['content'] = 'With the Plus Package you are limited to four employee listings. Please delete one, or contact your sales rep to upgrade to the Premium Package for unlimited employees.';
+	} else {
+		update_field('company_employees', $company_employees, $company_id);
+		$final_result['success'] = TRUE;
+		$final_result['content'] = '';
+	}
+
+	wp_send_json($final_result, 200);
+	wp_die();
+}
+
+/* Remove employee */
+
+add_action('wp_ajax_nab_amplify_remove_employee', 'nab_amplify_remove_employee');
+add_action('wp_ajax_nopriv_nab_amplify_remove_employee', 'nab_amplify_remove_employee');
+
+function nab_amplify_remove_employee()
+{
+	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$existing_employees  = get_field('company_employees', $company_id);
+	if (($key = array_search($employee_id, $existing_employees)) !== false) {
+		unset($existing_employees[$key]);
+	}
+
+	update_field('company_employees', $existing_employees, $company_id);
+	$final_result['success'] = true;
+	$final_result['content'] = '';
+	wp_send_json($final_result, 200);
+	wp_die();
+}
+
+add_action( 'wp_ajax_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
+add_action( 'wp_ajax_nopriv_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
+function nab_add_company_content_form_callback() {
+
+	require_once get_template_directory() . '/inc/nab-add-content.php';
+	wp_die();
+}
+
+add_action('wp_ajax_nab_content_submission', 'nab_content_submission_callback');
+add_action('wp_ajax_nopriv_nab_content_submission', 'nab_content_submission_callback');
+
+function nab_content_submission_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$content_title			= filter_input( INPUT_POST, 'content_title', FILTER_SANITIZE_STRING );
+	$content_copy			= filter_input( INPUT_POST, 'content_copy', FILTER_UNSAFE_RAW );
+	$msg					= '';
+	$submit_limit			= 3;
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	$member_level = get_field( 'member_level', $company_id );
+	$member_level = strtolower( $member_level );
+
+	if ( 'premium' !== $member_level || ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'msg' => 'You can not submit the content with your current package.' ) );
+	}
+
+	$query_args = array(
+		'post_type'         => 'content-submission',
+		'post_status'       => 'publish',
+		'posts_per_page'    => -1,
+		'meta_key'          => 'nab_selected_company_id',
+		'meta_value'        => $company_id,
+		'fields'            => 'ids',
+	);
+
+	$content_query	= new WP_Query( $query_args );
+	$total_content	= count( $content_query->posts );
+
+	if (  'premium' === $member_level && $total_content >= $submit_limit ) {
+
+		$result['success'] = false;
+
+		wp_send_json_error( array( 'msg' => 'You have used up your allotted three submissions, but additional sponsored articles can be purchased a la carte. Contact your sales rep for details.' ) );
+	}
+
+	wp_reset_postdata();
+
+	if ( empty( $content_title ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Title can not be empty.' ) );
+	}
+
+	if ( empty( $content_copy ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Content copy can not be empty.' ) );
+	}
+
+	$content_post_data = array(
+        'post_title'   => $content_title,
+        'post_status'  => 'publish',
+        'post_type'    => 'content-submission',
+		'post_content' => $content_copy,
+    );
+
+	$content_id 	= wp_insert_post( $content_post_data );
+	$attachment_id	= '';
+
+	if ( is_wp_error( $content_id ) ) {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while submitting the content. Please try again.' ) );
+	} else {
+
+		$msg = 'Content submitted successfully.';
+
+		$success = array( 'msg' => $msg, 'content_id' => $content_id );
+
+		// Upload images.
+		$file_names				= array( 'featured_img' );
+		$dependencies_loaded 	= false;
+
+		foreach ( $_FILES as $file_key => $file_details ) {
+
+			if ( in_array( $file_key, $file_names, true ) ) {
+
+				if ( $dependencies_loaded ) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = true;
+				}
+
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( $file_key, 0 );
+
+				if ( ! is_wp_error( $attachment_id ) ) {
+
+					if ( 'featured_img' === $file_key ) {
+						set_post_thumbnail( $content_id, $attachment_id );
+					}
+				}
+			}
+		}
+		update_field( 'nab_selected_company_id', $company_id, $content_id );
+
+		$company_name 		= get_the_title( $company_id );
+		$user_id			= get_current_user_id();
+		$user_full_name		= get_user_meta( $user_id, 'first_name', true ) . ' ' . get_user_meta( $user_id, 'last_name', true );
+		$attachment_url		= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
+		$user_profile_url	= bp_core_get_user_domain( $user_id );
+		$user_data 			= get_user_by( 'id', $user_id );
+
+		if ( empty( trim( $user_full_name ) ) ) {
+			$user_full_name	= $user_data->display_name;
+		}
+
+		$subject = 'Content submitted by ' . $user_full_name;
+
+		$headers = "From: NAB Amplify <noreply@nabshow.com>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+		ob_start();
+		?>
+		<html>
+			<body>
+				<p>The following content was submitted by <?php echo esc_html( $user_full_name ); ?> from <?php echo esc_html( $company_name ); ?> as a part of their Premium Company Listing. Please review and reach out to <?php echo esc_html( $user_full_name ); ?> with any questions or concerns and/or notify them when to expect their content will be posted in the editorial calendar. </p>
+				<table cellpadding="10" border="1">
+					<tr>
+						<th>Company Name</th>
+						<td><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( $company_name ); ?></a></td>
+					</tr>
+					<tr>
+						<th>Submitter’s Name</th>
+						<td><a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a></td>
+					</tr>
+					<tr>
+						<th>Submitter’s Email</th>
+						<td><?php echo esc_html( $user_data->user_email ); ?></td>
+					</tr>
+					<tr>
+						<th>Title</th>
+						<td><?php echo esc_html( $content_title ); ?></td>
+					</tr>
+					<tr>
+						<th>Submission Date</th>
+						<td><?php echo esc_html( current_time('M. j, Y') ); ?></td>
+					</tr>
+					<?php
+					if ( ! empty( $attachment_url ) && is_array( $attachment_url ) ) {
+						?>
+						<tr>
+							<th>Featured Image</th>
+							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
+						</tr>
+						<?php
+					}
+					?>
+				</table>
+				<?php
+				if ( ! empty( $content_copy ) ) {
+					?>
+					<p><strong>Copy:</strong></p>
+					<?php
+					echo $content_copy;
+				}
+				?>
+			</body>
+		</html>
+		<?php
+		$message = ob_get_clean();
+
+		wp_mail( 'kvelez@nab.org,amplifycontent@nab.org', $subject, $message, $headers );
+
+		wp_send_json_success( $success );
+	}
+}
+
+add_action('wp_ajax_nab_edit_downloadable_company_pdf', 'nab_edit_downloadable_company_pdf_callback');
+
+function nab_edit_downloadable_company_pdf_callback()
+{
+
+	require_once get_template_directory() . '/inc/nab-add-edit-downloadable-pdf.php';
+
+	wp_die();
+}
+
+// Ajax to remove banner image.
+add_action("wp_ajax_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
+add_action("wp_ajax_nopriv_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
+
+function nab_amplify_banner_image_remove()
+{
+	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	update_field('banner_image', '', $company_id);
+	update_field('cover_image', '', $company_id);
+	update_post_meta($company_id, 'banner_image', '');
+}
+
+add_action('wp_ajax_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
+add_action('wp_ajax_nopriv_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
+
+function nab_remove_downloadable_pdf_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$pdf_id = filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( ! empty( $pdf_id ) ) {
+
+		wp_trash_post( $pdf_id );
+	}
+
+	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
+}
+
+add_action('wp_ajax_nab_downloadable_pdf', 'nab_downloadable_pdf_callback');
+add_action('wp_ajax_nopriv_nab_downloadable_pdf', 'nab_downloadable_pdf_callback');
+
+function nab_downloadable_pdf_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_id					= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_title				= filter_input( INPUT_POST, 'pdf_title', FILTER_SANITIZE_STRING );
+	$pdf_desc				= filter_input( INPUT_POST, 'pdf_desc', FILTER_SANITIZE_STRING );
+	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
+	$msg					= '';
+	$action					= empty( $pdf_id ) || 0 === (int) $pdf_id ? 'add' : 'update';
+	$member_restriction		= nab_company_member_validation( $company_id, $action );
+
+	if ( ! $member_restriction['success'] ) {
+		wp_send_json_error( array( 'msg' => $member_restriction['message'] ) );
+	}
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	if ( empty( $pdf_title ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Document name can not be empty.' ) );
+	}
+
+	$pdf_post_data = array(
+        'post_title'   => $pdf_title,
+        'post_status'  => 'publish',
+        'post_type'    => 'downloadable-pdfs'
+    );
+
+	if ( empty( $pdf_id ) || 0 === (int) $pdf_id ) {
+
+		$pdf_id = wp_insert_post( $pdf_post_data );
+
+		if ( is_wp_error( $pdf_id ) ) {
+			wp_send_json_error( array( 'msg' => 'Something went wrong while add new Downloadable PDF. Please try again.' ) );
+		}
+
+		$msg = 'Downloadable PDF added successfully.';
+	} else {
+
+        $pdf_post_data['ID']	= $pdf_id;
+        $pdf_id					= wp_update_post( $pdf_post_data );
+		$msg 					= 'Downloadable PDF updated successfully.';
+	}
+
+	if ( $pdf_id ) {
+
+		$success = array( 'msg' => $msg, 'pdf_id' => $pdf_id );
+
+		if ( $remove_featured_img && has_post_thumbnail( $pdf_id ) ) {
+			delete_post_thumbnail( $pdf_id );
+		}
+
+		// Upload images.
+		$file_names				= array( 'featured_img', 'pdf_file' );
+		$dependencies_loaded 	= false;
+
+		foreach ( $_FILES as $file_key => $file_details ) {
+
+			if ( in_array( $file_key, $file_names, true ) ) {
+
+				if ( $dependencies_loaded ) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = true;
+				}
+
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( $file_key, 0 );
+
+				if ( ! is_wp_error( $attachment_id ) ) {
+
+					if ( 'featured_img' === $file_key ) {
+						set_post_thumbnail( $pdf_id, $attachment_id );
+						$success['featured_attachment_id'] = $attachment_id;
+					} else if ( 'pdf_file' === $file_key ) {
+						update_field( 'pdf_file', $attachment_id, $pdf_id );
+						$success['pdf_attachment_id'] = $attachment_id;
+					}
+				}
+			}
+		}
+
+		$member_level = get_field( 'member_level', $company_id );
+
+		update_field( 'description', $pdf_desc, $pdf_id );
+		update_field( 'nab_selected_company_id', $company_id, $pdf_id );
+		update_post_meta( $pdf_id, '_pdf_member_level', $member_level );
+		wp_send_json_success( $success );
+
+	} else {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while add or update Downloadable PDF. Please try again.' ) );
+	}
+}
+
+//Ajax for Downloadable PDF search.
+add_action('wp_ajax_nab_pdf_search_filter', 'nab_pdf_search_filter_callback');
+add_action('wp_ajax_nopriv_nab_pdf_search_filter', 'nab_pdf_search_filter_callback');
+
+/**
+ * Downloadable search result filter ajax.
+ */
+function nab_pdf_search_filter_callback()
+{
+
+	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
+
+	$final_result 	= array();
+	$result_post	= array();
+
+	$page_number		= filter_input( INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT );
+	$post_limit			= filter_input( INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT );
+	$search_term		= filter_input( INPUT_POST, 'search_term', FILTER_SANITIZE_STRING );
+	$orderby			= filter_input( INPUT_POST, 'orderby', FILTER_SANITIZE_STRING );
+	$order				= 'title' === $orderby ? 'ASC' : 'DESC';
+
+	$pdf_args = array(
+		'post_type'         => 'downloadable-pdfs',
+		'post_status'       => 'publish',
+		'posts_per_page'    => $post_limit,
+		's'					=> $search_term,
+		'paged'				=> $page_number,
+		'meta_key'          => '_pdf_member_level',
+		'meta_value'        => 'Premium',
+	);
+
+	if ( 'date' !== $orderby ) {
+
+		$pdf_args['orderby']	= $orderby;
+		$pdf_args['order']		= $order;
+	}
+
+	$pdf_query	= new WP_Query( $pdf_args );
+
+	$total_pages	= $pdf_query->max_num_pages;
+	$total_pdf		= $pdf_query->found_posts;
+
+	if ( $pdf_query->have_posts() ) {
+
+		$cnt = 0;
+
+		while ( $pdf_query->have_posts() ) {
+
+			$pdf_query->the_post();
+
+			$pdf_id				= get_the_ID();
+			$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id );
+			$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
+			$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
+			$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+			$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+
+			$result_post[$cnt]['pdf_id']	= $pdf_id;
+			$result_post[$cnt]['pdf_url'] 	= $pdf_url;
+			$result_post[$cnt]['title'] 	= html_entity_decode( get_the_title() );
+			$result_post[$cnt]['company'] 	= html_entity_decode( get_the_title( $company_id ) );
+			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
+
+			if ( ! empty( $pdf_content ) ) {
+				$result_post[$cnt]['content'] = $pdf_content;
+			}
+
+			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			}
+
+			$cnt++;
+		}
+	}
+	wp_reset_postdata();
+
+	$site_url		= get_site_url();
+	$current_url	= add_query_arg( array( 's' => $search_term, 'v' => 'pdf' ), $site_url );
+	$login_url		= add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+
+	$final_result['next_page_number'] 	= $page_number + 1;
+	$final_result['total_page']       	= $total_pages;
+	$final_result['total_pdf']			= $total_pdf;
+	$final_result['result_post']      	= $result_post;
+	$final_result['login']				= is_user_logged_in();
+	$final_result['login_url']			= $login_url;
+
+	echo wp_json_encode( $final_result );
+
+	wp_die();
+}
+
+add_action( 'wp_ajax_nab_edit_company_event', 'nab_edit_company_event_callback' );
+add_action( 'wp_ajax_nopriv_nab_edit_company_event', 'nab_edit_company_event_callback' );
+
+function nab_edit_company_event_callback() {
+
+	require_once get_template_directory() . '/inc/nab-add-edit-event.php';
+	wp_die();
+}
+
+add_action('wp_ajax_nab_company_events', 'nab_company_events_callback');
+add_action('wp_ajax_nopriv_nab_company_events', 'nab_company_events_callback');
+
+function nab_company_events_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$event_id				= filter_input( INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT );
+	$event_name				= filter_input( INPUT_POST, 'event_name', FILTER_SANITIZE_STRING );
+	$event_desc				= filter_input( INPUT_POST, 'event_desc', FILTER_SANITIZE_STRING );
+	$event_date				= filter_input( INPUT_POST, 'event_date', FILTER_SANITIZE_STRING );
+	$event_start_time		= filter_input( INPUT_POST, 'event_start_time', FILTER_SANITIZE_STRING );
+	$event_end_time			= filter_input( INPUT_POST, 'event_end_time', FILTER_SANITIZE_STRING );
+	$event_url				= filter_input( INPUT_POST, 'event_url', FILTER_SANITIZE_STRING );
+	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
+	$msg					= '';
+	$action					= empty( $event_id ) || 0 === (int) $event_id ? 'add' : 'update';
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	$member_level = strtolower( get_field( 'member_level', $company_id ) );
+
+	if ( 'plus' !== $member_level && 'premium' !== $member_level ) {
+		wp_send_json_error( array( 'msg' => 'You can\'t add or update event with your current package. Please contact your sales rep to upgrade the package.' ) );
+	}
+
+	if ( 'plus' === $member_level ) {
+
+		$max_limit = 3;
+
+		$query_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => -1,
+            'meta_key'          => 'nab_selected_company_id',
+            'meta_value'        => $company_id,
+            'fields'            => 'ids',
+        );
+
+		$event_query 	= new WP_Query( $query_args );
+		$total_event	= count( $event_query->posts );
+
+		if ( 'add' === $action ) {
+			$total_event += 1;
+		}
+
+		if ( $total_event > $max_limit ) {
+
+			$result['success'] = false;
+
+			wp_send_json_error( array( 'msg' => 'With the Plus Package you are limited to three event listings at a time. Please delete one or contact your sales rep to upgrade to the Premium Package for unlimited events.' ) );
+		}
+
+	}
+
+	if ( empty( $event_name ) ) {
+		wp_send_json_error( array( 'msg' => 'Event name is required field.' ) );
+	}
+
+	if ( empty( $event_date ) ) {
+		wp_send_json_error( array( 'msg' => 'Event date is required field.' ) );
+	}
+
+	if ( empty( $event_start_time ) ) {
+		wp_send_json_error( array( 'msg' => 'Start time is required field.' ) );
+	}
+
+	if ( empty( $event_end_time ) ) {
+		wp_send_json_error( array( 'msg' => 'End time is required field.' ) );
+	}
+
+	if ( empty( $event_url ) ) {
+		wp_send_json_error( array( 'msg' => 'Event URL is required field.' ) );
+	}
+
+	$event_data = array(
+        'post_title'   => $event_name,
+        'post_status'  => 'publish',
+        'post_type'    => 'tribe_events',
+		'post_content' => $event_desc,
+    );
+
+	if ( empty( $event_id ) || 0 === (int) $event_id ) {
+
+		$event_id = wp_insert_post( $event_data );
+
+		if ( is_wp_error( $event_id ) ) {
+			wp_send_json_error( array( 'msg' => 'Something went wrong while adding a new Event.' ) );
+		}
+
+		wp_set_object_terms( $event_id, 'sponsor-event', 'tribe_events_cat', false );
+
+		$msg = 'Event added successfully.';
+
+	} else {
+
+        $event_data['ID']		= $event_id;
+        $event_id				= wp_update_post( $event_data );
+		$msg 					= 'Event updated successfully.';
+	}
+
+	if ( $event_id ) {
+
+		$success = array( 'msg' => $msg, 'event_id' => $event_id );
+
+		if ( $remove_featured_img && has_post_thumbnail( $event_id ) ) {
+			delete_post_thumbnail( $event_id );
+		}
+
+		// Upload images.
+		$file_names				= array( 'featured_img' );
+		$dependencies_loaded 	= false;
+
+		foreach ( $_FILES as $file_key => $file_details ) {
+
+			if ( in_array( $file_key, $file_names, true ) ) {
+
+				if ( $dependencies_loaded ) {
+					// These files need to be included as dependencies when on the front end.
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					$dependencies_loaded = true;
+				}
+
+				// Let WordPress handle the upload.
+				$attachment_id = media_handle_upload( $file_key, 0 );
+
+				if ( ! is_wp_error( $attachment_id ) ) {
+
+					if ( 'featured_img' === $file_key ) {
+						set_post_thumbnail( $event_id, $attachment_id );
+						$success['featured_attachment_id'] = $attachment_id;
+					}
+				}
+			}
+		}
+
+		$event_start_date	= date_format( date_create( $event_date . ' ' . $event_start_time ), 'Y-m-d H:i:s' );
+		$event_end_date		= date_format( date_create( $event_date . ' ' . $event_end_time ), 'Y-m-d H:i:s' );
+
+		update_field( 'nab_selected_company_id', $company_id, $event_id );
+		update_post_meta( $event_id, '_EventStartDate', $event_start_date );
+		update_post_meta( $event_id, '_EventEndDate', $event_end_date );
+		update_post_meta( $event_id, '_EventURL', $event_url );
+		wp_send_json_success( $success );
+
+	} else {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while adding or updating Event. Please try again.' ) );
+	}
+}
+
+add_action('wp_ajax_nab_remove_company_event', 'nab_remove_company_event_callback');
+add_action('wp_ajax_nopriv_nab_remove_company_event', 'nab_remove_company_event_callback');
+
+function nab_remove_company_event_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$event_id = filter_input( INPUT_POST, 'event_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( ! empty( $event_id ) ) {
+
+		wp_trash_post( $event_id );
+	}
+
+	wp_send_json_success( array( 'msg' => 'Event removed successfully.' ) );
 }

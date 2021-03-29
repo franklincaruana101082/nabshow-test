@@ -4,7 +4,7 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
 	$member_level = get_field( 'member_level', $company_data['ID'] );
 }
 ?>
-<div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
+<div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
 			<span class="nab-modal-close fa fa-times"></span>
@@ -139,7 +139,41 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
 									</div>
 									<?php
 								}
-								?>								
+								?>
+								<div class="form-row">
+									<label for="" class="tooltip-container large-label-tooltip">
+										<div class="field-label">Company Admins</div>
+										<div class="tooltip-wrap">
+											<i class="fa fa-info-circle" aria-hidden="true"></i>
+											<div class="tooltip">
+												Only NAB Amplify users can be added as admins for your company listing. Invite colleagues to join as admins by using your add admin link <a href="<?php echo get_the_permalink($company_id); ?>?addadmin=<?php echo get_field('admin_add_string', $company_id); ?>" target="_blank">here</a>. NOTE: You can add an unlimited number of admins to your company profile. A NAB Amplify user does not need to be a company Point of Contact to be an admin.
+											</div>
+										</div>
+									</label>
+									<div class="select-dark-simple">
+										<select class="company-admins" name="company_admins[]" multiple="true" id="company_admins">
+											<?php
+
+											foreach ($company_data['company_admins'] as $user) {
+												$comp_admin = get_user_by('ID', $user);
+
+												if ($comp_admin) {
+													$user_name		= $comp_admin->user_login;
+													$user_full_name	= get_user_meta($comp_admin->ID, 'first_name', true) . ' ' . get_user_meta($comp_admin->ID, 'last_name', true);
+
+													if (!empty(trim($user_full_name))) {
+														$user_name .= ' (' . $user_full_name . ')';
+													} ?>
+													<option value="<?php echo esc_attr($comp_admin->ID); ?>" selected><?php echo esc_html($user_name); ?></option>
+											<?php
+												}
+											}
+
+											?>
+										</select>
+									</div>
+									
+								</div>
 								<div class="form-row">
 									<label>Updates to Company Name & Primary Address</label>
 									<p>NAB must approve and update any changes to Company Name and Company Address. Please submit updates <a href="https://app.smartsheet.com/b/form/8096b895f54546258e4b42efed40cc2a" target="_blank" class="btn-link">via this form</a> and our team will update these on your behalf.</p>

@@ -31,55 +31,6 @@ function nab_amplify_body_classes($classes)
 add_filter('body_class', 'nab_amplify_body_classes');
 
 /**
- * Retrieves the user images.
- *
- * @return array list of user images
- */
-function nab_amplify_get_user_images($user_id = 0)
-{
-
-	$user_id           = 0 !== $user_id && null !== $user_id ? $user_id : get_current_user_id();
-	$user_images_names = array(
-		array(
-			'name'    => 'profile_picture',
-			'default' => 'avtar.jpg'
-		),
-		array(
-			'name'    => 'banner_image',
-			'default' => 'search-box-cover.png'
-		)
-	);
-
-	$user_images = array();
-	foreach ($user_images_names as $user_image) {
-
-		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
-
-		// If the meta value contains "assets", it has Bynder URL.
-		if ( strpos( $user_image_id, 'assets') !== false ) {
-			$user_images[$user_image['name']] = $user_image_id;
-
-        // Else try to find from attachments.
-		} else {
-            if ('removed' === $user_image_id) {
-                // Show default avatar if deleted from edit profile section.
-                $user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-            } else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
-                // Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
-                $user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
-            } else {
-                // Show uploaded images or the default ones.
-                $user_images[$user_image['name']] = !empty($user_image_id)
-                    ? wp_get_attachment_image_src($user_image_id, 'full')[0]
-                    : get_template_directory_uri() . '/assets/images/' . $user_image['default'];
-            }
-        }
-	}
-
-	return $user_images;
-}
-
-/**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
 function nab_amplify_pingback_header()
@@ -586,6 +537,8 @@ function nab_get_search_post_types()
 	unset($all_post_types['company-products']);
 	unset($all_post_types['tribe_events']);
 	unset($all_post_types['landing-page']);
+	unset($all_post_types['tribe_venue']);
+	unset($all_post_types['downloadable-pdfs']);
 
 	$all_post_types = array_keys($all_post_types);
 
@@ -1006,6 +959,52 @@ function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url
 	return $featured_image;
 }
 
+/**
+ * @param int $post_ID Post ID.
+ * @param bool $default Whether to send a default image back or not.
+ *
+ * @return string Image URL.
+ */
+function nab_amplify_get_comapny_banner( $post_ID, $default = true, $default_url = '' ) {
+
+	$bynder_cover = get_post_meta( $post_ID, 'banner_image', true );
+	if ( null !== $bynder_cover && ! empty( $bynder_cover )
+	     && strpos( $bynder_cover, 'assets') !== false) {
+		$featured_image = $bynder_cover;
+	} else {
+		$featured_image = get_field('cover_image', $post_ID );
+		$featured_image = isset( $featured_image['url'] ) ? $featured_image['url'] : '';
+
+		// Send back default if not found?
+		if ( $default ) {
+			$default_url = ! empty( $default_url ) ? $default_url : get_template_directory_uri() . '/assets/images/banner-header-background.png';
+			$featured_image = ! empty( $featured_image ) ? $featured_image : $default_url;
+		}
+	}
+
+	return $featured_image;
+}
+
+function nab_amplify_get_bynder_products( $post_id ) {
+
+	$product_media    = get_field( 'product_media', $post_id );
+	$product_media_bm = get_field( 'product_media_bm', $post_id );
+
+	if ( null !== $product_media_bm && ! empty( $product_media_bm ) ) {
+		$product_media_bm = explode( ',', $product_media_bm );
+		$count            = 0;
+		foreach ( $product_media_bm as $media ) {
+			if ( ! empty( $media ) ) {
+				$product_media[ $count ]['product_media_file']['ID']   = $media;
+				$product_media[ $count ]['product_media_file']['url']  = $media;
+				$product_media[ $count ]['product_media_file']['type'] = 'image';
+				$count ++;
+			}
+		}
+	}
+
+	return $product_media;
+}
 
 /**
  * Get featured and search category limit based on company membership level.
@@ -1074,7 +1073,7 @@ function nab_get_total_company_count() {
  * @return string
  */
 function nab_maritz_redirect_url( $user_id ) {
-	
+
 	if ( empty( $user_id ) || 0 === $user_id ) {
 		return;
 	}
@@ -1082,7 +1081,7 @@ function nab_maritz_redirect_url( $user_id ) {
 	$url_parse = wp_parse_url( get_site_url() );
 
 	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
-	
+
 	$params		= array( 'user_id' => $user_id );
 	$first_name	= get_user_meta( $user_id, 'first_name', true );
 	$last_name	= get_user_meta( $user_id, 'last_name', true );
@@ -1107,4 +1106,140 @@ function nab_maritz_redirect_url( $user_id ) {
 	}
 
 	return add_query_arg( $params, $url );
+}
+
+/**
+ * Get add pdf limit base on company member level.
+ *
+ * @param  string $member_level
+ *
+ * @return int
+ */
+function nab_get_pdf_limit_by_member_level( $member_level ) {
+
+	if ( empty( $member_level ) ) {
+		return 0;
+	}
+
+	$member_level = strtolower( $member_level );
+
+	$member_level_pdf_limit = array(
+		'plus'		=> 3,
+		'premium'	=> 6,
+	);
+
+	return isset( $member_level_pdf_limit[$member_level] ) ? $member_level_pdf_limit[$member_level] : 0;
+}
+
+function nab_company_member_validation( $company_id = 0, $action_type = 'update' ) {
+
+	$result = array( 'success' => true );
+
+	if ( empty( $company_id ) || 0 === $company_id ) {
+
+		$result['success'] = false;
+		$result['message'] = 'Something went wrong while fetching company ID. Please try again.';
+
+		return $result;
+	}
+
+	$member_level 	= get_field( 'member_level', $company_id );
+	$max_limit		= nab_get_pdf_limit_by_member_level( $member_level );
+
+	if ( $max_limit > 0 ) {
+
+		$query_args = array(
+            'post_type'         => 'downloadable-pdfs',
+            'post_status'       => 'publish',
+            'posts_per_page'    => -1,
+            'meta_key'          => 'nab_selected_company_id',
+            'meta_value'        => $company_id,
+            'fields'            => 'ids',
+        );
+
+		$company_pdf_query 	= new WP_Query( $query_args );
+		$total_pdf			= count( $company_pdf_query->posts );
+
+		if ( 'add' === $action_type ) {
+			$total_pdf += 1;
+		}
+
+		if ( $total_pdf > $max_limit ) {
+
+			$result['success'] = false;
+
+			if ( 'premium' === strtolower( $member_level ) ) {
+				$result['message'] = 'With the Premium Partner Package you are limited to six downloadable PDFs. Please delete one to upload a new PDF.';
+			} else {
+				$result['message'] = 'With the Plus Partner Package you are limited to three downloadable PDFs at a time. Please delete one or contact your sales rep to upgrade to the Premium Package for unlimited PDFs.';
+			}
+		}
+
+	} else {
+
+		$result['success'] = false;
+		$result['message'] = 'You can\'t add or update downloadable PDF with your current package. Please contact your sales rep to upgrade the package.';
+	}
+
+	return $result;
+}
+
+function nab_event_time_dropdown_options( $selected = '' ) {
+
+	$event_time = array(
+		'00:00:00' => '12:00 AM',
+		'00:30:00' => '12:30 AM',
+		'01:00:00' => '1:00 AM',
+		'01:30:00' => '1:30 AM',
+		'02:00:00' => '2:00 AM',
+		'02:30:00' => '2:30 AM',
+		'03:00:00' => '3:00 AM',
+		'03:30:00' => '3:30 AM',
+		'04:00:00' => '4:00 AM',
+		'04:30:00' => '4:30 AM',
+		'05:00:00' => '5:00 AM',
+		'05:30:00' => '5:30 AM',
+		'06:00:00' => '6:00 AM',
+		'06:30:00' => '6:30 AM',
+		'07:00:00' => '7:00 AM',
+		'07:30:00' => '7:30 AM',
+		'08:00:00' => '8:00 AM',
+		'08:30:00' => '8:30 AM',
+		'09:00:00' => '9:00 AM',
+		'09:30:00' => '9:30 AM',
+		'10:00:00' => '10:00 AM',
+		'10:30:00' => '10:30 AM',
+		'11:00:00' => '11:00 AM',
+		'11:30:00' => '11:30 AM',
+		'12:00:00' => '12:00 PM',
+		'12:30:00' => '12:30 PM',
+		'13:00:00' => '1:00 PM',
+		'13:30:00' => '1:30 PM',
+		'14:00:00' => '2:00 PM',
+		'14:30:00' => '2:30 PM',
+		'15:00:00' => '3:00 PM',
+		'15:30:00' => '3:30 PM',
+		'16:00:00' => '4:00 PM',
+		'16:30:00' => '4:30 PM',
+		'17:00:00' => '5:00 PM',
+		'17:30:00' => '5:30 PM',
+		'18:00:00' => '6:00 PM',
+		'18:30:00' => '6:30 PM',
+		'19:00:00' => '7:00 PM',
+		'19:30:00' => '7:30 PM',
+		'20:00:00' => '8:00 PM',
+		'20:30:00' => '8:30 PM',
+		'21:00:00' => '9:00 PM',
+		'21:30:00' => '9:30 PM',
+		'22:00:00' => '10:00 PM',
+		'22:30:00' => '10:30 PM',
+		'23:00:00' => '11:00 PM',
+		'23:30:00' => '11:30 PM',
+	);
+
+	foreach ( $event_time as $key => $option_time ) {
+		?>
+		<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $selected, $key ); ?>><?php echo esc_html( $option_time ); ?></option>
+		<?php
+	}
 }

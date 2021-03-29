@@ -13,7 +13,7 @@ get_header();
 $search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
-$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event');
+$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf');
 $allowed_tags 		= wp_kses_allowed_html('post');
 
 $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
@@ -62,10 +62,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					<?php
+					} else if ( 'pdf' === $view_type ) {
+						?>
+						<div class="sort-pdf sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+						</div>
+						<?php
 					} else if ('company' === $view_type) {
-					?>
+						$active_class = '';
+
+						if ( ! empty( $search_term ) ) {
+							$active_class = 'active';
+						}
+						?>
 						<div class="sort-company sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( $active_class ); ?>" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order" data-order='title'>Alphabetical</a>
 							<?php
 
@@ -302,7 +314,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$member_user_id = bp_get_member_user_id();
 								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-								if (empty(trim($user_full_name))) {									
+								if (empty(trim($user_full_name))) {
 									$user_full_name = bp_get_member_name();
 								}
 
@@ -407,7 +419,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$product_link	    = get_the_permalink();
 								$company_id			= get_field('nab_selected_company_id', get_the_ID());
 								$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-								$product_medias     = get_field('product_media');
+								$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 							?>
 								<li>
 									<div class="result _content">
@@ -416,10 +428,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
 												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-											} 
+											}
 										?>
 										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -471,7 +483,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					if ( $get_search_term_id ) {
 
 						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;
-						$company_args['_meta_company_order']	= true;
 					}
 				} else {
 					$company_args['meta_query'] = array(
@@ -481,12 +492,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							'compare'	=> '!='
 						)
 					);
-				}
 
-				if ( ! isset( $company_args['_meta_company_order'] ) ) {
-					$company_args['meta_key']	= 'member_level_num';
-					$company_args['orderby']	= 'meta_value_num';
-					$company_args['order']		= 'DESC';
+					if ( ! isset( $company_args['_meta_company_order'] ) ) {
+						$company_args['meta_key']	= 'member_level_num';
+						$company_args['orderby']	= 'meta_value_num';
+						$company_args['order']		= 'DESC';
+					}
 				}
 
 				$company_query = new WP_Query($company_args);
@@ -513,9 +524,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$company_query->the_post();
 
-								$cover_image        = get_field('cover_image');
-								$profile_picture    = get_field('profile_picture');
-								$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+								$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 								$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
@@ -627,7 +636,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 										?>
 										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -676,9 +685,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$current_date   = current_time('Y-m-d');
 				$compare		= '>=';
-		
+
 				$event_args['meta_query'] = array(
-		
+
 					array(
 						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
@@ -687,13 +696,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					)
 				);
 
-				$event_query = new WP_Query( $event_args );				
+				$event_query = new WP_Query( $event_args );
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				?>
 				<div class="search-view-top-head">
-					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Events</strong></h2>
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Partner Events</strong></h2>
 					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
@@ -715,6 +724,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_month        = date_format( date_create( $event_start_date ), 'F' );
 							$event_day          = date_format( date_create( $event_start_date ), 'j' );
 							$final_date         = $event_start_date;
+							$start_time         = '';
+                            $end_time           = '';
+							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							$event_content      = wp_strip_all_tags( get_the_content() );
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -724,6 +737,30 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									$final_date = $event_end_date;
 								}
 							}
+
+							if ( ! empty( $event_start_date ) ) {
+
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+
+                            }
+                            if ( ! empty( $event_end_date ) ) {
+
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+
+                            }
+
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
+                                }
+                            }
 
 							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
 							$current_date   = current_time('Ymd');
@@ -748,9 +785,33 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<h4 class="event__title">
 											<?php echo esc_html( get_the_title() ); ?>
 										</h4>
+										<?php
+										if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+											?>
+											<span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+											<?php
+										}
+										if ( ! empty( $company_id ) ) {
+
+											$company_title 	= get_the_title( $company_id );
+											$company_link	= get_the_permalink( $company_id );
+											?>
+											<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
+											<?php
+										}
+										?>
 										<div class="event__link link _plus">
 											Learn More
 										</div>
+										<?php
+										if ( ! empty( $event_content ) ) {
+											?>
+											<i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+												<span class="tooltip"><?php echo esc_html( $event_content ); ?></span>
+											</i>
+											<?php
+										}
+										?>
 									</div>
 								</a>
 							</li>
@@ -767,10 +828,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</ul>
-				</div>				
+				</div>
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				$style = '';				
+				$style = '';
 				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
 					$style = 'display:none;';
 				}
@@ -871,6 +932,120 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				wp_reset_postdata();
+			} else if ( 'pdf' === $view_type ) {
+
+				$pdf_args = array(
+					'post_type'         => 'downloadable-pdfs',
+					'post_status'       => 'publish',
+					'posts_per_page'    => 12,
+					's'					=> $search_term,
+					'meta_key'          => '_pdf_member_level',
+					'meta_value'        => 'Premium',
+				);
+
+				$pdf_query = new WP_Query( $pdf_args );
+
+				if ( $pdf_query->have_posts() ) {
+
+					$total_pdf = $pdf_query->found_posts;
+					?>
+					<div class="search-view-top-head">
+						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Results for </span><strong>DOWNLOADABLE PDFS</strong></h2>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+					</div>
+					<div class="search-section search-pdf-section">
+						<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+							<?php
+
+							$cnt = 1;
+
+							while ( $pdf_query->have_posts() ) {
+
+								$pdf_query->the_post();
+
+								$pdf_id				= get_the_ID();
+								$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id, true, nab_product_company_placeholder_img() );
+								$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
+								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
+								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+								$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+								?>
+								<div class="amp-item-col">
+									<div class="amp-item-inner">
+										<div class="amp-item-cover">
+											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+										</div>
+										<div class="amp-item-info">
+											<div class="amp-item-content">
+												<h4><?php echo esc_html(get_the_title()); ?></h4>
+												<?php
+												if ( is_user_logged_in() ) {
+													?>
+													<div class="download-pdf-input">
+														<div class="amp-check-container">
+															<div class="amp-check-wrp">
+																<input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
+																<span class="amp-check"></span>
+															</div>
+															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
+														</div>
+													</div>
+													<div class="amp-actions">
+														<div class="search-actions nab-action">
+															<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+														</div>
+													</div>
+													<?php if ( ! empty( $pdf_content ) ) { ?>
+                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                        </i>
+                                                    <?php } ?>
+													<?php
+												} else {
+													$current_url = home_url(add_query_arg(NULL, NULL));
+													$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+													$current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+													?>
+													<div class="amp-pdf-login-msg">
+														<p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+													</div>
+													<?php if ( ! empty( $pdf_content ) ) { ?>
+                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                        </i>
+                                                    <?php } ?>
+													<?php
+												}
+												?>
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php
+								if ( 8 === $cnt) {
+									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+								}
+								$cnt++;
+							}
+							if ( $cnt < 8 ) {
+								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
+							}
+							?>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+				<p class="no-search-data" style="display: none;">Result not found.</p>
+				<?php
+				if ( $pdf_query->max_num_pages > 1 ) {
+					?>
+					<div class="load-more text-center" id="load-more-pdf">
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $pdf_query->max_num_pages ); ?>">Load More</a>
+					</div>
+					<?php
+				}
+				wp_reset_postdata();
 			}
 		} else {
 
@@ -952,7 +1127,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			<?php
 			}
 
-			wp_reset_postdata();			
+			wp_reset_postdata();
 
 			$members_filter = array(
 				'page' 		=> 1,
@@ -1094,7 +1269,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$product_link	    = get_the_permalink();
 							$company_id			= get_field('nab_selected_company_id', get_the_ID());
 							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-							$product_medias     = get_field('product_media');
+							$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 						?>
 							<li>
 								<div class="result _content">
@@ -1103,10 +1278,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
 											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										} 
+										}
 									?>
 									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -1135,7 +1310,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $get_search_term_id ) {
 
 					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
-					$company_args['_meta_company_order']	= true;
 				}
 			} else {
 				$company_args['meta_query'] = array(
@@ -1145,12 +1319,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						'compare'	=> '!='
 					)
 				);
-			}
 
-			if ( ! isset( $company_args['_meta_company_order'] ) ) {
-				$company_args['meta_key']	= 'member_level_num';
-				$company_args['orderby']	= 'meta_value_num';
-				$company_args['order']		= 'DESC';
+				if ( ! isset( $company_args['_meta_company_order'] ) ) {
+					$company_args['meta_key']	= 'member_level_num';
+					$company_args['orderby']	= 'meta_value_num';
+					$company_args['order']		= 'DESC';
+				}
 			}
 
 			$company_query = new WP_Query($company_args);
@@ -1187,9 +1361,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$company_query->the_post();
 
-							$cover_image        = get_field('cover_image');
-							$profile_picture    = get_field('profile_picture');
-							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+							$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
@@ -1286,7 +1458,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 									?>
 									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -1321,7 +1493,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
+						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
 						<?php
 						if ( $total_event > 5 ) {
 
@@ -1351,6 +1523,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_month        = date_format( date_create( $event_start_date ), 'F' );
 							$event_day          = date_format( date_create( $event_start_date ), 'j' );
 							$final_date         = $event_start_date;
+							$start_time         = '';
+                            $end_time           = '';
+							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							$event_content      = wp_strip_all_tags( get_the_content() );
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -1360,6 +1536,30 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									$final_date = $event_end_date;
 								}
 							}
+
+							if ( ! empty( $event_start_date ) ) {
+
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+
+                            }
+                            if ( ! empty( $event_end_date ) ) {
+
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+
+                            }
+
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
+                                }
+                            }
 
 							$final_date     = date_format( date_create( $final_date ), 'Ymd' );
 							$current_date   = current_time('Ymd');
@@ -1384,9 +1584,33 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 									    <h4 class="event__title">
 									        <?php echo esc_html( get_the_title() ); ?>
 									    </h4>
+										<?php
+										if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+											?>
+											<span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+											<?php
+										}
+										if ( ! empty( $company_id ) ) {
+
+											$company_title 	= get_the_title( $company_id );
+											$company_link	= get_the_permalink( $company_id );
+											?>
+											<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
+											<?php
+										}
+										?>
 									    <div class="event__link link _plus">
 									        Learn More
 									    </div>
+										<?php
+										if ( ! empty( $event_content ) ) {
+											?>
+											<i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+												<span class="tooltip"><?php echo esc_html( $event_content ); ?></span>
+											</i>
+											<?php
+										}
+										?>
 									</div>
 								</a>
 							</li>
@@ -1397,6 +1621,111 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 				<?php
 			}
+			wp_reset_postdata();
+
+			$pdf_args = array(
+				'post_type'         => 'downloadable-pdfs',
+				'post_status'       => 'publish',
+				'posts_per_page'    => 4,
+				's'					=> $search_term,
+				'meta_key'          => '_pdf_member_level',
+				'meta_value'        => 'Premium',
+			);
+
+			$pdf_query = new WP_Query( $pdf_args );
+
+			if ( $pdf_query->have_posts() ) {
+
+				$search_found	= true;
+				$total_pdf		= $pdf_query->found_posts;
+				?>
+				<div class="search-section search-pdf-section">
+					<div class="search-section-heading">
+						<h2><strong>DOWNLOADABLE PDFS</strong> <span>(<?php echo esc_html( $total_pdf . ' RESULTS'); ?>)</span></h2>
+						<?php
+						if ($total_pdf > 4 ) {
+
+							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'pdf'), $current_site_url );
+						?>
+							<div class="section-view-more">
+								<a href="<?php echo esc_html( $content_view_more_link ); ?>" class="view-more-link">View All</a>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+					<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+						<?php
+						while ( $pdf_query->have_posts() ) {
+
+							$pdf_query->the_post();
+
+							$pdf_id				= get_the_ID();
+							$thumbnail_url 		= nab_amplify_get_featured_image( $pdf_id, true, nab_product_company_placeholder_img() );
+							$attached_pdf_id	= get_field( 'pdf_file', $pdf_id );
+							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
+							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
+							$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+							?>
+							<div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <div class="amp-item-cover">
+                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4><?php echo esc_html(get_the_title()); ?></h4>
+                                            <?php
+                                            if ( is_user_logged_in() ) {
+                                                ?>
+                                                <div class="download-pdf-input">
+                                                    <div class="amp-check-container">
+                                                        <div class="amp-check-wrp">
+                                                            <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
+                                                            <span class="amp-check"></span>
+                                                        </div>
+                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
+                                                    </div>
+                                                </div>
+                                                <div class="amp-actions">
+                                                    <div class="search-actions nab-action">
+                                                        <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+                                                    </div>
+                                                </div>
+                                                <?php if ( ! empty( $pdf_content ) ) { ?>
+                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                    </i>
+                                                <?php } ?>
+                                                <?php
+                                            } else {
+                                                $current_url = home_url(add_query_arg(NULL, NULL));
+		                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+                                                $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+                                                ?>
+                                                <div class="amp-pdf-login-msg">
+                                                    <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+                                                </div>
+                                                <?php if ( ! empty( $pdf_content ) ) { ?>
+                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
+                                                    </i>
+                                                <?php } ?>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+				<?php
+			}
+
 			wp_reset_postdata();
 
 			if (!$search_found) {

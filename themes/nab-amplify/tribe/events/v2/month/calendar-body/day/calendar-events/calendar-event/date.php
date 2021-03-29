@@ -36,7 +36,7 @@ $display_end_date   = $event->dates->start_display->format( 'H:i' ) !== $event->
 		?>
         <span class="tribe-events-calendar-month__calendar-event-datetime-separator"><?php echo esc_html( $date_formats->time_range_separator ); ?></span>
         <time datetime="<?php echo esc_attr( $event->dates->end_display->format( 'H:i' ) ); ?>">
-			<?php echo esc_html( $display_end_date ); ?>
+			<?php echo esc_html( $display_end_date . ' ET'); ?>
         </time>
 	<?php endif; ?>
 	<?php $this->template( 'month/calendar-body/day/calendar-events/calendar-event/date/meta', [ 'event' => $event ] ); ?>

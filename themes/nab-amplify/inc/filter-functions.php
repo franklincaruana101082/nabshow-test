@@ -37,16 +37,16 @@ function nab_registration_redirect()
  *
  * @param  string $redirect
  * @param  object $user
- * 
+ *
  * @return string
  */
 function nab_wc_login_redirect( $redirect, $user ) {
-     
-    if ( 'maritz' === strtolower( $redirect ) ) {
-		
+
+	if ( false !== strpos( $redirect, 'maritz' ) ) {
+
 		$redirect = nab_maritz_redirect_url( $user->ID );
 	}
-  
+
     return $redirect;
 }
 
@@ -54,11 +54,11 @@ function nab_wc_login_redirect( $redirect, $user ) {
  * Allowed other site host for redirect.
  *
  * @param  array $hosts
- * 
+ *
  * @return array
  */
 function nab_allowed_redirect_hotsts( $hosts ) {
-    
+
 	$redirect_hosts = array(
         'qawebreg.experientevent.com',
 		'registration.experientevent.com',
@@ -1232,7 +1232,6 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 
 	$tax_search			= $query_object->get('_tax_search');
 	$meta_company_term	= $query_object->get('_meta_company_term');
-	$meta_company_order	= $query_object->get( '_meta_company_order' );
 
 	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
@@ -1247,9 +1246,6 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
 
-		if ( isset( $meta_company_order ) && $meta_company_order ) {
-			$clauses['orderby']		= " {$wpdb->postmeta}.meta_value+0";
-		}
 	}
 
 	return $clauses;
@@ -1464,7 +1460,7 @@ function nab_add_query_vars_filter( $vars ){
 add_filter( 'query_vars', 'nab_add_query_vars_filter' );
 
 function nab_increase_session_archive_post_limit( $query ) {
-	
+
 	if ( ! is_admin() && $query->is_archive( 'sessions' ) && $query->is_main_query() ) {
 		$query->set( 'posts_per_page', 100 );
 	}

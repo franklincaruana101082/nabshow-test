@@ -45,10 +45,11 @@ $user_data = get_user_meta( $member_id );
 
 // Get user display name.
 $member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
-if ( empty( trim( $member_name ) ) ) {
 	$user_obj    = get_user_by( 'id', $member_id );
+if ( empty( trim( $member_name ) ) ) {
     $member_name = $user_obj->display_name;
 }
+$username = $user_obj->user_login;
 
 // Get images.
 $user_images = nab_amplify_get_user_images( $member_id );
@@ -74,10 +75,9 @@ if ( $user_logged_in ) {
 
 					<?php if ( 2 === $edit_mode ) { ?>
                         <div class="update-banner-image">
-                            <label for="banner_image_file">
+                            <label class="bm-select-media" bynder-for="banner_image">
                                 <span class="edit-bg-pic" id="profile_picture_update" data-bp-tooltip="Edit Background Image (1600x400)"><i class="fa fa-pencil"></i></span>
                             </label>
-                            <input id="banner_image_file" type="file" class="cropper_img_file" data-action="nab_amplify_upload_images" name="banner_image" style="display: none;"/>
                         </div>
 					<?php } ?>
 
@@ -96,11 +96,10 @@ if ( $user_logged_in ) {
                                     <img src="<?php echo esc_url( $user_images['profile_picture'] ) ?>"/>
 			                        <?php if ( 2 === $edit_mode ) { ?>
                                         <div class="profile-actions">
-                                            <label for="profile_picture_file">
+                                            <label for="profile_picture_file" class="bm-select-media" bynder-for="profile_picture">
                                                 <span class="edit-profile-pic" data-bp-tooltip="Edit Profile Image (400x400)"><i class="fa fa-pencil"></i></span>
                                             </label>
                                             <span class="remove-profile-pic" id="profile_picture_remove" name="profile_picture_remove" data-bp-tooltip="Remove Profile Image"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                            <input id="profile_picture_file" class="cropper_img_file" type="file" name="profile_picture" data-action="nab_amplify_upload_images" style="display: none;"/>
                                         </div>
 			                        <?php } else {
 				                        echo nab_amplify_bp_get_cancel_friendship_button( $member_id, false );
@@ -109,7 +108,7 @@ if ( $user_logged_in ) {
                             </div>
 							<?php if ( $accepting_connections ) { ?>
                                 <div class="amp-profile-info">
-                                    <h2><?php echo esc_html( $member_name ); ?></h2>
+                                    <h2 data-username="<?php echo esc_attr( $username ); ?>" data-tags="<?php echo esc_attr( $username ) ?>"><?php echo esc_html( $member_name ); ?></h2>
 									<?php if ( ! empty( $user_data['attendee_company'][0] ) || ! empty( $user_data['attendee_title'][0] ) || ! empty( $user_data['user_city'][0] ) ) { ?>
                                         <div class="amp-profile-disc">
 											<?php if ( ! empty( $user_data['attendee_title'][0] ) ) { ?>
