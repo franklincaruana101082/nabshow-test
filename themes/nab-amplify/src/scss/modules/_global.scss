@@ -636,8 +636,11 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 			background: linear-gradient(90deg, $color__purple, $color__pink);
 			border-radius: rem(26);
 			padding: 0 rem(28);
+			opacity: 1;
+			transition: opacity .25s ease-in-out;
 			&[href="javascript:void(0);"] {
-				background: $color__gray;
+				background: $color__gray-light;
+				opacity: .5;
 			}
 		}
 	}
