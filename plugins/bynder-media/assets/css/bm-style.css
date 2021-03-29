@@ -87,7 +87,7 @@ body.bm-modal-off-scroll{overflow:hidden;}
 /* cropper */
 #bm-upload-btn{display:none;}
 .bm-drag-drop-inside{width:100%;}
-.bm-drag-drop-buttons{padding:10px 0;}
+.bm-drag-drop-buttons{padding:10px 0;color: #000;}
 .bm-show-cropping-area{display:flex;justify-content:center;flex-wrap:wrap;overflow:hidden;padding:10px 0;position:relative;}
 .bm-show-cropping-area .bm-show-cropped-thumb{order:2;width:100%;}
 .bm-show-cropping-area .bm-show-cropped-canvas{order:1;margin-bottom:20px;}
@@ -153,7 +153,7 @@ a#bm-featured-remove{margin-bottom:20px;}
 .cropper-container.cropper-bg{overflow:hidden;}
 .bm-show-cropping-area .bm-btn, .bm-show-cropping-area .bm-btn-pink{color:#fff;}
 .bm-select-media.creating-popup, .bm-select-media.creating-popup *{cursor:not-allowed;}
-#bm-msg{font-family:"Arial", sans-serif;}
+#bm-msg{font-family:"Arial", sans-serif;font-size: 15px;}
 #bm-msg a{font-family:"Arial", sans-serif;}
 
 /* CSS for admin only */
