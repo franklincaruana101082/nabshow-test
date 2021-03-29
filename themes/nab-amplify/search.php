@@ -702,7 +702,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$total_event	= $event_query->found_posts;
 				?>
 				<div class="search-view-top-head">
-					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Events</strong></h2>
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Partner Events</strong></h2>
 					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
@@ -1493,7 +1493,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
+						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
 						<?php
 						if ( $total_event > 5 ) {
 
