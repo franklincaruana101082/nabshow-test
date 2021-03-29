@@ -95,7 +95,7 @@
     });
 
     $(document).on('click', '.bm-jump-upload', function (e) {
-        $('[data-tab="bm-tab-upload"]').trigger('click');
+        $('#bm-tab-upload-tab').trigger('click');
     });
 
     // Trigger fetch process again on 'Try again' button click.
@@ -311,7 +311,7 @@ function bmFetchAssets(_this) {
     $('#bm-tab-media').attr('bynder-request-by', requestedBy);
 
     // Move to Media tab if not already there.
-    $('[data-tab="bm-tab-assets"]').trigger('click');
+    $('#bm-tab-assets-tab').trigger('click');
 
     // Add popup if not available.
     if( 0 === $('#bm-main-outer').length ) {
@@ -375,7 +375,7 @@ function bmFetchAssets(_this) {
     $("body").addClass('bm-modal-off-scroll');
 
     if( 'upload_only' === requestedBy ) {
-        $('[data-tab="bm-tab-upload"]').trigger('click');
+        $('#bm-tab-upload-tab').trigger('click');
     } else {
         // Show loader by adding a class.
         $('#bm-main-outer .bm-modal-body').addClass('bm-loading');
@@ -802,7 +802,7 @@ function bmUploadToBynder() {
                     removeCropCanvas();
 
                     // Trigger Auto Select recently uploaded image.
-                    $('[data-tab="bm-tab-assets"]').trigger('click');
+                    $('#bm-tab-assets-tab').trigger('click');
 
                     // Scroll to top the Assets tab.
                     $('.bm-modal-main .bm-modal-body').animate({
