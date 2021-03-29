@@ -628,3 +628,16 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 			color: $color__white;
 		}
 	}
+
+	#downloadable-pdfs-list,
+	#company-events-list,
+	#company-session-events-list {
+		&.amp-item-wrap .amp-item-info .search-actions a.button {
+			background: linear-gradient(90deg, $color__purple, $color__pink);
+			border-radius: rem(26);
+			padding: 0 rem(28);
+			&[href="javascript:void(0);"] {
+				background: $color__gray;
+			}
+		}
+	}
