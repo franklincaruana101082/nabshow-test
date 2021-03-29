@@ -208,7 +208,7 @@ function removeCropCanvas() {
     jQuery('#bm-upload-btn, #bm-precess-info, .single-meta').hide();
 
     // Show input button.
-    $('.bm-drag-drop-buttons').show();
+    jQuery('.bm-drag-drop-buttons').show();
 }
 
 // Add a popup function if not exists.
