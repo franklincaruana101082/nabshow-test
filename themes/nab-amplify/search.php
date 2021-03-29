@@ -302,7 +302,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$member_user_id = bp_get_member_user_id();
 								$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-								if (empty(trim($user_full_name))) {									
+								if (empty(trim($user_full_name))) {
 									$user_full_name = bp_get_member_name();
 								}
 
@@ -416,10 +416,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 												$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 											} else {
 												$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-											} 
+											}
 										?>
 										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -627,7 +627,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 										?>
 										<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+											<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 										</a>
 										<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 										<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -676,9 +676,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$current_date   = current_time('Y-m-d');
 				$compare		= '>=';
-		
+
 				$event_args['meta_query'] = array(
-		
+
 					array(
 						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
@@ -687,13 +687,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					)
 				);
 
-				$event_query = new WP_Query( $event_args );				
+				$event_query = new WP_Query( $event_args );
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				?>
 				<div class="search-view-top-head">
-					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Events</strong></h2>
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Partner Events</strong></h2>
 					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
@@ -767,10 +767,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</ul>
-				</div>				
+				</div>
 				<p class="no-search-data" style="display: none;">Result not found.</p>
 				<?php
-				$style = '';				
+				$style = '';
 				if (  1 === (int) $event_query->max_num_pages || $event_query->max_num_pages === 0 ) {
 					$style = 'display:none;';
 				}
@@ -952,7 +952,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			<?php
 			}
 
-			wp_reset_postdata();			
+			wp_reset_postdata();
 
 			$members_filter = array(
 				'page' 		=> 1,
@@ -1103,10 +1103,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
 										} else {
 											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										} 
+										}
 									?>
 									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -1286,7 +1286,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										$thumbnail_url = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 									?>
 									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">	
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
 									</a>
 									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
 									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
@@ -1321,7 +1321,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
+						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
 						<?php
 						if ( $total_event > 5 ) {
 
