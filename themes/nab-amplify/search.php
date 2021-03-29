@@ -794,9 +794,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if ( ! empty( $company_id ) ) {
 
 											$company_title 	= get_the_title( $company_id );
-											$company_link	= get_the_permalink( $company_id );
 											?>
-											<p class="company-info"><?php/*<a href="<?php echo esc_url( $company_link ); ?>">*/?><?php echo esc_html( $company_title ); ?><?php/*</a>*/?></p>
+											<p class="company-info"><?php echo esc_html( $company_title ); ?></p>
 											<?php
 										}
 										?>
@@ -1593,9 +1592,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										if ( ! empty( $company_id ) ) {
 
 											$company_title 	= get_the_title( $company_id );
-											$company_link	= get_the_permalink( $company_id );
 											?>
-											<p class="company-info"><?php/*<a href="<?php echo esc_url( $company_link ); ?>">*/?><?php echo esc_html( $company_title ); ?><?php/*</a>*/?></p>
+											<p class="company-info"><?php echo esc_html( $company_title ); ?></p>
 											<?php
 										}
 										?>
