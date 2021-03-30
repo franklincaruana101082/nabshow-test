@@ -956,7 +956,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section.search-content-section .search-item-inner:hover{z-index:1}
 .search-section.search-content-section .search-item-info{padding:25px 15px 40px;height:calc(100% - 175px)}
 .search-section.search-company-section .search-item-info h4{margin:0 0 80px}
-.search-section.search-company-section .search-item-avtar img{background-color:#fff}
+.search-section.search-company-section .search-item-avtar img, .search-section.search-company-section .result .result__image{background-color:#fff}
 .search-section.search-content-section .search-item-info .tooltip-wrap{font-size:20px;color:#fff;position:absolute;right:20px;bottom:15px}
 .search-section.search-content-section .search-item-info .tooltip-wrap .tooltip{right:-20px}
 .search-section.company-products .amp-item-wrap .amp-item-cover{height:175px}
