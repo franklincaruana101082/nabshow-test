@@ -1130,7 +1130,7 @@ function nab_company_content_render_callback($attributes)
         $content_query  = new WP_Query( $query_args );
         $total_post     = $content_query->found_posts;
 
-        if ( $content_query->have_posts() || $is_company_admin ) {
+        if ( $is_company_admin ) {
 
             $remaining_count = $total_post > 3 ? 0 : 3 - $total_post;
             ?>
