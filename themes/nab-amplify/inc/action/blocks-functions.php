@@ -595,120 +595,435 @@ function nab_company_events_render_callback($attributes)
     $display_order      = isset($attributes['displayOrder']) && !empty($attributes['displayOrder']) ? $attributes['displayOrder'] : 'DESC';
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $company_id         = $post->ID;
+    $member_level       = strtolower( get_field( 'member_level', $company_id ) );
+    $html               = '';
+    $add_event          = false;
 
-    $query_args = array(
-        'post_type'         => 'tribe_events',
-        'post_status'       => 'publish',
-        'posts_per_page'    => $posts_per_page,
-        'orderby'           => 'date',
-        'order'             => $display_order,
-        'meta_key'        => 'nab_selected_company_id',
-        'meta_value'    => $company_id
-    );
+    if ( 'plus' === $member_level || 'premium' === $member_level ) {
+
+        if ( is_user_logged_in() ) {
+
+            $user_id    = get_current_user_id();
+            $admin_id   = get_field( 'company_user_id', $company_id );
+    
+            if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {            
+    
+                if ( 'plus' === $member_level || 'premium' === $member_level ) {
+                    $add_event  = true;
+                    $class_name .= 'company-admin';
+                }
+            }
+        }
+
+        $current_timestamp = current_time( 'Y-m-d H:i:s' );
+
+        $upcoming_event_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'meta_key'			=> '_EventEndDate',
+            'meta_value'        => $current_timestamp,
+            'meta_compare'      => '>=',
+            'orderby'			=> 'meta_value',
+            'order'				=> 'ASC',
+            'fields'            => 'ids',
+            'meta_query'        => array(
+                array(
+                    'key'   => 'nab_selected_company_id',
+                    'value' => $company_id
+                )
+            )
+        );
+
+        $upcoming_event_query   = new WP_Query( $upcoming_event_args );
+        $upcoming_post_ids      = $upcoming_event_query->posts;
+        wp_reset_postdata();
+
+        $past_event_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'meta_key'			=> '_EventEndDate',
+            'meta_value'        => $current_timestamp,
+            'meta_compare'      => '<',
+            'orderby'			=> 'meta_value',
+            'order'				=> 'DESC',
+            'fields'            => 'ids',
+            'meta_query'        => array(
+                array(
+                    'key'   => 'nab_selected_company_id',
+                    'value' => $company_id
+                )
+            )
+        );
+
+        $past_event_query   = new WP_Query( $past_event_args );
+        $past_post_ids      = $past_event_query->posts;        
+        wp_reset_postdata();
+
+        $final_post_id = array_unique( array_merge( $upcoming_post_ids, $past_post_ids ) );
+        
+        $query_args = array(
+            'post_type'         => 'tribe_events',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'meta_key'			=> 'nab_selected_company_id',
+            'meta_value'        => $company_id,
+            'post__in'          => $final_post_id,
+            'orderby'           => 'post__in',
+        );
+
+        $event_query    = new WP_Query( $query_args );        
+        $total_post     = $event_query->found_posts;
 
 
-    $event_query = new WP_Query($query_args);
 
-    $html       = '';
-    $total_post = $event_query->found_posts;
+        $upcoming_session_args = array(
+            'post_type'         => 'sessions',
+            'post_status'       => 'publish',
+            'posts_per_page'    => 100,
+            'meta_key'			=> 'session_date',
+            'meta_value'        => $current_timestamp,
+            'meta_compare'      => '>=',
+            'orderby'			=> 'meta_value',
+            'order'				=> 'ASC',
+            'fields'            => 'ids',
+            'meta_query'        => array(
+                array(
+                    'key'   => 'company',
+                    'value' => $company_id
+                )
+            )
+        );
 
-    if ($event_query->have_posts()) {
+        $upcoming_session_query = new WP_Query( $upcoming_session_args );
+        $upcoming_session_ids   = $upcoming_session_query->posts;
+        wp_reset_postdata();
 
-        ob_start();
+        $past_session_args = array(
+            'post_type'         => 'sessions',
+            'post_status'       => 'publish',
+            'posts_per_page'    => 100,
+            'meta_key'			=> 'session_end_time',
+            'meta_value'        => $current_timestamp,
+            'meta_compare'      => '<',
+            'orderby'			=> 'meta_value',
+            'order'				=> 'DESC',
+            'fields'            => 'ids',
+            'meta_query'        => array(
+                array(
+                    'key'   => 'company',
+                    'value' => $company_id
+                )
+            )
+        );
 
-    ?>
-        <div class="company-events <?php echo esc_attr($class_name); ?>">
-            <div class="amp-item-main">
-                <div class="amp-item-heading">
-                    <h3>Events <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
-                    <?php
-                    if ($total_post > 4) {
-                    ?>
-                        <div class="amp-view-more">
-                            <a href="#" class="view-more-arrow">View All</a>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                </div>
-                <div class="amp-item-wrap" id="company-events-list">
-                    <?php
-                    $current_site_url = get_site_url();
+        $past_session_query = new WP_Query( $past_session_args );
+        $past_session_ids   = $past_session_query->posts;        
+        wp_reset_postdata();
 
-                    while ($event_query->have_posts()) {
+        $final_session_id = array_unique( array_merge( $upcoming_session_ids, $past_session_ids ) );
 
-                        $event_query->the_post();
+        $main_title_added = false;
 
-                        $event_post_id      = get_the_ID();
-                        $thumbnail_url      = nab_amplify_get_featured_image( $event_post_id, true, nab_product_company_placeholder_img() );
-                        $event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
-                        $event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
-                        $event_link         = get_post_meta($event_post_id, '_EventURL', true);
-                        $event_link         = !empty($event_link) ? trim($event_link) : get_the_permalink();
-                        $target             = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
-                        $event_date         = date_format(date_create($event_start_date), 'l, F j');
-                        $final_date         = $event_start_date;
+        $result_text = $total_post . ' RESULTS';
+    
+        if ( $add_event ) {
+            
+            $limit          = 'plus' === $member_level ? '3 TOTAL' : 'Unlimited';
+            $result_text    .= ' / ' . $limit;
+        }
 
-                        if (!empty($event_start_date) && !empty($event_end_date)) {
+        if ( is_array( $final_session_id ) && count( $final_session_id ) > 0 ) {
 
-                            if (date_format(date_create($event_start_date), 'Ymd') !== date_format(date_create($event_end_date), 'Ymd')) {
+            $main_title_added = true;
 
-                                $event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
-                                $final_date = $event_end_date;
+            ob_start();
+            ?>
+            <div class="company-events company-session-event">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <h3>Events <span>(<?php echo esc_html( $result_text ); ?>)</span></h3>
+                        <h4 style="padding-top: 10px;">NAB Amplify Events</h4>
+                    </div>
+                    <div class="amp-item-wrap" id="company-session-events-list">
+                        <?php
+                        
+                        $current_site_url = get_site_url();
+    
+                        foreach ( $final_session_id as $session_id ) {
+                            
+                            $thumbnail_url      = nab_amplify_get_featured_image( $session_id, true, nab_product_company_placeholder_img());
+                            $session_start_date = get_post_meta( $session_id, 'session_date', true);
+                            $session_end_date   = get_post_meta( $session_id, 'session_end_time', true);
+                            $session_link       = get_the_permalink( $session_id );
+                            $event_date         = date_format( date_create( $session_start_date ), 'l, F j' );
+                            $final_date         = $session_start_date;
+                            $start_time         = '';
+                            $end_time           = '';                            
+    
+                            if ( ! empty( $session_start_date ) && !empty( $session_end_date ) ) {
+    
+                                if ( date_format( date_create( $session_start_date ), 'Ymd' ) !== date_format( date_create( $session_end_date ), 'Ymd' ) ) {
+    
+                                    $event_date .= ' - ' . date_format( date_create( $session_end_date ), 'l, F j' );
+                                    $final_date = $session_end_date;
+                                }
                             }
-                        }
 
-                        $final_date     = date_format( date_create( $final_date ), 'Ymd' );
-                        $current_date   = current_time('Ymd');
-                        $opening_date   = new DateTime( $final_date );
-                        $current_date   = new DateTime( $current_date );
-                    ?>
-                        <div class="amp-item-col">
-                            <div class="amp-item-inner">
-                                <div class="amp-item-cover">
-                                    <?php
-                                    if ( $opening_date < $current_date ){
-                                        ?>
-                                        <div class="amp-draft-wrapper">
-                                            <span class="company-product-draft">Past Event</span>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
-                                    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
-                                </div>
-                                <div class="amp-item-info">
-                                    <div class="amp-item-content">
-                                        <h4>
-                                            <a href="<?php echo esc_url($event_link); ?>" target="<?php echo esc_attr($target); ?>"><?php echo esc_html(get_the_title()); ?></a>
-                                        </h4>
-                                        <?php
-                                        if (!empty($event_date)) {
+                            if ( ! empty( $session_start_date ) ) {
 
-                                        ?>
-                                            <span class="event-date"><?php echo esc_html($event_date); ?></span>
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $session_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+            
+                            }
+                            if ( ! empty( $session_end_date ) ) {
+            
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $session_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+            
+                            }
+                            
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+                
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
+                                }
+                            }
+    
+                            $final_date     = date_format( date_create( $final_date ), 'Ymd' );
+                            $current_date   = current_time( 'Ymd' );
+                            $opening_date   = new DateTime( $final_date );
+                            $current_date   = new DateTime( $current_date );
+                            ?>
+                            <div class="amp-item-col">
+                                <div class="amp-item-inner">                                    
+                                    <div class="amp-item-cover">
                                         <?php
+                                        if ( $opening_date < $current_date ) {
+                                            ?>
+                                            <div class="amp-draft-wrapper">
+                                                <span class="company-product-draft">Past Event</span>
+                                            </div>
+                                            <?php
                                         }
                                         ?>
-                                        <div class="amp-actions">
-                                            <div class="search-actions">
-                                                <a href="<?php echo esc_url($event_link); ?>" class="btn" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Event Image">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4>
+                                                <a href="<?php echo esc_url( $session_link ); ?>"><?php echo esc_html( get_the_title( $session_id ) ); ?></a>
+                                            </h4>
+                                            <?php
+                                            if ( ! empty( $event_date ) ) {
+                                                ?>
+                                                <span class="event-date"><?php echo esc_html( $event_date ); ?></span>
+                                                <?php
+                                            }
+                                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                                ?>
+                                                <span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+                                                <?php
+                                            }
+                                            ?>
+                                            <div class="amp-actions">
+                                                <div class="search-actions">
+                                                    <div class="event-disc_btn">
+                                                        <a href="<?php echo esc_url( $session_link ); ?>" class="button">View Event</a>                                                        
+                                                    </div>                                                    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
+                        <?php
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php
-        $html = ob_get_clean();
+            <?php
+            $html = ob_get_clean();
+        }
+    
+        if ( $event_query->have_posts() || $add_event ) {
+    
+            ob_start();            
+            ?>
+            <div class="company-events <?php echo esc_attr( $class_name ); ?>">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <?php
+                        if ( ! $main_title_added ) {
+                            ?>
+                            <h3>Events <span>(<?php echo esc_html( $result_text ); ?>)</span></h3>
+                            <h4 style="padding-top: 10px;">Partner Events</h4>
+                            <?php
+                        } else {
+                            ?>
+                            <h4>Partner Events</h4>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <div class="amp-item-wrap" id="company-events-list">
+                        <?php
+                        if ( $add_event ) {
+                            ?>
+                            <div class="amp-item-col add-new-item">
+                                <div class="amp-item-inner">
+                                    <div class="add-item-wrap">
+                                        <i class="event-add-edit-action add-item-icon fa fa-pencil" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                        <span class="add-item-label">Add Event</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        $current_site_url = get_site_url();
+    
+                        while ($event_query->have_posts()) {
+    
+                            $event_query->the_post();
+    
+                            $event_post_id      = get_the_ID();
+                            $thumbnail_url      = nab_amplify_get_featured_image($event_post_id, true, nab_product_company_placeholder_img());
+                            $event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
+                            $event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
+                            $event_link         = get_post_meta($event_post_id, '_EventURL', true);
+                            $event_link         = !empty($event_link) ? trim($event_link) : get_the_permalink();
+                            $target             = 0 === strpos($event_link, $current_site_url) ? '_self' : '_blank';
+                            $event_date         = date_format(date_create($event_start_date), 'l, F j');
+                            $final_date         = $event_start_date;
+                            $start_time         = '';
+                            $end_time           = '';
+                            $event_content      = wp_strip_all_tags( get_the_content() );
+    
+                            if (!empty($event_start_date) && !empty($event_end_date)) {
+    
+                                if (date_format(date_create($event_start_date), 'Ymd') !== date_format(date_create($event_end_date), 'Ymd')) {
+    
+                                    $event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
+                                    $final_date = $event_end_date;
+                                }
+                            }
+
+                            if ( ! empty( $event_start_date ) ) {
+
+                                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
+                                $start_time = str_replace(':00', '', $start_time );
+            
+                            }
+                            if ( ! empty( $event_end_date ) ) {
+            
+                                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
+                                $end_time   = str_replace(':00', '', $end_time );
+            
+                            }
+                            
+                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                
+                                if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
+                                    $start_time = str_replace(' a.m.', '', $start_time );
+                                }
+                
+                                if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
+                                    $start_time = str_replace(' p.m.', '', $start_time );
+                                }
+                            }
+    
+                            $final_date     = date_format(date_create($final_date), 'Ymd');
+                            $current_date   = current_time('Ymd');
+                            $opening_date   = new DateTime($final_date);
+                            $current_date   = new DateTime($current_date);
+                            ?>
+                            <div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <?php
+                                    if ( $add_event ) {
+                                        ?>
+                                        <div class="amp-action-remove">
+                                            <a href="javascript:void(0);" class="remove-event" data-id="<?php echo esc_attr( $event_post_id ); ?>" title="Remove">Remove Event</a>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <div class="amp-item-cover">
+                                        <?php
+                                        if ($opening_date < $current_date) {
+                                            ?>
+                                            <div class="amp-draft-wrapper">
+                                                <span class="company-product-draft">Past Event</span>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Event Image">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4>
+                                                <a href="<?php echo esc_url($event_link); ?>" target="<?php echo esc_attr($target); ?>"><?php echo esc_html(get_the_title()); ?></a>
+                                            </h4>
+                                            <?php
+                                            if ( ! empty( $event_date ) ) {
+                                                ?>
+                                                <span class="event-date"><?php echo esc_html( $event_date ); ?></span>
+                                                <?php
+                                            }
+                                            if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
+                                                ?>
+                                                <span class="event-time"><?php echo esc_html( $start_time . ' - ' . $end_time . ' ET' ); ?></span>
+                                                <?php
+                                            }
+                                            ?>
+                                            <div class="amp-actions">
+                                                <div class="search-actions">
+                                                    <div class="event-disc_btn">
+                                                        <a href="<?php echo esc_url($event_link); ?>" class="button" target="<?php echo esc_attr($target); ?>">View Event</a>
+                                                        <?php
+                                                        if ( ! empty( $event_content ) ) {
+                                                            ?>
+                                                            <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
+                                                                <span class="tooltip"><?php echo esc_html( $event_content ); ?></span>
+                                                            </i>
+                                                            <?php
+                                                        }
+                                                        ?>                                                        
+                                                    </div>
+                                                    <?php
+                                                    if ( $add_event ) {
+                                                        ?>
+                                                        <div class="nab-action-row">
+                                                            <i class="event-add-edit-action edit-block-icon fa fa-pencil" data-id="<?php echo esc_attr( $event_post_id ); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+            $event_html = ob_get_clean();
+            $html .= $event_html;
+        }
+        wp_reset_postdata();
     }
-    wp_reset_postdata();
 
     return $html;
 }

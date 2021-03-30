@@ -18,6 +18,16 @@
 
 $event->permalink   = tribe_get_event_meta( $event->ID, '_EventURL', true );
 ?>
+<?php
+$company_id = get_field( 'nab_selected_company_id', $event->ID );
+if ( ! empty( $company_id ) ) {	
+	?>
+	<div class="event-company">
+		<p class="event-company-link"><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( get_the_title( $company_id ) ); ?></a></p>
+	</div>
+	<?php
+}
+?>
 <h3 class="tribe-events-calendar-list__event-title tribe-common-h6 tribe-common-h4--min-medium">
 	<a
 		href="<?php echo esc_url( $event->permalink ); ?>"
