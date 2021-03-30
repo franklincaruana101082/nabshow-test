@@ -707,93 +707,174 @@ function nab_company_content_render_callback($attributes)
     $posts_per_page     = isset($attributes['itemToFetch']) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 4;
     $display_order      = isset($attributes['displayOrder']) && !empty($attributes['displayOrder']) ? $attributes['displayOrder'] : 'DESC';
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
-    $company_id         = $post->ID;
+    $is_company_admin   = false;
+    $html               = '';
+    $company_id         = get_the_ID();    
+    $member_level       = get_field( 'member_level', $company_id );
 
-    $query_args = array(
-        'post_type'         => 'articles',
-        'post_status'       => 'publish',
-        'posts_per_page'    => $posts_per_page,
-        'orderby'           => 'date',
-        'order'             => $display_order,
-        'meta_key'        => 'nab_selected_company_id',
-        'meta_value'    => $company_id
-
-    );
-
-
-    $content_query = new WP_Query($query_args);
-
-    $html       = '';
-    $total_post = $content_query->found_posts;
-
-    if ($content_query->have_posts()) {
+    if ( 'premium' === strtolower( $member_level ) ) {
 
         ob_start();
-    ?>
-        <div class="company-events <?php echo esc_attr($class_name); ?>">
-            <div class="amp-item-main">
-                <div class="amp-item-heading">
-                    <h3>Content <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
-                    <?php
-                    if ($total_post > 4) {
-                    ?>
-                        <div class="amp-view-more">
-                            <a href="#" class="view-more-arrow">View All</a>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                </div>
-                <div class="amp-item-wrap" id="company-content-list">
-                    <?php
-                    while ($content_query->have_posts()) {
 
-                        $content_query->the_post();
+        $display_main_heading = true;
 
-                        $thumbnail_url  = nab_amplify_get_featured_image( get_the_ID() );
-                        $event_link     = get_the_permalink();
-                        $post_date      = get_the_date('M. j, Y');
-                    ?>
-                        <div class="amp-item-col">
-                            <div class="amp-item-inner">
-                                <div class="amp-item-cover">
-                                    <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
-                                </div>
-                                <div class="amp-item-info">
-                                    <div class="amp-item-content">
-                                        <h4>
-                                            <a href="<?php echo esc_url($event_link); ?>"><?php echo esc_html(get_the_title()); ?></a>
-                                        </h4>
-                                        <?php
-                                        if (!empty($post_date)) {
+        $article_args = array(
+            'post_type'         => 'articles',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'orderby'           => 'date',
+            'order'             => $display_order,
+            'meta_key'          => 'nab_selected_company_id',
+            'meta_value'        => $company_id
+        );
+        $article_query  = new WP_Query( $article_args );
 
-                                        ?>
-                                            <span class="event-date">Date Published: <?php echo esc_html($post_date); ?></span>
-                                        <?php
-                                        }
-                                        ?>
-                                        <div class="amp-actions">
-                                            <div class="search-actions">
-                                                <a href="<?php echo esc_url($event_link); ?>" class="btn">Read More</a>
+        if ( $article_query->have_posts() ) {
+            
+            $display_main_heading = false;
+            ?>
+            <div class="company-content <?php echo esc_attr( $class_name ); ?>">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <h3>Content</h3>                        
+                    </div>
+                    <div class="amp-item-wrap" id="company-article-list">
+                        <?php                        
+
+                        while ( $article_query->have_posts() ) {
+
+                            $article_query->the_post();
+
+                            $thumbnail_url  = nab_amplify_get_featured_image( get_the_ID() );
+                            $article_link   = get_the_permalink();
+                            $post_date      = get_the_date('M. j, Y');
+                            ?>
+                            <div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <div class="amp-item-cover">
+                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Content Image">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4><?php echo esc_html( get_the_title() ); ?></h4>
+                                            <span class="event-date">Date Published: <?php echo esc_html( $post_date ); ?></span>
+                                            <div class="amp-actions">
+                                                <div class="search-actions">
+                                                    <a href="<?php echo esc_url( $article_link ); ?>" class="btn">Read More</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
+                            <?php
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
+            <?php
+        }
+        wp_reset_postdata();
+        
+        if ( is_user_logged_in() ) {
+
+            $user_id    = get_current_user_id();
+            $admin_id   = get_field( 'company_user_id', $company_id );
+    
+            if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {
+                $is_company_admin   = true;
+            }
+        }
+        
+        $query_args = array(
+            'post_type'         => 'content-submission',
+            'post_status'       => 'publish',
+            'posts_per_page'    => $posts_per_page,
+            'orderby'           => 'date',
+            'order'             => $display_order,
+            'meta_key'          => 'nab_selected_company_id',
+            'meta_value'        => $company_id
+        );
+    
+    
+        $content_query  = new WP_Query( $query_args );
+        $total_post     = $content_query->found_posts;
+    
+        if ( $content_query->have_posts() || $is_company_admin ) {
+            
+            $remaining_count = $total_post > 3 ? 0 : 3 - $total_post;            
+            ?>
+            <div class="company-content <?php echo esc_attr( $class_name ); ?>">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <?php
+                        if ( $display_main_heading ) {
+                            ?>
+                            <h3 class="content-main-heading">Content</h3>
+                            <?php
+                        }
+                        ?>
+                        <h4>Content Submissions</h4>
+                        <p class="content-msg">As a premium member, you can submit up to 3 total pieces of editorial content for editorial consideration each year. You have <?php echo esc_html( $remaining_count ); ?> submissions remaining.</p>
+                    </div>
+                    <div class="amp-item-wrap" id="company-content-list">
+                        <?php
+                        if ( $is_company_admin && $remaining_count > 0 ) {
+                            ?>
+                            <div class="amp-item-col add-new-item">
+                                <div class="amp-item-inner">
+                                    <div class="add-item-wrap">
+                                        <i class="content-add-action add-item-icon fa fa-pencil" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                        <span class="add-item-label">Submit Content</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+
+                        while ( $content_query->have_posts() ) {
+    
+                            $content_query->the_post();
+    
+                            $content_id         = get_the_ID();
+                            $thumbnail_url      = nab_amplify_get_featured_image( $content_id );                            
+                            $post_date          = get_the_date('M. j, Y');
+                            $author_id          = get_post_field( 'post_author', $content_id );
+                            $author_name        = get_user_meta( $author_id, 'first_name', true ) . ' ' . get_user_meta( $author_id, 'last_name', true );
+                            $author_profile_url = bp_core_get_user_domain( $author_id );
+
+                            if ( empty( trim( $author_name ) ) ) {
+                                $author_name = get_the_author();
+                            }
+                            ?>
+                            <div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <div class="amp-item-cover">
+                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="Content Image">
+                                    </div>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-content">
+                                            <h4><?php echo esc_html( get_the_title() ); ?></h4>
+                                            <span class="event-date">Submitted Date: <?php echo esc_html( $post_date ); ?></span>
+                                            <span class="submitted-by">Submitted By: <a href="<?php echo esc_url( $author_profile_url ); ?>"><?php echo esc_html( $author_name ); ?></a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?php            
+        }
 
         $html = ob_get_clean();
+    
+        wp_reset_postdata();
     }
-
-    wp_reset_postdata();
-
 
     return $html;
 }

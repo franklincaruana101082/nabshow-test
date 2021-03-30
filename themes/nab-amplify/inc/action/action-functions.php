@@ -507,6 +507,44 @@ function nab_amplify_register_post_types()
 
     // Registering speakers post type.
     register_post_type( 'speakers', $args );
+
+    $labels = array(
+        'name'               => _x('Content Submissions', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Content Submission', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Content Submission', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Content Submission', 'nab-amplify'),
+        'all_items'          => __('All Content Submissions', 'nab-amplify'),
+        'view_item'          => __('View Content Submission', 'nab-amplify'),
+        'add_new_item'       => __('Add New Content Submission', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Content Submission', 'nab-amplify'),
+        'update_item'        => __('Update Content Submission', 'nab-amplify'),
+        'search_items'       => __('Search Content Submission', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Content Submissions', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => false,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => true,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
+
+    );
+
+    // Registering Content Submission post type.
+    register_post_type( 'content-submission', $args );
 }
 
 // Hooking up our function to theme setup
