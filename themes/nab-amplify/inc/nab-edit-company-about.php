@@ -4,7 +4,7 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
 	$member_level = get_field( 'member_level', $company_data['ID'] );
 }
 ?>
-<div id="addProductModal" class="nab-modal theme-dark nab-modal-active">
+<div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">
 			<span class="nab-modal-close fa fa-times"></span>
