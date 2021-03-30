@@ -13,7 +13,7 @@ get_header();
 $search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
-$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf');
+$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf' );
 $allowed_tags 		= wp_kses_allowed_html('post');
 
 $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
@@ -104,6 +104,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					<?php
+					} else if ( 'pdf' === $view_type ) {
+						?>
+						<div class="sort-pdf sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+						</div>
+						<?php					
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
@@ -482,7 +489,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					if ( $get_search_term_id ) {
 
-						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;
+						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;						
 					}
 				} else {
 					$company_args['meta_query'] = array(
@@ -498,7 +505,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['orderby']	= 'meta_value_num';
 						$company_args['order']		= 'DESC';
 					}
-				}
+				}				
 
 				$company_query = new WP_Query($company_args);
 
@@ -1310,7 +1317,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( $get_search_term_id ) {
 
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
+					$company_args['_meta_company_term']		= $get_search_term_id->term_id;					
 				}
 			} else {
 				$company_args['meta_query'] = array(
@@ -1326,7 +1333,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['orderby']	= 'meta_value_num';
 					$company_args['order']		= 'DESC';
 				}
-			}
+			}			
 
 			$company_query = new WP_Query($company_args);
 
@@ -1689,9 +1696,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 </div>
                                                 <div class="amp-actions">
                                                     <div class="search-actions nab-action">
-                                                    	<span class="pdf_btn_wrap download-disabled">
+                                                        <span class="pdf_btn_wrap download-disabled">
                                                         	<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
-                                                        </span>
+                                                       	</span>
                                                     </div>
                                                 </div>
                                                 <?php if ( ! empty( $pdf_content ) ) { ?>

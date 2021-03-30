@@ -34,7 +34,7 @@ if ( ! empty( $wp->query_vars ) ) {
 	}
 }
 $page_title = str_replace( '-', ' ', $page_title );
-switch ( $page_title ) {	
+switch ( $page_title ) {
 	case 'edit address':
 		$page_title = 'edit address';
 		break;
@@ -43,6 +43,9 @@ switch ( $page_title ) {
 		break;
 	case 'my purchases':
 		$page_title = 'Access My Content';
+		break;
+	case 'edit companies':
+		$page_title = 'Edit My Companies';
 		break;
 }
 

@@ -370,6 +370,14 @@ function nab_amplify_my_purchases_endpoint()
 }
 
 /**
+ * Register edit my companies endpoint to use for My Account page.
+ */
+function nab_amplify_edit_companies_endpoint()
+{
+    add_rewrite_endpoint('edit-companies', EP_ROOT | EP_PAGES);
+}
+
+/**
  * Register my connections endpoint to use for My Account page.
  */
 function nab_amplify_my_connections_endpoint()
@@ -1256,6 +1264,71 @@ function nab_amplify_add_company_content( WP_REST_Request $request ) {
 	}
 
 	die();
+}
+
+/**
+ * Get user images.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return array
+ */
+function nab_amplify_get_user_images_endpoint(WP_REST_Request $request) {
+
+	$parameters = $request->get_params();
+
+	$user_id     = isset( $parameters['user_id'] ) ? $parameters['user_id'] : 0;
+	$user_images = nab_amplify_get_user_images( $user_id );
+
+	return new WP_REST_Response( $user_images, 200 );
+}
+
+/**
+ * Retrieves the user images.
+ *
+ * @return array list of user images
+ */
+function nab_amplify_get_user_images($user_id = 0) {
+
+	$user_id           = 0 !== $user_id && null !== $user_id ? $user_id : get_current_user_id();
+	$user_images_names = array(
+		array(
+			'name'    => 'profile_picture',
+			'default' => 'avtar.jpg'
+		),
+		array(
+			'name'    => 'banner_image',
+			'default' => 'search-box-cover.png'
+		)
+	);
+
+	$user_images = array();
+	foreach ($user_images_names as $user_image) {
+
+		$user_image_id = get_user_meta($user_id, $user_image['name'], true);
+
+		// If the meta value contains "assets", it has Bynder URL.
+		if ( strpos( $user_image_id, 'assets') !== false ) {
+			$user_images[$user_image['name']] = $user_image_id;
+
+			// Else try to find from attachments.
+		} else {
+			if ('removed' === $user_image_id) {
+				// Show default avatar if deleted from edit profile section.
+				$user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			} else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
+				// Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
+				$user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
+			} else {
+				// Show uploaded images or the default ones.
+				$user_images[$user_image['name']] = !empty($user_image_id)
+					? wp_get_attachment_image_src($user_image_id, 'full')[0]
+					: get_template_directory_uri() . '/assets/images/' . $user_image['default'];
+			}
+		}
+	}
+
+	return $user_images;
 }
 
 /**
@@ -3284,43 +3357,43 @@ function nab_add_product()
         update_field( 'product_media_bm', $product_media_bm, $post_id );
 
 	} else {
-    $dependencies_loaded = 0;
+        $dependencies_loaded = 0;
 
-    $existing_product_media = count($uploaded_attachments);
+        $existing_product_media = count($uploaded_attachments);
 
-    $diff = 4 - $existing_product_media;
+        $diff = 4 - $existing_product_media;
 
-    foreach ($_FILES as $file_key => $file_details) {
-        if ($file_key < $diff) {
-            if (0 === $dependencies_loaded) {
-                // These files need to be included as dependencies when on the front end.
-                require_once ABSPATH . 'wp-admin/includes/image.php';
-                require_once ABSPATH . 'wp-admin/includes/file.php';
-                require_once ABSPATH . 'wp-admin/includes/media.php';
-                $dependencies_loaded = 1;
-            }
+        foreach ($_FILES as $file_key => $file_details) {
+            if ($file_key < $diff) {
+                if (0 === $dependencies_loaded) {
+                    // These files need to be included as dependencies when on the front end.
+                    require_once ABSPATH . 'wp-admin/includes/image.php';
+                    require_once ABSPATH . 'wp-admin/includes/file.php';
+                    require_once ABSPATH . 'wp-admin/includes/media.php';
+                    $dependencies_loaded = 1;
+                }
 
-            // Let WordPress handle the upload.
-            $attachment_id = media_handle_upload($file_key, 0);
+                // Let WordPress handle the upload.
+                $attachment_id = media_handle_upload($file_key, 0);
 
-            if (!is_wp_error($attachment_id)) {
-                // update in meta
-                if ($file_key === 'product_featured_image') {
-                    set_post_thumbnail($post_id, $attachment_id);
-                } else {
-                    $uploaded_attachments[] = $attachment_id;
+                if (!is_wp_error($attachment_id)) {
+                    // update in meta
+                    if ($file_key === 'product_featured_image') {
+                        set_post_thumbnail($post_id, $attachment_id);
+                    } else {
+                        $uploaded_attachments[] = $attachment_id;
+                    }
                 }
             }
         }
-    }
 
-    foreach ($uploaded_attachments as $item) {
-        $field_key = "field_5fb687d9c964e";
-        $value[]   = array(
-            "product_media_file" => $item,
-        );
-    }
-    update_field($field_key, $value, $post_id);
+        foreach ($uploaded_attachments as $item) {
+            $field_key = "field_5fb687d9c964e";
+            $value[]   = array(
+                "product_media_file" => $item,
+            );
+        }
+        update_field($field_key, $value, $post_id);
     }
 
     // Add product copy

@@ -147,7 +147,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 <?php
                                     if ( is_user_logged_in() ) {
                                         $current_user    = wp_get_current_user();
-                                        $user_thumb      = get_avatar_url( $current_user->ID );
+                                        $user_images     	= $this->ep_get_user_images( $current_user->ID );
+                                        $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
+
                                         $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
                                         ?>
                                         <ul class="nab-profile nab-logged-in">
@@ -233,6 +235,32 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             return $sorted_logos;
 
+        }
+
+        /**
+         * Returns the global header logos added in Amplify
+         *
+         * @return array|string
+         */
+	    public function ep_get_user_images( $user_id ) {
+
+            $api_base_url = get_option( 'ep_parent_site_url' );
+
+            if( empty( $api_base_url ) ) {
+              return '';
+            }
+
+            $api_url         = $api_base_url . 'wp-json/nab/request/get-user-images?user_id=' . $user_id;
+            $get_user_images = wp_remote_get( $api_url );
+            $response        = wp_remote_retrieve_body( $get_user_images );
+
+            if( isset( $response ) && ! empty( $response ) ) {
+              $user_images = json_decode( $response, true );
+            } else {
+              return '';
+            }
+
+            return $user_images;
         }
 
         /**

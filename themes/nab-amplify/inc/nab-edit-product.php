@@ -64,7 +64,6 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 							</div>
 							<div class="form-row" id="product_media_wrapper">
 								<?php
-
 								if (isset($post_data->product_media)) {
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
