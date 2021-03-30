@@ -1157,34 +1157,95 @@ function nab_amplify_add_company_content( WP_REST_Request $request ) {
 	global $wpdb;
 	$parameters = $request->get_params();
 
-	$limit     = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
+	$limit  = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
+	$postid = isset( $parameters['postid'] ) ? $parameters['postid'] : '';
+	$reg    = isset( $parameters['reg'] ) ? $parameters['reg'] : '';
 
-	$result = $wpdb->get_results(
-		$wpdb->prepare( "SELECT * FROM %1sposts
-            WHERE post_content NOT LIKE '%ownloadable-pdf%'
-            AND post_type = 'company'
-            AND post_status = 'publish'
-            LIMIT %d",
-		    $wpdb->prefix, $limit ) );
-
-	if ( $result ) {
-		foreach ( $result as $com ) {
-
-			$post_ID      = $com->ID;
-			$post_content = $com->post_content;
-			$post_content = $post_content . '<!-- wp:nab/downloadable-pdfs /-->';
-
-			$com_post = array(
-				'ID'           => $post_ID,
-				'post_content' => $post_content,
-			);
-			wp_update_post( $com_post );
-
-			echo "$post_ID | ";
+	if( ! empty( $reg ) ) {
+		if ( ! empty( $postid ) ) {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%regional-addressess%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_content LIKE '%wp:nab/company-details%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                AND ID = %d",
+					$wpdb->prefix, $postid ) );
+		} else {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%regional-addressess%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_content LIKE '%wp:nab/company-details%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                LIMIT %d",
+					$wpdb->prefix, $limit ) );
 		}
+
+		if ( $result ) {
+			foreach ( $result as $com ) {
+
+				$com_ID       = $com->ID;
+				$post_content = $com->post_content;
+				$post_content = str_replace('<!-- wp:nab/company-details /-->', '<!-- wp:nab/company-details /--><!-- wp:nab/regional-addressess /-->', $post_content);
+
+				$com_post = array(
+					'ID'           => $com_ID,
+					'post_content' => $post_content,
+				);
+				wp_update_post( $com_post );
+
+				echo "$com_ID | ";
+			}
+		} else {
+			echo "All companies updated with regional block!";
+		}
+
 	} else {
-	    echo "All companies updated!";
-    }
+
+		if ( ! empty( $postid ) ) {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%ownloadable-pdf%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                AND ID = %d",
+					$wpdb->prefix, $postid ) );
+		} else {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%ownloadable-pdf%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                LIMIT %d",
+					$wpdb->prefix, $limit ) );
+		}
+
+
+		if ( $result ) {
+			foreach ( $result as $com ) {
+
+				$com_ID       = $com->ID;
+				$post_content = $com->post_content;
+				$post_content = $post_content . '<!-- wp:nab/downloadable-pdfs /-->';
+
+				$com_post = array(
+					'ID'           => $com_ID,
+					'post_content' => $post_content,
+				);
+				wp_update_post( $com_post );
+
+				echo "$com_ID | ";
+			}
+		} else {
+			echo "All companies updated with downloadable-pdf!";
+		}
+	}
+
 	die();
 }
 
