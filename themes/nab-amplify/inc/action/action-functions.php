@@ -1135,8 +1135,34 @@ function nab_amplify_add_company_content( WP_REST_Request $request ) {
 	$limit  = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
 	$postid = isset( $parameters['postid'] ) ? $parameters['postid'] : '';
 	$reg    = isset( $parameters['reg'] ) ? $parameters['reg'] : '';
+	$check  = isset( $parameters['check'] ) ? $parameters['check'] : '';
 
-	if( ! empty( $reg ) ) {
+	if( ! empty( $check ) ) {
+		$result = $wpdb->get_results(
+			$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content LIKE '%$check%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                LIMIT %d",
+				$wpdb->prefix, $limit ) );
+
+		if ( $result ) {
+			foreach ( $result as $com ) {
+
+				$com_ID       = $com->ID;
+				$post_content = $com->post_content;
+				$count = explode($check, $post_content);
+
+				if( 1 < $count ) {
+				    echo "$com_ID | ";
+                }
+
+			}
+		} else {
+			echo "All companies are fine!";
+		}
+	}
+	else if( ! empty( $reg ) ) {
 		if ( ! empty( $postid ) ) {
 			$result = $wpdb->get_results(
 				$wpdb->prepare( "SELECT * FROM %1sposts
