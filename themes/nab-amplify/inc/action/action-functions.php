@@ -314,7 +314,7 @@ function nab_reset_password_validation($errors, $user)
 function nab_amplify_add_custom_endpoints()
 {
     add_rewrite_endpoint('edit-my-profile', EP_ROOT | EP_PAGES);
-    add_rewrite_endpoint('edit-companies', EP_ROOT | EP_PAGES);
+	add_rewrite_endpoint('edit-companies', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('my-purchases', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('my-connections', EP_ROOT | EP_PAGES);
     add_rewrite_endpoint('my-events', EP_ROOT | EP_PAGES);
@@ -334,7 +334,7 @@ function nab_amplify_my_purchases_content_callback()
  */
 function nab_amplify_edit_companies_content_callback()
 {
-    get_template_part('template-parts/content', 'edit-companies');
+	get_template_part('template-parts/content', 'edit-companies');
 }
 
 /**
@@ -507,6 +507,48 @@ function nab_amplify_register_post_types()
 
     // Registering speakers post type.
     register_post_type( 'speakers', $args );
+
+
+    $labels = array(
+        'name'               => _x('Opt Ins', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Opt In', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Opt Ins', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Opt Ins', 'nab-amplify'),
+        'all_items'          => __('All Opt Ins', 'nab-amplify'),
+        'view_item'          => __('View Opt In', 'nab-amplify'),
+        'add_new_item'       => __('Add New Opt In', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Opt Ins', 'nab-amplify'),
+        'update_item'        => __('Update Opt Ins', 'nab-amplify'),
+        'search_items'       => __('Search Opt Ins', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Opt Ins', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 100,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => true,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'rewrite'             => false,
+        'delete_with_user'    => false,
+        'supports'            => array('title', 'author', 'revisions', 'custom-fields'),
+
+    );
+
+    // Registering your Custom Post Type
+    register_post_type('opt-in', $args);
 
     $labels = array(
         'name'               => _x('Content Submissions', 'Post Type General Name', 'nab-amplify'),
@@ -1112,6 +1154,116 @@ function amplify_register_api_endpoints()
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
     ));
+
+	register_rest_route('nab', '/company/add-content', array(
+		'methods'             => 'GET',
+		'callback'            => 'nab_amplify_add_company_content',
+		'permission_callback' => '__return_true',
+	));
+}
+
+/**
+ * Add content to companies.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return array
+ */
+function nab_amplify_add_company_content( WP_REST_Request $request ) {
+
+	global $wpdb;
+	$parameters = $request->get_params();
+
+	$limit  = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
+	$postid = isset( $parameters['postid'] ) ? $parameters['postid'] : '';
+	$reg    = isset( $parameters['reg'] ) ? $parameters['reg'] : '';
+
+	if( ! empty( $reg ) ) {
+		if ( ! empty( $postid ) ) {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%regional-addressess%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_content LIKE '%wp:nab/company-details%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                AND ID = %d",
+					$wpdb->prefix, $postid ) );
+		} else {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%regional-addressess%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_content LIKE '%wp:nab/company-details%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                LIMIT %d",
+					$wpdb->prefix, $limit ) );
+		}
+
+		if ( $result ) {
+			foreach ( $result as $com ) {
+
+				$com_ID       = $com->ID;
+				$post_content = $com->post_content;
+				$post_content = str_replace('<!-- wp:nab/company-details /-->', '<!-- wp:nab/company-details /--><!-- wp:nab/regional-addressess /-->', $post_content);
+
+				$com_post = array(
+					'ID'           => $com_ID,
+					'post_content' => $post_content,
+				);
+				wp_update_post( $com_post );
+
+				echo "$com_ID | ";
+			}
+		} else {
+			echo "All companies updated with regional block!";
+		}
+
+	} else {
+
+		if ( ! empty( $postid ) ) {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%ownloadable-pdf%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                AND ID = %d",
+					$wpdb->prefix, $postid ) );
+		} else {
+			$result = $wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %1sposts
+                WHERE post_content NOT LIKE '%ownloadable-pdf%'
+                AND post_content NOT LIKE '%:17224%'
+                AND post_type = 'company'
+                AND post_status = 'publish'
+                LIMIT %d",
+					$wpdb->prefix, $limit ) );
+		}
+
+
+		if ( $result ) {
+			foreach ( $result as $com ) {
+
+				$com_ID       = $com->ID;
+				$post_content = $com->post_content;
+				$post_content = $post_content . '<!-- wp:nab/downloadable-pdfs /-->';
+
+				$com_post = array(
+					'ID'           => $com_ID,
+					'post_content' => $post_content,
+				);
+				wp_update_post( $com_post );
+
+				echo "$com_ID | ";
+			}
+		} else {
+			echo "All companies updated with downloadable-pdf!";
+		}
+	}
+
+	die();
 }
 
 /**

@@ -46,7 +46,8 @@ if ( $company_query->have_posts() ) {
 
 				$company_query->the_post();
 
-				$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
+				$profile_picture    = get_field( 'profile_picture' );
+				$cover_image     = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 				$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 				$profile_picture  	= $featured_image;
 				$company_url		= get_the_permalink();

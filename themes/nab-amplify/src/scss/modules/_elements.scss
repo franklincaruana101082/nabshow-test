@@ -135,7 +135,7 @@ blockquote {
 
 a {
   color: $color__yellow;
-  font-family: $font__primary;
+  //font-family: $font__primary;
   transition: color .3s ease-in-out;
   &:hover, &:focus, &:active {
     color: $color__white;

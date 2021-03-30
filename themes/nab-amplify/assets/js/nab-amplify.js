@@ -301,6 +301,7 @@
       placeholder: "Select Point of contact",
       allowClear: true,
     });
+
   });
   charcount("keyup", "#company_about", "#character-count-comp-about", 2000);
   charcount(
@@ -527,6 +528,18 @@
     const _this = $(this)
     _this.addClass('loading')
     get_employee_remove_popup('Are you sure want to remove?',empolyee_id)
+
+  })
+
+  $(document).on('click', '.remove-employee ', function (e) {
+    e.preventDefault();
+    const empolyee_id =
+      undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    get_employee_remove_popup('Are you sure want to remove?',empolyee_id)
+
 
   })
 
@@ -4975,7 +4988,7 @@
 function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
 
   let postPerPage = jQuery('#load-more-pdf a').attr('data-post-limit') ? parseInt(jQuery('#load-more-pdf a').attr('data-post-limit')) : 12;
-  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let searchTerm = 0 < jQuery('.search-result-filter .search__form input[name="s"]').length ? jQuery('.search-result-filter .search__form input[name="s"]').val() : '';
   let orderBy = 0 < jQuery('.other-search-filter .sort-pdf a.active').length ? jQuery('.other-search-filter .sort-pdf a.active').attr('data-order') : 'date';
 
   jQuery('body').addClass('is-loading');

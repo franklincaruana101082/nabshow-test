@@ -695,7 +695,6 @@ function nab_company_events_render_callback($attributes)
                 )
             )
         );
-
         $upcoming_session_query = new WP_Query( $upcoming_session_args );
         $upcoming_session_ids   = $upcoming_session_query->posts;
         wp_reset_postdata();

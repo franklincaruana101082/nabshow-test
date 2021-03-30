@@ -62,6 +62,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					<?php
+					} else if ( 'pdf' === $view_type ) {
+						?>
+						<div class="sort-pdf sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+						</div>
+						<?php
 					} else if ('company' === $view_type) {
 						$active_class = '';
 
