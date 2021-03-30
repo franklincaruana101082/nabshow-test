@@ -1153,7 +1153,7 @@ function nab_amplify_add_company_content( WP_REST_Request $request ) {
 				$post_content = $com->post_content;
 				$count = explode($check, $post_content);
 
-				if( 1 < $count ) {
+				if( 2 < $count ) {
 				    echo "$com_ID | ";
                 }
 
