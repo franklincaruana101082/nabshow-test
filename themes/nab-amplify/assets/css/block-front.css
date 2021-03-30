@@ -261,6 +261,10 @@
 #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px 50px}
 .company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info{padding:25px 15px;}
 #downloadable-pdfs-list .download-pdf-input{margin:0 0 30px;}
+#downloadable-pdfs-list .search-actions .pdf_btn_wrap{display:inline-block;}
+#downloadable-pdfs-list .search-actions .download-disabled{position:relative;}
+#downloadable-pdfs-list .search-actions .download-disabled::after{border:1px solid #737373;border-radius:1px;box-shadow:4px 4px 8px rgb(0 0 0 / 20%);color:#333;content:"Please check the agreement checkbox to download PDF";font-family:"Helvetica Neue",helvetica,arial,san-serif;font-size:12px;font-weight:400;letter-spacing:normal;line-height:1.25;padding:5px 8px;pointer-events:none;text-shadow:none;text-transform:none;transition:all 1.5s ease;word-wrap:break-word;z-index:100000;width:190px;background-color:#fff;position:absolute;transform:translate3d(0,0,0);top:-45px;left:0;visibility:hidden;display:none;opacity:0;}
+#downloadable-pdfs-list .search-actions .download-disabled:hover::after{display:block;opacity:1;overflow:visible;visibility:visible;}
 .company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
 #downloadable-pdfs-list .amp-check-container{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;}
 #downloadable-pdfs-list .amp-check-container label{text-align:left;font-size:14px;color:#fff}
@@ -462,6 +466,7 @@
 	.company-pdfs.company-admin .amp-item-wrap .amp-item-info .pdf-disc_btn{width:100%;margin-bottom:20px}
 	.company-admin #downloadable-pdfs-list.amp-item-wrap .amp-item-info .search-actions{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;}
 	.company-pdfs.company-admin .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-20px;left:auto; -webkit-transform:translate(0); -ms-transform:translate(0); transform:translate(0);}
+	#downloadable-pdfs-list .search-actions .download-disabled::after{left:50%;transform:translateX(-50%);}
 }
 
 @media (max-width:480px) {
