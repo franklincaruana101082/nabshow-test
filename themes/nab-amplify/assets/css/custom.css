@@ -1028,6 +1028,7 @@ a.woocommerce-button.button.return-btn{text-transform:none}
 .search-section.search-pdf-section .amp-item-wrap .amp-item-info .tooltip-wrap{font-size:20px;position:absolute;right:20px;bottom:15px;color:#fff;}
 .search-section.search-pdf-section .amp-item-wrap .amp-item-info .tooltip-wrap .tooltip{right:-10px}
 .search-section.search-pdf-section .amp-item-wrap .amp-item-inner:hover{z-index:3}
+.search-section.search-pdf-section #downloadable-pdfs-list .search-actions .download-disabled::after{left:50%;transform:translateX(-50%)}
 .search-not-found{text-align:center;padding:20px 0;max-width:95%;margin:0 auto}
 .search-not-found p{display:inline-block;padding:15px;color:#fff;font-size:18px;border:1px solid #fff;margin:0}
 .no-search-data{text-align:center;padding:5vw 0;font-size:22px;color:#fff}

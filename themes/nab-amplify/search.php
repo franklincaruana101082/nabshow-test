@@ -991,7 +991,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 													</div>
 													<div class="amp-actions">
 														<div class="search-actions nab-action">
-															<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+															<span class="pdf_btn_wrap download-disabled">
+																<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+															</span>
 														</div>
 													</div>
 													<?php if ( ! empty( $pdf_content ) ) { ?>
@@ -1687,7 +1689,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 </div>
                                                 <div class="amp-actions">
                                                     <div class="search-actions nab-action">
-                                                        <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+                                                        <span class="pdf_btn_wrap download-disabled">
+                                                        	<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+                                                       	</span>
                                                     </div>
                                                 </div>
                                                 <?php if ( ! empty( $pdf_content ) ) { ?>
