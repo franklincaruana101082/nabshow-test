@@ -63,9 +63,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						</div>
 					<?php
 					} else if ('company' === $view_type) {
-					?>
+						$active_class = '';
+
+						if ( ! empty( $search_term ) ) {
+							$active_class = 'active';
+						}
+						?>
 						<div class="sort-company sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order" data-order='date'>Newest</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( $active_class ); ?>" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order" data-order='title'>Alphabetical</a>
 							<?php
 
