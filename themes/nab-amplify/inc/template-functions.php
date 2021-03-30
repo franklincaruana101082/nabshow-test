@@ -1112,3 +1112,79 @@ function nab_maritz_redirect_url( $user_id ) {
 
 	return add_query_arg( $params, $url );
 }
+
+/**
+ * Get add pdf limit base on company member level.
+ *
+ * @param  string $member_level
+ *
+ * @return int
+ */
+function nab_get_pdf_limit_by_member_level( $member_level ) {
+
+	if ( empty( $member_level ) ) {
+		return 0;
+	}
+
+	$member_level = strtolower( $member_level );
+
+	$member_level_pdf_limit = array(
+		'plus'		=> 3,
+		'premium'	=> 6,
+	);
+
+	return isset( $member_level_pdf_limit[$member_level] ) ? $member_level_pdf_limit[$member_level] : 0;
+}
+
+function nab_company_member_validation( $company_id = 0, $action_type = 'update' ) {
+
+	$result = array( 'success' => true );
+
+	if ( empty( $company_id ) || 0 === $company_id ) {
+
+		$result['success'] = false;
+		$result['message'] = 'Something went wrong while fetching company ID. Please try again.';
+
+		return $result;
+	}
+
+	$member_level 	= get_field( 'member_level', $company_id );
+	$max_limit		= nab_get_pdf_limit_by_member_level( $member_level );
+
+	if ( $max_limit > 0 ) {
+
+		$query_args = array(
+            'post_type'         => 'downloadable-pdfs',
+            'post_status'       => 'publish',
+            'posts_per_page'    => -1,
+            'meta_key'          => 'nab_selected_company_id',
+            'meta_value'        => $company_id,
+            'fields'            => 'ids',
+        );
+
+		$company_pdf_query 	= new WP_Query( $query_args );
+		$total_pdf			= count( $company_pdf_query->posts );
+
+		if ( 'add' === $action_type ) {
+			$total_pdf += 1;
+		}
+
+		if ( $total_pdf > $max_limit ) {
+
+			$result['success'] = false;
+
+			if ( 'premium' === strtolower( $member_level ) ) {
+				$result['message'] = 'With the Premium Partner Package you are limited to six downloadable PDFs. Please delete one to upload a new PDF.';
+			} else {
+				$result['message'] = 'With the Plus Partner Package you are limited to three downloadable PDFs at a time. Please delete one or contact your sales rep to upgrade to the Premium Package for unlimited PDFs.';
+			}
+		}
+
+	} else {
+
+		$result['success'] = false;
+		$result['message'] = 'You can\'t add or update downloadable PDF with your current package. Please contact your sales rep to upgrade the package.';
+	}
+
+	return $result;
+}

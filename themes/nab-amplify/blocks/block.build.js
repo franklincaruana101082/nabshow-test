@@ -111,7 +111,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__block_company_feature_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__block_company_feature_block__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__block_regional_addressess_block__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__block_regional_addressess_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__block_regional_addressess_block__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__block_downloadable_pdfs_block__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__block_downloadable_pdfs_block___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__block_downloadable_pdfs_block__);
 // import all blocks here
+
 
 
 
@@ -7992,6 +7995,123 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
     });
 })(wp.i18n, wp.blocks, wp.element, wp.components);
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(function (wpI18n, wpBlocks, wpElement, wpEditor, wpComponents) {
+    var __ = wpI18n.__;
+    var Component = wpElement.Component,
+        Fragment = wpElement.Fragment;
+    var registerBlockType = wpBlocks.registerBlockType;
+    var InspectorControls = wpEditor.InspectorControls;
+    var PanelBody = wpComponents.PanelBody,
+        SelectControl = wpComponents.SelectControl,
+        ServerSideRender = wpComponents.ServerSideRender,
+        RangeControl = wpComponents.RangeControl;
+
+    var NabDownloadablePDFs = function (_Component) {
+        _inherits(NabDownloadablePDFs, _Component);
+
+        function NabDownloadablePDFs() {
+            _classCallCheck(this, NabDownloadablePDFs);
+
+            var _this = _possibleConstructorReturn(this, (NabDownloadablePDFs.__proto__ || Object.getPrototypeOf(NabDownloadablePDFs)).apply(this, arguments));
+
+            _this.state = {
+                termsObj: {},
+                filterTermsObj: {}
+            };
+            return _this;
+        }
+
+        _createClass(NabDownloadablePDFs, [{
+            key: "render",
+            value: function render() {
+                var _props = this.props,
+                    attributes = _props.attributes,
+                    setAttributes = _props.setAttributes;
+                var itemToFetch = attributes.itemToFetch,
+                    displayOrder = attributes.displayOrder;
+
+                return wp.element.createElement(
+                    Fragment,
+                    null,
+                    wp.element.createElement(
+                        InspectorControls,
+                        null,
+                        wp.element.createElement(
+                            PanelBody,
+                            { title: __('Data Settings '), initialOpen: true, className: "range-setting" },
+                            wp.element.createElement(
+                                "div",
+                                { className: "inspector-field inspector-field-Numberofitems " },
+                                wp.element.createElement(
+                                    "label",
+                                    { className: "inspector-mb-0" },
+                                    "Number of items"
+                                ),
+                                wp.element.createElement(RangeControl, {
+                                    value: itemToFetch,
+                                    min: 1,
+                                    max: 200,
+                                    onChange: function onChange(item) {
+                                        return setAttributes({ itemToFetch: parseInt(item) });
+                                    }
+                                })
+                            ),
+                            wp.element.createElement(SelectControl, {
+                                label: __('Display Order'),
+                                value: displayOrder,
+                                options: [{ label: __('Oldest to Newest'), value: 'ASC' }, { label: __('Newest to Oldest'), value: 'DESC' }],
+                                onChange: function onChange(value) {
+                                    setAttributes({ displayOrder: value });
+                                }
+                            })
+                        )
+                    ),
+                    wp.element.createElement(ServerSideRender, {
+                        block: "nab/downloadable-pdfs",
+                        attributes: { itemToFetch: itemToFetch, displayOrder: displayOrder }
+                    })
+                );
+            }
+        }]);
+
+        return NabDownloadablePDFs;
+    }(Component);
+
+    var blockAttrs = {
+        itemToFetch: {
+            type: 'number',
+            default: 10
+        },
+        displayOrder: {
+            type: 'string',
+            default: 'DESC'
+        }
+    };
+    registerBlockType('nab/downloadable-pdfs', {
+        title: __('Downloadable PDFs'),
+        icon: 'download',
+        category: 'nab_amplify',
+        keywords: [__('Downloadable'), __('Download'), __('PDF')],
+        attributes: blockAttrs,
+        edit: NabDownloadablePDFs,
+        save: function save() {
+            return null;
+        }
+    });
+})(wp.i18n, wp.blocks, wp.element, wp.editor, wp.components);
 
 /***/ })
 /******/ ]);
