@@ -1182,7 +1182,7 @@ function nab_member_search_filter_callback()
 				$member_user_id	= bp_get_member_user_id();
 				$is_friend		= friends_check_friendship_status($current_user_id, $member_user_id);
 				$user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-				if (empty(trim($user_full_name))) {					
+				if (empty(trim($user_full_name))) {
 					$user_full_name = bp_get_member_name();
 				}
 
@@ -1331,9 +1331,7 @@ function nab_company_search_filter_callback()
 
 			$company_query->the_post();
 
-			$cover_image        = get_field('cover_image');
-			$profile_picture    = get_field('profile_picture');
-			$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+			$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 			$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 			$profile_picture    = $featured_image;
 			$company_url		= get_the_permalink();
@@ -1478,11 +1476,13 @@ function nab_company_product_search_filter_callback()
 		$cnt 				= 0;
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
-		
+
 		while ($company_prod_query->have_posts()) {
-			
+
 			$company_prod_query->the_post();
-			$product_medias 	= get_field('product_media', get_the_ID());
+
+			$product_medias = nab_amplify_get_bynder_products(get_the_ID());
+
 			$thumbnail_url = '';
 
 			if (!empty($product_medias[0]['product_media_file'])) {
@@ -2989,7 +2989,6 @@ function nab_amplify_add_address()
 	wp_send_json($popup_html, 200);
 
 	wp_die();
-
 }
 
 /*Update regional addresses */
@@ -3067,8 +3066,6 @@ function nab_amplify_submit_address()
 		default:
 			$final_result['success'] = false;
 			$final_result['content'] = '';
-
-
 	}
 
 	echo wp_json_encode($final_result);
@@ -3144,15 +3141,23 @@ function nab_amplify_remove_address(){
 		default:
 			$final_result['success'] = false;
 			$final_result['content'] = '';
-
-
 	}
 
 	wp_send_json($final_result, 200);
 	wp_die();
 }
 
+// Ajax to remove banner image.
+add_action("wp_ajax_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
+add_action("wp_ajax_nopriv_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
 
+function nab_amplify_banner_image_remove()
+{
+	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	update_field('banner_image', '', $company_id);
+	update_field('cover_image', '', $company_id);
+	update_post_meta($company_id, 'banner_image', '');
+}
 
 // Ajax to show Add Address popup.
 add_action("wp_ajax_nab_amplify_state_filter", "nab_amplify_state_filter");

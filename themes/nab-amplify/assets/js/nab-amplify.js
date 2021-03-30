@@ -822,6 +822,12 @@
         if (jQuery("#addProductModal").length === 0) {
           jQuery("body").append(data);
           jQuery("#addProductModal").show().addClass("nab-modal-active");
+
+          // Make image draggable.
+          $('#product_media_wrapper').sortable(function (){
+            connectWith: '#product_media_wrapper'
+          }).disableSelection();
+
           if (jQuery("#nab_company_id").length > 0) {
             jQuery("#nab_company_id").val(company_id);
           }
@@ -894,6 +900,12 @@
           if (jQuery("#nab_company_id").length > 0) {
             jQuery("#nab_company_id").val(company_id);
           }
+
+          // Make image draggable.
+          $('#product_media_wrapper').sortable(function (){
+            connectWith: '#product_media_wrapper'
+          }).disableSelection();
+
           jQuery("#product_categories").select2();
           jQuery("#company_point_of_contact").select2({
             ajax: {
@@ -1180,9 +1192,24 @@
 
     var form_data = new FormData();
 
-    $.each(productMedia, function (key, file) {
-      form_data.append(key, file[0]);
-    });
+    // If bynder images selected.
+    if( 'function' === typeof addBMpopup ) {
+      let product_media_bm_src = [];
+      let countImgs = 1;
+      $('.nab-product-media-item img').each(function () {
+        if( countImgs < 5 ) {
+          product_media_bm_src.push($(this).attr('src'));
+        }
+        countImgs++;
+      });
+      product_media_bm_src = product_media_bm_src.join(',');
+      form_data.append('product_media_bm', product_media_bm_src)
+    } else {
+      $.each(productMedia, function (key, file) {
+        form_data.append(key, file[0]);
+      })
+    }
+
     if (product_title == "") {
       alert("Product title can not be empty!");
       return false;
@@ -1857,43 +1884,13 @@
     }
   });
 
-  // Upload user images using ajax.
-  $("#profile_picture_file, #banner_image_file").on("change", function (e) {
-    // If the front cropper plugin is not active
-    // Upload the image in native way.
-    if ("undefined" === typeof Cropper) {
-      e.preventDefault();
-
-      $("body").addClass("is-loading");
-
-      var fd = new FormData();
-      var file = $(this);
-      var file_name = $(this).attr("name");
-      var individual_file = file[0].files[0];
-      fd.append(file_name, individual_file);
-      fd.append("action", "nab_amplify_upload_images");
-      fd.append("company_id", amplifyJS.postID);
-
-      jQuery.ajax({
-        type: "POST",
-        url: amplifyJS.ajaxurl,
-        data: fd,
-        contentType: false,
-        processData: false,
-        success: function () {
-          location.reload();
-        },
-      });
-    }
-  });
-
   // Remove user images using ajax.
-  $("#profile_picture_remove, #banner_image_remove").on("click", function (e) {
+  $("#profile_picture_remove").on("click", function (e) {
     e.preventDefault();
 
     $("body").addClass("is-loading");
 
-    jQuery.ajax({
+    $.ajax({
       type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
@@ -1903,6 +1900,25 @@
       success: function (data) {
         location.reload();
       },
+    });
+  });
+
+  // Remove user company bg image.
+  $('#banner_image_remove').on('click', function (e) {
+    e.preventDefault()
+
+    $('body').addClass('is-loading')
+
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_banner_image_remove',
+        company_id:amplifyJS.postID
+      },
+      success: function (data) {
+        location.reload()
+      }
     });
   });
 
@@ -4043,15 +4059,17 @@
   });
 
   $(document).click(function (e) {
-    if (!$(e.target).is(".color-picker, .iris-picker, .iris-picker-inner")) {
+    if (!$(e.target).is(".color-picker, .iris-picker, .iris-picker-inner") && 'function' === typeof iris) {
       $(".color-picker").iris("hide");
       //return false
     }
   });
   $(document).on("click", ".color-picker", function (event) {
-    $(".color-picker").iris("hide");
-    $(this).iris("show");
-    //return false
+    if( 'function' === typeof iris ) {
+      $(".color-picker").iris("hide");
+      $(this).iris("show");
+      //return false
+    }
   });
 
   $(document).on("click", "#addProductModal .nab-modal-close", function (e) {
@@ -4064,6 +4082,14 @@
     }
   });
 })(jQuery);
+
+function nabAddProdBlankImage(unique_key) {
+  jQuery('#product_media_wrapper').append(
+      '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
+      unique_key +
+      '" src="#" alt="your image" style="display:none;"/></div>'
+  );
+}
 
 // Get friend button
 function nab_get_friend_button(_this) {

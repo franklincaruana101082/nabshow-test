@@ -50,7 +50,8 @@ get_header();
 
             <div class="nab-preview-slider-main">
                 <div class="nab-preview-slider-inner">
-                    <?php $product_medias = get_field('product_media');
+                    <?php
+                    $product_medias = nab_amplify_get_bynder_products( get_the_ID() );
 
                     if (!empty($product_medias)) {
                         foreach ($product_medias as $key => $product_media) {
@@ -233,7 +234,7 @@ get_header();
 	                                $thumbnail_url    = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
                                     $product_link     = get_the_permalink();
                                     $product_category = get_the_terms(get_the_ID(), 'company-product-category');
-                                    $product_medias     = get_field('product_media');
+                                    $product_medias   = nab_amplify_get_bynder_products( get_the_ID() );
                                 ?>
                                     <div class="amp-item-col">
                                         <div class="amp-item-inner">

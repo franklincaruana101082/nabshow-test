@@ -17,7 +17,10 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 		public function bm_init_hook() {
 
 			// Action to add script and style in admin area.
-			add_action( 'admin_enqueue_scripts', array( $this, 'bm_enqueue_script_admin' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'bm_enqueue_script' ) );
+
+			// Action to add script and style in front area.
+			add_action( 'wp_enqueue_scripts', array( $this, 'bm_enqueue_script' ) );
 
 			// Action for add setting page
 			add_action( 'admin_menu', array( $this, 'bm_add_setting_page' ) );
@@ -71,6 +74,11 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 				update_option( 'bm_token', $bm_token );
 			}
 			if ( isset( $bm_domain ) && ! empty( $bm_domain ) ) {
+			    // remove http/https
+				$bm_domain = str_replace('https', '', $bm_domain );
+				$bm_domain = str_replace('http', '', $bm_domain );
+				$bm_domain = str_replace('/', '', $bm_domain );
+				$bm_domain = str_replace(':', '', $bm_domain );
 				update_option( 'bm_domain', $bm_domain );
 			}
 			?>
@@ -80,7 +88,7 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
                     <table class="form-table" role="presentation">
                         <tr>
                             <th>
-                                <label for="bm_domain">Bynder Domain:</label>
+                                <label for="bm_domain">Bynder Domain (without http/https):</label>
                             </th>
                             <td>
                                 <input type="text" name="bm_domain" id="bm_domain" value="<?php echo esc_attr( get_option( 'bm_domain' ) ); ?>" class="regular-text" required/>
@@ -102,27 +110,20 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 		}
 
 		/*
-		 * Enqueue script and style at front side.
-		 *
-		 * @param int $hook Hook suffix for the current admin page.
+		 * Enqueue script and style.
 		 *
 		 * @since 1.0.0
 		 */
-		public function bm_enqueue_script_admin( $hook ) {
-
-
-			// Enable only for..
-			if ( 'post.php' !== $hook && 'post-new.php' !== $hook ) {
-				return;
-			}
+		public function bm_enqueue_script() {
 
 			// Add styles.
-			wp_enqueue_style( 'bm-style', BYNDER_MEDIA_URL . 'assets/css/bm-style-admin.css', array(), '1.0.0' );
+			wp_enqueue_style( 'bm-style', BYNDER_MEDIA_URL . 'assets/css/bm-style.css', array(), '1.0.0' );
 
 			// Add scripts.
-			wp_enqueue_script( 'bm-script', BYNDER_MEDIA_URL . 'assets/js/bm-script-admin.js', array( 'jquery' ), '1.0.0' );
+			wp_enqueue_script( 'bm-script', BYNDER_MEDIA_URL . 'assets/js/bm-script.js', array( 'jquery' ), '1.0.0' );
 			wp_localize_script( 'bm-script', 'bmObj', array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'postid' => get_the_ID(),
 			) );
 		}
 	}

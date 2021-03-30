@@ -28,7 +28,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 																														} ?>>
 											<span class="checkmark-switch"></span>
 										</label>
-									</div>									
+									</div>
 								</div>
 							</div>
 							<div class="form-row">
@@ -45,12 +45,12 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 									</select>
 								</div>
 							</div>
-							
+
 							<div class="form-row">
 								<?php $existing_media_count =  count($post_data->product_media); ?>
 								<label for="">Media <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x400"></i></label>
 								<div class="form-control">
-									<div class="file-input"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple="multiple">
+									<div class="file-input bm-select-media" bynder-for="product_media_bm"><input type="file" data-media-count="<?php echo $existing_media_count;?>" id="product_medias" class="button" name="product_medias[]" multiple>
 
 									</div>
 									<div class="nab-action left-action">
@@ -58,13 +58,12 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 											<i class="action-add fa fa-plus"></i>
 										</div>
 									</div>
-									
+
 								</div>
 
 							</div>
 							<div class="form-row" id="product_media_wrapper">
-								<?php 
-								
+								<?php
 								if (isset($post_data->product_media)) {
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
@@ -87,9 +86,9 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 							</div>
 							<div class="form-row">
 								<label for="">Product Copy</label>
-								
+
 							<textarea name="nab_product_copy" id="nab_product_copy"><?php echo isset($post_data->product_copy)?$post_data->product_copy:''; ?></textarea>
-							
+
 							</div>
 							<div class="form-row">
 								<div class="form-col-6">
@@ -112,7 +111,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 														Only NAB Amplify users can be added as the point of contact for your company listing. This user will receive messages in their NAB Amplify inbox from users interested in learning more. Invite colleagues to join the platform <a target="_blank" href="<?php echo site_url(); ?>/refer-a-friend-or-colleague/">here</a>. Once they have profiles on Amplify, you can then add them as the POC for your product. NOTE: You can only add one Point of Contact for each product at this time. A NAB Amplify user does not need to be a company admin to be a POC.
 													</div>
 												</div>
-											</label>									
+											</label>
 											<div class="select-dark-simple">
 												<select class="poduct-point-of-contact" name="nab_product_contact" id="nab_product_contact">
 													<?php
@@ -121,12 +120,12 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 														$product_user = get_user_by( 'ID', $post_data->product_point_of_contact );
 
 														if ( $product_user ) {
-															
+
 															$user_name		= $product_user->user_login;
 															$user_full_name	= get_user_meta( $product_user->ID, 'first_name', true ) . ' ' . get_user_meta( $product_user->ID, 'last_name', true );
 
 															if ( ! empty( trim( $user_full_name ) ) ) {
-																$user_name .= ' (' . $user_full_name . ')';					
+																$user_name .= ' (' . $user_full_name . ')';
 															}
 															?>
 															<option value="<?php echo esc_attr( $product_user->ID ); ?>" selected><?php echo esc_html( $user_name ); ?></option>
@@ -139,7 +138,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 										</div>
 										<?php
 									}
-									?>									
+									?>
 									<div class="form-row">
 										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
 										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
@@ -147,7 +146,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 																																			} ?>">
 									</div>
 								</div>
-							</div>	
+							</div>
 							<div class="form-row">
 							<label for="" class="tooltip-container large-label-tooltip">
 											<div class="field-label">Learn More Button URL</div>
@@ -159,7 +158,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 											</div>
 										</label>
 										<input type="text" class="input-text learn-more-url" name="nab_product_learn_more_url" id="nab_product_learn_more_url" value="<?php echo isset($post_data->nab_product_learn_more_url) ? $post_data->nab_product_learn_more_url : ''; ?>">
-									</div>						
+									</div>
 							<div class="form-row">
 								<div class="toggle-wrap">
 									<span class="toggle-label">Discussion <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">

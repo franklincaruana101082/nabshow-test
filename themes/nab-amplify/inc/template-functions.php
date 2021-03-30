@@ -959,6 +959,52 @@ function nab_amplify_get_featured_image( $post_ID, $default = true, $default_url
 	return $featured_image;
 }
 
+/**
+ * @param int $post_ID Post ID.
+ * @param bool $default Whether to send a default image back or not.
+ *
+ * @return string Image URL.
+ */
+function nab_amplify_get_comapny_banner( $post_ID, $default = true, $default_url = '' ) {
+
+	$bynder_cover = get_post_meta( $post_ID, 'banner_image', true );
+	if ( null !== $bynder_cover && ! empty( $bynder_cover )
+	     && strpos( $bynder_cover, 'assets') !== false) {
+		$featured_image = $bynder_cover;
+	} else {
+		$featured_image = get_field('cover_image', $post_ID );
+		$featured_image = isset( $featured_image['url'] ) ? $featured_image['url'] : '';
+
+		// Send back default if not found?
+		if ( $default ) {
+			$default_url = ! empty( $default_url ) ? $default_url : get_template_directory_uri() . '/assets/images/banner-header-background.png';
+			$featured_image = ! empty( $featured_image ) ? $featured_image : $default_url;
+		}
+	}
+
+	return $featured_image;
+}
+
+function nab_amplify_get_bynder_products( $post_id ) {
+
+	$product_media    = get_field( 'product_media', $post_id );
+	$product_media_bm = get_field( 'product_media_bm', $post_id );
+
+	if ( null !== $product_media_bm && ! empty( $product_media_bm ) ) {
+		$product_media_bm = explode( ',', $product_media_bm );
+		$count            = 0;
+		foreach ( $product_media_bm as $media ) {
+			if ( ! empty( $media ) ) {
+				$product_media[ $count ]['product_media_file']['ID']   = $media;
+				$product_media[ $count ]['product_media_file']['url']  = $media;
+				$product_media[ $count ]['product_media_file']['type'] = 'image';
+				$count ++;
+			}
+		}
+	}
+
+	return $product_media;
+}
 
 /**
  * Get featured and search category limit based on company membership level.

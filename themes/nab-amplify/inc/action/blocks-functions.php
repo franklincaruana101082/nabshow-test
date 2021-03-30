@@ -427,7 +427,7 @@ function nab_company_produts_render_callback($attributes)
 
         $company_id         = get_the_ID();
         $user_id            = get_current_user_id();
-        $admin_id           = get_field('company_user_id', $company_id);        
+        $admin_id           = get_field('company_user_id', $company_id);
 
         if (!empty($admin_id) && in_array($user_id, $admin_id) ) {
 
@@ -505,9 +505,7 @@ function nab_company_produts_render_callback($attributes)
 
                             $product_link        = get_the_permalink();
                             $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
-                            $product_medias = get_field('product_media', get_the_ID());
-
-                        ?>
+                            $product_medias     = nab_amplify_get_bynder_products(get_the_ID()); ?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
                                     <div class="amp-item-cover">

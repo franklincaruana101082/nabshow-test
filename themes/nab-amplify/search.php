@@ -407,7 +407,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$product_link	    = get_the_permalink();
 								$company_id			= get_field('nab_selected_company_id', get_the_ID());
 								$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-								$product_medias     = get_field('product_media');
+								$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 							?>
 								<li>
 									<div class="result _content">
@@ -513,9 +513,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 								$company_query->the_post();
 
-								$cover_image        = get_field('cover_image');
-								$profile_picture    = get_field('profile_picture');
-								$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+								$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 								$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 								$profile_picture    = $featured_image;
 								$company_url		= get_the_permalink();
@@ -1094,7 +1092,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$product_link	    = get_the_permalink();
 							$company_id			= get_field('nab_selected_company_id', get_the_ID());
 							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-							$product_medias     = get_field('product_media');
+							$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
 						?>
 							<li>
 								<div class="result _content">
@@ -1187,9 +1185,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$company_query->the_post();
 
-							$cover_image        = get_field('cover_image');
-							$profile_picture    = get_field('profile_picture');
-							$cover_image        = !empty($cover_image) ? $cover_image['url'] : $default_company_cover;
+							$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
