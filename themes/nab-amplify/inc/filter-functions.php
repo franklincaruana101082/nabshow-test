@@ -1232,8 +1232,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
 
 	$tax_search			= $query_object->get('_tax_search');
-	$meta_company_term	= $query_object->get('_meta_company_term');
-	$meta_company_order	= $query_object->get( '_meta_company_order' );
+	$meta_company_term	= $query_object->get('_meta_company_term');	
 
 	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
@@ -1247,10 +1246,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
-
-		if ( isset( $meta_company_order ) && $meta_company_order ) {
-			$clauses['orderby']		= " {$wpdb->postmeta}.meta_value+0";
-		}
+		
 	}
 
 	return $clauses;

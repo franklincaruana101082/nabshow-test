@@ -1269,10 +1269,6 @@ function nab_company_search_filter_callback()
 		if ($get_search_term_id) {
 
 			$company_args['_meta_company_term'] = $get_search_term_id->term_id;
-
-			if ('meta' === $orderby) {
-				$company_args['_meta_company_order']	= true;
-			}
 		}
 	} else {
 		$meta_query_args[] = array(
@@ -1300,18 +1296,15 @@ function nab_company_search_filter_callback()
 		$company_args['meta_query'] = $meta_query_args;
 	}
 
-	if (!isset($company_args['_meta_company_order'])) {
+	if ('meta' === $orderby) {
 
-		if ('meta' === $orderby) {
+		$company_args['meta_key']	= 'member_level_num';
+		$company_args['orderby']	= 'meta_value_num';
+		$company_args['order']		= 'DESC';
+	} elseif ('date' !== $orderby) {
 
-			$company_args['meta_key']	= 'member_level_num';
-			$company_args['orderby']	= 'meta_value_num';
-			$company_args['order']		= 'DESC';
-		} elseif ('date' !== $orderby) {
-
-			$company_args['orderby'] 	= $orderby;
-			$company_args['order']		= $order;
-		}
+		$company_args['orderby'] 	= $orderby;
+		$company_args['order']		= $order;
 	}
 
 	$company_query = new WP_Query($company_args);
