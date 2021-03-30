@@ -257,6 +257,7 @@ function nab_amplify_custom_menu_query_vars($vars)
 {
 
 	$vars[] = 'my-purchases';
+	$vars[] = 'edit-companies';
 	$vars[] = 'my-connections';
 	$vars[] = 'my-events';
 	$vars[] = 'my-bookmarks';
@@ -289,6 +290,7 @@ function nab_amplify_update_my_account_menu_items($items)
 		+ array('my-purchases' => __('Access My Content', 'nab-amplify'))
 		+ array('orders' => __('Order History', 'nab-amplify'))
 		+ array('my-bookmarks' => __('Bookmarks', 'nab-amplify'))
+		+ array('edit-companies' => __('Edit My Companies', 'nab-amplify'))
 		+ array('edit-account' => __('Edit Account', 'nab-amplify'))
 		+ array('edit-address' => __('Edit Address', 'nab-amplify'))
 		+ array('logout' => __('Sign Out', 'nab-amplify'));
