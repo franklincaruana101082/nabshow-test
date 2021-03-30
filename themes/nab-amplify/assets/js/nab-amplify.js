@@ -5230,6 +5230,9 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             let searchActions = document.createElement('div');
             searchActions.setAttribute('class', 'search-actions nab-action');
 
+            let linkWrapper = document.createElement('span');
+            linkWrapper.setAttribute('class', 'pdf_btn_wrap download-disabled');
+
             let downloadLink = document.createElement('a');
             downloadLink.setAttribute('class', 'button');
             downloadLink.setAttribute('data-pdf', value.pdf_url);
@@ -5238,7 +5241,8 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             downloadLink.setAttribute('href', 'javascript:void(0);');
             downloadLink.innerText = 'Download';
 
-            searchActions.appendChild(downloadLink);
+            linkWrapper.appendChild(downloadLink);
+            searchActions.appendChild(linkWrapper);
             actions.appendChild(searchActions);
             itemContent.appendChild(actions);
 
