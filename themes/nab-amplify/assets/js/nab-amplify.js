@@ -1999,12 +1999,12 @@
     jQuery(this).removeClass("edit-company-mode");
     jQuery(this).text("Cancel Edit");
     jQuery(".banner-header").addClass("edit_mode_on");
-    jQuery(".edit-bg-pic").show();
+    jQuery(".edit-bg-pic,.remove-bg-pic").show();
     jQuery(".edit-company-industry").show();
   });
   $(document).on("click", ".cancel-edit-company-mode", function () {
     jQuery(".edit-profile-pic").hide();
-    jQuery(".edit-bg-pic").hide();
+    jQuery(".edit-bg-pic,.remove-bg-pic").hide();
     jQuery(".edit-company-industry").hide();
     jQuery(this).removeClass("cancel-edit-company-mode");
     jQuery(this).addClass("edit-company-mode ");
@@ -4968,7 +4968,7 @@
       reader.readAsDataURL(input.files[0]);
     }
   }
-  
+
 })(jQuery);
 
 // Downloadable PDF Search Ajax.
@@ -5065,6 +5065,9 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             let searchActions = document.createElement('div');
             searchActions.setAttribute('class', 'search-actions nab-action');
 
+            let linkWrapper = document.createElement('span');
+            linkWrapper.setAttribute('class', 'pdf_btn_wrap download-disabled');
+
             let downloadLink = document.createElement('a');
             downloadLink.setAttribute('class', 'button');
             downloadLink.setAttribute('data-pdf', value.pdf_url);
@@ -5073,7 +5076,8 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             downloadLink.setAttribute('href', 'javascript:void(0);');
             downloadLink.innerText = 'Download';
 
-            searchActions.appendChild(downloadLink);
+            linkWrapper.appendChild(downloadLink);
+            searchActions.appendChild(linkWrapper);
             actions.appendChild(searchActions);
             itemContent.appendChild(actions);
 
@@ -5992,7 +5996,7 @@ function nabSearchEventAjax(loadMore, pageNumber) {
             iIcon.appendChild(contentSpan);
             searchItemInfo.appendChild(iIcon);
           }
-          
+
           searchItemInner.appendChild(searchItemInfo);
           searchItemDiv.appendChild(searchItemInner);
 
