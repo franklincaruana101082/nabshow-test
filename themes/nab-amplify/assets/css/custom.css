@@ -1642,6 +1642,7 @@ body .is_friend .remove::before{font-size:22px}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:first-child{left:30px;right:auto}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-6 .nab-action .nab-action-row:last-child{right:30px;left:auto}
 .nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .company-member-level-notice{margin:5px 0 10px;color:#fdd80f;font-size:18px}
+.nab-modal-with-form.nab-modal .modal-content-wrap .select2-selection__rendered span{color:#000}
 .add-product{padding-right:340px!important}
 .limited-char-field{padding-right:340px!important}
 .external-link{padding-right:80px!important}
