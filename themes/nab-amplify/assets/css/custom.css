@@ -598,6 +598,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .woocommerce-MyAccount-content p em{font-size:12px}
 .woocommerce button{outline:none}
 .woocommerce-MyAccount-content .colgrid{margin:1em 0}
+.woocommerce-MyAccount-content .colgrid .result__image{width:95px;height:95px;object-fit:cover;object-position:center}
 
 /* my-account profile */
 .nab-profile .entry-title{color:#6363df;text-transform:uppercase}
