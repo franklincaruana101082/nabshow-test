@@ -163,9 +163,10 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
 
 													if (!empty(trim($user_full_name))) {
 														$user_name .= ' (' . $user_full_name . ')';
-													} ?>
+													}
+													?>
 													<option value="<?php echo esc_attr($comp_admin->ID); ?>" selected><?php echo esc_html($user_name); ?></option>
-											<?php
+													<?php
 												}
 											}
 

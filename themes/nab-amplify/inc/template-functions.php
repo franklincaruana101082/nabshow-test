@@ -1074,7 +1074,9 @@ function nab_get_total_company_count() {
  */
 function nab_maritz_redirect_url( $user_id ) {
 
-	if ( empty( $user_id ) || 0 === $user_id ) {
+	$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+
+    if ( empty( $user_id ) || 0 === $user_id ) {
 		return;
 	}
 
@@ -1104,6 +1106,9 @@ function nab_maritz_redirect_url( $user_id ) {
 	if ( ! empty( $title ) ) {
 		$params['title'] = $title;
 	}
+	if( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
+		$params['marketing_code'] = $marketing_code;
+    }
 
 	return add_query_arg( $params, $url );
 }

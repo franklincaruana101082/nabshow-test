@@ -518,6 +518,16 @@
     _this.addClass('loading')
     get_address_remove_popup('Are you sure want to remove?',address_id)
 
+  })
+
+  $(document).on('click', '.remove-employee ', function (e) {
+    e.preventDefault();
+    const empolyee_id =
+      undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    get_employee_remove_popup('Are you sure want to remove?',empolyee_id)
 
   })
 

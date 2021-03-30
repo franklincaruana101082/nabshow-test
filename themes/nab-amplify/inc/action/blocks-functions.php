@@ -605,9 +605,9 @@ function nab_company_events_render_callback($attributes)
 
             $user_id    = get_current_user_id();
             $admin_id   = get_field( 'company_user_id', $company_id );
-
-            if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {
-
+    
+            if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {            
+    
                 if ( 'plus' === $member_level || 'premium' === $member_level ) {
                     $add_event  = true;
                     $class_name .= 'company-admin';
@@ -658,11 +658,11 @@ function nab_company_events_render_callback($attributes)
         );
 
         $past_event_query   = new WP_Query( $past_event_args );
-        $past_post_ids      = $past_event_query->posts;
+        $past_post_ids      = $past_event_query->posts;        
         wp_reset_postdata();
 
         $final_post_id = array_unique( array_merge( $upcoming_post_ids, $past_post_ids ) );
-
+        
         $query_args = array(
             'post_type'         => 'tribe_events',
             'post_status'       => 'publish',
@@ -673,7 +673,7 @@ function nab_company_events_render_callback($attributes)
             'orderby'           => 'post__in',
         );
 
-        $event_query    = new WP_Query( $query_args );
+        $event_query    = new WP_Query( $query_args );        
         $total_post     = $event_query->found_posts;
 
 
@@ -695,7 +695,6 @@ function nab_company_events_render_callback($attributes)
                 )
             )
         );
-
         $upcoming_session_query = new WP_Query( $upcoming_session_args );
         $upcoming_session_ids   = $upcoming_session_query->posts;
         wp_reset_postdata();
@@ -719,7 +718,7 @@ function nab_company_events_render_callback($attributes)
         );
 
         $past_session_query = new WP_Query( $past_session_args );
-        $past_session_ids   = $past_session_query->posts;
+        $past_session_ids   = $past_session_query->posts;        
         wp_reset_postdata();
 
         $final_session_id = array_unique( array_merge( $upcoming_session_ids, $past_session_ids ) );
@@ -727,9 +726,9 @@ function nab_company_events_render_callback($attributes)
         $main_title_added = false;
 
         $result_text = $total_post . ' RESULTS';
-
+    
         if ( $add_event ) {
-
+            
             $limit          = 'plus' === $member_level ? '3 TOTAL' : 'Unlimited';
             $result_text    .= ' / ' . $limit;
         }
@@ -748,11 +747,11 @@ function nab_company_events_render_callback($attributes)
                     </div>
                     <div class="amp-item-wrap" id="company-session-events-list">
                         <?php
-
+                        
                         $current_site_url = get_site_url();
-
+    
                         foreach ( $final_session_id as $session_id ) {
-
+                            
                             $thumbnail_url      = nab_amplify_get_featured_image( $session_id, true, nab_product_company_placeholder_img());
                             $session_start_date = get_post_meta( $session_id, 'session_date', true);
                             $session_end_date   = get_post_meta( $session_id, 'session_end_time', true);
@@ -760,12 +759,12 @@ function nab_company_events_render_callback($attributes)
                             $event_date         = date_format( date_create( $session_start_date ), 'l, F j' );
                             $final_date         = $session_start_date;
                             $start_time         = '';
-                            $end_time           = '';
-
+                            $end_time           = '';                            
+    
                             if ( ! empty( $session_start_date ) && !empty( $session_end_date ) ) {
-
+    
                                 if ( date_format( date_create( $session_start_date ), 'Ymd' ) !== date_format( date_create( $session_end_date ), 'Ymd' ) ) {
-
+    
                                     $event_date .= ' - ' . date_format( date_create( $session_end_date ), 'l, F j' );
                                     $final_date = $session_end_date;
                                 }
@@ -775,33 +774,33 @@ function nab_company_events_render_callback($attributes)
 
                                 $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $session_start_date ), 'g:i a' ) );
                                 $start_time = str_replace(':00', '', $start_time );
-
+            
                             }
                             if ( ! empty( $session_end_date ) ) {
-
+            
                                 $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $session_end_date ), 'g:i a' ) );
                                 $end_time   = str_replace(':00', '', $end_time );
-
+            
                             }
-
+                            
                             if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-
+                                
                                 if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
                                     $start_time = str_replace(' a.m.', '', $start_time );
                                 }
-
+                
                                 if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
                                     $start_time = str_replace(' p.m.', '', $start_time );
                                 }
                             }
-
+    
                             $final_date     = date_format( date_create( $final_date ), 'Ymd' );
                             $current_date   = current_time( 'Ymd' );
                             $opening_date   = new DateTime( $final_date );
                             $current_date   = new DateTime( $current_date );
                             ?>
                             <div class="amp-item-col">
-                                <div class="amp-item-inner">
+                                <div class="amp-item-inner">                                    
                                     <div class="amp-item-cover">
                                         <?php
                                         if ( $opening_date < $current_date ) {
@@ -834,8 +833,8 @@ function nab_company_events_render_callback($attributes)
                                             <div class="amp-actions">
                                                 <div class="search-actions">
                                                     <div class="event-disc_btn">
-                                                        <a href="<?php echo esc_url( $session_link ); ?>" class="button">View Event</a>
-                                                    </div>
+                                                        <a href="<?php echo esc_url( $session_link ); ?>" class="button">View Event</a>                                                        
+                                                    </div>                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -851,10 +850,10 @@ function nab_company_events_render_callback($attributes)
             <?php
             $html = ob_get_clean();
         }
-
+    
         if ( $event_query->have_posts() || $add_event ) {
-
-            ob_start();
+    
+            ob_start();            
             ?>
             <div class="company-events <?php echo esc_attr( $class_name ); ?>">
                 <div class="amp-item-main">
@@ -887,11 +886,11 @@ function nab_company_events_render_callback($attributes)
                             <?php
                         }
                         $current_site_url = get_site_url();
-
+    
                         while ($event_query->have_posts()) {
-
+    
                             $event_query->the_post();
-
+    
                             $event_post_id      = get_the_ID();
                             $thumbnail_url      = nab_amplify_get_featured_image($event_post_id, true, nab_product_company_placeholder_img());
                             $event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
@@ -904,11 +903,11 @@ function nab_company_events_render_callback($attributes)
                             $start_time         = '';
                             $end_time           = '';
                             $event_content      = wp_strip_all_tags( get_the_content() );
-
+    
                             if (!empty($event_start_date) && !empty($event_end_date)) {
-
+    
                                 if (date_format(date_create($event_start_date), 'Ymd') !== date_format(date_create($event_end_date), 'Ymd')) {
-
+    
                                     $event_date .= ' - ' . date_format(date_create($event_end_date), 'l, F j');
                                     $final_date = $event_end_date;
                                 }
@@ -918,26 +917,26 @@ function nab_company_events_render_callback($attributes)
 
                                 $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
                                 $start_time = str_replace(':00', '', $start_time );
-
+            
                             }
                             if ( ! empty( $event_end_date ) ) {
-
+            
                                 $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
                                 $end_time   = str_replace(':00', '', $end_time );
-
+            
                             }
-
+                            
                             if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-
+                                
                                 if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
                                     $start_time = str_replace(' a.m.', '', $start_time );
                                 }
-
+                
                                 if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
                                     $start_time = str_replace(' p.m.', '', $start_time );
                                 }
                             }
-
+    
                             $final_date     = date_format(date_create($final_date), 'Ymd');
                             $current_date   = current_time('Ymd');
                             $opening_date   = new DateTime($final_date);
@@ -995,7 +994,7 @@ function nab_company_events_render_callback($attributes)
                                                             </i>
                                                             <?php
                                                         }
-                                                        ?>
+                                                        ?>                                                        
                                                     </div>
                                                     <?php
                                                     if ( $add_event ) {
@@ -1038,7 +1037,7 @@ function nab_company_content_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $html               = '';
-    $company_id         = get_the_ID();
+    $company_id         = get_the_ID();    
     $member_level       = get_field( 'member_level', $company_id );
 
     if ( 'premium' === strtolower( $member_level ) ) {
@@ -1059,16 +1058,16 @@ function nab_company_content_render_callback($attributes)
         $article_query  = new WP_Query( $article_args );
 
         if ( $article_query->have_posts() ) {
-
+            
             $display_main_heading = false;
             ?>
             <div class="company-content <?php echo esc_attr( $class_name ); ?>">
                 <div class="amp-item-main">
                     <div class="amp-item-heading">
-                        <h3>Content</h3>
+                        <h3>Content</h3>                        
                     </div>
                     <div class="amp-item-wrap" id="company-article-list">
-                        <?php
+                        <?php                        
 
                         while ( $article_query->have_posts() ) {
 
@@ -1105,17 +1104,17 @@ function nab_company_content_render_callback($attributes)
             <?php
         }
         wp_reset_postdata();
-
+        
         if ( is_user_logged_in() ) {
 
             $user_id    = get_current_user_id();
             $admin_id   = get_field( 'company_user_id', $company_id );
-
+    
             if ( ! empty( $admin_id ) && in_array( $user_id, (array) $admin_id, true ) ) {
                 $is_company_admin   = true;
             }
         }
-
+        
         $query_args = array(
             'post_type'         => 'content-submission',
             'post_status'       => 'publish',
@@ -1125,14 +1124,14 @@ function nab_company_content_render_callback($attributes)
             'meta_key'          => 'nab_selected_company_id',
             'meta_value'        => $company_id
         );
-
-
+    
+    
         $content_query  = new WP_Query( $query_args );
         $total_post     = $content_query->found_posts;
-
+    
         if ( $is_company_admin ) {
-
-            $remaining_count = $total_post > 3 ? 0 : 3 - $total_post;
+            
+            $remaining_count = $total_post > 3 ? 0 : 3 - $total_post;            
             ?>
             <div class="company-content <?php echo esc_attr( $class_name ); ?>">
                 <div class="amp-item-main">
@@ -1163,11 +1162,11 @@ function nab_company_content_render_callback($attributes)
                         }
 
                         while ( $content_query->have_posts() ) {
-
+    
                             $content_query->the_post();
-
+    
                             $content_id         = get_the_ID();
-                            $thumbnail_url      = nab_amplify_get_featured_image( $content_id );
+                            $thumbnail_url      = nab_amplify_get_featured_image( $content_id );                            
                             $post_date          = get_the_date('M. j, Y');
                             $author_id          = get_post_field( 'post_author', $content_id );
                             $author_name        = get_user_meta( $author_id, 'first_name', true ) . ' ' . get_user_meta( $author_id, 'last_name', true );
@@ -1197,11 +1196,11 @@ function nab_company_content_render_callback($attributes)
                     </div>
                 </div>
             </div>
-            <?php
+            <?php            
         }
 
         $html = ob_get_clean();
-
+    
         wp_reset_postdata();
     }
 
@@ -1220,8 +1219,8 @@ function nab_company_employees_render_callback($attributes)
     $member_level       = get_field('member_level', $company_id);
 
     if ( 'Plus' === $member_level || 'Premium' === $member_level ) {
-
-        $limit_employees_str = '';
+        
+        $limit_employees_str = '';    
 
         if (is_user_logged_in()) {
 
@@ -1247,10 +1246,10 @@ function nab_company_employees_render_callback($attributes)
         );
 
         $total_employees = is_array($employees_id) ? count($employees_id) : 0;
-
+        
         if ( ( bp_has_members($members_query) && $total_employees > 0 ) || ( $is_company_admin && ( 'Plus' === $member_level || 'Premium' === $member_level ) ) ) {
 
-            global $members_template;
+            global $members_template;        
 
             ob_start();
             ?>
@@ -1262,7 +1261,7 @@ function nab_company_employees_render_callback($attributes)
                     if ($total_employees > $posts_per_page ) {
                         $current_site_url   = rtrim(get_site_url(), '/');
                         $view_all_link      = add_query_arg(array('s' => '', 'v' => 'user'), $current_site_url); ?>
-
+                
                         <div class="amp-view-more">
                             <a href="<?php echo esc_url($view_all_link);?>" class="view-more-arrow">View All</a>
                         </div>
@@ -1271,7 +1270,7 @@ function nab_company_employees_render_callback($attributes)
                 </div>
                 <div class="amp-item-wrap" id="compnay-employees-list">
                     <?php
-
+                    
                     if ( ! defined('REST_REQUEST') && $is_company_admin && ( 'Plus' === $member_level || 'Premium' === $member_level ) ) {
                         ?>
                         <div class="amp-item-col add-new-item">
@@ -1283,7 +1282,7 @@ function nab_company_employees_render_callback($attributes)
                             </div>
                         </div>
                         <?php
-                    }
+                    } 
 
                     if (is_array($employees_id)) {
                         while (bp_members()) {
@@ -1344,8 +1343,8 @@ function nab_company_employees_render_callback($attributes)
             <?php
             $html = ob_get_clean();
         }
-    }
-
+    }    
+   
     return $html;
 }
 
@@ -1587,23 +1586,23 @@ function nab_company_downlodable_pdfs_callback($attributes)
     $member_level       = get_field('member_level', $company_id);
 
     if ('plus' === strtolower($member_level) || 'premium' === strtolower($member_level)) {
-
+        
         if (is_user_logged_in()) {
 
             $user_id        = get_current_user_id();
             $admin_id       = get_field('company_user_id', $company_id);
-
-            if (!empty($admin_id) && in_array($user_id, (array) $admin_id, true)) {
-
+    
+            if (!empty($admin_id) && in_array($user_id, (array) $admin_id, true)) {            
+    
                 if ('plus' === strtolower($member_level) || 'premium' === strtolower($member_level)) {
                     $add_pdf    = true;
                     $class_name .= ' company-admin';
                 }
-
+    
                 $is_company_admin   = true;
             }
         }
-
+    
         $query_args = array(
             'post_type'         => 'downloadable-pdfs',
             'post_status'       => 'publish',
@@ -1612,21 +1611,21 @@ function nab_company_downlodable_pdfs_callback($attributes)
             'meta_value'        => $company_id,
             'order'             => $display_order,
         );
-
+    
         $pdf_query  = new WP_Query($query_args);
         $total_post = $pdf_query->found_posts;
-
+    
         if ($pdf_query->have_posts() || ($is_company_admin && $add_pdf)) {
-
+    
             ob_start();
             ?>
             <div class="<?php echo esc_attr($class_name); ?>">
                 <div class="amp-item-main">
                     <div class="amp-item-heading">
                         <?php
-
+    
                         $result_text = $total_post . ' RESULTS';
-
+    
                         if ($is_company_admin && $add_pdf) {
                             $result_text .= ' / ' . nab_get_pdf_limit_by_member_level($member_level) . ' TOTAL';
                         }
@@ -1648,11 +1647,11 @@ function nab_company_downlodable_pdfs_callback($attributes)
                             </div>
                         <?php
                         }
-
+    
                         while ($pdf_query->have_posts()) {
-
+    
                             $pdf_query->the_post();
-
+    
                             $pdf_id             = get_the_ID();
                             $thumbnail_url      = nab_amplify_get_featured_image($pdf_id, true, nab_product_company_placeholder_img());
                             $attached_pdf_id    = get_field( 'pdf_file', $pdf_id );
