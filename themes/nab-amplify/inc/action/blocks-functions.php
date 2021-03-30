@@ -801,93 +801,141 @@ function nab_company_content_render_callback($attributes)
 function nab_company_employees_render_callback($attributes)
 {
 
-    $posts_per_page     = isset($attributes['itemToFetch']) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 4;
+    $posts_per_page     = isset($attributes['itemToFetch']) && $attributes['itemToFetch'] > 0 ? $attributes['itemToFetch'] : 3;
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $company_id         = get_the_ID();
     $employees_id       = get_field('company_employees', $company_id);
     $html               = '';
+    $is_company_admin   =  false;
+    $member_level       = get_field('member_level', $company_id);
 
-    if (is_array($employees_id) && count($employees_id) > 0) {
+    if ( 'Plus' === $member_level || 'Premium' === $member_level ) {
+        
+        $limit_employees_str = '';    
+
+        if (is_user_logged_in()) {
+
+            $user_id        = get_current_user_id();
+            $admin_id       = get_field('company_user_id', $company_id);
+
+            if (!empty($admin_id) && in_array($user_id, (array) $admin_id, true)) {
+
+                $is_company_admin   = true;
+
+                if ( 'Plus' === $member_level ) {
+                    $limit_employees_str = '4 TOTAL';
+                } elseif ( 'Premium' === $member_level ) {
+                    $limit_employees_str = 'Unlimited';
+                }
+            }
+        }
 
         $members_query = array(
-            'page'         => 1,
-            'per_page'     => $posts_per_page,
+            'page'      => 1,
+            'per_page'  => $posts_per_page,
             'include'   => $employees_id
         );
 
-        if (bp_has_members($members_query)) {
+        $total_employees = is_array($employees_id) ? count($employees_id) : 0;
+        
+        if ( ( bp_has_members($members_query) && $total_employees > 0 ) || ( $is_company_admin && ( 'Plus' === $member_level || 'Premium' === $member_level ) ) ) {
 
-            global $members_template;
-
-            $total_employees = $members_template->total_member_count;
+            global $members_template;        
 
             ob_start();
-        ?>
+            ?>
             <div class="amp-item-main">
                 <div class="amp-item-heading">
-                    <h3>Company Employees <span>(<?php echo esc_html($total_employees); ?> RESULTS)</span></h3>
+
+                    <h3>Employees <span>(<?php echo esc_html( $total_employees ); ?> RESULTS <?php echo esc_html( ! empty( $limit_employees_str ) ? ' / ' . $limit_employees_str : '' ); ?>)</span></h3>
                     <?php
-                    if ($total_employees > 4) {
-                    ?>
+                    if ($total_employees > $posts_per_page ) {
+                        $current_site_url   = rtrim(get_site_url(), '/');
+                        $view_all_link      = add_query_arg(array('s' => '', 'v' => 'user'), $current_site_url); ?>
+                
                         <div class="amp-view-more">
-                            <a href="#" class="view-more-arrow">View All</a>
+                            <a href="<?php echo esc_url($view_all_link);?>" class="view-more-arrow">View All</a>
                         </div>
                     <?php
-                    }
-                    ?>
+                    } ?>
                 </div>
                 <div class="amp-item-wrap" id="compnay-employees-list">
                     <?php
-                    while (bp_members()) {
-
-                        bp_the_member();
-
-                        $member_user_id = bp_get_member_user_id();
-
-                        $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
-
-                        if (empty(trim($user_full_name))) {
-
-                            $user_full_name = bp_get_member_name();
-                        }
-
-                        $company    = get_user_meta($member_user_id, 'attendee_company', true);
-                        $ctitle     = get_user_meta($member_user_id, 'attendee_title', true);
-                        $company    = $ctitle ? $ctitle . ' | ' . $company : $company;
-
-                        $user_images     = nab_amplify_get_user_images($member_user_id);
-                    ?>
-                        <div class="amp-item-col">
+                    
+                    if ( ! defined('REST_REQUEST') && $is_company_admin && ( 'Plus' === $member_level || 'Premium' === $member_level ) ) {
+                        ?>
+                        <div class="amp-item-col add-new-item">
                             <div class="amp-item-inner">
-                                <div class="amp-item-cover">
-                                    <img src="<?php echo esc_url($user_images['banner_image']); ?>" alt="Cover Image">
+                                <div class="add-item-wrap">
+                                    <i class="action-add-employee add-item-icon fa fa-pencil"></i>
+                                    <span class="add-item-label">Add Employee</span>
                                 </div>
-                                <div class="amp-item-info">
-                                    <div class="amp-item-avtar">
-                                        <a href="<?php bp_member_permalink(); ?>">
-                                            <img src="<?php echo esc_url($user_images['profile_picture']); ?>" alt="Profile Picture">
-                                        </a>
+                            </div>
+                        </div>
+                        <?php
+                    } 
+
+                    if (is_array($employees_id)) {
+                        while (bp_members()) {
+                            bp_the_member();
+
+                            $member_user_id = bp_get_member_user_id();
+
+                            $user_full_name = get_the_author_meta('first_name', $member_user_id) . ' ' . get_the_author_meta('last_name', $member_user_id);
+
+                            if (empty(trim($user_full_name))) {
+                                $user_full_name = bp_get_member_name();
+                            }
+
+                            $company    = get_user_meta($member_user_id, 'attendee_company', true);
+                            $ctitle     = get_user_meta($member_user_id, 'attendee_title', true);
+                            $company    = $ctitle ? $ctitle . ' | ' . $company : $company;
+
+                            $user_images     = nab_amplify_get_user_images($member_user_id);
+                            ?>
+                            <div class="amp-item-col">
+                                <div class="amp-item-inner">
+                                    <?php
+                                    if ( $is_company_admin && ( 'Plus' === $member_level || 'Premium' === $member_level ) ) {
+                                        ?>
+                                        <div class="amp-action-remove">
+                                            <a href="javascript:void(0)" data-id="<?php echo $member_user_id; ?>" class="remove-employee">
+                                                <i class="fa fa-minus"></i>
+                                            </a>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <div class="amp-item-cover">
+                                        <img src="<?php echo esc_url($user_images['banner_image']); ?>" alt="Cover Image">
                                     </div>
-                                    <div class="amp-item-content">
-                                        <h4><a href="<?php bp_member_permalink(); ?>"><?php echo esc_html($user_full_name); ?></a></h4>
-                                        <span class="company-name"><?php echo esc_html($company); ?></span>
-                                        <div class="amp-actions">
-                                            <?php echo nab_amplify_bp_get_friendship_button($member_user_id); ?>
+                                    <div class="amp-item-info">
+                                        <div class="amp-item-avtar">
+                                            <a href="<?php bp_member_permalink(); ?>">
+                                                <img src="<?php echo esc_url($user_images['profile_picture']); ?>" alt="Profile Picture">
+                                            </a>
+                                        </div>
+                                        <div class="amp-item-content">
+                                            <h4><a href="<?php bp_member_permalink(); ?>"><?php echo esc_html($user_full_name); ?></a></h4>
+                                            <span class="company-name"><?php echo esc_html($company); ?></span>
+                                            <div class="amp-actions">
+                                                <?php echo nab_amplify_bp_get_friendship_button($member_user_id); ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
+                            <?php
+                        }
                     }
                     ?>
                 </div>
             </div>
-<?php
+            <?php
             $html = ob_get_clean();
         }
-    }
-
+    }    
+   
     return $html;
 }
 

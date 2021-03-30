@@ -517,6 +517,16 @@
     _this.addClass('loading')
     get_address_remove_popup('Are you sure want to remove?',address_id)
 
+  })
+
+  $(document).on('click', '.remove-employee ', function (e) {
+    e.preventDefault();
+    const empolyee_id =
+      undefined !== $(this).data('id') ? $(this).data('id') : ''
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    get_employee_remove_popup('Are you sure want to remove?',empolyee_id)
 
   })
 
@@ -558,6 +568,133 @@
           addSuccessMsg(
             '.add-product-content-popup',
             'Address Updated Successfully!'
+          )
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '.action-add-employee', function () {
+
+    const company_id = amplifyJS.postID
+    const _this = $(this)
+    _this.addClass('loading')
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_add_employee',
+        company_id: company_id
+      },
+      success: function (data) {
+        _this.removeClass('loading')
+        if (jQuery('#addProductModal').length === 0) {
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+            jQuery('#company_employees').select2({
+              ajax: {
+                url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+                dataType: 'json',
+                delay: 250, // delay in ms while typing when to perform a AJAX search
+                data: function (params) {
+                  return {
+                    q: params.term, // search query
+                    action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                  }
+                },
+                processResults: function (data) {
+                  var options = []
+                  if (data) {
+                    // data is the array of arrays, and each of them contains ID and the Label of the option
+                    $.each(data, function (index, text) {
+                      // do not forget that "index" is just auto incremented value
+                      options.push({ id: text[0], text: text[1] })
+                    })
+                  }
+                  return {
+                    results: options
+                  }
+                },
+                cache: true
+              },
+              minimumInputLength: 3,
+              placeholder: 'Select Employee',
+              allowClear: true
+            })
+        } else {
+          jQuery('#addProductModal').remove()
+          jQuery('body').append(data)
+          jQuery('#addProductModal')
+            .show()
+            .addClass('nab-modal-active')
+          if (jQuery('#nab_company_id').length > 0) {
+            jQuery('#nab_company_id').val(company_id)
+          }
+          jQuery('#company_employees').select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: 'json',
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
+                }
+              },
+              processResults: function (data) {
+                var options = []
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] })
+                  })
+                }
+                return {
+                  results: options
+                }
+              },
+              cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Select Employee',
+            allowClear: true
+          })
+        }
+      }
+    })
+  })
+
+
+  $(document).on('click', '#nab-add-employee-submit', function () {
+    var company_id = jQuery('#nab_company_id').val()
+    var company_employees = jQuery('#company_employees').val()
+    var form_data = new FormData()
+
+
+    form_data.append('company_id', company_id)
+    form_data.append('company_employees', company_employees)
+    form_data.append('action', 'nab_amplify_submit_employee')
+
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: form_data,
+      contentType: false,
+      processData: false,
+      beforeSend: function () {
+        $('body').addClass('is-loading')
+      },
+      success: function (data) {
+        $('body').removeClass('is-loading')
+        if (undefined !== data.success && !data.success) {
+          addSuccessMsg('.add-product-content-popup', data.content)
+        } else {
+          addSuccessMsg(
+            '.add-product-content-popup',
+            'Employees Updated Successfully!'
           )
         }
       }
@@ -612,6 +749,31 @@
     })
   }
 
+  function get_employee_remove_popup(message,employee_id){
+    $.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_get_error_popup',
+        message: message,
+        employee_remove:'1',
+        employee_id:employee_id
+      },
+      success: function (data) {
+        if (0 === $('#connection-message-popup').length) {
+          $('body').append(data)
+          $('#connection-message-popup').show()
+          $('body').addClass('connection-popup-added')
+        } else {
+          $('body').addClass('connection-popup-added')
+          $('#connection-message-popup').remove()
+          $('body').append(data)
+          $('#connection-message-popup').show()
+        }
+      }
+    })
+  }
+
   $(document).on('click', '.confirm_address_remove_yes', function () {
     const address_id =
         undefined !== $(this).data('id') ? $(this).data('id') : ''
@@ -636,6 +798,35 @@
     })
   })
   $(document).on('click', '.confirm_address_remove_no', function () {
+    $(this)
+    .parents('.nab-modal')
+    .hide()
+  })
+
+  $(document).on('click', '.confirm_employee_remove_yes', function () {
+    const employee_id =
+        undefined !== $(this).data('id') ? $(this).data('id') : ''
+      const company_id = amplifyJS.postID
+      const _this = $(this)
+    jQuery.ajax({
+      type: 'POST',
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: 'nab_amplify_remove_employee',
+        employee_id: employee_id,
+        company_id: company_id
+      },
+      beforeSend:function(){
+        $('body').addClass('is-loading');
+      },
+      success: function (data) {
+        if (data.success) {
+          location.reload()
+        }
+      }
+    })
+  })
+  $(document).on('click', '.confirm_employee_remove_no', function () {
     $(this)
     .parents('.nab-modal')
     .hide()
