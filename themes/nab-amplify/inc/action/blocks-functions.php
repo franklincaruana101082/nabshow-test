@@ -1467,23 +1467,49 @@ function nab_regional_addressess_render_callback($attributes)
     $member_level   = get_field('member_level');
 
     if ($member_level !== '' && $member_level !== 'select' && $member_level !== 'Standard') {
-    ?>
-        <div class="company-products <?php echo esc_attr($class_name); ?>">
-            <div class="amp-item-main">
-                <div class="amp-item-heading">
-                    <h3>Regional Addresses</h3>
-                </div>
-                <div class="amp-item-wrap" id="company-address-list">
 
-                    <?php for ($i = 1; $i < 5; $i++) {
-                        nab_get_religion_address($i, get_the_ID());
-                    } ?>
+        $display_block  = false;                
+        $company_id     = get_the_ID();
+        $admin_id       = get_field('company_user_id', $company_id );
 
+        if ( is_user_logged_in() ) {
 
+            if ( ! empty( $admin_id ) && in_array( get_current_user_id(), (array) $admin_id ) ) {
+                $display_block = true;
+            }
+        }
+        if ( ! $display_block ) {
+            
+            $address_keys   = array( 'one', 'two', 'three', 'four' );
+
+            foreach ( $address_keys as $add_key ) {
+
+                $address_data = get_field( 'regional_address_' . $add_key , $company_id );
+
+                if ( ! empty( $address_data ) && ! empty( $address_data['street_line_1'] ) ) {
+                    $display_block = true;
+                    break;
+                }
+            }
+        }
+        if ( $display_block ) {
+            ?>
+            <div class="company-products <?php echo esc_attr($class_name); ?>">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <h3>Regional Addresses</h3>
+                    </div>
+                    <div class="amp-item-wrap" id="company-address-list">
+                        <?php
+                        for ($i = 1; $i < 5; $i++) {
+                            nab_get_religion_address($i, get_the_ID());
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
+            <?php
+        }
     }
     $html = ob_get_clean();
     return $html;
