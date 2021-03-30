@@ -537,6 +537,8 @@ function nab_get_search_post_types()
 	unset($all_post_types['company-products']);
 	unset($all_post_types['tribe_events']);
 	unset($all_post_types['landing-page']);
+	unset($all_post_types['tribe_venue']);
+	unset($all_post_types['downloadable-pdfs']);
 
 	$all_post_types = array_keys($all_post_types);
 
@@ -1149,6 +1151,8 @@ function nab_get_total_company_count() {
  */
 function nab_maritz_redirect_url( $user_id ) {
 
+	$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+
 	if ( empty( $user_id ) || 0 === $user_id ) {
 		return;
 	}
@@ -1178,6 +1182,9 @@ function nab_maritz_redirect_url( $user_id ) {
 	}
 	if ( ! empty( $title ) ) {
 		$params['title'] = $title;
+	}
+	if( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
+		$params['marketing_code'] = $marketing_code;
 	}
 
 	return add_query_arg( $params, $url );

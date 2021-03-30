@@ -1300,7 +1300,7 @@ function nab_company_search_filter_callback()
 		$company_args['meta_key']	= 'member_level_num';
 		$company_args['orderby']	= 'meta_value_num';
 		$company_args['order']		= 'DESC';
-		
+
 	} elseif ('date' !== $orderby) {
 
 		$company_args['orderby'] 	= $orderby;
@@ -1325,7 +1325,6 @@ function nab_company_search_filter_callback()
 
 			$company_query->the_post();
 
-			$profile_picture    = get_field('profile_picture');
 			$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
 			$featured_image     = nab_amplify_get_featured_image(get_the_ID(), false);
 			$profile_picture    = $featured_image;
@@ -1755,9 +1754,9 @@ function nab_event_search_filter_callback()
 				$end_time   = str_replace(':00', '', $end_time );
 
 			}
-			
+
 			if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-				
+
 				if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
 					$start_time = str_replace(' a.m.', '', $start_time );
 				}
@@ -1766,7 +1765,7 @@ function nab_event_search_filter_callback()
 					$start_time = str_replace(' p.m.', '', $start_time );
 				}
 
-				$result_post[$cnt]['event_time'] = $start_time . ' - ' . $end_time . ' ET';				
+				$result_post[$cnt]['event_time'] = $start_time . ' - ' . $end_time . ' ET';
 			}
 
 			if ( ! empty( $company_id ) ) {
@@ -3503,7 +3502,7 @@ function nab_pdf_search_filter_callback()
 
 			if ( ! empty( $pdf_content ) ) {
 				$result_post[$cnt]['content'] = $pdf_content;
-			}			
+			}
 
 			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
@@ -3602,14 +3601,14 @@ function nab_content_submission_callback() {
         'post_type'    => 'content-submission',
 		'post_content' => $content_copy,
     );
-	
+
 	$content_id 	= wp_insert_post( $content_post_data );
 	$attachment_id	= '';
 
 	if ( is_wp_error( $content_id ) ) {
 		wp_send_json_error( array( 'msg' => 'Something went wrong while submitting the content. Please try again.' ) );
 	} else {
-		
+
 		$msg = 'Content submitted successfully.';
 
 		$success = array( 'msg' => $msg, 'content_id' => $content_id );
@@ -3636,11 +3635,11 @@ function nab_content_submission_callback() {
 				if ( ! is_wp_error( $attachment_id ) ) {
 
 					if ( 'featured_img' === $file_key ) {
-						set_post_thumbnail( $content_id, $attachment_id );						
+						set_post_thumbnail( $content_id, $attachment_id );
 					}
 				}
 			}
-		}		
+		}
 		update_field( 'nab_selected_company_id', $company_id, $content_id );
 
 		$company_name 		= get_the_title( $company_id );
@@ -3649,8 +3648,8 @@ function nab_content_submission_callback() {
 		$attachment_url		= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
 		$user_profile_url	= bp_core_get_user_domain( $user_id );
 		$user_data 			= get_user_by( 'id', $user_id );
-		
-		if ( empty( trim( $user_full_name ) ) ) {			
+
+		if ( empty( trim( $user_full_name ) ) ) {
 			$user_full_name	= $user_data->display_name;
 		}
 
@@ -3692,21 +3691,21 @@ function nab_content_submission_callback() {
 						<tr>
 							<th>Featured Image</th>
 							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
-						</tr>							
+						</tr>
 						<?php
 					}
-					?>					
+					?>
 				</table>
 				<?php
 				if ( ! empty( $content_copy ) ) {
 					?>
-					<p><strong>Copy:</strong></p>					
+					<p><strong>Copy:</strong></p>
 					<?php
 					echo $content_copy;
 				}
 				?>
 			</body>
-		</html>	
+		</html>
 		<?php
 		$message = ob_get_clean();
 
@@ -3749,7 +3748,7 @@ function nab_company_events_callback() {
 	}
 
 	$member_level = strtolower( get_field( 'member_level', $company_id ) );
-	
+
 	if ( 'plus' !== $member_level && 'premium' !== $member_level ) {
 		wp_send_json_error( array( 'msg' => 'You can\'t add or update event with your current package. Please contact your sales rep to upgrade the package.' ) );
 	}
@@ -3817,7 +3816,7 @@ function nab_company_events_callback() {
 		if ( is_wp_error( $event_id ) ) {
 			wp_send_json_error( array( 'msg' => 'Something went wrong while adding a new Event.' ) );
 		}
-		
+
 		wp_set_object_terms( $event_id, 'sponsor-event', 'tribe_events_cat', false );
 
 		$msg = 'Event added successfully.';
@@ -3867,12 +3866,12 @@ function nab_company_events_callback() {
 		}
 
 		$event_start_date	= date_format( date_create( $event_date . ' ' . $event_start_time ), 'Y-m-d H:i:s' );
-		$event_end_date		= date_format( date_create( $event_date . ' ' . $event_end_time ), 'Y-m-d H:i:s' );		
-		
+		$event_end_date		= date_format( date_create( $event_date . ' ' . $event_end_time ), 'Y-m-d H:i:s' );
+
 		update_field( 'nab_selected_company_id', $company_id, $event_id );
 		update_post_meta( $event_id, '_EventStartDate', $event_start_date );
 		update_post_meta( $event_id, '_EventEndDate', $event_end_date );
-		update_post_meta( $event_id, '_EventURL', $event_url );		
+		update_post_meta( $event_id, '_EventURL', $event_url );
 		wp_send_json_success( $success );
 
 	} else {

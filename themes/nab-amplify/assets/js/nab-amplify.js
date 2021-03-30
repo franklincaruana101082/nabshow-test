@@ -1450,7 +1450,7 @@
     } else {
       $.each(productMedia, function (key, file) {
         form_data.append(key, file[0]);
-      }).length
+      })
     }
 
     if (product_title == '') {
@@ -4526,9 +4526,11 @@
     if ( this.checked ) {
       $(this).parents('.amp-item-content').find('.amp-actions a.button').removeAttr('disabled');
       $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('data-pdf') );
+      $(this).parents('.amp-item-content').find('.pdf_btn_wrap').removeClass('download-disabled');
     } else {
       $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('disabled', 'disabled');
       $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', 'javascript:void(0);' );
+      $(this).parents('.amp-item-content').find('.pdf_btn_wrap').addClass('download-disabled');
     }
   });
 
@@ -5251,7 +5253,7 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
 
               iIcon.appendChild(contentTooltip);
               itemContent.appendChild(iIcon);
-            }            
+            }
           } else {
             let msgDiv = document.createElement('div');
             msgDiv.setAttribute('class', 'amp-pdf-login-msg');

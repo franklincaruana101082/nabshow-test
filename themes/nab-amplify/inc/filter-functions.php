@@ -43,7 +43,7 @@ function nab_registration_redirect()
  */
 function nab_wc_login_redirect( $redirect, $user ) {
 
-    if ( 'maritz' === strtolower( $redirect ) ) {
+    if ( false !== strpos( $redirect, 'maritz' ) ) {
 
 		$redirect = nab_maritz_redirect_url( $user->ID );
 	}

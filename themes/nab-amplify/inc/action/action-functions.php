@@ -3042,7 +3042,6 @@ function nab_add_product()
 	$nab_product_learn_more_url = filter_input( INPUT_POST, 'nab_product_learn_more_url', FILTER_SANITIZE_STRING );
 	$product_media_bm = filter_input( INPUT_POST, 'product_media_bm', FILTER_SANITIZE_STRING );
 	$uploaded_attachments = array();
-	$product_media = nab_amplify_get_bynder_products( $product_id );
 	$response_msg = '';
 	$product_contact = $product_contact ? $product_contact : 0;
     $tracking_status            = 'trash' === strtolower( $product_status ) ? 'delete' : 'update';
@@ -4013,6 +4012,7 @@ function nab_generate_users_export_csv_file()
 
          // CSV header row fields titles
          $csv_fields   = array();
+         $csv_fields[] = 'User ID';
          $csv_fields[] = 'First Name';
          $csv_fields[] = 'Last Name';
          $csv_fields[] = 'Email';
@@ -4046,6 +4046,7 @@ function nab_generate_users_export_csv_file()
 
                 $registered_date = date_format(date_create($current_user->user_registered), 'm-d-Y H:i:s');
 
+                $dynamic_fields[] = $current_user->ID;
                 $dynamic_fields[] = $first_name;
                 $dynamic_fields[] = $last_name;
                 $dynamic_fields[] = $current_user->user_email;
