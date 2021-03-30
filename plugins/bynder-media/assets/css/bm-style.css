@@ -98,8 +98,7 @@ body.bm-modal-off-scroll{overflow:hidden;}
 .bm-show-cropping-area #cropped-view .bm-btn-wrap a:before{content:"\f00d";display:inline-block;font-size:14px;font-family:fontawesome;}
 .bm-show-cropping-area .bm-btn, .bm-show-cropping-area .bm-btn-pink{min-width:100px;}
 .bm-show-cropping-area.bm-image-cropped .bm-show-cropped-canvas, .bm-show-cropping-area.bm-image-cropped .bm-adjust-crop-actions{display:none;}
-.bm-adjust-crop-actions{position:absolute;right:10px;top:10px;}
-.bm-adjust-crop-actions .bm-crop-adjust{margin-bottom:10px;}
+.bm-adjust-crop-actions .bm-crop-adjust:not(:last-child){margin-bottom:10px;}
 .bm-adjust-crop-actions a{width:35px;height:35px;display:flex;justify-content:center;align-items:center;border:2px solid #ccc;color:#444!important}
 #bm-upload-form .bm-btn-wrap,#bm-upload-form .bm-adjust-crop-actions{display:none;}
 #bm-upload-form .bm-image-cropped .bm-btn-wrap, #bm-upload-form.canvas-active .bm-btn-wrap, #bm-upload-form.canvas-active .bm-adjust-crop-actions{display:block;}
@@ -153,7 +152,7 @@ a#bm-featured-remove{margin-bottom:20px;}
 .cropper-container.cropper-bg{overflow:hidden;}
 .bm-show-cropping-area .bm-btn, .bm-show-cropping-area .bm-btn-pink{color:#fff;}
 .bm-select-media.creating-popup, .bm-select-media.creating-popup *{cursor:not-allowed;}
-#bm-msg{font-family:"Arial", sans-serif;font-size: 15px;}
+#bm-msg{font-family:"Arial", sans-serif;font-size: 15px;padding:0 10px}
 #bm-msg a{font-family:"Arial", sans-serif;}
 
 /* CSS for admin only */
@@ -185,12 +184,14 @@ a#bm-featured-remove{margin-bottom:20px;}
 @media (max-width:599px){
 	/* CSS for admin only */
 	.edit-post-header__settings .bm-select-media{margin-right:4px;}
-	.bm-modal-main .bm-modal-header .bm-tab-list{width:100%;margin-bottom:20px;}
+	.bm-modal-main .bm-modal-header .bm-tab-list{width:100%;margin-bottom:15px;}
 	.bm-modal-main .bm-tab-form{width:100%}
 	.bm-modal-main .bm-tab-form #bm-search-form #bm-search{height:40px;padding:0 70px 0 20px}
 	.bm-modal-main .bm-tab-form #bm-search-form button{width:40px;height:40px;}
 	.bm-modal-main .bm-tab-form #bm-search-form .bm-search-clear{right:50px}
+	.bm-modal-main .bm-modal-header{padding:13px 50px 14px 20px}
 	.bm-modal-main .bm-modal-header .bm-modal-action{height:50px}
+	.bm-modal-main .bm-modal-body{height:calc(80vh - 105px)}
 }
 @media (max-width:480px){
 
