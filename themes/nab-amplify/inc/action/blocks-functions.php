@@ -1055,9 +1055,9 @@ function nab_get_religion_address($address_id, $company_id)
                         <?php echo isset($address_data['street_line_1']) && $address_data['street_line_1'] != '' ? $address_data['street_line_1'] . '<br>' : ''; ?>
                         <?php echo isset($address_data['street_line_2_']) && $address_data['street_line_2_'] != '' ? $address_data['street_line_2_'] . '<br>' : ''; ?>
                         <?php echo isset($address_data['city']) && $address_data['city'] != '' ? $address_data['city'] . ',' : ''; ?>
-                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? nab_amplify_get_country_state($address_data['state_province'],'state') . ',' : ''; ?>
+                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? nab_amplify_get_country_state($address_data['state_province'], 'state') . ',' : ''; ?>
                         <?php echo isset($address_data['zip_postal']) && $address_data['zip_postal'] != '' ? $address_data['zip_postal'] . '<br>' : ''; ?>
-                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? nab_amplify_get_country_state($address_data['country'],'country') : ''; ?>
+                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? nab_amplify_get_country_state($address_data['country'], 'country') : ''; ?>
                         <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
                             <div class="amp-actions">
                                 <div class="search-actions nab-action">
