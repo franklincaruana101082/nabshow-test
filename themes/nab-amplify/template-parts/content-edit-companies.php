@@ -30,7 +30,7 @@ $my_companies = new WP_Query( $query_args );
 if ( $my_companies->have_posts() ) { ?>
 
 
-    <p>Below are those company profiles that currently list you as an admin. Not seeing a company you need the ability to edit? Contact the POC listed for your companyon NAB Amplify, click the button to claim or listing at the bottom of your company page, or get in touch with your sales rep.</p>
+    <p>Below are the Company Profiles that you are currently listed as an admin for. Not seeing a Company Profile you need the ability to edit? Contact the Point of Contact listed on the Company Profile, <a href="/partner-program-dashboard-home/">your Account Executive</a>, or <a href="mailto:support@nabamplify.zendesk.com?subject=NAB Amplify Company Profile Support">NAB Company Profile Support</a>.</p>
 
     <ul class="colgrid _5up" id="content-my-companies">
 
