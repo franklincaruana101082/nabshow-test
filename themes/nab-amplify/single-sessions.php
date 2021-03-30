@@ -350,7 +350,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						$user_id = $user_id;
 						$company_id = $company;
 						//use this instead of get_template_part so the partial can access the above php vars from here
-						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
+						//include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
 					?>
 
 					<?php 
