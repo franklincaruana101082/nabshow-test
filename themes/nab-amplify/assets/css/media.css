@@ -48,6 +48,7 @@
 @media (min-width:768px){
 	.woocommerce-orders-table td a.button{margin:5px auto;display:block;max-width:-webkit-max-content;max-width:-moz-max-content;max-width:max-content}
 	.woocommerce-orders-table td a.button:last-child{margin:5px auto}
+	.woocommerce-MyAccount-content .colgrid{margin:1em -.75rem}
 
 	/* connection popup */
 	.nab-modal .author-info .author-image{width:120px;height:120px}
