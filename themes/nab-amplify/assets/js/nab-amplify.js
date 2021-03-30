@@ -1920,7 +1920,7 @@
               cache: true
             },
             minimumInputLength: 3
-          })
+          });
           load_tinyMCE_withPlugins(
             '#company_about',
             '#character-count-comp-about'
@@ -2087,6 +2087,14 @@
       closeBtn: true,
       smallBtn: true,
     });
+  });
+
+  // Prevent Events link in Month view for multidays events.
+  // Doing so because we do not have control
+  // to change the event link to custom link.
+  $(document).on("click", 'a.tribe-events-calendar-month__multiday-event-hidden-link', function (e) {
+    e.preventDefault();
+    $(this).attr('href', 'javascript:void(0)');
   });
 
   $(document).on("click", ".product-head .product-layout span", function () {
