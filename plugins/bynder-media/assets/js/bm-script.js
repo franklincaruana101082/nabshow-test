@@ -396,7 +396,8 @@ function bmFetchAssets(_this) {
         // Fetch collection wise in backend for the Company posts only.
         if( $('body').hasClass('wp-admin') && $('body').hasClass('post-type-company')  ) {
             collectionName = $('body').attr('data-username');
-        } else {
+
+        } else if ( 0 !== $('.amp-profile-info h2').length ) {
             collectionName = $('.amp-profile-info h2').attr('data-username');
         }
 
