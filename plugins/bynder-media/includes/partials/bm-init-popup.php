@@ -83,7 +83,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <input type="hidden" data-name="Channel" name="metas[B3FD1CDB-9E2E-49B1-AC233CCA40C5257A]" value="86640051-742A-41BB-86D485534C13C1D5" data-value="Website"/>
                             </div>
                             <div class="bm-submit-wrap">
-                                <div id="bm-upload-msg"></div>
                                 <input type="submit" value="Upload" id="bm-upload-btn" class="bm-btn-pink" disabled/>
                             </div>
                             <div id="bm-precess-info">
