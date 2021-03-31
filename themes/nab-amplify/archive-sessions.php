@@ -45,7 +45,7 @@ $sessions = get_posts( array(
 
 	<header class="intro">
 		<div class="container">
-			<h1 class="intro__title">NAB Amplify Sessions Calendar</h1>
+			<h1 class="intro__title">NAB Amplify Events</h1>
 		</div>
 	</header>
 	<div class="main">

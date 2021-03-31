@@ -120,7 +120,7 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 			wp_enqueue_style( 'bm-style', BYNDER_MEDIA_URL . 'assets/css/bm-style.css', array(), '1.0.0' );
 
 			// Add scripts.
-			wp_enqueue_script( 'bm-script', BYNDER_MEDIA_URL . 'assets/js/bm-script.js', array( 'jquery' ), '1.0.1' );
+			wp_enqueue_script( 'bm-script', BYNDER_MEDIA_URL . 'assets/js/bm-script.js', array( 'jquery' ), '1.0.0' );
 			wp_localize_script( 'bm-script', 'bmObj', array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 				'postid' => get_the_ID(),

@@ -43,7 +43,7 @@ if ( empty( $disable_event_search ) ) {
 			<broadstreet-zone zone-id="82835"></broadstreet-zone>
 		</div>
 		<header class="woocommerce-account entry-header account_custom_title">
-			<h1 class="entry-title">Events Calendar</h1>
+			<h1 class="entry-title">Partner Events</h1>
 		</header>
 
 		<?php $this->template( 'components/loader', [ 'text' => __( 'Loading...', 'the-events-calendar' ) ] ); ?>

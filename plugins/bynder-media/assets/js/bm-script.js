@@ -116,13 +116,35 @@
     $(document).on('submit', '#bm-upload-form', function (e) {
         e.preventDefault();
 
+        // Required fields check.
+        if( 0 !== $('.bm-meta-value').length ) {
+
+            let errorFound = false;
+            if ( '' === $('.bm-meta-value[data-name="AssetType"] select').val() ) {
+                $('.bm-meta-value[data-name="AssetType"]').parent().addClass('required-error');
+                errorFound = true;
+            } else {
+                $('.bm-meta-value[data-name="AssetType"]').parent().removeClass('required-error');
+            }
+            if ( 0 === $('.bm-meta-value[data-name="AssetSubtype"] input:checked').length ) {
+                $('.bm-meta-value[data-name="AssetSubtype"]').parent().addClass('required-error');
+                errorFound = true;
+            } else {
+                $('.bm-meta-value[data-name="AssetSubtype"]').parent().removeClass('required-error');
+            }
+
+            if( errorFound ) {
+                $('#bm-upload-msg').append('<p>Please enter required values.<p>').show();
+                return false;
+            } else {
+                $('#bm-upload-msg').html('').hide();
+            }
+        }
+
         if( $('#bm-upload-form').hasClass('meta-creation') ) {
             alert('Pleas wait! Fetching required details to upload.');
             return false;
         }
-
-        // Check if collection id is available.
-        //const collectionID =  $('body').attr('bm-col-id');
 
         // Init upload now.
         $('#bm-main-outer .bm-modal-body').addClass('bm-upload-loader bm-loading');
@@ -399,7 +421,8 @@ function bmFetchAssets(_this) {
         // Fetch collection wise in backend for the Company posts only.
         if( $('body').hasClass('wp-admin') && $('body').hasClass('post-type-company')  ) {
             collectionName = $('body').attr('data-username');
-        } else {
+
+        } else if ( 0 !== $('.amp-profile-info h2').length ) {
             collectionName = $('.amp-profile-info h2').attr('data-username');
         }
 
@@ -664,6 +687,11 @@ function bmMetaReorder() {
 
 function bmFillMetaValues() {
 
+    // Return if already set.
+    if( '' !== $('[data-name="UserTypeName"]').val() && '' !== $('#bmTags').val() ) {
+        return true;
+    }
+
     let bmTags  = '';
     let userTypeName = '';
 
@@ -715,7 +743,6 @@ function bmCreateMetaAJAX(key, val) {
             result = JSON.parse(result);
             if( result.bmHTML ) {
                 // Meta option created successfully.
-                //$('.bm-upload-meta-fields').attr('data-UserTypeName', result.bmHTML);
                 $('[data-name="' + key + '"]').val(result.bmHTML);
                 $('[data-name="' + key + '"]').attr('data-value', val);
 
