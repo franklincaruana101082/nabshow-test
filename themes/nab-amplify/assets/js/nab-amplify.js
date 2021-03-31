@@ -5134,6 +5134,19 @@
     }
   }
 
+  // search page filter
+  $(document).on('click', '#load-more-page a', function () {
+    let contentPageNumber = parseInt($(this).attr('data-page-number'))
+    nabSearchPageAjax(true, contentPageNumber)
+  });
+
+  $(document).on( 'click', '.other-search-filter .sort-page a.sort-order', function () {
+    if (!$(this).hasClass('active')) {
+      $(this).addClass('active').siblings().removeClass('active');
+      nabSearchPageAjax(false, 1);
+    }
+  });
+
 })(jQuery)
 
 // Downloadable PDF Search Ajax.
@@ -6205,8 +6218,8 @@ function nabSearchEventAjax (loadMore, pageNumber) {
 /** Content Search Ajax */
 function nabSearchContentAjax (loadMore, pageNumber) {
   let community = '',
-    subject = '',
-    contentType = ''
+    subject = '';
+
   let postPerPage = jQuery('#load-more-content a').attr('data-post-limit')
     ? parseInt(jQuery('#load-more-content a').attr('data-post-limit'))
     : 12
@@ -6231,12 +6244,6 @@ function nabSearchContentAjax (loadMore, pageNumber) {
         ? ''
         : jQuery('.other-search-filter #content-subject').val()
   }
-  if (0 < jQuery('.other-search-filter #content-type').length) {
-    contentType =
-      0 === jQuery('.other-search-filter #content-type')[0].selectedIndex
-        ? ''
-        : jQuery('.other-search-filter #content-type').val()
-  }
 
   jQuery('body').addClass('is-loading')
 
@@ -6250,8 +6257,7 @@ function nabSearchContentAjax (loadMore, pageNumber) {
       post_limit: postPerPage,
       search_term: searchTerm,
       community: community,
-      subject: subject,
-      content_type: contentType,
+      subject: subject,      
       orderby: orderBy
     },
     success: function (response) {
@@ -6353,6 +6359,114 @@ function nabSearchContentAjax (loadMore, pageNumber) {
       jQuery('.search-view-top-head .content-search-count').text(
         contentObj.total_content + ' Results for '
       )
+
+      jQuery('body').removeClass('is-loading')
+    }
+  })
+}
+
+/** page Search Ajax */
+function nabSearchPageAjax (loadMore, pageNumber) {
+  let postPerPage = jQuery('#load-more-page a').attr('data-post-limit') ? parseInt(jQuery('#load-more-page a').attr('data-post-limit')) : 12;
+  let searchTerm = 0 < jQuery('.search-result-filter .search-form input[name="s"]').length ? jQuery('.search-result-filter .search-form input[name="s"]').val() : '';
+  let orderBy = 0 < jQuery('.other-search-filter .sort-page a.active').length ? jQuery('.other-search-filter .sort-page a.active').attr('data-order') : 'date';
+
+  jQuery('body').addClass('is-loading')
+
+  jQuery.ajax({
+    url: amplifyJS.ajaxurl,
+    type: 'POST',
+    data: {
+      action: 'nab_page_search_filter',
+      nabNonce: amplifyJS.nabNonce,
+      page_number: pageNumber,
+      post_limit: postPerPage,
+      search_term: searchTerm,      
+      orderby: orderBy
+    },
+    success: function (response) {
+      if (!loadMore) {
+        jQuery('#search-page-list').empty()
+      }
+      let contentObj = jQuery.parseJSON(response)
+
+      if ('' !== contentObj.result_post && 0 < contentObj.result_post.length) {
+        let contentListDiv = document.getElementById('search-page-list')
+
+        jQuery.each(contentObj.result_post, function (key, value) {
+          let searchItemDiv = document.createElement('div')
+          searchItemDiv.setAttribute('class', 'search-item')
+
+          let searchItemInner = document.createElement('div')
+          searchItemInner.setAttribute('class', 'search-item-inner')
+
+          let searchItemCover = document.createElement('div')
+          searchItemCover.setAttribute('class', 'search-item-cover')
+
+          let coverImg = document.createElement('img')
+          coverImg.setAttribute('src', value.thumbnail)
+          coverImg.setAttribute('alt', 'content thumbnail')
+
+          searchItemCover.appendChild(coverImg)
+          searchItemInner.appendChild(searchItemCover)
+
+          let searchItemInfo = document.createElement('div')
+          searchItemInfo.setAttribute('class', 'search-item-info')
+
+          let searchContent = document.createElement('div')
+          searchContent.setAttribute('class', 'search-item-content')
+
+          let postTitle = document.createElement('h4')
+
+          let postTitleLink = document.createElement('a')
+          postTitleLink.setAttribute('href', value.link)
+          postTitleLink.innerText = value.title
+
+          postTitle.appendChild(postTitleLink)
+
+          searchContent.appendChild(postTitle)
+
+          let searchAction = document.createElement('div')
+          searchAction.setAttribute('class', 'search-actions')
+
+          let viewPostLink = document.createElement('a')
+          viewPostLink.setAttribute('href', value.link)
+          viewPostLink.setAttribute('class', 'button')
+          viewPostLink.innerText = 'View'
+
+          if (value.target) {
+            viewPostLink.setAttribute('target', value.target)
+          }
+
+          searchAction.appendChild(viewPostLink)
+          searchContent.appendChild(searchAction)
+
+          searchItemInfo.appendChild(searchContent)
+          searchItemInner.appendChild(searchItemInfo)
+          searchItemDiv.appendChild(searchItemInner)
+
+          contentListDiv.appendChild(searchItemDiv)
+
+          if (value.banner) {
+            jQuery('#search-page-list').append(value.banner)
+          }
+        })
+      }
+      jQuery('#load-more-page a').attr( 'data-page-number', contentObj.next_page_number );
+
+      if ( contentObj.next_page_number > contentObj.total_page ) {
+        jQuery('#load-more-page').hide()
+      } else {
+        jQuery('#load-more-page').show()
+      }
+
+      if (0 === contentObj.total_page) {
+        jQuery('#search-page-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+      } else {
+        jQuery('#search-page-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+      }
+
+      jQuery('.search-view-top-head .page-search-count').text( contentObj.total_content + ' Results for ');
 
       jQuery('body').removeClass('is-loading')
     }

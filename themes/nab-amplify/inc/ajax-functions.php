@@ -1831,20 +1831,10 @@ function nab_content_search_filter_callback()
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 	$community		= filter_input(INPUT_POST, 'community', FILTER_SANITIZE_STRING);
-	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-	$content_type	= filter_input(INPUT_POST, 'content_type', FILTER_SANITIZE_STRING);
+	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);	
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$all_post_types = nab_get_search_post_types();
-
-	if (isset($content_type) && !empty($content_type)) {
-
-		if ('other' === $content_type && ($key = array_search('articles', $all_post_types)) !== false) {
-			unset($all_post_types[$key]);
-		} else {
-			$all_post_types = $content_type;
-		}
-	}
 
 	$content_args = array(
 		'post_type' 		=> $all_post_types,
@@ -1951,6 +1941,89 @@ function nab_content_search_filter_callback()
 	$final_result['total_page']       = $total_pages;
 	$final_result['total_content']	= $total_content;
 	$final_result['result_post']      = $result_post;
+
+	echo wp_json_encode($final_result);
+
+	wp_die();
+}
+
+add_action('wp_ajax_nab_page_search_filter', 'nab_page_search_filter_callback');
+add_action('wp_ajax_nopriv_nab_page_search_filter', 'nab_page_search_filter_callback');
+
+function nab_page_search_filter_callback()
+{
+
+	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
+
+	$final_result 	= array();
+	$result_post	= array();
+
+	$page_number	= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
+	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
+	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
+	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);	
+	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
+
+	$content_args = array(
+		'post_type' 		=> 'page',
+		'paged'				=> $page_number,
+		'post_status'		=> 'publish',
+		'posts_per_page' 	=> $post_limit,
+		's'					=> $search_term,
+		'meta_query'		=> array(
+			'relation'	=> 'OR',
+			array(
+				'key'		=> '_yoast_wpseo_meta-robots-noindex',
+				'value'		=> 'completely',
+				'compare'	=> 'NOT EXISTS'
+			),
+			array(
+				'key'		=> '_yoast_wpseo_meta-robots-noindex',
+				'value'		=> '1',
+				'compare'	=> '!='
+			)
+		),
+	);
+
+	$content_args['orderby']	= $orderby;
+	$content_args['order']		= $order;	
+
+	$content_query = new WP_Query($content_args);
+
+	$total_pages 		= $content_query->max_num_pages;
+	$total_content		= $content_query->found_posts;	
+
+	if ($content_query->have_posts()) {
+
+		$cnt = 0;
+
+		while ($content_query->have_posts()) {
+
+			$content_query->the_post();
+
+			$thumbnail_url  = nab_amplify_get_featured_image(get_the_ID());
+
+			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
+			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
+			$result_post[$cnt]['link']		= get_the_permalink();
+
+			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+
+				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
+			}
+
+			$cnt++;
+		}
+	}
+	wp_reset_postdata();
+
+	$final_result['next_page_number'] 	= $page_number + 1;
+	$final_result['total_page']       	= $total_pages;
+	$final_result['total_content']		= $total_content;
+	$final_result['result_post']      	= $result_post;
 
 	echo wp_json_encode($final_result);
 

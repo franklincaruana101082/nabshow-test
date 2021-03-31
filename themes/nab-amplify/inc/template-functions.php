@@ -539,6 +539,7 @@ function nab_get_search_post_types()
 	unset($all_post_types['landing-page']);
 	unset($all_post_types['tribe_venue']);
 	unset($all_post_types['downloadable-pdfs']);
+	unset($all_post_types['page']);
 
 	$all_post_types = array_keys($all_post_types);
 

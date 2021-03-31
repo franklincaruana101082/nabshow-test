@@ -291,7 +291,7 @@ function nab_amplify_update_my_account_menu_items($items)
 		+ array('my-purchases' => __('Access My Content', 'nab-amplify'))
 		+ array('orders' => __('Order History', 'nab-amplify'))
 		+ array('my-bookmarks' => __('Bookmarks', 'nab-amplify'))
-		/*+ array('edit-companies' => __('Edit My Companies', 'nab-amplify'))*/
+		+ array('edit-companies' => __('Edit My Companies', 'nab-amplify'))
 		+ array('edit-account' => __('Edit Account', 'nab-amplify'))
 		+ array('edit-address' => __('Edit Address', 'nab-amplify'));
 

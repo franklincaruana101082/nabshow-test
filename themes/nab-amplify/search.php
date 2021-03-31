@@ -13,7 +13,7 @@ get_header();
 $search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
-$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf');
+$view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf', 'page');
 $allowed_tags 		= wp_kses_allowed_html('post');
 
 $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
@@ -207,7 +207,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						</div>
 					<?php
 					} else if ('content' === $view_type) {
-					?>
+						?>
 						<div class="sort-content sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='relevance'>Relevancy</a>
@@ -252,16 +252,16 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								</div>
 								<?php
 							}
-							?>
-							<div class="nab-custom-select">
-								<select id="content-type" class="content-type">
-									<option value="">Content Type</option>
-									<option value="articles">Articles</option>
-									<option value="other">NAB Amplify Pages</option>
-								</select>
-							</div>
+							?>							
 						</div>
-					<?php
+						<?php
+					} else if ( 'page' === $view_type ) {
+						?>
+						<div class="sort-page sort-order-btn">
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>							
+							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
+						</div>
+						<?php
 					}
 					?>
 					<div class="view-back-to-search">
@@ -924,7 +924,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>CONTENT</strong></h2>
+						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>STORIES</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
@@ -976,6 +976,95 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($content_query->max_num_pages > 1) {
 				?>
 					<div class="load-more text-center" id="load-more-content">
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint($content_query->max_num_pages); ?>">Load More</a>
+					</div>
+				<?php
+				}
+
+				wp_reset_postdata();
+
+			} else if ('page' === $view_type) {				
+
+				$content_args = array(
+					'post_type' 		=> 'page',
+					'post_status'		=> 'publish',
+					'posts_per_page' 	=> 12,
+					's'					=> $search_term,
+					'meta_query'		=> array(
+						'relation'	=> 'OR',
+						array(
+							'key'		=> '_yoast_wpseo_meta-robots-noindex',
+							'value'		=> 'completely',
+							'compare'	=> 'NOT EXISTS'
+						),
+						array(
+							'key'		=> '_yoast_wpseo_meta-robots-noindex',
+							'value'		=> '1',
+							'compare'	=> '!='
+						)
+					),
+				);
+
+				$content_query = new WP_Query( $content_args );
+
+				if ( $content_query->have_posts() ) {
+
+					$total_content	= $content_query->found_posts;
+
+					?>
+					<div class="search-view-top-head">
+						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Results for </span><strong>CONTENT</strong></h2>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+					</div>
+					<div class="search-section search-page-section">
+						<div class="search-section-details" id="search-page-list">
+							<?php
+
+							$cnt = 1;
+
+							while ($content_query->have_posts()) {
+
+								$content_query->the_post();
+
+								$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
+								$post_link		= get_the_permalink();
+								?>
+								<div class="search-item">
+									<div class="search-item-inner">
+										<div class="search-item-cover">
+											<img src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
+										</div>
+										<div class="search-item-info">
+											<div class="search-item-content">
+												<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+												<div class="search-actions">
+													<a href="<?php echo esc_url($post_link); ?>" class="button">View</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php
+
+								if (8 === $cnt) {
+									echo wp_kses(nab_get_search_result_ad(), $allowed_tags);
+								}
+								$cnt++;
+							}
+							if ($cnt < 8) {
+								echo wp_kses(nab_get_search_result_ad(), $allowed_tags);
+							}
+							?>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+				<p class="no-search-data" style="display: none;">Result not found.</p>
+				<?php
+				if ($content_query->max_num_pages > 1) {
+				?>
+					<div class="load-more text-center" id="load-more-page">
 						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint($content_query->max_num_pages); ?>">Load More</a>
 					</div>
 				<?php
@@ -1513,6 +1602,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'order'				=> 'ASC'
 			);
 
+			if ( empty( $search_term ) ) {
+
+				$current_date   = current_time('Y-m-d');
+				$compare		= '>=';
+
+				$event_args['meta_query'] = array(
+
+					array(
+						'key' 		=> '_EventEndDate',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					)
+				);
+			}
+
 			$event_query = new WP_Query( $event_args );
 
 			if ( $event_query->have_posts() ) {
@@ -1653,7 +1758,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			wp_reset_postdata();
 
 			$all_post_types = nab_get_search_post_types();
-
+			
 			$content_args = array(
 				'post_type' 		=> $all_post_types,
 				'posts_per_page' 	=> 4,
@@ -1687,7 +1792,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>CONTENT</strong> <span>(<?php echo esc_html($total_content . ' RESULTS'); ?>)</span></h2>
+						<h2><strong>STORIES</strong> <span>(<?php echo esc_html($total_content . ' RESULTS'); ?>)</span></h2>
 						<?php
 						if ($total_content > 4) {
 
@@ -1701,6 +1806,82 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						?>
 					</div>
 					<div class="search-section-details" id="search-content-list">
+						<?php
+						while ($content_query->have_posts()) {
+
+							$content_query->the_post();
+
+							$thumbnail_url = nab_amplify_get_featured_image( get_the_ID() );
+							$post_link		= get_the_permalink();
+							?>
+							<div class="search-item">
+								<div class="search-item-inner">
+									<div class="search-item-cover">
+										<img src="<?php echo esc_url($thumbnail_url); ?>" alt="content thumbnail" />
+									</div>
+									<div class="search-item-info">
+										<div class="search-item-content">
+											<h4><a href="<?php echo esc_url($post_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+											<div class="search-actions">
+												<a href="<?php echo esc_url( $post_link ); ?>" class="button">View</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+			<?php
+			}
+
+			wp_reset_postdata();
+			
+			$content_args = array(
+				'post_type' 		=> 'page',
+				'posts_per_page' 	=> 4,
+				'post_status'		=> 'publish',
+				's'					=> $search_term,
+				'meta_query'		=> array(
+					'relation'	=> 'OR',
+					array(
+						'key'		=> '_yoast_wpseo_meta-robots-noindex',
+						'value'		=> 'completely',
+						'compare'	=> 'NOT EXISTS'
+					),
+					array(
+						'key'		=> '_yoast_wpseo_meta-robots-noindex',
+						'value'		=> '1',
+						'compare'	=> '!='
+					)
+				),
+			);
+
+			$content_query = new WP_Query( $content_args );
+
+			if ( $content_query->have_posts() ) {
+
+				$search_found	= true;
+				$total_content	= $content_query->found_posts;
+				?>
+				<div class="search-section search-page-section">
+					<div class="search-section-heading">
+						<h2><strong>CONTENT</strong> <span>(<?php echo esc_html($total_content . ' RESULTS'); ?>)</span></h2>
+						<?php
+						if ($total_content > 4) {
+
+							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'page'), $current_site_url);
+							?>
+							<div class="section-view-more">
+								<a href="<?php echo esc_html($content_view_more_link); ?>" class="view-more-link">View All</a>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+					<div class="search-section-details" id="search-page-list">
 						<?php
 						while ($content_query->have_posts()) {
 
