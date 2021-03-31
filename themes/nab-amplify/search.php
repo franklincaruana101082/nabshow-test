@@ -1492,6 +1492,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'order'				=> 'ASC'
 			);
 
+			if ( empty( $search_term ) ) {
+
+				$current_date   = current_time('Y-m-d');
+				$compare		= '>=';
+
+				$event_args['meta_query'] = array(
+
+					array(
+						'key' 		=> '_EventEndDate',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					)
+				);
+			}
+
 			$event_query = new WP_Query( $event_args );
 
 			if ( $event_query->have_posts() ) {
