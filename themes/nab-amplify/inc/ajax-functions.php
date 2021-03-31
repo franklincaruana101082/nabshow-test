@@ -3318,10 +3318,11 @@ function nab_check_for_opt_in() {
 	}
 }
 
-add_action("wp_ajax_nab_create_opt_in_out", "nab_create_opt_in_out");
+add_action("wp_ajax_nab_create_update_opt_in_out", "nab_create_update_opt_in_out");
 
-function nab_create_opt_in_out() {
+function nab_create_update_opt_in_out() {
 
+	$post_id = filter_input(INPUT_POST, 'ID', FILTER_SANITIZE_NUMBER_INT);
 	$post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_STRING);
 	$post_status = filter_input(INPUT_POST, 'post_status', FILTER_SANITIZE_STRING);
 	$post_date = filter_input(INPUT_POST, 'post_date', FILTER_SANITIZE_STRING);
@@ -3337,28 +3338,49 @@ function nab_create_opt_in_out() {
 	$opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
 	$opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
 
-
-	$new_post = array(
-		'post_title' => $post_title,
-		'post_status' => $post_status,
-		'post_date' => $post_date,
-		'post_author' => $post_author,
-		'post_type' => $post_type,
-		'meta_input' => array(
-			'company_id' => $company_id,
-			'company_name' => $company_name,
-			'opted_in' => $opted_in,
-			'user_first_name' => $user_first_name,
-			'user_last_name' => $user_last_name,
-			'user_email' => $user_email,
-			'user_ip' => $user_ip,
-			'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
-			'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
-		)
-	);
-	$post_id = wp_insert_post($new_post);
 	if($post_id) {
-		wp_send_json_success($post_id);
+		$update_post = array(
+			'ID' => $post_id,
+			'post_title' => $post_title,
+			'post_date' => $post_date,
+			'post_author' => $post_author,
+			'meta_input' => array(
+				'company_id' => $company_id,
+				'company_name' => $company_name,
+				'opted_in' => $opted_in,
+				'user_first_name' => $user_first_name,
+				'user_last_name' => $user_last_name,
+				'user_email' => $user_email,
+				'user_ip' => $user_ip,
+				'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
+				'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
+			)
+		);
+		$opt_post = wp_update_post($update_post);
+	} else {
+		$new_post = array(
+			'post_title' => $post_title,
+			'post_status' => $post_status,
+			'post_date' => $post_date,
+			'post_author' => $post_author,
+			'post_type' => $post_type,
+			'meta_input' => array(
+				'company_id' => $company_id,
+				'company_name' => $company_name,
+				'opted_in' => $opted_in,
+				'user_first_name' => $user_first_name,
+				'user_last_name' => $user_last_name,
+				'user_email' => $user_email,
+				'user_ip' => $user_ip,
+				'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
+				'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
+			)
+		);
+		$opt_post = wp_insert_post($new_post);
+	}
+	
+	if($opt_post) {
+		wp_send_json_success($opt_post);
 	} else {
 		wp_send_json_error();
 	}
