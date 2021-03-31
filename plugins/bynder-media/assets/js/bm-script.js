@@ -135,6 +135,7 @@
 
             if( errorFound ) {
                 $('#bm-upload-msg').append('<p>Please enter required values.<p>').show();
+                return false;
             } else {
                 $('#bm-upload-msg').html('').hide();
             }
