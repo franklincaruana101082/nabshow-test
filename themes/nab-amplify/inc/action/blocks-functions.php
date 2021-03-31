@@ -1461,6 +1461,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
     $is_company_admin   = false;
     $add_pdf            = false;
     $company_id         = get_the_ID();
+    $company_name       = get_the_title();
     $html               = '';
     $member_level       = get_field('member_level', $company_id);
 
@@ -1510,7 +1511,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                         }
                         ?>
                         <h3>Downloadable PDFS <span>(<?php echo esc_html($result_text); ?>)</span></h3>
-                        <i class="amp-note">Transparency and choice are important to NAB. By choosing to download this content, you are selecting to share your name and email address with Sony Electronics to allow them to contact you directly. Per our agreement, Sony Electronics is not permitted to share your data with anyone else. You can stop communications from Sony Electronics or revise your communication settings at any time by directly visiting the Sony Electronics website.</i>
+                        <i class="amp-note">Transparency and choice are important to NAB. By choosing to download this content, you are selecting to share your name and email address with <?php echo esc_html( $company_name ); ?> to allow them to contact you directly. Per our agreement, <?php echo esc_html( $company_name ); ?> is not permitted to share your data with anyone else. You can stop communications from <?php echo esc_html( $company_name ); ?> or revise your communication settings at any time by directly visiting the <?php echo esc_html( $company_name ); ?> website.</i>
                     </div>
                     <div class="amp-item-wrap" id="downloadable-pdfs-list">
                         <?php
