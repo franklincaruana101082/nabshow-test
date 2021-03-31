@@ -596,8 +596,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_get_meta( $key ) {
 			return get_option( $key, true );
 		}
-
-
 	}
 
 	new Bynder_Media_Ajax();

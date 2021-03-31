@@ -116,6 +116,7 @@ body.bm-modal-off-scroll{overflow:hidden;}
 .bm-upload-meta-fields .single-meta input[type="checkbox"]{width:100%;height:100%;vertical-align:middle;line-height:normal;}
 .bm-upload-meta-fields .single-meta .meta-cb-labels{font-family:"Arial", sans-serif;font-size:14px;vertical-align:middle;line-height:normal;}
 .single-meta[data-show-when] {display:none;}
+.single-meta.required-error .bm-meta-label,#bm-upload-msg{color: red;}
 
 /* radio button design */
 .bm-radio-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:5px 10px 5px 0}
