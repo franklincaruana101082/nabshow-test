@@ -116,6 +116,30 @@
     $(document).on('submit', '#bm-upload-form', function (e) {
         e.preventDefault();
 
+        // Required fields check.
+        if( 0 !== $('.bm-meta-value').length ) {
+
+            let errorFound = false;
+            if ( '' === $('.bm-meta-value[data-name="AssetType"] select').val() ) {
+                $('.bm-meta-value[data-name="AssetType"]').parent().addClass('required-error');
+                errorFound = true;
+            } else {
+                $('.bm-meta-value[data-name="AssetType"]').parent().removeClass('required-error');
+            }
+            if ( 0 === $('.bm-meta-value[data-name="AssetSubtype"] input:checked').length ) {
+                $('.bm-meta-value[data-name="AssetSubtype"]').parent().addClass('required-error');
+                errorFound = true;
+            } else {
+                $('.bm-meta-value[data-name="AssetSubtype"]').parent().removeClass('required-error');
+            }
+
+            if( errorFound ) {
+                $('#bm-upload-msg').append('<p>Please enter required values.<p>').show();
+            } else {
+                $('#bm-upload-msg').html('').hide();
+            }
+        }
+
         if( $('#bm-upload-form').hasClass('meta-creation') ) {
             alert('Pleas wait! Fetching required details to upload.');
             return false;
