@@ -376,12 +376,14 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					<?php } //end related if ?>
 
 					<?php //opt in modal
+					if (get_field('show_opt_inout_modal')) {
 						//we need these defined here because they may change depending on the template we're adding this to
 						$user_id = $user_id;
 						$company_id = $company;
 						$opt_in_required = (int)get_field('make_opt_in_required');
 						//use this instead of get_template_part so the partial can access the above php vars from here
 						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
+					}
 					?>
 
 					<?php 
