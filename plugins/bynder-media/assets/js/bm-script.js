@@ -490,6 +490,10 @@ function bmFetchAssets(_this) {
             if( ! $('body').hasClass('wp-admin') ) {
                 bmUpdateMetaOptions();
             }
+
+            // Fill values & Create required meta options to generate IDs.
+            bmFillMetaValues();
+            bmCreateMetaOptions();
         },
         error() {
             alert('Fetch error! Try again or contact Plugin Developer.');
@@ -923,10 +927,6 @@ function addBMpopup() {
 
                     // Remove class to enable popup.
                     jQuery('.bm-select-media').removeClass('creating-popup');
-
-                    // Fill values & Create required meta options to generate IDs.
-                    bmFillMetaValues();
-                    bmCreateMetaOptions();
                 }
             },
             error() {
