@@ -112,7 +112,8 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					// Get the Bynder key.
 					$this->bm_domain          = $this->bm_get_meta( 'bm_domain' );
 					$url                      = $this->bm_domain . '/api/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/';
-					$user_type_name_validated = str_replace( ' ', '', $user_type_name );
+					$user_type_name_validated = preg_replace( '/[^A-Za-z0-9\-]/', '', $user_type_name );
+
 					$data                     = array(
 						'name'  => $user_type_name_validated,
 						'label' => $user_type_name,
