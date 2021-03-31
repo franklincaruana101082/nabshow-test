@@ -121,9 +121,6 @@
             return false;
         }
 
-        // Check if collection id is available.
-        //const collectionID =  $('body').attr('bm-col-id');
-
         // Init upload now.
         $('#bm-main-outer .bm-modal-body').addClass('bm-upload-loader bm-loading');
         bmUploadToBynder();
@@ -399,7 +396,8 @@ function bmFetchAssets(_this) {
         // Fetch collection wise in backend for the Company posts only.
         if( $('body').hasClass('wp-admin') && $('body').hasClass('post-type-company')  ) {
             collectionName = $('body').attr('data-username');
-        } else {
+
+        } else if ( 0 !== $('.amp-profile-info h2').length ) {
             collectionName = $('.amp-profile-info h2').attr('data-username');
         }
 
@@ -664,6 +662,11 @@ function bmMetaReorder() {
 
 function bmFillMetaValues() {
 
+    // Return if already set.
+    if( '' !== $('[data-name="UserTypeName"]').val() && '' !== $('#bmTags').val() ) {
+        return true;
+    }
+
     let bmTags  = '';
     let userTypeName = '';
 
@@ -715,7 +718,6 @@ function bmCreateMetaAJAX(key, val) {
             result = JSON.parse(result);
             if( result.bmHTML ) {
                 // Meta option created successfully.
-                //$('.bm-upload-meta-fields').attr('data-UserTypeName', result.bmHTML);
                 $('[data-name="' + key + '"]').val(result.bmHTML);
                 $('[data-name="' + key + '"]').attr('data-value', val);
 

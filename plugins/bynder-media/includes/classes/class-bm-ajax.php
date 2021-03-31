@@ -113,6 +113,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->bm_domain          = $this->bm_get_meta( 'bm_domain' );
 					$url                      = $this->bm_domain . '/api/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/';
 					$user_type_name_validated = str_replace( ' ', '', $user_type_name );
+					$user_type_name_validated = str_replace( '/', '_', $user_type_name_validated );
 					$data                     = array(
 						'name'  => $user_type_name_validated,
 						'label' => $user_type_name,
