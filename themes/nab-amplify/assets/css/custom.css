@@ -1415,6 +1415,8 @@ body .is_friend .remove::before{font-size:22px}
 .tribe-events-page-template .tooltipster-base .event-company-link{font-weight:600}
 .tribe-events-page-template .tooltipster-base .tribe-common-h7 a{color:#999!important;font-weight:500}
 .tribe-events-page-template .tooltipster-base p{font-size:14px;}
+.tribe-events-page-template .tribe-events .tribe-events-calendar-month__multiday-event-bar-inner .tribe-common-h8{color:#000}
+
 /* Reactions */
 /*.reaction-wrapper{margin:10px 0}
 .reaction-wrapper ul, .user-reacted-item ul{list-style:none;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:0;padding:0}
