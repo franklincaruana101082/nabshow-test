@@ -174,6 +174,34 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					registerCometChatProSession();
 					addUserToCometChatPro($user_id);
 
+					$content_protected = (int)get_field('make_opt_in_required');
+					$hide_content = 0;
+
+					if($content_protected) {
+
+						$opt_in = get_posts( array(
+							'posts_per_page' => -1,
+							'post_type' => 'opt-in',
+							'author' => $user_id,
+							'meta_query' => array(
+								array(
+									'key' => 'company_id',
+									'compare' => '==',
+									'value' => $company,
+									'type' => 'INT'
+								),
+								array(
+									'key' => 'opted_in',
+									'compare' => '==',
+									'value' => 1,
+									'type' => 'INT'
+								)
+							)
+						));
+						$hide_content = count($opt_in);
+					}
+					if($hide_content) {
+
 					if($session_status == "pre-event") {
 					?>
 						<div class="session__pre">
@@ -249,7 +277,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							</div>
 							</div>
 						</div>
-					<?php } //end session status if statement ?>
+					<?php } //end session status if statement 
+						} //end opt in hide_content if
+					?>
 					
 					<div class="session__desc">
 						<div class="container">
@@ -349,8 +379,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						//we need these defined here because they may change depending on the template we're adding this to
 						$user_id = $user_id;
 						$company_id = $company;
+						$opt_in_required = (int)get_field('make_opt_in_required');
 						//use this instead of get_template_part so the partial can access the above php vars from here
-						//include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
+						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
 					?>
 
 					<?php 
