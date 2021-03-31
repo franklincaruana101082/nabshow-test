@@ -121,9 +121,6 @@
             return false;
         }
 
-        // Check if collection id is available.
-        //const collectionID =  $('body').attr('bm-col-id');
-
         // Init upload now.
         $('#bm-main-outer .bm-modal-body').addClass('bm-upload-loader bm-loading');
         bmUploadToBynder();
@@ -493,10 +490,6 @@ function bmFetchAssets(_this) {
             if( ! $('body').hasClass('wp-admin') ) {
                 bmUpdateMetaOptions();
             }
-
-            // Fill values & Create required meta options to generate IDs.
-            bmFillMetaValues();
-            bmCreateMetaOptions();
         },
         error() {
             alert('Fetch error! Try again or contact Plugin Developer.');
@@ -664,6 +657,11 @@ function bmMetaReorder() {
 
 function bmFillMetaValues() {
 
+    // Return if already set.
+    if( '' !== $('[data-name="UserTypeName"]').val() && '' !== $('#bmTags').val() ) {
+        return true;
+    }
+
     let bmTags  = '';
     let userTypeName = '';
 
@@ -715,7 +713,6 @@ function bmCreateMetaAJAX(key, val) {
             result = JSON.parse(result);
             if( result.bmHTML ) {
                 // Meta option created successfully.
-                //$('.bm-upload-meta-fields').attr('data-UserTypeName', result.bmHTML);
                 $('[data-name="' + key + '"]').val(result.bmHTML);
                 $('[data-name="' + key + '"]').attr('data-value', val);
 
@@ -926,6 +923,10 @@ function addBMpopup() {
 
                     // Remove class to enable popup.
                     jQuery('.bm-select-media').removeClass('creating-popup');
+
+                    // Fill values & Create required meta options to generate IDs.
+                    bmFillMetaValues();
+                    bmCreateMetaOptions();
                 }
             },
             error() {
