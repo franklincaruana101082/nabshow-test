@@ -116,13 +116,34 @@
     $(document).on('submit', '#bm-upload-form', function (e) {
         e.preventDefault();
 
+        // Required fields check.
+        if( 0 !== $('.bm-meta-value').length ) {
+
+            let errorFound = false;
+            if ( '' === $('.bm-meta-value[data-name="AssetType"] select').val() ) {
+                $('.bm-meta-value[data-name="AssetType"]').parent().addClass('required-error');
+                errorFound = true;
+            } else {
+                $('.bm-meta-value[data-name="AssetType"]').parent().removeClass('required-error');
+            }
+            if ( 0 === $('.bm-meta-value[data-name="AssetSubtype"] input:checked').length ) {
+                $('.bm-meta-value[data-name="AssetSubtype"]').parent().addClass('required-error');
+                errorFound = true;
+            } else {
+                $('.bm-meta-value[data-name="AssetSubtype"]').parent().removeClass('required-error');
+            }
+
+            if( errorFound ) {
+                $('#bm-upload-msg').append('<p>Please enter required values.<p>').show();
+            } else {
+                $('#bm-upload-msg').html('').hide();
+            }
+        }
+
         if( $('#bm-upload-form').hasClass('meta-creation') ) {
             alert('Pleas wait! Fetching required details to upload.');
             return false;
         }
-
-        // Check if collection id is available.
-        //const collectionID =  $('body').attr('bm-col-id');
 
         // Init upload now.
         $('#bm-main-outer .bm-modal-body').addClass('bm-upload-loader bm-loading');
@@ -153,7 +174,7 @@
 
         // Add the selected image src in hidden meta field. (Back end only)
         if( $('body').hasClass('wp-admin') ) {
-            if ( 'bm-block-image' === requestedBy ) {
+            if ('bm-block-image' === requestedBy) {
 
                 // Replace the bynder block with default image div. (Back end only)
                 const bynderReadyBlock = wp.blocks.createBlock('core/image', {
@@ -161,7 +182,7 @@
                     alt: assetName
                 });
                 const blockID = $('.bynder-asset-btn.bm-select-media.active').closest('[data-block]').attr('data-block');
-                wp.data.dispatch('core/block-editor').replaceBlocks( blockID, bynderReadyBlock );
+                wp.data.dispatch('core/block-editor').replaceBlocks(blockID, bynderReadyBlock);
 
             } else {
 
@@ -399,7 +420,8 @@ function bmFetchAssets(_this) {
         // Fetch collection wise in backend for the Company posts only.
         if( $('body').hasClass('wp-admin') && $('body').hasClass('post-type-company')  ) {
             collectionName = $('body').attr('data-username');
-        } else {
+
+        } else if ( 0 !== $('.amp-profile-info h2').length ) {
             collectionName = $('.amp-profile-info h2').attr('data-username');
         }
 
@@ -664,6 +686,11 @@ function bmMetaReorder() {
 
 function bmFillMetaValues() {
 
+    // Return if already set.
+    if( '' !== $('[data-name="UserTypeName"]').val() && '' !== $('#bmTags').val() ) {
+        return true;
+    }
+
     let bmTags  = '';
     let userTypeName = '';
 
@@ -715,7 +742,6 @@ function bmCreateMetaAJAX(key, val) {
             result = JSON.parse(result);
             if( result.bmHTML ) {
                 // Meta option created successfully.
-                //$('.bm-upload-meta-fields').attr('data-UserTypeName', result.bmHTML);
                 $('[data-name="' + key + '"]').val(result.bmHTML);
                 $('[data-name="' + key + '"]').attr('data-value', val);
 
@@ -837,6 +863,13 @@ function addUploadedAsset(result) {
 
         // Add latest image at first position.
         $('#bm-main-outer .bm-media-main').prepend(result.bmHTML);
+
+        let firstItem = $('#bm-main-outer .bm-media-main .bm-item:first-child');
+        if( 0 === firstItem.find('[data-name="Featured"]').length ) {
+            firstItem.addClass('no-featured');
+        } else {
+            firstItem.addClass('featured');
+        }
 
         // If load more is visible, remove the last item.
         if ($('#assets-load-more').is(':visible')) {
