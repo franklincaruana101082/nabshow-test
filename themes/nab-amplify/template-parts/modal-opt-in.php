@@ -77,6 +77,7 @@ jQuery(function($) {
 	jQuery('.js-optbtn').on('click', function() {
 		var opt = jQuery(this).val();
 		var self = jQuery(this);
+		jQuery(self).closest('#modal-opt-in, .optout__info').addClass('_loading');
 		jQuery('.js-optbtn').css('opacity', '.25');
 		jQuery(self).css('opacity', '1').text('Saving...');
 		
