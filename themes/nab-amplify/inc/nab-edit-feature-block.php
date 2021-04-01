@@ -13,7 +13,7 @@ global $post;
 							<div class="form-row">
 								<label for="">Add Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x400"></i></label>
 								<div class="file-input">
-									<input type="file" id="product_featured_image" class="button" name="product_featured_image">
+									<input type="file" id="product_featured_image" class="button bm-select-media" bynder-for="company_featured_image" name="product_featured_image"> <!--Bynder_Featured_Company-->
 								</div>
 								<div class="nab-action left-action">
 									<div class="nab-action-row">

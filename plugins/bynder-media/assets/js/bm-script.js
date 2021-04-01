@@ -204,9 +204,9 @@
             }
 
         } else if ( 'product_media_bm' === requestedBy ) {
-            // For both, back & front sides.
+            // For both front sides.
 
-            var media_count = jQuery('.nab-product-media-item').length;
+            var media_count = $('.nab-product-media-item').length;
             if (media_count < 4) {
                 let timestamp = Date.now();
                 nabAddProdBlankImage(timestamp);
@@ -223,6 +223,45 @@
                 alert('Maximum 4 images are allowed!');
                 return false;
             }
+
+        } else if ( 'event_featured_image' === requestedBy ) {
+            // Bynder_Featured_Event
+
+            if ( 0 < $('#event_media_wrapper .preview-event-featured-img').length ) {
+                $('#event_media_wrapper .preview-event-featured-img').attr('src', assetSrc);
+            } else {
+                var previewImg = '<div class="nab-event-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + assetSrc + '" class="preview-event-featured-img common-preview-img" /></div>';
+                $('#event_media_wrapper').append(previewImg);
+            }
+
+        } else if ( 'content_featured_image' === requestedBy ) {
+            // Bynder_Featured_Content
+
+            if ( 0 < $('#content_media_wrapper .preview-content-featured-img').length ) {
+                $('#content_media_wrapper .preview-content-featured-img').attr('src', assetSrc);
+            } else {
+                var previewImg = '<div class="nab-content-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + assetSrc + '" class="preview-content-featured-img common-preview-img" /></div>';
+                $('#content_media_wrapper').append(previewImg);
+            }
+
+        } else if ( 'company_featured_image' === requestedBy ) {
+            // Bynder_Featured_Company
+
+            if (
+                $('#product_featured_image_wrapper .nab-product-media-item').length >= 1
+            ) {
+                $('#product_featured_image_wrapper .nab-product-media-item').remove();
+                $('#product_featured_image_wrapper').append(
+                    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
+                );
+            } else {
+                $('#product_featured_image_wrapper').append(
+                    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
+                );
+            }
+
+            $('#product_featured_preview').attr('src', assetSrc).show();
+            $('.preview_product_featured_image').show();
 
         } else {
 
@@ -248,7 +287,7 @@
                 },
                 error() {
                     alert('Something went wrong! Please reload the page and try again.');
-                    jQuery('body').removeClass('is-loading');
+                    $('body').removeClass('is-loading');
                 },
             });
         }

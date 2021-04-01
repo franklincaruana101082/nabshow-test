@@ -13,7 +13,7 @@ $event_start_time	= '';
 $event_end_time		= '';
 
 if ( ! empty( $event_start_date ) ) {
-	
+
 	$event_date			= date_format( date_create( $event_start_date ), "F j, Y" );
 	$event_start_time	= date_format( date_create( $event_start_date ), "H:i:s" );
 }
@@ -33,38 +33,42 @@ if ( ! empty( $event_end_date ) ) {
 						<form method="post" id="nab-add-edit-event-form" enctype="multipart/form-data">
 							<div class="form-row">
 								<label for="event-name">Event Name</label>
-								<input type="text" required maxlength="60" class="input-text" name="event_name" id="event-name" value="<?php echo esc_attr( isset( $post_data->post_title ) ? $post_data->post_title : ''); ?>">								
+								<input type="text" required maxlength="60" class="input-text" name="event_name" id="event-name" value="<?php echo esc_attr( isset( $post_data->post_title ) ? $post_data->post_title : ''); ?>">
 							</div>
                             <div class="form-row">
 								<label for="event-description">Description</label>
 								<textarea name="event_desc" id="event-description" maxlength="200"><?php echo esc_html( wp_strip_all_tags( $event_desc ) ); ?></textarea>
 								<span class="info-msg"><span id="event-desc-count">200 Characters Remaining</span></span>
-							</div>														
-							<div class="form-row">								
+							</div>
+							<div class="form-row">
 								<label for="event-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
-										<input type="file" id="event-featured-image" class="button" name="featured_image">
+										<input type="file" id="event-featured-image" class="button bm-select-media" bynder-for="event_featured_image" name="featured_image"> <!--Bynder_Featured_Event-->
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">
 											<i class="action-add fa fa-plus"></i>
 										</div>
-									</div>									
-								</div>								
+									</div>
+								</div>
 							</div>
 							<div class="form-row common-img-wrapper" id="event_media_wrapper">
 								<?php
-								if ( isset( $post_data->ID ) && has_post_thumbnail( $post_data->ID ) ) {
-									?>
-									<div class="nab-event-media-item common-media-item">
-										<i class="fa fa-times remove-featred-img" data-attachment-id="<?php echo esc_attr( get_post_thumbnail_id( $post_data->ID ) ); ?>" aria-hidden="true"></i>
-										<img src="<?php echo esc_url( get_the_post_thumbnail_url( $post_data->ID ) ); ?>" class="preview-event-featured-img common-preview-img" />
-									</div>
-									<?php
+								// Bynder_Featured_Event
+								if ( isset( $post_data->ID ) ) {
+                                    $eventImg = nab_amplify_get_featured_image( $post_data->ID, false );
+									if( $eventImg ) {
+                                        ?>
+                                        <div class="nab-event-media-item common-media-item">
+                                            <i class="fa fa-times remove-featred-img" data-attachment-id="<?php echo esc_attr( get_post_thumbnail_id( $post_data->ID ) ); ?>" aria-hidden="true"></i>
+                                            <img src="<?php echo esc_url( $eventImg ); ?>" class="preview-event-featured-img common-preview-img" />
+                                        </div>
+                                        <?php
+                                    }
 								}
 								?>
-							</div>                            
+							</div>
                             <div class="form-row">
                                 <div class="form-col-3">
                                     <div class="form-row">
@@ -99,12 +103,12 @@ if ( ! empty( $event_end_date ) ) {
                             </div>
                             <div class="form-row">
 								<label for="event-url">Event URL</label>
-								<input type="text" name="event_url" id="event-url" value="<?php echo esc_url( $event_url ); ?>" />								
+								<input type="text" name="event_url" id="event-url" value="<?php echo esc_url( $event_url ); ?>" />
 							</div>
 							<p class="form-field-error global-notice" style="display: none;"></p>
 							<div class="form-row">
 								<?php
-								$publish_button_text = isset( $post_data->ID ) ? "Update" : "Publish";	
+								$publish_button_text = isset( $post_data->ID ) ? "Update" : "Publish";
 								?>
 								<input type="button" id="nab-edit-event-submit" class="btn btn-submit" value="<?php echo esc_attr( $publish_button_text ) ?>">
 								<input type="hidden" name="event_id" id="event_id" value="<?php echo isset( $post_data->ID ) ? $post_data->ID : 0;?>" />

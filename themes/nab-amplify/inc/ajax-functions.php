@@ -1345,25 +1345,25 @@ function nab_company_search_filter_callback()
 
 			ob_start();
 
-?>
-			<div class="search-actions">
-				<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
-			</div>
+			?>
+            <div class="search-actions">
+                <a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
+            </div>
 			<?php
 			if ($company_poc !== '' && !empty($company_poc)) {
 				if ($user_logged_in) {
-			?>
-					<div id="send-private-message" class="generic-button poc-msg-btn">
-						<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
-					</div>
-				<?php
+					?>
+                    <div id="send-private-message" class="generic-button poc-msg-btn">
+                        <a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+                    </div>
+					<?php
 				} else {
 					$current_url = home_url(add_query_arg(null, null));
 					$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
-					<div class="generic-button">
-						<a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
-					</div>
-		<?php
+                    <div class="generic-button">
+                        <a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
+                    </div>
+					<?php
 				}
 			}
 
@@ -1831,7 +1831,7 @@ function nab_content_search_filter_callback()
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 	$community		= filter_input(INPUT_POST, 'community', FILTER_SANITIZE_STRING);
-	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);	
+	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$all_post_types = nab_get_search_post_types();
@@ -1961,7 +1961,7 @@ function nab_page_search_filter_callback()
 	$page_number	= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
 	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
-	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);	
+	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$content_args = array(
@@ -1986,12 +1986,12 @@ function nab_page_search_filter_callback()
 	);
 
 	$content_args['orderby']	= $orderby;
-	$content_args['order']		= $order;	
+	$content_args['order']		= $order;
 
 	$content_query = new WP_Query($content_args);
 
 	$total_pages 		= $content_query->max_num_pages;
-	$total_content		= $content_query->found_posts;	
+	$total_content		= $content_query->found_posts;
 
 	if ($content_query->have_posts()) {
 
@@ -2308,25 +2308,25 @@ function nab_user_claim_company_callback()
 
 		ob_start();
 		?>
-		<html>
+        <html>
 
-		<body>
-			<p>Hello Kiana,</p>
-			<p>The following user has claimed the <a href="<?php echo esc_url(get_the_permalink($company_post->ID)); ?>"><?php echo esc_html($company_post->post_title); ?></a> Page.</p>
-			<table>
-				<tr>
-					<th>User Name:</th>
-					<td><?php echo esc_html($user_full_name); ?></td>
-				</tr>
-				<tr>
-					<th>User Email:</th>
-					<td><?php echo esc_html($current_user->user_email); ?></td>
-				</tr>
-			</table>
-		</body>
+        <body>
+        <p>Hello Kiana,</p>
+        <p>The following user has claimed the <a href="<?php echo esc_url(get_the_permalink($company_post->ID)); ?>"><?php echo esc_html($company_post->post_title); ?></a> Page.</p>
+        <table>
+            <tr>
+                <th>User Name:</th>
+                <td><?php echo esc_html($user_full_name); ?></td>
+            </tr>
+            <tr>
+                <th>User Email:</th>
+                <td><?php echo esc_html($current_user->user_email); ?></td>
+            </tr>
+        </table>
+        </body>
 
-		</html>
-<?php
+        </html>
+		<?php
 
 		$message = ob_get_clean();
 
@@ -2505,6 +2505,7 @@ function nab_edit_feature_block()
 	$company_admins = get_field('company_user_id', $company_id);
 	$current_logged_user = get_current_user_id();
 	$nab_featured_block_headline       = 'Featured';
+	$feature_background_image       = strip_tags(filter_input(INPUT_POST, 'feature_background_image', FILTER_SANITIZE_STRING)); /* Bynder_Featured_Company */
 	$nab_featured_block_title       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_title', FILTER_SANITIZE_STRING));
 	$nab_featured_block_posted_by       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
 	$nab_featured_block_description       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
@@ -2558,32 +2559,34 @@ function nab_edit_feature_block()
 		}
 	}
 
-	$dependencies_loaded = 0;
-	foreach ($_FILES as $file_key => $file_details) {
+	// Bynder_Featured_Company
+	if ( class_exists('Bynder_Media') ) {
+		update_post_meta( $company_id, 'feature_background_image', $feature_background_image );
+	} else {
+		$dependencies_loaded = 0;
+		foreach ($_FILES as $file_key => $file_details) {
 
-		if (0 === $dependencies_loaded) {
-			// These files need to be included as dependencies when on the front end.
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			require_once ABSPATH . 'wp-admin/includes/media.php';
-			$dependencies_loaded = 1;
-		}
+			if (0 === $dependencies_loaded) {
+				// These files need to be included as dependencies when on the front end.
+				require_once ABSPATH . 'wp-admin/includes/image.php';
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				require_once ABSPATH . 'wp-admin/includes/media.php';
+				$dependencies_loaded = 1;
+			}
 
-		// Let WordPress handle the upload.
-		$attachment_id = media_handle_upload($file_key, 0);
+			// Let WordPress handle the upload.
+			$attachment_id = media_handle_upload($file_key, 0);
 
-		if (!is_wp_error($attachment_id)) {
-			// update in meta
-			if ($file_key === 'nab_product_play_image') {
-				update_field('feature_icon_image', $attachment_id, $company_id);
-			} else {
-				update_field('feature_background_image', $attachment_id, $company_id);
+			if (!is_wp_error($attachment_id)) {
+				// update in meta
+				if ($file_key === 'nab_product_play_image') {
+					update_field('feature_icon_image', $attachment_id, $company_id);
+				} else {
+					update_field('feature_background_image', $attachment_id, $company_id);
+				}
 			}
 		}
 	}
-
-
-
 
 	wp_send_json_success(array(
 		'feedback' => __('Featured Block Updated!', 'buddypress'),
@@ -3422,10 +3425,10 @@ function nab_downloadable_pdf_callback() {
 	}
 
 	$pdf_post_data = array(
-        'post_title'   => $pdf_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'downloadable-pdfs'
-    );
+		'post_title'   => $pdf_title,
+		'post_status'  => 'publish',
+		'post_type'    => 'downloadable-pdfs'
+	);
 
 	if ( empty( $pdf_id ) || 0 === (int) $pdf_id ) {
 
@@ -3441,8 +3444,8 @@ function nab_downloadable_pdf_callback() {
 
 	} else {
 
-        $pdf_post_data['ID']	= $pdf_id;
-        $pdf_id					= wp_update_post( $pdf_post_data );
+		$pdf_post_data['ID']	= $pdf_id;
+		$pdf_id					= wp_update_post( $pdf_post_data );
 		$msg 					= 'Downloadable PDF updated successfully.';
 
 		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'update' );
@@ -3507,7 +3510,7 @@ function nab_remove_downloadable_pdf_callback() {
 
 	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
-	$pdf_id		= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );	
+	$pdf_id		= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
 
 	if ( ! empty( $pdf_id ) ) {
 
@@ -3517,7 +3520,7 @@ function nab_remove_downloadable_pdf_callback() {
 		wp_trash_post( $pdf_id );
 
 		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'delete' );
-	}	
+	}
 
 	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
 }
@@ -3634,6 +3637,7 @@ function nab_content_submission_callback() {
 	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
 	$content_title			= filter_input( INPUT_POST, 'content_title', FILTER_SANITIZE_STRING );
 	$content_copy			= filter_input( INPUT_POST, 'content_copy', FILTER_UNSAFE_RAW );
+	$featured_img	        = filter_input( INPUT_POST, 'featured_img', FILTER_SANITIZE_STRING ); /* Bynder_Featured_Content */
 	$msg					= '';
 	$submit_limit			= 3;
 
@@ -3681,11 +3685,11 @@ function nab_content_submission_callback() {
 	}
 
 	$content_post_data = array(
-        'post_title'   => $content_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'content-submission',
+		'post_title'   => $content_title,
+		'post_status'  => 'publish',
+		'post_type'    => 'content-submission',
 		'post_content' => $content_copy,
-    );
+	);
 
 	$content_id 	= wp_insert_post( $content_post_data );
 	$attachment_id	= '';
@@ -3698,33 +3702,39 @@ function nab_content_submission_callback() {
 
 		$success = array( 'msg' => $msg, 'content_id' => $content_id );
 
-		// Upload images.
-		$file_names				= array( 'featured_img' );
-		$dependencies_loaded 	= false;
+		// Bynder_Featured_Content
+		if ( class_exists('Bynder_Media') ) {
+			update_post_meta( $content_id, 'profile_picture', $featured_img );
+		} else {
+			// Upload images.
+			$file_names				= array( 'featured_img' );
+			$dependencies_loaded 	= false;
 
-		foreach ( $_FILES as $file_key => $file_details ) {
+			foreach ( $_FILES as $file_key => $file_details ) {
 
-			if ( in_array( $file_key, $file_names, true ) ) {
+				if ( in_array( $file_key, $file_names, true ) ) {
 
-				if ( $dependencies_loaded ) {
-					// These files need to be included as dependencies when on the front end.
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-					$dependencies_loaded = true;
-				}
+					if ( $dependencies_loaded ) {
+						// These files need to be included as dependencies when on the front end.
+						require_once ABSPATH . 'wp-admin/includes/image.php';
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+						require_once ABSPATH . 'wp-admin/includes/media.php';
+						$dependencies_loaded = true;
+					}
 
-				// Let WordPress handle the upload.
-				$attachment_id = media_handle_upload( $file_key, 0 );
+					// Let WordPress handle the upload.
+					$attachment_id = media_handle_upload( $file_key, 0 );
 
-				if ( ! is_wp_error( $attachment_id ) ) {
+					if ( ! is_wp_error( $attachment_id ) ) {
 
-					if ( 'featured_img' === $file_key ) {
-						set_post_thumbnail( $content_id, $attachment_id );
+						if ( 'featured_img' === $file_key ) {
+							set_post_thumbnail( $content_id, $attachment_id );
+						}
 					}
 				}
 			}
 		}
+
 		update_field( 'nab_selected_company_id', $company_id, $content_id );
 
 		$company_name 		= get_the_title( $company_id );
@@ -3746,51 +3756,51 @@ function nab_content_submission_callback() {
 
 		ob_start();
 		?>
-		<html>
-			<body>
-				<p>The following content was submitted by <?php echo esc_html( $user_full_name ); ?> from <?php echo esc_html( $company_name ); ?> as a part of their Premium Company Listing. Please review and reach out to <?php echo esc_html( $user_full_name ); ?> with any questions or concerns and/or notify them when to expect their content will be posted in the editorial calendar. </p>
-				<table cellpadding="10" border="1">
-					<tr>
-						<th>Company Name</th>
-						<td><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( $company_name ); ?></a></td>
-					</tr>
-					<tr>
-						<th>Submitter’s Name</th>
-						<td><a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a></td>
-					</tr>
-					<tr>
-						<th>Submitter’s Email</th>
-						<td><?php echo esc_html( $user_data->user_email ); ?></td>
-					</tr>
-					<tr>
-						<th>Title</th>
-						<td><?php echo esc_html( $content_title ); ?></td>
-					</tr>
-					<tr>
-						<th>Submission Date</th>
-						<td><?php echo esc_html( current_time('M. j, Y') ); ?></td>
-					</tr>
-					<?php
-					if ( ! empty( $attachment_url ) && is_array( $attachment_url ) ) {
-						?>
-						<tr>
-							<th>Featured Image</th>
-							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
-						</tr>
-						<?php
-					}
-					?>
-				</table>
-				<?php
-				if ( ! empty( $content_copy ) ) {
-					?>
-					<p><strong>Copy:</strong></p>
-					<?php
-					echo $content_copy;
-				}
+        <html>
+        <body>
+        <p>The following content was submitted by <?php echo esc_html( $user_full_name ); ?> from <?php echo esc_html( $company_name ); ?> as a part of their Premium Company Listing. Please review and reach out to <?php echo esc_html( $user_full_name ); ?> with any questions or concerns and/or notify them when to expect their content will be posted in the editorial calendar. </p>
+        <table cellpadding="10" border="1">
+            <tr>
+                <th>Company Name</th>
+                <td><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( $company_name ); ?></a></td>
+            </tr>
+            <tr>
+                <th>Submitter’s Name</th>
+                <td><a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a></td>
+            </tr>
+            <tr>
+                <th>Submitter’s Email</th>
+                <td><?php echo esc_html( $user_data->user_email ); ?></td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td><?php echo esc_html( $content_title ); ?></td>
+            </tr>
+            <tr>
+                <th>Submission Date</th>
+                <td><?php echo esc_html( current_time('M. j, Y') ); ?></td>
+            </tr>
+			<?php
+			if ( ! empty( $attachment_url ) && is_array( $attachment_url ) ) {
 				?>
-			</body>
-		</html>
+                <tr>
+                    <th>Featured Image</th>
+                    <td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
+                </tr>
+				<?php
+			}
+			?>
+        </table>
+		<?php
+		if ( ! empty( $content_copy ) ) {
+			?>
+            <p><strong>Copy:</strong></p>
+			<?php
+			echo $content_copy;
+		}
+		?>
+        </body>
+        </html>
 		<?php
 		$message = ob_get_clean();
 
@@ -3826,6 +3836,7 @@ function nab_company_events_callback() {
 	$event_start_time		= filter_input( INPUT_POST, 'event_start_time', FILTER_SANITIZE_STRING );
 	$event_end_time			= filter_input( INPUT_POST, 'event_end_time', FILTER_SANITIZE_STRING );
 	$event_url				= filter_input( INPUT_POST, 'event_url', FILTER_SANITIZE_STRING );
+	$featured_img	        = filter_input( INPUT_POST, 'featured_img', FILTER_SANITIZE_STRING ); /* Bynder_Featured_Event */
 	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
 	$msg					= '';
 	$action					= empty( $event_id ) || 0 === (int) $event_id ? 'add' : 'update';
@@ -3845,13 +3856,13 @@ function nab_company_events_callback() {
 		$max_limit = 3;
 
 		$query_args = array(
-            'post_type'         => 'tribe_events',
-            'post_status'       => 'publish',
-            'posts_per_page'    => -1,
-            'meta_key'          => 'nab_selected_company_id',
-            'meta_value'        => $company_id,
-            'fields'            => 'ids',
-        );
+			'post_type'         => 'tribe_events',
+			'post_status'       => 'publish',
+			'posts_per_page'    => -1,
+			'meta_key'          => 'nab_selected_company_id',
+			'meta_value'        => $company_id,
+			'fields'            => 'ids',
+		);
 
 		$event_query 	= new WP_Query( $query_args );
 		$total_event	= count( $event_query->posts );
@@ -3890,11 +3901,11 @@ function nab_company_events_callback() {
 	}
 
 	$event_data = array(
-        'post_title'   => $event_name,
-        'post_status'  => 'publish',
-        'post_type'    => 'tribe_events',
+		'post_title'   => $event_name,
+		'post_status'  => 'publish',
+		'post_type'    => 'tribe_events',
 		'post_content' => $event_desc,
-    );
+	);
 
 	if ( empty( $event_id ) || 0 === (int) $event_id ) {
 
@@ -3912,8 +3923,8 @@ function nab_company_events_callback() {
 
 	} else {
 
-        $event_data['ID']		= $event_id;
-        $event_id				= wp_update_post( $event_data );
+		$event_data['ID']		= $event_id;
+		$event_id				= wp_update_post( $event_data );
 		$msg 					= 'Event updated successfully.';
 
 		do_action( 'nab_company_event_action', $company_id, $event_id, 'update' );
@@ -3927,30 +3938,35 @@ function nab_company_events_callback() {
 			delete_post_thumbnail( $event_id );
 		}
 
-		// Upload images.
-		$file_names				= array( 'featured_img' );
-		$dependencies_loaded 	= false;
+		// Bynder_Featured_Event
+		if ( class_exists('Bynder_Media') ) {
+			update_post_meta( $event_id, 'profile_picture', $featured_img );
+		} else {
+			// Upload images.
+			$file_names				= array( 'featured_img' );
+			$dependencies_loaded 	= false;
 
-		foreach ( $_FILES as $file_key => $file_details ) {
+			foreach ( $_FILES as $file_key => $file_details ) {
 
-			if ( in_array( $file_key, $file_names, true ) ) {
+				if ( in_array( $file_key, $file_names, true ) ) {
 
-				if ( $dependencies_loaded ) {
-					// These files need to be included as dependencies when on the front end.
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-					$dependencies_loaded = true;
-				}
+					if ( $dependencies_loaded ) {
+						// These files need to be included as dependencies when on the front end.
+						require_once ABSPATH . 'wp-admin/includes/image.php';
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+						require_once ABSPATH . 'wp-admin/includes/media.php';
+						$dependencies_loaded = true;
+					}
 
-				// Let WordPress handle the upload.
-				$attachment_id = media_handle_upload( $file_key, 0 );
+					// Let WordPress handle the upload.
+					$attachment_id = media_handle_upload( $file_key, 0 );
 
-				if ( ! is_wp_error( $attachment_id ) ) {
+					if ( ! is_wp_error( $attachment_id ) ) {
 
-					if ( 'featured_img' === $file_key ) {
-						set_post_thumbnail( $event_id, $attachment_id );
-						$success['featured_attachment_id'] = $attachment_id;
+						if ( 'featured_img' === $file_key ) {
+							set_post_thumbnail( $event_id, $attachment_id );
+							$success['featured_attachment_id'] = $attachment_id;
+						}
 					}
 				}
 			}
