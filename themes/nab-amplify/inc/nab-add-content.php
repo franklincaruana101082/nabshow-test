@@ -16,28 +16,28 @@ $content_copy	= nab_get_wp_editor( '', 'nab_content_copy', array('media_buttons'
 						<form method="post" id="nab-add-content-form" enctype="multipart/form-data">
 							<div class="form-row">
 								<label for="content-title">Title</label>
-								<input type="text" required maxlength="60" class="input-text" name="content_title" id="content-title">								
-							</div>														
-							<div class="form-row">								
+								<input type="text" required maxlength="60" class="input-text" name="content_title" id="content-title">
+							</div>
+							<div class="form-row">
 								<label for="content-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
-										<input type="file" id="content-featured-image" class="button" name="featured_image">
+										<input type="file" id="content-featured-image" class="button bm-select-media-disabled" bynder-for="content_featured_image" name="featured_image"> <!--Bynder_Featured_Content-->
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">
 											<i class="action-add fa fa-plus"></i>
 										</div>
-									</div>									
-								</div>								
+									</div>
+								</div>
 							</div>
 							<div class="form-row common-img-wrapper" id="content_media_wrapper"></div>
 							<div class="form-row">
 								<label for="content-copy">Copy</label>
-								<textarea name="content_copy" id="content-copy"><?php echo isset( $content_copy ) ? $content_copy : ''; ?></textarea>								
+								<textarea name="content_copy" id="content-copy"><?php echo isset( $content_copy ) ? $content_copy : ''; ?></textarea>
 							</div>
 							<p class="form-field-error global-notice" style="display: none;"></p>
-							<div class="form-row">								
+							<div class="form-row">
 								<input type="button" id="nab-add-content-submit" class="btn btn-submit" value="Submit">
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? $company_id : 0; ?>" />
 							</div>

@@ -1748,9 +1748,9 @@ function nab_event_search_filter_callback()
 				$end_time   = str_replace(':00', '', $end_time );
 
 			}
-			
+
 			if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-				
+
 				if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
 					$start_time = str_replace(' a.m.', '', $start_time );
 				}
@@ -1759,7 +1759,7 @@ function nab_event_search_filter_callback()
 					$start_time = str_replace(' p.m.', '', $start_time );
 				}
 
-				$result_post[$cnt]['event_time'] = $start_time . ' - ' . $end_time . ' ET';				
+				$result_post[$cnt]['event_time'] = $start_time . ' - ' . $end_time . ' ET';
 			}
 
 			if ( ! empty( $company_id ) ) {
@@ -1827,7 +1827,7 @@ function nab_content_search_filter_callback()
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 	$community		= filter_input(INPUT_POST, 'community', FILTER_SANITIZE_STRING);
-	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);	
+	$subject		= filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$all_post_types = nab_get_search_post_types();
@@ -1956,7 +1956,7 @@ function nab_page_search_filter_callback() {
 	$page_number	= filter_input(INPUT_POST, 'page_number', FILTER_SANITIZE_NUMBER_INT);
 	$post_limit		= filter_input(INPUT_POST, 'post_limit', FILTER_SANITIZE_NUMBER_INT);
 	$search_term	= filter_input(INPUT_POST, 'search_term', FILTER_SANITIZE_STRING);
-	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);	
+	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 	$order			= 'title' === $orderby ? 'ASC' : 'DESC';
 
 	$content_args = array(
@@ -1981,12 +1981,12 @@ function nab_page_search_filter_callback() {
 	);
 
 	$content_args['orderby']	= $orderby;
-	$content_args['order']		= $order;	
+	$content_args['order']		= $order;
 
 	$content_query = new WP_Query($content_args);
 
 	$total_pages 		= $content_query->max_num_pages;
-	$total_content		= $content_query->found_posts;	
+	$total_content		= $content_query->found_posts;
 
 	if ($content_query->have_posts()) {
 
@@ -2500,6 +2500,7 @@ function nab_edit_feature_block()
 	$company_admins = get_field('company_user_id', $company_id);
 	$current_logged_user = get_current_user_id();
 	$nab_featured_block_headline       = 'Featured';
+	$feature_background_image       = strip_tags(filter_input(INPUT_POST, 'feature_background_image', FILTER_SANITIZE_STRING)); /* Bynder_Featured_Company */
 	$nab_featured_block_title       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_title', FILTER_SANITIZE_STRING));
 	$nab_featured_block_posted_by       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
 	$nab_featured_block_description       = strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
@@ -2553,32 +2554,34 @@ function nab_edit_feature_block()
 		}
 	}
 
-	$dependencies_loaded = 0;
-	foreach ($_FILES as $file_key => $file_details) {
+	// Bynder_Featured_Company
+	if ( class_exists('Bynder_Media') ) {
+		update_post_meta( $company_id, 'feature_background_image', $feature_background_image );
+	} else {
+		$dependencies_loaded = 0;
+		foreach ( $_FILES as $file_key => $file_details ) {
 
-		if (0 === $dependencies_loaded) {
-			// These files need to be included as dependencies when on the front end.
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			require_once ABSPATH . 'wp-admin/includes/media.php';
-			$dependencies_loaded = 1;
-		}
+			if ( 0 === $dependencies_loaded ) {
+				// These files need to be included as dependencies when on the front end.
+				require_once ABSPATH . 'wp-admin/includes/image.php';
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				require_once ABSPATH . 'wp-admin/includes/media.php';
+				$dependencies_loaded = 1;
+			}
 
-		// Let WordPress handle the upload.
-		$attachment_id = media_handle_upload($file_key, 0);
+			// Let WordPress handle the upload.
+			$attachment_id = media_handle_upload( $file_key, 0 );
 
-		if (!is_wp_error($attachment_id)) {
-			// update in meta
-			if ($file_key === 'nab_product_play_image') {
-				update_field('feature_icon_image', $attachment_id, $company_id);
-			} else {
-				update_field('feature_background_image', $attachment_id, $company_id);
+			if ( ! is_wp_error( $attachment_id ) ) {
+				// update in meta
+				if ( $file_key === 'nab_product_play_image' ) {
+					update_field( 'feature_icon_image', $attachment_id, $company_id );
+				} else {
+					update_field( 'feature_background_image', $attachment_id, $company_id );
+				}
 			}
 		}
 	}
-
-
-
 
 	wp_send_json_success(array(
 		'feedback' => __('Featured Block Updated!', 'buddypress'),
@@ -3380,7 +3383,7 @@ function nab_create_update_opt_in_out() {
 		);
 		$opt_post = wp_insert_post($new_post);
 	}
-	
+
 	if($opt_post) {
 		wp_send_json_success($opt_post);
 	} else {
@@ -3482,6 +3485,7 @@ function nab_content_submission_callback() {
 	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
 	$content_title			= filter_input( INPUT_POST, 'content_title', FILTER_SANITIZE_STRING );
 	$content_copy			= filter_input( INPUT_POST, 'content_copy', FILTER_UNSAFE_RAW );
+	$featured_img	        = filter_input( INPUT_POST, 'featured_img', FILTER_SANITIZE_STRING ); /* Bynder_Featured_Content */
 	$msg					= '';
 	$submit_limit			= 3;
 
@@ -3534,45 +3538,51 @@ function nab_content_submission_callback() {
         'post_type'    => 'content-submission',
 		'post_content' => $content_copy,
     );
-	
+
 	$content_id 	= wp_insert_post( $content_post_data );
 	$attachment_id	= '';
 
 	if ( is_wp_error( $content_id ) ) {
 		wp_send_json_error( array( 'msg' => 'Something went wrong while submitting the content. Please try again.' ) );
 	} else {
-		
+
 		$msg = 'Content submitted successfully.';
 
 		$success = array( 'msg' => $msg, 'content_id' => $content_id );
 
-		// Upload images.
-		$file_names				= array( 'featured_img' );
-		$dependencies_loaded 	= false;
+		// Bynder_Featured_Content
+		if ( class_exists('Bynder_Media') ) {
+			update_post_meta( $content_id, 'profile_picture', $featured_img );
+		} else {
+			// Upload images.
+			$file_names          = array( 'featured_img' );
+			$dependencies_loaded = false;
 
-		foreach ( $_FILES as $file_key => $file_details ) {
+			foreach ( $_FILES as $file_key => $file_details ) {
 
-			if ( in_array( $file_key, $file_names, true ) ) {
+				if ( in_array( $file_key, $file_names, true ) ) {
 
-				if ( $dependencies_loaded ) {
-					// These files need to be included as dependencies when on the front end.
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-					$dependencies_loaded = true;
-				}
+					if ( $dependencies_loaded ) {
+						// These files need to be included as dependencies when on the front end.
+						require_once ABSPATH . 'wp-admin/includes/image.php';
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+						require_once ABSPATH . 'wp-admin/includes/media.php';
+						$dependencies_loaded = true;
+					}
 
-				// Let WordPress handle the upload.
-				$attachment_id = media_handle_upload( $file_key, 0 );
+					// Let WordPress handle the upload.
+					$attachment_id = media_handle_upload( $file_key, 0 );
 
-				if ( ! is_wp_error( $attachment_id ) ) {
+					if ( ! is_wp_error( $attachment_id ) ) {
 
-					if ( 'featured_img' === $file_key ) {
-						set_post_thumbnail( $content_id, $attachment_id );						
+						if ( 'featured_img' === $file_key ) {
+							set_post_thumbnail( $content_id, $attachment_id );
+						}
 					}
 				}
 			}
-		}		
+		}
+
 		update_field( 'nab_selected_company_id', $company_id, $content_id );
 
 		$company_name 		= get_the_title( $company_id );
@@ -3581,8 +3591,8 @@ function nab_content_submission_callback() {
 		$attachment_url		= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
 		$user_profile_url	= bp_core_get_user_domain( $user_id );
 		$user_data 			= get_user_by( 'id', $user_id );
-		
-		if ( empty( trim( $user_full_name ) ) ) {			
+
+		if ( empty( trim( $user_full_name ) ) ) {
 			$user_full_name	= $user_data->display_name;
 		}
 
@@ -3624,21 +3634,21 @@ function nab_content_submission_callback() {
 						<tr>
 							<th>Featured Image</th>
 							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
-						</tr>							
+						</tr>
 						<?php
 					}
-					?>					
+					?>
 				</table>
 				<?php
 				if ( ! empty( $content_copy ) ) {
 					?>
-					<p><strong>Copy:</strong></p>					
+					<p><strong>Copy:</strong></p>
 					<?php
 					echo $content_copy;
 				}
 				?>
 			</body>
-		</html>	
+		</html>
 		<?php
 		$message = ob_get_clean();
 
@@ -3856,7 +3866,7 @@ function nab_pdf_search_filter_callback()
 
 			if ( ! empty( $pdf_content ) ) {
 				$result_post[$cnt]['content'] = $pdf_content;
-			}			
+			}
 
 			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
@@ -3909,6 +3919,7 @@ function nab_company_events_callback() {
 	$event_start_time		= filter_input( INPUT_POST, 'event_start_time', FILTER_SANITIZE_STRING );
 	$event_end_time			= filter_input( INPUT_POST, 'event_end_time', FILTER_SANITIZE_STRING );
 	$event_url				= filter_input( INPUT_POST, 'event_url', FILTER_SANITIZE_STRING );
+	$featured_img	        = filter_input( INPUT_POST, 'featured_img', FILTER_SANITIZE_STRING ); /* Bynder_Featured_Event */
 	$remove_featured_img	= filter_input( INPUT_POST, 'remove_featured_img', FILTER_VALIDATE_BOOLEAN );
 	$msg					= '';
 	$action					= empty( $event_id ) || 0 === (int) $event_id ? 'add' : 'update';
@@ -3918,7 +3929,7 @@ function nab_company_events_callback() {
 	}
 
 	$member_level = strtolower( get_field( 'member_level', $company_id ) );
-	
+
 	if ( 'plus' !== $member_level && 'premium' !== $member_level ) {
 		wp_send_json_error( array( 'msg' => 'You can\'t add or update event with your current package. Please contact your sales rep to upgrade the package.' ) );
 	}
@@ -3986,7 +3997,7 @@ function nab_company_events_callback() {
 		if ( is_wp_error( $event_id ) ) {
 			wp_send_json_error( array( 'msg' => 'Something went wrong while adding a new Event.' ) );
 		}
-		
+
 		wp_set_object_terms( $event_id, 'sponsor-event', 'tribe_events_cat', false );
 
 		$msg = 'Event added successfully.';
@@ -4010,42 +4021,47 @@ function nab_company_events_callback() {
 			delete_post_thumbnail( $event_id );
 		}
 
-		// Upload images.
-		$file_names				= array( 'featured_img' );
-		$dependencies_loaded 	= false;
+		// Bynder_Featured_Event
+		if ( class_exists('Bynder_Media') ) {
+			update_post_meta( $event_id, 'profile_picture', $featured_img );
+		} else {
+			// Upload images.
+			$file_names          = array( 'featured_img' );
+			$dependencies_loaded = false;
 
-		foreach ( $_FILES as $file_key => $file_details ) {
+			foreach ( $_FILES as $file_key => $file_details ) {
 
-			if ( in_array( $file_key, $file_names, true ) ) {
+				if ( in_array( $file_key, $file_names, true ) ) {
 
-				if ( $dependencies_loaded ) {
-					// These files need to be included as dependencies when on the front end.
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-					$dependencies_loaded = true;
-				}
+					if ( $dependencies_loaded ) {
+						// These files need to be included as dependencies when on the front end.
+						require_once ABSPATH . 'wp-admin/includes/image.php';
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+						require_once ABSPATH . 'wp-admin/includes/media.php';
+						$dependencies_loaded = true;
+					}
 
-				// Let WordPress handle the upload.
-				$attachment_id = media_handle_upload( $file_key, 0 );
+					// Let WordPress handle the upload.
+					$attachment_id = media_handle_upload( $file_key, 0 );
 
-				if ( ! is_wp_error( $attachment_id ) ) {
+					if ( ! is_wp_error( $attachment_id ) ) {
 
-					if ( 'featured_img' === $file_key ) {
-						set_post_thumbnail( $event_id, $attachment_id );
-						$success['featured_attachment_id'] = $attachment_id;
+						if ( 'featured_img' === $file_key ) {
+							set_post_thumbnail( $event_id, $attachment_id );
+							$success['featured_attachment_id'] = $attachment_id;
+						}
 					}
 				}
 			}
 		}
 
 		$event_start_date	= date_format( date_create( $event_date . ' ' . $event_start_time ), 'Y-m-d H:i:s' );
-		$event_end_date		= date_format( date_create( $event_date . ' ' . $event_end_time ), 'Y-m-d H:i:s' );		
-		
+		$event_end_date		= date_format( date_create( $event_date . ' ' . $event_end_time ), 'Y-m-d H:i:s' );
+
 		update_field( 'nab_selected_company_id', $company_id, $event_id );
 		update_post_meta( $event_id, '_EventStartDate', $event_start_date );
 		update_post_meta( $event_id, '_EventEndDate', $event_end_date );
-		update_post_meta( $event_id, '_EventURL', $event_url );		
+		update_post_meta( $event_id, '_EventURL', $event_url );
 		wp_send_json_success( $success );
 
 	} else {

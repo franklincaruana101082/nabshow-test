@@ -4238,6 +4238,11 @@
       return false;
     }
 
+    // Bynder_Featured_Company
+    let featuredImg = $('#product_featured_preview').attr('src');
+    featuredImg = undefined !== featuredImg ? featuredImg : '';
+    form_data.append('feature_background_image', featuredImg)
+
     form_data.append("action", "nab_edit_feature_block");
     form_data.append("company_id", amplifyJS.postID);
     form_data.append(
@@ -4382,7 +4387,13 @@
     form_data.append( 'content_title', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() );
     form_data.append( 'content_copy', contentCopy );
 
-    if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
+    // Bynder_Featured_Content
+    let previewImg = $(this).parents('.modal-content-wrap').find('.preview-content-featured-img').attr('src');
+    previewImg = undefined !== previewImg ? previewImg : '';
+    if ( 'function' === typeof addBMpopup ) {
+      form_data.append( 'featured_img', previewImg );
+
+    } else if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
       form_data.append( 'featured_img', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image')[0].files[0] );
     }
 
@@ -4923,7 +4934,13 @@
       form_data.append( 'remove_featured_img', true );
     }
 
-    if ( '' !== $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val() ) {
+    // Bynder_Featured_Event
+    let previewImg = $(this).parents('#nab-add-edit-event-form').find('.preview-event-featured-img').attr('src');
+    previewImg = undefined !== previewImg ? previewImg : '';
+    if ( 'function' === typeof addBMpopup ) {
+      form_data.append( 'featured_img', previewImg );
+
+    } else if ( '' !== $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val() ) {
       form_data.append( 'featured_img', $(this).parents('#nab-add-edit-event-form').find('#event-featured-image')[0].files[0] );
     }
 
@@ -6199,7 +6216,7 @@ function nabSearchContentAjax(loadMore, pageNumber) {
 }
 
 /** page Search Ajax */
-function nabSearchPageAjax(loadMore, pageNumber) {  
+function nabSearchPageAjax(loadMore, pageNumber) {
   let postPerPage = jQuery("#load-more-page a").attr("data-post-limit") ? parseInt(jQuery("#load-more-page a").attr("data-post-limit")) : 15;
   let searchTerm = 0 < jQuery('.search-result-filter .search__form input[name="s"]').length ? jQuery('.search-result-filter .search__form input[name="s"]').val() : "";
   let orderBy = 0 < jQuery(".other-search-filter .sort-page a.active").length ? jQuery(".other-search-filter .sort-page a.active").attr("data-order") : "date";
@@ -6214,7 +6231,7 @@ function nabSearchPageAjax(loadMore, pageNumber) {
       nabNonce: amplifyJS.nabNonce,
       page_number: pageNumber,
       post_limit: postPerPage,
-      search_term: searchTerm,      
+      search_term: searchTerm,
       orderby: orderBy,
     },
     success: function (response) {
@@ -6238,7 +6255,7 @@ function nabSearchPageAjax(loadMore, pageNumber) {
           coverImg.setAttribute("class", "result__image");
           coverImg.setAttribute("src", value.thumbnail);
           coverImg.setAttribute("alt", "content thumbnail");
-          
+
           searchItemInner.appendChild(coverImg);
 
           let postTitle = document.createElement("h4");
