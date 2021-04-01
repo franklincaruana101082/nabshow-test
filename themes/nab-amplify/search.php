@@ -13,6 +13,7 @@ get_header();
 $search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
+$event_type			= filter_input(INPUT_GET, 't', FILTER_SANITIZE_STRING );
 $view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf', 'page');
 $allowed_tags 		= wp_kses_allowed_html('post');
 
@@ -102,12 +103,12 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					<?php
-					} else if ( 'event' === $view_type ) {
+					} else if ( 'event' === $view_type ) {						
 						?>
 						<div class="event-type sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order button <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
 							<a href="javascript:void(0);" class="sort-order button" data-event='previous'>Previous</a>
-							<a href="javascript:void(0);" class="sort-order button active" data-event='upcoming'>Upcoming</a>
+							<a href="javascript:void(0);" class="sort-order button <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? '' : 'active' ); ?>" data-event='upcoming'>Upcoming</a>
 						</div>
 						<?php
 					} else if ('product' === $view_type) {
@@ -729,20 +730,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'meta_key'			=> '_EventStartDate',
 					'orderby'			=> 'meta_value',
 					'order'				=> 'ASC'
-				);
+				);				
 
-				$current_date   = current_time('Y-m-d');
-				$compare		= '>=';
+				if ( ! isset( $event_type ) && empty( $event_type ) ) {
 
-				$event_args['meta_query'] = array(
+					$current_date   = current_time('Y-m-d');
+					$compare		= '>=';
 
-					array(
-						'key' 		=> '_EventEndDate',
-						'value'		=> $current_date,
-						'compare'	=> $compare,
-						'type'		=> 'DATE'
-					)
-				);
+					$event_args['meta_query'] = array(
+						array(
+							'key' 		=> '_EventEndDate',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						)
+					);
+				}				
 
 				$event_query = new WP_Query( $event_args );
 
@@ -750,7 +753,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$total_event	= $event_query->found_posts;
 				?>
 				<div class="search-view-top-head">
-					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>EVENTS</strong></h2>
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span><strong>Partner Events</strong></h2>
 					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
@@ -1620,21 +1623,26 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 			$event_query = new WP_Query( $event_args );
 
-			if ( $event_query->have_posts() ) {
+			if ( $event_query->have_posts() || empty( $search_term ) ) {
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>EVENTS</strong> <span>(<?php echo esc_html( $total_event . ' RESULTS' ); ?>)</span></h2>
+						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' RESULTS' ); ?>)</span></h2>
 						<?php
-						if ( $total_event > 4 ) {
+						if ( $total_event > 4 || ( empty( $search_term ) && 0 === $total_event ) ) {
+							
+							$link_param = array('s' => $search_term, 'v' => 'event');
 
-							$event_view_more_link = add_query_arg( array('s' => $search_term, 'v' => 'event'), $current_site_url );
+							if ( empty( $search_term ) && 0 === $total_event ) {
+								$link_param['t'] = 'past';
+							}
+							$event_view_more_link = add_query_arg( $link_param, $current_site_url );
 							?>
 							<div class="section-view-more">
-								<a href="<?php echo esc_html($event_view_more_link); ?>" class="view-more-link">View All</a>
+								<a href="<?php echo esc_html( $event_view_more_link ); ?>" class="view-more-link">View All</a>
 							</div>
 							<?php
 						}
@@ -1642,6 +1650,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					</div>
 					<div class="search-section-details" id="search-event-list">
 						<?php
+						if ( ! $event_query->have_posts() && empty( $search_term ) ) {
+							?>
+							<p class="amp-no-result-message">No upcoming events.</p>
+							<?php
+						}
 						while ( $event_query->have_posts() ) {
 
 							$event_query->the_post();
