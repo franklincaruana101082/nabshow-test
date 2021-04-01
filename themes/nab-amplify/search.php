@@ -13,6 +13,7 @@ get_header();
 $search_term 		= html_entity_decode( get_search_query() );
 $current_site_url	= get_site_url();
 $view_type			= filter_input(INPUT_GET, 'v', FILTER_SANITIZE_STRING);
+$event_type			= filter_input(INPUT_GET, 't', FILTER_SANITIZE_STRING );
 $view_screen		= array('user', 'shop', 'content', 'product', 'company', 'event', 'pdf', 'page' );
 $allowed_tags 		= wp_kses_allowed_html('post');
 
@@ -114,9 +115,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
 							<a href="javascript:void(0);" class="sort-order" data-event='previous'>Previous</a>
-							<a href="javascript:void(0);" class="sort-order active" data-event='upcoming'>Upcoming</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? '' : 'active' ); ?>" data-event='upcoming'>Upcoming</a>
 						</div>
 						<?php
 					} else if ('product' === $view_type) {
@@ -690,18 +691,20 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'order'				=> 'ASC'
 				);
 
-				$current_date   = current_time('Y-m-d');
-				$compare		= '>=';
+				if ( ! isset( $event_type ) && empty( $event_type ) ) {
+					
+					$current_date   = current_time('Y-m-d');
+					$compare		= '>=';
 
-				$event_args['meta_query'] = array(
-
-					array(
-						'key' 		=> '_EventEndDate',
-						'value'		=> $current_date,
-						'compare'	=> $compare,
-						'type'		=> 'DATE'
-					)
-				);
+					$event_args['meta_query'] = array(
+						array(
+							'key' 		=> '_EventEndDate',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						)
+					);
+				}
 
 				$event_query = new WP_Query( $event_args );
 
@@ -1596,7 +1599,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 			$event_query = new WP_Query( $event_args );
 
-			if ( $event_query->have_posts() ) {
+			if ( $event_query->have_posts() || empty( $search_term ) ) {
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
@@ -1605,9 +1608,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					<div class="search-section-heading">
 						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
 						<?php
-						if ( $total_event > 5 ) {
+						if ( $total_event > 5 || ( empty( $search_term ) && 0 === $total_event ) ) {
 
-							$event_view_more_link = add_query_arg( array('s' => $search_term, 'v' => 'event'), $current_site_url );
+							$link_param = array('s' => $search_term, 'v' => 'event');
+
+							if ( empty( $search_term ) && 0 === $total_event ) {
+								$link_param['t'] = 'past';
+							}
+
+							$event_view_more_link = add_query_arg( $link_param, $current_site_url );
 							?>
 							<div class="section-view-more">
 								<a href="<?php echo esc_html($event_view_more_link); ?>" class="view-more-link">View All</a>
@@ -1618,6 +1627,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					</div>
 					<ul class="colgrid _5up" id="search-event-list">
 						<?php
+						if ( ! $event_query->have_posts() && empty( $search_term ) ) {
+							?>
+							<li><p class="amp-no-result-message">No upcoming events.</p></li>
+							<?php
+						}
 						while ( $event_query->have_posts() ) {
 
 							$event_query->the_post();
