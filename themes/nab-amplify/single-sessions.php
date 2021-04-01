@@ -200,21 +200,22 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						));
 						$hide_content = count($opt_in);
 					}
-					if($hide_content) {
+					if(!$hide_content) {
 
 					if($session_status == "pre-event") {
+						if($pre_event_survey_id != '' || $pre_event_registration_id != '') {
 					?>
 						<div class="session__pre">
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
-								<?php if($preregistered) { ?>
+								<?php if($preregistered && $pre_event_survey_id != '') { ?>
 								<div
 									class="involveme_embed"
 									data-embed="<?php echo esc_html($pre_event_survey_id);?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"
 								></div>
-								<?php } else { ?>
+								<?php } elseif($pre_event_registration_id != '') { ?>
 									<div
 									class="involveme_embed"
 									data-embed="<?php echo esc_html($pre_event_registration_id);?>"
@@ -226,17 +227,23 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							</div>
 							</div>
 						</div>
-					<?php } elseif($session_status == "live") { ?>
+					<?php } 
+					} elseif($session_status == "live") { ?>
 						<div class="session__live">
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
 								<div class="embed-group _video_and_chat">
+									<?php if($video_embed != '') { ?>
 									<div class="embed-group__item _video">
 										<div class="embed-wrapper _video">
 											<?php echo $video_embed; ?>
 										</div>
 									</div>
+									<?php 
+										}
+										if($chat_room_id != '') { 
+									?>
 									<div class="embed-wrapper _chat">
 										<?php 
 										if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
@@ -250,13 +257,15 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 										echo do_shortcode($cometchat_shortcode); 
 										?>
 									</div>
+									<?php } ?>
 								</div>
-
+								<?php if ($live_event_survey_id != '') { ?>
 								<div 
 								class="involveme_embed"
 								data-embed="<?php echo esc_html( $live_event_survey_id ); ?>"
 								data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
+								<?php } ?>
 							</div>
 							</div>
 							</div>
@@ -266,13 +275,17 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
+								<?php if($video_embed != '') { ?>
 								<div class="embed-group _post">
 									<?php echo $video_embed; ?>
 								</div>
+								<?php }
+								if ($post_event_survey_id != '') { ?>
 								<div class="involveme_embed"
 									data-embed="<?php echo esc_html( $post_event_survey_id ); ?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"></div>
 								<script src="https://app.involve.me/embed"></script>
+								<?php } ?>
 							</div>
 							</div>
 							</div>
@@ -307,7 +320,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event') {
+							if($session_status == 'pre-event' && $video_embed != '') {
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
