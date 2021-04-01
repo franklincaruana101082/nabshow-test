@@ -6257,7 +6257,7 @@ function nabSearchContentAjax (loadMore, pageNumber) {
       post_limit: postPerPage,
       search_term: searchTerm,
       community: community,
-      subject: subject,      
+      subject: subject,
       orderby: orderBy
     },
     success: function (response) {
@@ -6381,7 +6381,7 @@ function nabSearchPageAjax (loadMore, pageNumber) {
       nabNonce: amplifyJS.nabNonce,
       page_number: pageNumber,
       post_limit: postPerPage,
-      search_term: searchTerm,      
+      search_term: searchTerm,
       orderby: orderBy
     },
     success: function (response) {

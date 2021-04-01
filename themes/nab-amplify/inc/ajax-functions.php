@@ -2528,7 +2528,9 @@ function nab_edit_feature_block()
 
 	$existing_title = get_field('feature_title', $company_id);
 	if (empty($existing_title) && !empty($nab_featured_block_title)) {
-		do_action('nab_featured_block_added', $company_id, $nab_featured_block_title);
+		do_action('nab_featured_block_added', $company_id, $nab_featured_block_title, 'add' );
+	} elseif ( ! empty( $nab_featured_block_title ) ) {
+		do_action('nab_featured_block_added', $company_id, $nab_featured_block_title, 'update' );
 	}
 
 	update_field('feature_status', $nab_featured_block_headline, $company_id);
@@ -3434,11 +3436,16 @@ function nab_downloadable_pdf_callback() {
 		}
 
 		$msg = 'Downloadable PDF added successfully.';
+
+		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'add' );
+
 	} else {
 
         $pdf_post_data['ID']	= $pdf_id;
         $pdf_id					= wp_update_post( $pdf_post_data );
 		$msg 					= 'Downloadable PDF updated successfully.';
+
+		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'update' );
 	}
 
 	if ( $pdf_id ) {
@@ -3500,12 +3507,17 @@ function nab_remove_downloadable_pdf_callback() {
 
 	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
-	$pdf_id = filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+	$pdf_id		= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );	
 
 	if ( ! empty( $pdf_id ) ) {
 
+		$company_id = get_field( 'nab_selected_company_id', $pdf_id );
+		$pdf_title	= get_the_title( $pdf_id );
+
 		wp_trash_post( $pdf_id );
-	}
+
+		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'delete' );
+	}	
 
 	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
 }
@@ -3784,6 +3796,8 @@ function nab_content_submission_callback() {
 
 		wp_mail( 'kvelez@nab.org,amplifycontent@nab.org', $subject, $message, $headers );
 
+		do_action( 'nab_content_submission', $company_id, $content_title );
+
 		wp_send_json_success( $success );
 	}
 }
@@ -3894,11 +3908,15 @@ function nab_company_events_callback() {
 
 		$msg = 'Event added successfully.';
 
+		do_action( 'nab_company_event_action', $company_id, $event_id, 'add' );
+
 	} else {
 
         $event_data['ID']		= $event_id;
         $event_id				= wp_update_post( $event_data );
 		$msg 					= 'Event updated successfully.';
+
+		do_action( 'nab_company_event_action', $company_id, $event_id, 'update' );
 	}
 
 	if ( $event_id ) {
@@ -3963,7 +3981,11 @@ function nab_remove_company_event_callback() {
 
 	if ( ! empty( $event_id ) ) {
 
+		$company_id = get_field( 'nab_selected_company_id', $event_id );
+
 		wp_trash_post( $event_id );
+
+		do_action( 'nab_company_event_action', $company_id, $event_id, 'delete' );
 	}
 
 	wp_send_json_success( array( 'msg' => 'Event removed successfully.' ) );
