@@ -203,7 +203,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					if(!$hide_content) {
 
 					if($session_status == "pre-event") {
-						if($pre_event_survey_id != '' || $pre_event_registration_id != '') {
+						if($pre_event_survey_id != '' && $pre_event_registration_id != '') {
 					?>
 						<div class="session__pre">
 							<div class="intro-feature">
@@ -276,8 +276,10 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature__media">
 							<div class="container">
 								<?php if($video_embed != '') { ?>
-								<div class="embed-group _post">
-									<?php echo $video_embed; ?>
+								<div class="embed-group _video">
+									<div class="embed-wrapper _video">
+										<?php echo $video_embed; ?>
+									</div>
 								</div>
 								<?php }
 								if ($post_event_survey_id != '') { ?>

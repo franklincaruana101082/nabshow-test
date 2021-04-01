@@ -16,22 +16,18 @@ $categories = get_field('categories_to_list');
 
 if($categories) {
 	$tax_query = array(
-	    'tax_query' => array(
-			array(
-			'taxonomy' => 'session_categories',
-			'field' => 'term_id',
-			'terms' => $categories,
-			)
+		array(
+		'taxonomy' => 'session_categories',
+		'field' => 'term_id',
+		'terms' => $categories,
 		),
     );
 } else {
 	$tax_query = array(
-		'tax_query' => array(
-			array(
-			'taxonomy' => 'session_categories',
-			'field' => 'term_id',
-			'terms' => '*',
-			)
+		array(
+		'taxonomy' => 'session_categories',
+		'field' => 'term_id',
+		'terms' => '*',
 		),
 	);
 }
@@ -44,7 +40,7 @@ $date_now = $now->format('Y-m-d H:i:s');
 $sessions = get_posts( array(
     'posts_per_page' => -1,
     'post_type' => 'sessions',
-	$tax_query,
+	'tax_query' => $tax_query,
     'meta_query' => array(
         array(
             'key' => 'session_end_time',
@@ -69,7 +65,7 @@ if ($list_past_sessions) {
 	$past_sessions = get_posts( array(
 		'posts_per_page' => -1,
 		'post_type' => 'sessions',
-		$tax_query,
+		'tax_query' => $tax_query,
 		'meta_query' => array(
 			array(
 			'key' => 'session_end_time',
