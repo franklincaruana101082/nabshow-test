@@ -59,12 +59,12 @@ if ( ! empty( $event_end_date ) ) {
 								if ( isset( $post_data->ID ) ) {
                                     $eventImg = nab_amplify_get_featured_image( $post_data->ID, false );
 									if( $eventImg ) {
-                                        ?>
-                                        <div class="nab-event-media-item common-media-item">
-                                            <i class="fa fa-times remove-featred-img" data-attachment-id="<?php echo esc_attr( get_post_thumbnail_id( $post_data->ID ) ); ?>" aria-hidden="true"></i>
-                                            <img src="<?php echo esc_url( $eventImg ); ?>" class="preview-event-featured-img common-preview-img" />
-                                        </div>
-                                        <?php
+									?>
+									<div class="nab-event-media-item common-media-item">
+										<i class="fa fa-times remove-featred-img" data-attachment-id="<?php echo esc_attr( get_post_thumbnail_id( $post_data->ID ) ); ?>" aria-hidden="true"></i>
+										<img src="<?php echo esc_url( $eventImg ); ?>" class="preview-event-featured-img common-preview-img" />
+									</div>
+									<?php
                                     }
 								}
 								?>

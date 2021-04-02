@@ -51,6 +51,14 @@
       width: '100%'
     })
 
+    $('.woocommerce-form-register .user-country-select').select2({      
+      width: '100%'
+    });
+
+    $('.woocommerce-form-register .user-state-select').select2({      
+      width: '100%'
+    });
+
     $('.nab-custom-select select').select2({ width: '100%' })
 
     $(document).on('change', '.signup-privacy-policy', function () {
@@ -68,28 +76,69 @@
     })
 
     if (0 < $('#user-country-select').length) {
-      var wc_states_json = wc_country_select_params.countries.replace(
-        /&quot;/g,
-        '"'
-      )
-      var wc_states = $.parseJSON(wc_states_json)
-      $(document).on('change', '#user-country-select', function () {
-        console.log(wc_states[$(this).val()])
+      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
+      var wc_states = $.parseJSON(wc_states_json);
+      $(document).on('change', '#user-country-select', function () {        
 
-        var state = wc_states[$(this).val()]
-        $('.section-professional-details .user-state-select').empty()
+        var state = wc_states[$(this).val()];
+        if ( undefined === state || 0 === state.length ) {
 
-        $.each(state, function (index) {
-          var $option = $('<option></option>')
-            .prop('value', index)
-            .text(state[index])
-          $('.section-professional-details .user-state-select').append($option)
-        })
+          if ( $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
+            $('.section-professional-details .user-state-select').select2('destroy');
+            $('.section-professional-details .user-state-select').empty();
+            $('.section-professional-details .user-state-select').replaceWith('<input type="text" name="user_state" class="input-text" id="user-state-select">');
+          }
+        
+        } else {
 
-        $('.section-professional-details .user-state-select')
-          .val('')
-          .change()
+          if ( ! $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
+            $('.section-professional-details #user-state-select').replaceWith('<select name="user_state" class="user-state-select" id="user-state-select"></select>');
+            $('.section-professional-details .user-state-select').select2({ width: '100%' });
+          }
+          
+          $('.section-professional-details .user-state-select').empty();
+          
+          $.each(state, function (index) {
+            var $option = $('<option></option>').prop('value', index).text(state[index]);
+            $('.section-professional-details .user-state-select').append($option);
+          });
+
+          $('.section-professional-details .user-state-select').val('').change();
+        }        
       })
+    }
+
+    if ( 0 < $('.woocommerce-form-register .user-country-select').length ) {
+      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
+      var wc_states = $.parseJSON(wc_states_json);
+      $(document).on('change', '.woocommerce-form-register .user-country-select', function () {        
+
+        var state = wc_states[$(this).val()];
+
+        if ( undefined === state || 0 === state.length ) {
+          if ( $('.woocommerce-form-register #user_state').hasClass('user-state-select') ) {
+            $('.woocommerce-form-register .user-state-select').select2('destroy');
+            $('.woocommerce-form-register .user-state-select').empty();
+            $('.woocommerce-form-register .user-state-select').replaceWith('<input type="text" class="field__input" name="user_state" id="user_state">');
+          }
+        } else {
+          
+          if ( ! $('.woocommerce-form-register #user_state').hasClass('user-state-select') ) {
+            $('.woocommerce-form-register #user_state').replaceWith('<select name="user_state" class="user-state-select" id="user_state"></select>');
+            $('.woocommerce-form-register .user-state-select').select2({ width: '100%' });
+          }
+          
+          $('.woocommerce-form-register .user-state-select').empty();
+          
+          $.each(state, function (index) {
+            var $option = $('<option></option>').prop('value', index).text(state[index]);
+            $('.woocommerce-form-register .user-state-select').append($option);
+          })
+
+          $('.woocommerce-form-register .user-state-select').val('').change();  
+        }
+        
+      });
     }
 
     $(document).on('click', '.notification-wrapper', function () {

@@ -32,7 +32,22 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
         return new WP_Error('registration-error', __('Passwords do not match.', 'woocommerce'));
     }
     if ( ! isset( $privacy_policy ) || empty( $privacy_policy ) ) {
-        return new WP_Error('registration-error', __('Term of Service must be accepted', 'woocommerce'));
+        return new WP_Error('registration-error', __('Term of Service must be accepted.', 'woocommerce'));
+    }
+    if ( ! isset( $user_title ) || empty( $user_title ) ) {
+        return new WP_Error('registration-error', __('Please enter Title.', 'woocommerce'));
+    }
+    if ( ! isset( $user_company ) || empty( $user_company ) ) {
+        return new WP_Error('registration-error', __('Please enter Company.', 'woocommerce'));
+    }
+    if ( ! isset( $user_country ) || empty( $user_country ) ) {
+        return new WP_Error('registration-error', __('Please select Country.', 'woocommerce'));
+    }
+    if ( ! isset( $user_state ) || empty( $user_state ) ) {
+        return new WP_Error('registration-error', __('Please enter State.', 'woocommerce'));
+    }
+    if ( ! isset( $user_city ) || empty( $user_city ) ) {
+        return new WP_Error('registration-error', __('Please enter City.', 'woocommerce'));
     }
 
     return $errors;
@@ -645,6 +660,21 @@ function nab_save_name_fields($customer_id)
     }
     if ( isset( $_POST[ 'press_member' ] ) && ! empty( $_POST[ 'press_member' ] ) ) {
         update_user_meta( $customer_id, 'press_member_user', $_POST[ 'press_member' ] );
+    }
+    if ( isset( $_POST[ 'user_title' ] ) && ! empty( $_POST[ 'user_title' ] ) ) {
+        update_user_meta( $customer_id, 'attendee_title', $_POST[ 'user_title' ] );
+    }
+    if ( isset( $_POST[ 'user_company' ] ) && ! empty( $_POST[ 'user_company' ] ) ) {
+        update_user_meta( $customer_id, 'attendee_company', $_POST[ 'user_company' ] );
+    }
+    if ( isset( $_POST[ 'user_country' ] ) && ! empty( $_POST[ 'user_country' ] ) ) {
+        update_user_meta( $customer_id, 'user_country', $_POST[ 'user_country' ] );
+    }
+    if ( isset( $_POST[ 'user_state' ] ) && ! empty( $_POST[ 'user_state' ] ) ) {
+        update_user_meta( $customer_id, 'user_state', $_POST[ 'user_state' ] );
+    }
+    if ( isset( $_POST[ 'user_city' ] ) && ! empty( $_POST[ 'user_city' ] ) ) {
+        update_user_meta( $customer_id, 'user_city', $_POST[ 'user_city' ] );
     }
 }
 
@@ -2396,7 +2426,7 @@ function nab_edit_acount_additional_form_fields()
                             $default_county_states  = $countries_obj->get_states($default_country);
 
                             if (is_array($default_county_states)) {
-                            ?>
+                                ?>
                                 <div class="select-dark-simple">
                                     <select name="user_state" class="user-state-select" id="user-state-select">
                                         <option value="">Select a state</option>
@@ -2409,7 +2439,13 @@ function nab_edit_acount_additional_form_fields()
                                         ?>
                                     </select>
                                 </div>
-                            <?php
+                                <?php
+                            } else {
+                                ?>
+                                <div class="select-dark-simple">
+                                <input type="text" name="user_state" class="input-text" id="user-state-select" value="<?php echo esc_attr( $user_state ); ?>">
+                                </div>
+                                <?php
                             }
                             ?>
                         </div>
@@ -4531,4 +4567,24 @@ add_filter( 'manage_company-products_posts_columns' , 'add_sticky_column' );
 function book_sortable_columns( $columns ) {
 	$columns['companyr'] = 'company';
 	return $columns;
+}
+
+function nab_validate_edit_account_fields( $args ) {
+    
+    if ( isset( $_POST['attendee_title'] ) && empty( $_POST['attendee_title'] ) ) {        
+        $args->add( 'error', __( 'Title is Required', 'woocommerce' ), '');
+    }
+    if ( isset( $_POST['attendee_company'] ) && empty( $_POST['attendee_company'] ) ) {        
+        $args->add( 'error', __( 'Company is Required', 'woocommerce' ), '');
+    }
+    if ( isset( $_POST['user_country'] ) && empty( $_POST['user_country'] ) ) {        
+        $args->add( 'error', __( 'Country is Required', 'woocommerce' ), '');
+    }
+    if ( isset( $_POST['user_state'] ) && empty( $_POST['user_state'] ) ) {        
+        $args->add( 'error', __( 'State is Required', 'woocommerce' ), '');
+    }
+    if ( isset( $_POST['user_city'] ) && empty( $_POST['user_city'] ) ) {        
+        $args->add( 'error', __( 'City is Required', 'woocommerce' ), '');
+    }
+    
 }

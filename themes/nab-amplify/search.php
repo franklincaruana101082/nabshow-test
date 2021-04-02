@@ -103,7 +103,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							?>
 						</div>
 					<?php
-					} else if ( 'event' === $view_type ) {						
+					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order button <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
@@ -253,13 +253,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								</div>
 								<?php
 							}
-							?>							
+							?>
 						</div>
 						<?php
 					} else if ( 'page' === $view_type ) {
 						?>
 						<div class="sort-page sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>							
+							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
 						<?php
@@ -505,7 +505,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					if ( $get_search_term_id ) {
 
-						$company_args['_meta_company_term']		= $get_search_term_id->term_id;						
+						$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 					}
 				} else {
 
@@ -522,9 +522,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['orderby']	= 'meta_value_num';
 						$company_args['order']		= 'DESC';
 					}
-				}				
+				}
 
-				$company_query = new WP_Query($company_args);				
+				$company_query = new WP_Query($company_args);
 
 				if ($company_query->have_posts()) {
 
@@ -730,7 +730,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'meta_key'			=> '_EventStartDate',
 					'orderby'			=> 'meta_value',
 					'order'				=> 'ASC'
-				);				
+				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
 
@@ -745,7 +745,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							'type'		=> 'DATE'
 						)
 					);
-				}				
+				}
 
 				$event_query = new WP_Query( $event_args );
 
@@ -768,7 +768,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
 							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
-							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );							
+							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
 							$event_date			= date_format( date_create( $event_start_date ), 'l, F j' );
@@ -791,21 +791,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
                                 $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
                                 $start_time = str_replace(':00', '', $start_time );
-            
+
                             }
                             if ( ! empty( $event_end_date ) ) {
-            
+
                                 $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
                                 $end_time   = str_replace(':00', '', $end_time );
-            
+
                             }
-                            
+
                             if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-                                
+
                                 if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
                                     $start_time = str_replace(' a.m.', '', $start_time );
                                 }
-                
+
                                 if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
                                     $start_time = str_replace(' p.m.', '', $start_time );
                                 }
@@ -841,14 +841,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 <?php
                                             }
 											if ( ! empty( $company_id ) ) {
-												
+
 												$company_title 	= get_the_title( $company_id );
 												$company_link	= get_the_permalink( $company_id );
 												?>
 												<p class="company-info"><a href="<?php echo esc_url( $company_link ); ?>"><?php echo esc_html( $company_title ); ?></a></p>
 												<?php
 											}
-											?>											
+											?>
 											<div class="search-actions">
 												<a href="<?php echo esc_url( $website_link ); ?>" class="button" target="<?php echo esc_attr( $target ); ?>">View</a>
 											</div>
@@ -986,7 +986,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				wp_reset_postdata();
 
-			} else if ('page' === $view_type) {				
+			} else if ('page' === $view_type) {
 
 				$content_args = array(
 					'post_type' 		=> 'page',
@@ -1400,7 +1400,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( $get_search_term_id ) {
 
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;					
+					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 				}
 			} else {
 
@@ -1417,7 +1417,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['orderby']	= 'meta_value_num';
 					$company_args['order']		= 'DESC';
 				}
-			}			
+			}
 
 			$company_query = new WP_Query($company_args);
 
@@ -1633,7 +1633,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' RESULTS' ); ?>)</span></h2>
 						<?php
 						if ( $total_event > 4 || ( empty( $search_term ) && 0 === $total_event ) ) {
-							
+
 							$link_param = array('s' => $search_term, 'v' => 'event');
 
 							if ( empty( $search_term ) && 0 === $total_event ) {
@@ -1686,21 +1686,21 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
                                 $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_start_date ), 'g:i a' ) );
                                 $start_time = str_replace(':00', '', $start_time );
-            
+
                             }
                             if ( ! empty( $event_end_date ) ) {
-            
+
                                 $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $event_end_date ), 'g:i a' ) );
                                 $end_time   = str_replace(':00', '', $end_time );
-            
+
                             }
-                            
+
                             if ( ! empty( $start_time ) && ! empty( $end_time ) ) {
-                                
+
                                 if ( false !== strpos( $start_time, 'a.m.' ) && false !== strpos( $end_time, 'a.m.' ) ) {
                                     $start_time = str_replace(' a.m.', '', $start_time );
                                 }
-                
+
                                 if ( false !== strpos( $start_time, 'p.m.' ) && false !== strpos( $end_time, 'p.m.' ) ) {
                                     $start_time = str_replace(' p.m.', '', $start_time );
                                 }
@@ -1737,7 +1737,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 <?php
                                             }
 											if ( ! empty( $company_id ) ) {
-												
+
 												$company_title 	= get_the_title( $company_id );
 												$company_link	= get_the_permalink( $company_id );
 												?>
@@ -1771,7 +1771,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			wp_reset_postdata();
 
 			$all_post_types = nab_get_search_post_types();
-			
+
 			$content_args = array(
 				'post_type' 		=> $all_post_types,
 				'posts_per_page' 	=> 4,
@@ -1851,7 +1851,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			}
 
 			wp_reset_postdata();
-			
+
 			$content_args = array(
 				'post_type' 		=> 'page',
 				'posts_per_page' 	=> 4,
