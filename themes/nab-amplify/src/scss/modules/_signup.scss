@@ -91,6 +91,9 @@
 
     &__fields {
       grid-column: 1 / 3;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
       ._signin & {
         grid-column: 2 / 4;
         grid-row: 2 / 4;
@@ -100,17 +103,13 @@
       }
       .field {
         width: calc(50% - #{rem(9)});
-        float: left;
-        &:nth-child(2) {
-          float: right;
+        
+        &:nth-child(3) {
+          width: 100%;
+          padding-right: calc(50% + #{rem(9)});
         }
-        &:nth-child(4) {
-          clear: both;
-          margin-bottom: 0;
-        }
-        &:nth-child(5) {
-          float: right;
-          margin-bottom: 0;
+        &._hidden {
+          visibility: hidden;
         }
         ._signin &, ._simple & {
           width: 100%;

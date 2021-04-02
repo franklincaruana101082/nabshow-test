@@ -48,8 +48,10 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
         return new WP_Error('registration-error', __('Please select Country.', 'woocommerce'));
     }
 
-    if ( ! isset( $user_state ) || empty( $user_state ) ) {
-        return new WP_Error('registration-error', __('Please enter State.', 'woocommerce'));
+    if ( $user_country == 'US' || $user_country == 'CA') {
+        if ( ! isset( $user_state ) || empty( $user_state ) ) {
+            return new WP_Error('registration-error', __('Please enter State.', 'woocommerce'));
+        }
     }
 
     if ( ! isset( $user_city ) || empty( $user_city ) ) {

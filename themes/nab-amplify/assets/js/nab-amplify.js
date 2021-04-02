@@ -117,6 +117,7 @@
 
         if ( undefined === state || 0 === state.length ) {
           if ( $('.signup #user_state').hasClass('user-state-select') ) {
+            $('.signup .user-state-select').parent().addClass('_hidden');
             $('.signup .user-state-select').select2('destroy');
             $('.signup .user-state-select').empty();
             $('.signup .user-state-select').replaceWith('<input type="text" class="field__input" name="user_state" id="user_state">');
@@ -124,6 +125,7 @@
         } else {
           
           if ( ! $('.signup #user_state').hasClass('user-state-select') ) {
+            $('.signup #user_state').parent().removeClass('_hidden');
             $('.signup #user_state').replaceWith('<select name="user_state" class="user-state-select" id="user_state"></select>');
             $('.signup .user-state-select').select2({ width: '100%' });
           }
