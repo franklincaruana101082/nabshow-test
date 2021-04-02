@@ -111,7 +111,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
-						<?php					
+						<?php
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
@@ -262,13 +262,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								</div>
 								<?php
 							}
-							?>							
+							?>
 						</div>
 					<?php
 					} else if ( 'page' === $view_type ) {
 						?>
 						<div class="sort-page sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order active" data-order='date'>Latest</a>							
+							<a href="javascript:void(0);" class="sort-order active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order" data-order='title'>Alphabetical</a>
 						</div>
 						<?php
@@ -490,7 +490,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					if ( $get_search_term_id ) {
 
-						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;						
+						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;
 					}
 				} else {
 					$company_args['meta_query'] = array(
@@ -506,7 +506,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['orderby']	= 'meta_value_num';
 						$company_args['order']		= 'DESC';
 					}
-				}				
+				}
 
 				$company_query = new WP_Query($company_args);
 
@@ -692,12 +692,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
-					
+
 					$current_date   = current_time('Y-m-d');
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
-
 						array(
 							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
@@ -705,7 +704,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							'type'		=> 'DATE'
 						)
 					);
-				}				
+				}
 
 				$event_query = new WP_Query( $event_args );
 
@@ -1407,7 +1406,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( $get_search_term_id ) {
 
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;					
+					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 				}
 			} else {
 				$company_args['meta_query'] = array(
@@ -1423,7 +1422,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['orderby']	= 'meta_value_num';
 					$company_args['order']		= 'DESC';
 				}
-			}			
+			}
 
 			$company_query = new WP_Query($company_args);
 

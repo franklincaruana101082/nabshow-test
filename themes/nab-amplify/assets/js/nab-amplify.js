@@ -51,11 +51,11 @@
       width: "100%",
     });
 
-    $('.signup .user-country-select').select2({      
+    $('.signup .user-country-select').select2({
       width: '100%'
     });
 
-    $('.signup .user-state-select').select2({      
+    $('.signup .user-state-select').select2({
       width: '100%'
     });
 
@@ -78,7 +78,7 @@
     if (0 < $('#user-country-select').length) {
       var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
       var wc_states = $.parseJSON(wc_states_json);
-      $(document).on('change', '#user-country-select', function () {        
+      $(document).on('change', '#user-country-select', function () {
 
         var state = wc_states[$(this).val()];
         if ( undefined === state || 0 === state.length ) {
@@ -88,30 +88,30 @@
             $('.section-professional-details .user-state-select').empty();
             $('.section-professional-details .user-state-select').replaceWith('<input type="text" name="user_state" class="input-text" id="user-state-select">');
           }
-        
+
         } else {
 
           if ( ! $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
             $('.section-professional-details #user-state-select').replaceWith('<select name="user_state" class="user-state-select" id="user-state-select"></select>');
             $('.section-professional-details .user-state-select').select2({ width: '100%' });
           }
-          
+
           $('.section-professional-details .user-state-select').empty();
-          
+
           $.each(state, function (index) {
             var $option = $('<option></option>').prop('value', index).text(state[index]);
             $('.section-professional-details .user-state-select').append($option);
           });
 
           $('.section-professional-details .user-state-select').val('').change();
-        }        
+        }
       })
     }
 
     if ( 0 < $('.signup .user-country-select').length ) {
       var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
       var wc_states = $.parseJSON(wc_states_json);
-      $(document).on('change', '.signup .user-country-select', function () {        
+      $(document).on('change', '.signup .user-country-select', function () {
 
         var state = wc_states[$(this).val()];
 
@@ -123,23 +123,23 @@
             $('.signup .user-state-select').replaceWith('<input type="text" class="field__input" name="user_state" id="user_state">');
           }
         } else {
-          
+
           if ( ! $('.signup #user_state').hasClass('user-state-select') ) {
             $('.signup #user_state').parent().removeClass('_hidden');
             $('.signup #user_state').replaceWith('<select name="user_state" class="user-state-select" id="user_state"></select>');
             $('.signup .user-state-select').select2({ width: '100%' });
           }
-          
+
           $('.signup .user-state-select').empty();
-          
+
           $.each(state, function (index) {
             var $option = $('<option></option>').prop('value', index).text(state[index]);
             $('.signup .user-state-select').append($option);
           })
 
-          $('.signup .user-state-select').val('').change();  
+          $('.signup .user-state-select').val('').change();
         }
-        
+
       });
     }
 
@@ -5080,8 +5080,8 @@
     }
   }
 
-   /* Page Search Filters*/
-   $(document).on("click", "#load-more-page a", function () {
+  /* Page Search Filters*/
+  $(document).on("click", "#load-more-page a", function () {
     let contentPageNumber = parseInt($(this).attr("data-page-number"));
     nabSearchPageAjax(true, contentPageNumber);
   });
