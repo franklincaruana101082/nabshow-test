@@ -3032,7 +3032,7 @@ function nab_register_article_content_taxonomy()
 function nab_add_unfiltered_html_capability_to_users($caps, $cap, $user_id)
 {
 
-    if ('unfiltered_html' === $cap && (user_can($user_id, 'administrator') || user_can($user_id, 'editor') || user_can($user_id, 'author') || user_can($user_id, 'contributor'))) {
+    if ('unfiltered_html' === $cap && (user_can($user_id, 'administrator') || user_can($user_id, 'customer') || user_can($user_id, 'editor') || user_can($user_id, 'author') || user_can($user_id, 'contributor'))) {
         $caps = array('unfiltered_html');
     }
 
