@@ -66,10 +66,10 @@ foreach ( $bm_metas as $meta_name => $mval ) {
 
 					<?php foreach ( $mval['options'] as $option ) { ?>
                         <div class="bm-cb-box" data-linked-options="<?php echo esc_attr( implode( ',', $option['linkedOptionIds'] ) ) ?>">
-                        	<div class="bm-cb-wrp">
-                        		<input type="checkbox" name="metas[<?php echo esc_attr( $mval['id'] ); ?>][]" id="metas[<?php echo esc_attr( $option['id'] ); ?>]" value="<?php echo esc_attr( $option['id'] ); ?>" data-name-option="<?php echo esc_html( $option['name'] ) ?>">
-                        		<span class="bm-check"></span>
-                        	</div>
+                            <div class="bm-cb-wrp">
+                                <input type="checkbox" name="metas[<?php echo esc_attr( $mval['id'] ); ?>][]" id="metas[<?php echo esc_attr( $option['id'] ); ?>]" value="<?php echo esc_attr( $option['id'] ); ?>" data-name-option="<?php echo esc_html( $option['name'] ) ?>">
+                                <span class="bm-check"></span>
+                            </div>
                             <label class="meta-cb-labels" for="metas[<?php echo esc_attr( $option['id'] ); ?>]"><?php echo esc_html( $option['displayLabel'] ) ?></label>
                         </div>
 					<?php } ?>
