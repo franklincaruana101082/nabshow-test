@@ -4180,6 +4180,7 @@ function nab_generate_company_export_csv_file()
         $csv_fields[] = 'Claimed Status';
         $csv_fields[] = 'Admin URL';
         $csv_fields[] = 'Salesforce ID';
+        $csv_fields[] = 'Admin Emails';
 
         // Generate csv file as a direct download
         $output_filename = 'amplify-company-list-' . date('m-d-Y') . '.csv';
@@ -4203,8 +4204,9 @@ function nab_generate_company_export_csv_file()
 
         foreach ($company_result as $company) {
 
-            $company_admins = get_field('company_user_id', $company->ID);
-            $admin_add_string = get_field('admin_add_string', $company->ID);
+            $company_admins     = get_field( 'company_user_id', $company->ID );
+            $admin_add_string   = get_field( 'admin_add_string', $company->ID );
+            $admin_user_ids     = get_field( 'company_user_id', $company->ID );
 
             if (!empty($company_admins)) {
                 $claim_status = 'Claimed';
@@ -4222,12 +4224,24 @@ function nab_generate_company_export_csv_file()
 
             $salesforce_id = get_field('salesforce_id', $company->ID);
 
+            $admin_emails = array();
+
+            if ( ! empty( $admin_user_ids ) && is_array( $admin_user_ids ) ) {
+
+                foreach ( $admin_user_ids as $admin_id ) {
+
+                   $user_info       = get_user_by( 'id', $admin_id );
+                   $admin_emails[]  = $user_info->user_email;
+                }
+            }
+
             if ($company->post_title != '') {
                 $dynamic_fields = array();
                 $dynamic_fields[] = $company->post_title;
                 $dynamic_fields[] = $claim_status;
                 $dynamic_fields[] = $admin_url;
                 $dynamic_fields[] = $salesforce_id;
+                $dynamic_fields[] = implode( ',', $admin_emails );
                 fputcsv($output_handle, $dynamic_fields);
             }
         }
