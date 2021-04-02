@@ -32,6 +32,14 @@ function amplify_front_scripts()
 	wp_enqueue_script('amplify-tag-js', get_template_directory_uri() . '/js/jquery.tagsinput.js', ['jquery'], null, true);
 	wp_enqueue_media();
 
+	if ( is_page( 'sign-up' ) ) {
+
+		$wc_country = array(
+			'countries' => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) )
+		);
+		wp_localize_script( 'amplify-custom-js', 'wc_country_select_params', $wc_country );
+	}
+
 	if ( is_singular( 'company' ) ) {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'nab-jquery-ui-css', get_template_directory_uri() . '/assets/css/jquery-ui.css');

@@ -43,21 +43,17 @@
             }
         });
     });
-    $(document).ready(function(){
+
+    $(document).on('click', 'a[target="_blank"]', function(){
         $.ajax({
             url: segmentJS.ajaxurl,
             type: 'POST',
             data: {
-                action: 'st_track_pageview',
+                action: 'st_external_link_click',
                 nabNonce: segmentJS.nabNonce,
-                postID: segmentJS.postID,                
-                page: segmentJS.page,
-                search_term: segmentJS.search_term,
-                is_pageview: segmentJS.is_pageview,
-                content_type: segmentJS.content_type,
             },
-            success: function (response) {                
+            success: function (response) {              
             }
         });
-    });
+    });    
 })(jQuery)

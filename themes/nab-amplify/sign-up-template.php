@@ -104,7 +104,71 @@ while ( have_posts() ) :
 							<input type="password" class="field__input" name="password2" id="reg_password2" autocomplete="new-password"/>
 							<p class="field__error" style="display: none;">Confirm Password is Required</p>
 						</div>
-					</div>					
+						<div class="field">
+							<label class="field__label" for="user_title"><?php esc_html_e( 'Title', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<input type="text" class="field__input" name="user_title" id="user_title" value="<?php echo ( ! empty( $_POST['user_title'] ) ) ? esc_attr( wp_unslash( $_POST['user_title'] ) ) : ''; ?>"/>
+							<p class="field__error" style="display: none;">Title is Required</p>
+						</div>
+
+						<div class="field">
+							<label class="field__label" for="user_company"><?php esc_html_e( 'Company', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<input type="text" class="field__input" name="user_company" id="user_company" value="<?php echo ( ! empty( $_POST['user_company'] ) ) ? esc_attr( wp_unslash( $_POST['user_company'] ) ) : ''; ?>"/>
+							<p class="field__error" style="display: none;">Company is Required</p>
+						</div>
+						
+						<?php
+						$countries_obj  		= new WC_Countries();
+						$countries      		= $countries_obj->__get('countries');
+						$default_country        = ! empty( $_POST['user_country'] ) ? $_POST['user_country'] : $countries_obj->get_base_country();
+						$default_county_states  = $countries_obj->get_states($default_country);
+						?>
+
+						<div class="field select-dark">
+							<label class="field__label" for="user_country"><?php esc_html_e( 'Country', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<select name="user_country" class="user-country-select" id="user_country">
+								<option value="">Select a country</option>
+								<?php
+								foreach ( $countries as $abbr => $country ) {
+									?>
+									<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $_POST['user_country'] ); ?>><?php echo esc_html( $country ); ?></option>
+									<?php
+								}
+								?>
+							</select>
+							<p class="field__error" style="display: none;">Country is Required</p>
+						</div>
+
+						<div class="field select-dark <?php if(is_array( $default_county_states )) {echo('');}else{echo('_hidden');}?>">
+							<label class="field__label" for="user_state"><?php esc_html_e( 'State', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<?php
+							if ( is_array( $default_county_states ) ) {
+								?>
+								<select name="user_state" class="user-state-select" id="user_state">
+									<option value="">Select a state</option>
+									<?php
+									foreach ( $default_county_states as $abbr => $state) {
+										?>
+										<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $_POST['user_state'] ); ?>><?php echo esc_html( $state ); ?></option>
+										<?php
+									}
+									?>
+								</select>
+								<?php
+							} else {
+								?>
+								<input type="text" class="field__input" name="user_state" id="user_state" value="<?php echo ( ! empty( $_POST['user_state'] ) ) ? esc_attr( wp_unslash( $_POST['user_state'] ) ) : ''; ?>"/>
+								<?php
+							}
+							?>
+							<p class="field__error" style="display: none;">State is Required</p>
+						</div>
+
+						<div class="field">
+							<label class="field__label" for="user_city"><?php esc_html_e( 'City', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<input type="text" class="field__input" name="user_city" id="user_city" value="<?php echo ( ! empty( $_POST['user_city'] ) ) ? esc_attr( wp_unslash( $_POST['user_city'] ) ) : ''; ?>"/>
+							<p class="field__error" style="display: none;">City is Required</p>
+						</div>
+					</div>
 
 					<?php if($redirect_url != 'maritz') { ?>
 					<div class="signup__separator"><span class="or-separator"><?php esc_html_e( 'Or', 'woocommerce' ); ?></span></div>

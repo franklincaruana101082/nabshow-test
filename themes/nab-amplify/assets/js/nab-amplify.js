@@ -51,6 +51,14 @@
       width: "100%",
     });
 
+    $('.signup .user-country-select').select2({
+      width: '100%'
+    });
+
+    $('.signup .user-state-select').select2({
+      width: '100%'
+    });
+
     $(".nab-custom-select select").select2({ width: "100%" });
 
     $(document).on("change", ".signup-privacy-policy", function () {
@@ -67,26 +75,71 @@
       }
     });
 
-    if (0 < $("#user-country-select").length) {
-      var wc_states_json = wc_country_select_params.countries.replace(
-        /&quot;/g,
-        '"'
-      );
+    if (0 < $('#user-country-select').length) {
+      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
       var wc_states = $.parseJSON(wc_states_json);
-      $(document).on("change", "#user-country-select", function () {
-        console.log(wc_states[$(this).val()]);
+      $(document).on('change', '#user-country-select', function () {
 
         var state = wc_states[$(this).val()];
-        $(".section-professional-details .user-state-select").empty();
+        if ( undefined === state || 0 === state.length ) {
 
-        $.each(state, function (index) {
-          var $option = $("<option></option>")
-            .prop("value", index)
-            .text(state[index]);
-          $(".section-professional-details .user-state-select").append($option);
-        });
+          if ( $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
+            $('.section-professional-details .user-state-select').select2('destroy');
+            $('.section-professional-details .user-state-select').empty();
+            $('.section-professional-details .user-state-select').replaceWith('<input type="text" name="user_state" class="input-text" id="user-state-select">');
+          }
 
-        $(".section-professional-details .user-state-select").val("").change();
+        } else {
+
+          if ( ! $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
+            $('.section-professional-details #user-state-select').replaceWith('<select name="user_state" class="user-state-select" id="user-state-select"></select>');
+            $('.section-professional-details .user-state-select').select2({ width: '100%' });
+          }
+
+          $('.section-professional-details .user-state-select').empty();
+
+          $.each(state, function (index) {
+            var $option = $('<option></option>').prop('value', index).text(state[index]);
+            $('.section-professional-details .user-state-select').append($option);
+          });
+
+          $('.section-professional-details .user-state-select').val('').change();
+        }
+      })
+    }
+
+    if ( 0 < $('.signup .user-country-select').length ) {
+      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
+      var wc_states = $.parseJSON(wc_states_json);
+      $(document).on('change', '.signup .user-country-select', function () {
+
+        var state = wc_states[$(this).val()];
+
+        if ( undefined === state || 0 === state.length ) {
+          if ( $('.signup #user_state').hasClass('user-state-select') ) {
+            $('.signup .user-state-select').parent().addClass('_hidden');
+            $('.signup .user-state-select').select2('destroy');
+            $('.signup .user-state-select').empty();
+            $('.signup .user-state-select').replaceWith('<input type="text" class="field__input" name="user_state" id="user_state">');
+          }
+        } else {
+
+          if ( ! $('.signup #user_state').hasClass('user-state-select') ) {
+            $('.signup #user_state').parent().removeClass('_hidden');
+            $('.signup #user_state').replaceWith('<select name="user_state" class="user-state-select" id="user_state"></select>');
+            $('.signup .user-state-select').select2({ width: '100%' });
+          }
+
+          $('.signup .user-state-select').empty();
+
+          $.each(state, function (index) {
+            var $option = $('<option></option>').prop('value', index).text(state[index]);
+            $('.signup .user-state-select').append($option);
+          })
+
+          $('.signup .user-state-select').val('').change();
+        }
+
       });
     }
 
@@ -4266,6 +4319,11 @@
       return false;
     }
 
+    // Bynder_Featured_Company
+    let featuredImg = $('#product_featured_preview').attr('src');
+    featuredImg = undefined !== featuredImg ? featuredImg : '';
+    form_data.append('feature_background_image', featuredImg)
+
     form_data.append("action", "nab_edit_feature_block");
     form_data.append("company_id", amplifyJS.postID);
     form_data.append(
@@ -4410,7 +4468,13 @@
     form_data.append( 'content_title', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() );
     form_data.append( 'content_copy', contentCopy );
 
-    if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
+    // Bynder_Featured_Content
+    let previewImg = $(this).parents('.modal-content-wrap').find('.preview-content-featured-img').attr('src');
+    previewImg = undefined !== previewImg ? previewImg : '';
+    if ( 'function' === typeof addBMpopup ) {
+      form_data.append( 'featured_img', previewImg );
+
+    } else if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
       form_data.append( 'featured_img', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image')[0].files[0] );
     }
 
@@ -4951,7 +5015,13 @@
       form_data.append( 'remove_featured_img', true );
     }
 
-    if ( '' !== $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val() ) {
+    // Bynder_Featured_Event
+    let previewImg = $(this).parents('#nab-add-edit-event-form').find('.preview-event-featured-img').attr('src');
+    previewImg = undefined !== previewImg ? previewImg : '';
+    if ( 'function' === typeof addBMpopup ) {
+      form_data.append( 'featured_img', previewImg );
+
+    } else if ( '' !== $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val() ) {
       form_data.append( 'featured_img', $(this).parents('#nab-add-edit-event-form').find('#event-featured-image')[0].files[0] );
     }
 
@@ -6227,7 +6297,7 @@ function nabSearchContentAjax(loadMore, pageNumber) {
 }
 
 /** page Search Ajax */
-function nabSearchPageAjax(loadMore, pageNumber) {  
+function nabSearchPageAjax(loadMore, pageNumber) {
   let postPerPage = jQuery("#load-more-page a").attr("data-post-limit") ? parseInt(jQuery("#load-more-page a").attr("data-post-limit")) : 15;
   let searchTerm = 0 < jQuery('.search-result-filter .search__form input[name="s"]').length ? jQuery('.search-result-filter .search__form input[name="s"]').val() : "";
   let orderBy = 0 < jQuery(".other-search-filter .sort-page a.active").length ? jQuery(".other-search-filter .sort-page a.active").attr("data-order") : "date";
@@ -6242,7 +6312,7 @@ function nabSearchPageAjax(loadMore, pageNumber) {
       nabNonce: amplifyJS.nabNonce,
       page_number: pageNumber,
       post_limit: postPerPage,
-      search_term: searchTerm,      
+      search_term: searchTerm,
       orderby: orderBy,
     },
     success: function (response) {
@@ -6266,7 +6336,7 @@ function nabSearchPageAjax(loadMore, pageNumber) {
           coverImg.setAttribute("class", "result__image");
           coverImg.setAttribute("src", value.thumbnail);
           coverImg.setAttribute("alt", "content thumbnail");
-          
+
           searchItemInner.appendChild(coverImg);
 
           let postTitle = document.createElement("h4");

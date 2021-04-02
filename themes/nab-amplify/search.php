@@ -111,7 +111,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							<a href="javascript:void(0);" class="sort-order button active" data-order='date'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order button" data-order='title'>Alphabetical</a>
 						</div>
-						<?php					
+						<?php
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
@@ -151,7 +151,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						</div>
 					<?php
 					} else if ('user' === $view_type) {
-					?>
+						?>
 						<div class="sort-user sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order active" data-order='newest'>Newest</a>
 							<a href="javascript:void(0);" class="sort-order" data-order='alphabetical'>Alphabetical</a>
@@ -215,9 +215,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								</div>
 							</div>
 						</div>
-					<?php
+						<?php
 					} else if ('content' === $view_type) {
-					?>
+						?>
 						<div class="sort-content sort-order-btn">
 							<a href="javascript:void(0);" class="sort-order active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order" data-order='relevance'>Relevancy</a>
@@ -262,13 +262,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								</div>
 								<?php
 							}
-							?>							
+							?>
 						</div>
 					<?php
 					} else if ( 'page' === $view_type ) {
 						?>
 						<div class="sort-page sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order active" data-order='date'>Latest</a>							
+							<a href="javascript:void(0);" class="sort-order active" data-order='date'>Latest</a>
 							<a href="javascript:void(0);" class="sort-order" data-order='title'>Alphabetical</a>
 						</div>
 						<?php
@@ -281,7 +281,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						<a href="<?php echo esc_url($back_to_search_link); ?>">Back to All Results</a>
 					</div>
 				</div>
-			<?php
+				<?php
 			} else {
 				echo wp_kses(nab_get_search_result_ad(), $allowed_tags);
 			}
@@ -490,7 +490,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					if ( $get_search_term_id ) {
 
-						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;						
+						$company_args[ '_meta_company_term' ]	= $get_search_term_id->term_id;
 					}
 				} else {
 					$company_args['meta_query'] = array(
@@ -506,7 +506,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_args['orderby']	= 'meta_value_num';
 						$company_args['order']		= 'DESC';
 					}
-				}				
+				}
 
 				$company_query = new WP_Query($company_args);
 
@@ -692,7 +692,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
-					
+
 					$current_date   = current_time('Y-m-d');
 					$compare		= '>=';
 
@@ -941,7 +941,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				wp_reset_postdata();
-			
+
 			} else if ( 'page' === $view_type) {
 
 				$content_args = array(
@@ -1406,7 +1406,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( $get_search_term_id ) {
 
-					$company_args['_meta_company_term']		= $get_search_term_id->term_id;					
+					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
 				}
 			} else {
 				$company_args['meta_query'] = array(
@@ -1422,7 +1422,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$company_args['orderby']	= 'meta_value_num';
 					$company_args['order']		= 'DESC';
 				}
-			}			
+			}
 
 			$company_query = new WP_Query($company_args);
 
@@ -1813,7 +1813,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						?>
 					</ul>
 				</div>
-				<?php
+			<?php
 			}
 
 			wp_reset_postdata();

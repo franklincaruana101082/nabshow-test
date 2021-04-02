@@ -225,3 +225,5 @@ add_action( 'rest_api_init', 'nab_register_user_api_endpoints' );
 
 add_action( 'acf/save_post', 'nab_update_company_member_level_meta_num', 20 );
 add_action( 'save_post_company', 'nab_update_company_member_level_meta_num', 10, 1 );
+
+add_action( 'woocommerce_save_account_details_errors','nab_validate_edit_account_fields', 10, 1 );
