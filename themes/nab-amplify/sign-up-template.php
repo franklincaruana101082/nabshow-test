@@ -123,7 +123,7 @@ while ( have_posts() ) :
 						$default_county_states  = $countries_obj->get_states($default_country);
 						?>
 
-						<div class="field">
+						<div class="field select-dark">
 							<label class="field__label" for="user_country"><?php esc_html_e( 'Country', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<select name="user_country" class="user-country-select" id="user_country">
 								<option value="">Select a country</option>
@@ -138,7 +138,7 @@ while ( have_posts() ) :
 							<p class="field__error" style="display: none;">Country is Required</p>
 						</div>
 
-						<div class="field">
+						<div class="field select-dark <?php if(is_array( $default_county_states )) {echo('');}else{echo('_hidden');}?>">
 							<label class="field__label" for="user_state"><?php esc_html_e( 'State', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<?php
 							if ( is_array( $default_county_states ) ) {
