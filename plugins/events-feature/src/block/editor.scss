@@ -1,0 +1,125 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+h2 {
+  font-family: $font__primary;
+  font-weight: 600;
+  font-size: rem(42);
+  line-height: rem(44);
+  letter-spacing: -0.005em;
+  margin-top: 0;
+  color: $color__white;
+
+  @include bp-1280 {
+    font-size: rem(58);
+    line-height: rem(58);
+    letter-spacing: -0.01em;
+  }
+}
+
+.introtext {
+  font-family: $font__secondary;
+  font-size: rem(16);
+  font-weight: 400;
+  line-height: rem(24);
+  letter-spacing: -0.01em;
+  color: $color__gray-lightest;
+}
+
+.nabcard {
+	position: relative;
+	margin: 2rem auto 3rem;
+	max-width: rem(1277);
+	&__content {
+	  background-color: $color__gray-darker;
+	  position: relative;
+	  z-index: 2;
+	  border-radius: 8px;
+	  padding: 2rem;
+	}
+	&:before {
+	  content:'';
+	  display: block;
+	  position: absolute;
+	  z-index: 1;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  border-radius: 8px;
+	  background: $color__gray-darkest;
+	  transform-origin: center;
+	  transform: rotate(-2deg);
+	}
+}
+
+.homeevents {
+	@include bp-1024 {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		padding-top: rem(20);
+	}
+	@include bp-1280 {
+		padding-top: rem(30);
+	}
+	&__title {
+		textarea {
+			background-color: transparent;
+			color: $color__white !important;
+		}
+	}
+	&__intro {
+		margin-bottom: rem(50);
+		@include bp-1024 {
+			flex: 0 1 rem(286);
+			width: rem(286);
+		}
+		@include bp-1280 {
+			flex: 0 1 rem(482);
+			width: rem(482);
+		}
+		@include bp-1440 {
+			margin-left: rem(40);
+		}
+	}
+	&__introtext {
+		margin-bottom: rem(30);
+	}
+
+	&__events {
+		.block-editor-inner-blocks{
+			.block-editor-block-list__layout {
+				@include bp-768 {
+					display: flex;
+					justify-content: space-between;
+					.event,
+					.block-editor-block-list__block.wp-block {
+						flex: 0 1 rem(286);
+						width: rem(286);
+					}
+				}
+				@include bp-1024 {
+					flex: 0 1 rem(600);
+					width: rem(600);
+				}
+				@include bp-1280 {
+					flex: 0 1 rem(514);
+					width: rem(514);
+					.event {
+						flex: 0 1 rem(232);
+						width: rem(232);
+					}
+				}
+				@include bp-1280 {
+					margin-right: rem(70);
+				}		
+			}
+		}
+
+	}
+}

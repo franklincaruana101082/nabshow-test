@@ -1,0 +1,188 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+h2 {
+  font-family: $font__primary;
+  font-weight: 600;
+  font-size: rem(42);
+  line-height: rem(44);
+  letter-spacing: -0.005em;
+  margin-top: 0;
+
+  @include bp-1280 {
+    font-size: rem(58);
+    line-height: rem(58);
+    letter-spacing: -0.01em;
+  }
+}
+h4 {
+  font-family: $font__primary;
+  font-weight: 600;
+  font-size: rem(20);
+  letter-spacing: 0.01em;
+}
+
+.related {
+	@include bp-768 {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+	}
+	&__title {
+		@include bp-768 {
+			flex: 0 1 100%;
+		}
+		textarea {
+			background-color: transparent;
+			color: $color__white !important;
+		}
+	}
+	&__feature {
+		@include bp-768 {
+			flex: 0 1 53%;
+		}
+		@include bp-1280 {
+			flex: 0 1 rem(536);
+		}
+	}
+	&__list {
+		list-style: none;
+		.block-editor-inner-blocks {
+			.block-editor-block-list__layout {
+				display: flex;
+				justify-content: space-between;
+				.block-editor-block-list__block.wp-block {
+					flex: 0 1 47%;
+				}
+			}
+		}
+		@include bp-768 {
+			flex: 0 1 40%;
+		}
+		@include bp-1280 {
+			flex: 0 1 calc(100% - 580px);
+			display: flex;
+			margin-left: rem(-10);
+			margin-right: rem(-10);
+		}
+		@include bp-1440 {
+			flex: 0 1 calc(100% - 600px);
+			margin-left: rem(-38);
+			margin-right: rem(-38);
+		}
+	}
+	&__item {
+		@include bp-1280 {
+			flex: 0 1 50%;
+			margin-left: rem(10);
+			margin-right: rem(10);
+		}
+		@include bp-1440 {
+			margin-left: rem(38);
+			margin-right: rem(38);
+		}
+	}
+		&__link {
+			display: block;
+			border-top: 3px solid $color__purple; //fallback
+	  		border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+			padding-top: rem(10);
+			padding-bottom: rem(20);
+			text-decoration: none;
+		}
+}
+
+.textimage {
+  position: relative;
+  a {
+    text-decoration: none;
+  }
+  .block-editor-url-input__button {
+	.components-button {
+		background-color: $color__white;
+		&.is-pressed {
+			background-color: $color__black;
+		}
+	}
+  }
+  &__image {
+    position: relative;
+    margin: 0.75rem 0 1rem 1rem;
+    border: 4px solid $color__purple; //fallback
+    border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
+    ._topborder & {
+      border-width: 4px 0 0 0;
+      margin: 0;
+    }
+    img {
+      position: relative;
+      display: block;
+      left: -1rem;
+      top: -0.75rem;
+      ._topborder & {
+        position: static;
+      }
+    }
+  }
+  &__text {
+    text-decoration: none;
+    color: $color__white;
+    transition: color 0.25s ease-in-out;
+    a:hover &,
+    a:focus &,
+    a:active & {
+      color: $color__yellow;
+    }
+    ._topborder & {
+      position: static;
+      z-index: 4;
+      left: 0;
+      right: 0;
+      bottom: rem(16);
+      padding: 0 1rem;
+    }
+    @include bp-1024 {
+      position: static;
+      z-index: 4;
+      left: 0;
+      right: 0;
+      bottom: rem(16);
+      padding: 0 2rem;
+    }
+    @include bp-1280 {
+      bottom: rem(20);
+    }
+  }
+}
+
+
+.nabcard {
+  position: relative;
+  margin: 2rem auto 3rem;
+  max-width: rem(1277);
+  &__content {
+    background-color: $color__gray-darker;
+    position: relative;
+    z-index: 2;
+    border-radius: 8px;
+    padding: 2rem;
+  }
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background: $color__gray-darkest;
+    transform-origin: center;
+    transform: rotate(-2deg);
+  }
+}

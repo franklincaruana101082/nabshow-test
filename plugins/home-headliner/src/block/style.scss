@@ -1,0 +1,71 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+.feature {
+	border-left: 5px solid $color__blue;
+	border-image: linear-gradient(0deg, $color__blurple, $color__blue) 5;
+	background: $color__black;
+	padding: rem(20);
+	margin-bottom: rem(60);
+	max-width: rem(1172);
+
+	@include bp-768 {
+		display: flex;
+		justify-content: space-between;
+	}
+
+
+	&__main {
+		margin-bottom: rem(30);
+		@include bp-768 {
+			flex: 0 1 60%;
+		}
+	}
+	&__title {
+		margin-bottom: rem(20);
+	}
+	&__copy {
+		a {
+			display: inline-block;
+			background: $color__gray;
+			border: 0;
+			color: white;
+			font-size: rem(18);
+			font-weight: 600;
+			line-height: rem(52);
+			text-decoration: none;
+			padding: 0 rem(28);
+			border-radius: rem(26);
+			cursor: pointer;
+			transition: background-color .25s ease-in-out;
+			&:hover, &:active, &:focus {
+				background-color: $color__gray-lightish;
+			}
+		}
+	}
+	&__event {
+		@include bp-768 {
+			flex: 0 1 35%;
+		}
+		.event__month {
+			font-size: rem(14.24);
+		}
+		.event__day {
+			font-size: rem(78);
+		}
+		.event__title {
+			font-size: rem(15.66);
+			line-height: 1.23;
+		}
+		.event__time, .event__host-name {
+			font-size: rem(11.4);
+		}
+		.event__host-photo {
+			width: rem(30);
+			height: rem(30);
+		}
+	}
+}
