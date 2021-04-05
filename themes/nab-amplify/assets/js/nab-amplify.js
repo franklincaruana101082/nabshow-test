@@ -5153,6 +5153,18 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
 
           itemContent.appendChild(heading);
 
+          if ( value.company && '' !== value.company ) {
+            let companyName = document.createElement('span');
+            companyName.setAttribute('class', 'company-name');
+
+            let companyLink = document.createElement('a');
+            companyLink.setAttribute('href', value.company_url );
+            companyLink.innerText = value.company;
+
+            companyName.appendChild(companyLink);
+            itemContent.appendChild(companyName);
+          }
+
           if ( pdfObj.login ) {
             let inputDiv = document.createElement('div');
             inputDiv.setAttribute('class', 'download-pdf-input');

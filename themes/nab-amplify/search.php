@@ -1064,6 +1064,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 								$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+								$company_name		= get_the_title( $company_id );
+								$company_link		= get_the_permalink( $company_id );
 								?>
 								<div class="amp-item-col">
 									<div class="amp-item-inner">
@@ -1073,6 +1075,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 										<div class="amp-item-info">
 											<div class="amp-item-content">
 												<h4><?php echo esc_html(get_the_title()); ?></h4>
+												<span class="company-name"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></span>
 												<?php
 												if ( is_user_logged_in() ) {
 													?>
@@ -1082,7 +1085,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 																<input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
 																<span class="amp-check"></span>
 															</div>
-															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
+															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
 														</div>
 													</div>
 													<div class="amp-actions">
@@ -1861,6 +1864,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 							$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+							$company_name		= get_the_title( $company_id );
+							$company_link		= get_the_permalink( $company_id );
 							?>
 							<div class="amp-item-col">
                                 <div class="amp-item-inner">
@@ -1870,6 +1875,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                     <div class="amp-item-info">
                                         <div class="amp-item-content">
                                             <h4><?php echo esc_html(get_the_title()); ?></h4>
+											<span class="company-name"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></span>
                                             <?php
                                             if ( is_user_logged_in() ) {
                                                 ?>
@@ -1879,7 +1885,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                             <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
                                                             <span class="amp-check"></span>
                                                         </div>
-                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
+                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( get_the_title( $company_name ) ); ?></label>
                                                     </div>
                                                 </div>
                                                 <div class="amp-actions">
