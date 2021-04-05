@@ -8503,7 +8503,7 @@ module.exports = shortOut;
 			},
 			fontFamily: {
 				type: 'string',
-				default: 'Gotham Bold'
+				default: 'Open Sans Bold'
 			},
 			designOpt: {
 				type: 'boolean'
@@ -8809,7 +8809,7 @@ module.exports = shortOut;
 								),
 								wp.element.createElement(SelectControl, {
 									value: fontFamily,
-									options: [{ label: __('Molot'), value: 'Molot' }, { label: __('Roboto Regular'), value: 'Roboto Regular' }, { label: __('Roboto Black'), value: 'Roboto Black' }, { label: __('Roboto Bold'), value: 'Roboto Bold' }, { label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' }, { label: __('Roboto Italic'), value: 'Roboto Italic' }, { label: __('Roboto Light'), value: 'Roboto Light' }, { label: __('Roboto Medium'), value: 'Roboto Medium' }, { label: __('Roboto Thin'), value: 'Roboto Thin' }, { label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }],
+									options: [{ label: __('Open Sans Bold'), value: 'Open Sans Bold' }, { label: __('Open Sans Bold Italic'), value: 'Open Sans Bold Italic' }, { label: __('Open Sans ExtraBold'), value: 'Open Sans ExtraBold' }, { label: __('Open Sans ExtraBold Italic'), value: 'Open Sans ExtraBold Italic' }, { label: __('Open Sans Italic'), value: 'Open Sans Italic' }, { label: __('Open Sans Light'), value: 'Open Sans Light' }, { label: __('Open Sans Light Italic'), value: 'Open Sans Light Italic' }, { label: __('Open Sans Regular'), value: 'Open Sans Regular' }, { label: __('Open Sans SemiBold'), value: 'Open Sans SemiBold' }, { label: __('Open Sans SemiBold Italic'), value: 'Open Sans SemiBold Italic' }, { label: __('Josefin Sans'), value: 'Josefin Sans' }, { label: __('Molot'), value: 'Molot' }, { label: __('Roboto Regular'), value: 'Roboto Regular' }, { label: __('Roboto Black'), value: 'Roboto Black' }, { label: __('Roboto Bold'), value: 'Roboto Bold' }, { label: __('Roboto BoldItalic'), value: 'Roboto BoldItalic' }, { label: __('Roboto Italic'), value: 'Roboto Italic' }, { label: __('Roboto Light'), value: 'Roboto Light' }, { label: __('Roboto Medium'), value: 'Roboto Medium' }, { label: __('Roboto Thin'), value: 'Roboto Thin' }, { label: __('Gotham Book'), value: 'Gotham Book' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Light'), value: 'Gotham Light' }, { label: __('Gotham Light Italic'), value: 'Gotham Light Italic' }, { label: __('Gotham Medium'), value: 'Gotham Medium' }, { label: __('Gotham Bold'), value: 'Gotham Bold' }, { label: __('Gotham Bold Italic'), value: 'Gotham Bold Italic' }, { label: __('Gotham Black Regular'), value: 'Gotham Black Regular' }, { label: __('Gotham Light Regular'), value: 'Gotham Light Regular' }, { label: __('Gotham Thin Regular'), value: 'Gotham Thin Regular' }, { label: __('Gotham XLight Regular'), value: 'Gotham XLight Regular' }, { label: __('Gotham Book Italic'), value: 'Gotham Book Italic' }, { label: __('Gotham Thin Italic'), value: 'Gotham Thin Italic' }, { label: __('Gotham Ultra Italic'), value: 'Gotham Ultra Italic' }, { label: __('Vollkorn Black'), value: 'Vollkorn Black' }, { label: __('Vollkorn BlackItalic'), value: 'Vollkorn BlackItalic' }, { label: __('Vollkorn Bold'), value: 'Vollkorn Bold' }, { label: __('Vollkorn BoldItalic'), value: 'Vollkorn BoldItalic' }, { label: __('Vollkorn Italic'), value: 'Vollkorn Italic' }, { label: __('Vollkorn Regular'), value: 'Vollkorn Regular' }, { label: __('Vollkorn SemiBold'), value: 'Vollkorn SemiBold' }, { label: __('Vollkorn SemiBoldItalic'), value: 'Vollkorn SemiBoldItalic' }],
 									onChange: function onChange(value) {
 										return setAttributes({ fontFamily: value });
 									}
@@ -9206,6 +9206,151 @@ module.exports = shortOut;
 				})
 			);
 		}
+
+		// deprecated: [
+		// 	{
+		// 		attributes: {
+		// 			HeadingText: {
+		// 				type: 'string',
+		// 				default: 'Heading'
+		// 			},
+		// 			HeadingLevel: {
+		// 				type: 'string',
+		// 				default: 'h2'
+		// 			},
+		// 			FontSize: {
+		// 				type: 'number'
+		// 			},
+		// 			LineHeight: {
+		// 				type: 'string'
+		// 			},
+		// 			LetterSpacing: {
+		// 				type: 'string'
+		// 			},
+		// 			marginTop: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			marginRight: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			marginBottom: {
+		// 				type: 'string',
+		// 				default: '10'
+		// 			},
+		// 			marginLeft: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			paddingTop: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			paddingRight: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			paddingBottom: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			paddingLeft: {
+		// 				type: 'string',
+		// 				default: '0'
+		// 			},
+		// 			HeadingColor: {
+		// 				type: 'string',
+		// 				default: '#000'
+		// 			},
+		// 			TextUppercase: {
+		// 				type: 'string'
+		// 			},
+		// 			TextAlign: {
+		// 				type: 'string',
+		// 				default: 'left'
+		// 			},
+		// 			fontFamily: {
+		// 				type: 'string',
+		// 				default: 'Gotham Bold'
+		// 			},
+		// 			designOpt: {
+		// 				type: 'boolean'
+		// 			},
+		// 			backgroundColor: {
+		// 				type: 'string',
+		// 				default: ''
+		// 			},
+		// 		},
+		// 		save({ attributes, props }) {
+		// 			const {
+		// 				HeadingText,
+		// 				HeadingLevel,
+		// 				FontSize,
+		// 				marginTop,
+		// 				marginRight,
+		// 				marginBottom,
+		// 				marginLeft,
+		// 				paddingTop,
+		// 				paddingRight,
+		// 				paddingBottom,
+		// 				paddingLeft,
+		// 				LineHeight,
+		// 				LetterSpacing,
+		// 				HeadingColor,
+		// 				TextUppercase,
+		// 				TextAlign,
+		// 				fontFamily,
+		// 				designOpt,
+		// 				backgroundColor
+		// 			} = attributes;
+
+		// 			const HeadingStyle = {};
+		// 			FontSize && (HeadingStyle.fontSize = FontSize + 'px');
+		// 			HeadingColor && (HeadingStyle.color = HeadingColor);
+		// 			LineHeight && (HeadingStyle.lineHeight = `${LineHeight}px`);
+		// 			LetterSpacing && (HeadingStyle.letterSpacing = `${LetterSpacing}px`);
+		// 			TextUppercase && (HeadingStyle.textTransform = TextUppercase);
+		// 			marginTop && (HeadingStyle.marginTop = marginTop + 'px');
+		// 			marginBottom && (HeadingStyle.marginBottom = marginBottom + 'px');
+		// 			marginLeft && (HeadingStyle.marginLeft = marginLeft + 'px');
+		// 			marginRight && (HeadingStyle.marginRight = marginRight + 'px');
+		// 			paddingTop && (HeadingStyle.paddingTop = paddingTop + 'px');
+		// 			paddingBottom && (HeadingStyle.paddingBottom = paddingBottom + 'px');
+		// 			paddingLeft && (HeadingStyle.paddingLeft = paddingLeft + 'px');
+		// 			paddingRight && (HeadingStyle.paddingRight = paddingRight + 'px');
+		// 			TextAlign && (HeadingStyle.textAlign = TextAlign);
+		// 			fontFamily && (HeadingStyle.fontFamily = fontFamily);
+
+
+		// 			const tiltedStyle = {};
+		// 			backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+
+		// 			return (
+		// 				<Fragment>
+		// 					{true === designOpt ?
+		// 						<div className="nab-heading" style={tiltedStyle}>
+		// 							<RichText.Content
+		// 								tagName={HeadingLevel}
+		// 								value={HeadingText}
+		// 								style={HeadingStyle}
+		// 								className="title nab-title"
+		// 							/>
+		// 							<span className='tilted-design' style={tiltedStyle}></span>
+		// 						</div> :
+		// 						<RichText.Content
+		// 							tagName={HeadingLevel}
+		// 							value={HeadingText}
+		// 							style={HeadingStyle}
+		// 							className="title nab-title"
+		// 						/>
+		// 					}
+		// 				</Fragment>
+		// 			);
+		// 		}
+		// 	}
+		// ]
+
 	});
 })(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
 
