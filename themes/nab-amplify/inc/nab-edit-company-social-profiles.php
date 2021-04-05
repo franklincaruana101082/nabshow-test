@@ -9,7 +9,7 @@
 					<p>Update your social profiles here.</p>
 					<div class="form-wrapper">
 						<form method="post" id="nab-edit-company-profile-form" enctype="multipart/form-data">
-							<div class="form-row">
+						<div class="form-row">
 							<label for="" class="tooltip-container large-label-tooltip">
 											<div class="field-label">Instagram URL</div>
 											<div class="tooltip-wrap">
@@ -73,7 +73,7 @@
 							<div class="form-row">
 								<input type="button" id="nab-edit-company-profile-submit" data-id="<?php echo isset($company_data['ID']) ? $company_data['ID'] : 0 ?>" class="btn btn-submit" value="<?php echo isset($company_data['ID']) ? "Update" : "Add"; ?>">
 								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $company_data['ID']; ?>" />
-							</div>
+							</div>						
 						</form>
 						<p>NAB reserves the right to remove any content that they deem inappropriate.</p>
 					</div>

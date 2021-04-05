@@ -1,0 +1,27 @@
+.nabcontent {
+  @include bp-1024 {
+    display: flex;
+    align-items: flex-start;
+  }
+  &__main {
+    @include bp-1024 {
+      flex: 0 1 calc(100% - 315px);
+      margin-right: rem(30);
+      blockquote {
+        margin-right: rem(-226);
+      }
+    }
+  }
+  &__ad {
+    @include bp-1024 {
+      flex: 0 1 rem(315);
+      padding-top: 0;
+    }
+  }
+  &._top-pad {
+    padding-top: rem(50);
+    @include bp-1024 {
+      padding-top: rem(100);
+    }
+  }
+}

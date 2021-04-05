@@ -65,7 +65,7 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
                                         </h4>
                                         <div class="amp-actions">
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url( $bookmark_link ); ?>" class="button">Read More</a>
+                                                <a href="<?php echo esc_url( $bookmark_link ); ?>" class="btn">Read More</a>
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@ if ( ! empty( $member_bookmarks ) && is_array( $member_bookmarks ) && count( $me
     if ( $bookmark_query->max_num_pages > 1 ) {
         ?>
         <div class="load-more text-center"  id="load-more-bookmark">
-            <a href="javascript:void(0);" class="btn-default" data-user="<?php echo esc_attr( $user_id ); ?>" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $bookmark_query->max_num_pages ); ?>">Load More</a>
+            <a href="javascript:void(0);" class="btn-default" data-user="<?php echo esc_attr( $user_id ); ?>" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $bookmark_query->max_num_pages ); ?>">Load More</a>
         </div>
         <?php
     }

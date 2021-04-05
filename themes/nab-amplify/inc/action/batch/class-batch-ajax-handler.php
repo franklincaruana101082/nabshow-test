@@ -66,7 +66,7 @@ class WP_Batch_Processing_Ajax_Handler {
 		// Get the batch object
 		$batch = WP_Batch_Processor::get_instance()->get_batch( 'nab_import_companies_ajax' );
 
-
+		
 
 		// Process the next item.
 		$next_item = $batch->get_next_item();
@@ -140,9 +140,7 @@ class WP_Batch_Processing_Ajax_Handler {
 		// Get the batch object
 		$batch = WP_Batch_Processor::get_instance()->get_batch( $batch_id );
 		// Restart the batch.
-		if( null !== $batch ) {
-			$batch->restart();
-		}
+		$batch->restart();
 		// Send json
 		wp_send_json_success();
 	}

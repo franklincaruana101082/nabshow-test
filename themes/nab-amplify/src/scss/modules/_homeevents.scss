@@ -1,0 +1,63 @@
+.homeevents {
+	@include bp-1024 {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		padding-top: rem(20);
+	}
+	@include bp-1280 {
+		padding-top: rem(30);
+	}
+	&__intro {
+		margin-bottom: rem(50);
+		@include bp-1024 {
+			flex: 0 1 rem(286);
+			width: rem(286);
+		}
+		@include bp-1280 {
+			flex: 0 1 rem(482);
+			width: rem(482);
+		}
+		@include bp-1440 {
+			margin-left: rem(40);
+		}
+	}
+	&__introtext {
+		margin-bottom: rem(30);
+		&.introtext {
+			p {
+				font-family: $font__primary;
+				@include bp-1024 {
+					font-size: rem(22);
+					line-height: 1.2;
+				}
+			}
+		}
+	}
+
+	&__events {
+		@include bp-768 {
+			display: flex;
+			justify-content: space-between;
+			.event {
+				flex: 0 1 rem(286);
+				width: rem(286);
+			}
+		}
+		@include bp-1024 {
+			flex: 0 1 rem(600);
+			width: rem(600);
+		}
+		@include bp-1280 {
+			flex: 0 1 rem(514);
+			width: rem(514);
+			.event {
+				flex: 0 1 rem(232);
+				width: rem(232);
+			}
+		}
+		@include bp-1280 {
+			margin-right: rem(70);
+		}
+	}
+}

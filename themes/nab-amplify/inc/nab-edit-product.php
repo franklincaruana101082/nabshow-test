@@ -64,7 +64,6 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 							</div>
 							<div class="form-row" id="product_media_wrapper">
 								<?php
-
 								if (isset($post_data->product_media)) {
 									foreach ($post_data->product_media as $media) {
 										if (!empty($media['product_media_file'])) {
@@ -139,7 +138,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 										</div>
 										<?php
 									}
-									?>									
+									?>
 									<div class="form-row">
 										<label for="">Add Tag(s) <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Enter keywords related to this product separated by commas. Tags will be searchable and will display to users as tabs."></i></label>
 										<input type="text" class="input-text add-tags" name="nab_product_tags" id="nab_product_tags" value="<?php if ($post_data->tags) {
@@ -175,7 +174,7 @@ if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id )
 								</div>
 							</div>
 							<div class="form-row">
-								<?php
+							<?php
 								$publish_button_text 	= 'Publish';
 								$draft_button_text		= 'Save as Draft';
 								if ( isset( $post_data->post_status ) && 'publish' === $post_data->post_status ) {

@@ -44,7 +44,7 @@ if ( ! empty( $event_end_date ) ) {
 								<label for="event-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
-										<input type="file" id="event-featured-image" class="button bm-select-media" bynder-for="event_featured_image" name="featured_image"> <!--Bynder_Featured_Event-->
+										<input type="file" id="event-featured-image" class="button bm-select-media-disabled" bynder-for="event_featured_image" name="featured_image"> <!--Bynder_Featured_Event-->
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">
@@ -65,7 +65,7 @@ if ( ! empty( $event_end_date ) ) {
 										<img src="<?php echo esc_url( $eventImg ); ?>" class="preview-event-featured-img common-preview-img" />
 									</div>
 									<?php
-                                    }
+								}
 								}
 								?>
 							</div>

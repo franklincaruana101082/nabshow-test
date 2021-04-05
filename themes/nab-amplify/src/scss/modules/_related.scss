@@ -1,0 +1,93 @@
+.related {
+	@include bp-768 {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		&._events {
+			display: block;
+		}
+	}
+
+	&__title {
+		@include bp-768 {
+			flex: 0 1 100%;
+		}
+	}
+	&__feature {
+		@include bp-768 {
+			flex: 0 1 53%;
+		}
+		@include bp-1280 {
+			flex: 0 1 rem(536);
+		}
+	}
+	&__list {
+		list-style: none;
+		@include bp-768 {
+			flex: 0 1 40%;
+		}
+		@include bp-1280 {
+			flex: 0 1 calc(100% - 580px);
+			display: flex;
+			margin-left: rem(-10);
+			margin-right: rem(-10);
+		}
+		@include bp-1440 {
+			flex: 0 1 calc(100% - 600px);
+			margin-left: rem(-38);
+			margin-right: rem(-38);
+		}
+		&._full {
+			@include bp-768 {
+				flex: 0 1 auto;
+			}
+			@include bp-1280 {
+				flex: 0 1 auto;
+			}
+			@include bp-1440 {
+				flex: 0 1 auto;
+			}
+		}
+		._events & {
+			@include bp-768 {
+				display: flex;
+				flex-flow: row wrap;
+				margin-left: rem(-10);
+				margin-right: rem(-10);
+			}
+		}
+	}
+	&__item,
+	&__list .relatedlink {
+		@include bp-1280 {
+			flex: 0 1 50%;
+			margin-left: rem(10);
+			margin-right: rem(10);
+		}
+		@include bp-1440 {
+			margin-left: rem(38);
+			margin-right: rem(38);
+		}
+		._events & {
+			//flex: 0 1 auto;
+			@include bp-768 {
+				flex: 0 1 calc(50% - 20px);
+				margin-left: rem(10);
+				margin-right: rem(10);
+			}
+			@include bp-1024 {
+				flex: 0 1 calc(33.33333% - 20px);
+			}
+		}
+	}
+		&__link {
+			display: block;
+			border-top: 3px solid $color__purple; //fallback
+	  		border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+	  		border-width: 0;
+			border-top-width: 3px;
+			padding-top: rem(10);
+			padding-bottom: rem(20);
+			text-decoration: none;
+		}
+}

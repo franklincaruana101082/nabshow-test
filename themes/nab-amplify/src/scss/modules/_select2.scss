@@ -1,0 +1,47 @@
+.select2 {
+}
+.select-dark {
+	.select2-container {
+		&.select2-container--focus {
+			.select2-selection--single {
+				border-color: $color__pink;
+			}	
+		}
+		.select2-selection--single {
+			background-color: $color__gray;
+			border: 1px solid $color__gray;
+			border-radius: rem(4);
+			outline: none;
+			transition: border-color .25s;
+			font-family: $font__primary;
+			font-size: rem(18);
+			height: rem(52);
+			&:hover {
+				border-color: $color__purple;
+			}
+			
+			.select2-selection__arrow {
+				height: rem(50);
+			}
+			.select2-selection__rendered {
+				color: $color__white;
+				line-height: rem(52);
+			}
+		}
+	}
+}
+
+//for signup page
+.page-template-sign-up-template {
+	.select2-dropdown {
+		background-color: $color__gray-dark;
+		border: 1px solid $color__pink;
+	}
+	.select2-container--default .select2-results__option--selected {
+		background-color: $color__gray-darkest;
+	}
+	.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+		background-color: $color__gray-darker;
+	}
+}
+

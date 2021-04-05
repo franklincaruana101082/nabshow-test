@@ -45,9 +45,9 @@ $user_data = get_user_meta( $member_id );
 
 // Get user display name.
 $member_name = $user_data['first_name'][0] . ' ' . $user_data['last_name'][0];
-$user_obj    = get_user_by( 'id', $member_id );
+	$user_obj    = get_user_by( 'id', $member_id );
 if ( empty( trim( $member_name ) ) ) {
-	$member_name = $user_obj->display_name;
+    $member_name = $user_obj->display_name;
 }
 $username = $user_obj->user_login;
 
@@ -83,7 +83,7 @@ if ( $user_logged_in ) {
 
 					<?php if ( 0 !== $edit_mode ) { ?>
                         <div id="edit-mode-buttons">
-                            <a href="<?php echo esc_url( $edit_mode_url ) ?>" class="button"><?php echo esc_html( $edit_mode_text ) ?></a>
+                            <a href="<?php echo esc_url( $edit_mode_url ) ?>" class="btn"><?php echo esc_html( $edit_mode_text ) ?></a>
                         </div>
 					<?php } ?>
 
@@ -117,7 +117,6 @@ if ( $user_logged_in ) {
                                             <?php if ( ! empty( $user_data['attendee_company'][0] ) ) { ?>
                                                 <span><?php echo esc_html( $user_data['attendee_company'][0] ); ?></span>
                                             <?php } ?>
-
                                             <?php
                                             if ( ! empty( $user_data[ 'user_city' ][0] ) ) {
 
@@ -182,7 +181,7 @@ if ( $user_logged_in ) {
 									<?php
 									if ( ! bp_is_my_profile() ) {
 
-                                        if ( $current_user_id !== $member_id && 'is_friend' !== $is_friend && ! nab_member_can_connect_to_anyone( $member_id ) ) {
+										if ( $current_user_id !== $member_id && 'is_friend' !== $is_friend && ! nab_member_can_connect_to_anyone( $member_id ) ) {
                                             ?>
                                             <div id="amp-profile-restrict-message">
                                                 <p>User Not Accepting Connections</p>

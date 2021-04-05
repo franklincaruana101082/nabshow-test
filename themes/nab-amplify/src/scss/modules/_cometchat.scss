@@ -1,0 +1,137 @@
+#cometchat {
+	.app__messenger {
+		border: 0;
+		min-width: rem(320);
+	}
+}
+
+.main__chat {
+	.chat__header {
+		background-color: $color__black;
+		border-bottom-color: $color__gray-dark;
+		.group__name {
+			color: $color__white;
+		}
+		.group__members {
+			color: $color__gray-lightest;
+		}
+	}
+	.chat__list {
+		background-color: $color__black;
+
+		.message__date {
+			span {
+				background-color: $color__gray-darker;
+				color: $color__white;
+			}
+		}
+
+		.sender__message__container {
+			.message__txt__wrapper {
+				background: linear-gradient(90deg, $color__pink, $color__purple);
+				border-radius: 17px 0 17px 17px;
+			}
+		}
+
+		.receiver__message__container {
+			.message__name {
+				color: $color__gray-lightest;
+			}
+			.message__txt__wrapper {
+				background-color: $color__gray-darker;
+				color: $color__white;
+				border-radius: 0 17px 17px 17px;
+			}
+		}
+
+		.message__thumbnail {
+			border-radius: 50%;
+			border: 2px solid $color__white;
+		}
+
+		.message__info__wrapper {
+			.message__timestamp {
+				color: $color__gray-light;
+				img {
+					border-radius: 50%;
+					background-color: $color__gray-light;
+					margin-top: 2px;
+					margin-bottom: -2px;
+				}
+			}
+		}
+	}
+
+	.chat__composer {
+		background-color: $color__black;
+		.input__inner {
+			border: 0;
+			background-color: transparent;
+			.input__message-input {
+				background-color: $color__gray-dark;
+				border-radius: 25px;
+				color: $color__white;
+			}
+			.input__sticky {
+				border-top: 0;
+				background-color: transparent;
+			}
+		}
+	}
+}
+
+.messenger__wrapper {
+	.embedded__sidebar {
+		background-color: $color__black;
+		border-right-color: $color__gray;
+		.chats__header {
+			border-bottom-color: $color__gray;
+			.header__title {
+				color: $color__white;
+			}
+		}
+		//.chats__list {
+			.list__item {
+				background-color: $color__gray-dark;
+				&:hover {
+					background-color: $color__gray;
+				}
+				.list__item__details {
+					color: $color__white;
+					.item__details__last-message, .item__details__timestamp, .item__details__desc {
+						color: $color__gray-lightest;
+						border-bottom-color: $color__gray-darker;
+					}
+
+				}
+			}
+		//}
+	}
+	.embedded__secondary-view {
+		background-color: $color__black;
+		border-left-color: $color__gray;
+		.detailpane__header {
+			border-bottom-color: $color__gray;
+			.header__title {
+				color: $color__white;
+			}
+		}
+		.section__header,
+		.media_items {
+			color: $color__gray-lightest;
+		}
+		.item__link {
+			color: $color__white;
+		}
+		.media__button {
+			background-color: $color__gray-lightest;
+		}
+	}
+	.modal__viewmembers {
+		background-color: $color__gray-darkest;
+	}
+	.modal__title, .content__header, .content__list, .content__row {
+		color: $color__white;
+		border-color: $color__gray-light;
+	}
+}

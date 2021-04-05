@@ -44,9 +44,10 @@ switch ( $connections ) {
 			'user_id' => $user_id
 		);
 		$active_page    = 'friends';
+		$post_per_page  = 99;
 }
 
-$post_per_page = isset( $post_per_page ) ? $post_per_page :  12;
+$post_per_page = isset( $post_per_page ) ? $post_per_page :  15;
 if ( is_array( $members_filter ) ) {
 	$members_filter['page']     = 1;
 	$members_filter['per_page'] = $post_per_page;
@@ -84,7 +85,7 @@ $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rt
                                 <a href="<?php echo esc_attr( $pending_friends_url ); ?>">Connection Requests</a>
                             </li>
                             <li class="bp-personal-sub-tab <?php echo 'all' === $active_page ? 'current selected' : '' ?>">
-                                <a href="<?php echo esc_url( $find_new_connection_link ); ?>">Find New Connections</a>
+								<a href="<?php echo esc_url( $find_new_connection_link ); ?>">Find New Connections</a>
                             </li>
                     </nav>
                 </div>
@@ -102,9 +103,10 @@ $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rt
 							$connection_messages    = $connection_messages[ $current_user_id ];
 							$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
 							$user_images            = nab_amplify_get_user_images( $member_id );							
-							$friendship_status		= friends_check_friendship_status($current_user_id, $member_id);							
-							$user_full_name 		= get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
-							if ( empty( trim( $user_full_name ) ) ) {
+							$friendship_status		= friends_check_friendship_status($current_user_id, $member_id);
+							$user_full_name			= get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+
+							if ( empty( trim( $user_full_name ) ) ) {								
 								$user_full_name = bp_get_member_name();
 							}
 							?>

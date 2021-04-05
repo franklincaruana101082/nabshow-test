@@ -116,7 +116,7 @@
 
 	/* search page */
 	.search-section .search-item{width:33.333333333333336%}
-	.other-search-filter .sort-order-btn .sort-order{padding:18px 20px;min-width:200px}
+	/*.other-search-filter .sort-order-btn .sort-order{padding:18px 20px;min-width:200px}*/
 
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
@@ -179,8 +179,6 @@
 	.buddypress .buddypress-wrap .bp-messages-content>div #thread-preview{width:100%!important}
 
 	/* add product */
-	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3{padding-right:0;width:100%}
-	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .form-col-3:last-child .form-row{margin-bottom:0;}
 	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row>label{font-size:24px}
 	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action{position:static;transform:none}
 	.nab-modal-with-form.nab-modal .modal-content-wrap .form-wrapper .form-row .nab-action:last-child{margin-right:0}
@@ -202,9 +200,9 @@
 	.black-bg-box .author-info .author-image{width:60px;height:60px}
 
 	/* comments */
-	.comments-area .comment-author .comment-avtar{width:70px}
+	/*.comments-area .comment-author .comment-avtar{width:70px}
 	.comments-area .comment-author .comment-details{width:calc(100% - 70px)}
-	.comments-area .comment-list .children{padding-left:70px}
+	.comments-area .comment-list .children{padding-left:70px}*/
 
 	.single-company .ui-widget.ui-widget-content{width:255px;}
 }
@@ -237,11 +235,11 @@
 	.single-product div.product .join-today-section .has-fixed .button{height:60px;width:200px;font-size:16px}
 	.single-product div.product .product-middle-section.with_long_desc #prod-price, .single-product div.product .product-middle-section.with_long_desc #prod-published, .single-product div.product .product-middle-section.with_long_desc #prod-publisher, .single-product div.product .product-middle-section.with_long_desc h4{font-size:20px}
 	.single-product div.product .summary .cart button{width:130px!important;height:49px!important;margin-right:7px!important;font-size:12px!important}
-	h1{font-size:30px}
+	/*h1{font-size:30px}
 	h2, .related-title{font-size:26px}
 	h3{font-size:22px}
 	h4{font-size:18px}
-	h5, .article-byline{font-size:16px}
+	h5, .article-byline{font-size:16px}*/
 	.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li{width:60px!important}
 	.nab-profile .flex-column{width:50%}
 
@@ -264,7 +262,7 @@
 	.search-result-filter .search-form{max-width:100%}
 	.search-result-filter .search-form input[type="search"]{padding:10px 70px 10px 20px;font-size:20px}
 	.search-section .search-item{width:50%}
-	.other-search-filter .sort-order-btn .sort-order{padding:16px 18px;min-width:150px;font-size:14px}
+	/*.other-search-filter .sort-order-btn .sort-order{padding:16px 18px;min-width:150px;font-size:14px}*/
 	.search-result-filter .search-form input[type="submit"]{width:22px;height:22px}
 	.no-search-data{font-size:20px;padding:10vw 0}
 	.search-not-found p{font-size:16px;padding:10px}
@@ -300,10 +298,10 @@
 	.bp-messages-content .message-title #actions-container{width:100%;margin-top:10px}
 
 	/* comments */
-	.comments-area{padding:30px}
+	/*.comments-area{padding:30px}
 	.comments-area .comment-filter .navigate-reply{padding:12px 10px;font-size:18px}
 	.comments-area .comment-list .children{padding-left:45px}
-	.comments-area .comment-metadata{margin:0 0 15px}
+	.comments-area .comment-metadata{margin:0 0 15px}*/
 	.single-articles .entry-header{padding:0 50px 0 30px}
 	.single-articles .entry-header h1{font-size:30px}
 	.nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{padding:8px 15px;font-size:18px}
@@ -413,10 +411,10 @@
 
 	/* comments */
 	.comments-area{padding:30px 15px}
-	.comments-area .comment-author img{margin-bottom:10px}
+	/*.comments-area .comment-author img{margin-bottom:10px}
 	.comments-area .comment-author .comment-avtar{width:100px}
 	.comments-area .comment-author .comment-details{width:100%}
-	.comments-area .comment-list .children{padding-left:30px}
+	.comments-area .comment-list .children{padding-left:30px}*/
 	.author-info .author-title{font-size:22px}
 	.post-action-wrap .post-action-author{width:100%;margin-right:0}
 	.post-action-wrap .post-action-reaction{width:100%}

@@ -41,8 +41,9 @@ if ( post_password_required() ) {
 				<?php
 				printf(
 					/* translators: 1: title. */
-					esc_html__( 'Responses ('.get_comments_number( get_the_ID() ).')', 'nab-amplify' )
+					esc_html__( 'Responses', 'nab-amplify')
 				);
+				printf(' <span class="text-gradient">('.get_comments_number( get_the_ID() ).')</span>');
 				?>
 			</h3><!-- .comments-title -->
 			<div class="comment-filter">
@@ -86,11 +87,10 @@ if ( post_password_required() ) {
 		endif;
 
 	endif; // Check for have_comments().
-	
+
 	if ( is_user_logged_in() ) {
 		comment_form();
 	}
-	
 	?>
 
 </div><!-- #comments -->

@@ -115,7 +115,7 @@ function trendingactivity_render($attributes)
                         $post_data          = get_post($post->post_id);
                         $author_id          = $post_data->post_author;
                         $total_reactions    = $post->total_reaction;
-                        $thumbnail_url      = nab_amplify_get_featured_image($post_data->ID);
+                        $thumbnail_url      = nab_amplify_get_featured_image( $post_data->ID );
 
                         if ($post->post_type === 'company-products') {
 
@@ -280,6 +280,10 @@ function nab_register_amplify_dynamic_blocks()
         'render_callback' => 'nab_company_feature_render_callback',
     ));
 
+    register_block_type('nab/regional-addressess', array(
+        'render_callback' => 'nab_regional_addressess_render_callback',
+    ));
+
     register_block_type('nab/downloadable-pdfs', array(
         'attributes'      => array(
             'itemToFetch' => array(
@@ -292,10 +296,6 @@ function nab_register_amplify_dynamic_blocks()
             )
         ),
         'render_callback' => 'nab_company_downlodable_pdfs_callback',
-    ));
-
-    register_block_type('nab/regional-addressess', array(
-        'render_callback' => 'nab_regional_addressess_render_callback',
     ));
 }
 
@@ -325,7 +325,7 @@ function nab_company_details_render_callback($attributes)
                 <div class="company-about-outer">
                     <h2>About</h2>
                     <div class="company-about-inner">
-                        <?php if ($about_company) {
+                    <?php if ($about_company) {
                         ?>
                             <p><?php echo $about_company ? clean_post_content($about_company) : ''; ?></p>
                         <?php
@@ -334,18 +334,17 @@ function nab_company_details_render_callback($attributes)
                             <p>Details coming soon.</p>
                         <?php
                         } ?>
-
                     </div>
                 </div>
                 <div class="company-contact-outer">
                     <h2>Contact Info</h2>
                     <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                        <div class="edit-company-about-control">
-                            <span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details">
-                                <i class="fa fa-pencil"></i>
-                            </span>
-                        </div>
-                    <?php } ?>
+                            <div class="edit-company-about-control">
+                                <span class="edit-company-about edit-icon" data-action="company-info" id="edit-company-about" data-bp-tooltip="Edit Company Details">
+                                    <i class="fa fa-pencil"></i>
+                                </span>
+                            </div>
+                        <?php } ?>
                     <div class="company-contact-inner">
 
                         <div class="company-contact-inner-box">
@@ -364,7 +363,7 @@ function nab_company_details_render_callback($attributes)
                                     </li>
                                 <?php
                                 }
-                                if (!empty($company_website)) {
+                                if (!empty($company_website) ) {
                                 ?>
                                     <li>
                                         <span>Website:</span>
@@ -436,13 +435,13 @@ function nab_company_produts_render_callback($attributes)
     $class_name         = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
     $is_company_admin   = false;
     $company_id         = $post->ID;
-    $member_level = get_field('member_level', $company_id);
-    $post_status        = array('publish');
+    $member_level       = get_field('member_level',$company_id);
+    $post_status        = array( 'publish' );
     if (is_user_logged_in()) {
 
         $company_id         = get_the_ID();
         $user_id            = get_current_user_id();
-        $admin_id           = get_field('company_user_id', $company_id);        
+        $admin_id           = get_field('company_user_id', $company_id);
 
         if (!empty($admin_id) && in_array($user_id, $admin_id) ) {
 
@@ -479,20 +478,24 @@ function nab_company_produts_render_callback($attributes)
 
     if ($product_query->have_posts() || $is_company_admin) {
         if ('Standard' !== $member_level && 'select' !== $member_level && null !== $member_level && '' !== $member_level) {
-            ob_start(); ?>
+            ob_start();
+            ?>
             <div class="company-products <?php echo esc_attr($class_name); ?>">
                 <div class="amp-item-main">
                     <div class="amp-item-heading">
                         <h3>Products <span>(<?php echo esc_html($total_post); ?> RESULTS)</span></h3>
                         <?php
                         if ($total_post > $posts_per_page) {
+
                             $current_site_url   = rtrim(get_site_url(), '/');
-                            $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url); ?>
+                            $view_all_link      = add_query_arg(array('s' => '', 'v' => 'product'), $current_site_url);
+                        ?>
                             <div class="amp-view-more">
                                 <a href="<?php echo esc_url($view_all_link); ?>" class="view-more-arrow">View All</a>
                             </div>
                         <?php
-                        } ?>
+                        }
+                        ?>
                     </div>
                     <div class="amp-item-wrap" id="company-products-list">
                         <?php
@@ -510,22 +513,23 @@ function nab_company_produts_render_callback($attributes)
                         }
 
                         while ($product_query->have_posts()) {
+
                             $product_query->the_post();
 
 
-                            $product_link       = get_the_permalink();
+                            $product_link        = get_the_permalink();
                             $product_category   = get_the_terms(get_the_ID(), 'company-product-category');
                             $product_medias     = nab_amplify_get_bynder_products(get_the_ID()); ?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
                                     <div class="amp-item-cover">
                                         <?php
-                                        if ($is_company_admin && 'draft' === get_post_status(get_the_ID())) {
-                                        ?>
+                                        if ( $is_company_admin && 'draft' === get_post_status( get_the_ID() ) ) {
+                                            ?>
                                             <div class="amp-draft-wrapper">
                                                 <span class="company-product-draft">Draft</span>
                                             </div>
-                                        <?php
+                                            <?php
                                         }
                                         $thumbnail_url = '';
 
@@ -533,7 +537,9 @@ function nab_company_produts_render_callback($attributes)
                                             $thumbnail_url = $product_medias[0]['product_media_file']['url'];
                                         } else {
                                             $thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-                                        } ?>
+                                        }
+
+                                        ?>
                                         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="Product Image">
                                     </div>
                                     <div class="amp-item-info">
@@ -543,21 +549,22 @@ function nab_company_produts_render_callback($attributes)
                                             </h4>
                                             <?php
                                             if (!empty($product_category) && !is_wp_error($product_category)) {
+
                                             ?>
                                                 <span class="product-company"><?php echo esc_html($product_category[0]->name); ?></span>
                                             <?php
-                                            } ?>
+                                            }
+                                            ?>
                                             <div class="amp-actions">
                                                 <div class="search-actions nab-action">
-                                                    <a href="<?php echo esc_url($product_link); ?>" class="button">View Product</a>
+                                                    <a href="<?php echo esc_url($product_link); ?>" class="btn">View Product</a>
                                                     <?php
                                                     if ($is_company_admin) {
                                                     ?>
                                                         <div class="nab-action-row">
                                                             <i class="action-edit fa fa-pencil" data-id="<?php echo get_the_ID(); ?>"></i>
                                                         </div>
-                                                    <?php
-                                                    } ?>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -565,11 +572,12 @@ function nab_company_produts_render_callback($attributes)
                                 </div>
                             </div>
                         <?php
-                        } ?>
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
-        <?php
+            <?php
 
             $html = ob_get_clean();
         }
@@ -687,7 +695,6 @@ function nab_company_events_render_callback($attributes)
                 )
             )
         );
-
         $upcoming_session_query = new WP_Query( $upcoming_session_args );
         $upcoming_session_ids   = $upcoming_session_query->posts;
         wp_reset_postdata();
@@ -1377,55 +1384,55 @@ function nab_company_feature_render_callback($attributes)
     ob_start();
     ?>
 
-    <?php
-    if (!empty($feature_title)) {
-    ?>
-        <div class="amp-item-wrap featured-block-wraper">
-            <div class='amp-feature-block' style="<?php if ($feature_background_image) {
-                                                        echo 'background-image: url(' . $feature_background_image . '); background-size: cover;';
-                                                    } else {
-                                                        echo  'background-color:' . $feature_bg_color . ';background-size: cover;';
-                                                    } ?>">
-                <div class='amp-feature-block-inner'>
-                    <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                        <span class='edit-feature-block edit-block-icon'>
-                            <i class='fa fa-pencil'></i>
-                        </span>
-                    <?php } ?>
-                    <?php if ($feature_icon_image) { ?>
-                        <div class='feature-icon'>
-                            <a href="<?php echo $feature_play_link; ?>" target="_self" rel="noopener noreferrer"> <img src="<?php echo $feature_icon_image; ?>" /></a>
+        <?php
+        if ( ! empty( $feature_title ) ) {
+        ?>
+            <div class="amp-item-wrap featured-block-wraper">
+                <div class='amp-feature-block' style="<?php if ($feature_background_image) {
+                                                            echo 'background-image: url(' . $feature_background_image . '); background-size: cover;';
+                                                        } else {
+                                                            echo  'background-color:' . $feature_bg_color . ';background-size: cover;';
+                                                        } ?>">
+                    <div class='amp-feature-block-inner'>
+                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                            <span class='edit-feature-block edit-block-icon'>
+                                <i class='fa fa-pencil'></i>
+                            </span>
+                        <?php } ?>
+                        <?php if ($feature_icon_image) { ?>
+                            <div class='feature-icon'>
+                                <a href="<?php echo $feature_play_link; ?>" target="_self" rel="noopener noreferrer"> <img src="<?php echo $feature_icon_image; ?>" /></a>
+                            </div>
+                        <?php } ?>
+                        <div class='amp-feature-content'>
+                            <h3 class='feature-status' placeholder='Live' style="<?php echo isset($feature_status_color) ? 'color:' . $feature_status_color . ';' : ''; ?>"><?php echo isset($feature_status) ? $feature_status : 'Status'; ?></h3>
+                            <h2 class='feature-title' placeholder='Creating the World' style="<?php echo isset($feature_title_color) ? 'color:' . $feature_title_color . ';' : ''; ?>"><?php echo isset($feature_title) ? $feature_title : 'Title'; ?></h2>
+                            <h4 class='feature-author' placeholder='Author' style="<?php echo isset($feature_author_color) ? 'color:' . $feature_author_color . ';' : ''; ?>"><?php echo isset($feature_author) ? $feature_author : 'Author'; ?></h4>
+                            <p class='feature-disc' style="<?php echo isset($feature_desc_color) ? 'color:' . $feature_desc_color . ';' : ''; ?>"><?php echo isset($feature_desc) ? $feature_desc : 'Description'; ?></p>
+                            <?php if ($feature_enable_reaction === '1') { ?>
+                                <div class='shortcode-wrap'>
+                                    <?php echo do_shortcode('[reaction_button]'); ?>
+                                </div>
+                            <?php }
+                            if ($feature_enable_button === '1') {
+                            ?>
+                                <div class="button-wrap btn-link">
+                                    <a href="<?php echo isset($feature_button_url) ? $feature_button_url : '#'; ?>" target="<?php echo ($feature_button_target === '1') ? '_blank' : ''; ?>" rel="">
+                                        <?php echo isset($feature_button_text) ? $feature_button_text : 'Button'; ?>
+                                    </a>
+                                </div>
+                            <?php
+                            } ?>
                         </div>
-                    <?php } ?>
-                    <div class='amp-feature-content'>
-                        <h3 class='feature-status' placeholder='Live' style="<?php echo isset($feature_status_color) ? 'color:' . $feature_status_color . ';' : ''; ?>"><?php echo isset($feature_status) ? $feature_status : 'Status'; ?></h3>
-                        <h2 class='feature-title' placeholder='Creating the World' style="<?php echo isset($feature_title_color) ? 'color:' . $feature_title_color . ';' : ''; ?>"><?php echo isset($feature_title) ? $feature_title : 'Title'; ?></h2>
-                        <h4 class='feature-author' placeholder='Author' style="<?php echo isset($feature_author_color) ? 'color:' . $feature_author_color . ';' : ''; ?>"><?php echo isset($feature_author) ? $feature_author : 'Author'; ?></h4>
-                        <p class='feature-disc' style="<?php echo isset($feature_desc_color) ? 'color:' . $feature_desc_color . ';' : ''; ?>"><?php echo isset($feature_desc) ? $feature_desc : 'Description'; ?></p>
-                        <?php if ($feature_enable_reaction === '1') { ?>
-                            <div class='shortcode-wrap'>
-                                <?php echo do_shortcode('[reaction_button]'); ?>
-                            </div>
-                        <?php }
-                        if ($feature_enable_button === '1') {
-                        ?>
-                            <div class="button-wrap btn-link">
-                                <a href="<?php echo isset($feature_button_url) ? $feature_button_url : '#'; ?>" target="<?php echo ($feature_button_target === '1') ? '_blank' : ''; ?>" rel="">
-                                    <?php echo isset($feature_button_text) ? $feature_button_text : 'Button'; ?>
-                                </a>
-                            </div>
-                        <?php
-                        } ?>
                     </div>
                 </div>
             </div>
-        </div>
-        <?php
-    } else {
+            <?php
+        } else {
 
-        if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST')) {
-            if ('Premium' === $member_level) {
-        ?>
+            if (!empty($admin_id) && in_array($user_id, $admin_id) && !defined('REST_REQUEST')) {
+                if ( 'Premium' === $member_level ) {
+            ?>
                 <div class="amp-item-wrap featured-block-wraper">
                     <div class="amp-item-col add-new-item">
                         <div class="amp-item-inner">
@@ -1436,20 +1443,134 @@ function nab_company_feature_render_callback($attributes)
                         </div>
                     </div>
                 </div>
-    <?php
-            }
-        } else {
-            if (defined('REST_REQUEST')) {
-                echo '<p class="empty-featured-block">Featured data not available!</p>';
+        <?php
+                }
+            } else {
+                if (defined('REST_REQUEST')) {
+                    echo '<p class="empty-featured-block">Featured data not available!</p>';
+                }
             }
         }
-    }
-    ?>
+        ?>
     <?php
     $html = ob_get_contents();
     ob_end_clean();
 
     return $html;
+}
+
+function nab_regional_addressess_render_callback($attributes)
+{
+    ob_start();
+    $class_name     = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
+    $member_level   = get_field('member_level');
+
+    if ($member_level !== '' && $member_level !== 'select' && $member_level !== 'Standard') {
+
+        $display_block  = false;                
+        $company_id     = get_the_ID();
+        $admin_id       = get_field('company_user_id', $company_id );
+
+        if ( is_user_logged_in() ) {
+
+            if ( ! empty( $admin_id ) && in_array( get_current_user_id(), (array) $admin_id ) ) {
+                $display_block = true;
+            }
+        }
+        if ( ! $display_block ) {
+            
+            $address_keys   = array( 'one', 'two', 'three', 'four' );
+
+            foreach ( $address_keys as $add_key ) {
+
+                $address_data = get_field( 'regional_address_' . $add_key , $company_id );
+
+                if ( ! empty( $address_data ) && ! empty( $address_data['street_line_1'] ) ) {
+                    $display_block = true;
+                    break;
+                }
+            }
+        }
+        if ( $display_block ) {
+            ?>
+            <div class="company-products <?php echo esc_attr($class_name); ?>">
+                <div class="amp-item-main">
+                    <div class="amp-item-heading">
+                        <h3>Regional Addresses</h3>
+                    </div>
+                    <div class="amp-item-wrap" id="company-address-list">
+                        <?php
+                        for ($i = 1; $i < 5; $i++) {
+                            nab_get_religion_address($i, get_the_ID());
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    $html = ob_get_clean();
+    return $html;
+}
+
+function nab_get_religion_address($address_id, $company_id)
+{
+    $html = '';
+
+    $user_id            = get_current_user_id();
+    $admin_id           = get_field('company_user_id', $company_id);
+
+    if ($address_id !== '0' && !empty($address_id)) {
+        $address_number = array(
+            '1' => 'one',
+            '2' => 'two',
+            '3' => 'three',
+            '4' => 'four'
+        );
+        $address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+        if (!empty($address_data) && $address_data['street_line_1'] !== '') {
+
+        ?>
+            <div class="amp-item-col add-new-item">
+                <div class="amp-item-inner">
+                    <div class="add-item-wrap">
+                        <?php echo isset($address_data['street_line_1']) && $address_data['street_line_1'] != '' ? $address_data['street_line_1'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['street_line_2_']) && $address_data['street_line_2_'] != '' ? $address_data['street_line_2_'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['city']) && $address_data['city'] != '' ? $address_data['city'] . ',' : ''; ?>
+                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? nab_amplify_get_country_state($address_data['state_province'], 'state') . ',' : ''; ?>
+                        <?php echo isset($address_data['zip_postal']) && $address_data['zip_postal'] != '' ? $address_data['zip_postal'] . '<br>' : ''; ?>
+                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? nab_amplify_get_country_state($address_data['country'], 'country') : ''; ?>
+                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
+                            <div class="amp-actions">
+                                <div class="search-actions nab-action">
+                                    <div class="nab-action-row">
+                                        <i class="action-remove-address edit-block-icon fa fa-times" data-id="<?php echo $address_id; ?>"></i>
+                                        <i class="action-add-address edit-block-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+
+            if (!empty($admin_id) && in_array($user_id, $admin_id)) {
+            ?>
+                <div class="amp-item-col add-new-item">
+                    <div class="amp-item-inner">
+                        <div class="add-item-wrap">
+                            <i class="action-add-address add-item-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
+                            <span class="add-item-label">Add Address</span>
+                        </div>
+                    </div>
+                </div>
+<?php
+            }
+        }
+    }
 }
 
 function nab_company_downlodable_pdfs_callback($attributes)
@@ -1624,118 +1745,4 @@ function nab_company_downlodable_pdfs_callback($attributes)
     }
 
     return $html;
-}
-
-function nab_regional_addressess_render_callback($attributes)
-{
-    ob_start();
-    $class_name     = isset($attributes['className']) && !empty($attributes['className']) ? $attributes['className'] : '';
-    $member_level   = get_field('member_level');
-
-    if ($member_level !== '' && $member_level !== 'select' && $member_level !== 'Standard') {
-
-        $display_block  = false;                
-        $company_id     = get_the_ID();
-        $admin_id       = get_field('company_user_id', $company_id );
-
-        if ( is_user_logged_in() ) {
-
-            if ( ! empty( $admin_id ) && in_array( get_current_user_id(), (array) $admin_id ) ) {
-                $display_block = true;
-            }
-        }
-        if ( ! $display_block ) {
-            
-            $address_keys   = array( 'one', 'two', 'three', 'four' );
-
-            foreach ( $address_keys as $add_key ) {
-
-                $address_data = get_field( 'regional_address_' . $add_key , $company_id );
-
-                if ( ! empty( $address_data ) && ! empty( $address_data['street_line_1'] ) ) {
-                    $display_block = true;
-                    break;
-                }
-            }
-        }
-        if ( $display_block ) {
-            ?>
-            <div class="company-products <?php echo esc_attr($class_name); ?>">
-                <div class="amp-item-main">
-                    <div class="amp-item-heading">
-                        <h3>Regional Addresses</h3>
-                    </div>
-                    <div class="amp-item-wrap" id="company-address-list">
-                        <?php
-                        for ($i = 1; $i < 5; $i++) {
-                            nab_get_religion_address($i, get_the_ID());
-                        }
-                        ?>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
-    }
-    $html = ob_get_clean();
-    return $html;
-}
-
-function nab_get_religion_address($address_id, $company_id)
-{
-    $html = '';
-
-    $user_id            = get_current_user_id();
-    $admin_id           = get_field('company_user_id', $company_id);
-
-    if ($address_id !== '0' && !empty($address_id)) {
-        $address_number = array(
-            '1' => 'one',
-            '2' => 'two',
-            '3' => 'three',
-            '4' => 'four'
-        );
-        $address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
-        if (!empty($address_data) && $address_data['street_line_1'] !== '') {
-
-        ?>
-            <div class="amp-item-col add-new-item">
-                <div class="amp-item-inner">
-                    <div class="add-item-wrap">
-                        <?php echo isset($address_data['street_line_1']) && $address_data['street_line_1'] != '' ? $address_data['street_line_1'] . '<br>' : ''; ?>
-                        <?php echo isset($address_data['street_line_2_']) && $address_data['street_line_2_'] != '' ? $address_data['street_line_2_'] . '<br>' : ''; ?>
-                        <?php echo isset($address_data['city']) && $address_data['city'] != '' ? $address_data['city'] . ',' : ''; ?>
-                        <?php echo isset($address_data['state_province']) && $address_data['state_province'] != '' ? nab_amplify_get_country_state($address_data['state_province'], 'state') . ',' : ''; ?>
-                        <?php echo isset($address_data['zip_postal']) && $address_data['zip_postal'] != '' ? $address_data['zip_postal'] . '<br>' : ''; ?>
-                        <?php echo isset($address_data['country']) && $address_data['country'] != '' ? nab_amplify_get_country_state($address_data['country'], 'country') : ''; ?>
-                        <?php if (!empty($admin_id) && in_array($user_id, $admin_id)) { ?>
-                            <div class="amp-actions">
-                                <div class="search-actions nab-action">
-                                    <div class="nab-action-row">
-                                        <i class="action-remove-address edit-block-icon fa fa-times" data-id="<?php echo $address_id; ?>"></i>
-                                        <i class="action-add-address edit-block-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
-                    </div>
-                </div>
-            </div>
-            <?php
-        } else {
-
-            if (!empty($admin_id) && in_array($user_id, $admin_id)) {
-            ?>
-                <div class="amp-item-col add-new-item">
-                    <div class="amp-item-inner">
-                        <div class="add-item-wrap">
-                            <i class="action-add-address add-item-icon fa fa-pencil" data-id="<?php echo $address_id; ?>"></i>
-                            <span class="add-item-label">Add Address</span>
-                        </div>
-                    </div>
-                </div>
-<?php
-            }
-        }
-    }
 }

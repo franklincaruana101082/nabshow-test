@@ -11,15 +11,15 @@
  *
  * @since 1.0.0
  */
-require get_stylesheet_directory() . '/vendor/autoload.php';
+
 function amplify_front_scripts()
 {
 	//Scripts enqueue.
 	global $post;
 	wp_enqueue_script('nab-bx-slider-js', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', ['jquery'], null, true);
 	wp_enqueue_script('amplify-chosen-js', get_template_directory_uri() . '/assets/js/chosen.jquery.min.js', ['jquery'], true);
+	wp_enqueue_script('amplify-custom-js', get_template_directory_uri() . '/assets/js/nab-amplify.js', ['jquery'], '1.0.3', true);
 	wp_enqueue_script('amplify-select2-js', get_template_directory_uri() . '/assets/js/select2.min.js', ['jquery'], '1.0.1', true);
-	wp_enqueue_script('amplify-custom-js', get_template_directory_uri() . '/assets/js/nab-amplify.js', ['jquery'], '1.0.1', true);
 	wp_localize_script('amplify-custom-js', 'amplifyJS', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'nabNonce' => wp_create_nonce('nab-ajax-nonce'),
@@ -38,35 +38,12 @@ function amplify_front_scripts()
 			'countries' => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) )
 		);
 		wp_localize_script( 'amplify-custom-js', 'wc_country_select_params', $wc_country );
-	}	
+	}
 
 	if ( is_singular( 'company' ) ) {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'nab-jquery-ui-css', get_template_directory_uri() . '/assets/css/jquery-ui.css');
 	}
-
-	wp_enqueue_style('wp-color-picker');
-	wp_enqueue_script(
-		'iris',
-		admin_url('js/iris.min.js'),
-		array('jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch'),
-		false,
-		1
-	);
-	wp_enqueue_script(
-		'wp-color-picker',
-		admin_url('js/color-picker.min.js'),
-		array('iris'),
-		false,
-		1
-	);
-	$colorpicker_l10n = array(
-		'clear' => __('Clear'),
-		'defaultString' => __('Default'),
-		'pick' => __('Select Color'),
-		'current' => __('Current Color'),
-	);
-	wp_localize_script('wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n);
 
 	//Styles enqueue.
 	wp_enqueue_style('amplify-style', get_stylesheet_uri());
@@ -83,6 +60,7 @@ function amplify_front_scripts()
 function amplify_admin_scripts()
 {
 	wp_enqueue_style('amplify-admin-style', get_template_directory_uri() . '/assets/css/admin.css');
+
 }
 
 if (function_exists('acf_add_options_page')) {
@@ -147,7 +125,7 @@ if (class_exists('WP_Batch')) {
 			$temp = get_temp_dir();
 
 			 $csv_name = get_option( 'nab_import_csv');
-			
+
 
 			$csv_name = $csv_name ? $csv_name : 'nab_import_company.csv';
 
@@ -306,7 +284,7 @@ if (class_exists('WP_Batch')) {
 
 
 				$this->import_meta('about_company', $about, $import_post_id);
-				
+
 
 				$field_key = 'field_5fa3e84f3fa46';
 				$values = array(

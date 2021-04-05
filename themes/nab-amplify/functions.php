@@ -51,6 +51,12 @@ if ( ! function_exists( 'nab_amplify_setup' ) ) :
 		register_nav_menus(
 			array(
 				'menu-1' => esc_html__( 'Primary', 'nab-amplify' ),
+				'menu-2' => esc_html__( 'Brand', 'nab-amplify' ),
+				'footer-1' => esc_html__( 'Footer main', 'nab-amplify' ),
+				'footer-2' => esc_html__( 'Footer policy', 'nab-amplify' ),
+				'footer-3' => esc_html__( 'Footer quick', 'nab-amplify' ),
+				'footer-4' => esc_html__( 'Footer brand', 'nab-amplify' ),
+				'social-1' => esc_html__( 'Social', 'nab-amplify' ),
 			)
 		);
 
@@ -217,6 +223,42 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
+
+	register_sidebar(
+		array(
+			'name'			=> esc_html__( 'Session not logged in', 'nab-amplify' ),
+			'id'			=> 'session-not-logged-in',
+			'description'	=> esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="introtext widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h3 class="intro__title">',
+			'after_title'   => '</h3>',	
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'			=> esc_html__( 'Member of the press modal', 'nab-amplify' ),
+			'id'			=> 'member-press-modal',
+			'description'	=> esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h4>',
+			'after_title'   => '</h4>',	
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'			=> esc_html__( 'Sign Up Terms', 'nab-amplify' ),
+			'id'			=> 'sign-up-terms',
+			'description'	=> esc_html__( 'Add widgets here.', 'nab-amplify' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h4>',
+			'after_title'   => '</h4>',	
+		)
+	);
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );
@@ -225,9 +267,11 @@ add_action( 'widgets_init', 'nab_amplify_widgets_init' );
  * Enqueue scripts and styles.
  */
 function nab_amplify_scripts() {
-	wp_enqueue_style( 'nab-amplify-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_enqueue_style( 'roboto-mono', 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&display=swap', array(), '1.0');
+	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/iig3loy.css', array(), '1.0');
 	wp_style_add_data( 'nab-amplify-style', 'rtl', 'replace' );
 
+	// NOTE: /js/app.min.js is included automatically
 	wp_enqueue_script( 'nab-amplify-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -241,6 +285,34 @@ function nab_amplify_scripts() {
 }
 
 add_action( 'wp_enqueue_scripts', 'nab_amplify_scripts' );
+
+add_action( 'woocommerce_register_form', 'nab_add_registration_privacy_policy', 100 );
+   
+function nab_add_registration_privacy_policy() {
+ 
+woocommerce_form_field( 'privacy_policy_reg', array(
+   'type'          => 'checkbox',
+   'class'         => array('field__woowrapper'),
+   'label_class'   => array('field__list-input'),
+   'input_class'   => array('field__input'),
+   'required'      => true,
+   'label'         => 'I agree to the NAB Amplify <a href="'. site_url() . '/privacy-policy/">privacy policy</a>, <a href="' . site_url() . '/terms-of-use/">terms of use</a> and <a href="' . site_url() . '/nab-virtual-events-code-of-conduct/">code of conduct</a>.',
+));
+  
+}
+  
+// Show error if user does not tick
+   
+add_filter( 'woocommerce_registration_errors', 'nab_validate_privacy_registration', 10, 3 );
+  
+function nab_validate_privacy_registration( $errors, $username, $email ) {
+if ( ! is_checkout() ) {
+    if ( ! (int) isset( $_POST['privacy_policy_reg'] ) ) {
+        $errors->add( 'privacy_policy_reg_error', __( 'NAB Amplify Privacy Policy consent is required.', 'woocommerce' ) );
+    }
+}
+return $errors;
+}
 
 /**
  * WooCommerce - Remove Actions
@@ -261,6 +333,8 @@ function maybe_load_gutenberg_for_post_type( $can_edit, $post ) {
 
 	return false;
 }
+add_filter( 'use_block_editor_for_post', 'maybe_load_gutenberg_for_post_type', 15, 2 );
+
 add_filter( 'use_block_editor_for_post', 'maybe_load_gutenberg_for_post_type', 15, 2 );
 
 /**
@@ -356,8 +430,3 @@ require_once get_template_directory() . '/inc/company-follow.php';
  * Extend wordpress default walker comment class.
  */
 require_once get_template_directory() . '/classes/class-custom-walker-comment.php';
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
-

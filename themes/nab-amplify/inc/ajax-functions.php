@@ -1009,8 +1009,7 @@ function nab_add_attendee_order_details_ajax_callback()
 add_action('wp_ajax_nab_get_search_filter_state', 'nab_get_search_filter_state_callback');
 add_action('wp_ajax_nopriv_nab_get_search_filter_state', 'nab_get_search_filter_state_callback');
 
-function nab_get_search_filter_state_callback()
-{
+function nab_get_search_filter_state_callback() {
 
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
@@ -1018,14 +1017,15 @@ function nab_get_search_filter_state_callback()
 	$country		= filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
 
 	$countries_obj  		= new WC_Countries();
-	$default_country        = !empty($country) ? $country : $countries_obj->get_base_country();
-	$default_county_states  = $countries_obj->get_states($default_country);
+	$default_country        = ! empty( $country ) ? $country : $countries_obj->get_base_country();
+	$default_county_states  = $countries_obj->get_states( $default_country );
 
-	$final_result['states'] = $default_county_states;
+	$final_result[ 'states' ] = $default_county_states;
 
-	echo wp_json_encode($final_result);
+	echo wp_json_encode( $final_result );
 
 	wp_die();
+
 }
 
 add_action('wp_ajax_nab_member_search_filter', 'nab_member_search_filter_callback');
@@ -1072,13 +1072,13 @@ function nab_member_search_filter_callback()
 	$wp_user_ids 	= array();
 	$meta_result	= true;
 
-	if (!empty($company) || !empty($job_title) || !empty($country) || !empty($state) || !empty($city)) {
+	if ( ! empty( $company ) || ! empty( $job_title ) || ! empty( $country ) || ! empty( $state ) || ! empty( $city ) ) {
 
-		$user_query_args = array('fields' => 'ID');
+		$user_query_args = array( 'fields' => 'ID' );
 
-		$meta_query_args = array('relation' => 'OR');
+		$meta_query_args = array( 'relation' => 'OR' );
 
-		if (!empty($company)) {
+		if ( ! empty( $company ) ) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'attendee_company',
@@ -1087,7 +1087,7 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if (!empty($job_title)) {
+		if ( ! empty( $job_title ) ) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'attendee_title',
@@ -1096,7 +1096,7 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if (!empty($country)) {
+		if ( ! empty( $country ) ) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'user_country',
@@ -1104,7 +1104,7 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if (!empty($state)) {
+		if ( ! empty( $state ) ) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'user_state',
@@ -1112,7 +1112,7 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if (!empty($city)) {
+		if ( ! empty( $city ) ) {
 
 			$meta_query_args[] = array(
 				'key' 		=> 'user_city',
@@ -1120,18 +1120,18 @@ function nab_member_search_filter_callback()
 			);
 		}
 
-		if (count($meta_query_args) > 2) {
+		if ( count( $meta_query_args ) > 2 ) {
 
-			$meta_query_args['relation'] = 'AND';
+			$meta_query_args[ 'relation' ] = 'AND';
 		}
 
-		$user_query_args['meta_query'] = $meta_query_args;
+		$user_query_args[ 'meta_query' ] = $meta_query_args;
 
-		$user_query = new WP_User_Query($user_query_args);
+		$user_query = new WP_User_Query( $user_query_args );
 
 		$wp_user_ids = $user_query->get_results();
 
-		if (count($wp_user_ids) === 0) {
+		if ( count( $wp_user_ids ) === 0 ) {
 
 			$meta_result = false;
 		}
@@ -1158,11 +1158,11 @@ function nab_member_search_filter_callback()
 	$total_users 	= 0;
 	$total_pages	= 0;
 
-	if ($meta_result) {
+	if ( $meta_result ) {
 
-		if (count($wp_user_ids) > 0) {
+		if ( count( $wp_user_ids ) > 0 ) {
 
-			$members_filter['include'] = $wp_user_ids;
+			$members_filter[ 'include' ] = $wp_user_ids;
 		}
 
 		if (bp_has_members($members_filter)) {
@@ -1207,10 +1207,10 @@ function nab_member_search_filter_callback()
 					$result_user[$cnt]['cancel_friendship_button'] = $cancel_friendship_button;
 				}
 
-				if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+				if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
-				} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+				} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 					$result_user[$cnt]['banner'] = nab_get_search_result_ad();
 				}
@@ -1260,7 +1260,7 @@ function nab_company_search_filter_callback()
 		's'					=> $search_term,
 	);
 
-	$meta_query_args = array('relation' => 'AND');
+	$meta_query_args = array( 'relation' => 'AND' );
 
 	if (!empty($search_term)) {
 
@@ -1268,7 +1268,7 @@ function nab_company_search_filter_callback()
 
 		if ($get_search_term_id) {
 
-			$company_args['_meta_company_term']	= $get_search_term_id->term_id;
+			$company_args['_meta_company_term'] = $get_search_term_id->term_id;
 		}
 	} else {
 		$meta_query_args[] = array(
@@ -1280,9 +1280,10 @@ function nab_company_search_filter_callback()
 		);
 	}
 
-
 	if (!empty($product_category)) {
+
 		$meta_query_args[] = array(
+
 			array(
 				'key' 		=> 'product_categories',
 				'value'		=> '"' . $product_category . '"',
@@ -1291,7 +1292,7 @@ function nab_company_search_filter_callback()
 		);
 	}
 
-	if (count($meta_query_args) > 1) {
+	if ( count( $meta_query_args ) > 1 ) {
 		$company_args['meta_query'] = $meta_query_args;
 	}
 
@@ -1300,7 +1301,6 @@ function nab_company_search_filter_callback()
 		$company_args['meta_key']	= 'member_level_num';
 		$company_args['orderby']	= 'meta_value_num';
 		$company_args['order']		= 'DESC';
-
 	} elseif ('date' !== $orderby) {
 
 		$company_args['orderby'] 	= $orderby;
@@ -1320,50 +1320,43 @@ function nab_company_search_filter_callback()
 		$current_user_id		= $user_logged_in ? get_current_user_id() : '';
 		$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 
-
 		while ($company_query->have_posts()) {
 
 			$company_query->the_post();
 
 			$cover_image        = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
-			$featured_image     = nab_amplify_get_featured_image(get_the_ID(), false);
+			$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 			$profile_picture    = $featured_image;
 			$company_url		= get_the_permalink();
 			$company_poc		= get_field('point_of_contact');
-
 
 			$result_post[$cnt]['cover_img'] = $cover_image;
 			$result_post[$cnt]['link'] 		= $company_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
 
-			if ($profile_picture) {
+			if ( $profile_picture ) {
 				$result_post[$cnt]['profile'] 	= $profile_picture;
 			} else {
 				$result_post[$cnt]['no_pic']	= html_entity_decode(mb_strimwidth(get_the_title(), 0, 20, '...'));
 			}
 
-
 			ob_start();
 
 ?>
-			<div class="search-actions">
-				<a href="<?php echo esc_url($company_url); ?>" class="button">View</a>
-			</div>
+			<a href="<?php echo esc_url($company_url); ?>" class="button result__button">View Now</a>
 			<?php
 			if ($company_poc !== '' && !empty($company_poc)) {
 				if ($user_logged_in) {
-			?>
+					?>
 					<div id="send-private-message" class="generic-button poc-msg-btn">
-						<a href="javascript:void(0);" class="button add" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
+						<a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
 					</div>
-				<?php
+		   <?php
 				} else {
 					$current_url = home_url(add_query_arg(null, null));
 					$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
-					<div class="generic-button">
-						<a href="<?php echo esc_url(add_query_arg(array('r' => $current_url), wc_get_page_permalink('myaccount'))); ?>" class="button">Message Rep</a>
-					</div>
-		<?php
+				<a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="link _plus result__message">Message Rep</a>
+	   <?php
 				}
 			}
 
@@ -1371,10 +1364,10 @@ function nab_company_search_filter_callback()
 
 			$result_post[$cnt]['button'] = $button;
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
@@ -1384,10 +1377,10 @@ function nab_company_search_filter_callback()
 	}
 	wp_reset_postdata();
 
-	$final_result['next_page_number'] 	= $page_number + 1;
-	$final_result['total_page']       	= $total_pages;
-	$final_result['total_company']		= $total_company;
-	$final_result['result_post']      	= $result_post;
+	$final_result['next_page_number'] = $page_number + 1;
+	$final_result['total_page']       = $total_pages;
+	$final_result['total_company']	= $total_company;
+	$final_result['result_post']      = $result_post;
 
 	echo wp_json_encode($final_result);
 
@@ -1477,7 +1470,6 @@ function nab_company_product_search_filter_callback()
 		$current_user_id 	= is_user_logged_in() ? get_current_user_id() : '';
 		$bookmark_products	= !empty($current_user_id) ? get_user_meta($current_user_id, 'nab_customer_product_bookmark', true) : '';
 
-
 		while ($company_prod_query->have_posts()) {
 
 			$company_prod_query->the_post();
@@ -1517,10 +1509,10 @@ function nab_company_product_search_filter_callback()
 				$result_post[$cnt]['bookmark_id']		= $product_id;
 			}
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
@@ -1580,12 +1572,12 @@ function nab_product_search_filter_callback()
 		$product_args['order']	= $order;
 	}
 
-	$tax_query_args = array('relation' => 'AND');
+	$tax_query_args = array( 'relation' => 'AND' );
 
 	$tax_query_args[] = array(
 		'taxonomy' => 'product_visibility',
 		'field'    => 'slug',
-		'terms'    => array('exclude-from-search'),
+		'terms'    => array( 'exclude-from-search' ),
 		'operator' => 'NOT IN',
 	);
 
@@ -1615,7 +1607,7 @@ function nab_product_search_filter_callback()
 
 			$product_query->the_post();
 
-			$thumbnail_url     = nab_amplify_get_featured_image(get_the_ID(), true, nab_product_company_placeholder_img());
+			$thumbnail_url     = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
 
 			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
 			$result_post[$cnt]['link'] 		= get_the_permalink();
@@ -1639,10 +1631,10 @@ function nab_product_search_filter_callback()
 				$result_post[$cnt]['bookmark_id']		= $product_id;
 			}
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
@@ -1720,13 +1712,15 @@ function nab_event_search_filter_callback()
 			$event_query->the_post();
 
 			$event_post_id		= get_the_ID();
-			$thumbnail_url      = nab_amplify_get_featured_image($event_post_id, true, nab_product_company_placeholder_img());
+			$thumbnail_url      = nab_amplify_get_featured_image( $event_post_id, true, nab_product_company_placeholder_img() );
 			$event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
 			$event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
 			$website_link 		= get_post_meta(get_the_ID(), '_EventURL', true);
 			$website_link		= !empty($website_link) ? trim($website_link) : get_the_permalink();
 			$target				= 0 === strpos($website_link, $current_site_url) ? '_self' : '_blank';
 			$event_date			= date_format(date_create($event_start_date), 'l, F j');
+			$event_month		= date_format(date_create($event_start_date), 'F');
+			$event_day			= date_format(date_create($event_start_date), 'j');
 			$final_date         = $event_start_date;
 			$start_time         = '';
 			$end_time           = '';
@@ -1777,12 +1771,12 @@ function nab_event_search_filter_callback()
 				$result_post[$cnt]['event_content'] = html_entity_decode( $event_content );
 			}
 
-			$final_date     = date_format(date_create($final_date), 'Ymd');
+			$final_date     = date_format( date_create( $final_date ), 'Ymd' );
 			$current_date   = current_time('Ymd');
-			$opening_date   = new DateTime($final_date);
-			$current_date   = new DateTime($current_date);
+			$opening_date   = new DateTime( $final_date );
+			$current_date   = new DateTime( $current_date );
 
-			if ($opening_date < $current_date) {
+			if ( $opening_date < $current_date ) {
 				$result_post[$cnt]['past_event'] = true;
 			}
 
@@ -1791,11 +1785,13 @@ function nab_event_search_filter_callback()
 			$result_post[$cnt]['link']			= $website_link;
 			$result_post[$cnt]['target']		= $target;
 			$result_post[$cnt]['event_date']	= $event_date;
+			$result_post[$cnt]['event_month']	= $event_month;
+			$result_post[$cnt]['event_day'] 	= $event_day;
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
@@ -1874,7 +1870,7 @@ function nab_content_search_filter_callback()
 		),
 	);
 
-	if (!empty($community)) {
+	if ( ! empty( $community ) ) {
 		$meta_query_args[] = array(
 			'key'		=> 'community',
 			'value'		=> '"' . $community . '"',
@@ -1882,7 +1878,7 @@ function nab_content_search_filter_callback()
 		);
 	}
 
-	if (!empty($subject)) {
+	if ( ! empty( $subject ) ) {
 		$meta_query_args[] = array(
 			'key'		=> 'content_subject',
 			'value'		=> '"' . $subject . '"',
@@ -1890,7 +1886,7 @@ function nab_content_search_filter_callback()
 		);
 	}
 
-	$content_args['meta_query'] = $meta_query_args;
+	$content_args[ 'meta_query' ] = $meta_query_args;
 
 	$content_query = new WP_Query($content_args);
 
@@ -1906,7 +1902,7 @@ function nab_content_search_filter_callback()
 
 			$content_query->the_post();
 
-			$thumbnail_url  = nab_amplify_get_featured_image(get_the_ID());
+			$thumbnail_url  = nab_amplify_get_featured_image( get_the_ID() );
 
 			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
@@ -1924,10 +1920,10 @@ function nab_content_search_filter_callback()
 				$result_post[$cnt]['link']	= get_the_permalink();
 			}
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
@@ -1950,8 +1946,7 @@ function nab_content_search_filter_callback()
 add_action('wp_ajax_nab_page_search_filter', 'nab_page_search_filter_callback');
 add_action('wp_ajax_nopriv_nab_page_search_filter', 'nab_page_search_filter_callback');
 
-function nab_page_search_filter_callback()
-{
+function nab_page_search_filter_callback() {
 
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
@@ -2007,10 +2002,10 @@ function nab_page_search_filter_callback()
 			$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
 			$result_post[$cnt]['link']		= get_the_permalink();
 
-			if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+			if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+			} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
@@ -2065,8 +2060,7 @@ function nab_update_member_bookmark_callback()
 				update_user_meta($current_user_id, 'nab_customer_product_bookmark', $bookmark_products);
 
 				$final_result['tooltip'] = 'Remove from Bookmarks';
-
-				do_action('nab_bookmark_added', $item_id, $current_user_id);
+				do_action( 'nab_bookmark_added', $item_id, $current_user_id );
 			}
 		} else if ('remove' === strtolower($bm_action)) {
 
@@ -2131,7 +2125,7 @@ function nab_member_bookmark_list_callback()
 
 				$bookmark_query->the_post();
 
-				$bookmark_thumbnail = nab_amplify_get_featured_image(get_the_ID(), true, $bookmark_img);
+				$bookmark_thumbnail = nab_amplify_get_featured_image( get_the_ID(), true, $bookmark_img );
 				$bookmark_link      = get_the_permalink();
 				$bookmark_title		= get_the_title();
 
@@ -2139,10 +2133,10 @@ function nab_member_bookmark_list_callback()
 				$result_post[$cnt]['link'] 		= $bookmark_link;
 				$result_post[$cnt]['title'] 	= html_entity_decode($bookmark_title);
 
-				if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+				if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 					$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-				} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+				} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 					$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 				}
@@ -2217,7 +2211,7 @@ function nab_member_event_list_callback()
 				$purchased_events->the_post();
 
 				$event_id	= get_the_ID();
-				$event_img  = nab_amplify_get_featured_image($event_id, true, $event_default_img);
+				$event_img  = nab_amplify_get_featured_image( $event_id, true, $event_default_img );
 				$event_date	= get_field('show_date', $event_id);
 				$event_url	= get_field('show_url', $event_id);
 
@@ -2226,10 +2220,10 @@ function nab_member_event_list_callback()
 				$result_post[$cnt]['link'] 		= $event_url;
 				$result_post[$cnt]['title'] 	= html_entity_decode(get_the_title());
 
-				if (0 === $page_number % 2 && (4 === $cnt + 1 || 12 === $cnt + 1)) {
+				if (0 === $page_number % 2 && (5 === $cnt + 1 || 15 === $cnt + 1)) {
 
 					$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-				} else if (0 !== $page_number % 2 && 8 === $cnt + 1) {
+				} else if (0 !== $page_number % 2 && 10 === $cnt + 1) {
 
 					$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 				}
@@ -2358,7 +2352,7 @@ function nab_bp_message_request_popup()
 	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 	$member_id = filter_input(INPUT_POST, 'member_id', FILTER_SANITIZE_NUMBER_INT);
 	$action = 'poc';
-	$message_html = nab_get_wp_editor('', 'nab-xconnection-message', array('media_buttons' => true, 'teeny' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+	$message_html = nab_get_wp_editor('', 'nab-xconnection-message', array('media_buttons' => true,'teeny' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
 
 	if ($post_type === 'company-products') {
 		$point_of_contact   = get_field('product_point_of_contact', $post_id);
@@ -2441,13 +2435,14 @@ function nab_bp_send_message()
 
 	// Send the message.
 	if (true === is_int($send)) {
-		if (isset($post_id) && !empty($post_id)) {
-			do_action('nab_message_send', $recipient, $current_user_id, $post_id);
+		if ( isset( $post_id ) && ! empty( $post_id ) ) {
+			do_action( 'nab_message_send', $recipient, $current_user_id, $post_id );
 		}
 		wp_send_json_success(array(
 			'feedback' => __('Message successfully sent.', 'buddypress'),
 			'type'     => 'success',
 		));
+
 		// Message could not be sent.
 	} else {
 		$response['feedback'] = $send->get_error_message();
@@ -2527,8 +2522,8 @@ function nab_edit_feature_block()
 		wp_send_json_error($response);
 	}
 
-	$existing_title = get_field('feature_title', $company_id);
-	if (empty($existing_title) && !empty($nab_featured_block_title)) {
+	$existing_title = get_field( 'feature_title', $company_id );
+	if ( empty( $existing_title ) && ! empty( $nab_featured_block_title ) ) {
 		do_action('nab_featured_block_added', $company_id, $nab_featured_block_title, 'add' );
 	} elseif ( ! empty( $nab_featured_block_title ) ) {
 		do_action('nab_featured_block_added', $company_id, $nab_featured_block_title, 'update' );
@@ -2563,29 +2558,29 @@ function nab_edit_feature_block()
 	if ( class_exists('Bynder_Media') ) {
 		update_post_meta( $company_id, 'feature_background_image', $feature_background_image );
 	} else {
-        $dependencies_loaded = 0;
-        foreach ($_FILES as $file_key => $file_details) {
+		$dependencies_loaded = 0;
+		foreach ( $_FILES as $file_key => $file_details ) {
 
-            if (0 === $dependencies_loaded) {
-                // These files need to be included as dependencies when on the front end.
-                require_once ABSPATH . 'wp-admin/includes/image.php';
-                require_once ABSPATH . 'wp-admin/includes/file.php';
-                require_once ABSPATH . 'wp-admin/includes/media.php';
-                $dependencies_loaded = 1;
-            }
+			if ( 0 === $dependencies_loaded ) {
+				// These files need to be included as dependencies when on the front end.
+				require_once ABSPATH . 'wp-admin/includes/image.php';
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				require_once ABSPATH . 'wp-admin/includes/media.php';
+				$dependencies_loaded = 1;
+			}
 
-            // Let WordPress handle the upload.
-            $attachment_id = media_handle_upload($file_key, 0);
+			// Let WordPress handle the upload.
+			$attachment_id = media_handle_upload( $file_key, 0 );
 
-            if (!is_wp_error($attachment_id)) {
-                // update in meta
-                if ($file_key === 'nab_product_play_image') {
-                    update_field('feature_icon_image', $attachment_id, $company_id);
-                } else {
-                    update_field('feature_background_image', $attachment_id, $company_id);
-                }
-            }
-        }
+			if ( ! is_wp_error( $attachment_id ) ) {
+				// update in meta
+				if ( $file_key === 'nab_product_play_image' ) {
+					update_field( 'feature_icon_image', $attachment_id, $company_id );
+				} else {
+					update_field( 'feature_background_image', $attachment_id, $company_id );
+				}
+			}
+		}
 	}
 
 	wp_send_json_success(array(
@@ -2613,23 +2608,22 @@ function replace_between($str, $needle_start, $needle_end, $replacement)
 }
 
 // Ajax for get city for search page filter
-add_action('wp_ajax_nab_get_search_city', 'nab_get_search_city_callback');
-add_action('wp_ajax_nopriv_nab_get_search_city', 'nab_get_search_city_callback');
+add_action( 'wp_ajax_nab_get_search_city', 'nab_get_search_city_callback' );
+add_action( 'wp_ajax_nopriv_nab_get_search_city', 'nab_get_search_city_callback' );
 
-function nab_get_search_city_callback()
-{
+function nab_get_search_city_callback() {
 
-	$search_key	= filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
-	$country	= filter_input(INPUT_GET, 'country', FILTER_SANITIZE_STRING);
-	$state		= filter_input(INPUT_GET, 'state', FILTER_SANITIZE_STRING);
+	$search_key	= filter_input( INPUT_GET, 'q', FILTER_SANITIZE_STRING );
+	$country	= filter_input( INPUT_GET, 'country', FILTER_SANITIZE_STRING );
+	$state		= filter_input( INPUT_GET, 'state', FILTER_SANITIZE_STRING );
 
 	$final_result	= [];
 
-	if (isset($search_key) && !empty($search_key)) {
+	if ( isset( $search_key ) && ! empty( $search_key ) ) {
 
-		$user_args	= array('fields' => 'ID');
+		$user_args	= array( 'fields' => 'ID' );
 
-		$meta_query_args = array('relation' => 'AND');
+		$meta_query_args = array( 'relation' => 'AND' );
 
 		$meta_query_args[] = array(
 			'key' => 'user_city',
@@ -2637,9 +2631,9 @@ function nab_get_search_city_callback()
 			'compare' => 'LIKE'
 		);
 
-		if (!empty($country) || !empty($state)) {
+		if ( ! empty( $country ) || ! empty( $state ) ) {
 
-			if (!empty($country)) {
+			if ( ! empty( $country ) ) {
 
 				$meta_query_args[] = array(
 					'key' => 'user_country',
@@ -2647,7 +2641,7 @@ function nab_get_search_city_callback()
 				);
 			}
 
-			if (!empty($state)) {
+			if ( ! empty( $state ) ) {
 
 				$meta_query_args[] = array(
 					'key' => 'user_state',
@@ -2656,28 +2650,29 @@ function nab_get_search_city_callback()
 			}
 		}
 
-		$user_args['meta_query'] = $meta_query_args;
+		$user_args[ 'meta_query' ] = $meta_query_args;
 
-		$user_query		= new WP_User_Query($user_args);
+		$user_query		= new WP_User_Query( $user_args );
 		$found_users	= $user_query->get_results();
 
-		if (!empty($found_users) && is_array($found_users)) {
+		if ( ! empty( $found_users ) && is_array( $found_users ) ) {
 
-			foreach ($found_users as $current_user_id) {
+			foreach ( $found_users as $current_user_id ) {
 
-				$user_city = get_user_meta($current_user_id, 'user_city', true);
+				$user_city = get_user_meta( $current_user_id, 'user_city', true );
 
 
-				if (!empty($user_city) && !in_array($user_city, $final_result, true)) {
+				if ( ! empty( $user_city ) && ! in_array( $user_city, $final_result, true ) ) {
 					$final_result[] = $user_city;
 				}
 			}
 		}
 	}
 
-	echo wp_json_encode($final_result);
+	echo wp_json_encode( $final_result );
 
 	wp_die();
+
 }
 
 // Ajax for get user for product point of contact
@@ -2716,6 +2711,31 @@ function nab_product_point_of_contact_callback()
 	wp_die();
 }
 
+// Ajax to show company admin added popup.
+add_action("wp_ajax_nab_add_company_admin_popup", "nab_add_company_admin_popup");
+add_action("wp_ajax_nopriv_nab_add_company_admin_popup", "nab_add_company_admin_popup");
+
+/**
+ * Ajax to show connection request popup.
+ */
+function nab_add_company_admin_popup()
+{
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_title   = get_the_title($company_id);
+
+	ob_start();
+
+	require_once get_template_directory() . '/inc/nab-company-admin-url-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
+
+	wp_die();
+}
+
 add_action('wp_ajax_upload_temp_csv', 'upload_temp_csv');
 add_action('wp_ajax_nopriv_upload_temp_csv', 'upload_temp_csv');
 
@@ -2751,33 +2771,6 @@ function upload_temp_csv()
 	}
 	exit;
 }
-
-
-// Ajax to show company admin added popup.
-add_action("wp_ajax_nab_add_company_admin_popup", "nab_add_company_admin_popup");
-add_action("wp_ajax_nopriv_nab_add_company_admin_popup", "nab_add_company_admin_popup");
-
-/**
- * Ajax to show connection request popup.
- */
-function nab_add_company_admin_popup()
-{
-
-
-	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	$company_title   = get_the_title($company_id);
-
-	ob_start();
-
-	require_once get_template_directory() . '/inc/nab-company-admin-url-popup.php';
-
-	$popup_html = ob_get_clean();
-
-	wp_send_json($popup_html, 200);
-
-	wp_die();
-}
-
 
 if (class_exists('WP_Batch')) {
 
@@ -3054,12 +3047,24 @@ function nab_reset_csv_processed()
 	wp_send_json('success', 200);
 }
 
-add_action('wp_ajax_nab_edit_downloadable_company_pdf', 'nab_edit_downloadable_company_pdf_callback');
+// Ajax to show Error popup.
+add_action("wp_ajax_nab_get_error_popup", "nab_get_error_popup");
+add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
 
-function nab_edit_downloadable_company_pdf_callback()
+function nab_get_error_popup()
 {
+	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
+	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_confirm     = filter_input(INPUT_POST, 'employee_remove', FILTER_SANITIZE_NUMBER_INT);
+	ob_start();
 
-	require_once get_template_directory() . '/inc/nab-add-edit-downloadable-pdf.php';
+	require_once get_template_directory() . '/inc/nab-error-popup.php';
+
+	$popup_html = ob_get_clean();
+
+	wp_send_json($popup_html, 200);
 
 	wp_die();
 }
@@ -3255,7 +3260,17 @@ function nab_amplify_remove_address()
 	wp_die();
 }
 
+// Ajax to remove banner image.
+add_action("wp_ajax_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
+add_action("wp_ajax_nopriv_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
 
+function nab_amplify_banner_image_remove()
+{
+	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	update_field('banner_image', '', $company_id);
+	update_field('cover_image', '', $company_id);
+	update_post_meta($company_id, 'banner_image', '');
+}
 
 // Ajax to show Add Address popup.
 add_action("wp_ajax_nab_amplify_state_filter", "nab_amplify_state_filter");
@@ -3282,42 +3297,100 @@ function nab_amplify_state_filter()
 	wp_send_json($filtered_states, 200);
 }
 
-// Ajax to show Error popup.
-add_action("wp_ajax_nab_get_error_popup", "nab_get_error_popup");
-add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
+add_action("wp_ajax_nab_check_for_opt_in", "nab_check_for_opt_in");
 
-function nab_get_error_popup()
-{
-	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
-	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
-	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
-	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
-	$employee_confirm     = filter_input(INPUT_POST, 'employee_remove', FILTER_SANITIZE_NUMBER_INT);
-	ob_start();
-
-	require_once get_template_directory() . '/inc/nab-error-popup.php';
-
-	$popup_html = ob_get_clean();
-
-	wp_send_json($popup_html, 200);
-
-	wp_die();
-}
-
-
-// Ajax to remove banner image.
-add_action("wp_ajax_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
-add_action("wp_ajax_nopriv_nab_amplify_banner_image_remove", "nab_amplify_banner_image_remove");
-
-function nab_amplify_banner_image_remove()
-{
+function nab_check_for_opt_in() {
 	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	update_field('banner_image', '', $company_id);
-	update_field('cover_image', '', $company_id);
-	update_post_meta($company_id, 'banner_image', '');
+	$user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+
+	$opt_in_out_exists = get_posts( array(
+		'posts_per_page' => -1,
+		'post_type' => 'opt-in',
+		'author' => $user_id,
+		'meta_query' => array(
+			array(
+				'key' => 'company_id',
+				'compare' => '==',
+				'value' => $company_id,
+				'type' => 'INT'
+			)
+		)
+	));
+	if ($opt_in_out_exists) {
+		wp_send_json_success(true);
+	} else {
+		wp_send_json_success(false);
+	}
 }
 
-// Ajax to show Error popup.
+add_action("wp_ajax_nab_create_update_opt_in_out", "nab_create_update_opt_in_out");
+
+function nab_create_update_opt_in_out() {
+
+	$post_id = filter_input(INPUT_POST, 'ID', FILTER_SANITIZE_NUMBER_INT);
+	$post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_STRING);
+	$post_status = filter_input(INPUT_POST, 'post_status', FILTER_SANITIZE_STRING);
+	$post_date = filter_input(INPUT_POST, 'post_date', FILTER_SANITIZE_STRING);
+	$post_author = filter_input(INPUT_POST, 'post_author', FILTER_SANITIZE_NUMBER_INT);
+	$post_type = filter_input(INPUT_POST, 'post_type', FILTER_SANITIZE_STRING);
+	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_name = filter_input(INPUT_POST, 'company_name', FILTER_SANITIZE_STRING);
+	$opted_in = filter_input(INPUT_POST, 'opted_in', FILTER_VALIDATE_BOOLEAN);
+	$user_first_name = filter_input(INPUT_POST, 'user_first_name', FILTER_SANITIZE_STRING);
+	$user_last_name = filter_input(INPUT_POST, 'user_last_name', FILTER_SANITIZE_STRING);
+	$user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
+	$user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
+	$opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
+	$opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
+
+	if($post_id) {
+		$update_post = array(
+			'ID' => $post_id,
+			'post_title' => $post_title,
+			'post_date' => $post_date,
+			'post_author' => $post_author,
+			'meta_input' => array(
+				'company_id' => $company_id,
+				'company_name' => $company_name,
+				'opted_in' => $opted_in,
+				'user_first_name' => $user_first_name,
+				'user_last_name' => $user_last_name,
+				'user_email' => $user_email,
+				'user_ip' => $user_ip,
+				'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
+				'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
+			)
+		);
+		$opt_post = wp_update_post($update_post);
+	} else {
+		$new_post = array(
+			'post_title' => $post_title,
+			'post_status' => $post_status,
+			'post_date' => $post_date,
+			'post_author' => $post_author,
+			'post_type' => $post_type,
+			'meta_input' => array(
+				'company_id' => $company_id,
+				'company_name' => $company_name,
+				'opted_in' => $opted_in,
+				'user_first_name' => $user_first_name,
+				'user_last_name' => $user_last_name,
+				'user_email' => $user_email,
+				'user_ip' => $user_ip,
+				'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
+				'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
+			)
+		);
+		$opt_post = wp_insert_post($new_post);
+	}
+
+	if($opt_post) {
+		wp_send_json_success($opt_post);
+	} else {
+		wp_send_json_error();
+	}
+}
+
 add_action("wp_ajax_nab_amplify_add_employee", "nab_amplify_add_employee");
 add_action("wp_ajax_nopriv_nab_amplify_add_employee", "nab_amplify_add_employee");
 
@@ -3392,6 +3465,231 @@ function nab_amplify_remove_employee()
 	$final_result['content'] = '';
 	wp_send_json($final_result, 200);
 	wp_die();
+}
+
+add_action( 'wp_ajax_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
+add_action( 'wp_ajax_nopriv_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
+function nab_add_company_content_form_callback() {
+
+	require_once get_template_directory() . '/inc/nab-add-content.php';
+	wp_die();
+}
+
+add_action('wp_ajax_nab_content_submission', 'nab_content_submission_callback');
+add_action('wp_ajax_nopriv_nab_content_submission', 'nab_content_submission_callback');
+
+function nab_content_submission_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+	$content_title			= filter_input( INPUT_POST, 'content_title', FILTER_SANITIZE_STRING );
+	$content_copy			= filter_input( INPUT_POST, 'content_copy', FILTER_UNSAFE_RAW );
+	$featured_img	        = filter_input( INPUT_POST, 'featured_img', FILTER_SANITIZE_STRING ); /* Bynder_Featured_Content */
+	$msg					= '';
+	$submit_limit			= 3;
+
+	if ( empty( $company_id ) || 0 === (int) $company_id ) {
+
+		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
+	}
+
+	$member_level = get_field( 'member_level', $company_id );
+	$member_level = strtolower( $member_level );
+
+	if ( 'premium' !== $member_level || ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'msg' => 'You can not submit the content with your current package.' ) );
+	}
+
+	$query_args = array(
+		'post_type'         => 'content-submission',
+		'post_status'       => 'publish',
+		'posts_per_page'    => -1,
+		'meta_key'          => 'nab_selected_company_id',
+		'meta_value'        => $company_id,
+		'fields'            => 'ids',
+	);
+
+	$content_query	= new WP_Query( $query_args );
+	$total_content	= count( $content_query->posts );
+
+	if (  'premium' === $member_level && $total_content >= $submit_limit ) {
+
+		$result['success'] = false;
+
+		wp_send_json_error( array( 'msg' => 'You have used up your allotted three submissions, but additional sponsored articles can be purchased a la carte. Contact your sales rep for details.' ) );
+	}
+
+	wp_reset_postdata();
+
+	if ( empty( $content_title ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Title can not be empty.' ) );
+	}
+
+	if ( empty( $content_copy ) ) {
+
+		wp_send_json_error( array( 'msg' => 'Content copy can not be empty.' ) );
+	}
+
+	$content_post_data = array(
+        'post_title'   => $content_title,
+        'post_status'  => 'publish',
+        'post_type'    => 'content-submission',
+		'post_content' => $content_copy,
+    );
+
+	$content_id 	= wp_insert_post( $content_post_data );
+	$attachment_id	= '';
+
+	if ( is_wp_error( $content_id ) ) {
+		wp_send_json_error( array( 'msg' => 'Something went wrong while submitting the content. Please try again.' ) );
+	} else {
+
+		$msg = 'Content submitted successfully.';
+
+		$success = array( 'msg' => $msg, 'content_id' => $content_id );
+
+		// Bynder_Featured_Content
+		if ( class_exists('Bynder_Media') ) {
+			update_post_meta( $content_id, 'profile_picture', $featured_img );
+		} else {
+			// Upload images.
+			$file_names          = array( 'featured_img' );
+			$dependencies_loaded = false;
+
+			foreach ( $_FILES as $file_key => $file_details ) {
+
+				if ( in_array( $file_key, $file_names, true ) ) {
+
+					if ( $dependencies_loaded ) {
+						// These files need to be included as dependencies when on the front end.
+						require_once ABSPATH . 'wp-admin/includes/image.php';
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+						require_once ABSPATH . 'wp-admin/includes/media.php';
+						$dependencies_loaded = true;
+					}
+
+					// Let WordPress handle the upload.
+					$attachment_id = media_handle_upload( $file_key, 0 );
+
+					if ( ! is_wp_error( $attachment_id ) ) {
+
+						if ( 'featured_img' === $file_key ) {
+							set_post_thumbnail( $content_id, $attachment_id );
+						}
+					}
+				}
+			}
+		}
+
+		update_field( 'nab_selected_company_id', $company_id, $content_id );
+
+		$company_name 		= get_the_title( $company_id );
+		$user_id			= get_current_user_id();
+		$user_full_name		= get_user_meta( $user_id, 'first_name', true ) . ' ' . get_user_meta( $user_id, 'last_name', true );
+		$attachment_url		= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
+		$user_profile_url	= bp_core_get_user_domain( $user_id );
+		$user_data 			= get_user_by( 'id', $user_id );
+
+		if ( empty( trim( $user_full_name ) ) ) {
+			$user_full_name	= $user_data->display_name;
+		}
+
+		$subject = 'Content submitted by ' . $user_full_name;
+
+		$headers = "From: NAB Amplify <noreply@nabshow.com>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+		ob_start();
+		?>
+		<html>
+			<body>
+				<p>The following content was submitted by <?php echo esc_html( $user_full_name ); ?> from <?php echo esc_html( $company_name ); ?> as a part of their Premium Company Listing. Please review and reach out to <?php echo esc_html( $user_full_name ); ?> with any questions or concerns and/or notify them when to expect their content will be posted in the editorial calendar. </p>
+				<table cellpadding="10" border="1">
+					<tr>
+						<th>Company Name</th>
+						<td><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( $company_name ); ?></a></td>
+					</tr>
+					<tr>
+						<th>Submitter’s Name</th>
+						<td><a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a></td>
+					</tr>
+					<tr>
+						<th>Submitter’s Email</th>
+						<td><?php echo esc_html( $user_data->user_email ); ?></td>
+					</tr>
+					<tr>
+						<th>Title</th>
+						<td><?php echo esc_html( $content_title ); ?></td>
+					</tr>
+					<tr>
+						<th>Submission Date</th>
+						<td><?php echo esc_html( current_time('M. j, Y') ); ?></td>
+					</tr>
+					<?php
+					if ( ! empty( $attachment_url ) && is_array( $attachment_url ) ) {
+						?>
+						<tr>
+							<th>Featured Image</th>
+							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
+						</tr>
+						<?php
+					}
+					?>
+				</table>
+				<?php
+				if ( ! empty( $content_copy ) ) {
+					?>
+					<p><strong>Copy:</strong></p>
+					<?php
+					echo $content_copy;
+				}
+				?>
+			</body>
+		</html>
+		<?php
+		$message = ob_get_clean();
+
+		wp_mail( 'kvelez@nab.org,amplifycontent@nab.org', $subject, $message, $headers );
+
+		do_action( 'nab_content_submission', $company_id, $content_title );
+
+		wp_send_json_success( $success );
+	}
+}
+
+add_action('wp_ajax_nab_edit_downloadable_company_pdf', 'nab_edit_downloadable_company_pdf_callback');
+
+function nab_edit_downloadable_company_pdf_callback()
+{
+
+	require_once get_template_directory() . '/inc/nab-add-edit-downloadable-pdf.php';
+
+	wp_die();
+}
+
+add_action('wp_ajax_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
+add_action('wp_ajax_nopriv_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
+
+function nab_remove_downloadable_pdf_callback() {
+
+	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+	$pdf_id = filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( ! empty( $pdf_id ) ) {
+
+		$company_id = get_field( 'nab_selected_company_id', $pdf_id );
+		$pdf_title	= get_the_title( $pdf_id );
+
+		wp_trash_post( $pdf_id );
+
+		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'delete' );
+	}
+
+	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
 }
 
 add_action('wp_ajax_nab_downloadable_pdf', 'nab_downloadable_pdf_callback');
@@ -3503,28 +3801,6 @@ function nab_downloadable_pdf_callback() {
 	}
 }
 
-add_action('wp_ajax_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
-add_action('wp_ajax_nopriv_nab_remove_downloadable_pdf', 'nab_remove_downloadable_pdf_callback');
-
-function nab_remove_downloadable_pdf_callback() {
-
-	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
-
-	$pdf_id		= filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
-
-	if ( ! empty( $pdf_id ) ) {
-
-		$company_id = get_field( 'nab_selected_company_id', $pdf_id );
-		$pdf_title	= get_the_title( $pdf_id );
-
-		wp_trash_post( $pdf_id );
-
-		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'delete' );
-	}
-
-	wp_send_json_success( array( 'msg' => 'Downloadable PDF removed successfully.' ) );
-}
-
 //Ajax for Downloadable PDF search.
 add_action('wp_ajax_nab_pdf_search_filter', 'nab_pdf_search_filter_callback');
 add_action('wp_ajax_nopriv_nab_pdf_search_filter', 'nab_pdf_search_filter_callback');
@@ -3617,199 +3893,6 @@ function nab_pdf_search_filter_callback()
 	echo wp_json_encode( $final_result );
 
 	wp_die();
-}
-
-add_action( 'wp_ajax_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
-add_action( 'wp_ajax_nopriv_nab_add_company_content_form', 'nab_add_company_content_form_callback' );
-function nab_add_company_content_form_callback() {
-
-	require_once get_template_directory() . '/inc/nab-add-content.php';
-	wp_die();
-}
-
-add_action('wp_ajax_nab_content_submission', 'nab_content_submission_callback');
-add_action('wp_ajax_nopriv_nab_content_submission', 'nab_content_submission_callback');
-
-function nab_content_submission_callback() {
-
-	check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
-
-	$company_id 			= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
-	$content_title			= filter_input( INPUT_POST, 'content_title', FILTER_SANITIZE_STRING );
-	$content_copy			= filter_input( INPUT_POST, 'content_copy', FILTER_UNSAFE_RAW );
-	$featured_img	        = filter_input( INPUT_POST, 'featured_img', FILTER_SANITIZE_STRING ); /* Bynder_Featured_Content */
-	$msg					= '';
-	$submit_limit			= 3;
-
-	if ( empty( $company_id ) || 0 === (int) $company_id ) {
-
-		wp_send_json_error( array( 'msg' => 'Something went wrong while fetching company ID. Please try again.' ) );
-	}
-
-	$member_level = get_field( 'member_level', $company_id );
-	$member_level = strtolower( $member_level );
-
-	if ( 'premium' !== $member_level || ! is_user_logged_in() ) {
-		wp_send_json_error( array( 'msg' => 'You can not submit the content with your current package.' ) );
-	}
-
-	$query_args = array(
-		'post_type'         => 'content-submission',
-		'post_status'       => 'publish',
-		'posts_per_page'    => -1,
-		'meta_key'          => 'nab_selected_company_id',
-		'meta_value'        => $company_id,
-		'fields'            => 'ids',
-	);
-
-	$content_query	= new WP_Query( $query_args );
-	$total_content	= count( $content_query->posts );
-
-	if (  'premium' === $member_level && $total_content >= $submit_limit ) {
-
-		$result['success'] = false;
-
-		wp_send_json_error( array( 'msg' => 'You have used up your allotted three submissions, but additional sponsored articles can be purchased a la carte. Contact your sales rep for details.' ) );
-	}
-
-	wp_reset_postdata();
-
-	if ( empty( $content_title ) ) {
-
-		wp_send_json_error( array( 'msg' => 'Title can not be empty.' ) );
-	}
-
-	if ( empty( $content_copy ) ) {
-
-		wp_send_json_error( array( 'msg' => 'Content copy can not be empty.' ) );
-	}
-
-	$content_post_data = array(
-        'post_title'   => $content_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'content-submission',
-		'post_content' => $content_copy,
-    );
-
-	$content_id 	= wp_insert_post( $content_post_data );
-	$attachment_id	= '';
-
-	if ( is_wp_error( $content_id ) ) {
-		wp_send_json_error( array( 'msg' => 'Something went wrong while submitting the content. Please try again.' ) );
-	} else {
-
-		$msg = 'Content submitted successfully.';
-
-		$success = array( 'msg' => $msg, 'content_id' => $content_id );
-
-		// Bynder_Featured_Content
-		if ( class_exists('Bynder_Media') ) {
-			update_post_meta( $content_id, 'profile_picture', $featured_img );
-		} else {
-            // Upload images.
-            $file_names				= array( 'featured_img' );
-            $dependencies_loaded 	= false;
-
-            foreach ( $_FILES as $file_key => $file_details ) {
-
-                if ( in_array( $file_key, $file_names, true ) ) {
-
-                    if ( $dependencies_loaded ) {
-                        // These files need to be included as dependencies when on the front end.
-                        require_once ABSPATH . 'wp-admin/includes/image.php';
-                        require_once ABSPATH . 'wp-admin/includes/file.php';
-                        require_once ABSPATH . 'wp-admin/includes/media.php';
-                        $dependencies_loaded = true;
-                    }
-
-                    // Let WordPress handle the upload.
-                    $attachment_id = media_handle_upload( $file_key, 0 );
-
-                    if ( ! is_wp_error( $attachment_id ) ) {
-
-                        if ( 'featured_img' === $file_key ) {
-                            set_post_thumbnail( $content_id, $attachment_id );
-                        }
-                    }
-                }
-            }
-		}
-
-		update_field( 'nab_selected_company_id', $company_id, $content_id );
-
-		$company_name 		= get_the_title( $company_id );
-		$user_id			= get_current_user_id();
-		$user_full_name		= get_user_meta( $user_id, 'first_name', true ) . ' ' . get_user_meta( $user_id, 'last_name', true );
-		$attachment_url		= ! empty( $attachment_id ) ? wp_get_attachment_image_src( $attachment_id ) : '';
-		$user_profile_url	= bp_core_get_user_domain( $user_id );
-		$user_data 			= get_user_by( 'id', $user_id );
-
-		if ( empty( trim( $user_full_name ) ) ) {
-			$user_full_name	= $user_data->display_name;
-		}
-
-		$subject = 'Content submitted by ' . $user_full_name;
-
-		$headers = "From: NAB Amplify <noreply@nabshow.com>\r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
-		ob_start();
-		?>
-		<html>
-			<body>
-				<p>The following content was submitted by <?php echo esc_html( $user_full_name ); ?> from <?php echo esc_html( $company_name ); ?> as a part of their Premium Company Listing. Please review and reach out to <?php echo esc_html( $user_full_name ); ?> with any questions or concerns and/or notify them when to expect their content will be posted in the editorial calendar. </p>
-				<table cellpadding="10" border="1">
-					<tr>
-						<th>Company Name</th>
-						<td><a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>"><?php echo esc_html( $company_name ); ?></a></td>
-					</tr>
-					<tr>
-						<th>Submitter’s Name</th>
-						<td><a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $user_full_name ); ?></a></td>
-					</tr>
-					<tr>
-						<th>Submitter’s Email</th>
-						<td><?php echo esc_html( $user_data->user_email ); ?></td>
-					</tr>
-					<tr>
-						<th>Title</th>
-						<td><?php echo esc_html( $content_title ); ?></td>
-					</tr>
-					<tr>
-						<th>Submission Date</th>
-						<td><?php echo esc_html( current_time('M. j, Y') ); ?></td>
-					</tr>
-					<?php
-					if ( ! empty( $attachment_url ) && is_array( $attachment_url ) ) {
-						?>
-						<tr>
-							<th>Featured Image</th>
-							<td><a href="<?php echo esc_url( $attachment_url[0] ); ?>"><?php echo esc_html( $attachment_url[0] ); ?></a></td>
-						</tr>
-						<?php
-					}
-					?>
-				</table>
-				<?php
-				if ( ! empty( $content_copy ) ) {
-					?>
-					<p><strong>Copy:</strong></p>
-					<?php
-					echo $content_copy;
-				}
-				?>
-			</body>
-		</html>
-		<?php
-		$message = ob_get_clean();
-
-		wp_mail( 'kvelez@nab.org,amplifycontent@nab.org', $subject, $message, $headers );
-
-		do_action( 'nab_content_submission', $company_id, $content_title );
-
-		wp_send_json_success( $success );
-	}
 }
 
 add_action( 'wp_ajax_nab_edit_company_event', 'nab_edit_company_event_callback' );
@@ -3942,34 +4025,34 @@ function nab_company_events_callback() {
 		if ( class_exists('Bynder_Media') ) {
 			update_post_meta( $event_id, 'profile_picture', $featured_img );
 		} else {
-            // Upload images.
-            $file_names				= array( 'featured_img' );
-            $dependencies_loaded 	= false;
+			// Upload images.
+			$file_names          = array( 'featured_img' );
+			$dependencies_loaded = false;
 
-            foreach ( $_FILES as $file_key => $file_details ) {
+			foreach ( $_FILES as $file_key => $file_details ) {
 
-                if ( in_array( $file_key, $file_names, true ) ) {
+				if ( in_array( $file_key, $file_names, true ) ) {
 
-                    if ( $dependencies_loaded ) {
-                        // These files need to be included as dependencies when on the front end.
-                        require_once ABSPATH . 'wp-admin/includes/image.php';
-                        require_once ABSPATH . 'wp-admin/includes/file.php';
-                        require_once ABSPATH . 'wp-admin/includes/media.php';
-                        $dependencies_loaded = true;
-                    }
+					if ( $dependencies_loaded ) {
+						// These files need to be included as dependencies when on the front end.
+						require_once ABSPATH . 'wp-admin/includes/image.php';
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+						require_once ABSPATH . 'wp-admin/includes/media.php';
+						$dependencies_loaded = true;
+					}
 
-                    // Let WordPress handle the upload.
-                    $attachment_id = media_handle_upload( $file_key, 0 );
+					// Let WordPress handle the upload.
+					$attachment_id = media_handle_upload( $file_key, 0 );
 
-                    if ( ! is_wp_error( $attachment_id ) ) {
+					if ( ! is_wp_error( $attachment_id ) ) {
 
-                        if ( 'featured_img' === $file_key ) {
-                            set_post_thumbnail( $event_id, $attachment_id );
-                            $success['featured_attachment_id'] = $attachment_id;
-                        }
-                    }
-                }
-            }
+						if ( 'featured_img' === $file_key ) {
+							set_post_thumbnail( $event_id, $attachment_id );
+							$success['featured_attachment_id'] = $attachment_id;
+						}
+					}
+				}
+			}
 		}
 
 		$event_start_date	= date_format( date_create( $event_date . ' ' . $event_start_time ), 'Y-m-d H:i:s' );

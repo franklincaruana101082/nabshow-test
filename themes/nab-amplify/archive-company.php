@@ -10,6 +10,8 @@
 get_header();
 ?>
 
+<!-- START legacy-template: archive-company -->
+<div class="container">
 <main id="primary" class="site-main">
 		<div class="nab-search-result-wrapper">
 			<div class="search-result-filter">
@@ -44,11 +46,11 @@ if ( $company_query->have_posts() ) {
 
 				$company_query->the_post();
 
-				$profile_picture = get_field( 'profile_picture' );
+				$profile_picture    = get_field( 'profile_picture' );
 				$cover_image     = nab_amplify_get_comapny_banner( get_the_ID(), true, $default_company_cover );
-				$featured_image  = nab_amplify_get_featured_image( get_the_ID(), false );
-				$profile_picture = $featured_image;
-				$company_url     = get_the_permalink();
+				$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
+				$profile_picture  	= $featured_image;
+				$company_url		= get_the_permalink();
 				?>
 				<div class="search-item">
 					<div class="search-item-inner">
@@ -76,7 +78,7 @@ if ( $company_query->have_posts() ) {
 									} else {
 										?>
 										<div class="search-actions">
-											<a href="<?php echo esc_url( $company_url ); ?>" class="button">View</a>
+											<a href="<?php echo esc_url( $company_url ); ?>" class="btn">View</a>
 										</div>
 										<?php
 									}
@@ -107,7 +109,7 @@ if ( $company_query->have_posts() ) {
 if ( $company_query->max_num_pages > 1 ) {
 	?>
 	<div class="load-more text-center"  id="load-more-company">
-		<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $company_query->max_num_pages ); ?>">Load More</a>
+		<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $company_query->max_num_pages ); ?>">Load More</a>
 	</div>
 	<?php
 }
@@ -116,5 +118,7 @@ wp_reset_postdata();
 			</div>
 </div>
 </main>
+</div><!-- .container -->
+<!-- END legacy-template -->
 <?php
 get_footer();

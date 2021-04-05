@@ -8,6 +8,8 @@
 get_header();
 
 ?>
+	<!-- START legacy-template: template-nab-products -->
+	<div class="container">
     <main id="primary" class="site-main php_template_nab_products">
         <div class="nab-search-result-wrapper">
 			<?php
@@ -52,7 +54,7 @@ get_header();
                                         <div class="search-item-content">
                                             <h4><a href="<?php echo esc_url( $product_link ); ?>"><?php echo esc_html( get_the_title() ); ?></a></h4>
                                             <div class="search-actions">
-                                                <a href="<?php echo esc_url( $product_link ); ?>" class="button">View Product</a>
+                                                <a href="<?php echo esc_url( $product_link ); ?>" class="btn">View Product</a>
                                             </div>
                                         </div>
                                     </div>
@@ -80,7 +82,7 @@ get_header();
 			if ( $product_query->max_num_pages > 1 ) {
 				?>
                 <div class="load-more text-center" id="load-more-product">
-                    <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $product_query->max_num_pages ); ?>">Load More</a>
+                    <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $product_query->max_num_pages ); ?>">Load More</a>
                 </div>
 				<?php
 			}
@@ -89,5 +91,7 @@ get_header();
 			?>
         </div>
     </main>
+	</div><!-- .container -->
+	<!-- END legacy-template -->
 <?php
 get_footer();

@@ -319,7 +319,7 @@ function nab_amplify_bp_get_friendship_button($member_id, $loop = true)
 				?>
 			</div>
 			<div class="generic-button friend-view-profile">
-				<a class="button" href="<?php echo esc_url($member_profile); ?>">View Profile</a>
+				<a class="btn" href="<?php echo esc_url($member_profile); ?>">View Profile</a>
 			</div>
 		<?php
 			$user_button = ob_get_clean();
@@ -754,7 +754,7 @@ function nab_get_member_event_list($product_ids_regex, $user_id, $previous_event
 										<span class="company-name"><?php echo esc_html($event_date); ?></span>
 										<div class="amp-actions">
 											<div class="search-actions">
-												<a href="<?php echo esc_url($event_url); ?>" class="button">View Event</a>
+												<a href="<?php echo esc_url($event_url); ?>" class="btn">View Event</a>
 											</div>
 										</div>
 									</div>
@@ -783,7 +783,7 @@ function nab_get_member_event_list($product_ids_regex, $user_id, $previous_event
 	if ($previous_events && $purchased_events->max_num_pages > 1) {
 	?>
 		<div class="load-more text-center" id="load-more-events">
-			<a href="javascript:void(0);" class="btn-default" data-user="<?php echo esc_attr($user_id); ?>" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint($purchased_events->max_num_pages); ?>">Load More</a>
+			<a href="javascript:void(0);" class="btn-default" data-user="<?php echo esc_attr($user_id); ?>" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint($purchased_events->max_num_pages); ?>">Load More</a>
 		</div>
 	<?php
 	}
@@ -1040,6 +1040,80 @@ function nab_get_company_member_category_limit( $company_id ) {
 	return $category_limit;
 }
 
+function clean_post_content($content) {
+
+    // Remove inline styling
+    $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $content);
+
+    // Remove font tag
+    $content = preg_replace('/<font[^>]+>/', '', $content);
+
+    // Remove empty tags
+    $post_cleaners = array('<p></p>' => '', '<p> </p>' => '', '<p>&nbsp;</p>' => '', '<span></span>' => '', '<span> </span>' => '', '<span>&nbsp;</span>' => '', '<span>' => '', '</span>' => '', '<font>' => '', '</font>' => '');
+    $content = strtr($content, $post_cleaners);
+
+    return $content;
+}
+
+/**
+ * Get total company post count
+ *
+ * @return int
+ */
+function nab_get_total_company_count() {
+
+	$total_posts = wp_count_posts( 'company' );
+
+	return isset( $total_posts->publish ) ? $total_posts->publish : 0;
+}
+
+/**
+ * Set maritz redirect url with paramters.
+ *
+ * @param  int $user_id
+ * @return string
+ */
+function nab_maritz_redirect_url( $user_id ) {
+
+	$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+
+    if ( empty( $user_id ) || 0 === $user_id ) {
+		return;
+	}
+
+	$url_parse = wp_parse_url( get_site_url() );
+
+	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+
+	$params		= array( 'user_id' => $user_id );
+	$first_name	= get_user_meta( $user_id, 'first_name', true );
+	$last_name	= get_user_meta( $user_id, 'last_name', true );
+	$company	= get_user_meta( $user_id, 'attendee_company', true );
+	$title		= get_user_meta( $user_id, 'attendee_title', true );
+	$user_data	= get_user_by( 'id', $user_id );
+
+	if ( ! empty( $first_name ) ) {
+		$params['first_name'] = $first_name;
+	}
+	if ( ! empty( $last_name ) ) {
+		$params['last_name'] = $last_name;
+	}
+	if ( isset( $user_data->user_email ) && ! empty( $user_data->user_email ) ) {
+		$params['email'] = $user_data->user_email;
+	}
+	if ( ! empty( $company ) ) {
+		$params['company'] = $company;
+	}
+	if ( ! empty( $title ) ) {
+		$params['title'] = $title;
+	}
+	if( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
+		$params['marketing_code'] = $marketing_code;
+    }
+
+	return add_query_arg( $params, $url );
+}
+
 /**
  * Get add pdf limit base on company member level.
  *
@@ -1114,81 +1188,6 @@ function nab_company_member_validation( $company_id = 0, $action_type = 'update'
 	}
 
 	return $result;
-}
-
-
-function clean_post_content($content) {
-
-    // Remove inline styling
-    $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $content);
-
-    // Remove font tag
-    $content = preg_replace('/<font[^>]+>/', '', $content);
-
-    // Remove empty tags
-    $post_cleaners = array('<p></p>' => '', '<p> </p>' => '', '<p>&nbsp;</p>' => '', '<span></span>' => '', '<span> </span>' => '', '<span>&nbsp;</span>' => '', '<span>' => '', '</span>' => '', '<font>' => '', '</font>' => '');
-    $content = strtr($content, $post_cleaners);
-
-    return $content;
-}
-
-/**
- * Get total company post count
- *
- * @return int
- */
-function nab_get_total_company_count() {
-
-	$total_posts = wp_count_posts( 'company' );
-
-	return isset( $total_posts->publish ) ? $total_posts->publish : 0;
-}
-
-/**
- * Set maritz redirect url with paramters.
- *
- * @param  int $user_id
- * @return string
- */
-function nab_maritz_redirect_url( $user_id ) {
-
-	$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
-
-	if ( empty( $user_id ) || 0 === $user_id ) {
-		return;
-	}
-
-	$url_parse = wp_parse_url( get_site_url() );
-
-	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
-
-	$params		= array( 'user_id' => $user_id );
-	$first_name	= get_user_meta( $user_id, 'first_name', true );
-	$last_name	= get_user_meta( $user_id, 'last_name', true );
-	$company	= get_user_meta( $user_id, 'attendee_company', true );
-	$title		= get_user_meta( $user_id, 'attendee_title', true );
-	$user_data	= get_user_by( 'id', $user_id );
-
-	if ( ! empty( $first_name ) ) {
-		$params['first_name'] = $first_name;
-	}
-	if ( ! empty( $last_name ) ) {
-		$params['last_name'] = $last_name;
-	}
-	if ( isset( $user_data->user_email ) && ! empty( $user_data->user_email ) ) {
-		$params['email'] = $user_data->user_email;
-	}
-	if ( ! empty( $company ) ) {
-		$params['company'] = $company;
-	}
-	if ( ! empty( $title ) ) {
-		$params['title'] = $title;
-	}
-	if( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
-		$params['marketing_code'] = $marketing_code;
-	}
-
-	return add_query_arg( $params, $url );
 }
 
 function nab_event_time_dropdown_options( $selected = '' ) {

@@ -26,7 +26,6 @@ if ( 0 === $friend_count && $user_id === $current_user_id ) {
 }
 
 $find_new_connection_link = add_query_arg( array( 's' => '', 'v' => 'user' ), rtrim( $current_site_url, '/' ) . '/' );
-
 if ( bp_is_my_profile() ) {
 	?>
 	<nav class="woocommerce-MyAccount-navigation">
@@ -35,13 +34,18 @@ if ( bp_is_my_profile() ) {
 			foreach ( wc_get_account_menu_items() as $endpoint => $label ) :
 
 				$wc_menu_class = wc_get_account_menu_item_classes( $endpoint );
+				if ('logout' === $endpoint) {
+					$url = '/?customer-logout=true';
+				} else {
+					$url = wc_get_account_endpoint_url( $endpoint );
+				}
 
 				if ( $user_id === $current_user_id && 'view-profile' === $endpoint ) {
 					$wc_menu_class .= ' is-active';
 				}
 				?>
 				<li class="<?php echo esc_attr( $wc_menu_class ); ?>">
-					<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+					<a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a>
 				</li>
 				<?php
 			endforeach;
@@ -92,7 +96,7 @@ if ( bp_is_my_profile() ) {
 						$attendee_title = get_user_meta( $member_id, 'attendee_title', true );
 						$attendee_title_company = $attendee_title ? $attendee_title . ' | ' . $attendee_company : $attendee_company;
 						$member_images        = nab_amplify_get_user_images( $member_id );						
-						$member_full_name	= get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
+						$member_full_name = get_the_author_meta( 'first_name', $member_id ) . ' ' . get_the_author_meta( 'last_name', $member_id );
 						if ( empty( trim( $member_full_name ) ) ) {
 							$member_full_name = bp_get_member_name();
 						}
@@ -207,7 +211,7 @@ if ( bp_is_my_profile() ) {
 												<span class="company-name"><?php echo esc_html( $event_date ); ?></span>
 												<div class="amp-actions">
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $event_url ); ?>" class="button">View Event</a>
+														<a href="<?php echo esc_url( $event_url ); ?>" class="btn">View Event</a>
 													</div>
 												</div>
 											</div>
@@ -282,7 +286,7 @@ if ( bp_is_my_profile() ) {
 												</h4>
 												<div class="amp-actions">
 													<div class="search-actions">
-														<a href="<?php echo esc_url( $bookmark_link ); ?>" class="button">Read More</a>
+														<a href="<?php echo esc_url( $bookmark_link ); ?>" class="btn">Read More</a>
 													</div>
 												</div>
 											</div>

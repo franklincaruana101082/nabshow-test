@@ -1,0 +1,75 @@
+.slick {
+
+}
+
+.slick-list {
+	position: relative;
+	z-index: 4;
+}
+.slick-arrow {
+	display: block;
+	width: rem(30);
+	height: rem(30);
+	background-color: $color__gray;
+	border-radius: 50%;
+	border: 0;
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	overflow: hidden;
+	text-indent: 100%;
+	&:before, &:after {
+		content: '';
+		display: block;
+		width: rem(9);
+		height: rem(2);
+		border-radius: rem(1);
+		background-color: $color__yellow;
+		position: absolute;
+		top: calc(50% - 1px);
+		left: calc(50% - 4.5px);
+	}
+	&:before { transform: rotate(45deg); }
+	&:after { transform: rotate(-45deg); }
+	
+	&.slick-prev {
+		right: rem(60);
+		&:before, &:after {
+			transform-origin: left center;
+		}
+	}
+	&.slick-next {
+		right: rem(20);
+		&:before, &:after {
+			transform-origin: right center;
+		}
+	}
+}
+
+.slick-dots {
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: rem(10) 0;
+	li {
+		padding: 0 rem(5);
+		button {
+			display: block;
+			width: rem(15);
+			height: rem(15);
+			overflow: hidden;
+			text-indent: 100%;
+			background-color: $color__gray;
+			border: 1px solid $color__gray;
+			border-radius: 50%;
+			transition: background-color .25s ease-in-out, border .25s ease-in-out;
+		}
+		&.slick-active {
+			button {
+				background-color: transparent;
+				border: 1px solid $color__yellow;
+			}
+		}
+	}
+}

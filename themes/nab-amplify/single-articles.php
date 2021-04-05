@@ -10,6 +10,7 @@
 get_header();
 ?>
 
+	<!-- START legacy-template: single-articles -->
 	<main id="primary" class="site-main single_php">
         <div class="nab-ad-block header_ad">
             <broadstreet-zone zone-id="82835"></broadstreet-zone>
@@ -35,5 +36,6 @@ get_header();
             <broadstreet-zone zone-id="82836"></broadstreet-zone>
         </div>
 	</main><!-- #main -->
+	<!-- END legacy-template -->
 <?php
 get_footer();
