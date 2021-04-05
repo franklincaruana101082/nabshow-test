@@ -29,6 +29,9 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 			$this->bm_included_classes();
 		}
 
+		/**
+		 * Required Classes.
+		 */
 		public function bm_included_classes() {
 
 			// Add class for custom metas.
@@ -109,7 +112,7 @@ if ( ! class_exists( 'Bynder_Media' ) ) {
 			<?php
 		}
 
-		/*
+		/**
 		 * Enqueue script and style.
 		 *
 		 * @since 1.0.0
