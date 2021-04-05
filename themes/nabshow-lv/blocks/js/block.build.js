@@ -9205,152 +9205,149 @@ module.exports = shortOut;
 					className: "title nab-title"
 				})
 			);
-		}
-
-		// deprecated: [
-		// 	{
-		// 		attributes: {
-		// 			HeadingText: {
-		// 				type: 'string',
-		// 				default: 'Heading'
-		// 			},
-		// 			HeadingLevel: {
-		// 				type: 'string',
-		// 				default: 'h2'
-		// 			},
-		// 			FontSize: {
-		// 				type: 'number'
-		// 			},
-		// 			LineHeight: {
-		// 				type: 'string'
-		// 			},
-		// 			LetterSpacing: {
-		// 				type: 'string'
-		// 			},
-		// 			marginTop: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			marginRight: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			marginBottom: {
-		// 				type: 'string',
-		// 				default: '10'
-		// 			},
-		// 			marginLeft: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			paddingTop: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			paddingRight: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			paddingBottom: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			paddingLeft: {
-		// 				type: 'string',
-		// 				default: '0'
-		// 			},
-		// 			HeadingColor: {
-		// 				type: 'string',
-		// 				default: '#000'
-		// 			},
-		// 			TextUppercase: {
-		// 				type: 'string'
-		// 			},
-		// 			TextAlign: {
-		// 				type: 'string',
-		// 				default: 'left'
-		// 			},
-		// 			fontFamily: {
-		// 				type: 'string',
-		// 				default: 'Gotham Bold'
-		// 			},
-		// 			designOpt: {
-		// 				type: 'boolean'
-		// 			},
-		// 			backgroundColor: {
-		// 				type: 'string',
-		// 				default: ''
-		// 			},
-		// 		},
-		// 		save({ attributes, props }) {
-		// 			const {
-		// 				HeadingText,
-		// 				HeadingLevel,
-		// 				FontSize,
-		// 				marginTop,
-		// 				marginRight,
-		// 				marginBottom,
-		// 				marginLeft,
-		// 				paddingTop,
-		// 				paddingRight,
-		// 				paddingBottom,
-		// 				paddingLeft,
-		// 				LineHeight,
-		// 				LetterSpacing,
-		// 				HeadingColor,
-		// 				TextUppercase,
-		// 				TextAlign,
-		// 				fontFamily,
-		// 				designOpt,
-		// 				backgroundColor
-		// 			} = attributes;
-
-		// 			const HeadingStyle = {};
-		// 			FontSize && (HeadingStyle.fontSize = FontSize + 'px');
-		// 			HeadingColor && (HeadingStyle.color = HeadingColor);
-		// 			LineHeight && (HeadingStyle.lineHeight = `${LineHeight}px`);
-		// 			LetterSpacing && (HeadingStyle.letterSpacing = `${LetterSpacing}px`);
-		// 			TextUppercase && (HeadingStyle.textTransform = TextUppercase);
-		// 			marginTop && (HeadingStyle.marginTop = marginTop + 'px');
-		// 			marginBottom && (HeadingStyle.marginBottom = marginBottom + 'px');
-		// 			marginLeft && (HeadingStyle.marginLeft = marginLeft + 'px');
-		// 			marginRight && (HeadingStyle.marginRight = marginRight + 'px');
-		// 			paddingTop && (HeadingStyle.paddingTop = paddingTop + 'px');
-		// 			paddingBottom && (HeadingStyle.paddingBottom = paddingBottom + 'px');
-		// 			paddingLeft && (HeadingStyle.paddingLeft = paddingLeft + 'px');
-		// 			paddingRight && (HeadingStyle.paddingRight = paddingRight + 'px');
-		// 			TextAlign && (HeadingStyle.textAlign = TextAlign);
-		// 			fontFamily && (HeadingStyle.fontFamily = fontFamily);
+		},
 
 
-		// 			const tiltedStyle = {};
-		// 			backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+		deprecated: [{
+			attributes: {
+				HeadingText: {
+					type: 'string',
+					default: 'Heading'
+				},
+				HeadingLevel: {
+					type: 'string',
+					default: 'h2'
+				},
+				FontSize: {
+					type: 'number'
+				},
+				LineHeight: {
+					type: 'string'
+				},
+				LetterSpacing: {
+					type: 'string'
+				},
+				marginTop: {
+					type: 'string',
+					default: '0'
+				},
+				marginRight: {
+					type: 'string',
+					default: '0'
+				},
+				marginBottom: {
+					type: 'string',
+					default: '10'
+				},
+				marginLeft: {
+					type: 'string',
+					default: '0'
+				},
+				paddingTop: {
+					type: 'string',
+					default: '0'
+				},
+				paddingRight: {
+					type: 'string',
+					default: '0'
+				},
+				paddingBottom: {
+					type: 'string',
+					default: '0'
+				},
+				paddingLeft: {
+					type: 'string',
+					default: '0'
+				},
+				HeadingColor: {
+					type: 'string',
+					default: '#000'
+				},
+				TextUppercase: {
+					type: 'string'
+				},
+				TextAlign: {
+					type: 'string',
+					default: 'left'
+				},
+				fontFamily: {
+					type: 'string',
+					default: 'Gotham Bold'
+				},
+				designOpt: {
+					type: 'boolean'
+				},
+				backgroundColor: {
+					type: 'string',
+					default: ''
+				}
+			},
+			save: function save(_ref3) {
+				var attributes = _ref3.attributes,
+				    props = _ref3.props;
+				var HeadingText = attributes.HeadingText,
+				    HeadingLevel = attributes.HeadingLevel,
+				    FontSize = attributes.FontSize,
+				    marginTop = attributes.marginTop,
+				    marginRight = attributes.marginRight,
+				    marginBottom = attributes.marginBottom,
+				    marginLeft = attributes.marginLeft,
+				    paddingTop = attributes.paddingTop,
+				    paddingRight = attributes.paddingRight,
+				    paddingBottom = attributes.paddingBottom,
+				    paddingLeft = attributes.paddingLeft,
+				    LineHeight = attributes.LineHeight,
+				    LetterSpacing = attributes.LetterSpacing,
+				    HeadingColor = attributes.HeadingColor,
+				    TextUppercase = attributes.TextUppercase,
+				    TextAlign = attributes.TextAlign,
+				    fontFamily = attributes.fontFamily,
+				    designOpt = attributes.designOpt,
+				    backgroundColor = attributes.backgroundColor;
 
-		// 			return (
-		// 				<Fragment>
-		// 					{true === designOpt ?
-		// 						<div className="nab-heading" style={tiltedStyle}>
-		// 							<RichText.Content
-		// 								tagName={HeadingLevel}
-		// 								value={HeadingText}
-		// 								style={HeadingStyle}
-		// 								className="title nab-title"
-		// 							/>
-		// 							<span className='tilted-design' style={tiltedStyle}></span>
-		// 						</div> :
-		// 						<RichText.Content
-		// 							tagName={HeadingLevel}
-		// 							value={HeadingText}
-		// 							style={HeadingStyle}
-		// 							className="title nab-title"
-		// 						/>
-		// 					}
-		// 				</Fragment>
-		// 			);
-		// 		}
-		// 	}
-		// ]
 
+				var HeadingStyle = {};
+				FontSize && (HeadingStyle.fontSize = FontSize + 'px');
+				HeadingColor && (HeadingStyle.color = HeadingColor);
+				LineHeight && (HeadingStyle.lineHeight = LineHeight + "px");
+				LetterSpacing && (HeadingStyle.letterSpacing = LetterSpacing + "px");
+				TextUppercase && (HeadingStyle.textTransform = TextUppercase);
+				marginTop && (HeadingStyle.marginTop = marginTop + 'px');
+				marginBottom && (HeadingStyle.marginBottom = marginBottom + 'px');
+				marginLeft && (HeadingStyle.marginLeft = marginLeft + 'px');
+				marginRight && (HeadingStyle.marginRight = marginRight + 'px');
+				paddingTop && (HeadingStyle.paddingTop = paddingTop + 'px');
+				paddingBottom && (HeadingStyle.paddingBottom = paddingBottom + 'px');
+				paddingLeft && (HeadingStyle.paddingLeft = paddingLeft + 'px');
+				paddingRight && (HeadingStyle.paddingRight = paddingRight + 'px');
+				TextAlign && (HeadingStyle.textAlign = TextAlign);
+				fontFamily && (HeadingStyle.fontFamily = fontFamily);
+
+				var tiltedStyle = {};
+				backgroundColor && (tiltedStyle.backgroundColor = backgroundColor);
+
+				return wp.element.createElement(
+					Fragment,
+					null,
+					true === designOpt ? wp.element.createElement(
+						"div",
+						{ className: "nab-heading", style: tiltedStyle },
+						wp.element.createElement(RichText.Content, {
+							tagName: HeadingLevel,
+							value: HeadingText,
+							style: HeadingStyle,
+							className: "title nab-title"
+						}),
+						wp.element.createElement("span", { className: "tilted-design", style: tiltedStyle })
+					) : wp.element.createElement(RichText.Content, {
+						tagName: HeadingLevel,
+						value: HeadingText,
+						style: HeadingStyle,
+						className: "title nab-title"
+					})
+				);
+			}
+		}]
 	});
 })(wp.i18n, wp.blocks, wp.editor, wp.components, wp.element);
 
