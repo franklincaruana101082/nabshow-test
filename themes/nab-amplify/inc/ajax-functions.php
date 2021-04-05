@@ -3857,12 +3857,15 @@ function nab_pdf_search_filter_callback()
 			$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 			$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 			$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+			$company_name		= get_the_title( $company_id );
+			$company_link		= get_the_permalink( $company_id );
 
-			$result_post[$cnt]['pdf_id']	= $pdf_id;
-			$result_post[$cnt]['pdf_url'] 	= $pdf_url;
-			$result_post[$cnt]['title'] 	= html_entity_decode( get_the_title() );
-			$result_post[$cnt]['company'] 	= html_entity_decode( get_the_title( $company_id ) );
-			$result_post[$cnt]['thumbnail'] = $thumbnail_url;
+			$result_post[$cnt]['pdf_id']		= $pdf_id;
+			$result_post[$cnt]['pdf_url'] 		= $pdf_url;
+			$result_post[$cnt]['title'] 		= html_entity_decode( get_the_title() );
+			$result_post[$cnt]['company'] 		= html_entity_decode( $company_name );
+			$result_post[$cnt]['company_url']	= html_entity_decode( $company_link );
+			$result_post[$cnt]['thumbnail'] 	= $thumbnail_url;
 
 			if ( ! empty( $pdf_content ) ) {
 				$result_post[$cnt]['content'] = $pdf_content;
