@@ -152,7 +152,7 @@ class acf_field_random_string extends acf_field {
 			<button class="acf-random-string-field-button button-primary" data-length="<?php echo esc_attr($field['length']) ?>" data-alphanumeric="<?php echo esc_attr($field['alphanumeric'][0]) ?>">Generate</button>
 			<br class="clear" />
 			<br/>
-			<span class="acf-random-preview-link"><?php echo esc_url( get_the_permalink() . '?addadmin=' . $field['value'] ); ?></span>
+			<span class="acf-random-preview-link" data-link="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_url( get_the_permalink() . '?addadmin=' . $field['value'] ); ?></span>
 		</div>
 		<?php
 	}
