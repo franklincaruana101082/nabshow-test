@@ -26,6 +26,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		// Bynder configured object.
 		private $bynder;
 
+		/**
+		 * Bynder_Media_Ajax constructor.
+		 */
 		public function __construct() {
 
 			// Init popup.
@@ -64,6 +67,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			add_action( "wp_ajax_bm_get_user_details", array( $this, "bm_get_user_details" ) );
 		}
 
+		/**
+		 * Getting user details.
+		 */
 		public function bm_get_user_details() {
 
 			$return_array = array();
@@ -88,12 +94,20 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 		}
 
+		/**
+		 * The meta IDs.
+		 *
+		 * @return string[] Meta IDs.
+		 */
 		private function bm_get_meta_ids() {
 			return array(
 				'UserTypeName' => '62BA8F9E-E03F-4636-8CC1784BAE7C738D'
 			);
 		}
 
+		/**
+		 * Create Meta option at Bynder.
+		 */
 		public function bm_create_meta_options() {
 
 			$user_type_name = filter_input( INPUT_POST, 'UserTypeName', FILTER_SANITIZE_STRING );
@@ -113,6 +127,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->bm_domain          = $this->bm_get_meta( 'bm_domain' );
 					$url                      = $this->bm_domain . '/api/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/';
 					$user_type_name_validated = preg_replace( '/[^A-Za-z0-9\-]/', '', $user_type_name );
+
 					$data                     = array(
 						'name'  => $user_type_name_validated,
 						'label' => $user_type_name,
@@ -155,6 +170,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			}
 		}
 
+		/**
+		 * Initialize default popup.
+		 */
 		public function bm_init_popup() {
 			ob_start();
 			require_once BYNDER_MEDIA_DIR . 'includes/partials/bm-init-popup.php';
@@ -164,6 +182,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			wp_die();
 		}
 
+		/**
+		 * Get a single asset details.
+		 */
 		public function bm_get_single_asset() {
 			$mediaid = filter_input( INPUT_POST, 'mediaid', FILTER_SANITIZE_STRING );
 
@@ -179,6 +200,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			wp_die();
 		}
 
+		/**
+		 * Save the asset URL in the database.
+		 */
 		public function bm_save_asset_url() {
 			$url          = filter_input( INPUT_POST, 'url', FILTER_SANITIZE_STRING );
 			$requested_by = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
@@ -192,10 +216,11 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			} else {
 				update_post_meta( $postid, $requested_by, $url );
 			}
-
-
 		}
 
+		/**
+		 * Upload an asset to Bynder.
+		 */
 		public function bm_upload_asset() {
 
 			$this->bm_domain = $this->bm_get_meta( 'bm_domain' );
@@ -267,9 +292,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 					$return_array = array( "bmHTML" => $bm_popup, "mediaid" => $uploaded_mediaid, "status" => 'success' );
 
-					// Delete transient to fetch the fresh data.
-					$this->bm_remove_cache();
-
 				} else {
 					$return_array = array( "error" => $this->response );
 				}
@@ -278,6 +300,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			}
 		}
 
+		/**
+		 * Fetch assets from Bynder.
+		 */
 		public function bm_assets_api() {
 
 			// Fetch Assets Now!
@@ -285,6 +310,13 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 
 		}
 
+		/**
+		 * Get an asset(s) details from Bynder.
+		 *
+		 * @param $metaid
+		 *
+		 * @return mixed
+		 */
 		public function bm_get_asset_details( $metaid ) {
 
 			$this->query = [
@@ -297,16 +329,10 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			return $this->response;
 		}
 
-		// Pending Task.
-		private function bm_remove_cache() {
-			return true;
-		}
-
+		/**
+		 * Get the metas from Bynder.
+		 */
 		public function bm_get_metas() {
-
-			//$bm_metas = get_transient( "bynder_metas" . $someunique_key );
-
-			//if ( ! $bm_metas ) {
 
 			$return_array = array();
 
@@ -328,16 +354,13 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 				$return_array = array( "error" => $this->response );
 			}
 
-
-			/*} else {
-				$return_array = array( "bmHTML" => $bm_metas );
-			}*/
-
-
 			echo wp_json_encode( $return_array );
 			wp_die();
 		}
 
+		/**
+		 * Fetch assets from Bynder.
+		 */
 		public function bm_fetch_assets() {
 
 			$this->requested_by    = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
@@ -362,10 +385,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			// If collection name found, check if its available at Bynder or not.
 			if ( $this->collection_name ) {
 
-				// Try to get data from transient.
-				//$bm_popup = get_transient( 'bynder_col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page / $also_add_search_term );
-
-				//if ( ! $bm_popup ) {
 				$bm_col_id = $this->bm_get_collection_id();
 
 				// Ajax Exit on error or not found.
@@ -373,21 +392,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 				if ( $bm_col_id ) {
 					$this->args['collectionId'] = $bm_col_id;
 				}
-				/*} else {
-
-					// Return from collection transient.
-					$return_array = array( "bmHTML" => $bm_popup );
-				}*/
 
 			} else if ( $this->collection_id ) {
 				$this->args['collectionId'] = $this->collection_id;
-
-				// If not collection wise.
-				// Check if data available in transient.
-				/*$bm_popup = get_transient( "bynder_" . $this->requested_by . '_page_' . $assets_page );
-				if ( $bm_popup ) {
-					$return_array = array( "bmHTML" => $bm_popup );
-				}*/
 			}
 
 			// If not found from transient, call API.
@@ -422,13 +429,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->bm_body = $this->response['media'];
 					$bm_popup      = $this->bm_get_partial_popup();
 
-					// Add collection ID in the transient to
-					// fetch specific assets quickly next time.
-					//$transient_key = ! empty( $this->collection_name ) ? 'col_' . $this->collection_name . '_' . $this->requested_by . '_page_' . $assets_page : $this->requested_by . '_page_' . $assets_page;
-
-					// set data in transient.
-					//set_transient( "bynder_" . $transient_key, $bm_popup, 60 * 60 * 24 );
-
 					$return_array = array( "bmHTML" => $bm_popup );
 
 					// Send back total count to hide load more btn if required.
@@ -454,6 +454,13 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			wp_die();
 		}
 
+		/**
+		 * Get the collection ID from its name.
+		 *
+		 * @param int $attemp no of attempts to get a single ID.
+		 *
+		 * @return int Collection ID.
+		 */
 		private function bm_get_collection_id( $attemp = 0 ) {
 
 			$attemp ++;
@@ -514,7 +521,11 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			}
 		}
 
-
+		/**
+		 * Prepare HTML for Metas.
+		 *
+		 * @return false|string HTML Meta.
+		 */
 		public function bm_get_partial_metas() {
 			ob_start();
 			require_once BYNDER_MEDIA_DIR . 'includes/partials/bm-metas-template.php';
@@ -522,6 +533,11 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			return ob_get_clean();
 		}
 
+		/**
+		 * Prepare HTML for Assets.
+		 *
+		 * @return false|string HTML Assets.
+		 */
 		public function bm_get_partial_popup() {
 			ob_start();
 			require_once BYNDER_MEDIA_DIR . 'includes/partials/bm-popup-template.php';
@@ -529,6 +545,16 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			return ob_get_clean();
 		}
 
+		/**
+		 * Bynder API Call.
+		 *
+		 * @param string $url Bynder Request URL.
+		 * @param string $method Method.
+		 * @param array $args Arguments.
+		 * @param string $content_type Content Type.
+		 *
+		 * @return array API Result.
+		 */
 		private function bm_run_api( $url, $method = 'POST', $args = array(), $content_type = 'application/json; charset=UTF-8' ) {
 
 			// Add https if not available.
@@ -595,10 +621,18 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			return array_merge( array( 'body' => $response_body ), array( 'status' => $response_status ) );
 		}
 
+		/**
+		 * Get a meta value from database.
+		 *
+		 * @param string $key Meta key.
+		 *
+		 * @return false|mixed|void Meta Value.
+		 */
 		public function bm_get_meta( $key ) {
 			return get_option( $key, true );
 		}
 	}
 
+	// Self call.
 	new Bynder_Media_Ajax();
 }
