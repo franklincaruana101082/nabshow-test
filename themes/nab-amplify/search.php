@@ -1085,7 +1085,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 																<input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
 																<span class="amp-check"></span>
 															</div>
-															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( get_the_title( $company_name ) ); ?></label>
+															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
 														</div>
 													</div>
 													<div class="amp-actions">
@@ -1885,7 +1885,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                             <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
                                                             <span class="amp-check"></span>
                                                         </div>
-                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( get_the_title( $company_name ) ); ?></label>
+                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
                                                     </div>
                                                 </div>
                                                 <div class="amp-actions">
