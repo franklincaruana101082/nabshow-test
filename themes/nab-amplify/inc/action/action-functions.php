@@ -4696,7 +4696,7 @@ function nab_validate_edit_account_fields( $args ) {
 
 //check against a passed api-key whether to display the opt-in sensitive info in the JSON API
 
-if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == the_field('segment_api_key', 'option')) {
+if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
     $optin_meta_args = array(
         'type' => 'string',
         'description' => 'A meta key associated with a meta value',
