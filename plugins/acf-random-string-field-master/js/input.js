@@ -19,7 +19,7 @@
 		        random_string += possible.charAt(Math.floor(Math.random() * possible.length));
 		
 		    $(this).siblings('.acf-random-string-field-input').val(random_string);
-			
+			$(this).parents('.acf-random-string-field-wrap').find('.acf-random-preview-link').text($('.edit-post-post-link__preview-link-container a.edit-post-post-link__link').attr('href') + '?addadmin=' + random_string);
 			e.preventDefault();
 			return false;
 		});
