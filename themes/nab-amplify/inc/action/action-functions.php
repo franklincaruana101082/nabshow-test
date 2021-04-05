@@ -4693,3 +4693,38 @@ function nab_validate_edit_account_fields( $args ) {
     }
     
 }
+
+//create ACF Site Options page
+if( function_exists('acf_add_options_page') ) {
+    
+    acf_add_options_page();
+    
+}
+
+
+//check against a passed api-key whether to display the opt-in sensitive info in the JSON API
+
+if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == the_field('segment_api_key', 'option')) {
+    $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => true,
+    );
+} else {
+    $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => false,
+    );
+}
+register_meta( 'post', 'company_id', $optin_meta_args );
+register_meta( 'post', 'company_name', $optin_meta_args );
+register_meta( 'post', 'opted_in', $optin_meta_args );
+register_meta( 'post', 'user_first_name', $optin_meta_args );
+register_meta( 'post', 'user_last_name', $optin_meta_args );
+register_meta( 'post', 'user_email', $optin_meta_args );
+register_meta( 'post', 'user_ip', $optin_meta_args );
+register_meta( 'post', 'opt_in_occurred_at_id', $optin_meta_args );
+register_meta( 'post', 'opt_in_occurred_at_url', $optin_meta_args );
