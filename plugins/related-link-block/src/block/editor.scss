@@ -1,0 +1,43 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+
+.relatedlink {
+
+	&__image {
+		
+		img, .relatedlink__img {
+		
+		}
+	}
+	&__category {
+		textarea.block-editor-plain-text {
+			background-color: transparent;
+			color: $color__yellow;
+			font-family: $font__primary;
+			font-weight: 700;
+			font-size: rem(12);
+			line-height: rem(17);
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+			._sponsored & {
+				color: $color__white;
+			}
+		}
+	}
+	&__title {
+		textarea.block-editor-plain-text {
+			background-color: transparent;
+			font-family: $font__secondary;
+			font-size: rem(16);
+			font-weight: 400;
+			line-height: rem(24);
+			letter-spacing: -0.01em;
+			color: $color__gray-lightest;
+		}
+	}
+}

@@ -1,0 +1,29 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+.homeevents {
+	&__introtext {
+		a,
+		.editor-styles-wrapper .wp-block & a {
+			display: inline-block;
+			background: $color__gray;
+			border: 0;
+			color: $color__white;
+			font-size: rem(18);
+			font-weight: 600;
+			font-family: $font__primary;
+			line-height: rem(52);
+			text-decoration: none;
+			padding: 0 rem(28);
+			border-radius: rem(26);
+			cursor: pointer;
+			transition: background-color .25s ease-in-out;
+			&:hover, &:active, &:focus {
+				background-color: $color__gray-lightish;
+			}
+		}
+	}
+}
