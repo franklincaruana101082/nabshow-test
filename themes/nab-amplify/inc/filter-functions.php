@@ -1507,3 +1507,19 @@ function custom_search_query($query)
 	}
 }
 add_filter("pre_get_posts", "custom_search_query");
+
+/**
+ * Allow special character in the post title for all user roles. 
+ *
+ * @param  array $data
+ * 
+ * @return array $data
+ */
+function nab_update_spcial_character_post_title( $data ) {
+
+    if ( isset( $data['post_title'] ) && strpos( $data['post_title'], '&amp;' ) ) {
+        $data['post_title'] = str_replace( '&amp;', '&', $data['post_title'] );
+    }
+    
+    return $data;
+}

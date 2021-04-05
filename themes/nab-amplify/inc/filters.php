@@ -121,3 +121,4 @@ add_filter( 'bp_get_message_thread_excerpt', 'nab_filter_message_to_avoid_html_e
 add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 999, 2 );
 
 add_filter( 'pre_get_posts', 'nab_increase_session_archive_post_limit' );
+add_filter( 'wp_insert_post_data', 'nab_update_spcial_character_post_title' );
