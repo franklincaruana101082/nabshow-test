@@ -4694,14 +4694,6 @@ function nab_validate_edit_account_fields( $args ) {
     
 }
 
-//create ACF Site Options page
-if( function_exists('acf_add_options_page') ) {
-    
-    acf_add_options_page();
-    
-}
-
-
 //check against a passed api-key whether to display the opt-in sensitive info in the JSON API
 
 if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == the_field('segment_api_key', 'option')) {
