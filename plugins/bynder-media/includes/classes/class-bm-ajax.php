@@ -127,7 +127,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->bm_domain          = $this->bm_get_meta( 'bm_domain' );
 					$url                      = $this->bm_domain . '/api/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/';
 					$user_type_name_validated = preg_replace( '/[^A-Za-z0-9\-]/', '', $user_type_name );
-
 					$data                     = array(
 						'name'  => $user_type_name_validated,
 						'label' => $user_type_name,
@@ -340,7 +339,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-fetch-metas.php' );
 
 			// If 'media' received, the call was successful!
-
 			if ( is_array( $this->response ) && 0 !== count( $this->response ) ) {
 
 				$this->bm_body = $this->response;

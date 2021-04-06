@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Bynder_Media_Blocks' ) ) {
 
-
 	class Bynder_Media_Blocks {
 
 		/**
@@ -46,5 +45,6 @@ if ( ! class_exists( 'Bynder_Media_Blocks' ) ) {
 
 		}
 	}
+
 	new Bynder_Media_Blocks();
 }
