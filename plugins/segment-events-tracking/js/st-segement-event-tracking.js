@@ -55,5 +55,12 @@
             success: function (response) {              
             }
         });
-    });    
+    });
+    
+    $(document).on('click', 'body.search-results .search-section a', function(){
+        var d = new Date();
+        d.setTime( d.getTime() + ( 300 * 1000 ) );
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = "st_search_click=" + segmentJS.search_term + ";" + expires + ";path=/";
+    });
 })(jQuery)

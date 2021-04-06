@@ -14,7 +14,7 @@
 								$employee_count = is_array( $company_data['company_employees'] ) ? count( $company_data['company_employees'] ) : 0;
 								?>								
 								<div class="form-row">
-									<label class="emp-label">Select Employee <span>( <?php echo $employee_count . ' Results / ' . $limit_employees_str; ?> )</span></label>
+									<label class="emp-label">Select Employee <span>( <?php echo esc_html( $employee_count . ' Results / ' . $limit_employees_str ); ?> )</span></label>
 									<div class="select-dark-simple">
 										<select class="company-employees" name="company_employees[]" multiple="true" id="company_employees">
 											<?php
@@ -46,11 +46,11 @@
 							</div>
 
 							<div class="form-row">
-								<input type="button" id="nab-add-employee-submit" data-id="<?php echo isset($company_data['ID']) ? $company_data['ID'] : 0 ?>" class="btn btn-submit" value="<?php echo isset($company_data['ID']) ? "Update" : "Add"; ?>">
-								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $company_data['ID']; ?>" />
+								<input type="button" id="nab-add-employee-submit" data-id="<?php echo isset($company_data['ID']) ? esc_attr( $company_data['ID'] ) : 0 ?>" class="btn btn-submit" value="<?php echo isset($company_data['ID']) ? "Update" : "Add"; ?>">
+								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo esc_attr( $company_data['ID'] ); ?>" />
 							</div>
 						</form>
-						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo esc_url( site_url() ); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>

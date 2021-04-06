@@ -4674,6 +4674,11 @@ function book_sortable_columns( $columns ) {
 	return $columns;
 }
 
+/**
+ * Validate custom added field in the edit account.
+ *
+ * @param  mixed $args
+ */
 function nab_validate_edit_account_fields( $args ) {
     
     if ( isset( $_POST['attendee_title'] ) && empty( $_POST['attendee_title'] ) ) {        
@@ -4692,4 +4697,14 @@ function nab_validate_edit_account_fields( $args ) {
         $args->add( 'error', __( 'City is Required', 'woocommerce' ), '');
     }
     
+}
+
+/**
+ * Enqueue third party script to the footer.
+ */
+function nab_enqueue_third_party_script_to_footer() {
+
+    wp_enqueue_script( 'nab-add-this-widget-js','//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668', array(), null, true );
+    wp_enqueue_script( 'nab-slick-js','//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array(), null, true );
+    wp_enqueue_script( 'nab-app-js', get_template_directory_uri() . '/js/app.min.js', array(), null, true );
 }

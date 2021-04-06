@@ -56,9 +56,6 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-<script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
 </body>
 
 </html>

@@ -55,9 +55,10 @@ function nab_db_add_attendee_callback()
 	$response       = [];
 	$err            = 0;
 	$parent_user_id = get_current_user_id();
-	$order_id       = filter_input(INPUT_POST, 'attendeeOrderID');
+	$order_id       = filter_input( INPUT_POST, 'attendeeOrderID', FILTER_SANITIZE_NUMBER_INT );
+	$nab_nonce		= filter_input( INPUT_POST, 'nabNonce', FILTER_SANITIZE_STRING );
 
-	if (!isset($_POST['nabNonce']) || false === wp_verify_nonce($_POST['nabNonce'], 'nab-ajax-nonce')) {
+	if ( ! isset( $nab_nonce ) || false === wp_verify_nonce( $nab_nonce, 'nab-ajax-nonce' ) ) {
 		$response['err']     = 1;
 		$response['message'] = 'Authentication failed. Please reload the page and try again.';
 
@@ -105,10 +106,9 @@ function nab_db_add_attendee_callback()
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		);
 
-		if (isset($_FILES['file']['name']) && in_array($_FILES['file']['type'], $file_mimes)) {
+		if ( isset( $_FILES['file']['name'] ) && isset( $_FILES['file']['type'] ) && in_array( $_FILES['file']['type'], $file_mimes, true ) ) {
 
-			$input_file      = $_FILES['file']['tmp_name'];
-			$input_file_name = $_FILES['file']['name'];
+			$input_file      = isset( $_FILES['file']['tmp_name'] ) ? $_FILES['file']['tmp_name'] : '';			
 
 			$input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($input_file);
 
@@ -123,11 +123,7 @@ function nab_db_add_attendee_callback()
 
 			$sheet_data    = $spreadsheet->getActiveSheet()->toArray();
 			$sheet_records = count($sheet_data) - 1;
-			$inserted_records = 0;
-
-			/*if ( $sheet_records < $new_attendee_count ) {
-				$new_attendee_count = $sheet_records;
-			}*/
+			$inserted_records = 0;			
 
 			if (!empty($sheet_data)) {
 
@@ -203,9 +199,8 @@ function insert_new_attendee_callback()
 	global $wpdb;
 
 	$res              = [];
-	$order_id         = filter_input(INPUT_POST, 'attendeeOrderID');
-	$current_index    = filter_input(INPUT_POST, 'currentIndex');
-	$offset           = (isset($current_index)) ? 10 * $current_index : 0;
+	$order_id         = filter_input(INPUT_POST, 'attendeeOrderID', FILTER_SANITIZE_NUMBER_INT );
+	$current_index    = filter_input(INPUT_POST, 'currentIndex', FILTER_SANITIZE_NUMBER_INT);	
 	$failed           = [];
 	$skipped          = 0;
 	$skipped_msg      = [];
@@ -350,8 +345,10 @@ function get_order_attendees_callback()
 {
 	global $wpdb;
 
-	$res      = [];
-	if (!isset($_GET['nabNonce']) || false === wp_verify_nonce($_GET['nabNonce'], 'nab-ajax-nonce')) {
+	$res      	= [];
+	$nab_nonce	= filter_input( INPUT_GET, 'nabNonce', FILTER_SANITIZE_STRING );
+
+	if ( ! isset( $nab_nonce ) || false === wp_verify_nonce( $nab_nonce, 'nab-ajax-nonce' ) ) {
 		$res['err']     = 1;
 		$res['message'] = 'Authentication failed. Please reload the page and try again.';
 

@@ -35,7 +35,7 @@ function amplify_front_scripts()
 	if ( is_page( 'sign-up' ) ) {
 
 		$wc_country = array(
-			'countries' => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) )
+			'countries' => wp_json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) )
 		);
 		wp_localize_script( 'amplify-custom-js', 'wc_country_select_params', $wc_country );
 	}
@@ -79,15 +79,15 @@ define('WP_BP_URL', get_template_directory_uri() . '/inc/action/batch/');
 
 /*Initalize company bulk import files */
 
-require_once 'batch/class-bp-helper.php';
-require_once 'batch/class-bp-singleton.php';
+require_once get_template_directory() . '/inc/action/batch/class-bp-helper.php';
+require_once get_template_directory() . '/inc/action/batch/class-bp-singleton.php';
 
-require_once 'batch/class-batch-item.php';
-require_once 'batch/class-batch.php';
-require_once 'batch/class-batch-processor.php';
-require_once 'batch/class-batch-ajax-handler.php';
-require_once 'batch/class-batch-list-table.php';
-require_once 'batch/class-batch-processor-admin.php';
+require_once get_template_directory() . '/inc/action/batch/class-batch-item.php';
+require_once get_template_directory() . '/inc/action/batch/class-batch.php';
+require_once get_template_directory() . '/inc/action/batch/class-batch-processor.php';
+require_once get_template_directory() . '/inc/action/batch/class-batch-ajax-handler.php';
+require_once get_template_directory() . '/inc/action/batch/class-batch-list-table.php';
+require_once get_template_directory() . '/inc/action/batch/class-batch-processor-admin.php';
 
 /* Setup company bulk import batch process */
 
@@ -133,10 +133,6 @@ if (class_exists('WP_Batch')) {
 			$csv_path = $temp . '/'.$csv_name;
 
 			if (file_exists($csv_path)) {
-
-
-				// Add the CSV data in the processing queue
-				$rows   = array_map('str_getcsv', file($csv_path));
 
 				$input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($csv_path);
 
@@ -264,7 +260,7 @@ if (class_exists('WP_Batch')) {
 
 					$term = term_exists($cat, 'company-product-category');
 
-					if ($term == 0 && $term == null) {
+					if ( 0 === $term && null === $term ) {
 						$term = wp_insert_term(
 							$cat,   // the term
 							'company-product-category' // the taxonomy
@@ -2123,7 +2119,7 @@ function nab_amplify_get_country_state($code,$type){
 		$nab_get_states  = nab_get_states();
 	
 		foreach($nab_get_states as $state){
-			if( $state['Display'] == $code ){
+			if( $state['Display'] === $code ){
 				return $state['State'];
 			}else{
 				return $code;
