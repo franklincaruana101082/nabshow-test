@@ -319,7 +319,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_get_asset_details( $metaid ) {
 
 			$this->query = [
-				'ids'                => $metaid,
+				'ids'               => $metaid,
 				'includeMediaItems' => 1,
 			];
 
@@ -362,8 +362,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_fetch_assets() {
 
 			$this->requested_by    = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
-			$collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
-			$this->collection_name = str_replace( '+', ' ', $collection_name );
+			$collection_name       = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
+			$collection_name       = str_replace( '+', ' ', $collection_name );
+			$this->collection_name = str_replace( '&', ' ', $collection_name );
 			$this->collection_id   = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
 			$assets_page           = filter_input( INPUT_POST, 'assetsPage', FILTER_SANITIZE_NUMBER_INT );
 			$bm_search             = filter_input( INPUT_POST, 'bmSearch', FILTER_SANITIZE_STRING );
@@ -488,9 +489,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					}
 
 					// Try to create only once.
-					if( 1 === $attemp ) {
+					if ( 1 === $attemp ) {
 						// Collection does not exist.
-						$args = array(
+						$args     = array(
 							'name' => $collection_name
 						);
 						$response = $this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
