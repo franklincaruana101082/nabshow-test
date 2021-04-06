@@ -127,7 +127,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					$this->bm_domain          = $this->bm_get_meta( 'bm_domain' );
 					$url                      = $this->bm_domain . '/api/v4/metaproperties/' . $metaids['UserTypeName'] . '/options/';
 					$user_type_name_validated = preg_replace( '/[^A-Za-z0-9\-]/', '', $user_type_name );
-
 					$data                     = array(
 						'name'  => $user_type_name_validated,
 						'label' => $user_type_name,
@@ -216,8 +215,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			} else {
 				update_post_meta( $postid, $requested_by, $url );
 			}
-
-
 		}
 
 		/**
@@ -322,7 +319,7 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_get_asset_details( $metaid ) {
 
 			$this->query = [
-				'ids'                => $metaid,
+				'ids'               => $metaid,
 				'includeMediaItems' => 1,
 			];
 
@@ -342,7 +339,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 			require_once( BYNDER_MEDIA_DIR . 'includes/partials/bm-sdk-fetch-metas.php' );
 
 			// If 'media' received, the call was successful!
-
 			if ( is_array( $this->response ) && 0 !== count( $this->response ) ) {
 
 				$this->bm_body = $this->response;
@@ -366,8 +362,9 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_fetch_assets() {
 
 			$this->requested_by    = filter_input( INPUT_POST, 'requestedBy', FILTER_SANITIZE_STRING );
-			$collection_name = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
-			$this->collection_name = str_replace( '+', ' ', $collection_name );
+			$collection_name       = filter_input( INPUT_POST, 'collectionName', FILTER_SANITIZE_STRING );
+			$collection_name       = str_replace( '+', ' ', $collection_name );
+			$this->collection_name = str_replace( '&', ' ', $collection_name );
 			$this->collection_id   = filter_input( INPUT_POST, 'collectionID', FILTER_SANITIZE_STRING );
 			$assets_page           = filter_input( INPUT_POST, 'assetsPage', FILTER_SANITIZE_NUMBER_INT );
 			$bm_search             = filter_input( INPUT_POST, 'bmSearch', FILTER_SANITIZE_STRING );
@@ -492,22 +489,18 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 					}
 
 					// Try to create only once.
-					if( 1 === $attemp ) {
-					// Collection does not exist.
-					$args = array(
-						'name' => $collection_name
-					);
-
-					$response = $this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
-
-					if ( 201 === $response['status'] ) {
-
-						// Recalling..
-						$bm_col_id = $this->bm_get_collection_id( $attemp );
-
-					} else {
-						$return_array = array( "error" => $response['body']->error );
-					}
+					if ( 1 === $attemp ) {
+						// Collection does not exist.
+						$args     = array(
+							'name' => $collection_name
+						);
+						$response = $this->bm_run_api( $url, 'POST', $args, 'application/x-www-form-urlencoded' );
+						if ( 201 === $response['status'] ) {
+							// Recalling..
+							$bm_col_id = $this->bm_get_collection_id( $attemp );
+						} else {
+							$return_array = array( "error" => $response['body']->error );
+						}
 					} else {
 						// Recalling if not getting after immediate creation.
 						$bm_col_id = $this->bm_get_collection_id( $attemp );
@@ -637,8 +630,6 @@ if ( ! class_exists( 'Bynder_Media_Ajax' ) ) {
 		public function bm_get_meta( $key ) {
 			return get_option( $key, true );
 		}
-
-
 	}
 
 	// Self call.
