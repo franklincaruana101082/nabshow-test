@@ -12,6 +12,9 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 
 	class Bynder_Media_Metas {
 
+		/**
+		 * Bynder_Media_Metas constructor.
+		 */
 		public function __construct() {
 
 			// Add meta boxes.
@@ -21,6 +24,9 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			add_action( 'save_post', array( $this, 'bm_save_metas' ) );
 		}
 
+		/**
+		 * Add Bynder Meta Boxes.
+		 */
 		public function bm_add_metaboxes() {
 			$screens = [
 				'post',
@@ -44,7 +50,11 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			}
 		}
 
-		// Callback for Custom Meta Box
+		/**
+         * Callback for Custom Meta Box
+         *
+		 * @param object $post Post details.
+		 */
 		public function bm_metabox( $post ) {
 
 			wp_nonce_field( 'bm_metabox_submit', 'bm_metabox_nonce' );
@@ -61,6 +71,11 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 
 		}
 
+		/**
+         * Add Single Meta box.
+         *
+		 * @param $key Meta Key.
+		 */
 		public function bm_add_single_meta_box( $key ) {
 
 			global $post;
@@ -70,6 +85,14 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			$this->bm_meta_box_html( $bm_meta_image, 'bm_meta_featured_image', 'Featured Image' );
 		}
 
+		/**
+         * Prepare Meta Box HTML.
+         *
+		 * @param string $bm_meta_image Bynder URL meta value.
+		 * @param string $key Meta key.
+		 * @param string $label Label for Bynder Box.
+		 * @param false $is_array
+		 */
 		public function bm_meta_box_html( $bm_meta_image, $key, $label = 'Bynder Image', $is_array = false ) {
 			if ( $bm_meta_image ) {
 				$bm_featured_action = 'Replace ' . $label;
@@ -95,6 +118,9 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			<?php
 		}
 
+		/**
+		 * Add a products meta boxes on the Company products edit post page.
+		 */
 		public function bm_add_products_meta_box() {
 
 			global $post;
@@ -113,7 +139,11 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 			}
 		}
 
-		// Save Custom Meta Box value
+		/**
+         * Save Custom Meta Box value
+         *
+		 * @param int $post_id Post ID.
+		 */
 		public function bm_save_metas( $post_id ) {
 
 			$is_autosave    = wp_is_post_autosave( $post_id );
@@ -154,5 +184,6 @@ if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 		}
 	}
 
+	// Self call.
 	new Bynder_Media_Metas();
 }
