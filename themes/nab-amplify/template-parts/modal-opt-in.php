@@ -52,6 +52,7 @@ jQuery(function($) {
 	//if opted out, show opportunity to opt in
 	var opt_id = 0;
 	var opt_in_required = <?php echo(strval($opt_in_required)); ?>;
+	jQuery.ajaxSetup({cache: false});
 	jQuery.ajax({
 		url: amplifyJS.ajaxurl,
 		type: "POST",
