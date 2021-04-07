@@ -116,7 +116,6 @@
 
 	/* search page */
 	.search-section .search-item{width:33.333333333333336%}
-	/*.other-search-filter .sort-order-btn .sort-order{padding:18px 20px;min-width:200px}*/
 
 	/* my account */
 	.amp-item-wrap .amp-item-col{width:33.333333333333336%}
@@ -199,11 +198,6 @@
 	.single-product-main .single-product-col.right-col{width:45%}
 	.black-bg-box .author-info .author-image{width:60px;height:60px}
 
-	/* comments */
-	/*.comments-area .comment-author .comment-avtar{width:70px}
-	.comments-area .comment-author .comment-details{width:calc(100% - 70px)}
-	.comments-area .comment-list .children{padding-left:70px}*/
-
 	.single-company .ui-widget.ui-widget-content{width:255px;}
 }
 @media (max-width:767px){
@@ -235,11 +229,6 @@
 	.single-product div.product .join-today-section .has-fixed .button{height:60px;width:200px;font-size:16px}
 	.single-product div.product .product-middle-section.with_long_desc #prod-price, .single-product div.product .product-middle-section.with_long_desc #prod-published, .single-product div.product .product-middle-section.with_long_desc #prod-publisher, .single-product div.product .product-middle-section.with_long_desc h4{font-size:20px}
 	.single-product div.product .summary .cart button{width:130px!important;height:49px!important;margin-right:7px!important;font-size:12px!important}
-	/*h1{font-size:30px}
-	h2, .related-title{font-size:26px}
-	h3{font-size:22px}
-	h4{font-size:18px}
-	h5, .article-byline{font-size:16px}*/
 	.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li{width:60px!important}
 	.nab-profile .flex-column{width:50%}
 
@@ -297,11 +286,6 @@
 	.bp-messages-content .message-title{-ms-flex-wrap:wrap;flex-wrap:wrap}
 	.bp-messages-content .message-title #actions-container{width:100%;margin-top:10px}
 
-	/* comments */
-	/*.comments-area{padding:30px}
-	.comments-area .comment-filter .navigate-reply{padding:12px 10px;font-size:18px}
-	.comments-area .comment-list .children{padding-left:45px}
-	.comments-area .comment-metadata{margin:0 0 15px}*/
 	.single-articles .entry-header{padding:0 50px 0 30px}
 	.single-articles .entry-header h1{font-size:30px}
 	.nab-custom-select .chosen-single, .nab-custom-select .chosen-container-active.chosen-with-drop .chosen-single{padding:8px 15px;font-size:18px}
@@ -411,10 +395,6 @@
 
 	/* comments */
 	.comments-area{padding:30px 15px}
-	/*.comments-area .comment-author img{margin-bottom:10px}
-	.comments-area .comment-author .comment-avtar{width:100px}
-	.comments-area .comment-author .comment-details{width:100%}
-	.comments-area .comment-list .children{padding-left:30px}*/
 	.author-info .author-title{font-size:22px}
 	.post-action-wrap .post-action-author{width:100%;margin-right:0}
 	.post-action-wrap .post-action-reaction{width:100%}
@@ -489,9 +469,6 @@
 
 	/* connection popup */
 	.nab-modal .author-info .author-details{width:100%;padding-left:0;margin-top:10px}
-}
-@media (max-width:400px){
-	
 }
 @media (max-width:350px){
 	.woocommerce-checkout .woocommerce .checkout-login-link.button{padding:8px 15px}
