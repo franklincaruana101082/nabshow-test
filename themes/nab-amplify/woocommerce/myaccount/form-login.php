@@ -74,7 +74,6 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 				$sign_up_page_url = add_query_arg( array(
 					'r' => $redirect_url,
-					'marketing_code' => $marketing_code,
 				), $sign_up_page_url);
 			}
 		} else {
