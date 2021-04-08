@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
+$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
 
 if ( ! empty( $redirect_url ) ) {
 	
@@ -71,7 +72,10 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 			$sign_up_page_url = get_permalink( $sign_up_page->ID );
 			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-				$sign_up_page_url = add_query_arg( 'r', $redirect_url, $sign_up_page_url );
+				$sign_up_page_url = add_query_arg( array(
+					'r' => $redirect_url,
+					'marketing_code' => $marketing_code,
+				), $sign_up_page_url);
 			}
 		} else {
 			$sign_up_page_url = 'javascript:void(0)';
