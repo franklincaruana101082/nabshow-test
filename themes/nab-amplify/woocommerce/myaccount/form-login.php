@@ -21,18 +21,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
+$marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
 
-if ( ! empty( $redirect_url ) ) {
-	
-	$queries = array();
-	parse_str( $_SERVER[ 'QUERY_STRING' ], $queries );
-	
-	if ( isset( $queries[ 'r' ] ) && is_array( $queries ) && count( $queries ) > 1 ) {
-		
-		unset( $queries[ 'r' ] );
-		$redirect_url = add_query_arg( $queries, $redirect_url );		
-	}
-}
+// Note: Turning this off because it's creating multiple query strings and it's not apparent why this is in place.
+// if ( ! empty( $redirect_url ) ) {
+// 	$queries = array();
+// 	parse_str( $_SERVER[ 'QUERY_STRING' ], $queries );
+// 	if ( isset( $queries[ 'r' ] ) && is_array( $queries ) && count( $queries ) > 1 ) {
+// 		unset( $queries[ 'r' ] );
+// 		$redirect_url = add_query_arg( $queries, $redirect_url );		
+// 	}
+// }
 
 if ( empty( $redirect_url ) && isset( $referer_url ) && wc_get_page_permalink( 'checkout' ) === $referer_url ) {
 	$redirect_url = $_SERVER[ 'HTTP_REFERER' ];
@@ -70,8 +69,12 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 			$sign_up_page_url = get_permalink( $sign_up_page->ID );
+
 			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 				$sign_up_page_url = add_query_arg( 'r', $redirect_url, $sign_up_page_url );
+				if ( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
+					$sign_up_page_url = add_query_arg( 'marketing_code', $marketing_code, $sign_up_page_url);
+				}
 			}
 		} else {
 			$sign_up_page_url = 'javascript:void(0)';

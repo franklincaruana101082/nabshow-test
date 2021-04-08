@@ -3343,6 +3343,29 @@ function nab_create_update_opt_in_out() {
 	$opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
 	$opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
 
+	if($opted_in == null) { $opted_in = 0; }
+
+	if(!$post_id) {
+		//check to see if a record exists
+		$posts = get_posts(array(
+			'posts_per_page' => -1,
+			'post_type' => 'opt-in',
+			'author' => $post_author,
+			'meta_query' => array(
+				array(
+					'key' => 'company_id',
+					'compare' => '==',
+					'value' => $company_id,
+					'type' => 'INT'
+				),
+			)
+		));
+		if($posts) {
+			//set post_id to most recent matched post ID
+			$post_id = $posts[0]->ID;
+		}
+	}
+
 	if($post_id) {
 		$update_post = array(
 			'ID' => $post_id,
@@ -3533,11 +3556,11 @@ function nab_content_submission_callback() {
 	}
 
 	$content_post_data = array(
-        'post_title'   => $content_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'content-submission',
+		'post_title'   => $content_title,
+		'post_status'  => 'publish',
+		'post_type'    => 'content-submission',
 		'post_content' => $content_copy,
-    );
+	);
 
 	$content_id 	= wp_insert_post( $content_post_data );
 	$attachment_id	= '';
@@ -3723,10 +3746,10 @@ function nab_downloadable_pdf_callback() {
 	}
 
 	$pdf_post_data = array(
-        'post_title'   => $pdf_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'downloadable-pdfs'
-    );
+		'post_title'   => $pdf_title,
+		'post_status'  => 'publish',
+		'post_type'    => 'downloadable-pdfs'
+	);
 
 	if ( empty( $pdf_id ) || 0 === (int) $pdf_id ) {
 
@@ -3742,8 +3765,8 @@ function nab_downloadable_pdf_callback() {
 
 	} else {
 
-        $pdf_post_data['ID']	= $pdf_id;
-        $pdf_id					= wp_update_post( $pdf_post_data );
+		$pdf_post_data['ID']	= $pdf_id;
+		$pdf_id					= wp_update_post( $pdf_post_data );
 		$msg 					= 'Downloadable PDF updated successfully.';
 
 		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'update' );
@@ -3943,13 +3966,13 @@ function nab_company_events_callback() {
 		$max_limit = 3;
 
 		$query_args = array(
-            'post_type'         => 'tribe_events',
-            'post_status'       => 'publish',
-            'posts_per_page'    => -1,
-            'meta_key'          => 'nab_selected_company_id',
-            'meta_value'        => $company_id,
-            'fields'            => 'ids',
-        );
+			'post_type'         => 'tribe_events',
+			'post_status'       => 'publish',
+			'posts_per_page'    => -1,
+			'meta_key'          => 'nab_selected_company_id',
+			'meta_value'        => $company_id,
+			'fields'            => 'ids',
+		);
 
 		$event_query 	= new WP_Query( $query_args );
 		$total_event	= count( $event_query->posts );
@@ -3988,11 +4011,11 @@ function nab_company_events_callback() {
 	}
 
 	$event_data = array(
-        'post_title'   => $event_name,
-        'post_status'  => 'publish',
-        'post_type'    => 'tribe_events',
+		'post_title'   => $event_name,
+		'post_status'  => 'publish',
+		'post_type'    => 'tribe_events',
 		'post_content' => $event_desc,
-    );
+	);
 
 	if ( empty( $event_id ) || 0 === (int) $event_id ) {
 
@@ -4010,8 +4033,8 @@ function nab_company_events_callback() {
 
 	} else {
 
-        $event_data['ID']		= $event_id;
-        $event_id				= wp_update_post( $event_data );
+		$event_data['ID']		= $event_id;
+		$event_id				= wp_update_post( $event_data );
 		$msg 					= 'Event updated successfully.';
 
 		do_action( 'nab_company_event_action', $company_id, $event_id, 'update' );

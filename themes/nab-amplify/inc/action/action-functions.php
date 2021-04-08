@@ -4693,3 +4693,175 @@ function nab_validate_edit_account_fields( $args ) {
     }
     
 }
+
+
+//check against a passed api-key whether to display the opt-in sensitive info in the JSON API
+if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
+    $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => true,
+    );
+} else {
+    $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => false,
+    );
+}
+register_meta( 'post', 'company_id', $optin_meta_args );
+register_meta( 'post', 'company_name', $optin_meta_args );
+register_meta( 'post', 'opted_in', $optin_meta_args );
+register_meta( 'post', 'user_first_name', $optin_meta_args );
+register_meta( 'post', 'user_last_name', $optin_meta_args );
+register_meta( 'post', 'user_email', $optin_meta_args );
+register_meta( 'post', 'user_ip', $optin_meta_args );
+register_meta( 'post', 'opt_in_occurred_at_id', $optin_meta_args );
+register_meta( 'post', 'opt_in_occurred_at_url', $optin_meta_args );
+
+function optins_add_meta_info($posts) {
+    if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
+        if( $posts ) {
+            foreach ($posts as $i => $post) {
+                $posts[$i]->meta = array(
+                    'company_id' => get_field('company_id', $post->ID),
+                    'company_name' => get_field('company_name', $post->ID),
+                    'opted_in' => get_field('opted_in', $post->ID),
+                    'user_first_name' => get_field('user_first_name', $post->ID),
+                    'user_last_name' => get_field('user_last_name', $post->ID),
+                    'user_email' => get_field('user_email', $post->ID),
+                    'user_ip' => get_field('user_ip', $post->ID),
+                    'opt_in_occurred_at_id' => get_field('opt_in_occurred_at_id', $post->ID),
+                    'opt_in_occurred_at_url' => get_field('opt_in_occurred_at_url', $post->ID),
+                );
+            }
+        }
+    }
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+function optins_return_by_company($data) {
+    $posts = get_posts( array(
+        'posts_per_page' => -1,
+        'post_type' => 'opt-in',
+        'meta_query' => array(
+            array(
+                'key' => 'company_id',
+                'compare' => '==',
+                'value' => $data['id'],
+                'type' => 'INT'
+            ),
+        )
+    ));
+    optins_add_meta_info($posts);
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'optins/v1', '/company/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'optins_return_by_company',
+        'args' => array(
+            'id' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+        ),
+        'permission_callback' => '__return_true',
+    ));
+});
+
+
+function optins_return_by_company_in($data) {
+    $posts = get_posts( array(
+        'posts_per_page' => -1,
+        'post_type' => 'opt-in',
+        'meta_query' => array(
+            array(
+                'key' => 'company_id',
+                'compare' => '==',
+                'value' => $data['id'],
+                'type' => 'INT'
+            ),
+            array(
+                'key' => 'opted_in',
+                'compare' => '==',
+                'value' => 1,
+                'type' => 'INT'
+            ),
+        )
+    ));
+    optins_add_meta_info($posts);
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'optins/v1', '/company/(?P<id>\d+)/in', array(
+        'methods' => 'GET',
+        'callback' => 'optins_return_by_company_in',
+        'args' => array(
+            'id' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+        ),
+        'permission_callback' => '__return_true',
+    ));
+});
+
+
+function optins_return_by_company_user($data) {
+    $posts = get_posts( array(
+        'posts_per_page' => -1,
+        'post_type' => 'opt-in',
+        'author' => $data['uid'],
+        'meta_query' => array(
+            array(
+                'key' => 'company_id',
+                'compare' => '==',
+                'value' => $data['cid'],
+                'type' => 'INT'
+            ),
+        )
+    ));
+    optins_add_meta_info($posts);
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'optins/v1', '/company/(?P<cid>\d+)/user/(?P<uid>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'optins_return_by_company_user',
+        'args' => array(
+            'cid' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+            'uid' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+        ),
+        'permission_callback' => '__return_true',
+    ));
+});
