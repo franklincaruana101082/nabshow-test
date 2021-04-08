@@ -203,7 +203,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					if(!$hide_content) {
 
 					if($session_status == "pre-event") {
-						if($pre_event_survey_id != '' && $pre_event_registration_id != '') {
+						if($pre_event_registration_id != '') {
 					?>
 						<div class="session__pre">
 							<div class="intro-feature">
@@ -215,6 +215,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									data-embed="<?php echo esc_html($pre_event_survey_id);?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"
 								></div>
+								<?php } elseif($pre_event_survey_id == '') { ?>
+									<script>document.querySelector('.session__pre').style.display = 'none';</script>
 								<?php } elseif($pre_event_registration_id != '') { ?>
 									<div
 									class="involveme_embed"
