@@ -1692,7 +1692,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                                     <div class="search-actions nab-action">
                                                         <div class="pdf-disc_btn">
                                                             <span class="pdf_btn_wrap download-disabled">
-                                                                <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+                                                                <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
                                                             </span>
                                                             <?php if ( ! empty( $pdf_content ) ) { ?>
                                                                 <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">

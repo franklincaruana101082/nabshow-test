@@ -5207,6 +5207,8 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
             let downloadLink = document.createElement('a');
             downloadLink.setAttribute('class', 'button');
             downloadLink.setAttribute('data-pdf', value.pdf_url);
+            downloadLink.setAttribute('data-pid', value.pdf_id);
+            downloadLink.setAttribute('data-cid', value.company_id);
             downloadLink.setAttribute('disabled', 'disabled');
             downloadLink.setAttribute('download', 'download');
             downloadLink.setAttribute('href', 'javascript:void(0);');

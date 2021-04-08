@@ -1045,7 +1045,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$total_pdf = $pdf_query->found_posts;
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Results for </span><strong>DOWNLOADABLE PDFS</strong></h2>
+						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Results for </span><strong>Downloadable PDFs</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-pdf-section">
@@ -1091,7 +1091,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 													<div class="amp-actions">
 														<div class="search-actions nab-action">
 															<span class="pdf_btn_wrap download-disabled">
-																<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+																<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
 															</span>
 														</div>
 													</div>
@@ -1839,7 +1839,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-section search-pdf-section">
 					<div class="search-section-heading">
-						<h2><strong>DOWNLOADABLE PDFS</strong> <span>(<?php echo esc_html( $total_pdf . ' RESULTS'); ?>)</span></h2>
+						<h2><strong>Downloadable PDFs</strong> <span>(<?php echo esc_html( $total_pdf . ' Results'); ?>)</span></h2>
 						<?php
 						if ($total_pdf > 4 ) {
 
@@ -1891,7 +1891,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                                 <div class="amp-actions">
                                                     <div class="search-actions nab-action">
                                                         <span class="pdf_btn_wrap download-disabled">
-                                                        	<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" class="button" disabled download>Download</a>
+                                                        	<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
                                                        	</span>
                                                     </div>
                                                 </div>

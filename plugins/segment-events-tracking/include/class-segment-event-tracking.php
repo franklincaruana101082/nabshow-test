@@ -68,8 +68,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
                 add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
                 //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
-                //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );                
-                //add_action( 'wp_head', array( $this, 'st_page_event' ) );
+                //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );
                 add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
                 add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
                 add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
@@ -91,11 +90,14 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
                 add_action( 'wp_ajax_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
+                add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
+                add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
 
                 add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
                 add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
                 add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
                 add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
+                add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
             }
         }
 
@@ -479,6 +481,72 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
     
                 $this->st_track_event( $track_event );
             }
+        }
+
+        public function st_track_pdf_downloaded_callback() {
+
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );            
+
+            $pdf_id     = filter_input( INPUT_POST, 'pdf_id', FILTER_SANITIZE_NUMBER_INT );
+            $company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+
+            if ( ! is_user_logged_in() || empty( $pdf_id ) || empty( $company_id ) ) {
+                wp_send_json_error( array( 'feedback' => 'Rquired parameter is missing!' ) );
+            }
+
+            $user_id        = get_current_user_id();
+            $track_event    = array(
+                'event'     => 'Company_PDF_Downloaded',
+                'userId'    => $user_id,
+            );
+            
+            $company_properties = array();
+            $company_properties = $this->st_add_company_taxonomy_properties( $company_properties, $company_id );
+            $user_properties    = $this->st_add_user_taxonomy_properties( $user_id );
+
+            if ( isset( $company_properties['Country'] ) ) {
+                $company_properties['Company_Country'] = $company_properties['Country'];
+                unset( $company_properties['Country'] );
+            }
+
+            if ( isset( $company_properties['State'] ) ) {
+                $company_properties['Company_State'] = $company_properties['State'];
+                unset( $company_properties['State'] );
+            }
+
+            if ( isset( $company_properties['City'] ) ) {
+                $company_properties['Company_City'] = $company_properties['City'];
+                unset( $company_properties['City'] );
+            }
+
+            if ( isset( $user_properties['Country'] ) ) {
+                $user_properties['User_Country'] = $user_properties['Country'];
+                unset( $user_properties['Country'] );
+            }
+
+            if ( isset( $user_properties['State'] ) ) {
+                $user_properties['User_State'] = $user_properties['State'];
+                unset( $user_properties['State'] );
+            }
+
+            if ( isset( $user_properties['City'] ) ) {
+                $user_properties['User_City'] = $user_properties['City'];
+                unset( $user_properties['City'] );
+            }
+
+            $company_properties['Company_Post_ID']      = $company_id;
+            $company_properties['Company_Post_Name']    = html_entity_decode( get_the_title( $company_id ) );
+            $company_properties['Document_Name']        = html_entity_decode( get_the_title( $pdf_id ) );
+
+            $track_event['properties'] = array_merge( $company_properties, $user_properties );
+
+            $this->st_track_event( $track_event );
+
+            wp_send_json_success( array(
+                    'feedback' => 'Event Track Successfully',
+                    'type'     => 'success',
+                )
+            );
         }
 
         public function st_track_company_event_action( $company_id, $event_id, $action ) {
@@ -1022,6 +1090,31 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'feedback' => 'Event Track Successfully',
                 'type'     => 'success',
             ));
+        }
+
+        public function st_track_search_card_click_event() {
+
+            if ( isset( $_COOKIE['st_search_click'] ) ) {
+
+                $track_event = array(
+                    'event' => 'Clicked_Search_Results',
+                );
+    
+                if ( is_user_logged_in() ) {
+    
+                    $user_id = get_current_user_id();                 
+                    
+                    $track_event['userId'] = $user_id;                
+                        
+                }
+
+                $track_event['properties'] = array( 'Search_Terms' =>  $_COOKIE['st_search_click'] );
+    
+                $this->st_track_event( $track_event );
+
+                unset( $_COOKIE['st_search_click'] );
+                setcookie( 'st_search_click', null, -1, '/' );
+            }
         }
 
         public function st_external_link_click_callback() {

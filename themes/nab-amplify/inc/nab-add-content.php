@@ -22,7 +22,7 @@ $content_copy	= nab_get_wp_editor( '', 'nab_content_copy', array('media_buttons'
 								<label for="content-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
-										<input type="file" id="content-featured-image" class="button bm-select-media-disabled" bynder-for="content_featured_image" name="featured_image"> <!--Bynder_Featured_Content-->
+										<input type="file" id="content-featured-image" class="button bm-select-media" bynder-for="content_featured_image" name="featured_image"> <!--Bynder_Featured_Content-->
 									</div>
 									<div class="nab-action left-action">
 										<div class="nab-action-row">

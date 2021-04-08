@@ -55,5 +55,35 @@
             success: function (response) {              
             }
         });
-    });    
+    });
+    
+    $(document).on('click', 'body.search-results .search-section a', function(){
+        var d = new Date();
+        d.setTime( d.getTime() + ( 300 * 1000 ) );
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = "st_search_click=" + segmentJS.search_term + ";" + expires + ";path=/";
+    });
+
+    $(document).on('click', '#downloadable-pdfs-list .pdf_btn_wrap a.button', function(){
+        
+        if ( ! $(this).attr('disabled') ) {
+            
+            if ( ( undefined !== $(this).attr('data-pid') && undefined !== $(this).attr('data-cid') ) &&  ( '' !== $(this).attr('data-pid') && '' !== $(this).attr('data-cid') ) ) {
+                
+                $.ajax({
+                    url: segmentJS.ajaxurl,
+                    type: 'POST',
+                    data: {
+                        action: 'st_track_pdf_downloaded',
+                        nabNonce: segmentJS.nabNonce,
+                        company_id: $(this).attr('data-cid'),
+                        pdf_id: $(this).attr('data-pid'),
+                    },
+                    success: function (response) {              
+                    }
+                });
+            }
+        }
+        
+    });
 })(jQuery)

@@ -12,15 +12,15 @@ if ( ! class_exists( 'Bynder_Media_Blocks' ) ) {
 
 	class Bynder_Media_Blocks {
 
+		/**
+		 * Bynder_Media_Blocks constructor.
+		 */
 		public function __construct() {
 			//Action for add gutenberg custom block
 			add_action( 'enqueue_block_editor_assets', array( $this, 'bm_add_block_editor_script' ) );
-
-			// Action to register all dynamic blocks
-			//add_action( 'init', array( $this, 'bm_register_dynamic_blocks' ) );
 		}
 
-		/*
+		/**
          * Enqueue gutenberg custom block script
          *
          * @since 1.0.0
