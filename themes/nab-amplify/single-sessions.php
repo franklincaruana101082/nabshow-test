@@ -203,7 +203,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					if(!$hide_content) {
 
 					if($session_status == "pre-event") {
-						if($pre_event_survey_id != '' && $pre_event_registration_id != '') {
+						if($pre_event_registration_id != '') {
 					?>
 						<div class="session__pre">
 							<div class="intro-feature">
@@ -215,6 +215,8 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									data-embed="<?php echo esc_html($pre_event_survey_id);?>"
 									data-params="remote_id=<?php echo esc_html($user_id); ?>&email=<?php echo esc_html($user_email); ?>&first_name=<?php echo esc_html($user_firstname); ?>&last_name=<?php echo esc_html($user_lastname); ?>&session_id=<?php the_ID(); ?>&session_name=<?php the_title();?>&company_id=<?php echo esc_html($company);?>&company_name=<?php echo esc_html($company_name);?>&survey_type=survey&session_category=<?php echo esc_html($categories);?>"
 								></div>
+								<?php } elseif($pre_event_survey_id == '') { ?>
+									<script>document.querySelector('.session__pre').style.display = 'none';</script>
 								<?php } elseif($pre_event_registration_id != '') { ?>
 									<div
 									class="involveme_embed"
@@ -421,6 +423,36 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								
 								<a class="" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Already on NAB Amplify? Sign In', 'nab-amplify' ); ?></a>
 							</div> 
+						</div>
+					</div>
+					<div class="session__desc">
+						<div class="container">
+							<div class="contentwrap">
+							<?php
+							the_content(
+								sprintf(
+									wp_kses(
+										/* translators: %s: Name of current post. Only visible to screen readers */
+										__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'nab-amplify' ),
+										array(
+											'span' => array(
+												'class' => array(),
+											),
+										)
+									),
+									wp_kses_post( get_the_title() )
+								)
+							);
+
+							wp_link_pages(
+								array(
+									'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'nab-amplify' ),
+									'after'  => '</div>',
+								)
+							);
+							
+							?>
+							</div>
 						</div>
 					</div>
 					<?php } ?>

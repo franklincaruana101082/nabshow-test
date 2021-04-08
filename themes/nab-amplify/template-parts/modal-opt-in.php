@@ -47,36 +47,52 @@ $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 </div>
 </div>
 <script>
+//open opt in modal if no record of opt in/out exists
+//if opted out, show opportunity to opt in
+var opt_id = 0;
+var opt_in_required = <?php echo(strval($opt_in_required)); ?>;
+
+var oneYearFromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+var cookieValue = '';
+var optVal = '';
+var cookieName = 'nab_optin';
+var company_id = '<?php echo $company_id;?>';
 jQuery(function($) {
-	//open opt in modal if no record of opt in/out exists
-	//if opted out, show opportunity to opt in
-	var opt_id = 0;
-	var opt_in_required = <?php echo(strval($opt_in_required)); ?>;
-	jQuery.ajaxSetup({cache: false});
-	jQuery.ajax({
-		url: amplifyJS.ajaxurl,
-		type: "POST",
-		data: {
-			action: "nab_check_for_opt_in",
-			'company_id': '<?php echo $company_id;?>',
-			'user_id': '<?php echo $user_id;?>'
-		},
-		success: function (result) {
-			if (!result.data.length) {
+	
+	if(document.cookie.indexOf(cookieName) == -1) {	//optins cookie doesn't exist
+		cookieValue = company_id+':2,';
+		optVal = 2;
+		jQuery('#modal-opt-in').show();
+	} else { //optins cookie does exist
+		var cookiePart = document.cookie.substr(document.cookie.indexOf(cookieName));
+		var endOfCookie = (cookiePart.indexOf(';') == -1 ? false : cookiePart.indexOf(';'));
+		var cookieValue = endOfCookie ? cookiePart.substring(cookiePart.indexOf('=')+1,endOfCookie) : cookiePart.substring(cookiePart.indexOf('=')+1);
+		//cookieValue should be a string of comma seperated: {company_id}:{0,1,2}
+		//0 = opted out, 1 = opted in, 2 = not opted in or out (rare)
+		
+		//find if this company ID is in the cookieValue
+		if(cookieValue.indexOf(company_id+':') != -1) {
+			//get opt in value for company_id
+			optVal = cookieValue.substr(cookieValue.indexOf(company_id+':')+company_id.length+1, 1);
+			if (optVal == 2) {
+				jQuery('#modal-opt-in').show();	
+			} else if(optVal == 0 && opt_in_required) {
 				jQuery('#modal-opt-in').show();
-			} else {
-				if(opt_in_required && result.data[0].post_title.indexOf('false') != -1) {
-					jQuery('#modal-opt-in').show();
-				} else if(result.data[0].post_title.indexOf('false') != -1) {
-					jQuery('.optout__info').show();
-				}
-				opt_id = result.data[0].ID;
+			} else if(optVal == 0) {
+				jQuery('.optout__info').show();	
 			}
-		},
-	});
+		} else { //if the company isn't in the cookieValue let's add it to the end
+			cookieValue += company_id+':2,';
+			optVal = 2;
+			jQuery('#modal-opt-in').show();
+		}
+
+	}
+	
 
 	jQuery('.js-optbtn').on('click', function() {
 		var opt = jQuery(this).val();
+		console.log(opt);
 		var self = jQuery(this);
 		jQuery(self).closest('#modal-opt-in, .optout__info').addClass('_loading');
 		jQuery('.js-optbtn').css('opacity', '.25');
@@ -88,7 +104,7 @@ jQuery(function($) {
 				"nabNonce": amplifyJS.nabNonce,
 				action: "nab_create_update_opt_in_out",
 				'ID': opt_id,
-				'post_title': opt.toString() + ' <?php echo($user_first_name . ' ' . $user_last_name . ' : ' . $company_name); ?>',
+				'post_title': opt.toString() + ' <?php echo($user_id . ' : ' . $company_name); ?>',
 				'post_status': 'publish',
 				'post_date': '<?php echo($date_now);?>',
 				'post_author': '<?php echo($user_id);?>',
@@ -104,6 +120,10 @@ jQuery(function($) {
 				'opt_in_occurred_at_url':'<?php echo($opt_in_occurred_at_url);?>'
 			},
 			function( data ) {
+				var optNum = opt == 'true' ? 1 : 0;
+				//update cookieValue and set to cookie
+				cookieValue = cookieValue.replace(company_id+':'+optVal, company_id+':'+optNum);
+				document.cookie = cookieName+'='+cookieValue+'; expires='+oneYearFromNow+';path=/';
 				jQuery(self).text('Saved');
 				jQuery(self).closest('#modal-opt-in, .optout__info').delay(250).hide(250);
 				if(opt_in_required) {
