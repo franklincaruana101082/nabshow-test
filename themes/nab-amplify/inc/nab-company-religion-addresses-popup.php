@@ -1,5 +1,17 @@
 <?php
 global $post;
+
+$company_id = filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+$address_id = filter_input( INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT );
+
+$address_number = array(
+    '1' => 'one',
+    '2' => 'two',
+    '3' => 'three',
+    '4' => 'four'
+);
+$address_data   = get_field( 'regional_address_' . $address_number[$address_id], $company_id );
+$country_list   = nab_get_countries();
 ?>
 <div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active add-address-popup">
     <div class="nab-modal-inner">

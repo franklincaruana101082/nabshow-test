@@ -7,10 +7,18 @@
  *
  * @return \WP_Error
  */
-function nab_confirm_password_matches_checkout($errors, $username, $email)
-{
+function nab_confirm_password_matches_checkout($errors, $username, $email) {
 
-    extract($_POST);
+    $first_name     = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+    $last_name      = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+    $password2      = filter_input( INPUT_POST, 'password2', FILTER_SANITIZE_STRING );
+    $password       = filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
+    $privacy_policy = filter_input( INPUT_POST, 'privacy_policy_reg', FILTER_SANITIZE_STRING );
+    $user_title     = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+    $user_company   = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+    $user_country   = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+    $user_state     = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+    $user_city      = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
 
     if (isset($first_name) && empty($first_name)) {
         return new WP_Error('registration-error', __('Please enter First Name.', 'woocommerce'));
@@ -33,7 +41,7 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
     }
 
     if ( ! isset( $privacy_policy ) || empty( $privacy_policy ) ) {
-        return new WP_Error('registration-error', __('Term of Service must be accepted', 'woocommerce'));
+        return new WP_Error('registration-error', __('NAB Amplify Privacy Policy consent is required.', 'woocommerce'));
     }
 
     if ( ! isset( $user_title ) || empty( $user_title ) ) {
@@ -48,7 +56,7 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
         return new WP_Error('registration-error', __('Please select Country.', 'woocommerce'));
     }
 
-    if ( $user_country == 'US' || $user_country == 'CA') {
+    if ( 'US' === $user_country || 'CA' === $user_country ) {
         if ( ! isset( $user_state ) || empty( $user_state ) ) {
             return new WP_Error('registration-error', __('Please enter State.', 'woocommerce'));
         }
@@ -200,9 +208,7 @@ function nab_amplify_edit_product()
 
     $post_id      = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT);
     $post_data    = get_post($post_id);
-
-
-    $taxonomies    = get_object_taxonomies('nab-product');
+    
     $taxonomy_data = wp_get_object_terms($post_id, 'company-product-category', array('fields' => 'slugs'));
     $tag_data      = wp_get_object_terms($post_id, 'company-product-tag', array('fields' => 'slugs'));
 
@@ -221,10 +227,7 @@ function nab_amplify_edit_product()
     $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
 	$post_data->product_media = nab_amplify_get_bynder_products( $post_id );
-
-    $terms = get_terms('company-product-category', array(
-        'hide_empty' => false,
-    ));
+    
     require_once get_template_directory() . '/inc/nab-edit-product.php';
 
     wp_die();
@@ -302,9 +305,11 @@ function save_product_video_text($post_id)
 /**
  * Registration Success Message
  */
-function nab_reg_message()
-{
-    if (!is_user_logged_in() && is_account_page() && isset($_GET['nab_registration_complete']) && 'true' === $_GET['nab_registration_complete']) {
+function nab_reg_message() {
+
+    $registration_complete = filter_input( INPUT_GET, 'nab_registration_complete', FILTER_SANITIZE_STRING );
+    
+    if ( ! is_user_logged_in() && is_account_page() && isset( $registration_complete ) && 'true' === $registration_complete ) {
         wc_add_notice('You have successfully created your account . Please login to continue.');
     }
 }
@@ -323,9 +328,11 @@ function nab_remove_password_strength()
  * @param $errors
  * @param $user
  */
-function nab_reset_password_validation($errors, $user)
-{
-    if (!empty($_POST['password_1']) && 8 > strlen($_POST['password_1'])) {
+function nab_reset_password_validation( $errors, $user ) {
+    
+    $password_1 = filter_input( INPUT_POST, 'password_1', FILTER_SANITIZE_STRING );
+
+    if ( ! empty( $password_1 ) && 8 > strlen( $password_1 ) ) {
         wc_add_notice(__('Password must be 8 characters long.', 'woocommerce'), 'error');
     }
 }
@@ -695,37 +702,46 @@ add_action('init', 'nab_amplify_session_categories');
  *
  * @param $customer_id
  */
-function nab_save_name_fields($customer_id)
-{
+function nab_save_name_fields( $customer_id ) {
 
-    if (isset($_POST['first_name'])) {
-        update_user_meta($customer_id, 'billing_first_name', sanitize_text_field($_POST['first_name']));
-        update_user_meta($customer_id, 'first_name', sanitize_text_field($_POST['first_name']));
+    $first_name     = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+    $last_name      = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+    $user_interest  = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $press_member   = filter_input( INPUT_POST, 'press_member', FILTER_SANITIZE_STRING );
+    $user_title     = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+    $user_company   = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+    $user_country   = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+    $user_state     = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+    $user_city      = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+
+    if ( isset( $first_name ) ) {
+        update_user_meta( $customer_id, 'billing_first_name', $first_name );
+        update_user_meta( $customer_id, 'first_name', $first_name );
     }
-    if (isset($_POST['last_name'])) {
-        update_user_meta($customer_id, 'billing_last_name', sanitize_text_field($_POST['last_name']));
-        update_user_meta($customer_id, 'last_name', sanitize_text_field($_POST['last_name']));
+    if ( isset( $last_name ) ) {
+        update_user_meta( $customer_id, 'billing_last_name', $last_name );
+        update_user_meta( $customer_id, 'last_name', $last_name );
     }
-    if ( isset( $_POST[ 'user_interest' ] ) && ! empty( $_POST[ 'user_interest' ] ) ) {
-        update_user_meta( $customer_id, 'user_interest', $_POST[ 'user_interest' ] );
+    if ( isset( $user_interest ) && ! empty( $user_interest ) ) {
+        update_user_meta( $customer_id, 'user_interest', $user_interest );
     }
-    if ( isset( $_POST[ 'press_member' ] ) && ! empty( $_POST[ 'press_member' ] ) ) {
-        update_user_meta( $customer_id, 'press_member_user', $_POST[ 'press_member' ] );
+    if ( isset( $press_member ) && ! empty( $press_member ) ) {
+        update_user_meta( $customer_id, 'press_member_user', $press_member );
     }
-    if ( isset( $_POST[ 'user_title' ] ) && ! empty( $_POST[ 'user_title' ] ) ) {
-        update_user_meta( $customer_id, 'attendee_title', $_POST[ 'user_title' ] );
+    if ( isset( $user_title ) && ! empty( $user_title ) ) {
+        update_user_meta( $customer_id, 'attendee_title', $user_title );
     }
-    if ( isset( $_POST[ 'user_company' ] ) && ! empty( $_POST[ 'user_company' ] ) ) {
-        update_user_meta( $customer_id, 'attendee_company', $_POST[ 'user_company' ] );
+    if ( isset( $user_company ) && ! empty( $user_company ) ) {
+        update_user_meta( $customer_id, 'attendee_company', $user_company );
     }
-    if ( isset( $_POST[ 'user_country' ] ) && ! empty( $_POST[ 'user_country' ] ) ) {
-        update_user_meta( $customer_id, 'user_country', $_POST[ 'user_country' ] );
+    if ( isset( $user_country ) && ! empty( $user_country ) ) {
+        update_user_meta( $customer_id, 'user_country', $user_country );
     }
-    if ( isset( $_POST[ 'user_state' ] ) && ! empty( $_POST[ 'user_state' ] ) ) {
-        update_user_meta( $customer_id, 'user_state', $_POST[ 'user_state' ] );
+    if ( isset( $user_state ) && ! empty( $user_state ) ) {
+        update_user_meta( $customer_id, 'user_state', $user_state );
     }
-    if ( isset( $_POST[ 'user_city' ] ) && ! empty( $_POST[ 'user_city' ] ) ) {
-        update_user_meta( $customer_id, 'user_city', $_POST[ 'user_city' ] );
+    if ( isset( $user_city ) && ! empty( $user_city ) ) {
+        update_user_meta( $customer_id, 'user_city', $user_city );
     }
 }
 
@@ -740,29 +756,36 @@ function nab_attendee_field_process()
         return;
     }
 
-    if (false === nab_is_bulk_order()) {
+    if ( false === nab_is_bulk_order() ) {
 
-        if (!isset($_POST['attendee_first_name']) || empty($_POST['attendee_first_name'])) {
+        $attendee_first_name    = filter_input( INPUT_POST, 'attendee_first_name', FILTER_SANITIZE_STRING );
+        $attendee_last_name     = filter_input( INPUT_POST, 'attendee_last_name', FILTER_SANITIZE_STRING );
+        $attendee_email         = filter_input( INPUT_POST, 'attendee_email', FILTER_SANITIZE_STRING );
+        $attendee_company       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
+        $attendee_title         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
+        $attendee_country       = filter_input( INPUT_POST, 'attendee_country', FILTER_SANITIZE_STRING );
+
+        if ( ! isset( $attendee_first_name ) || empty( $attendee_first_name ) ) {
             wc_add_notice(__('Please enter Attendee First Name.'), 'error');
         }
 
-        if (!isset($_POST['attendee_last_name']) || empty($_POST['attendee_last_name'])) {
+        if ( ! isset( $attendee_last_name ) || empty( $attendee_last_name ) ) {
             wc_add_notice(__('Please enter Attendee Last Name.'), 'error');
         }
 
-        if (!isset($_POST['attendee_email']) || empty($_POST['attendee_email'])) {
+        if ( ! isset( $attendee_email ) || empty( $attendee_email ) ) {
             wc_add_notice(__('Please enter Attendee Email.'), 'error');
         }
 
-        if (!isset($_POST['attendee_company']) || empty($_POST['attendee_company'])) {
+        if ( ! isset( $attendee_company ) || empty( $attendee_company ) ) {
             wc_add_notice(__('Please enter Attendee Company.'), 'error');
         }
 
-        if (!isset($_POST['attendee_title']) || empty($_POST['attendee_title'])) {
+        if ( ! isset( $attendee_title ) || empty( $attendee_title ) ) {
             wc_add_notice(__('Please enter Attendee Title.'), 'error');
         }
 
-        if (!isset($_POST['attendee_country']) || empty($_POST['attendee_country'])) {
+        if ( ! isset( $attendee_country ) || empty( $attendee_country ) ) {
             wc_add_notice(__('Please enter Attendee Country.'), 'error');
         }
     }

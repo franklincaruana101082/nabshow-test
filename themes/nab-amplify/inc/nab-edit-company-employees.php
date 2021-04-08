@@ -1,3 +1,15 @@
+<?php
+$company_id							= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+$company_data['company_employees']	= get_field( 'company_employees', $company_id );
+$company_data['ID']					= $company_id;
+$member_level						= get_field( 'member_level', $company_id );
+
+if ( $member_level === 'Plus' ) {
+	$limit_employees_str = '4 TOTAL';
+} elseif ( $member_level === 'Premium' ) {
+	$limit_employees_str = 'UNLIMITED';
+}
+?>
 <div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
 	<div class="nab-modal-inner">
 		<div class="modal-content">

@@ -1,6 +1,8 @@
 <?php
-$site_url = get_site_url();
-$site_url = rtrim( $site_url, '/' ) . '/editing-your-company-profile/';
+$company_id		= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
+$company_title	= get_the_title( $company_id );
+$site_url		= get_site_url();
+$site_url		= rtrim( $site_url, '/' ) . '/editing-your-company-profile/';
 ?>
 <div id="addAdminModal" class="nab-modal theme-dark nab-modal-active">
 	<div class="nab-modal-inner">

@@ -93,9 +93,9 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
                                             <option value=""></option>
 											<?php foreach ( $terms as $p_term ) {
 												?>
-                                                <option value="<?php echo $p_term->term_id; ?>" <?php if ( in_array( $p_term->term_id, $company_data['product_categories'] ) ) {
+                                                <option value="<?php echo esc_attr( $p_term->term_id ); ?>" <?php if ( in_array( $p_term->term_id, $company_data['product_categories'], true ) ) {
 													echo "selected";
-												} ?>><?php echo $p_term->name; ?></option>
+												} ?>><?php echo esc_html( $p_term->name ); ?></option>
 											<?php } ?>
                                         </select>
                                     </div>
@@ -146,7 +146,7 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
                                         <div class="tooltip-wrap">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                             <div class="tooltip">
-                                                Only NAB Amplify users can be added as admins for your company listing. Invite colleagues to join as admins by using your add admin link <a href="<?php echo get_the_permalink( $company_id ); ?>?addadmin=<?php echo get_field( 'admin_add_string', $company_id ); ?>" target="_blank">here</a>. NOTE: You can add an unlimited number of admins to your company profile. A NAB Amplify user does not need to be a company Point of Contact to be an admin.
+                                                Only NAB Amplify users can be added as admins for your company listing. Invite colleagues to join as admins by using your add admin link <a href="<?php echo esc_url( get_the_permalink( $company_id ) ); ?>?addadmin=<?php echo esc_attr( get_field( 'admin_add_string', $company_id ) ); ?>" target="_blank">here</a>. NOTE: You can add an unlimited number of admins to your company profile. A NAB Amplify user does not need to be a company Point of Contact to be an admin.
                                             </div>
                                         </div>
                                     </label>
@@ -182,11 +182,11 @@ if ( isset( $company_data['ID'] ) && ! empty( $company_data['ID'] ) && 0 !== (in
                             </div>
 
                             <div class="form-row">
-                                <input type="button" id="nab-edit-company-profile-submit" data-id="<?php echo isset( $company_data['ID'] ) ? $company_data['ID'] : 0 ?>" class="btn btn-submit" value="<?php echo isset( $company_data['ID'] ) ? "Update" : "Add"; ?>">
-                                <input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo $company_data['ID']; ?>"/>
+                                <input type="button" id="nab-edit-company-profile-submit" data-id="<?php echo isset( $company_data['ID'] ) ? esc_attr( $company_data['ID'] ) : 0 ?>" class="btn btn-submit" value="<?php echo isset( $company_data['ID'] ) ? "Update" : "Add"; ?>">
+                                <input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo esc_attr( $company_data['ID'] ); ?>"/>
                             </div>
                         </form>
-                        <p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url(); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
+                        <p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo esc_url( site_url() ); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
                     </div>
                 </div>
             </div>

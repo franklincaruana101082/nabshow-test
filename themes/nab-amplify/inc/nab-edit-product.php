@@ -6,6 +6,9 @@ $member_level = '';
 if ( isset( $company_id ) && ! empty( $company_id ) && 0 !== (int) $company_id ) {
 	$member_level = get_field( 'member_level', $company_id );
 }
+$terms = get_terms('company-product-category', array(
+    'hide_empty' => false,
+));
 ?>
 <div id="addProductModal" class="nab-modal nab-modal-with-form theme-dark nab-modal-active">
     <div class="nab-modal-inner">

@@ -4,7 +4,13 @@
  * Ajax to show Error message popup.
  */
 ?>
-
+<?php
+$message            = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+$confirm            = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
+$address_id         = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+$employee_id        = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+$employee_confirm   = filter_input(INPUT_POST, 'employee_remove', FILTER_SANITIZE_NUMBER_INT);
+?>
 <div id="connection-message-popup" class="nab-modal theme-dark error-message-popup">
     <div class="nab-modal-inner">
         <div class="modal-content">
