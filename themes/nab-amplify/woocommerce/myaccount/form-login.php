@@ -72,9 +72,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 			$sign_up_page_url = get_permalink( $sign_up_page->ID );
 			if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-				$sign_up_page_url = add_query_arg( array(
-					'r' => $redirect_url,
-				), $sign_up_page_url);
+				$sign_up_page_url = $sign_up_page_url . $redirect_url;
 			}
 		} else {
 			$sign_up_page_url = 'javascript:void(0)';
