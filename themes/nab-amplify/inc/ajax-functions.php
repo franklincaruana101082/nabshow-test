@@ -3866,6 +3866,7 @@ function nab_pdf_search_filter_callback()
 			$result_post[$cnt]['company'] 		= html_entity_decode( $company_name );
 			$result_post[$cnt]['company_url']	= html_entity_decode( $company_link );
 			$result_post[$cnt]['thumbnail'] 	= $thumbnail_url;
+			$result_post[$cnt]['company_id']	= $company_id;
 
 			if ( ! empty( $pdf_content ) ) {
 				$result_post[$cnt]['content'] = $pdf_content;
