@@ -6,7 +6,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
 ?>
 <div id="bm-main-outer" class="bm-modal-main">
     <div class="bm-modal-overlay">
