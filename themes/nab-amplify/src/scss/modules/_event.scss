@@ -431,14 +431,19 @@
 .events-list__event__add {
 	@include bp-1024 {
 		position: absolute;
-		z-index: 100;
+		//z-index: 100;
 		left: 100%;
 		margin-left: rem(16);
 		top: 0;
 		width: rem(144);
 	}
 }
-
+.events-list__event-link {
+	text-decoration: none;
+	&:hover, &:active &:focus {
+		text-decoration: underline;
+	}
+}
 // component
 .add-to-calendar {
 }
@@ -484,19 +489,15 @@ input.add-to-calendar-checkbox {
 //       uncomment static for prod
 .add-to-calendar a.icon-google {
 	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-google.svg");
-	background-image: url("/assets/images/calendar-icon-google.svg");
 }
 .add-to-calendar a.icon-yahoo {
 	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-yahoo.svg");
-	background-image: url("/assets/images/calendar-icon-yahoo.svg");
 }
 .add-to-calendar a.icon-ical {
 	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-apple.svg");
-	background-image: url("/assets/images/calendar-icon-apple.svg");
 }
 .add-to-calendar a.icon-outlook {
 	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-outlook.svg");
-	background-image: url("/assets/images/calendar-icon-outlook.svg");
 }
 
 //
@@ -506,4 +507,6 @@ input.add-to-calendar-checkbox {
 
 input.add-to-calendar-checkbox:checked ~ a {
 	display: block;
+	position: relative;
+	z-index: 1;
 }
