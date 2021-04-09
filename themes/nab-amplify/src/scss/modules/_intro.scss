@@ -63,6 +63,9 @@
   &__meta {
 
   }
+  &__hero-image {
+    width: 100%;
+  }
   &__image {
     display: inline-block;
     width: auto;
@@ -132,9 +135,9 @@
     margin-top: rem(50);
   }
 
-  }
+}
 
-  .intro-feature {
+.intro-feature {
   position: relative;
   background: $color__gray-darker;
   @include bp-1024 {
@@ -150,7 +153,7 @@
       border-bottom: rem(4) solid $color__purple; //fallback
       border-image: linear-gradient(90deg, $color__purple, $color__blue) 4;
       border-width: 0;
-    border-bottom-width: rem(4);
+      border-bottom-width: rem(4);
     }
   }
   &__media {
