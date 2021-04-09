@@ -78,12 +78,14 @@
 
                     // Activate the cropper on the image.
                     const cropperImg = document.getElementById('cropper-image');
-                    window.cropper = new Cropper(cropperImg, {
-                        aspectRatio: ratio,
-                        fillColor: '#fff',
-                        imageSmoothingEnabled: false,
-                        imageSmoothingQuality: 'high',
-                    });
+                    const cropperParam = { fillColor: '#fff', imageSmoothingEnabled: false, imageSmoothingQuality: 'high',}
+                    
+                    // Add aspectRatio for profile picture or banner image
+                    if ( 'profile_picture' === requestedBy || 'banner_image' === requestedBy ) {
+                        cropperParam['aspectRatio'] = ratio;
+                    }
+
+                    window.cropper = new Cropper(cropperImg, cropperParam);
 
                     // Hide input button to prevent user to change image.
                     $('.bm-drag-drop-buttons').hide();
@@ -208,7 +210,7 @@ function removeCropCanvas() {
     jQuery('#bm-upload-btn, #bm-precess-info, .single-meta').hide();
 
     // Show input button.
-    $('.bm-drag-drop-buttons').show();
+    jQuery('.bm-drag-drop-buttons').show();
 }
 
 // Add a popup function if not exists.
