@@ -22,10 +22,11 @@ $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
 				<h3>Opt In To Communications</h3>
-				<p><?php echo $company_name;?> would like to communicate with you about this and other products. Please opt-in below.</p>
+				<p>Would you like to opt-in to communications from <?php echo $company_name;?>? By opting in, you are indicating that you would like to stay informed of this and other <?php echo $company_name;?> product innovations and allow them to contact you directly. Per our agreement, <?php echo $company_name;?> is not permitted to share your data with anyone else. You can stop communications from <?php echo $company_name;?> or revise your communication settings at any time by directly visiting the <?php echo $company_name;?> website.</p>
 				<?php if ($opt_in_required) { ?>
 					<p>Opt in is required to access this content.</p>
 				<?php } ?>
+				
 				<div class="optin__form">
 					<label class="field__optinButtons">
 						<button type="button" value="true" class="button _gradientpink js-optbtn">Opt In</button>
