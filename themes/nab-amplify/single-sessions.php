@@ -324,7 +324,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' && $video_embed != '') {
+							if($session_status == 'pre-event' && $video_embed != '' && $hide_content) {
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
