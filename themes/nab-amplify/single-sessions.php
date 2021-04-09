@@ -200,7 +200,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						));
 						$hide_content = count($opt_in);
 					}
-					if(!$hide_content) {
+					if($hide_content) {
 
 					if($session_status == "pre-event") {
 						if($pre_event_registration_id != '') {
@@ -324,7 +324,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' && $video_embed != '') {
+							if($session_status == 'pre-event' && $video_embed != '' && $hide_content) {
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
