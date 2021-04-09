@@ -1,6 +1,23 @@
 // Your main script
 
 jQuery(function($) {
+	$('.events-list__event__add').each(function(){
+		let el = $(this);
+		var myCalendar = createCalendar({
+			options: {
+				class: 'my-calendar-generated-class',
+			},
+			data: {
+				title: el.data("title"),     
+				start: new Date(el.data("start")),				
+				end: new Date(el.data("end")),
+				address: el.data("address"),
+				description: el.data("description")
+			}
+		});
+		el.append(myCalendar);
+	});
+	
 	jQuery('.js-mobile-toggle').on('click', function() {
 		jQuery(this).closest('.header').toggleClass('_open');
 	});
