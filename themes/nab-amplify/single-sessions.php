@@ -200,7 +200,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						));
 						$hide_content = count($opt_in);
 					}
-					if(!$hide_content) {
+					if($hide_content) {
 
 					if($session_status == "pre-event") {
 						if($pre_event_registration_id != '') {
