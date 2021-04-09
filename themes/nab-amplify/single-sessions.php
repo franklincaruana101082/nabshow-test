@@ -175,7 +175,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					addUserToCometChatPro($user_id);
 
 					$content_protected = (int)get_field('make_opt_in_required');
-					$hide_content = 0;
+					$hide_content = 1;
 
 					if($content_protected) {
 
