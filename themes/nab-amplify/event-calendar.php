@@ -248,19 +248,17 @@ $events = get_posts( array(
 						if(get_field('session_date')) { $EventJumpStart = get_field('session_date');}
 						$EventJumpStart = new DateTime($EventJumpStart);
 						$EventJumpStartDay = $EventJumpStart->format('Y-m-d');
-					?>
-					<li>
-						<?php 
+
 							if ($NewDateJumpCheck != $EventJumpStartDay) { 
 								$NewDateJumpCheck = $EventJumpStartDay;
-						?>
+					?>
+					<li>
 						<!-- first event in day shows date -->
 						<a href="#<?php echo $EventJumpStart->format('F-d');?>">
 							<?php echo $EventJumpStart->format('l, F j');?>
 						</a>
-						<?php } ?>
 					</li>
-					<?php } ?>
+					<?php } } ?>
 				</ul>
 			</div>
 		</div>
