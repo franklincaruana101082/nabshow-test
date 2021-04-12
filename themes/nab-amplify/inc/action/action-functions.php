@@ -790,15 +790,19 @@ function nab_attendee_field_process()
         }
     }
 
-    if (!isset($_POST['attendee_partner_opt_in']) || empty($_POST['attendee_partner_opt_in'])) {
+    $attendee_partner_opt_in                = filter_input( INPUT_POST, 'attendee_partner_opt_in', FILTER_SANITIZE_STRING );
+    $attendee_exhibition_sponsors_opt_in    = filter_input( INPUT_POST, 'attendee_exhibition_sponsors_opt_in', FILTER_SANITIZE_STRING );
+    $attendee_tos_agree                     = filter_input( INPUT_POST, 'attendee_tos_agree', FILTER_SANITIZE_STRING );
+
+    if ( ! isset( $attendee_partner_opt_in ) || empty( $attendee_partner_opt_in ) ) {
         wc_add_notice(__('Please choose your preference for Partner Communications opt in.'), 'error');
     }
 
-    if (!isset($_POST['attendee_exhibition_sponsors_opt_in']) || empty($_POST['attendee_exhibition_sponsors_opt_in'])) {
+    if ( ! isset( $attendee_exhibition_sponsors_opt_in ) || empty( $attendee_exhibition_sponsors_opt_in ) ) {
         wc_add_notice(__('Please choose your preference for Exhibitor/Sponsor Communications opt in.'), 'error');
     }
 
-    if (!isset($_POST['attendee_tos_agree']) || 'yes' !== $_POST['attendee_tos_agree']) {
+    if ( ! isset( $attendee_tos_agree ) || 'yes' !== $attendee_tos_agree ) {
         wc_add_notice(__('You must agree with Terms and Privacy Policy.'), 'error');
     }
 }
@@ -826,38 +830,58 @@ function nab_save_event_fields($order_id)
     } else {
         $user_id = get_current_user_id();
 
+        $attendee_first_name                    = filter_input( INPUT_POST, 'attendee_first_name', FILTER_SANITIZE_STRING );
+        $attendee_last_name                     = filter_input( INPUT_POST, 'attendee_last_name', FILTER_SANITIZE_STRING );
+        $attendee_email                         = filter_input( INPUT_POST, 'attendee_email', FILTER_SANITIZE_STRING );
+        $attendee_company                       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
+        $attendee_title                         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
+        $attendee_country                       = filter_input( INPUT_POST, 'attendee_country', FILTER_SANITIZE_STRING );
+        $attendee_city                          = filter_input( INPUT_POST, 'attendee_city', FILTER_SANITIZE_STRING );
+        $attendee_state                         = filter_input( INPUT_POST, 'attendee_state', FILTER_SANITIZE_STRING );
+        $attendee_zip                           = filter_input( INPUT_POST, 'attendee_zip', FILTER_SANITIZE_STRING );
+        $attendee_affiliation                   = filter_input( INPUT_POST, 'attendee_affiliation', FILTER_SANITIZE_STRING );
+        $attendee_partner_opt_in                = filter_input( INPUT_POST, 'attendee_partner_opt_in', FILTER_SANITIZE_STRING );
+        $attendee_exhibition_sponsors_opt_in    = filter_input( INPUT_POST, 'attendee_exhibition_sponsors_opt_in', FILTER_SANITIZE_STRING );
+        $attendee_discover                      = filter_input( INPUT_POST, 'attendee_discover', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $attendee_meet                          = filter_input( INPUT_POST, 'attendee_meet', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $other_interest                         = filter_input( INPUT_POST, 'other_interest', FILTER_SANITIZE_STRING );
+        $billing_phone                          = filter_input( INPUT_POST, 'billing_phone', FILTER_SANITIZE_STRING );
+        $attendee_interest                      = filter_input( INPUT_POST, 'attendee_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $attendee_other_interest                = filter_input( INPUT_POST, 'attendee_other_interest', FILTER_SANITIZE_STRING );
+
         $event_data = array(
-            'attendee_first_name'                 => (isset($_POST['attendee_first_name']) && !empty($_POST['attendee_first_name'])) ? sanitize_text_field($_POST['attendee_first_name']) : '',
-            'attendee_last_name'                  => (isset($_POST['attendee_last_name']) && !empty($_POST['attendee_last_name'])) ? sanitize_text_field($_POST['attendee_last_name']) : '',
-            'attendee_email'                      => (isset($_POST['attendee_email']) && !empty($_POST['attendee_email'])) ? sanitize_email($_POST['attendee_email']) : '',
-            'attendee_company'                    => (isset($_POST['attendee_company']) && !empty($_POST['attendee_company'])) ? sanitize_text_field($_POST['attendee_company']) : '',
-            'attendee_title'                      => (isset($_POST['attendee_title']) && !empty($_POST['attendee_title'])) ? sanitize_text_field($_POST['attendee_title']) : '',
-            'attendee_country'                    => (isset($_POST['attendee_country']) && !empty($_POST['attendee_country'])) ? sanitize_text_field($_POST['attendee_country']) : '',
-            'attendee_city'                       => (isset($_POST['attendee_city']) && !empty($_POST['attendee_city'])) ? sanitize_text_field($_POST['attendee_city']) : '',
-            'attendee_state'                      => (isset($_POST['attendee_state']) && !empty($_POST['attendee_state'])) ? sanitize_text_field($_POST['attendee_state']) : '',
-            'attendee_zip'                        => (isset($_POST['attendee_zip']) && !empty($_POST['attendee_zip'])) ? sanitize_text_field($_POST['attendee_zip']) : '',
-            'attendee_affiliation'                => (isset($_POST['attendee_affiliation']) && !empty($_POST['attendee_affiliation'])) ? sanitize_text_field($_POST['attendee_affiliation']) : '',
-            'attendee_partner_opt_in'             => (isset($_POST['attendee_partner_opt_in']) && !empty($_POST['attendee_partner_opt_in'])) ? sanitize_text_field($_POST['attendee_partner_opt_in']) : '',
-            'attendee_exhibition_sponsors_opt_in' => (isset($_POST['attendee_exhibition_sponsors_opt_in']) && !empty($_POST['attendee_exhibition_sponsors_opt_in'])) ? sanitize_text_field($_POST['attendee_exhibition_sponsors_opt_in']) : '',
-            'attendee_discover'                   => (isset($_POST['attendee_discover']) && !empty($_POST['attendee_discover'])) ? wp_unslash($_POST['attendee_discover']) : [],
-            'attendee_meet'                       => (isset($_POST['attendee_meet']) && !empty($_POST['attendee_meet'])) ? wp_unslash($_POST['attendee_meet']) : [],
-            'other_interest'                      => (isset($_POST['other_interest']) && !empty($_POST['other_interest'])) ? $_POST['other_interest'] : '',
-            'billing_phone'                       => (isset($_POST['billing_phone']) && !empty($_POST['billing_phone'])) ? sanitize_text_field($_POST['billing_phone']) : '',
+            'attendee_first_name'                 => ( isset( $attendee_first_name ) && ! empty( $attendee_first_name ) ) ? $attendee_first_name : '',
+            'attendee_last_name'                  => ( isset( $attendee_last_name ) && ! empty( $attendee_last_name ) ) ? $attendee_last_name : '',
+            'attendee_email'                      => ( isset( $attendee_email ) && ! empty( $attendee_email ) ) ? $attendee_email : '',
+            'attendee_company'                    => ( isset( $attendee_company ) && ! empty( $attendee_company ) ) ? $attendee_company : '',
+            'attendee_title'                      => ( isset( $attendee_title ) && ! empty( $attendee_title ) ) ? $attendee_title : '',
+            'attendee_country'                    => ( isset( $attendee_country ) && ! empty( $attendee_country ) ) ? $attendee_country : '',
+            'attendee_city'                       => ( isset( $attendee_city ) && ! empty( $attendee_city ) ) ? $attendee_city : '',
+            'attendee_state'                      => ( isset( $attendee_state ) && ! empty( $attendee_state ) ) ? $attendee_state : '',
+            'attendee_zip'                        => ( isset( $attendee_zip ) && ! empty( $attendee_zip ) ) ? $attendee_zip : '',
+            'attendee_affiliation'                => ( isset( $attendee_affiliation ) && ! empty( $attendee_affiliation ) ) ? $attendee_affiliation : '',
+            'attendee_partner_opt_in'             => ( isset( $attendee_partner_opt_in ) && ! empty( $attendee_partner_opt_in ) ) ? $attendee_partner_opt_in : '',
+            'attendee_exhibition_sponsors_opt_in' => ( isset( $attendee_exhibition_sponsors_opt_in ) && ! empty( $attendee_exhibition_sponsors_opt_in ) ) ? $attendee_exhibition_sponsors_opt_in : '',
+            'attendee_discover'                   => ( isset( $attendee_discover ) && ! empty( $attendee_discover ) ) ? wp_unslash( $attendee_discover ) : [],
+            'attendee_meet'                       => ( isset( $attendee_meet ) && ! empty( $attendee_meet ) ) ? wp_unslash( $attendee_meet ) : [],
+            'other_interest'                      => ( isset( $other_interest ) && ! empty( $other_interest ) ) ? $other_interest : '',
+            'billing_phone'                       => ( isset( $billing_phone ) && ! empty( $billing_phone ) ) ? $billing_phone : '',
         );
 
-        $event_data['attendee_interest'] = isset($_POST['attendee_interest']) ? $_POST['attendee_interest'] : [];
-        if (isset($_POST['other_interest']) && isset($_POST['attendee_other_interest']) && !empty($_POST['attendee_other_interest'])) {
-            $event_data['attendee_other_interest'] = sanitize_text_field($_POST['attendee_other_interest']);
+        $event_data['attendee_interest'] = isset( $attendee_interest ) ? $attendee_interest : [];
+        if ( isset( $other_interest ) && isset( $attendee_other_interest ) && ! empty( $attendee_other_interest ) ) {
+            $event_data['attendee_other_interest'] = $attendee_other_interest;
         }
 
         // Save details to user meta
-        foreach ($event_data as $key => $val) {
-            update_user_meta($user_id, $key, $val);
+        foreach ( $event_data as $key => $val ) {
+            update_user_meta( $user_id, $key, $val );
         }
     }
 
-    if (isset($_POST['nab_additional_email']) && !empty($_POST['nab_additional_email'])) {
-        update_post_meta($order_id, 'nab_additional_email', filter_input(INPUT_POST, 'nab_additional_email'));
+    $nab_additional_email = filter_input( INPUT_POST, 'nab_additional_email', FILTER_SANITIZE_STRING );
+    if ( isset( $nab_additional_email ) && ! empty( $nab_additional_email ) ) {
+        update_post_meta( $order_id, 'nab_additional_email', $nab_additional_email );
     }
 }
 
@@ -925,7 +949,7 @@ function nab_amplify_template_redirect()
     ) {
         /* If user is logged in and try to access another Buddypress Member's messages section. */
         $redirect_url = $my_profile_url;
-    } else if ($user_logged_in && is_account_page() && in_array(end($request), array('my-connections', 'my-events', 'my-bookmarks'))) {
+    } else if ($user_logged_in && is_account_page() && in_array( end( $request ), array('my-connections', 'my-events', 'my-bookmarks'), true ) ) {
 
         $member_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -976,7 +1000,7 @@ function nab_amplify_completed_zero_order($order_id)
     }
     $order = wc_get_order($order_id);
 
-    if ('0.00' == $order->get_total() && 'processing' === $order->get_status()) {
+    if ( '0.00' === (string) $order->get_total() && 'processing' === $order->get_status()) {
         $order->update_status('completed');
     }
 }
@@ -1213,117 +1237,7 @@ function amplify_register_api_endpoints()
         'methods'             => 'GET',
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
-    ));
-
-	register_rest_route('nab', '/company/add-content', array(
-		'methods'             => 'GET',
-		'callback'            => 'nab_amplify_add_company_content',
-		'permission_callback' => '__return_true',
-	));
-}
-
-/**
- * Add content to companies.
- *
- * @param WP_REST_Request $request
- *
- * @return array
- */
-function nab_amplify_add_company_content( WP_REST_Request $request ) {
-
-	global $wpdb;
-	$parameters = $request->get_params();
-
-	$limit  = isset( $parameters['limit'] ) ? $parameters['limit'] : 10;
-	$postid = isset( $parameters['postid'] ) ? $parameters['postid'] : '';
-	$reg    = isset( $parameters['reg'] ) ? $parameters['reg'] : '';
-
-	if( ! empty( $reg ) ) {
-		if ( ! empty( $postid ) ) {
-			$result = $wpdb->get_results(
-				$wpdb->prepare( "SELECT * FROM %1sposts
-                WHERE post_content NOT LIKE '%regional-addressess%'
-                AND post_content NOT LIKE '%:17224%'
-                AND post_content LIKE '%wp:nab/company-details%'
-                AND post_type = 'company'
-                AND post_status = 'publish'
-                AND ID = %d",
-					$wpdb->prefix, $postid ) );
-		} else {
-			$result = $wpdb->get_results(
-				$wpdb->prepare( "SELECT * FROM %1sposts
-                WHERE post_content NOT LIKE '%regional-addressess%'
-                AND post_content NOT LIKE '%:17224%'
-                AND post_content LIKE '%wp:nab/company-details%'
-                AND post_type = 'company'
-                AND post_status = 'publish'
-                LIMIT %d",
-					$wpdb->prefix, $limit ) );
-		}
-
-		if ( $result ) {
-			foreach ( $result as $com ) {
-
-				$com_ID       = $com->ID;
-				$post_content = $com->post_content;
-				$post_content = str_replace('<!-- wp:nab/company-details /-->', '<!-- wp:nab/company-details /--><!-- wp:nab/regional-addressess /-->', $post_content);
-
-				$com_post = array(
-					'ID'           => $com_ID,
-					'post_content' => $post_content,
-				);
-				wp_update_post( $com_post );
-
-				echo "$com_ID | ";
-			}
-		} else {
-			echo "All companies updated with regional block!";
-		}
-
-	} else {
-
-		if ( ! empty( $postid ) ) {
-			$result = $wpdb->get_results(
-				$wpdb->prepare( "SELECT * FROM %1sposts
-                WHERE post_content NOT LIKE '%ownloadable-pdf%'
-                AND post_content NOT LIKE '%:17224%'
-                AND post_type = 'company'
-                AND post_status = 'publish'
-                AND ID = %d",
-					$wpdb->prefix, $postid ) );
-		} else {
-			$result = $wpdb->get_results(
-				$wpdb->prepare( "SELECT * FROM %1sposts
-                WHERE post_content NOT LIKE '%ownloadable-pdf%'
-                AND post_content NOT LIKE '%:17224%'
-                AND post_type = 'company'
-                AND post_status = 'publish'
-                LIMIT %d",
-					$wpdb->prefix, $limit ) );
-		}
-
-
-		if ( $result ) {
-			foreach ( $result as $com ) {
-
-				$com_ID       = $com->ID;
-				$post_content = $com->post_content;
-				$post_content = $post_content . '<!-- wp:nab/downloadable-pdfs /-->';
-
-				$com_post = array(
-					'ID'           => $com_ID,
-					'post_content' => $post_content,
-				);
-				wp_update_post( $com_post );
-
-				echo "$com_ID | ";
-			}
-		} else {
-			echo "All companies updated with downloadable-pdf!";
-		}
-	}
-
-	die();
+    ));	
 }
 
 /**
@@ -1731,8 +1645,8 @@ function amplify_is_product_in_cart($product_id)
         if (isset(WC()->cart->cart_contents) && is_array(WC()->cart->cart_contents)) {
             foreach (WC()->cart->cart_contents as $cart_item_key => $cart_item_data) {
                 if (
-                    (isset($cart_item_data['product_id']) && $product_id == $cart_item_data['product_id']) ||
-                    (isset($cart_item_data['variation_id']) && $product_id == $cart_item_data['variation_id'])
+                    ( isset( $cart_item_data['product_id'] ) && $product_id === (int) $cart_item_data['product_id'] ) ||
+                    (isset($cart_item_data['variation_id']) && $product_id === (int) $cart_item_data['variation_id'])
                 ) {
                     return true;
                 }
@@ -1804,9 +1718,7 @@ function nab_load_cart_action_cookie()
     }
 
     $cart_key      = trim(wp_unslash($_COOKIE['nabCartKey']));
-    $override_cart = false; // Override the cart by default.
-
-    // wc_nocache_headers();
+    $override_cart = false; // Override the cart by default.    
 
     // Get the cart in the database.
     $stored_cart = nab_cocart_get_cart($cart_key);

@@ -401,7 +401,7 @@ function nab_custom_update_cart_cb()
 
 	if ( isset( $input_is_bulk ) && 'yes' === $input_is_bulk ) {
 
-		$input_qty	= filter_input( INPUT_POST, 'is_bulk', FILTER_SANITIZE_NUMBER_INT );
+		$input_qty	= filter_input( INPUT_POST, 'qty', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( isset( $input_qty ) && ! empty( $input_qty ) ) {
 			$qty 		= $input_qty;

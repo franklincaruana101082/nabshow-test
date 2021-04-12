@@ -49,7 +49,7 @@
                 cropperButton.setAttribute('id', 'cropper-button');
                 cropperButton.setAttribute('class', 'bm-btn-pink bm-get-metas');
                 cropperButton.setAttribute('href', 'javascript:void(0)');
-                cropperButton.innerText = 'Crop';
+                cropperButton.innerText = 'Save';
                 cropperActionWrap.append(cropperButton);
 
                 // Add a crop cancel button.
