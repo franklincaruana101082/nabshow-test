@@ -1,5 +1,4 @@
 (function ($) {
-
     // Ready.
     $(document).ready(function () {
 
@@ -79,7 +78,7 @@
                     // Activate the cropper on the image.
                     const cropperImg = document.getElementById('cropper-image');
                     const cropperParam = { fillColor: '#fff', imageSmoothingEnabled: false, imageSmoothingQuality: 'high',}
-                    
+
                     // Add aspectRatio for profile picture or banner image
                     if ( 'profile_picture' === requestedBy || 'banner_image' === requestedBy ) {
                         cropperParam['aspectRatio'] = ratio;
