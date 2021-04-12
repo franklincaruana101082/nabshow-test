@@ -215,7 +215,7 @@ $events = get_posts( array(
 					<div class="events-list__event__main">
 						<a class="events-list__event-link" href="<?php echo get_the_permalink(); ?>"><?php the_title( '<h6 class="event__title events-list__event__title">', '</h6>' ); ?></a>
 						<div class="introtext events-list__event__text">
-							<?php echo wp_trim_words( get_the_content(), 25); ?>
+							<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25); ?>
 						</div>
 						<!-- uses ouical.js to generate add-to-calendar -->
 						<div 
@@ -224,7 +224,7 @@ $events = get_posts( array(
 						data-start="<?php echo $EventStart->format('F d, Y H:i'); ?>"
 						data-end="<?php echo $EventEnd->format('F d, Y H:i'); ?>"
 						data-address="The Internet"
-						data-description="<?php echo wp_trim_words( get_the_content(), 25).' '.get_the_permalink(); ?>"
+						data-description="<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25).' '.get_the_permalink(); ?>"
 						></div>
 					</div>
 				</div>
