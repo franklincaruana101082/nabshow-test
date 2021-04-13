@@ -406,20 +406,22 @@
 		text-transform: uppercase;
 		font-weight: 600;
 		line-height: 1;
-		padding-right: rem(12);
+		
 	}
 	.events-list__host-photo {
 		width: rem(20);
 		height: rem(20);
+		margin-left: rem(12);
+		margin-right: rem(6);
 	}
 	.events-list__host-name {
-		padding-left: rem(12);
 		font-family: $font__primary;
 		color: $color__white;
 		font-size: rem(12);
 		text-transform: uppercase;
 		font-weight: 600;
 		line-height: 1;
+		padding-left: rem(6);
 		padding-right: rem(18);
 	}
 }
