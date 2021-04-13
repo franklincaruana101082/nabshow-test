@@ -186,7 +186,7 @@ $events = get_posts( array(
 				if(get_field('company')) {$company_id = get_field('company');}
 				if($company_id){
 					$company_name = get_the_title($company_id);
-					$company_img = get_the_post_thumbnail_url($company_id, array(40,40));
+					$company_img = nab_amplify_get_featured_image( $company_id, false );
 				}
 			?>
 			<!-- event start -->
