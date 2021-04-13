@@ -224,7 +224,7 @@ $events = get_posts( array(
 							</div>
 							<?php if($company_img) { ?>
 							<img class="event__host-photo events-list__host-photo" 
-								 src="<?php echo($company_img);?>" 
+								 src="<?php echo esc_url($company_img);?>" 
 								 alt="<?php esc_html_e('Logo for ', 'nab-amplify'); echo esc_html($company_name);?>">
 							<?php } ?>
 							<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
