@@ -136,14 +136,6 @@ $events = get_posts( array(
 	'posts_per_page' => -1,
 	'post_type' => $post_type,
 	'tax_query' => $tax_query,
-	'meta_query' => array(
-		array(
-			'key' => array('session_end_time', '_EventEndDateUTC'),
-			'compare' => '>=',
-			'value' => $date_now,
-			'type' => 'DATETIME'
-		),
-	),
 	'order' => 'ASC',
 	'orderby' => 'meta_value',
 	'meta_key' => array('session_date', '_EventStartDateUTC'),
