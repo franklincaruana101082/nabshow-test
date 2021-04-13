@@ -61,9 +61,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								if ( ! empty( $company ) ) {
 								?>
 									<a href="<?php echo esc_url( get_the_permalink($company) ); ?>" class="event__host _company">
-										<?php 
-											echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo') );
-										?>
+										<img src="<?php echo esc_url(nab_amplify_get_featured_image( $company, false )); ?>" class="event__host-photo"/>
 										<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
 									</a>
 								<?php 

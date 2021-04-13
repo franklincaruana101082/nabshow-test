@@ -96,9 +96,7 @@ $sessions = get_posts( array(
 										if ( ! empty( $company ) ) {
 										?>
 										<div class="event__host _company" data-company="<?php echo $company ?>">
-											<?php 
-												echo get_the_post_thumbnail( $company, array(100, 100), array('class' => 'event__host-photo', 'style' => 'width: auto; height: auto;') );
-											?>
+											<img src="<?php echo esc_url(nab_amplify_get_featured_image( $company, false )); ?>" class="event__host-photo" style="width: auto; height: auto;" />
 											<div class="event__host-name">Hosted by <?php echo get_the_title($company);?></div>
 										</div>
 										<?php } ?>

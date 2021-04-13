@@ -186,7 +186,7 @@ $events = get_posts( array(
 				if(get_field('company')) {$company_id = get_field('company');}
 				if($company_id){
 					$company_name = get_the_title($company_id);
-					$company_img = get_the_post_thumbnail_url($company_id, array(40,40));
+					$company_img = nab_amplify_get_featured_image( $company_id, false );
 				}
 			?>
 			<!-- event start -->
@@ -224,7 +224,7 @@ $events = get_posts( array(
 							</div>
 							<?php if($company_img) { ?>
 							<img class="event__host-photo events-list__host-photo" 
-								 src="<?php echo($company_img);?>" 
+								 src="<?php echo esc_url($company_img);?>" 
 								 alt="<?php esc_html_e('Logo for ', 'nab-amplify'); echo esc_html($company_name);?>">
 							<?php } ?>
 							<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
