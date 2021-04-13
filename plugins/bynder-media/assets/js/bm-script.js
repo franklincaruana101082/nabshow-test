@@ -248,15 +248,15 @@
             // Bynder_Featured_Company
 
             if (
-                $('#product_featured_image_wrapper .nab-product-media-item').length >= 1
+                $('.preview_product_featured_image .nab-product-media-item').length >= 1
             ) {
-                $('#product_featured_image_wrapper .nab-product-media-item').remove();
-                $('#product_featured_image_wrapper').append(
-                    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
+                $('.preview_product_featured_image .nab-product-media-item').remove();
+                $('.preview_product_featured_image').append(
+                    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="bg_image" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
                 );
             } else {
-                $('#product_featured_image_wrapper').append(
-                    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
+                $('.preview_product_featured_image').append(
+                    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-featured-attachment" data-action="bg_image" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_featured_preview" src="#" alt="your image" style="display:none;"/></div>'
                 );
             }
 

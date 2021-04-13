@@ -2422,36 +2422,31 @@ function nab_bp_send_message() {
 add_action("wp_ajax_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
 add_action("wp_ajax_nopriv_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
 
-function nab_edit_feature_block_popup()
-{
+function nab_edit_feature_block_popup() {
 
-	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	$block_data = array();
-	$block_data['company_id'] = $company_id;
-	$block_data['bg_image'] = get_field('feature_background_image', $company_id);
-	$block_data['play_image'] = get_field('feature_icon_image', $company_id);
-	$block_data['headline'] =  get_field('feature_status', $company_id) ?  get_field('feature_status', $company_id) : '';
-	$block_data['title'] =  get_field('feature_title', $company_id) ?  get_field('feature_title', $company_id) : '';
-	$block_data['author'] = get_field('feature_author', $company_id) ? get_field('feature_author', $company_id) : '';
-	$block_data['description'] = get_field('feature_desc', $company_id) ? get_field('feature_desc', $company_id) : '';
-	$block_data['button_label'] = get_field('feature_button_text', $company_id) ?  get_field('feature_button_text', $company_id) : '';
-	$block_data['button_link'] = get_field('feature_button_url', $company_id) ? get_field('feature_button_url', $company_id) : '';
-	$block_data['bg_color'] = get_field('feature_bg_color', $company_id) ? get_field('feature_bg_color', $company_id) : '';
-	$block_data['title_color'] = get_field('feature_title_color', $company_id) ? get_field('feature_title_color', $company_id) : '';
-	$block_data['status_color'] = get_field('feature_status_color', $company_id) ? get_field('feature_status_color', $company_id) : '';
-	$block_data['author_color'] = get_field('feature_author_color', $company_id) ? get_field('feature_author_color', $company_id) : '';
-	$block_data['desc_color'] = get_field('feature_description_color', $company_id) ? get_field('feature_description_color', $company_id) : '';
-	$block_data['play_link'] = get_field('feature_play_link', $company_id) ? get_field('feature_play_link', $company_id) : '';
-	$block_data['reactions'] = get_field('feature_enable_reaction', $company_id) ? get_field('feature_enable_reaction', $company_id) : '0';
-	$block_data['button'] = get_field('feature_enable_button', $company_id) ? get_field('feature_enable_button', $company_id) : '0';
-	$block_data['button_target'] = get_field('feature_button_target', $company_id) ? get_field('feature_button_target', $company_id) : '0';
-
-
-
-
+	$company_id						= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$block_data						= array();
+	$block_data['company_id']		= $company_id;
+	$block_data['bg_image']			= get_post_meta( $company_id, '_bynder_feature_background_image', true );
+	$block_data['bg_image']			= empty( $block_data['bg_image'] ) ? get_field( 'feature_background_image', $company_id ) : $block_data['bg_image'];
+	$block_data['play_image']		= get_field('feature_icon_image', $company_id);
+	$block_data['headline']			= get_field('feature_status', $company_id) ?  get_field('feature_status', $company_id) : '';
+	$block_data['title']			= get_field('feature_title', $company_id) ?  get_field('feature_title', $company_id) : '';
+	$block_data['author']			= get_field('feature_author', $company_id) ? get_field('feature_author', $company_id) : '';
+	$block_data['description']		= get_field('feature_desc', $company_id) ? get_field('feature_desc', $company_id) : '';
+	$block_data['button_label']		= get_field('feature_button_text', $company_id) ?  get_field('feature_button_text', $company_id) : '';
+	$block_data['button_link']		= get_field('feature_button_url', $company_id) ? get_field('feature_button_url', $company_id) : '';
+	$block_data['bg_color']			= get_field('feature_bg_color', $company_id) ? get_field('feature_bg_color', $company_id) : '';
+	$block_data['title_color']		= get_field('feature_title_color', $company_id) ? get_field('feature_title_color', $company_id) : '';
+	$block_data['status_color']		= get_field('feature_status_color', $company_id) ? get_field('feature_status_color', $company_id) : '';
+	$block_data['author_color']		= get_field('feature_author_color', $company_id) ? get_field('feature_author_color', $company_id) : '';
+	$block_data['desc_color']		= get_field('feature_description_color', $company_id) ? get_field('feature_description_color', $company_id) : '';
+	$block_data['play_link']		= get_field('feature_play_link', $company_id) ? get_field('feature_play_link', $company_id) : '';
+	$block_data['reactions']		= get_field('feature_enable_reaction', $company_id) ? get_field('feature_enable_reaction', $company_id) : '0';
+	$block_data['button']			= get_field('feature_enable_button', $company_id) ? get_field('feature_enable_button', $company_id) : '0';
+	$block_data['button_target']	= get_field('feature_button_target', $company_id) ? get_field('feature_button_target', $company_id) : '0';
 
 	require_once get_template_directory() . '/inc/nab-edit-feature-block.php';
-
 
 	wp_die();
 }
@@ -2519,12 +2514,13 @@ function nab_edit_feature_block()
 		}
 		if ( in_array( 'bg_image', $nab_featured_block_remove_attachment, true ) ) {
 			update_field( 'feature_background_image', 0, $company_id );
+			update_post_meta( $company_id, '_bynder_feature_background_image', '' );
 		}
 	}
 
 	// Bynder_Featured_Company
 	if ( class_exists('Bynder_Media') ) {
-		update_post_meta( $company_id, 'feature_background_image', $feature_background_image );
+		update_post_meta( $company_id, '_bynder_feature_background_image', $feature_background_image );
 	} else {
 		$dependencies_loaded = 0;
 		foreach ( $_FILES as $file_key => $file_details ) {
