@@ -1348,28 +1348,28 @@ function nab_company_employees_render_callback($attributes)
     return $html;
 }
 
-function nab_company_feature_render_callback($attributes)
-{
-    $feature_status = get_field('feature_status');
-    $feature_title = get_field('feature_title');
-    $feature_author = get_field('feature_author');
-    $feature_desc = get_field('feature_desc');
-    $feature_button_text = get_field('feature_button_text');
-    $feature_button_url = get_field('feature_button_url');
-    $feature_background_image = get_field('feature_background_image');
-    $feature_bg_color = get_field('feature_bg_color');
-    $feature_icon_image = get_field('feature_icon_image');
-    $feature_status_color = get_field('feature_status_color');
-    $feature_title_color = get_field('feature_title_color');
-    $feature_author_color = get_field('feature_author_color');
-    $feature_desc_color = get_field('feature_description_color');
-    $feature_play_link = get_field('feature_play_link');
-    $feature_enable_reaction = get_field('feature_enable_reaction');
-    $feature_enable_button = get_field('feature_enable_button');
-    $feature_button_target = get_field('feature_button_target');
-    $user_id            = get_current_user_id();
-    $admin_id           = get_field('company_user_id', get_the_ID());
-    $member_level = get_field('member_level');
+function nab_company_feature_render_callback($attributes) {
+    $feature_status             = get_field('feature_status');
+    $feature_title              = get_field('feature_title');
+    $feature_author             = get_field('feature_author');
+    $feature_desc               = get_field('feature_desc');
+    $feature_button_text        = get_field('feature_button_text');
+    $feature_button_url         = get_field('feature_button_url');    
+    $feature_bg_color           = get_field('feature_bg_color');
+    $feature_icon_image         = get_field('feature_icon_image');
+    $feature_status_color       = get_field('feature_status_color');
+    $feature_title_color        = get_field('feature_title_color');
+    $feature_author_color       = get_field('feature_author_color');
+    $feature_desc_color         = get_field('feature_description_color');
+    $feature_play_link          = get_field('feature_play_link');
+    $feature_enable_reaction    = get_field('feature_enable_reaction');
+    $feature_enable_button      = get_field('feature_enable_button');
+    $feature_button_target      = get_field('feature_button_target');
+    $user_id                    = get_current_user_id();
+    $admin_id                   = get_field('company_user_id', get_the_ID());
+    $member_level               = get_field('member_level');
+    $feature_background_image   = get_post_meta( get_the_ID(), '_bynder_feature_background_image', true );
+    $feature_background_image   = empty( $feature_background_image ) ? get_field('feature_background_image') : $feature_background_image;
 
     if (is_array($feature_enable_reaction)) {
         $feature_enable_reaction = $feature_enable_reaction[0];
