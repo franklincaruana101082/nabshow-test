@@ -136,14 +136,6 @@ $events = get_posts( array(
 	'posts_per_page' => -1,
 	'post_type' => $post_type,
 	'tax_query' => $tax_query,
-	'meta_query' => array(
-		array(
-			'key' => array('session_end_time', '_EventEndDateUTC'),
-			'compare' => '>=',
-			'value' => $date_now,
-			'type' => 'DATETIME'
-		),
-	),
 	'order' => 'ASC',
 	'orderby' => 'meta_value',
 	'meta_key' => array('session_date', '_EventStartDateUTC'),
@@ -188,6 +180,14 @@ $events = get_posts( array(
 				if(get_post_meta($post->ID, '_EventEndDate', true)) { $EventEnd = get_post_meta($post->ID, '_EventEndDate', true);}
 				if(get_field('session_end_time')) { $EventEnd = get_field('session_end_time');}
 				$EventEnd = new DateTime($EventEnd);
+
+				$company_id = 0;
+				if(get_field('nab_selected_company_id')) { $company_id = get_field('nab_selected_company_id');}
+				if(get_field('company')) {$company_id = get_field('company');}
+				if($company_id){
+					$company_name = get_the_title($company_id);
+					$company_img = get_the_post_thumbnail_url($company_id, array(40,40));
+				}
 			?>
 			<!-- event start -->
 			<div class="events-list__event">
@@ -217,6 +217,19 @@ $events = get_posts( array(
 						<div class="introtext events-list__event__text">
 							<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25); ?>
 						</div>
+						<?php if($company_id){ ?>
+						<div class="event__host events-list__host">
+							<div class="event__host-leadin events-list__host-leadin">
+								<?php esc_html_e('Presented by', 'nab-amplify'); ?>
+							</div>
+							<?php if($company_img) { ?>
+							<img class="event__host-photo events-list__host-photo" 
+								 src="<?php echo($company_img);?>" 
+								 alt="<?php esc_html_e('Logo for ', 'nab-amplify'); echo esc_html($company_name);?>">
+							<?php } ?>
+							<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
+						</div>
+						<?php } ?>
 						<!-- uses ouical.js to generate add-to-calendar -->
 						<div 
 						class="events-list__event__add"
