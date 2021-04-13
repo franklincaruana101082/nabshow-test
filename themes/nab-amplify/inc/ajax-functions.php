@@ -2455,8 +2455,7 @@ function nab_bp_send_message()
 add_action("wp_ajax_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
 add_action("wp_ajax_nopriv_nab_edit_feature_block_popup", "nab_edit_feature_block_popup");
 
-function nab_edit_feature_block_popup()
-{
+function nab_edit_feature_block_popup() {
 
 	$company_id						= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$block_data						= array();
@@ -2469,7 +2468,7 @@ function nab_edit_feature_block_popup()
 	$block_data['author']			= get_field('feature_author', $company_id) ? get_field('feature_author', $company_id) : '';
 	$block_data['description']		= get_field('feature_desc', $company_id) ? get_field('feature_desc', $company_id) : '';
 	$block_data['button_label']		= get_field('feature_button_text', $company_id) ?  get_field('feature_button_text', $company_id) : '';
-	$block_data['button_link'] 		= get_field('feature_button_url', $company_id) ? get_field('feature_button_url', $company_id) : '';
+	$block_data['button_link']		= get_field('feature_button_url', $company_id) ? get_field('feature_button_url', $company_id) : '';
 	$block_data['bg_color']			= get_field('feature_bg_color', $company_id) ? get_field('feature_bg_color', $company_id) : '';
 	$block_data['title_color']		= get_field('feature_title_color', $company_id) ? get_field('feature_title_color', $company_id) : '';
 	$block_data['status_color']		= get_field('feature_status_color', $company_id) ? get_field('feature_status_color', $company_id) : '';
@@ -2480,12 +2479,7 @@ function nab_edit_feature_block_popup()
 	$block_data['button']			= get_field('feature_enable_button', $company_id) ? get_field('feature_enable_button', $company_id) : '0';
 	$block_data['button_target']	= get_field('feature_button_target', $company_id) ? get_field('feature_button_target', $company_id) : '0';
 
-
-
-
-
 	require_once get_template_directory() . '/inc/nab-edit-feature-block.php';
-
 
 	wp_die();
 }
@@ -2588,11 +2582,6 @@ function nab_edit_feature_block() {
 		'feedback' => __('Featured Block Updated!', 'buddypress'),
 		'type'     => 'success',
 	));
-
-
-
-
-
 
 	wp_die();
 }

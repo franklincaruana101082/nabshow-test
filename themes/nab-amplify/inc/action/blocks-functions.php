@@ -1348,7 +1348,8 @@ function nab_company_employees_render_callback($attributes)
     return $html;
 }
 
-function nab_company_feature_render_callback($attributes) {
+function nab_company_feature_render_callback($attributes)
+{
     $feature_status             = get_field('feature_status');
     $feature_title              = get_field('feature_title');
     $feature_author             = get_field('feature_author');
