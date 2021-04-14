@@ -224,7 +224,13 @@
 					transition: color .25s ease-in-out;
 					.event__host-info & {
 						padding-left: 0;
-					}	
+					}
+					.event__host & {
+						padding-left: 0;
+					}
+					.event__host .event__host-photo + & {
+						padding-left: rem(14);
+					}
 				}
 		&__link {
 			font-weight: 600;
