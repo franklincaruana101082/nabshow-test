@@ -4609,6 +4609,11 @@ if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_ke
         'show_in_rest' => false,
     );
 }
+// Specific to Session Details ACF
+register_meta( 'post', 'company', $optin_meta_args );
+register_meta( 'post', 'video_embed', $optin_meta_args );
+
+// Specific to Opt ins ACF
 register_meta( 'post', 'company_id', $optin_meta_args );
 register_meta( 'post', 'company_name', $optin_meta_args );
 register_meta( 'post', 'opted_in', $optin_meta_args );
