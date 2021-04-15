@@ -4616,6 +4616,11 @@ register_meta( 'post', 'user_first_name', $optin_meta_args );
 register_meta( 'post', 'user_last_name', $optin_meta_args );
 register_meta( 'post', 'user_email', $optin_meta_args );
 register_meta( 'post', 'user_ip', $optin_meta_args );
+register_meta( 'post', 'user_title', $optin_meta_args );
+register_meta( 'post', 'user_company', $optin_meta_args );
+register_meta( 'post', 'user_city', $optin_meta_args );
+register_meta( 'post', 'user_state', $optin_meta_args );
+register_meta( 'post', 'user_country', $optin_meta_args );
 register_meta( 'post', 'opt_in_occurred_at_id', $optin_meta_args );
 register_meta( 'post', 'opt_in_occurred_at_url', $optin_meta_args );
 
@@ -4631,6 +4636,11 @@ function optins_add_meta_info($posts) {
                     'user_last_name' => get_field('user_last_name', $post->ID),
                     'user_email' => get_field('user_email', $post->ID),
                     'user_ip' => get_field('user_ip', $post->ID),
+                    'user_title' => get_field('user_title', $post->ID),
+                    'user_company' => get_field('user_company', $post->ID),
+                    'user_city' => get_field('user_city', $post->ID),
+                    'user_state' => get_field('user_state', $post->ID),
+                    'user_country' => get_field('user_country', $post->ID),
                     'opt_in_occurred_at_id' => get_field('opt_in_occurred_at_id', $post->ID),
                     'opt_in_occurred_at_url' => get_field('opt_in_occurred_at_url', $post->ID),
                 );
