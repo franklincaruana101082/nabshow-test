@@ -877,6 +877,14 @@ function nab_amplify_template_redirect()
     if (bp_current_component()) {
         global $bp;
         $member_id = isset($bp->displayed_user->id) ? $bp->displayed_user->id : 0;
+
+        if ( isset( $bp->displayed_user->id ) ) {
+
+            // Redirect user profile page to home page if displayed user not member in current blog.
+            if ( ! is_user_member_of_blog( $bp->displayed_user->id, get_current_blog_id() ) ) {
+                wp_redirect( home_url() );
+            }
+        }
     }
 
     // Redirect Buddypress pages.
