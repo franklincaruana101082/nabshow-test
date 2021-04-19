@@ -16,3 +16,10 @@
 		}
 	}
 }
+
+.optin__info {
+	transition: padding .25s ease-in-out;
+	.button + & {
+		padding: rem(60) 0 0;
+	}
+}
