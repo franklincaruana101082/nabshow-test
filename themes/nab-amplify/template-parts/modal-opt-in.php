@@ -9,6 +9,11 @@ $company_name			= get_the_title($company_id);
 $user					= get_user_by( 'id', $user_id );
 $user_first_name 		= get_user_meta( $user_id, "first_name", true);
 $user_last_name 		= get_user_meta( $user_id, "last_name", true);
+$user_company 		    = get_user_meta( $user_id, "attendee_company", true);
+$user_title 		    = get_user_meta( $user_id, "attendee_title", true);
+$user_city 		        = get_user_meta( $user_id, "user_city", true);
+$user_state 		    = get_user_meta( $user_id, "user_state", true);
+$user_country 		    = get_user_meta( $user_id, "user_country", true);
 $user_email 			= $user->user_email;;
 $user_ip 				= $_SERVER['REMOTE_ADDR'];
 $opt_in_occurred_at_id 	= get_queried_object_id();
@@ -117,6 +122,11 @@ jQuery(function($) {
 				'user_last_name':'<?php echo($user_last_name);?>',
 				'user_email':'<?php echo($user_email);?>',
 				'user_ip':'<?php echo($user_ip);?>',
+				'user_company':'<?php echo($user_company);?>',
+				'user_title':'<?php echo($user_title);?>',
+				'user_city':'<?php echo($user_city);?>',
+				'user_state':'<?php echo($user_state);?>',
+				'user_country':'<?php echo($user_country);?>',
 				'opt_in_occurred_at_id':'<?php echo($opt_in_occurred_at_id);?>',
 				'opt_in_occurred_at_url':'<?php echo($opt_in_occurred_at_url);?>'
 			},
