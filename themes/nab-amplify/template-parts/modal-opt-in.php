@@ -33,12 +33,12 @@ $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 				<?php } ?>
 				
 				<div class="optin__form">
-					<label class="field__optinButtons">
+					<div class="field__optinButtons">
 						<button type="button" value="true" class="button _gradientpink js-optbtn">Opt In</button>
 						<?php if (!$opt_in_required) { ?>
 						<button type="button" value="false" class="button js-optbtn">No Thanks</button>
 						<?php } ?>
-					</label>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -46,13 +46,13 @@ $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 </div>
 
 <div class="container">
-<div class="optout__info nabblock" style="display: none;">
+<div class="optout__info nabblock js-optout_content" style="display: none;">
 	<p>You have previously opted-out of communication with <?php echo($company_name); if(strripos($company_name, ".") == strlen($company_name) - 1): echo(""); else: echo("."); endif;?> If you would like to opt-in you may do so below:</p>
 	<p><button type="button" value="true" class="button js-optbtn">Opt In</button></p>
 
 </div>
 </div>
-<script>
+<script type="text/javascript">
 //open opt in modal if no record of opt in/out exists
 //if opted out, show opportunity to opt in
 var opt_id = 0;
@@ -63,12 +63,20 @@ var cookieValue = '';
 var optVal = '';
 var cookieName = 'nab_optin';
 var company_id = '<?php echo $company_id;?>';
+var registration_required = <?php echo ($registration_required ? "1" : "0"); ?>;
+var registered = <?php echo ($registered ? "1" : "0"); ?>;
 jQuery(function($) {
 	
 	if(document.cookie.indexOf(cookieName) == -1) {	//optins cookie doesn't exist
 		cookieValue = company_id+':2,';
 		optVal = 2;
-		jQuery('#modal-opt-in').show();
+		if(registered) {
+			jQuery('#modal-opt-in').show();
+		} else {
+			var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+			jQuery('.js-optin_content').html(optin_content);
+			jQuery('.js-optin_content').parent().show();
+		}
 	} else { //optins cookie does exist
 		var cookiePart = document.cookie.substr(document.cookie.indexOf(cookieName));
 		var endOfCookie = (cookiePart.indexOf(';') == -1 ? false : cookiePart.indexOf(';'));
@@ -80,17 +88,35 @@ jQuery(function($) {
 		if(cookieValue.indexOf(company_id+':') != -1) {
 			//get opt in value for company_id
 			optVal = cookieValue.substr(cookieValue.indexOf(company_id+':')+company_id.length+1, 1);
-			if (optVal == 2) {
-				jQuery('#modal-opt-in').show();	
-			} else if(optVal == 0 && opt_in_required) {
-				jQuery('#modal-opt-in').show();
-			} else if(optVal == 0) {
-				jQuery('.optout__info').show();	
+			if (optVal == 2) { //this might be impossible now
+				if(registered) {
+					jQuery('#modal-opt-in').show();	
+				} else {
+					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+					jQuery('.js-optin_content').html(optin_content);
+					jQuery('.js-optin_content').parent().show();
+				}
+			} else if(optVal == '0' && opt_in_required) {
+				if(registered) {
+					jQuery('#modal-opt-in').show();
+				} else {
+					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+					jQuery('.js-optin_content').html(optin_content);
+					jQuery('.js-optin_content').parent().show();
+				}
+			} else if(optVal == '0') {
+				jQuery('.js-optout_content').show();	
 			}
 		} else { //if the company isn't in the cookieValue let's add it to the end
 			cookieValue += company_id+':2,';
 			optVal = 2;
-			jQuery('#modal-opt-in').show();
+			if(registered) {
+				jQuery('#modal-opt-in').show();
+			} else {
+				var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+				jQuery('.js-optin_content').html(optin_content);
+				jQuery('.js-optin_content').parent().show();
+			}
 		}
 
 	}
@@ -137,7 +163,10 @@ jQuery(function($) {
 				document.cookie = cookieName+'='+cookieValue+'; expires='+oneYearFromNow+';path=/';
 				jQuery(self).text('Saved');
 				jQuery(self).closest('#modal-opt-in, .optout__info').delay(250).hide(250);
-				if(opt_in_required) {
+				optin_complete = 1;
+				if((opt_in_required && !registration_required) 
+					|| (opt_in_required && registration_required && registered)
+					|| (!opt_in_required && registration_required && registered)) {
 					location.reload();
 				}
 			}

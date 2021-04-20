@@ -130,7 +130,88 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								}
 								?>
 								</div>
-							<?php } ?>
+							<?php } 
+
+							$session_id				= $post->ID;
+							$session_name			= get_the_title();
+							$session_company_id		= $company;
+							$session_company_name	= get_the_title( $company );
+							$user_id				= get_current_user_id();
+							$user					= get_user_by( 'id', $user_id );
+							$user_email				= $user->user_email;
+							$user_firstname			= get_user_meta( $user_id, "first_name", true);
+							$user_lastname			= get_user_meta( $user_id, "last_name", true);
+							$user_country_code		= get_user_meta( $user_id, "user_country", true);
+							$user_company			= get_user_meta( $user_id, "attendee_company", true);
+							$user_title				= get_user_meta( $user_id, "attendee_title", true);
+
+							$session_status = get_field( 'session_status' );
+							$registered_show = 0;
+							$registration_required = (int)get_field('require_registration');
+							$using_optin = (get_field('show_opt_inout_modal') ? "1" : "0");
+							if($using_optin) {
+								$optin_complete = '0';
+							} else {
+								//set as complete if we're not using an opt in
+								//for setting up functionality in registration below
+								$optin_complete = '1';
+							}
+
+							if(is_user_logged_in() && $session_status == 'pre-event') {
+
+								$show_content = true;
+						
+								$content_protected = (int)get_field('make_opt_in_required');
+								
+								$cookieName = 'nab_optin';
+								if(isset($_COOKIE[$cookieName])) {
+									if(stripos($_COOKIE[$cookieName], $company.':') !== false) { //check if opted in OR out
+										$using_optin = '0';
+										$optin_complete = '1';
+									}
+									if($content_protected) {
+										$show_content = false;
+										$optin_complete = '0';
+										$using_optin = '1';
+										if(stripos($_COOKIE[$cookieName], $company.':1') !== false) { //check if already opted IN
+											$show_content = true;
+											$optin_complete = '1';
+											$using_optin = '0';
+										}
+									}
+								} elseif ($content_protected) {
+									$show_content = false;
+								}
+							
+
+								if($registration_required) {
+									//check if already registered
+									$cookieName = 'nab_sr';
+									if(isset($_COOKIE[$cookieName])) {
+										if(stripos($_COOKIE[$cookieName], $session_id.',') !== false) {
+											$registered = true;
+										} else {
+											$registered = false;
+										}
+									} else {
+										$registered = false;
+									}
+									
+									if ($registered) {
+										$registered_show = 1;	
+									}
+								} else {
+									//registration not required, don't hide stuff
+									$registered_show = 1;
+									//set registered true if registration not required this is
+									//for setting up a JS var for opt ins in modal-opt-in.php
+									$registered = true;
+								}
+								if (!$registered_show) {
+									include ( locate_template( 'template-parts/session-registration.php', false, false ) );
+								}
+							}
+							?>
 					</div><!-- .container -->
 				</header><!-- .intro -->
 
@@ -164,43 +245,16 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						}
 					endif;
 
-					//user should be logged in already
-					$user_id				= get_current_user_id();
-					$user					= get_user_by( 'id', $user_id );
-					$user_email				= $user->user_email;
-					$user_firstname			= get_user_meta( $user_id, "first_name", true);
-					$user_lastname			= get_user_meta( $user_id, "last_name", true);
-
 					registerCometChatProSession();
 					addUserToCometChatPro($user_id);
 
-					$content_protected = (int)get_field('make_opt_in_required');
-					$hide_content = 1;
-
-					if($content_protected) {
-
-						$opt_in = get_posts( array(
-							'posts_per_page' => -1,
-							'post_type' => 'opt-in',
-							'author' => $user_id,
-							'meta_query' => array(
-								array(
-									'key' => 'company_id',
-									'compare' => '==',
-									'value' => $company,
-									'type' => 'INT'
-								),
-								array(
-									'key' => 'opted_in',
-									'compare' => '==',
-									'value' => 1,
-									'type' => 'INT'
-								)
-							)
-						));
-						$hide_content = count($opt_in);
-					}
-					if($hide_content) {
+					if($registration_required) {
+						if ($using_optin) { ?>
+							<div class="container" style="display: none;">
+								<div class="optout__info js-optin_content nabblock"></div>
+							</div>
+					<?php }	} //end internal registration
+					if($show_content) {
 
 					if($session_status == "pre-event") {
 						if($pre_event_registration_id != '') {
@@ -324,7 +378,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' && $video_embed != '' && $hide_content) {
+							if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show) {
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
