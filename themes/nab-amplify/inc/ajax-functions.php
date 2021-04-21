@@ -3330,11 +3330,11 @@ function nab_create_update_opt_in_out() {
 	$user_last_name = filter_input(INPUT_POST, 'user_last_name', FILTER_SANITIZE_STRING);
 	$user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
 	$user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
-	$user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_EMAIL);
-	$user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_EMAIL);
-	$user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_EMAIL);
-	$user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_EMAIL);
-	$user_country = filter_input(INPUT_POST, 'user_country', FILTER_SANITIZE_EMAIL);
+	$user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+	$user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
+	$user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+	$user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
+	$user_country = filter_input(INPUT_POST, 'user_country', FILTER_SANITIZE_STRING);
 	$opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
 	$opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
 
