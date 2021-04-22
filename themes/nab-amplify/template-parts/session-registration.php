@@ -1,6 +1,20 @@
-
+<?php 
+	wp_enqueue_script('nab-ouical', get_template_directory_uri().'/assets/js/ouical.js', array(), '1.0', true); 
+	$cal_start    = new DateTime($session_start);
+	$cal_end      = new DateTime($session_end);
+?>
 <div class="register">
-<button class="button _gradientpink js-register">Register Now</button>
+<button class="button <?php echo($registered ? '' : '_gradientpink'); ?> js-register" <?php echo($registered ? 'disabled="true"' : ''); ?>><?php echo($registered ? 'Registered' : 'Register Now'); ?></button>
+	<div class="register__calendar <?php echo($registered ? '_display' : ''); ?>">
+		<div 
+			class="events-list__event__add"
+			data-title="<?php the_title(); ?>"
+			data-start="<?php echo $cal_start->format('F d, Y H:i'); ?>"
+			data-end="<?php echo $cal_end->format('F d, Y H:i'); ?>"
+			data-address="The Internet"
+			data-description="<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25).' '.get_the_permalink(); ?>"
+			></div>
+	</div>
 
 <script type="text/javascript">
 
@@ -55,11 +69,13 @@ jQuery(function($) {
 			function( data ) {
 				//set registration cookie
 				document.cookie = rCookieName+'='+rCookieValue+'; expires='+oneYearFromNow+';path=/';
-				jQuery(self).text('Registered').delay(250).hide(250);
+				jQuery(self).text('Registered').attr('disabled', 'true').removeClass('_gradientpink');
 				registered = 1;
 				if(optin_complete) {
 					//reload to show the registered content
 					location.reload();
+				} else {
+					jQuery('.register__calendar').addClass('_display');
 				}
 			}
 		);

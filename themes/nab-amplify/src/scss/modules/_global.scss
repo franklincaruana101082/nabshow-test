@@ -321,6 +321,13 @@ input[type="button"].button {
 	&:hover, &:active, &:focus {
 		background-color: $color__gray-lightish;
 	}
+	&[disabled] {
+		background: $color__gray;
+		cursor: default;
+		&:hover, &:active, &:focus {
+			background-color: $color__gray;
+		}
+	}
 	
 	&._gradientpink {
 		background: linear-gradient(90deg, $color__purple, $color__pink);

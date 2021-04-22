@@ -207,7 +207,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									//for setting up a JS var for opt ins in modal-opt-in.php
 									$registered = true;
 								}
-								if (!$registered_show) {
+								if ($registration_required) {
 									include ( locate_template( 'template-parts/session-registration.php', false, false ) );
 								}
 							}
