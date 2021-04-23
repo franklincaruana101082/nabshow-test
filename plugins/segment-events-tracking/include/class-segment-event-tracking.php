@@ -558,7 +558,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $session_id = filter_input( INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT );
             $session_name = filter_input( INPUT_POST, 'session_name', FILTER_SANITIZE_STRING );
             $session_company_id = filter_input( INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT );
-            $session_company_name - filter( INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING );
+            $session_company_name - filter_input( INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING );
             $user_email = filter_input( INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL );
             $user_firstname = filter_input( INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING );
             $user_lastname = filter_input( INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING );
@@ -582,7 +582,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'user_last_name'        => $user_lastname,
                     'user_city'             => $user_city,
                     'user_state'            => $user_state,
-                    'user_country'     => $user_country_code,
+                    'user_country'          => $user_country_code,
                     'user_company'          => $user_company,
                     'user_title'            => $user_title,
                     'user_ip'               => $user_ip,
