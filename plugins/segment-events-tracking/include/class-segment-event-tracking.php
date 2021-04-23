@@ -565,8 +565,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $user_city = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
             $user_state = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
             $user_country_code = filter_input( INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING );
-            $user_company = filter_input( INPUT_POST, '$user_company', FILTER_SANITIZE_STRING );
-            $user_title = filter_input( INPUT_POST, '$user_title', FILTER_SANITIZE_STRING );
+            $user_company = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+            $user_title = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
             $user_ip = filter_input( INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING );
 
             $track_event     = array(
