@@ -4141,9 +4141,12 @@ function nab_register_session() {
 	$user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
 	$user_firstname = filter_input(INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING);
 	$user_lastname = filter_input(INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING);
+	$user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+	$user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
 	$user_country_code = filter_input(INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING);
 	$user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
 	$user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+	$user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
 		
 
 	$new_post = array(
@@ -4161,9 +4164,12 @@ function nab_register_session() {
 			'user_email' => $user_email,
 			'user_firstname' => $user_firstname,
 			'user_lastname' => $user_lastname,
+			'user_city' => $user_city,
+			'user_state' => $user_state,
 			'user_country_code' => $user_country_code,
 			'user_company' => $user_company,
 			'user_title' => $user_title,
+			'user_ip' => $user_ip,
 		)
 	);
 	$registration_post = wp_insert_post($new_post);
