@@ -554,65 +554,34 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
+            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
             $session_id = filter_input( INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT );
             $session_name = filter_input( INPUT_POST, 'session_name', FILTER_SANITIZE_STRING );
             $session_company_id = filter_input( INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT );
             $session_company_name - filter( INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING );
+            $user_email = filter_input( INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL );
+            $user_firstname = filter_input( INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING );
+            $user_lastname = filter_input( INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING );
             $user_country_code = filter_input( INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING );
-            
+            $user_company = filter_input( INPUT_POST, '$user_company', FILTER_SANITIZE_STRING );
+            $user_title = filter_input( INPUT_POST, '$user_title', FILTER_SANITIZE_STRING );
 
-            if ( ! is_user_logged_in() || empty( $pdf_id ) || empty( $company_id ) ) {
-                wp_send_json_error( array( 'feedback' => 'Rquired parameter is missing!' ) );
-            }
-
-            $user_id        = get_current_user_id();
-            $track_event    = array(
-                'event'     => 'Session_User_Registered',
-                'userId'    => $user_id,
+            $track_event     = array(
+                'event'      => 'Session_User_Registered',
+                'userId'     => $user_id,
+                'properties' => array(
+                    'session_id'            => $session_id,
+                    'session_name'          => $session_name,
+                    'session_company_id'    => $session_company_id,
+                    'session_company_name'  => $session_company_name,
+                    'user_email'            => $user_email,
+                    'user_firstname'        => $user_firstname,
+                    'user_lastname'         => $user_lastname,
+                    'user_country_code'     => $user_country_code,
+                    'user_company'          => $user_company,
+                    'user_title'            => $user_title,
+                ),
             );
-            
-            $company_properties = array();
-            $company_properties = $this->st_add_company_taxonomy_properties( $company_properties, $session_company_id );
-            $user_properties    = $this->st_add_user_taxonomy_properties( $user_id );
-
-            $company_properties['Company_Name']    = $session_company_name;
-            $company_properties['Session_ID']      = $session_id;
-            $company_properties['Session_Name']    = $session_name;
-
-            if ( isset( $company_properties['Country'] ) ) {
-                $company_properties['Company_Country'] = $company_properties['Country'];
-                unset( $company_properties['Country'] );
-            }
-
-            if ( isset( $company_properties['State'] ) ) {
-                $company_properties['Company_State'] = $company_properties['State'];
-                unset( $company_properties['State'] );
-            }
-
-            if ( isset( $company_properties['City'] ) ) {
-                $company_properties['Company_City'] = $company_properties['City'];
-                unset( $company_properties['City'] );
-            }
-
-            if ( isset( $user_properties['Country'] ) ) {
-                $user_properties['User_Country'] = $user_properties['Country'];
-                unset( $user_properties['Country'] );
-            } else {
-                $user_properties['User_Country'] = $user_country_code;
-            }
-
-            if ( isset( $user_properties['State'] ) ) {
-                $user_properties['User_State'] = $user_properties['State'];
-                unset( $user_properties['State'] );
-            }
-
-            if ( isset( $user_properties['City'] ) ) {
-                $user_properties['User_City'] = $user_properties['City'];
-                unset( $user_properties['City'] );
-            }
-
-
-            $track_event['properties'] = array_merge( $company_properties, $user_properties );
 
             $this->st_track_event( $track_event );
 
