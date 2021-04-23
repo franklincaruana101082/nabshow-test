@@ -79,6 +79,23 @@ jQuery(function($) {
 				}
 			}
 		);
+
+		$.ajax({
+            url: segmentJS.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'st_track_session_registration',
+                nabNonce: segmentJS.nabNonce,
+                user_id: '<?php echo($user_id);?>',
+                session_id: '<?php echo($session_id);?>',
+                session_name: '<?php echo($session_name);?>',
+                session_company_id:'<?php echo($session_company_id);?>',
+				session_company_name:'<?php echo($session_company_name);?>',
+				user_country_code: '<?php echo($user_country_code);?>',
+            },
+            success: function (response) {              
+            }
+        });
 	});
 
 });
