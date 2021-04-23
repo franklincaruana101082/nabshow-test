@@ -62,9 +62,12 @@ jQuery(function($) {
 				'user_email':'<?php echo($user_email);?>',
 				'user_firstname':'<?php echo($user_firstname);?>',
 				'user_lastname':'<?php echo($user_lastname);?>',
+				'user_city':'<?php echo($user_city);?>',
+				'user_state':'<?php echo($user_state);?>',
 				'user_country_code': '<?php echo($user_country_code);?>',
 				'user_company': '<?php echo($user_company);?>',
 				'user_title': '<?php echo($user_title);?>',
+				'user_ip': '<?php echo($user_ip);?>',
 			},
 			function( data ) {
 				//set registration cookie
@@ -77,6 +80,31 @@ jQuery(function($) {
 				} else {
 					jQuery('.register__calendar').addClass('_display');
 				}
+				//send tracking info to Segment
+				jQuery.ajax({
+					url: segmentJS.ajaxurl,
+					type: 'POST',
+					data: {
+						action: 'st_track_session_registration',
+						nabNonce: segmentJS.nabNonce,
+						user_id: '<?php echo($user_id);?>',
+						session_id: '<?php echo($session_id);?>',
+						session_name: '<?php echo($session_name);?>',
+						session_company_id: '<?php echo($session_company_id);?>',
+						session_company_name: '<?php echo($session_company_name);?>',
+						user_email: '<?php echo($user_email);?>',
+						user_firstname: '<?php echo($user_firstname);?>',
+						user_lastname: '<?php echo($user_lastname);?>',
+						user_city: '<?php echo($user_city);?>',
+						user_state: '<?php echo($user_state);?>',
+						user_country_code: '<?php echo($user_country_code);?>',
+						user_company: '<?php echo($user_company);?>',
+						user_title: '<?php echo($user_title);?>',
+						user_ip: '<?php echo($user_ip);?>',
+					},
+					success: function (response) {
+					}
+				});
 			}
 		);
 	});

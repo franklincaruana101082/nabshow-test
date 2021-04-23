@@ -92,6 +92,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'wp_ajax_nopriv_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
                 add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
+                add_action( 'wp_ajax_st_track_session_registration', array( $this, 'st_track_session_registration' ) );
 
                 add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
                 add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
@@ -539,6 +540,54 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $company_properties['Document_Name']        = html_entity_decode( get_the_title( $pdf_id ) );
 
             $track_event['properties'] = array_merge( $company_properties, $user_properties );
+
+            $this->st_track_event( $track_event );
+
+            wp_send_json_success( array(
+                    'feedback' => 'Event Track Successfully',
+                    'type'     => 'success',
+                )
+            );
+        }
+
+        public function st_track_session_registration() {
+
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            $session_id = filter_input( INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT );
+            $session_name = filter_input( INPUT_POST, 'session_name', FILTER_SANITIZE_STRING );
+            $session_company_id = filter_input( INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT );
+            $session_company_name - filter( INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING );
+            $user_email = filter_input( INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL );
+            $user_firstname = filter_input( INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING );
+            $user_lastname = filter_input( INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING );
+            $user_city = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+            $user_state = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+            $user_country_code = filter_input( INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING );
+            $user_company = filter_input( INPUT_POST, '$user_company', FILTER_SANITIZE_STRING );
+            $user_title = filter_input( INPUT_POST, '$user_title', FILTER_SANITIZE_STRING );
+            $user_ip = filter_input( INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING );
+
+            $track_event     = array(
+                'event'      => 'Session_User_Registered',
+                'userId'     => $user_id,
+                'properties' => array(
+                    'session_id'            => $session_id,
+                    'session_name'          => $session_name,
+                    'session_company_id'    => $session_company_id,
+                    'session_company_name'  => $session_company_name,
+                    'user_email'            => $user_email,
+                    'user_first_name'       => $user_firstname,
+                    'user_last_name'        => $user_lastname,
+                    'user_city'             => $user_city,
+                    'user_state'            => $user_state,
+                    'user_country'     => $user_country_code,
+                    'user_company'          => $user_company,
+                    'user_title'            => $user_title,
+                    'user_ip'               => $user_ip,
+                ),
+            );
 
             $this->st_track_event( $track_event );
 

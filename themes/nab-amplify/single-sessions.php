@@ -141,9 +141,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							$user_email				= $user->user_email;
 							$user_firstname			= get_user_meta( $user_id, "first_name", true);
 							$user_lastname			= get_user_meta( $user_id, "last_name", true);
+							$user_city 		        = get_user_meta( $user_id, "user_city", true);
+							$user_state 		    = get_user_meta( $user_id, "user_state", true);
 							$user_country_code		= get_user_meta( $user_id, "user_country", true);
 							$user_company			= get_user_meta( $user_id, "attendee_company", true);
 							$user_title				= get_user_meta( $user_id, "attendee_title", true);
+							$user_ip 				= $_SERVER['REMOTE_ADDR'];
 
 							$session_status = get_field( 'session_status' );
 							$registered_show = 0;
