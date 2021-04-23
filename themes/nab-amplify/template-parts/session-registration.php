@@ -62,9 +62,12 @@ jQuery(function($) {
 				'user_email':'<?php echo($user_email);?>',
 				'user_firstname':'<?php echo($user_firstname);?>',
 				'user_lastname':'<?php echo($user_lastname);?>',
+				'user_city':'<?php echo($user_city);?>',
+				'user_state':'<?php echo($user_state);?>',
 				'user_country_code': '<?php echo($user_country_code);?>',
 				'user_company': '<?php echo($user_company);?>',
 				'user_title': '<?php echo($user_title);?>',
+				'user_ip': '<?php echo($user_ip);?>',
 			},
 			function( data ) {
 				//set registration cookie
@@ -92,9 +95,12 @@ jQuery(function($) {
 						user_email: '<?php echo($user_email);?>',
 						user_firstname: '<?php echo($user_firstname);?>',
 						user_lastname: '<?php echo($user_lastname);?>',
-						user_country_code:  '<?php echo($user_country_code);?>',
-						user_company:  '<?php echo($user_company);?>',
-						user_title:  '<?php echo($user_title);?>',
+						user_city: '<?php echo($user_city);?>',
+						user_state: '<?php echo($user_state);?>',
+						user_country_code: '<?php echo($user_country_code);?>',
+						user_company: '<?php echo($user_company);?>',
+						user_title: '<?php echo($user_title);?>',
+						user_ip: '<?php echo($user_ip);?>',
 					},
 					success: function (response) {
 					}
