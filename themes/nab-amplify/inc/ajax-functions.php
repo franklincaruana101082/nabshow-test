@@ -4121,3 +4121,63 @@ function nab_remove_company_event_callback() {
 
 	wp_send_json_success( array( 'msg' => 'Event removed successfully.' ) );
 }
+
+add_action("wp_ajax_nab_register_session", "nab_register_session");
+
+function nab_register_session() {
+	$newTZ = wp_timezone();
+	$now = new DateTime(gmdate('Y-m-d H:i:s'));
+	$now->setTimezone($newTZ);
+	$post_date = $now->format('Y-m-d H:i:s');
+
+	$post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_STRING);
+	$post_status = filter_input(INPUT_POST, 'post_status', FILTER_SANITIZE_STRING);
+	$post_author = filter_input(INPUT_POST, 'post_author', FILTER_SANITIZE_NUMBER_INT);
+	$post_type = filter_input(INPUT_POST, 'post_type', FILTER_SANITIZE_STRING);
+	$session_id = filter_input(INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT);
+	$session_name = filter_input(INPUT_POST, 'session_name', FILTER_SANITIZE_STRING);
+	$session_company_id = filter_input(INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT);
+	$session_company_name = filter_input(INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING);
+	$user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
+	$user_firstname = filter_input(INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING);
+	$user_lastname = filter_input(INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING);
+	$user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+	$user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
+	$user_country_code = filter_input(INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING);
+	$user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
+	$user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+	$user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
+		
+
+	$new_post = array(
+		'post_title' => $post_title,
+		'post_status' => $post_status,
+		'post_date' => $post_date,
+		'post_author' => $post_author,
+		'post_type' => $post_type,
+		'meta_input' => array(
+			'session_id' => $session_id,
+			'session_name' => $session_name,
+			'session_company_id' => $session_company_id,
+			'session_company_name' => $session_company_name,
+			'registered_at' => $post_date,
+			'user_email' => $user_email,
+			'user_firstname' => $user_firstname,
+			'user_lastname' => $user_lastname,
+			'user_city' => $user_city,
+			'user_state' => $user_state,
+			'user_country_code' => $user_country_code,
+			'user_company' => $user_company,
+			'user_title' => $user_title,
+			'user_ip' => $user_ip,
+		)
+	);
+	$registration_post = wp_insert_post($new_post);
+	
+	
+	if($registration_post) {
+		wp_send_json_success($registration_post);
+	} else {
+		wp_send_json_error();
+	}
+}

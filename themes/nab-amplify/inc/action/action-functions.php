@@ -648,6 +648,47 @@ function nab_amplify_register_post_types()
 
     // Registering your Custom Post Type
     register_post_type('downloadable-pdfs', $args);
+
+    $labels = array(
+        'name'               => _x('Session Registrations', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Session Registration', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Session Registrations', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Session Registrations', 'nab-amplify'),
+        'all_items'          => __('All Session Registrations', 'nab-amplify'),
+        'view_item'          => __('View Session Registration', 'nab-amplify'),
+        'add_new_item'       => __('Add New Session Registration', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Session Registrations', 'nab-amplify'),
+        'update_item'        => __('Update Session Registrations', 'nab-amplify'),
+        'search_items'       => __('Search Session Registrations', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Session Registrations', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 100,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => true,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'rewrite'             => false,
+        'delete_with_user'    => false,
+        'supports'            => array('title', 'author', 'revisions', 'custom-fields'),
+
+    );
+
+    // Registering your Custom Post Type
+    register_post_type('session-registration', $args);
 }
 
 // Hooking up our function to theme setup
