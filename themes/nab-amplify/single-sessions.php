@@ -160,7 +160,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								$optin_complete = '1';
 							}
 
-							if(is_user_logged_in() && $session_status == 'pre-event') {
+							if(is_user_logged_in()) {
 
 								$show_content = true;
 						
