@@ -93,6 +93,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
                 add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
                 add_action( 'wp_ajax_st_track_session_registration', array( $this, 'st_track_session_registration' ) );
+                add_action( 'wp_ajax_st_track_opt_in_out', array( $this, 'st_track_opt_in_out' ) );
 
                 add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
                 add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
