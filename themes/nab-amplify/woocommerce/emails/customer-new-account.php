@@ -34,15 +34,15 @@ if ( $user ) {
 <?php /* translators: %s: Customer username */ ?>
 	<p><?php printf( esc_html__( 'Dear %s,', 'woocommerce' ), esc_html( $full_name ) ); ?></p>
 <?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
-	
+
 	<p>Congratulations on joining NAB Amplify. When you signed up, you activated these exclusive benefits of the Early Access Bundle:</p>
-	<ul>	
+	<ul>
 		<li>Free <strong>NAB Amplify Newsletters</strong> highlighting fresh content</li>
-		<li>Free <strong>Exhibits Pass to NAB Show in Las Vegas</strong> | October 10-13, 2021 ($159 value) details to come</li>
+		<li>Free <strong>Exhibits Pass to NAB Show in Las Vegas</strong> | October 10-13, 2021 ($159 value). Claim your pass <a href="https://amplify.nabshow.com/sign-up/?r=maritz&marketing_code=AMP01">here</a>! You must be signed in to NAB Amplify. </li>
 		<li>Free <strong>upgraded NAB Amplify subscription</strong> through 2021 ($100 value) which includes access to these special events:
 			<ul>
 				<li>Access to <strong>Demo Days videos</strong> (daily, expert-led product demonstrations) | Originally aired March 15-26, 2021</li>
-				<li>Access to <strong>NAB Show Premiere on NAB Amplify</strong> (reuniting the community to celebrate innovation) | April 12-23, 2021</li>
+				<li>Access to <strong>NAB Show Premiere on NAB Amplify</strong> (reuniting the community to celebrate innovation) | Originally aired April 12-23, 2021</li>
 				<li>And more events and benefits throughout the year.</li>
 			</ul>
 		</li>
