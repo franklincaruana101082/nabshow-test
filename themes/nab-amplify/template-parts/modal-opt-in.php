@@ -160,6 +160,7 @@ jQuery(function($) {
 					data: {
 						action: 'st_track_opt_in_out',
 						nabNonce: segmentJS.nabNonce,
+						opted_in: opt,
 						user_id: '<?php echo($user_id);?>',
 						company_id: '<?php echo($session_company_id);?>',
 						company_name: '<?php echo($session_company_name);?>',
