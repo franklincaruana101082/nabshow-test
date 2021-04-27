@@ -598,6 +598,61 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             );
         }
 
+        public function st_track_opt_in_out() {
+
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+            $company_name = filter_input(INPUT_POST, 'company_name', FILTER_SANITIZE_STRING);
+            $opted_in = filter_input(INPUT_POST, 'opted_in', FILTER_VALIDATE_BOOLEAN);
+            $user_firstname = filter_input(INPUT_POST, 'user_first_name', FILTER_SANITIZE_STRING);
+            $user_lastname = filter_input(INPUT_POST, 'user_last_name', FILTER_SANITIZE_STRING);
+            $user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
+            $user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
+            $user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+            $user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
+            $user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+            $user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
+            $user_country_code = filter_input(INPUT_POST, 'user_country', FILTER_SANITIZE_STRING);
+            $opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
+            $opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
+
+            if($opted_in) {
+                $event_track = 'Company_User_Opted_In';
+            } else {
+                $event_track = 'Company_User_Opted_Out';
+            }
+
+            $track_event     = array(
+                'event'      => $event_track,
+                'userId'     => $user_id,
+                'properties' => array(
+                    'company_id'            => $company_id,
+                    'company_name'          => $company_name,
+                    'user_email'            => $user_email,
+                    'user_first_name'       => $user_firstname,
+                    'user_last_name'        => $user_lastname,
+                    'user_city'             => $user_city,
+                    'user_state'            => $user_state,
+                    'user_country'          => $user_country_code,
+                    'user_company'          => $user_company,
+                    'user_title'            => $user_title,
+                    'user_ip'               => $user_ip,
+                    'occurred_at_id'        => $opt_in_occurred_at_id,
+                    'occurred_at_url'       => $opt_in_occurred_at_url,
+                ),
+            );
+
+            $this->st_track_event( $track_event );
+
+            wp_send_json_success( array(
+                    'feedback' => 'Event Track Successfully',
+                    'type'     => 'success',
+                )
+            );
+        }
+
         public function st_track_company_event_action( $company_id, $event_id, $action ) {
 
             if ( ! empty( $company_id ) && ! empty( $event_id ) && ! empty( $action ) ) {

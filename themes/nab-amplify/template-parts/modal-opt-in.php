@@ -5,17 +5,6 @@ $now->setTimezone($newTZ);
 $date_now = $now->format('Y-m-d H:i:s');
 
 
-$company_name			= get_the_title($company_id);
-$user					= get_user_by( 'id', $user_id );
-$user_first_name 		= get_user_meta( $user_id, "first_name", true);
-$user_last_name 		= get_user_meta( $user_id, "last_name", true);
-$user_company 		    = get_user_meta( $user_id, "attendee_company", true);
-$user_title 		    = get_user_meta( $user_id, "attendee_title", true);
-$user_city 		        = get_user_meta( $user_id, "user_city", true);
-$user_state 		    = get_user_meta( $user_id, "user_state", true);
-$user_country 		    = get_user_meta( $user_id, "user_country", true);
-$user_email 			= $user->user_email;;
-$user_ip 				= $_SERVER['REMOTE_ADDR'];
 $opt_in_occurred_at_id 	= get_queried_object_id();
 $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 
@@ -144,15 +133,15 @@ jQuery(function($) {
 				'company_id':'<?php echo($company_id);?>',
 				'company_name':'<?php echo($company_name);?>',
 				'opted_in':opt,
-				'user_first_name':'<?php echo($user_first_name);?>',
-				'user_last_name':'<?php echo($user_last_name);?>',
+				'user_first_name':'<?php echo($user_firstname);?>',
+				'user_last_name':'<?php echo($user_lastname);?>',
 				'user_email':'<?php echo($user_email);?>',
 				'user_ip':'<?php echo($user_ip);?>',
 				'user_company':'<?php echo($user_company);?>',
 				'user_title':'<?php echo($user_title);?>',
 				'user_city':'<?php echo($user_city);?>',
 				'user_state':'<?php echo($user_state);?>',
-				'user_country':'<?php echo($user_country);?>',
+				'user_country':'<?php echo($user_country_code);?>',
 				'opt_in_occurred_at_id':'<?php echo($opt_in_occurred_at_id);?>',
 				'opt_in_occurred_at_url':'<?php echo($opt_in_occurred_at_url);?>'
 			},
@@ -164,6 +153,31 @@ jQuery(function($) {
 				jQuery(self).text('Saved');
 				jQuery(self).closest('#modal-opt-in, .optout__info').delay(250).hide(250);
 				optin_complete = 1;
+				//send tracking info to Segment
+				jQuery.ajax({
+					url: segmentJS.ajaxurl,
+					type: 'POST',
+					data: {
+						action: 'st_track_opt_in_out',
+						nabNonce: segmentJS.nabNonce,
+						user_id: '<?php echo($user_id);?>',
+						company_id: '<?php echo($session_company_id);?>',
+						company_name: '<?php echo($session_company_name);?>',
+						user_firstname: '<?php echo($user_firstname);?>',
+						user_lastname: '<?php echo($user_lastname);?>',
+						user_email: '<?php echo($user_email);?>',
+						user_ip: '<?php echo($user_ip);?>',
+						user_title: '<?php echo($user_title);?>',
+						user_company: '<?php echo($user_company);?>',
+						user_city: '<?php echo($user_city);?>',
+						user_state: '<?php echo($user_state);?>',
+						user_country_code: '<?php echo($user_country_code);?>',
+						opt_in_occurred_at_id = '<?php echo($opt_in_occurred_at_id);?>',
+            			opt_in_occurred_at_url = '<?php echo($opt_in_occurred_at_url);?>',
+					},
+					success: function (response) {
+					}
+				});
 				if((opt_in_required && !registration_required) 
 					|| (opt_in_required && registration_required && registered)
 					|| (!opt_in_required && registration_required && registered)) {
