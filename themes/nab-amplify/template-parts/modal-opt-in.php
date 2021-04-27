@@ -172,8 +172,8 @@ jQuery(function($) {
 						user_city: '<?php echo($user_city);?>',
 						user_state: '<?php echo($user_state);?>',
 						user_country_code: '<?php echo($user_country_code);?>',
-						opt_in_occurred_at_id = '<?php echo($opt_in_occurred_at_id);?>',
-            			opt_in_occurred_at_url = '<?php echo($opt_in_occurred_at_url);?>',
+						opt_in_occurred_at_id: '<?php echo($opt_in_occurred_at_id);?>',
+            			opt_in_occurred_at_url: '<?php echo($opt_in_occurred_at_url);?>',
 					},
 					success: function (response) {
 					}
