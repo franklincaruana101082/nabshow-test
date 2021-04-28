@@ -148,6 +148,16 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							$user_title				= get_user_meta( $user_id, "attendee_title", true);
 							$user_ip 				= $_SERVER['REMOTE_ADDR'];
 
+							if(empty($user_country_code)) {
+								$user_country_code = nab_get_geolocation('country');
+							}
+							if(empty($user_city)) {
+								$user_city = nab_get_geolocation('city');
+							}
+							if(empty($user_state)) {
+								$user_state = nab_get_geolocation('state');
+							}
+
 							$session_status = get_field( 'session_status' );
 							$registered_show = 0;
 							$registration_required = (int)get_field('require_registration');
