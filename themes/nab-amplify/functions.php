@@ -314,6 +314,29 @@ if ( ! is_checkout() ) {
 return $errors;
 }
 
+
+function nab_get_geolocation($locationType) {
+	if ($locationType == 'city') {
+		$geo_city = do_shortcode('[geoip_detect2 property="city.name"]');
+		if (!str_starts_with($geo_city, '<!--')) {
+			return $geo_city;
+		}
+	}
+	if ($locationType == 'state') {
+		$geo_state = do_shortcode('[geoip_detect2 property="mostSpecificSubdivision.isoCode"]');
+		if (!str_starts_with($geo_state, '<!--')) {
+			return $geo_state;
+		}
+	}
+	if ($locationType == 'country') {
+		$geo_country = do_shortcode('[geoip_detect2 property="country.isoCode"]');
+		if (!str_starts_with($geo_country, '<!--')) {
+			return $geo_country;
+		}
+	}
+}
+
+
 /**
  * WooCommerce - Remove Actions
  */
