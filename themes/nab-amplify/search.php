@@ -306,7 +306,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					$total_users	= $members_template->total_member_count;
 					$total_page		= ceil($total_users / 15);
-					$ess = $total_users > 1 ? 's' : '';
+					$ess = $total_users == 0 || $total_users > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Result<?php echo($ess);?> for </span> <strong>People</strong></h2>
@@ -408,7 +408,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_prod_query->have_posts()) {
 
 					$total_products = $company_prod_query->found_posts;
-					$ess = $total_products > 1 ? 's' : '';
+					$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 
 					?>
 					<div class="search-view-top-head">
@@ -515,7 +515,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_query->have_posts()) {
 
 					$total_company	= nab_get_total_company_count();
-					$ess = $total_company > 1 ? 's' : '';
+					$ess = $total_company == 0 || $total_company > 1 ? 's' : '';
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Result<?php echo($ess);?> for </span> <strong>Companies</strong></h2>
@@ -621,7 +621,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($product_query->have_posts()) {
 
 					$total_products = $product_query->found_posts;
-					$ess = $total_products > 1 ? 's' : '';
+					$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 
 				?>
 					<div class="search-view-top-head">
@@ -713,7 +713,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
-				$ess = $total_event > 1 ? 's' : '';
+				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-view-top-head">
 					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Result<?php echo($ess);?> for </span> <strong>Events</strong></h2>
@@ -896,7 +896,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
-					$ess = $total_content > 1 ? 's' : '';
+					$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Stories</strong></h2>
@@ -981,7 +981,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
-					$ess = $total_content > 1 ? 's' : '';
+					$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Content</strong></h2>
@@ -1055,7 +1055,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $pdf_query->have_posts() ) {
 
 					$total_pdf = $pdf_query->found_posts;
-					$ess = $total_pdf > 1 ? 's' : '';
+					$ess = $total_pdf == 0 || $total_pdf > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Result<?php echo($ess);?> for </span><strong>Downloadable PDFs</strong></h2>
@@ -1196,7 +1196,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
-				$ess = $total_content > 1 ? 's' : '';
+				$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
@@ -1255,7 +1255,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_users	= $members_template->total_member_count;
-				$ess = $total_users > 1 ? 's' : '';
+				$ess = $total_users == 0 || $total_users > 1 ? 's' : '';
 				?>
 				<div class="search-section search-user-section">
 					<div class="search-section-heading">
@@ -1357,7 +1357,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found		= true;
 				$total_company_prod = $company_prod_query->found_posts;
-				$ess = $total_company_prod > 1 ? 's' : '';
+				$ess = $total_company_prod == 0 || $total_company_prod > 1 ? 's' : '';
 			?>
 				<div class="search-section amp-item-main company-products">
 					<div class="search-section-heading">
@@ -1449,7 +1449,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_company	= $company_query->found_posts;
-				$ess = $total_company > 1 ? 's' : '';
+				$ess = $total_company == 0 || $total_company > 1 ? 's' : '';
 			?>
 				<div class="search-section search-company-section">
 					<div class="search-section-heading">
@@ -1544,7 +1544,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_products = $product_query->found_posts;
-				$ess = $total_products > 1 ? 's' : '';
+				$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 			?>
 				<div class="search-section search-product-section">
 					<div class="search-section-heading">
@@ -1623,7 +1623,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
-				$ess = $total_event > 1 ? 's' : '';
+				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
@@ -1801,7 +1801,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
-				$ess = $total_content > 1 ? 's' : '';
+				$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 				?>
 				<div class="search-section search-page-section">
 					<div class="search-section-heading">
@@ -1863,7 +1863,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_pdf		= $pdf_query->found_posts;
-				$ess = $total_pdf > 1 ? 's' : '';
+				$ess = $total_pdf == 0 || $total_pdf > 1 ? 's' : '';
 				?>
 				<div class="search-section search-pdf-section">
 					<div class="search-section-heading">
