@@ -1671,12 +1671,11 @@ function nab_event_search_filter_callback()
 	$event_type		= filter_input(INPUT_POST, 'event_type', FILTER_SANITIZE_STRING);
 
 	$event_args		= array(
-		'post_type'			=> 'tribe_events',
+		'post_type'			=> array('tribe_events','sessions'),
 		'posts_per_page'	=> $post_limit,
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		's'					=> $search_term,
-		'meta_key'			=> '_EventStartDate',
 		'orderby'			=> 'meta_value',
 		'order'				=> 'ASC'
 	);
@@ -1689,7 +1688,7 @@ function nab_event_search_filter_callback()
 		$event_args['meta_query'] = array(
 
 			array(
-				'key' 		=> '_EventEndDate',
+				'key' 		=> array('_EventEndDate','session_end_time'),
 				'value'		=> $current_date,
 				'compare'	=> $compare,
 				'type'		=> 'DATE'
@@ -1712,9 +1711,17 @@ function nab_event_search_filter_callback()
 			$event_query->the_post();
 
 			$event_post_id		= get_the_ID();
+			$event_post_type	= get_post_type( $event_post_id );
 			$thumbnail_url      = nab_amplify_get_featured_image( $event_post_id, true, nab_product_company_placeholder_img() );
-			$event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
-			$event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
+			if ( $event_post_type == 'tribe_events') {
+				$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+				$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+				$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+			} else {
+				$event_start_date   = get_post_meta( $event_post_id, 'session_date', true) ;
+				$event_end_date     = get_post_meta( $event_post_id, 'session_end_time', true) ;
+				$company_id			= get_field( 'company', $event_post_id );
+			}
 			$website_link 		= get_post_meta(get_the_ID(), '_EventURL', true);
 			$website_link		= !empty($website_link) ? trim($website_link) : get_the_permalink();
 			$target				= 0 === strpos($website_link, $current_site_url) ? '_self' : '_blank';
@@ -1724,8 +1731,7 @@ function nab_event_search_filter_callback()
 			$final_date         = $event_start_date;
 			$start_time         = '';
 			$end_time           = '';
-			$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
-			$event_content      = wp_strip_all_tags( get_the_content() );
+			$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
