@@ -306,9 +306,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					$total_users	= $members_template->total_member_count;
 					$total_page		= ceil($total_users / 15);
+					$ess = $total_users == 0 || $total_users > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span> <strong>People</strong></h2>
+						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Result<?php echo($ess);?> for </span> <strong>People</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
@@ -407,10 +408,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_prod_query->have_posts()) {
 
 					$total_products = $company_prod_query->found_posts;
+					$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span> <strong>Products</strong></h2>
+						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Products</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
@@ -513,9 +515,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_query->have_posts()) {
 
 					$total_company	= nab_get_total_company_count();
+					$ess = $total_company == 0 || $total_company > 1 ? 's' : '';
 				?>
 					<div class="search-view-top-head">
-						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span> <strong>Companies</strong></h2>
+						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Result<?php echo($ess);?> for </span> <strong>Companies</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
@@ -618,10 +621,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($product_query->have_posts()) {
 
 					$total_products = $product_query->found_posts;
+					$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 
 				?>
 					<div class="search-view-top-head">
-						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span> <strong>Shop</strong></h2>
+						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Shop</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
@@ -682,11 +686,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			} else if ( 'event' === $view_type ) {
 
 				$event_args		= array(
-					'post_type'			=> 'tribe_events',
+					'post_type'			=> array('tribe_events','sessions'),
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
 					's'					=> $search_term,
-					'meta_key'			=> '_EventStartDate',
 					'orderby'			=> 'meta_value',
 					'order'				=> 'ASC'
 				);
@@ -698,7 +701,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					$event_args['meta_query'] = array(
 						array(
-							'key' 		=> '_EventEndDate',
+							'key' 		=> array('_EventEndDate','session_end_time'),
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
@@ -710,9 +713,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
+				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-view-top-head">
-					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Partner Events</strong></h2>
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Result<?php echo($ess);?> for </span> <strong>Events</strong></h2>
 					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
@@ -725,8 +729,16 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$event_post_id		= get_the_ID();
 							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
-							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+							$event_post_type		= get_post_type( $event_post_id );
+							if ( $event_post_type == 'tribe_events') {
+								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+								$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							} else {
+								$event_start_date   = get_post_meta( $event_post_id, 'session_date', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, 'session_end_time', true) ;
+								$company_id			= get_field( 'company', $event_post_id );
+							}
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
@@ -735,9 +747,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_day          = date_format( date_create( $event_start_date ), 'j' );
 							$final_date         = $event_start_date;
 							$start_time         = '';
-                            $end_time           = '';
-							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
-							$event_content      = wp_strip_all_tags( get_the_content() );
+							$end_time           = '';
+							
+							$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -884,10 +896,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
-
+					$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Stories</strong></h2>
+						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Stories</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
@@ -969,10 +981,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
-
+					$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Content</strong></h2>
+						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Content</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-page-section">
@@ -1043,9 +1055,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $pdf_query->have_posts() ) {
 
 					$total_pdf = $pdf_query->found_posts;
+					$ess = $total_pdf == 0 || $total_pdf > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Results for </span><strong>Downloadable PDFs</strong></h2>
+						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Result<?php echo($ess);?> for </span><strong>Downloadable PDFs</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-pdf-section">
@@ -1183,10 +1196,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
+				$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Stories</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
+						<h2><strong>Stories</strong> <span>(<?php echo esc_html($total_content . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_content > 5) {
 
@@ -1241,10 +1255,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_users	= $members_template->total_member_count;
+				$ess = $total_users == 0 || $total_users > 1 ? 's' : '';
 				?>
 				<div class="search-section search-user-section">
 					<div class="search-section-heading">
-						<h2><strong>People</strong> <span>(<?php echo esc_html($total_users . ' Results'); ?>)</span></h2>
+						<h2><strong>People</strong> <span>(<?php echo esc_html($total_users . ' Result' . $ess); ?>)</span></h2>
 						<?php
 						if ($total_users > 5) {
 
@@ -1342,10 +1357,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found		= true;
 				$total_company_prod = $company_prod_query->found_posts;
+				$ess = $total_company_prod == 0 || $total_company_prod > 1 ? 's' : '';
 			?>
 				<div class="search-section amp-item-main company-products">
 					<div class="search-section-heading">
-						<h2><strong>Products</strong> <span>(<?php echo esc_html($total_company_prod . ' Results'); ?>)</span></h2>
+						<h2><strong>Products</strong> <span>(<?php echo esc_html($total_company_prod . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_company_prod > 5) {
 
@@ -1433,10 +1449,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_company	= $company_query->found_posts;
+				$ess = $total_company == 0 || $total_company > 1 ? 's' : '';
 			?>
 				<div class="search-section search-company-section">
 					<div class="search-section-heading">
-						<h2><strong>Companies</strong> <span>(<?php echo esc_html(nab_get_total_company_count() . ' Results'); ?>)</span></h2>
+						<h2><strong>Companies</strong> <span>(<?php echo esc_html(nab_get_total_company_count() . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_company > 5) {
 
@@ -1527,10 +1544,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_products = $product_query->found_posts;
+				$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 			?>
 				<div class="search-section search-product-section">
 					<div class="search-section-heading">
-						<h2><strong>Shop</strong> <span>(<?php echo esc_html($total_products . ' Results'); ?>)</span></h2>
+						<h2><strong>Shop</strong> <span>(<?php echo esc_html($total_products . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_products > 5) {
 
@@ -1575,11 +1593,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			wp_reset_postdata();
 
 			$event_args		= array(
-				'post_type'			=> 'tribe_events',
+				'post_type'			=> array('tribe_events','sessions'),
 				'posts_per_page'	=> 5,
 				'post_status'		=> 'publish',
 				's'					=> $search_term,
-				'meta_key'			=> '_EventStartDate',
 				'orderby'			=> 'meta_value',
 				'order'				=> 'ASC'
 			);
@@ -1592,11 +1609,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$event_args['meta_query'] = array(
 
 					array(
-						'key' 		=> '_EventEndDate',
+						'key' 		=> array('_EventEndDate','session_end_time'),
 						'value'		=> $current_date,
 						'compare'	=> $compare,
 						'type'		=> 'DATE'
-					)
+					),
 				);
 			}
 
@@ -1606,10 +1623,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
+				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
+						<h2><strong>Events</strong> <span>(<?php echo esc_html( $total_event . ' Result'.$ess ); ?>)</span></h2>
 						<?php
 						if ( $total_event > 5 || ( empty( $search_term ) && 0 === $total_event ) ) {
 
@@ -1641,8 +1659,17 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$event_post_id		= get_the_ID();
 							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
-							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);
+							$event_post_type		= get_post_type( $event_post_id );
+							if ( $event_post_type == 'tribe_events') {
+								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+								$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							} else {
+								$event_start_date   = get_post_meta( $event_post_id, 'session_date', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, 'session_end_time', true) ;
+								$company_id			= get_field( 'company', $event_post_id );
+							}
+
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
@@ -1652,8 +1679,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$final_date         = $event_start_date;
 							$start_time         = '';
                             $end_time           = '';
-							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
-							$event_content      = wp_strip_all_tags( get_the_content() );
+							$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -1775,10 +1801,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
+				$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 				?>
 				<div class="search-section search-page-section">
 					<div class="search-section-heading">
-						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
+						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_content > 5) {
 
@@ -1836,10 +1863,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_pdf		= $pdf_query->found_posts;
+				$ess = $total_pdf == 0 || $total_pdf > 1 ? 's' : '';
 				?>
 				<div class="search-section search-pdf-section">
 					<div class="search-section-heading">
-						<h2><strong>Downloadable PDFs</strong> <span>(<?php echo esc_html( $total_pdf . ' Results'); ?>)</span></h2>
+						<h2><strong>Downloadable PDFs</strong> <span>(<?php echo esc_html( $total_pdf . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_pdf > 4 ) {
 
