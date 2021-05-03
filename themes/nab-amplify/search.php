@@ -1660,7 +1660,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							if ( empty( $search_term ) && 0 === $total_event ) {
 								$link_param['t'] = 'past';
-							} else if ( empty( $search_term ) ) {
+							} else if ( !empty( $search_term ) ) {
 								$link_param['t'] = 'all';
 							}
 
