@@ -1695,6 +1695,19 @@ function nab_event_search_filter_callback()
 			)
 		);
 	}
+	if ('all' === $event_type) {
+
+		$compare		= 'EXISTS';
+
+		$event_args['meta_query'] = array(
+
+			array(
+				'key' 		=> array('_EventStartDate','session_date'),
+				'compare'	=> $compare,
+				'type'		=> 'DATE'
+			)
+		);
+	}
 
 	$event_query = new WP_Query($event_args);
 
