@@ -691,13 +691,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_status'		=> 'publish',
 					's'					=> $search_term,
 					'orderby'			=> 'meta_value',
-					'order'				=> 'ASC'
+					'order'				=> 'ASC',
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
-
-					$current_date   = current_time('Y-m-d');
-					$compare		= '>=';
+					//default to upcoming events
+					$current_date   = current_time('Y-m-d H:i:s');
+					$compare		= '<';//'>=';
 
 					$event_args['meta_query'] = array(
 						array(
@@ -705,7 +705,31 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
-						)
+						),
+					);
+				} else if ( isset( $event_type ) && 'past' === $event_type ) {
+					//show past events
+					$current_date   = current_time('Y-m-d H:i:s');
+					$compare		= '<';
+
+					$event_args['meta_query'] = array(
+						array(
+							'key' 		=> array('_EventEndDate','session_end_time'),
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+					);
+				} else if (isset( $event_type ) && 'all' === $event_type) {
+					//show all events
+					$compare		= 'EXISTS';
+
+					$event_args['meta_query'] = array(
+						array(
+							'key' 		=> array('_EventStartDate','session_date'),
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),						
 					);
 				}
 
@@ -1598,7 +1622,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_status'		=> 'publish',
 				's'					=> $search_term,
 				'orderby'			=> 'meta_value',
-				'order'				=> 'ASC'
+				'order'				=> 'ASC',
+				'cache_results'		=> false,
 			);
 
 			if ( empty( $search_term ) ) {
@@ -1635,6 +1660,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							if ( empty( $search_term ) && 0 === $total_event ) {
 								$link_param['t'] = 'past';
+							} else if ( empty( $search_term ) ) {
+								$link_param['t'] = 'all';
 							}
 
 							$event_view_more_link = add_query_arg( $link_param, $current_site_url );
