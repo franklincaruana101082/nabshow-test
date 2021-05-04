@@ -47,7 +47,7 @@ $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 var opt_id = 0;
 var opt_in_required = <?php echo(strval($opt_in_required)); ?>;
 
-var oneYearFromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+var oneYearFromNow = '<?php echo(date('D, d M Y G:i:s e',strtotime(date('D, d M Y G:i:s e', time()) . ' + 365 day'))); ?>';
 var cookieValue = '';
 var optVal = '';
 var cookieName = 'nab_optin';

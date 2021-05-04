@@ -18,7 +18,7 @@
 
 <script type="text/javascript">
 
-var rOneYearFromNow = new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+var rOneYearFromNow = '<?php echo(date('D, d M Y G:i:s e',strtotime(date('D, d M Y G:i:s e', time()) . ' + 365 day'))); ?>';
 var rCookieValue = '';
 var rCookieName = 'nab_sr';
 var session_id = '<?php echo $session_id;?>';
@@ -71,7 +71,7 @@ jQuery(function($) {
 			},
 			function( data ) {
 				//set registration cookie
-				document.cookie = rCookieName+'='+rCookieValue+'; expires='+oneYearFromNow+';path=/';
+				document.cookie = rCookieName+'='+rCookieValue+'; expires='+rOneYearFromNow+';path=/';
 				jQuery(self).text('Registered').attr('disabled', 'true').removeClass('_gradientpink');
 				registered = 1;
 				if(optin_complete) {
