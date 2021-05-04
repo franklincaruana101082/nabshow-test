@@ -115,9 +115,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
-							<a href="javascript:void(0);" class="sort-order" data-event='previous'>Previous</a>
-							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? '' : 'active' ); ?>" data-event='upcoming'>Upcoming</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'all' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='previous'>Previous</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) ? '' : 'active' ); ?>" data-event='upcoming'>Upcoming</a>
 						</div>
 						<?php
 					} else if ('product' === $view_type) {
@@ -695,9 +695,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
-					//default to upcoming events
+					//show upcoming events by default
 					$current_date   = current_time('Y-m-d H:i:s');
-					$compare		= '<';//'>=';
+					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
 						array(
@@ -720,7 +720,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							'type'		=> 'DATE'
 						),
 					);
-				} else if (isset( $event_type ) && 'all' === $event_type) {
+				} else if ( isset( $event_type ) && 'all' === $event_type ) {
 					//show all events
 					$compare		= 'EXISTS';
 
@@ -1622,8 +1622,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_status'		=> 'publish',
 				's'					=> $search_term,
 				'orderby'			=> 'meta_value',
-				'order'				=> 'ASC',
-				'cache_results'		=> false,
+				'order'				=> 'ASC'
 			);
 
 			if ( empty( $search_term ) ) {
