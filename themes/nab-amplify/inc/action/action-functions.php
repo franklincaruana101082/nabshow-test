@@ -4866,3 +4866,43 @@ function nab_update_wc_edit_account_email_on_save() {
         }
     }
 }
+
+/**
+ * Modified user search query to search by firstname or lastname.
+ * 
+ * @param object $user_query
+ */
+function nab_search_user_in_meta( $user_query ) {
+    
+    global $wpdb;
+
+    $meta_search    = $user_query->get( 'meta_search' );
+    $search_term    = $user_query->get( 'search' );
+    $search_term    = str_replace( '*', '', $search_term );
+    
+    if ( $meta_search && ! empty( $search_term ) ) {
+        
+        $user_meta_cap = esc_sql( $wpdb->prefix . 'capabilities' );
+
+        $like		= '%' . $wpdb->esc_like( $search_term ) . '%';
+
+        $search_query = $wpdb->prepare(
+            "WHERE 1=1 AND ( 
+                ( 
+                  ( 
+                    ( wp_usermeta.meta_key = 'first_name' AND wp_usermeta.meta_value LIKE %s ) 
+                    OR 
+                    ( wp_usermeta.meta_key = 'last_name' AND wp_usermeta.meta_value LIKE %s )
+                  ) 
+                  AND 
+                  ( 
+                    mt1.meta_key = %s
+                  )
+                )
+              ) OR (user_login LIKE %s OR user_url LIKE %s OR user_email LIKE %s OR user_nicename LIKE %s OR display_name LIKE %s)",
+              $like, $like, $user_meta_cap, $like, $like, $like, $like, $like
+        );
+
+        $user_query->query_where = $search_query;
+    }    
+}
