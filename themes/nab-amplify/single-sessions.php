@@ -132,22 +132,6 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								</div>
 							<?php } 
 
-							$session_id				= $post->ID;
-							$session_name			= get_the_title();
-							$session_company_id		= $company;
-							$session_company_name	= get_the_title( $company );
-							$user_id				= get_current_user_id();
-							$user					= get_user_by( 'id', $user_id );
-							$user_email				= $user->user_email;
-							$user_firstname			= get_user_meta( $user_id, "first_name", true);
-							$user_lastname			= get_user_meta( $user_id, "last_name", true);
-							$user_city 		        = get_user_meta( $user_id, "user_city", true);
-							$user_state 		    = get_user_meta( $user_id, "user_state", true);
-							$user_country_code		= get_user_meta( $user_id, "user_country", true);
-							$user_company			= get_user_meta( $user_id, "attendee_company", true);
-							$user_title				= get_user_meta( $user_id, "attendee_title", true);
-							$user_ip 				= $_SERVER['REMOTE_ADDR'];
-
 							$session_status = get_field( 'session_status' );
 							$registered_show = 0;
 							$registration_required = (int)get_field('require_registration');
@@ -161,6 +145,32 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							}
 
 							if(is_user_logged_in()) {
+
+								$session_id				= $post->ID;
+								$session_name			= get_the_title();
+								$session_company_id		= $company;
+								$session_company_name	= get_the_title( $company );
+								$user_id				= get_current_user_id();
+								$user					= get_user_by( 'id', $user_id );
+								$user_email				= $user->user_email;
+								$user_firstname			= get_user_meta( $user_id, "first_name", true);
+								$user_lastname			= get_user_meta( $user_id, "last_name", true);
+								$user_city 		        = get_user_meta( $user_id, "user_city", true);
+								$user_state 		    = get_user_meta( $user_id, "user_state", true);
+								$user_country_code		= get_user_meta( $user_id, "user_country", true);
+								$user_company			= get_user_meta( $user_id, "attendee_company", true);
+								$user_title				= get_user_meta( $user_id, "attendee_title", true);
+								$user_ip 				= $_SERVER['REMOTE_ADDR'];
+
+								if(empty($user_country_code)) {
+									$user_country_code = nab_get_geolocation('country');
+								}
+								if(empty($user_city)) {
+									$user_city = nab_get_geolocation('city');
+								}
+								if(empty($user_state)) {
+									$user_state = nab_get_geolocation('state');
+								}
 
 								$show_content = true;
 						
@@ -471,15 +481,16 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							
 							<div class="intro__cta">
 								<?php
+								$referring_url = get_permalink( get_queried_object_id() );
 								$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
 								if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 									$sign_up_page_url = get_permalink( $sign_up_page->ID );
 								?>
-								<a href="<?php echo esc_url( $sign_up_page_url ); ?>" class="button _gradientpink"><?php esc_html_e( 'Sign Me Up', 'nab-amplify' ); ?></a>
+								<a href="<?php echo( esc_url( $sign_up_page_url ) . '?r=' . $referring_url ); ?>" class="button _gradientpink"><?php esc_html_e( 'Sign Me Up', 'nab-amplify' ); ?></a>
 								<?php } ?>
 
 								
-								<a class="" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Already on NAB Amplify? Sign In', 'nab-amplify' ); ?></a>
+								<a class="" href="<?php echo( esc_url( wc_get_page_permalink( 'myaccount' ) ) . '?r=' . $referring_url ); ?>"><?php esc_html_e( 'Already on NAB Amplify? Sign In', 'nab-amplify' ); ?></a>
 							</div> 
 						</div>
 					</div>
