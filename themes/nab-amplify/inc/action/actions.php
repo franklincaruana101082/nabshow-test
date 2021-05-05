@@ -227,3 +227,5 @@ add_action( 'acf/save_post', 'nab_update_company_member_level_meta_num', 20 );
 add_action( 'save_post_company', 'nab_update_company_member_level_meta_num', 10, 1 );
 
 add_action( 'woocommerce_save_account_details_errors','nab_validate_edit_account_fields', 10, 1 );
+
+add_action( 'wp', 'nab_update_wc_edit_account_email_on_save', 20 );

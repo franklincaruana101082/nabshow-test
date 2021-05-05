@@ -2388,27 +2388,50 @@ function nab_update_product_in_user_meta($order_id, $old_status, $new_status)
 /**
  * WC edit account additional security form field for BP member.
  */
-function nab_edit_acount_additional_form_fields()
-{
+function nab_edit_acount_additional_form_fields() {
 
-    $current_user           = wp_get_current_user();
-    $current_user_id        = $current_user->ID;
-    $member_visibility      = get_user_meta($current_user_id, 'nab_member_visibility', true);
-    $member_restriction     = get_user_meta($current_user_id, 'nab_member_restrict_connection', true);
-    $attendee_title         = get_user_meta($current_user_id, 'attendee_title', true);
-    $attendee_company       = get_user_meta($current_user_id, 'attendee_company', true);
-    $social_twitter         = get_user_meta($current_user_id, 'social_twitter', true);
-    $social_linkedin        = get_user_meta($current_user_id, 'social_linkedin', true);
-    $social_facebook        = get_user_meta($current_user_id, 'social_facebook', true);
-    $social_instagram       = get_user_meta($current_user_id, 'social_instagram', true);
-    $social_website         = get_user_meta($current_user_id, 'social_website', true);
-    $social_youtube         = get_user_meta($current_user_id, 'social_youtube', true);
-    $user_interest          = get_user_meta( $current_user_id, 'user_interest', true );
-    $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true );
-    $user_industry          = get_user_meta( $current_user_id, 'user_industry', true );
-    $user_country           = get_user_meta( $current_user_id, 'user_country', true );
-    $user_state             = get_user_meta( $current_user_id, 'user_state', true );
-    $user_city              = get_user_meta( $current_user_id, 'user_city', true );
+    $account_nonce  = filter_input( INPUT_POST, 'save-account-details-nonce', FILTER_SANITIZE_STRING );
+    $account_action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+
+    if ( ( isset( $account_action ) && 'save_account_details' === $account_action ) && ( isset( $account_nonce ) && ! empty( $account_nonce ) ) ) {
+        
+        $member_visibility      = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+        $member_restriction     = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+        $attendee_title         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
+        $attendee_company       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
+        $social_twitter         = filter_input( INPUT_POST, 'social_twitter', FILTER_SANITIZE_STRING );
+        $social_linkedin        = filter_input( INPUT_POST, 'social_linkedin', FILTER_SANITIZE_STRING );
+        $social_facebook        = filter_input( INPUT_POST, 'social_facebook', FILTER_SANITIZE_STRING );
+        $social_instagram       = filter_input( INPUT_POST, 'social_instagram', FILTER_SANITIZE_STRING );
+        $social_website         = filter_input( INPUT_POST, 'social_website', FILTER_SANITIZE_STRING );
+        $social_youtube         = filter_input( INPUT_POST, 'social_youtube', FILTER_SANITIZE_STRING );
+        $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_job_role          = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_industry          = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+        $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+        $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+
+    } else {
+        $current_user           = wp_get_current_user();
+        $current_user_id        = $current_user->ID;
+        $member_visibility      = get_user_meta( $current_user_id, 'nab_member_visibility', true );
+        $member_restriction     = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
+        $attendee_title         = get_user_meta( $current_user_id, 'attendee_title', true );
+        $attendee_company       = get_user_meta( $current_user_id, 'attendee_company', true );
+        $social_twitter         = get_user_meta( $current_user_id, 'social_twitter', true );
+        $social_linkedin        = get_user_meta( $current_user_id, 'social_linkedin', true );
+        $social_facebook        = get_user_meta( $current_user_id, 'social_facebook', true );
+        $social_instagram       = get_user_meta( $current_user_id, 'social_instagram', true );
+        $social_website         = get_user_meta( $current_user_id, 'social_website', true );
+        $social_youtube         = get_user_meta( $current_user_id, 'social_youtube', true );
+        $user_interest          = get_user_meta( $current_user_id, 'user_interest', true  );
+        $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true  );
+        $user_industry          = get_user_meta( $current_user_id, 'user_industry', true  );
+        $user_country           = get_user_meta( $current_user_id, 'user_country', true  );
+        $user_state             = get_user_meta( $current_user_id, 'user_state', true  );
+        $user_city              = get_user_meta( $current_user_id, 'user_city', true  );
+    }    
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
     $member_restriction = !empty($member_restriction) ? $member_restriction : 'yes';
@@ -4822,3 +4845,24 @@ add_action( 'rest_api_init', function () {
         'permission_callback' => '__return_true',
     ));
 });
+
+/**
+ * Updated woocommerce save account email in the POST from the DB
+ * if both email match with strtolower function.
+ */
+function nab_update_wc_edit_account_email_on_save() {
+    
+    $account_email  = filter_input( INPUT_POST, 'account_email', FILTER_SANITIZE_STRING );
+    $account_action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+
+    if ( is_edit_account_page() && is_user_logged_in() && ( isset( $account_email ) && ! empty( $account_email ) ) && ( isset( $account_action ) && 'save_account_details' === $account_action ) ) {
+        
+        $current_user_id    = get_current_user_id();
+        $user_data          = get_userdata( $current_user_id );
+        $current_user_email = strtolower( $user_data->user_email );        
+        
+        if ( strtolower( $account_email ) === $current_user_email ) {
+            $_POST['account_email'] = $user_data->user_email;
+        }
+    }
+}
