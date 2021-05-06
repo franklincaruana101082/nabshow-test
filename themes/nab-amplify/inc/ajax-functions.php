@@ -2651,8 +2651,21 @@ function nab_product_point_of_contact_callback()
 
 	if (isset($search_key) && !empty($search_key)) {
 
+		$meta_search	= $search_key;
 		$search_key		= '*' . $search_key . '*';
-		$user_query		= new WP_User_Query(array('search' => $search_key));
+		$user_query		= new WP_User_Query( array( 'search' => $search_key, 'meta_search' => true, 'meta_query' => array(
+			'relation' => 'OR',
+			array(
+				'key' => 'first_name',
+				'value' => $meta_search,
+				'compare' => 'LIKE'
+			),
+			array(
+				'key' => 'last_name',
+				'value' => $meta_search,
+				'compare' => 'LIKE'
+			)
+		) ) );
 		$found_users	= $user_query->get_results();
 
 		if (!empty($found_users)) {

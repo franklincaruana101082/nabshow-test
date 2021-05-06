@@ -228,3 +228,7 @@ add_action( 'save_post_company', 'nab_update_company_member_level_meta_num', 10,
 
 add_action( 'woocommerce_save_account_details_errors','nab_validate_edit_account_fields', 10, 1 );
 add_action( 'wp_footer', 'nab_enqueue_third_party_script_to_footer' );
+
+add_action( 'wp', 'nab_update_wc_edit_account_email_on_save', 20 );
+
+add_action( 'pre_user_query','nab_search_user_in_meta' );
