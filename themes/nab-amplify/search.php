@@ -1341,103 +1341,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			<?php
 			}
 
-			$get_search_term_id = '';
-
-			$company_prod_args = array(
-				'post_type'			=> 'company-products',
-				'post_status'		=> 'publish',
-				'posts_per_page'	=> 5,
-				's'					=> $search_term,
-			);
-
-			if ( ! empty( $search_term ) ) {
-
-				$category_search_array = array();
-
-				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
-
-				if ( $get_search_term_id ) {
-
-					$category_search_array[]	= $get_search_term_id->term_id;
-				}
-
-				$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
-
-				if ( $get_search_product_tag ) {
-
-					$category_search_array[]	= $get_search_product_tag->term_id;
-				}
-
-				if ( count( $category_search_array ) > 0 ) {
-
-					$company_prod_args[ '_tax_search' ] = $category_search_array;
-				}
-
-			}
-
-			$company_prod_query = new WP_Query($company_prod_args);
-
-			if ($company_prod_query->have_posts()) {
-
-				$search_found		= true;
-				$total_company_prod = $company_prod_query->found_posts;
-				$ess = $total_company_prod == 0 || $total_company_prod > 1 ? 's' : '';
-			?>
-				<div class="search-section amp-item-main company-products">
-					<div class="search-section-heading">
-						<h2><strong>Products</strong> <span>(<?php echo esc_html($total_company_prod . ' Result'.$ess); ?>)</span></h2>
-						<?php
-						if ($total_company_prod > 5) {
-
-							$view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'product'), $current_site_url);
-
-						?>
-							<div class="section-view-more">
-								<a href="<?php echo esc_html($view_more_link); ?>" class="view-more-link">View All</a>
-							</div>
-						<?php
-						}
-						?>
-					</div>
-					<ul class="colgrid _5up" id="company-products-list">
-						<?php
-						while ($company_prod_query->have_posts()) {
-
-							$company_prod_query->the_post();
-
-							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-							$product_link	    = get_the_permalink();
-							$company_id			= get_field('nab_selected_company_id', get_the_ID());
-							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
-							$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
-						?>
-							<li>
-								<div class="result _content">
-									<?php $thumbnail_url = '';
-										if (!empty($product_medias[0]['product_media_file'])) {
-											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
-										} else {
-											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
-										}
-									?>
-									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
-										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
-									</a>
-									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
-									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
-									<h5 class="result__lede"><?php echo esc_html($product_company); ?></h5>
-									<a href="<?php echo esc_url($product_link); ?>" class="button result__button _gradientpink">View Now</a>
-								</div>
-							</li>
-						<?php
-						}
-						?>
-					</ul>
-				</div>
-			<?php
-			}
-			wp_reset_postdata();
-
 			$company_args = array(
 				'post_type'			=> 'company',
 				'post_status'		=> 'publish',
@@ -1542,6 +1445,103 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			<?php
 			}
 			wp_reset_postdata();
+
+			$get_search_term_id = '';
+
+			$company_prod_args = array(
+				'post_type'			=> 'company-products',
+				'post_status'		=> 'publish',
+				'posts_per_page'	=> 5,
+				's'					=> $search_term,
+			);
+
+			if ( ! empty( $search_term ) ) {
+
+				$category_search_array = array();
+
+				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
+
+				if ( $get_search_term_id ) {
+
+					$category_search_array[]	= $get_search_term_id->term_id;
+				}
+
+				$get_search_product_tag	= get_term_by( 'name', $search_term, 'company-product-tag' );
+
+				if ( $get_search_product_tag ) {
+
+					$category_search_array[]	= $get_search_product_tag->term_id;
+				}
+
+				if ( count( $category_search_array ) > 0 ) {
+
+					$company_prod_args[ '_tax_search' ] = $category_search_array;
+				}
+
+			}
+
+			$company_prod_query = new WP_Query($company_prod_args);
+
+			if ($company_prod_query->have_posts()) {
+
+				$search_found		= true;
+				$total_company_prod = $company_prod_query->found_posts;
+				$ess = $total_company_prod == 0 || $total_company_prod > 1 ? 's' : '';
+			?>
+				<div class="search-section amp-item-main company-products">
+					<div class="search-section-heading">
+						<h2><strong>Products</strong> <span>(<?php echo esc_html($total_company_prod . ' Result'.$ess); ?>)</span></h2>
+						<?php
+						if ($total_company_prod > 5) {
+
+							$view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'product'), $current_site_url);
+
+						?>
+							<div class="section-view-more">
+								<a href="<?php echo esc_html($view_more_link); ?>" class="view-more-link">View All</a>
+							</div>
+						<?php
+						}
+						?>
+					</div>
+					<ul class="colgrid _5up" id="company-products-list">
+						<?php
+						while ($company_prod_query->have_posts()) {
+
+							$company_prod_query->the_post();
+
+							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
+							$product_link	    = get_the_permalink();
+							$company_id			= get_field('nab_selected_company_id', get_the_ID());
+							$product_company	= !empty($company_id) ? get_the_title($company_id) : '';
+							$product_medias     = nab_amplify_get_bynder_products( get_the_ID() );
+						?>
+							<li>
+								<div class="result _content">
+									<?php $thumbnail_url = '';
+										if (!empty($product_medias[0]['product_media_file'])) {
+											$thumbnail_url = $product_medias[0]['product_media_file']['url'];
+										} else {
+											$thumbnail_url =  !empty($thumbnail_url) ?  $thumbnail_url : nab_product_company_placeholder_img();
+										}
+									?>
+									<a class="result__imgLink" href="<?php echo esc_url($product_link); ?>">
+										<img src="<?php echo esc_url($thumbnail_url); ?>" class="result__image" alt="Product Image">
+									</a>
+									<?php nab_get_product_bookmark_html(get_the_ID(), 'user-bookmark-action'); ?>
+									<h4 class="result__title"><a href="<?php echo esc_url($product_link); ?>"><?php echo esc_html(get_the_title()); ?></a></h4>
+									<h5 class="result__lede"><?php echo esc_html($product_company); ?></h5>
+									<a href="<?php echo esc_url($product_link); ?>" class="button result__button _gradientpink">View Now</a>
+								</div>
+							</li>
+						<?php
+						}
+						?>
+					</ul>
+				</div>
+			<?php
+			}
+			wp_reset_postdata();			
 
 			$product_args = array(
 				'post_type' 		=> 'product',
