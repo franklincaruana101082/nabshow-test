@@ -222,6 +222,12 @@ while ( have_posts() ) :
 								<?php do_action( 'woocommerce_register_form' ); ?>
 							</li>
 							<li>
+								<label class="field__list-input" for="signup-amplify-communications">
+									<input class="field__input" value="1" type="checkbox" id="signup-amplify-communications" name="amplify_communications" /> 
+									<?php esc_html_e('I would like to receive Amplify communications.');?>
+								</label>
+							</li>
+							<li>
 								<label class="field__list-input" for="signup-press-member">
 									<input class="field__input" value="1" type="checkbox" id="signup-press-member" name="press_member" /> 
 									<?php esc_html_e('Are you a member of the press?');?>

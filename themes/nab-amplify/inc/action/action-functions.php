@@ -736,37 +736,50 @@ add_action('init', 'nab_amplify_session_categories');
  *
  * @param $customer_id
  */
-function nab_save_name_fields($customer_id)
-{
+function nab_save_name_fields($customer_id) {
 
-    if (isset($_POST['first_name'])) {
-        update_user_meta($customer_id, 'billing_first_name', sanitize_text_field($_POST['first_name']));
-        update_user_meta($customer_id, 'first_name', sanitize_text_field($_POST['first_name']));
+    $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+    $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+    $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $press_member           = filter_input( INPUT_POST, 'press_member', FILTER_SANITIZE_STRING );
+    $user_title             = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+    $user_company           = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+    $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+    $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+    $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+
+    if ( isset( $first_name ) ) {
+        update_user_meta( $customer_id, 'billing_first_name', $first_name );
+        update_user_meta( $customer_id, 'first_name', $first_name );
     }
-    if (isset($_POST['last_name'])) {
-        update_user_meta($customer_id, 'billing_last_name', sanitize_text_field($_POST['last_name']));
-        update_user_meta($customer_id, 'last_name', sanitize_text_field($_POST['last_name']));
+    if ( isset( $last_name ) ) {
+        update_user_meta( $customer_id, 'billing_last_name', $last_name );
+        update_user_meta( $customer_id, 'last_name', $last_name );
     }
-    if ( isset( $_POST[ 'user_interest' ] ) && ! empty( $_POST[ 'user_interest' ] ) ) {
-        update_user_meta( $customer_id, 'user_interest', $_POST[ 'user_interest' ] );
+    if ( isset( $user_interest ) && ! empty( $user_interest ) ) {
+        update_user_meta( $customer_id, 'user_interest', $user_interest );
     }
-    if ( isset( $_POST[ 'press_member' ] ) && ! empty( $_POST[ 'press_member' ] ) ) {
-        update_user_meta( $customer_id, 'press_member_user', $_POST[ 'press_member' ] );
+    if ( isset( $press_member ) && ! empty( $press_member ) ) {
+        update_user_meta( $customer_id, 'press_member_user', $press_member );
     }
-    if ( isset( $_POST[ 'user_title' ] ) && ! empty( $_POST[ 'user_title' ] ) ) {
-        update_user_meta( $customer_id, 'attendee_title', $_POST[ 'user_title' ] );
+    if ( isset( $user_title ) && ! empty( $user_title ) ) {
+        update_user_meta( $customer_id, 'attendee_title', $user_title );
     }
-    if ( isset( $_POST[ 'user_company' ] ) && ! empty( $_POST[ 'user_company' ] ) ) {
-        update_user_meta( $customer_id, 'attendee_company', $_POST[ 'user_company' ] );
+    if ( isset( $user_company ) && ! empty( $user_company ) ) {
+        update_user_meta( $customer_id, 'attendee_company', $user_company );
     }
-    if ( isset( $_POST[ 'user_country' ] ) && ! empty( $_POST[ 'user_country' ] ) ) {
-        update_user_meta( $customer_id, 'user_country', $_POST[ 'user_country' ] );
+    if ( isset( $user_country ) && ! empty( $user_country ) ) {
+        update_user_meta( $customer_id, 'user_country', $user_country );
     }
-    if ( isset( $_POST[ 'user_state' ] ) && ! empty( $_POST[ 'user_state' ] ) ) {
-        update_user_meta( $customer_id, 'user_state', $_POST[ 'user_state' ] );
+    if ( isset( $user_state ) && ! empty( $user_state ) ) {
+        update_user_meta( $customer_id, 'user_state', $user_state );
     }
-    if ( isset( $_POST[ 'user_city' ] ) && ! empty( $_POST[ 'user_city' ] ) ) {
-        update_user_meta( $customer_id, 'user_city', $_POST[ 'user_city' ] );
+    if ( isset( $user_city ) && ! empty( $user_city ) ) {
+        update_user_meta( $customer_id, 'user_city', $user_city );
+    }
+    if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
+        update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
     }
 }
 
@@ -2411,6 +2424,7 @@ function nab_edit_acount_additional_form_fields() {
         $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
         $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
         $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+        $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
 
     } else {
         $current_user           = wp_get_current_user();
@@ -2431,6 +2445,7 @@ function nab_edit_acount_additional_form_fields() {
         $user_country           = get_user_meta( $current_user_id, 'user_country', true  );
         $user_state             = get_user_meta( $current_user_id, 'user_state', true  );
         $user_city              = get_user_meta( $current_user_id, 'user_city', true  );
+        $amplify_communications = get_user_meta( $current_user_id, 'amplify_communications', true  );
     }    
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
@@ -2713,6 +2728,13 @@ function nab_edit_acount_additional_form_fields() {
             </div>
         </div>
     </fieldset>
+    <div class="checkbox-item amp-check-container">
+        <div class="amp-check-wrp">
+            <input type="checkbox" name="amplify_communications" value="1" id="amplify-communications"  <?php checked( $amplify_communications, '1' ); ?> />
+            <span class="amp-check"></span>
+        </div>
+        <label for="amplify-communications">I would like to receive Amplify communications.</label>
+    </div>
 <?php
 }
 
@@ -2724,11 +2746,12 @@ function nab_edit_acount_additional_form_fields() {
 function nab_save_edit_account_additional_form_fields($user_id)
 {
 
-    $member_visibility  = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
-    $member_restriction = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
-    $user_interest      = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_job_role      = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_industry      = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $member_visibility      = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+    $member_restriction     = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+    $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_job_role          = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_industry          = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2754,6 +2777,12 @@ function nab_save_edit_account_additional_form_fields($user_id)
         update_user_meta( $user_id, 'user_industry', $user_industry );
     } else {
         delete_user_meta( $user_id, 'user_industry' );
+    }
+
+    if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
+        update_user_meta( $user_id, 'amplify_communications', $amplify_communications );
+    } else {
+        delete_user_meta( $user_id, 'amplify_communications' );
     }
 
     $user_fields = array(
