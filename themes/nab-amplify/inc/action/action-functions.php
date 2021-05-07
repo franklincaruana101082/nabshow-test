@@ -10,6 +10,14 @@
 function nab_confirm_password_matches_checkout($errors, $username, $email)
 {
 
+    if ( isset( $_POST['g-recaptcha-response'] ) ) {
+        $captcha = $_POST['g-recaptcha-response'];
+    }
+    
+    if ( ! $captcha ) {
+        return new WP_Error('registration-error', __('Please check the captcha form.', 'woocommerce'));        
+    }
+
     extract($_POST);
 
     if (isset($first_name) && empty($first_name)) {

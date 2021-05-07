@@ -235,7 +235,12 @@ while ( have_posts() ) :
 							</li>
 						</ul>
 					</div>
-
+					<div class="signup__captcha">
+						<div class="captcha">
+							<div class="g-recaptcha" data-sitekey="6Le0LsoaAAAAAFWj6G8dWfqnRNMU_G-oW6znXEjq"></div>
+							<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
+						</div>
+					</div>
 					<div class="signup__cta">
 						<input type="hidden" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
 						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
