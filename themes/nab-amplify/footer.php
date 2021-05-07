@@ -54,6 +54,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
         </div>
       </div>
     </div>
+    <div id="nab-amp-cookie-consent"></div>
   </footer>
 
 </div><!-- #page -->
@@ -63,23 +64,26 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
 <script type="application/javascript">
-      window.consentManagerConfig = function(exports) {
-        return {
-          container: '#consent-manager',
-          writeKey: '<?php echo esc_attr( $write_key ); ?>',
-          bannerContent:
-            'We use cookies (and other similar technologies) to collect data to improve your experience on our site.',
-          bannerSubContent: 'You can change your preferences at any time.',
-          preferencesDialogTitle: 'Website Data Collection Preferences',
-          preferencesDialogContent:
-            'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.',
-          cancelDialogTitle: 'Are you sure you want to cancel?',
-          cancelDialogContent:
-            "Your preferences have not been saved. By continuing to use our website, you're agreeing to our Website Data Collection Policy",
-          closeBehavior: 'accept'
-        }
-      }
-    </script>
+  window.consentManagerConfig = function(exports) {
+    exports.preferences.onPreferencesSaved(function(prefs) {      
+    })
+
+    return {
+      container: '#nab-amp-cookie-consent',
+      writeKey: '<?php echo $write_key; ?>',          
+      initialPreferences: {
+        marketingAndAnalytics: false,            
+        functional: true
+      },
+      bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
+      bannerSubContent: 'Change your preferences',
+      preferencesDialogTitle: 'Website Data Collection',
+      preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
+      cancelDialogTitle: 'Are you sure you want to cancel?',
+      cancelDialogContent: 'Your preferences have not been saved.'
+    }
+  }
+</script>
 
     <!-- Setup the Segment Consent Manager tag -->
     <script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
