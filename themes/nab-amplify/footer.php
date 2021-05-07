@@ -60,33 +60,26 @@ $privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
 $write_key		= get_option( 'segment_tracking_api_key' );
 ?>
 <script type="application/javascript">
-      window.consentManagerConfig = function(exports) {
-        exports.preferences.onPreferencesSaved(function(prefs) {
-          // could be used to store consent server side, or send it into an API
-        })
+  window.consentManagerConfig = function(exports) {
+    exports.preferences.onPreferencesSaved(function(prefs) {      
+    })
 
-        return {
-          container: '#nab-amp-cookie-consent',
-          writeKey: '<?php echo $write_key; ?>',
-          /* initialPreferences allows for customizing which categories already pre-loaded */
-          initialPreferences: {
-            marketingAndAnalytics: false,
-            // functional: true will automatically record consent for functional cookies
-            functional: true
-          },
-          /*
-      The consent manager ships with a lightweight version of 
-      React (preact) that you can use to customize the consent manager further
-    */
-          bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
-          bannerSubContent: 'Change your preferences',
-          preferencesDialogTitle: 'Website Data Collection',
-          preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
-          cancelDialogTitle: 'Are you sure you want to cancel?',
-          cancelDialogContent: 'Your preferences have not been saved.'
-        }
-      }
-    </script>
+    return {
+      container: '#nab-amp-cookie-consent',
+      writeKey: '<?php echo $write_key; ?>',          
+      initialPreferences: {
+        marketingAndAnalytics: false,            
+        functional: true
+      },
+      bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
+      bannerSubContent: 'Change your preferences',
+      preferencesDialogTitle: 'Website Data Collection',
+      preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
+      cancelDialogTitle: 'Are you sure you want to cancel?',
+      cancelDialogContent: 'Your preferences have not been saved.'
+    }
+  }
+</script>
 
 <script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
 
