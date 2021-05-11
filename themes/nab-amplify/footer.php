@@ -54,6 +54,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
         </div>
       </div>
     </div>
+    <div id="nab-amp-cookie-consent"></div>
   </footer>
 
 </div><!-- #page -->
