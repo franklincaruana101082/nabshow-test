@@ -64,31 +64,28 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 <script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
 <script type="application/javascript">
       window.consentManagerConfig = function(exports) {
+        exports.preferences.onPreferencesSaved(function(prefs) {      
+        })
+
         return {
-          container: '#consent-manager',
-          writeKey: '<?php echo esc_attr( $write_key ); ?>',
-          bannerContent:
-            'We use cookies (and other similar technologies) to collect data to improve your experience on our site.',
-          bannerSubContent: 'You can change your preferences at any time.',
-          preferencesDialogTitle: 'Website Data Collection Preferences',
-          preferencesDialogContent:
-            'We use data collected by cookies and JavaScript libraries to improve your browsing experience, analyze site traffic, deliver personalized advertisements, and increase the overall performance of our site.',
+          container: '#nab-amp-cookie-consent',
+          writeKey: '<?php echo $write_key; ?>',          
+          initialPreferences: {
+            marketingAndAnalytics: false,            
+            functional: true
+          },
+          bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
+          bannerSubContent: 'Change your preferences',
+          preferencesDialogTitle: 'Website Data Collection',
+          preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
           cancelDialogTitle: 'Are you sure you want to cancel?',
-          cancelDialogContent:
-            "Your preferences have not been saved. By continuing to use our website, you're agreeing to our Website Data Collection Policy",
-          closeBehavior: 'accept'
+          cancelDialogContent: 'Your preferences have not been saved.'
         }
       }
     </script>
 
     <!-- Setup the Segment Consent Manager tag -->
     <script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
-
-    <!-- Load analytics.js -->
-    <script type="text/javascript">
-      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
-      }}();
-    </script>
 </body>
 
 </html>
