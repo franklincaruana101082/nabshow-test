@@ -58,34 +58,34 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 
 </div><!-- #page -->
 
+<script type="application/javascript">
+  window.consentManagerConfig = function(exports) {
+    exports.preferences.onPreferencesSaved(function(prefs) {      
+    })
+
+    return {
+      container: '#nab-amp-cookie-consent',
+      writeKey: '<?php echo $write_key; ?>',          
+      initialPreferences: {
+        marketingAndAnalytics: false,            
+        functional: true
+      },
+      bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
+      bannerSubContent: 'Change your preferences',
+      preferencesDialogTitle: 'Website Data Collection',
+      preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
+      cancelDialogTitle: 'Are you sure you want to cancel?',
+      cancelDialogContent: 'Your preferences have not been saved.'
+    }
+  }
+</script>
+
+<!-- Setup the Segment Consent Manager tag -->
+<script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
 <?php wp_footer(); ?>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
-<script type="application/javascript">
-      window.consentManagerConfig = function(exports) {
-        exports.preferences.onPreferencesSaved(function(prefs) {      
-        })
-
-        return {
-          container: '#nab-amp-cookie-consent',
-          writeKey: '<?php echo $write_key; ?>',          
-          initialPreferences: {
-            marketingAndAnalytics: false,            
-            functional: true
-          },
-          bannerContent: exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',),
-          bannerSubContent: 'Change your preferences',
-          preferencesDialogTitle: 'Website Data Collection',
-          preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
-          cancelDialogTitle: 'Are you sure you want to cancel?',
-          cancelDialogContent: 'Your preferences have not been saved.'
-        }
-      }
-    </script>
-
-    <!-- Setup the Segment Consent Manager tag -->
-    <script src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js" defer></script>
 </body>
 
 </html>
