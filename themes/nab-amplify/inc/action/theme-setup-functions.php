@@ -38,6 +38,7 @@ function amplify_front_scripts()
 			'countries' => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) )
 		);
 		wp_localize_script( 'amplify-custom-js', 'wc_country_select_params', $wc_country );
+		wp_enqueue_script('google-recaptcha-js', 'https://www.google.com/recaptcha/api.js', array(), null, true);
 	}
 
 	if ( is_singular( 'company' ) ) {
