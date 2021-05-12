@@ -581,3 +581,56 @@ function nabshow_lv_set_preloaded_block_in_new_landing_page() {
         }
     }
 }
+
+/*
+ * Added the Resource Pages custom post type.
+ *
+ * @since 1.0.0
+ */
+
+function nabshow_lv_resource_page() {
+
+    $labels = array(
+        'name'               => _x( 'Resource Pages', 'post type general name', 'nabshow-lv' ),
+        'singular_name'      => _x( 'Resource Page', 'post type singular name', 'nabshow-lv' ),
+        'add_new_item'       => __( 'Add New', 'nabshow-lv' ),
+        'all_items'          => __('All Resource Pages', 'nabshow-lv'),
+        'edit_item'          => __( 'Edit', 'nabshow-lv' ),
+        'new_item'           => __( 'New', 'nabshow-lv' ),
+        'view_item'          => __( 'View', 'nabshow-lv' ),
+        'search_items'       => __( 'Search', 'nabshow-lv' ),
+        'not_found'          => __( 'No posts found.', 'nabshow-lv' ),
+        'not_found_in_trash' => __( 'No posts found in Trash.', 'nabshow-lv' )
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => true,
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => true,
+        'menu_position'      => null,
+        'menu_icon'          => 'dashicons-edit-page',
+        'show_in_rest'       => true,
+        'supports'           => array(
+            'title',
+            'editor',
+            'comments',
+            'revisions',
+            'trackbacks',
+            'author',
+            'excerpt',
+            'page-attributes',
+            'thumbnail',
+            'custom-fields'
+        ),
+    );
+
+    register_post_type( 'resource-page', $args );
+
+}
