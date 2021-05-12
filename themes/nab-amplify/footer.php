@@ -76,7 +76,8 @@ $write_key		= get_option( 'segment_tracking_api_key' );
       preferencesDialogTitle: 'Website Data Collection',
       preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
       cancelDialogTitle: 'Are you sure you want to cancel?',
-      cancelDialogContent: 'Your preferences have not been saved.'
+      cancelDialogContent: 'Your preferences have not been saved.',
+      defaultDestinationBehavior: 'ask'
     }
   }
 </script>
