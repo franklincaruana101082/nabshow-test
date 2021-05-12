@@ -1250,3 +1250,26 @@ function nab_event_time_dropdown_options( $selected = '' ) {
 		<?php
 	}
 }
+
+/**
+ * Get hide from search users id.
+ *
+ * @return array $user_ids
+ */
+function nab_get_hide_from_search_users() {
+
+	$user_query = new WP_User_Query( array( 
+			'fields' 		=> 'ID',
+			'meta_query'	=> array(
+				array(
+					'key'	=> 'amplify_hide_from_search',
+					'value'	=> '1'
+				)
+			)
+		)
+	);
+
+	$user_ids = $user_query->get_results();
+
+	return $user_ids;
+}

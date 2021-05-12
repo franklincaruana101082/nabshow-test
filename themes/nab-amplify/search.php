@@ -299,6 +299,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'type'		=> 'newest'
 				);
 
+				$hide_users = nab_get_hide_from_search_users();
+
+				if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+					
+					$members_filter['exclude'] = $hide_users;
+				}
+
 
 				if (bp_has_members($members_filter)) {
 
@@ -1272,6 +1279,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'per_page' 	=> 5,
 				'type'		=> 'newest',
 			);
+
+			$hide_users = nab_get_hide_from_search_users();
+
+			if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+				
+				$members_filter['exclude'] = $hide_users;
+			}
 
 			if (bp_has_members($members_filter)) {
 
