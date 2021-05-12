@@ -141,5 +141,8 @@ add_action( 'init', 'nabshow_lv_register_landing_page_post_type' );
 // Action to set preloaded bock in the landing page post type 
 add_action( 'admin_init', 'nabshow_lv_set_preloaded_block_in_new_landing_page' );
 
-// Action to add the resource-page post type.
+// Action to add the resources post type.
 add_action( 'init', 'nabshow_lv_resource_page' );
+
+// Action to add the schedule post type.
+add_action( 'init', 'nabshow_lv_schedule_page' );
