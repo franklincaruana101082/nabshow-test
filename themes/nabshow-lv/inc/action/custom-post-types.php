@@ -631,6 +631,6 @@ function nabshow_lv_resource_page() {
         ),
     );
 
-    register_post_type( 'resource-page', $args );
+    register_post_type( 'resources', $args );
 
 }
