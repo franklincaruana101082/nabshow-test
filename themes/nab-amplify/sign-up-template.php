@@ -237,7 +237,7 @@ while ( have_posts() ) :
 					</div>
 					<div class="signup__captcha">
 						<div class="captcha">
-							<div class="g-recaptcha" data-sitekey="6Le0LsoaAAAAAFWj6G8dWfqnRNMU_G-oW6znXEjq"></div>
+							<div class="g-recaptcha" data-sitekey="6LdvDNIaAAAAAKV0Yr1FzY9c7oQLRkrr1qJ3yWH8"></div>
 							<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 						</div>
 					</div>
