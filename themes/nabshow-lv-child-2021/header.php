@@ -33,7 +33,7 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<div id="page" class="site">
+<div id="page" class="site nabshow_2021">
     <a class="skip-link screen-reader-text" href="#content">
 		<?php
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
@@ -93,7 +93,7 @@
         </nav>
         <nav class="header__utilitynav">
           <ul class="header__utilitynav-menu menu">
-            <?php /*
+            <?php 
             if ( is_user_logged_in() ) {
                 $current_user       = wp_get_current_user();
                 $user_images        = nab_amplify_get_user_images( $current_user->ID );
