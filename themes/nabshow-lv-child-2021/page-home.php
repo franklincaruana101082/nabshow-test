@@ -8,12 +8,10 @@
 
 get_header();
 ?>
+<main id="main">
 
-	<div id="primary" class="container">
-		<main id="main" class="site-main">
-
-		<?php
-if ( have_posts() ) :
+	<?php
+	if ( have_posts() ) :
 		while ( have_posts() ) :
 			the_post();
 
@@ -25,11 +23,10 @@ if ( have_posts() ) :
 			endif;
 
 		endwhile; // End of the loop.
-endif;
-		?>
+	endif;
+	?>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+</main><!-- #main -->
 
 <?php
 get_footer();
