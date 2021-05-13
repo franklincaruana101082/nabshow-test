@@ -16,7 +16,7 @@ function nabshow_lv_2021_enqueue_styles() {
     wp_enqueue_script( 'nabshow-2021-main', get_stylesheet_directory_uri() . '/assets/js/app.min.js', array(), '1.0', true );
 
 }
-add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_enqueue_styles', 11 );
+add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_enqueue_styles', 100 );
 
 function remove_unwanted_css() {
     wp_dequeue_style( 'nabshow-lv-custom-style' );
