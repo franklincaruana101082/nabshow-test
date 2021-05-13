@@ -1,0 +1,262 @@
+// Slides
+// components using Slick
+
+.schedule {
+  position: relative;
+  z-index: 100;
+}
+
+.schedule__menu {
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.7) -63.18%,
+    rgba(0, 0, 0, 0) -63.18%,
+    rgba(0, 0, 0, 0.7) 121.82%
+  );
+  position: absolute !important; // overrides slick inline styles
+  z-index: 110;
+  padding-top: rem(30);
+  top: 0;
+  left: 0;
+  right: 0;
+  @include bp-1024 {
+    padding-left: rem(32);
+    padding-right: rem(32);
+  }
+  @include bp-1280 {
+    padding-left: calc((100vw - 75rem) / 2);
+    padding-right: calc((100vw - 75rem) / 2);
+  }
+}
+.schedule__menu-item {
+  text-align: center;
+  cursor: pointer;
+}
+.schedule__menu-item-day {
+  @include primary-black-12-12-20;
+  text-transform: uppercase;
+  display: none;
+  @include bp-768 {
+    display: block;
+  }
+}
+.schedule__menu-item-day-short {
+  @include primary-black-12-12-20;
+  text-transform: uppercase;
+  @include bp-768 {
+    display: none;
+  }
+}
+.schedule__menu-item-num {
+  margin: rem(6) auto 0;
+  @include primary-bold-20-20;
+  width: rem(40);
+  height: rem(40);
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .slick-current & {
+    border-color: $color__purple-light;
+  }
+  @include bp-768 {
+    .slick-current & {
+      background-color: $color__purple-light;
+    }
+  }
+}
+
+.schedule__days {
+  position: relative;
+  z-index: 100;
+}
+.schedule__day-wrapper {
+  background-size: cover; // bg is defined inline in markup
+  background-position: 80% 0;
+  padding: rem(300) 0 rem(16);
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.8) 55.49%,
+      rgba(0, 0, 0, 0) 99.71%
+    );
+  }
+  @include bp-768 {
+    padding: rem(188) 0 rem(156);
+    margin-bottom: rem(-50);
+  }
+}
+.schedule__day-content {
+  @include bp-768 {
+    min-height: rem(331);
+    max-width: rem(660);
+    background-size: rem(41) auto;
+    background-position: 0 0;
+    @include background-image("f-stops.png");
+    background-repeat: no-repeat;
+    padding-left: rem(67);
+  }
+}
+.schedule__day-time {
+  background-size: rem(15) rem(15);
+  background-position: 0 50%;
+  @include background-image("icon-calendar.svg");
+  background-repeat: no-repeat;
+  padding-left: rem(25);
+  @include primary-black-12-12-20;
+  margin-bottom: rem(20);
+}
+.schedule__day-title {
+  @include primary-black-20-30;
+  margin-bottom: rem(20);
+  @include bp-768 {
+    @include primary-black-40-44;
+  }
+}
+.schedule__day-body {
+  p {
+    @include primary-medium-italic-16-24;
+  }
+}
+.schedule__day-cta {
+  margin-top: rem(36);
+  @include bp-768 {
+    margin-top: rem(30);
+  }
+}
+
+.schedule__sessions {
+  .slick-list {
+    overflow: visible !important; // override slick styles
+  }
+  .slick-arrow {
+    display: none !important;
+    @include bp-768 {
+      cursor: pointer;
+      display: block !important;
+      top: 50%;
+      width: rem(48);
+      height: rem(48);
+      margin-top: rem(-24);
+      background-color: $color__purple-slate;
+      transition: all 0.2s;
+      &:hover,
+      &:focus {
+        background-color: $color__purple;
+      }
+      &::after {
+        display: none;
+      }
+      &::before {
+        width: 0;
+        height: 0;
+        top: 50%;
+        margin-top: -6px;
+        transform: none;
+        background: none;
+        border-style: solid;
+        border-width: 6px 0 6px 7px;
+        border-color: transparent transparent transparent $color__white;
+      }
+      &.slick-prev {
+        display: none !important; // override slick styles
+      }
+    }
+  }
+}
+.schedule__session {
+  padding: 0 rem(3.75);
+}
+.schedule__session-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 18vw;
+  @include gradient-purple;
+  border-radius: rem(10);
+  padding: rem(40);
+  img {
+    display: block;
+    max-width: rem(100);
+    max-height: rem(100);
+  }
+  @include bp-768 {
+    height: 15vw;
+  }
+  @include bp-1024 {
+    height: 14vw;
+    img {
+      max-width: rem(150);
+      max-height: rem(130);
+    }
+  }
+  @include bp-1440 {
+    height: 12vw;
+    img {
+      max-width: rem(180);
+      max-height: rem(160);
+    }
+  }
+}
+.schedule__session-item-content {
+  display: none;
+  @include bp-768 {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    @include gradient-purple-slate;
+    border-radius: rem(10);
+    padding: 0 rem(30);
+    color: $color__white;
+    text-decoration: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: all 3s;
+    transition-delay: 0;
+  }
+  @include bp-1024 {
+    padding: 0 rem(50);
+  }
+}
+.schedule__session-item {
+  &:hover,
+  &:focus {
+    .schedule__session-item-content {
+      max-height: 999rem;
+    }
+  }
+}
+.schedule__session-item-title {
+  padding-top: rem(50);
+  text-transform: uppercase;
+  @include primary-black-14-14-20;
+  margin-bottom: rem(20);
+}
+.schedule__session-item-body {
+  margin-bottom: rem(20);
+  p {
+    @include primary-medium-16-24;
+  }
+}
+.schedule__session-item-time {
+  text-transform: uppercase;
+  @include primary-black-14-14-20;
+  margin-bottom: rem(20);
+  white-space: nowrap;
+}
+.schedule__session-item-cta {
+  padding-bottom: rem(40);
+}

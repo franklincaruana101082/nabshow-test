@@ -1,0 +1,11 @@
+// ADS
+
+.ad {
+  &._banner {
+    margin: rem(60) auto;
+    @include bp-768 {
+      margin: rem(120) auto;
+      max-width: rem(818);
+    }
+  }
+}

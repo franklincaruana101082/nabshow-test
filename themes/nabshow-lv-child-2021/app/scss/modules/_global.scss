@@ -1,0 +1,93 @@
+// Reusuable classes
+
+.site-content {
+  position: relative;
+  background-color: $color__gray;
+  padding: rem(54) 0 0;
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: rem(54);
+    background: linear-gradient($color__gray, rgba($color__gray, 0));
+  }
+}
+
+// inherited style overrides
+
+div.media-item a.bynder-widget-media-link,
+ul.bynder-widget-media-items li a.bynder-widget-media-link {
+  box-shadow: none !important;
+}
+
+//move 'help' button up so it's not behind share links glued to the footer.
+#launcher {
+  bottom: rem(40) !important;
+  @media (min-width: 61.25em) {
+    bottom: 0 !important;
+  }
+}
+
+//hide multidots' related block
+.single-articles {
+  .related-title,
+  .related-content-2 {
+    display: none;
+  }
+}
+
+.amp-profile-main .amp-profile-social ul li a {
+  text-decoration: none;
+  transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+}
+
+.wp-block-md-multipurpose-gutenberg-block.has-full {
+  &:last-child {
+    padding-bottom: rem(50);
+  }
+}
+
+//woocommerce stuff {
+.woocommerce {
+  margin: rem(40) 0 rem(60);
+  &-message {
+    background-color: $color__black;
+    color: $color__white;
+    border-top: 2px solid $color__purple; //fallback
+    border-image: linear-gradient(90deg, $color__purple, $color__purple) 2;
+    border-width: 0;
+    border-top-width: rem(2);
+    padding: rem(20);
+    margin-bottom: rem(30);
+  }
+}
+.woocommerce-error {
+  background-color: $color__purple;
+  color: $color__white;
+  padding: rem(10);
+}
+ul.woocommerce-error {
+  padding-left: rem(40);
+  > li {
+    color: $color__white;
+  }
+}
+
+#downloadable-pdfs-list,
+#company-events-list,
+#company-session-events-list {
+  &.amp-item-wrap .amp-item-info .search-actions a.button {
+    background: linear-gradient(90deg, $color__purple, $color__purple);
+    border-radius: rem(26);
+    padding: 0 rem(28);
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+    &[href="javascript:void(0);"] {
+      background: $color__gray-light;
+      opacity: 0.5;
+    }
+  }
+}
