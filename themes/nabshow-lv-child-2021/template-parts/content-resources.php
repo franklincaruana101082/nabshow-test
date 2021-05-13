@@ -31,7 +31,7 @@
 				</div>
 
 				<?php
-				$header_image = get_sub_field('header_image'); 
+				$header_image = the_field('header_image'); 
 				if( !empty($header_image)):
 				?>
 					<div class="resource-intro-image figure">
