@@ -148,8 +148,8 @@
 <?php */ if (!$hide_sign_up): ?>
 	<div class="section">
 		<div class="container">
-			<div class="signup">
-				<div class="signup__content">
+			<div class="amp-signup">
+				<div class="amp-signup__content">
 					<?php dynamic_sidebar('Sign Up'); ?>
 				</div>
 			</div>
