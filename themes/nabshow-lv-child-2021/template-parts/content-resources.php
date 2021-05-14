@@ -84,7 +84,14 @@
 				<div class="cards">
 					<?php while(have_rows('opportunities_items')): the_row(); ?>
 					<div class="card">
-						<?php $img = get_sub_field('opportunity_image'); 
+						<?php 
+						$url = get_sub_field('opportunity_url'); 
+						if( !empty($url)):
+						?>
+						<a href="<?php echo esc_url($url); ?>">
+						<?php 
+						endif;
+						$img = get_sub_field('opportunity_image'); 
 						if( !empty($img)):
 						?>
 						<img class="card__image" src="<?php echo esc_url($img['url']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" />
@@ -93,6 +100,10 @@
 							<h3 class="card__title"><?php the_sub_field('opportunity_title'); ?></h3>
 							<?php the_sub_field('opportunity_copy'); ?>
 						</div>
+						<?php if( !empty($url)): ?>
+						</a>
+						<?php endif; ?>
+
 					</div>
 					<?php endwhile; ?>
 				</div>
