@@ -13,27 +13,34 @@
 		<?php
 			the_title( '<h1 class="intro__label">', '</h1>' );
 		?>
-		<h2 class="intro__title"><?php the_field('big_title');?></h2>
+		<h2 class="intro__title"><?php the_field('header_big_title');?></h2>
 	</div>
 </div>
 <div class="decorative _lightlines-bottom-right">
 	<div class="container">
 		<div class="resource-intro">
 			<div class="resource-intro-content">
+				<div class="resource-intro-body">
+				<?php if(the_field('header_body')): ?>
+					<?php the_field('header_body') ?>
+				<?php endif; ?>
+
 				<?php
-					the_content( sprintf(
-						wp_kses(
-							/* translators: %s: Name of current post. Only visible to screen readers */
-							__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'nabshow-lv' ),
-							array(
-								'span' => array(
-									'class' => array(),
-								),
-							)
-						),
-						get_the_title()
-					) );		
+					$header_cta_text = get_field('header_cta_text');
+					$header_cta_url = get_field('header_cta_url');
+					if(!empty($header_cta_text) && !empty($header_cta_url)): ?>				
+					<a href="<?php echo esc_url($header_cta_url); ?>" class="button _solid _cta"><?php echo $header_cta_text; ?></a>
+				<?php endif; ?>
+				</div>
+
+				<?php
+				$header_image = get_field('header_image'); 
+				if(!empty($header_image)):
 				?>
+					<div class="resource-intro-image figure">
+						<img src="<?php echo esc_url($header_image['url']); ?>" class="figure__media" alt="<?php echo esc_attr($header_image['alt']); ?>" />
+					</div>
+				<?php endif; ?>
 			</div>
 
 			<?php if(have_rows('stats')): ?>

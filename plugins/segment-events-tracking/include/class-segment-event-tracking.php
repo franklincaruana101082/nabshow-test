@@ -214,9 +214,10 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 )
             );
 
-            $first_name     = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
-            $last_name      = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
-            $user_interest  = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+            $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+            $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+            $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+            $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
 
             if ( isset( $first_name ) && ! empty( $first_name ) ) {
                 
@@ -235,6 +236,12 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                 $track_event['properties']['Interest']    = $user_interest;
                 $track_identity['traits']['Interest']     = $user_interest; 
+            }
+
+            if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
+                
+                $track_event['properties']['Amplify_Communications']    = $amplify_communications;
+                $track_identity['traits']['Amplify_Communications']     = $amplify_communications; 
             }
 
             $this->st_track_event( $track_event );
