@@ -173,18 +173,23 @@
 
 .resource-intro-content {
   padding-bottom: rem(60);
-  // @include bp-768 {
+  @include bp-768 {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
   //   display: grid;
   //   grid-template-columns: 1fr rem(180);
   //   direction: rtl;
   //   grid-gap: rem(35);
-  // }
+  }
 }
 
 .resource-intro-image {
   margin-bottom: rem(40);
   @include bp-768 {
     direction: ltr;
+    width: rem(180);
+    margin-right: rem(50);
   }
 }
 .resource-intro-body {
@@ -192,6 +197,9 @@
   @include bp-768 {
     direction: ltr;
     margin-bottom: 0;
+    flex: 0 1 auto;
+    order: 1;
+    width: calc(100% - 14.375rem);
   }
   p {
     @include primary-medium-20-30;
