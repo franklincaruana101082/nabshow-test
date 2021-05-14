@@ -141,8 +141,9 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                             $current_site_id = get_current_blog_id();
                             if ($current_site_id == 4) {
                                 //add maritz redirect
-                                $cart_url .= '?r=maritz';
-                                $sign_up  .= '?r=maritz';
+                                $cart_url   .= '?r=maritz';
+                                $my_account .= '?r=maritz';
+                                $sign_up    .= '?r=maritz';
                             }
                             ?>
 							<!-- <?php echo($current_site_id); ?> -->
