@@ -70,6 +70,7 @@
   @include primary-bold-12-12;
   @include bp-604 {
     margin: 0;
+    order: -1;
     @include primary-bold-16-16;
   }
 }
@@ -93,17 +94,19 @@
   @include bp-768 {
     text-align: center;
   }
-  .footer__menu__item {
-    & + .footer__menu__item {
+  .footer__menu__item, .menu-item {
+    & + .footer__menu__item,
+    & + .menu-item {
       margin: rem(16) 0 0 0;
     }
     @include bp-768 {
       display: inline-block;
-      & + .footer__menu__item {
+      & + .footer__menu__item,
+      & + .menu-item {
         margin: 0 0 0 rem(32);
       }
     }
-    .footer__menu__link {
+    .footer__menu__link, & > a {
       @include primary-black-12-12-20;
       white-space: nowrap;
       text-transform: uppercase;

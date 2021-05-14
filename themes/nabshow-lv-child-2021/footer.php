@@ -29,34 +29,6 @@
         </div>
         <div class="footer__social">
           <?php wp_nav_menu( array( 'theme_location' => 'menu-social', 'container' => false, 'menu_class' => 'social-list' ) ); ?>
-          <?php /*<ul class="social-list">
-            <li>
-              <a href="https://www.facebook.com/pages/NAB-Show/195269533220" class="social-fb" target="_blank" rel="noopener" data-feathr-click-track="true">
-                <i class="fa fa-facebook"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/nabshow" class="social-twitter" target="_blank" rel="noopener" data-feathr-click-track="true">
-                <i class="fa fa-twitter"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/user/TheNABShow" class="social-youtube" target="_blank" rel="noopener" data-feathr-click-track="true">
-                <i class="fa fa-youtube"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/company/10428507/" class="social-linkedin" target="_blank" rel="noopener" data-feathr-click-track="true">
-                <i class="fa fa-linkedin"></i>
-              </a>
-            </li>
-            <li>
-              <a href="http://instagram.com/nabshow?ref=badge" class="social-insta" target="_blank" rel="noopener" data-feathr-click-track="true">
-                <i class="fa fa-instagram"></i>
-              </a>
-            </li>
-          </ul>*/ ?>
-          <span class="footer__social-hashtag">#NABSHOW</span>
         </div>
       </div>
       <div class="footer__secondary">
