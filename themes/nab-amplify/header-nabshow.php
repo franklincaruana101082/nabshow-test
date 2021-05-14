@@ -16,6 +16,13 @@ function nabshow_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'nabshow_styles', 100 );
 
+function remove_amplify_css() {
+    wp_dequeue_style( 'amplify-style' );
+    wp_deregister_style( 'amplify-style' );
+}
+add_action( 'wp_enqueue_scripts', 'remove_amplify_css', 99 );
+
+
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
