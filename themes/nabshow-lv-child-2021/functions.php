@@ -40,6 +40,7 @@ function  nabshow_setup() {
 			'menu-brand'  => esc_html__( 'Brand Menu 2021', 'nabshow-lv' ),
 			'menu-main'   => esc_html__( 'Main Menu 2021', 'nabshow-lv`' ),
 			'menu-footer' => esc_html__( 'Footer Menu 2021', 'nabshow-lv' ),
+			'menu-social' => esc_html__( 'Social Menu 2021', 'nabshow-lv' ),
 		)
 	);
 }

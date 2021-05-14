@@ -60,7 +60,7 @@
 	<?php if(have_rows('resource_links')) : ?>
 	<div class="container">
 			<div class="jump-links">
-				<h2 class="jump-links__label">Resources For:</h2>
+				<h2 class="jump-links__label">Quick links:</h2>
 				<ul class="jump-links__menu">
 					<?php while(have_rows('resource_links')): the_row(); ?>
 					<li class="jump-links__item"><a href="<?php the_sub_field('link'); ?>" class="button _arrow _full"><?php the_sub_field('link_text'); ?></a></li>
