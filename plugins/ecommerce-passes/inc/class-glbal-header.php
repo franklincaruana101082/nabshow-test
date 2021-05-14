@@ -137,7 +137,15 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                             $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
                             $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
                             $sign_up = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'sign-up/' : '#';
+
+                            $current_site_id = get_current_blog_id();
+                            if ($current_site_id == 4) {
+                                //add maritz redirect
+                                $cart_url .= '?r=maritz';
+                                $sign_up  .= '?r=maritz';
+                            }
                             ?>
+							<!-- <?php echo($current_site_id); ?> -->
                             <nav class="nab-sec-navigation">
                                 <!-- <div class="nab-header-cart">
                                     <a href="<?php // echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
