@@ -116,7 +116,7 @@ function nabshow_lv_2021_widgets() {
 		'name'			=> esc_html__( 'Sign Up', 'nabshow_lv' ),
 		'id'			=> 'signup-widget',
 		'description'	=> esc_html__( 'Add widgets here.', 'nabshow-lv' ),
-		'before_widget' => '<div id="%1$s" class="signup__body %2$s">',
+		'before_widget' => '<div id="%1$s" class="amp-signup__body %2$s">',
         'after_widget'  => '</div>',
         'before_title'  => '<h3 class="h-md">',
         'after_title'   => '</h3>',
