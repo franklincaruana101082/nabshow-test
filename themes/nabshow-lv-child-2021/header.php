@@ -93,7 +93,7 @@
         </nav>
         <nav class="header__utilitynav">
           <ul class="header__utilitynav-menu menu">
-            <?php 
+            <?php /*
             if ( is_user_logged_in() ) {
                 $current_user       = wp_get_current_user();
                 $user_images        = nab_amplify_get_user_images( $current_user->ID );
