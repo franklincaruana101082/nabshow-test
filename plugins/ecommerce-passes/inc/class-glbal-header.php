@@ -158,8 +158,11 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                         $current_user    = wp_get_current_user();
                                         $user_images     	= $this->ep_get_user_images( $current_user->ID );
                                         $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
-
-                                        $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                                        if($current_site_id != 4) {
+                                            $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                                        } else {
+                                            $edit_my_profile =  ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-my-profile/?r=maritz' : '#';
+                                        }
                                         ?>
                                         <ul class="nab-profile nab-logged-in">
                                             <li>
