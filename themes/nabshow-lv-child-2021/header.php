@@ -40,7 +40,6 @@
 		?>
     </a>
     
-    <?php do_action( 'nab_global_header' ); ?>
 
   <header class="header">
 
@@ -86,7 +85,8 @@
         <?php wp_nav_menu( array( 'theme_location' => 'menu-main', 'container' => false, 'menu_class' => 'header__mainnav-menu menu' ) ); ?>
       
       </nav>
-      
+      <?php do_action( 'nab_global_header' ); ?>
+      <?php /*
       <div class="header__secondarynav">
         <nav class="header__brandnav">
           <?php wp_nav_menu( array( 'theme_location' => 'menu-brand', 'container' => false, 'menu_class' => 'header__brandnav-menu menu' ) ); ?>
@@ -138,10 +138,10 @@
             <?php /*<li class="header__utilitynav-cart">
               <a class="cart__link" href="https://amplify.nabshow.com/cart/">Cart</a>
               <span class="cart__count ">0</span>
-            </li> */ ?>
+            </li>  ?>
           </ul>
         </nav>
       </div>  
-
+        */?>
     </div>
   </header>  
