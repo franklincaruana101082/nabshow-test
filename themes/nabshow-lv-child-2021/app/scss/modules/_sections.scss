@@ -42,6 +42,78 @@
 
 // amplify signup on home
 .amplify {
+  position: relative;
+  @include gradient-black;
+  &::after {
+    top: 0;
+    right: 0;
+    background-position: top right;
+    @include background-image("amplify-fan-top-right.png");
+  }
+  &::before {
+    bottom: 0;
+    left: 0;
+    background-position: bottom left;
+    @include background-image("amplify-fan-bottom-left.png");
+  }
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    width: rem(140);
+    height: rem(134);
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    @include bp-604 {
+      width: 13%;
+      height: 24%;
+    }
+    @include bp-768 {
+      width: 18%;
+      height: 24%;
+    }
+    @include bp-1024 {
+      width: 13%;
+      height: 24%;
+    }
+    @include bp-1440 {
+      width: rem(208);
+      height: rem(189);
+    }
+  }
+  @include bp-768 {
+    border-radius: rem(10);
+    overflow: hidden;
+  }
+  .amplify__container {
+    padding: rem(136) rem(30);
+    margin: 0 auto;
+    @include bp-768 {
+      max-width: rem(828);
+      padding: rem(120) rem(30);
+    }
+    @include bp-1024 {
+      padding: rem(88) rem(30);
+    }
+  }
+  .amplify__logo {
+    max-width: rem(248);
+    margin: 0 auto rem(30);
+  }
+  .amplify__body {
+    text-align: center;
+  }
+  .amplify__form {
+    margin: 0 auto;
+    max-width: rem(500);
+    @include bp-768 {
+      padding: 0 rem(30);
+    }
+    @include bp-1024 {
+      max-width: rem(800);
+    }
+  }
 }
 
 // intro, used on most pages
@@ -114,6 +186,27 @@
 
 // decorative
 .decorative {
+  &._lightlines-left-side {
+    &::before {
+      display: none;
+    }
+    @include bp-768 {
+      position: relative;
+      &::before {
+        display: block;
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: rem(64);
+        height: rem(400);
+        @include background-image("lightlines-8.png");
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-position: 0 -50%;
+      }
+    }
+  }
   &._lightlines-bottom-right {
     @include background-image("lightlines-5.png");
     background-repeat: no-repeat;
@@ -344,8 +437,8 @@
   z-index: 110;
 }
 
-// signup
-.signup {
+// amp-signup
+.amp-signup {
   position: relative;
   &::before,
   &::after {
@@ -365,7 +458,7 @@
     border-right: 1px solid $color__white;
   }
 }
-.signup__content {
+.amp-signup__content {
   padding: rem(80) 0;
   position: relative;
   &::before,
@@ -387,18 +480,52 @@
   }
   @include bp-768 {
     padding: rem(76) rem(82);
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr rem(120);
     display: grid;
+    grid-gap: rem(40);
+  }
+  @include bp-1024 {
+    grid-template-columns: 1fr 1fr;
     grid-gap: rem(77);
   }
 }
 
-.signup__body {
-  p {
-    @extend %body-text-medium;
+.amp-signup__form {
+  margin: rem(40) 0 rem(30);
+}
+
+// Stories
+.stories {
+  display: grid;
+  grid-gap: rem(48);
+  @include bp-768 {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: rem(32) rem(68);
   }
 }
 
-.signup__form {
-  margin: rem(40) 0 rem(30);
+.story {
+  display: grid;
+  color: $color__white;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    color: $color__purple-light;
+  }
+  @include bp-768 {
+    grid-template-columns: rem(189) 1fr;
+    grid-gap: rem(20);
+  }
+}
+.story__media {
+  margin-bottom: rem(20);
+}
+.story__title {
+  @include primary-black-20-20;
+  margin-bottom: rem(20);
+}
+.story__body {
+  p {
+    @include primary-medium-italic-15-24;
+  }
 }

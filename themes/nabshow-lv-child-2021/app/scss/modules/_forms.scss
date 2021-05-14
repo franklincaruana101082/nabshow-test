@@ -1,4 +1,189 @@
-// Forms
+// FORMS
+// ===========================================
+// Global form styles
+// ===========================================
+
+.field {
+  margin-bottom: rem(26);
+  @include bp-1024 {
+    margin-bottom: rem(30);
+  }
+}
+
+.field__label {
+  display: block;
+  color: $color__white;
+  font-family: $font__primary;
+  font-size: rem(12);
+  font-weight: 600;
+  margin-bottom: rem(6);
+  text-transform: uppercase;
+}
+
+.field__required {
+  color: $color__pink;
+}
+
+.field__error {
+  display: block;
+  color: $color__pink;
+  font-size: rem(12);
+  font-weight: 600;
+  margin: rem(8) 0 0;
+  text-transform: uppercase;
+}
+
+.field__input,
+.woocommerce-Input {
+  &[type="text"],
+  &[type="email"],
+  &[type="password"],
+  &[type="color"],
+  &[type="date"],
+  &[type="month"],
+  &[type="number"],
+  &[type="tel"],
+  &[type="time"],
+  &[type="url"] {
+    background: $color__gray;
+    border-radius: rem(4);
+    border: 1px solid $color__gray;
+    color: white;
+    font-family: $font__primary;
+    font-size: rem(18);
+    font-weight: 600;
+    line-height: rem(52);
+    text-decoration: none;
+    padding: 0 rem(14);
+    transition: border-color 0.25s;
+    width: 100%;
+    &:hover {
+      border-color: $color__purple;
+    }
+    &:focus {
+      outline: none;
+      border-color: $color__pink;
+    }
+  }
+}
+
+.field__input,
+.woocommerce-Input {
+  &[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: $color__gray;
+    border-radius: rem(4);
+    border: 1px solid $color__gray;
+    height: rem(24);
+    width: rem(24);
+    transition: border-color 0.25s;
+    &:hover {
+      border-color: $color__purple;
+    }
+    &:focus {
+      outline: none;
+      border-color: $color__pink;
+    }
+    &:checked {
+      background: $color__pink;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEHElEQVR4Xu2aSagVRxSGPydUEudZkWycZ40xaly8EHAlgggKgTiLioqKCoq4EYmCJk4kASFBIsbgQhBxHqJx4d6lMQ7RZJ+ds/JD1bNt+91bXdX33u57b+8et051ff/563TX6deOBr/aNTg/TQGaDmhwBZpboMEN0BBFsCPwsq1E1/MWGAacAUYBvwCrgVdxIepVgOHAH8CQCPBJ4Ju4CPUowAgDPzjB9ieARcBr+1u9CVAK3jIfB5ZYEepJgJEm84Mcnmy/AkslQr0IoEJ3HXCBt/ocA5bXgwCjDfxAh8zHh3xXdAEEr2o/wANeIf8XWYAxBr6/J7zCbhdVgLHG9iHw/wAtRRRgHHANCIYHHhRNgPEGvl+A7R8BXwpecxRJAMHrUdc3K/giCTDBZD4UvgV4GBWwCA6YaOD7BGb+A/giOGAScBWoCHw5AaYBawAVjb3A04AM+IRONvC9fYJNjNaemPlyp8F5wG9AFzPwMjAXeBawmDShU4ArQEXh23KAOic/AO1jKz4PSJjnaUg8xgpetu/lEWtDVOiUeTmg5BUvgruAnSUizgLzgRflJvb8/VOT+arARx3QAfgJWOmw8NPAwlKNRoc5koZMNfA9PeMV5pz5aA3oCvxu9rjrvU8BXyc1GV0niI37DFCdCYHXm53e8MraPnpvbQFlVHs77aUiqSZja38t7QRmvJ42gu/hGa8wL3i7BbSf1Tv3uVpbSz7BwOfApQzgVfB0ukt9yQFawOzUke8C1HNfAbxJOYfglfnuKeOiw5V5b3jrAL1l3QB0zPS9jpoPD64iTDfCh8DfN3veK/MW1D4G1U/7E9AHBd/rR2CtQ/AMA9/NYWxbQzKBtw6wNxkK3AI+CVjYIWBjifiZwEUgF/BxAfS3vqfJCWnay3He/cDWBBG+AC5kAK89/zggSe+FJh2H1W+7GXgC0+Fpe+ROswz8xwELl+0zhU9ygF2f3sfVfQl5NuvN8mdAp7oDQAj836bgZZb5eBFMSowsq0fkRwFZyyK0YvClHGAX/hVwDuicBYnHHBWFdxFAY+aY1+VOHgAhIYLXnn8SMkm5WNee4AJA/2AQ7xGUm9/396rAuzrAQuhzsoqaq2i+8PdMwato5l2KYBLAeuCwL5lDXFXh0zrArn8bsMcBJu0QwWvP/5s2MGS8r513AztCbhyLrQm8rwPs2vcBWzIQoWbwoQIoPlSEv0zBq6rto0nz3QLROXT42ezhhJrDZ+EAy/09sCmFCIJXwfsvRUxFhmbhALuwg8AGh1XmBj5LB1juI8C6EiLcNXu+5pn3fRFySDBqjemjavzKHXwlHGDnVC9gVUSBXMJXSgA777fAMuAOsDgPBS/JvlkWQZftkbsxTQFyl5IqL6jpgCoLnrvbNR2Qu5RUeUEN74C3X6mzptvS5S0AAAAASUVORK5CYII=");
+      background-position: 50% 50%;
+      background-size: 75% 75%;
+      background-repeat: no-repeat;
+    }
+  }
+}
+
+.field__woowrapper {
+  color: $color__white;
+}
+
+.field__title {
+  font-size: rem(20);
+  //line-height: rem(40);
+  margin-bottom: 0;
+}
+.field__subtitle {
+  font-size: rem(14);
+  line-height: 1.1;
+  font-style: italic;
+  margin-bottom: rem(20);
+}
+
+.field__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    display: block;
+    & + li {
+      margin-top: rem(20);
+    }
+  }
+}
+
+.field__list-input {
+  display: block;
+  position: relative;
+  padding: rem(4) 0 0 rem(36);
+  font-size: rem(16);
+  line-height: rem(20);
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.field__optinButtons {
+  display: flex;
+  flex-flow: row wrap;
+  button {
+    flex: 0 1 auto;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.mo-openid-app-icons {
+  p {
+    display: none;
+  }
+  a.btn.btn-mo.btn-block.btn-social.btn-customtheme.btn-custom-dec.login-button {
+    @extend .button;
+    line-height: rem(10);
+    @include bp-768 {
+      margin-right: rem(32);
+    }
+    @include bp-1024 {
+      margin-right: 0;
+    }
+    &:last-child {
+      margin-top: rem(32);
+      @include bp-768 {
+        margin-top: 0;
+        margin-right: 0;
+      }
+      @include bp-1024 {
+        margin-top: rem(32);
+      }
+    }
+    i {
+      border: none;
+    }
+    .mofa {
+      top: rem(-5);
+      left: rem(14);
+    }
+  }
+}
+
+// EMAIL SIGNUP
+// ===========================================
+// Horizontal layout input and submit
+// ===========================================
 
 .email-signup {
   border-bottom: rem(2.5) solid $color__white;
@@ -17,5 +202,139 @@
   }
 }
 
-.email-signup__submit {
+// CUSTOM SELECT
+// ===========================================
+// nab custom select
+// ===========================================
+
+.nab-custom-select {
+  .chosen-container,
+  .chosen-drop,
+  .chosen-single,
+  .chosen-container-active.chosen-with-drop .chosen-single {
+    width: 100%;
+    background: $color__gray;
+    box-shadow: none;
+    color: #fff;
+    border-radius: 0;
+  }
+  .chosen-single,
+  .chosen-container-active.chosen-with-drop .chosen-single {
+    border: 0;
+    padding: rem(10) rem(20) !important;
+    height: auto;
+    font-size: rem(20);
+  }
+
+  .chosen-container {
+    &.chosen-with-drop {
+      .chosen-drop {
+        border-color: transparent;
+        box-shadow: 0 rem(9) rem(35) 0 rgba(64, 67, 71, 0.5);
+      }
+    }
+  }
+  .chosen-results {
+    background-color: $color__gray;
+    color: $color__white;
+    padding: 0;
+    margin: 0;
+    font-size: rem(16);
+    li {
+      padding: rem(15) rem(35);
+      line-height: normal;
+      &.highlighted {
+        background-color: $color__gray; //#4b4b4b;
+        background-image: none;
+      }
+    }
+  }
+  .chosen-container-single {
+    .chosen-search {
+      display: none;
+    }
+    .chosen-single {
+      div {
+        width: rem(40);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        right: rem(20);
+        b {
+          background: none;
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-left: rem(10) solid transparent;
+          border-right: rem(10) solid transparent;
+          border-top: rem(16) solid #fff;
+        }
+      }
+      span {
+        margin-right: rem(40);
+      }
+    }
+  }
+  select {
+    width: 100%;
+    color: $color__black;
+  }
+  option {
+    background: $color__gray;
+    &:hover {
+      background: $color__gray; //#4b4b4b;
+    }
+  }
+
+  .select2-container {
+    .select2-selection--single {
+      height: auto;
+      background-color: $color__gray; //#3f3f3f;
+    }
+    &--default {
+      .select2-selection--single {
+        border: 0;
+        border-radius: rem(19);
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+        .select2-selection__rendered {
+          height: auto;
+          line-height: 1;
+          color: #fff;
+          padding: rem(10) rem(40) rem(10) rem(20);
+          font-size: rem(18);
+          &:focus {
+            outline: none;
+            box-shadow: none;
+          }
+        }
+        .select2-selection__arrow {
+          top: 50%;
+          margin-top: rem(-5);
+          right: rem(10);
+        }
+      }
+    }
+  }
+}
+
+.nab-custom-select
+  .select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow
+  b,
+.nab-custom-select
+  .select2-container--default.select2-container--open
+  .select2-selection--single
+  .select2-selection__arrow
+  b {
+  border-width: rem(9) rem(9) 0 rem(9);
+  border-color: $color__pink transparent transparent transparent;
+  left: 0;
+  top: 0;
+}
+.nab-custom-select .select2-results__option {
+  padding: 15px 20px;
 }

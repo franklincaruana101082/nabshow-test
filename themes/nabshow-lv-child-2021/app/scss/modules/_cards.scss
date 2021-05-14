@@ -13,6 +13,7 @@
 
 .cards-wrapper .slick-dots {
   margin-top: rem(16);
+  display: flex !important;
   li {
     button {
       border-radius: 0;
@@ -58,10 +59,18 @@
   overflow: hidden;
   margin: 0 rem(8);
   height: rem(480) !important;
+  color: $color__white;
+  text-decoration: none;
   @include gradient-purple;
   @include bp-768 {
     width: auto !important;
     margin: 0;
+  }
+}
+a.card {
+  &:hover,
+  &:focus {
+    background: $color__purple;
   }
 }
 
