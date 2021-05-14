@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Sign Up NAB Show
+ * Template Name: Sign In NAB Show
  */
 
 if ( is_user_logged_in() ) {
