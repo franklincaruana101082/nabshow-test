@@ -17,7 +17,7 @@ const plumber = require('gulp-plumber');
 const paths = {
   html: {
     src: './app/**/*.html',
-    dest: './'
+    dest: './assets/'
   },
   styles: {
     src: './app/scss/**/*.scss',
@@ -143,7 +143,7 @@ function watchFiles() {
 const build = gulp.series(
   //clean,
   gulp.parallel(styles, vendors, scripts, images, favicon),
-  cacheBust
+  //cacheBust
 );
 
 const watch = gulp.series(build, watchFiles);
