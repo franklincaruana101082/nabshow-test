@@ -31,6 +31,9 @@
 .schedule__menu-item {
   text-align: center;
   cursor: pointer;
+  span {
+    color: $color__white;
+  }
 }
 .schedule__menu-item-day {
   @include primary-black-12-12-20;

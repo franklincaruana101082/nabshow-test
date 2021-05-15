@@ -190,7 +190,8 @@
   display: grid;
   grid-template-columns: 1fr auto;
 }
-.email-signup__input {
+.email-signup__input,
+.nabshow_2021 .mktoForm input#Email.mktoField {
   appearance: none;
   background: none;
   border: none;
@@ -200,6 +201,23 @@
   &::placeholder {
     color: $color__gray--medium;
   }
+}
+.nabshow_2021 .mktoForm input#Email.mktoField {
+  //overrides :/
+  border: 0 !important;
+}
+.nabshow_2021 .mktoForm .mktoButtonWrap.mktoBlueBox button.mktoButton {
+  @extend .button;
+  @extend .button._arrow;
+  @extend .button._arrow._small;
+  //overrides :/
+  background-color: transparent !important;
+  font-weight: 900 !important;
+  font-size: .75rem !important;
+}
+.nabshow_2021 .mktoButtonRow {
+  //overrides :/
+  margin-top: rem(40) !important;
 }
 
 // CUSTOM SELECT
