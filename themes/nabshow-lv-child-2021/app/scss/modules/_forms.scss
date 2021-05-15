@@ -205,6 +205,7 @@
 .nabshow_2021 .mktoForm input#Email.mktoField {
   //overrides :/
   border: 0 !important;
+  box-shadow: none !important;
 }
 .nabshow_2021 .mktoForm .mktoButtonWrap.mktoBlueBox button.mktoButton {
   @extend .button;
