@@ -179,6 +179,8 @@ html._header-is-open {
     position: relative;
     order: 2;
     display: flex;
+    align-items: center;
+    flex: 0 1 100%;
   }
   .menu__link, .menu-item a, .menu-item a:not([href]):not([tabindex]) {
     display: block;
@@ -304,6 +306,15 @@ html._header-is-open {
 
 .header__mainnav-cta {
   margin: rem(16) 0 rem(32);
+  &.menu-item > a {
+    @extend .button;
+    @extend .button._solid;
+    @extend .button._compact;
+    display: inline-block;
+    padding: rem(17) rem(64);
+    color: $color__blue;
+    font-size: rem(12);
+  }
   .button {
     width: 100%;
     text-align: center;
