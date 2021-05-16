@@ -64,6 +64,56 @@
 						</div>
 					</div>
 				</div>
+				<?php if( have_rows('sessions_slider') ) : ?>
+				<div class="schedule__sessions">
+					<?php while( have_rows('sessions_slider') ): the_row(); 
+						$session_id = get_sub_field('session');
+						$session = get_post($session_id);
+						$session_meta = get_post_meta($session_id);
+						if(array_key_exists('cta', $session_meta)):
+							$session_cta = unserialize($session_meta['cta'][0]);
+						endif;
+						if(array_key_exists('logo', $session_meta)):
+							$session_logo = get_post($session_meta['logo'][0]);
+						endif;
+						if(array_key_exists('start_time', $session_meta)):
+							$session_start = new DateTime($session_meta['start_time'][0]);
+						endif;
+						if(array_key_exists('end_time', $session_meta)):
+							$session_end = new DateTime($session_meta['end_time'][0]);
+						endif;
+
+						?>
+					<div class="schedule__session">
+						<?php if(!empty($session_cta)): ?>
+						<a href="<?php echo esc_url($session_cta['url']); ?>" target="<?php echo($session_cta['target'] !== '' ? $session_cta['target'] : '_self' ); ?>" class="schedule__session-item">
+						<?php else: ?>
+						<div class="schedule__session-item">
+						<?php endif; ?>
+							<?php if($session_logo->guid):?>
+							<img src="<?php echo esc_url($session_logo->guid); ?>" alt="<?php echo esc_attr($session_logo->post_name); ?>" />
+							<?php endif; ?>
+							<div class="schedule__session-item-content">
+								<h5 class="schedule__session-item-title"><?php echo esc_html($session->post_title); ?></h5>
+								<div class="schedule__session-item-body">
+									<?php echo apply_filters( 'the_content', $session->post_content ); ?>
+								</div>
+								<h6 class="schedule__session-item-time"><?php echo($session_start->format('g:iA').' - '.$session_end->format('g:iA')); ?></h6>
+								<?php if(!empty($session_cta)): ?>
+								<div class="schedule__session-item-cta">
+									<span class="button _solid _compact"><?php echo esc_html($session_cta['title']); ?></span>
+								</div>
+								<?php endif; ?>
+							</div>
+						<?php if(empty($session_cta)): ?>
+						</div>
+						<?php else: ?>
+						</a>
+						<?php endif; ?>
+					</div>
+					<?php endwhile; ?>
+				</div>
+				<?php endif; ?>
 			</div>
 			<?php endwhile; ?>
 		</div>
