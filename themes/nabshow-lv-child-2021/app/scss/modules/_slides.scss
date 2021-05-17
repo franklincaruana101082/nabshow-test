@@ -19,6 +19,10 @@
   top: 0;
   left: 0;
   right: 0;
+  .slick-list .slick-track {
+    // width: auto !important; // overrides slick inline styles
+    transform: none !important; // overrides slick inline styles
+  }
   @include bp-1024 {
     padding-left: rem(32);
     padding-right: rem(32);
@@ -138,6 +142,9 @@
 }
 
 .schedule__sessions {
+  .slick-list .slick-track {
+    min-width: 100% !important;
+  }
   .slick-list {
     overflow: visible !important; // override slick styles
   }

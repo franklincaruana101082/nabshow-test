@@ -73,7 +73,9 @@ jQuery(function($) {
 			slidesToScroll: 1,
 			asNavFor: '.schedule__days',
 			arrows: false,
-			focusOnSelect: true,			
+			focusOnSelect: true,
+			swipe: false,
+			swipeToSlide: false,			
 		});
 		// sessions
 		$('.schedule__sessions').slick({
