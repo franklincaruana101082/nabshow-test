@@ -73,7 +73,7 @@
 
 <?php if(have_rows('opportunities')) : 
 	while( have_rows('opportunities') ): the_row(); 
-		if ( get_sub_field('opportunities_title') || get_sub_field('opportunities_copy') ) :
+		if ( get_sub_field('opportunities_title') || get_sub_field('opportunities_copy') || have_rows('opportunities_items') ) :
 	?>
 	<div class="section opportunities">
 		<div class="container">

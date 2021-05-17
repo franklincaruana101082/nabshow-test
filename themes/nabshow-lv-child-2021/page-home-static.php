@@ -33,10 +33,10 @@ get_header();
     <div class="jump-links">
       <h2 class="jump-links__label">Quick Links:</h2>
       <ul class="jump-links__menu">
-        <li class="jump-links__item"><a href="#" class="button _arrow _full">Exhibitors</a></li>
-        <li class="jump-links__item"><a href="#" class="button _arrow _full">Press</a></li>
-        <li class="jump-links__item"><a href="#" class="button _arrow _full">Sponsors</a></li>
-        <li class="jump-links__item"><a href="#" class="button _arrow _full">Speakers</a></li>
+        <li class="jump-links__item"><a href="<?php echo site_url('/attend/'); ?>" class="button _arrow _full">Attend</a></li>
+        <li class="jump-links__item"><a href="<?php echo site_url('/resources-for/press/'); ?>" class="button _arrow _full">Press</a></li>
+        <li class="jump-links__item"><a href="<?php echo site_url('/exhibit/'); ?>" class="button _arrow _full">Exhibit</a></li>
+        <li class="jump-links__item"><a href="<?php echo site_url('/sponsor/'); ?>" class="button _arrow _full">Sponsor</a></li>
       </ul>
     </div>
   </div>
@@ -47,7 +47,7 @@ get_header();
         <h2 class="h-lg">IT’S SO ON</h2>
         <p><strong>This October, the wait is over -- NAB Show returns to Las Vegas.</strong> No matter where you fall in the content ecosystem, this is where you’ll reconnect to the tools, technology and people who will empower you on your path. Take the first look at brand-new products and applications. Engage in compelling conversations with current and future partners. And immerse yourself in an experience-rich show floor, where innovative and future-ready solutions are waiting at every turn. If you’re involved with the business of storytelling, then you belong at NAB Show. 
         </p>
-        <a href="#" class="button _arrow _alt _full">Learn More About The Schedule</a>
+        <a href="<?php echo site_url('/attend/'); ?>" class="button _arrow _alt _full">Learn More About The Show</a>
       </div>
       <div class="col">
         <figure class="figure">
