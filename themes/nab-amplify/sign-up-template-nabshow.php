@@ -56,7 +56,20 @@ while ( have_posts() ) :
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<div class="signup-wrapper">
 			<div class="container">
-				<img class="hero__logo" src="/wp-content/themes/nabshow-lv-child-2021/assets/images/NAB_Show_Logo_White.png" alt="NAB Show where content comes to life">
+				<div class="signup-logos">
+					<div class="signup-logo-amplify">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
+					</div>
+					<div class="signup-logo-show">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
+					</div>
+					<div class="signup-logo-radio">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">
+					</div>
+					<div class="signup-logo-smte">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-smte.png" alt="NAB SMTE Logo">
+					</div>
+				</div>
 				<?php
 				do_action( 'woocommerce_before_customer_login_form' );
 				?>
@@ -231,7 +244,7 @@ while ( have_posts() ) :
 							<li>
 								<label class="field__list-input" for="signup-amplify-hide-from-search">
 									<input class="field__input" value="1" type="checkbox" id="signup-amplify-hide-from-search" name="amplify_hide_from_search" /> 
-									<?php esc_html_e('Hide my profile from Amplify search.');?>
+									<?php esc_html_e('Hide my profile on NAB Amplify.');?>
 								</label>
 							</li>
 						</ul>
@@ -264,14 +277,14 @@ endwhile; // End of the loop.
 
 	</main><!-- #main -->
 	<div id="modal-member-press" class="nab-modal">
-	    <div class="nab-modal-inner">
-	        <div class="modal-content">
-	            <span class="nab-modal-close fa fa-times"></span>
-	            <div class="modal-content-wrap">
-	            	<?php dynamic_sidebar('member-press-modal'); ?>
-	            </div>
-	        </div>
-	    </div>
+			<div class="nab-modal-inner">
+					<div class="modal-content">
+							<span class="nab-modal-close fa fa-times"></span>
+							<div class="modal-content-wrap">
+								<?php dynamic_sidebar('member-press-modal'); ?>
+							</div>
+					</div>
+			</div>
 	</div>
 	<!-- END legacy-template -->
 <?php
