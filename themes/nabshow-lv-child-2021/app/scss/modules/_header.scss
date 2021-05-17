@@ -181,8 +181,13 @@ html._header-is-open {
     display: flex;
     align-items: center;
     flex: 0 1 100%;
+    .menu__item {
+      margin-top: 0 !important;
+    }
   }
-  .menu__link, .menu-item a, .menu-item a:not([href]):not([tabindex]) {
+  .menu__link,
+  .menu-item a,
+  .menu-item a:not([href]):not([tabindex]) {
     display: block;
     color: $color__white;
     @include primary-bold-20-20;
@@ -211,16 +216,16 @@ html._header-is-open {
     width: 100%;
     appearance: none;
     border: none;
-    background: $color__blue;
+    background-color: transparent;
     color: $color__white;
-    @include primary-bold-12-12;
+    font-family: $font__primary;
+    @include primary-bold-20-20;
     text-transform: uppercase;
     text-align: left;
-    padding: rem(17.6) rem(32);
+    padding: rem(16) rem(32);
     @include bp-768 {
       padding: 0 0 0 rem(18);
       font-family: $font__primary;
-      background-color: transparent;
       @include primary-bold-16-16;
       text-transform: none;
     }
@@ -234,9 +239,9 @@ html._header-is-open {
       border-right: 2px solid $color__white;
       border-bottom: 2px solid $color__white;
       transform: rotate(45deg);
+      margin: rem(2) rem(12) 0;
+      border-color: $color__purple-light;
       @include bp-768 {
-        border-color: $color__purple-light;
-        margin: 0 rem(12);
       }
     }
     &[aria-expanded="true"] {
@@ -250,7 +255,14 @@ html._header-is-open {
   & .sub-menu {
     display: none;
     list-style-type: none;
-    padding: rem(8) rem(32);
+    padding: 0 rem(32) rem(8);
+    margin-bottom: rem(16);
+    .menu-item {
+      border-bottom: rem(1) solid rgba($color__white, 0.5);
+      &:last-child {
+        border: none;
+      }
+    }
     @include bp-768 {
       position: absolute;
       top: 100%;
@@ -267,12 +279,15 @@ html._header-is-open {
       }
     }
     // note: menu__link is close to arrow button but not quite
-    .menu__link, .menu-item a {
+    .menu__link,
+    .menu-item a {
       cursor: pointer;
       color: $color__white;
       background-color: transparent;
-      padding: rem(10) 0;
+      padding: rem(16) 0;
       @include primary-medium-14-14;
+      text-transform: uppercase;
+      border-bottom: 1px solid white;
       display: flex;
       justify-content: space-between;
       white-space: nowrap;
@@ -383,7 +398,8 @@ html._header-is-open {
         display: block;
       }
     }
-    .menu__link, .menu-item {
+    .menu__link,
+    .menu-item {
       display: block;
       padding: rem(12) 0;
       @include secondary-bold-12-12-6;

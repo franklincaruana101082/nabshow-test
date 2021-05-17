@@ -214,7 +214,7 @@
   //overrides :/
   background-color: transparent !important;
   font-weight: 900 !important;
-  font-size: .75rem !important;
+  font-size: 0.75rem !important;
 }
 .nabshow_2021 .mktoButtonRow {
   //overrides :/
@@ -395,13 +395,13 @@
 .page-template-sign-up-template-nabshow {
   .select2-dropdown {
     background-color: $color__gray-dark;
-    border: 1px solid $color__pink;
+    border: 1px solid $color__purple-light;
   }
   .select2-container--default .select2-results__option--selected {
     background-color: $color__gray-dark;
   }
   .select2-container--default
     .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: $color__gray-dark;
+    background-color: $color__purple-light;
   }
 }

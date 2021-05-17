@@ -48,9 +48,6 @@
       @include gradient-purple-blue-corners-dark;
     }
   }
-  @include bp-1440 {
-    padding: rem(78);
-  }
 }
 
 .hero__content {
