@@ -31,6 +31,14 @@
   }
 }
 .jump-links__item {
+  ._arrow._full {
+    white-space: normal;
+    line-height: 1.4;
+    text-align: left;
+  }
+}
+
+.jump-links__item {
   & + .jump-links__item {
     margin-top: rem(18);
   }

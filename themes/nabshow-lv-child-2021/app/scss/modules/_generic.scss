@@ -49,7 +49,7 @@
   }
 
   ul {
-    margin: 0;
+    margin: 0 0 rem(24) 0;
     padding: 0 0 0 rem(24);
     li {
       @include primary-regular-17-31;
@@ -78,11 +78,11 @@
     }
   }
   .accordionHeader {
-    background: $color__purple-dark !important;
+    background: rgba(0, 0, 0, 0.65) !important;
     display: flex !important;
     justify-content: space-between !important;
   }
   .accordionBody {
-    background: $color__purple-dark !important;
+    background: rgba(0, 0, 0, 0.65) !important;
   }
 }

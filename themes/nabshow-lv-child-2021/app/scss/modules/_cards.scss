@@ -58,7 +58,7 @@
   border-radius: rem(10);
   overflow: hidden;
   margin: 0 rem(8);
-  height: rem(480) !important;
+  height: rem(512) !important;
   color: $color__white;
   text-decoration: none;
   @include gradient-purple;
@@ -66,11 +66,14 @@
     width: auto !important;
     margin: 0;
   }
-}
-a.card {
-  &:hover,
-  &:focus {
-    background: $color__purple;
+  > a {
+    color: $color__white;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+      color: $color__pink;
+    }
   }
 }
 
@@ -82,14 +85,26 @@ a.card {
 
 .card__title {
   @include primary-black-12-12-20;
+  line-height: 1.6;
   text-transform: uppercase;
   margin-bottom: rem(20);
 }
 
 .card__body {
   padding: rem(30) rem(30) rem(60) rem(30);
+  ul {
+    padding-left: rem(16);
+  }
   p {
     @include primary-medium-italic-16-24;
+    a {
+      color: $color__pink;
+      text-decoration: underline;
+      &:hover,
+      &:focus {
+        opacity: 0.6;
+      }
+    }
   }
   @include bp-768 {
     padding: rem(30) rem(30) rem(116) rem(30);
