@@ -746,16 +746,17 @@ add_action('init', 'nab_amplify_session_categories');
  */
 function nab_save_name_fields($customer_id) {
 
-    $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
-    $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
-    $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $press_member           = filter_input( INPUT_POST, 'press_member', FILTER_SANITIZE_STRING );
-    $user_title             = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
-    $user_company           = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
-    $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
-    $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
-    $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
-    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $first_name               = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+    $last_name                = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+    $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $press_member             = filter_input( INPUT_POST, 'press_member', FILTER_SANITIZE_STRING );
+    $user_title               = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+    $user_company             = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+    $user_country             = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+    $user_state               = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+    $user_city                = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+    $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
     if ( isset( $first_name ) ) {
         update_user_meta( $customer_id, 'billing_first_name', $first_name );
@@ -788,6 +789,9 @@ function nab_save_name_fields($customer_id) {
     }
     if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
         update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
+    }
+    if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
+        update_user_meta( $customer_id, 'amplify_hide_from_search', $amplify_hide_from_search );
     }
 }
 
@@ -923,7 +927,7 @@ function nab_amplify_template_redirect()
 
         $page_param = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 
-        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
+        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) || is_page( 'nab-show-sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
 
             $maritz_url = nab_maritz_redirect_url( $current_user_id );
 
@@ -2416,44 +2420,46 @@ function nab_edit_acount_additional_form_fields() {
 
     if ( ( isset( $account_action ) && 'save_account_details' === $account_action ) && ( isset( $account_nonce ) && ! empty( $account_nonce ) ) ) {
         
-        $member_visibility      = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
-        $member_restriction     = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
-        $attendee_title         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
-        $attendee_company       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
-        $social_twitter         = filter_input( INPUT_POST, 'social_twitter', FILTER_SANITIZE_STRING );
-        $social_linkedin        = filter_input( INPUT_POST, 'social_linkedin', FILTER_SANITIZE_STRING );
-        $social_facebook        = filter_input( INPUT_POST, 'social_facebook', FILTER_SANITIZE_STRING );
-        $social_instagram       = filter_input( INPUT_POST, 'social_instagram', FILTER_SANITIZE_STRING );
-        $social_website         = filter_input( INPUT_POST, 'social_website', FILTER_SANITIZE_STRING );
-        $social_youtube         = filter_input( INPUT_POST, 'social_youtube', FILTER_SANITIZE_STRING );
-        $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $user_job_role          = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $user_industry          = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
-        $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
-        $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
-        $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+        $member_visibility        = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+        $member_restriction       = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+        $attendee_title           = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
+        $attendee_company         = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
+        $social_twitter           = filter_input( INPUT_POST, 'social_twitter', FILTER_SANITIZE_STRING );
+        $social_linkedin          = filter_input( INPUT_POST, 'social_linkedin', FILTER_SANITIZE_STRING );
+        $social_facebook          = filter_input( INPUT_POST, 'social_facebook', FILTER_SANITIZE_STRING );
+        $social_instagram         = filter_input( INPUT_POST, 'social_instagram', FILTER_SANITIZE_STRING );
+        $social_website           = filter_input( INPUT_POST, 'social_website', FILTER_SANITIZE_STRING );
+        $social_youtube           = filter_input( INPUT_POST, 'social_youtube', FILTER_SANITIZE_STRING );
+        $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_job_role            = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_industry            = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_country             = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+        $user_state               = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+        $user_city                = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+        $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+        $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
     } else {
-        $current_user           = wp_get_current_user();
-        $current_user_id        = $current_user->ID;
-        $member_visibility      = get_user_meta( $current_user_id, 'nab_member_visibility', true );
-        $member_restriction     = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
-        $attendee_title         = get_user_meta( $current_user_id, 'attendee_title', true );
-        $attendee_company       = get_user_meta( $current_user_id, 'attendee_company', true );
-        $social_twitter         = get_user_meta( $current_user_id, 'social_twitter', true );
-        $social_linkedin        = get_user_meta( $current_user_id, 'social_linkedin', true );
-        $social_facebook        = get_user_meta( $current_user_id, 'social_facebook', true );
-        $social_instagram       = get_user_meta( $current_user_id, 'social_instagram', true );
-        $social_website         = get_user_meta( $current_user_id, 'social_website', true );
-        $social_youtube         = get_user_meta( $current_user_id, 'social_youtube', true );
-        $user_interest          = get_user_meta( $current_user_id, 'user_interest', true  );
-        $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true  );
-        $user_industry          = get_user_meta( $current_user_id, 'user_industry', true  );
-        $user_country           = get_user_meta( $current_user_id, 'user_country', true  );
-        $user_state             = get_user_meta( $current_user_id, 'user_state', true  );
-        $user_city              = get_user_meta( $current_user_id, 'user_city', true  );
-        $amplify_communications = get_user_meta( $current_user_id, 'amplify_communications', true  );
+        $current_user             = wp_get_current_user();
+        $current_user_id          = $current_user->ID;
+        $member_visibility        = get_user_meta( $current_user_id, 'nab_member_visibility', true );
+        $member_restriction       = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
+        $attendee_title           = get_user_meta( $current_user_id, 'attendee_title', true );
+        $attendee_company         = get_user_meta( $current_user_id, 'attendee_company', true );
+        $social_twitter           = get_user_meta( $current_user_id, 'social_twitter', true );
+        $social_linkedin          = get_user_meta( $current_user_id, 'social_linkedin', true );
+        $social_facebook          = get_user_meta( $current_user_id, 'social_facebook', true );
+        $social_instagram         = get_user_meta( $current_user_id, 'social_instagram', true );
+        $social_website           = get_user_meta( $current_user_id, 'social_website', true );
+        $social_youtube           = get_user_meta( $current_user_id, 'social_youtube', true );
+        $user_interest            = get_user_meta( $current_user_id, 'user_interest', true  );
+        $user_job_role            = get_user_meta( $current_user_id, 'user_job_role', true  );
+        $user_industry            = get_user_meta( $current_user_id, 'user_industry', true  );
+        $user_country             = get_user_meta( $current_user_id, 'user_country', true  );
+        $user_state               = get_user_meta( $current_user_id, 'user_state', true  );
+        $user_city                = get_user_meta( $current_user_id, 'user_city', true  );
+        $amplify_communications   = get_user_meta( $current_user_id, 'amplify_communications', true  );
+        $amplify_hide_from_search = get_user_meta( $current_user_id, 'amplify_hide_from_search', true  );
     }    
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
@@ -2743,6 +2749,13 @@ function nab_edit_acount_additional_form_fields() {
         </div>
         <label for="amplify-communications">I would like to receive Amplify communications.</label>
     </div>
+    <div class="checkbox-item amp-check-container">
+        <div class="amp-check-wrp">
+            <input type="checkbox" name="amplify_hide_from_search" value="1" id="amplify-hide-from-search"  <?php checked( $amplify_hide_from_search, '1' ); ?> />
+            <span class="amp-check"></span>
+        </div>
+        <label for="amplify-hide-from-search">Hide my profile from Amplify search.</label>
+    </div>
 <?php
 }
 
@@ -2754,12 +2767,13 @@ function nab_edit_acount_additional_form_fields() {
 function nab_save_edit_account_additional_form_fields($user_id)
 {
 
-    $member_visibility      = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
-    $member_restriction     = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
-    $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_job_role          = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_industry          = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $member_visibility        = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+    $member_restriction       = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+    $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_job_role            = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_industry            = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2791,6 +2805,12 @@ function nab_save_edit_account_additional_form_fields($user_id)
         update_user_meta( $user_id, 'amplify_communications', $amplify_communications );
     } else {
         delete_user_meta( $user_id, 'amplify_communications' );
+    }
+
+    if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
+        update_user_meta( $user_id, 'amplify_hide_from_search', $amplify_hide_from_search );
+    } else {
+        delete_user_meta( $user_id, 'amplify_hide_from_search' );
     }
 
     $user_fields = array(
