@@ -140,10 +140,8 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
                             $current_site_id = get_current_blog_id();
                             if ($current_site_id == 4) {
-                                //add maritz redirect
-                                $cart_url   .= '?r=maritz';
-                                $my_account  = trailingslashit( $parent_url ) . 'nab-show-sign-in/?r=maritz';
-                                $sign_up     = trailingslashit( $parent_url ) . 'nab-show-sign-up/?r=maritz';
+                                $my_account  = trailingslashit( $parent_url ) . 'nab-show-sign-in/';
+                                $sign_up     = trailingslashit( $parent_url ) . 'nab-show-sign-up/';
                             }
                             ?>
 

@@ -93,6 +93,7 @@
 							<?php if($session_logo->guid):?>
 							<img src="<?php echo esc_url($session_logo->guid); ?>" alt="<?php echo esc_attr($session_logo->post_name); ?>" />
 							<?php endif; ?>
+							<?php if(!empty($session_cta)): ?>
 							<div class="schedule__session-item-content">
 								<h5 class="schedule__session-item-title"><?php echo esc_html($session->post_title); ?></h5>
 								<div class="schedule__session-item-body">
@@ -105,6 +106,7 @@
 								</div>
 								<?php endif; ?>
 							</div>
+							<?php endif; ?>
 						<?php if(empty($session_cta)): ?>
 						</div>
 						<?php else: ?>

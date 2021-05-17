@@ -70,7 +70,7 @@ while ( have_posts() ) :
 					<div class="signup__titles">
 						<h2><?php esc_html_e( 'Sign in', 'woocommerce' ); ?></h2>
 						<?php
-						$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
+						$sign_up_page = get_page_by_path( NAB_SHOW_SIGNUP_PAGE ); // @todo later replace this with VIP function
 						if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
 							$sign_up_page_url = get_permalink( $sign_up_page->ID );
 
