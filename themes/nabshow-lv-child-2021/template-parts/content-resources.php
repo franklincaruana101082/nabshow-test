@@ -72,7 +72,9 @@
 </div>
 
 <?php if(have_rows('opportunities')) : 
-	while( have_rows('opportunities') ): the_row(); ?>
+	while( have_rows('opportunities') ): the_row(); 
+		if (the_sub_field('opportunities_title') || the_sub_field('opportunities_copy')) :
+	?>
 	<div class="section opportunities">
 		<div class="container">
 			<div class="intro-body-text">
@@ -111,7 +113,13 @@
 			<?php endif; ?>
 		</div>
 	</div>
-<?php endwhile; endif; ?>
+<?php endif; endwhile; endif; ?>
+
+<?php if($post->post_content): ?>
+	<div class="decorative _lightlines-bottom-right">
+		<?php the_content(); ?>
+	</div>
+<?php endif; ?>
 
 <?php if(have_rows('additional_sections')): 
 		while (have_rows('additional_sections')): the_row();
@@ -130,8 +138,8 @@
 			<?php dynamic_sidebar('Team'); ?>
 			<div class="feature__cta">
 				<ul class="button-group">
-					<li><a href="#" class="button _solid">Meet The Team</a></li>
-					<li><a href="#" class="button _solid">Explore More Details</a></li>
+					<li><a href="https://nabshow.com/2021/wp-content/uploads/sites/4/2021/05/21LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
+					<li><a href="/exhibit/contact-a-sales-rep" class="button _solid">Explore More Details</a></li>
 				</ul>
 			</div>
 		</div>
