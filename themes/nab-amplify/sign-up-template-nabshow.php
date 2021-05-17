@@ -230,7 +230,7 @@ while ( have_posts() ) :
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 							<input type="hidden" name="checkout_redirect" value="<?php echo $redirect_url; ?>">
 						<?php } ?>
-						<?php dynamic_sidebar('sign-up-terms'); ?>
+						<?php dynamic_sidebar('sign-up-terms-nabshow'); ?>
 						<ul class="field__list">
 							<li>
 								<?php do_action( 'woocommerce_register_form' ); ?>
