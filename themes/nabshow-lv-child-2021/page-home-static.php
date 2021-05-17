@@ -18,7 +18,7 @@ get_header();
           <img class="hero__logo" src="/wp-content/themes/nabshow-lv-child-2021/assets/images/NAB_Show_Logo_White.png" alt="NAB Show where content comes to life" />
           <ul class="hero__ctas">
             <li class="hero__cta">
-              <a href="<?php echo esc_url( get_site_url(12, '/nab-show-sign-up/') ); ?>" target="_blank" class="button _solid">Register To Attend</a>
+              <a href="<?php echo esc_url( get_site_url(12, '/nab-show-sign-up/?r=maritz') ); ?>" target="_blank" class="button _solid">Register To Attend</a>
             </li>
             <li class="hero__cta">
               <a href="https://book.passkey.com/event/50152379/owner/81958/home" class="button _arrow _large">Book a Hotel</a>
