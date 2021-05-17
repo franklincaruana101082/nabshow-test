@@ -927,7 +927,7 @@ function nab_amplify_template_redirect()
 
         $page_param = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 
-        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
+        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) || is_page( 'nab-show-sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
 
             $maritz_url = nab_maritz_redirect_url( $current_user_id );
 
