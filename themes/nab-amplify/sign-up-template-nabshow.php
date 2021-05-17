@@ -58,16 +58,16 @@ while ( have_posts() ) :
 			<div class="container">
 				<div class="signup-logos">
 					<div class="signup-logo-amplify">
-						<img src="/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
 					</div>
 					<div class="signup-logo-show">
-						<img src="/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
 					</div>
 					<div class="signup-logo-radio">
-						<img src="/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">
 					</div>
 					<div class="signup-logo-smte">
-						<img src="/assets/images/logo-login-nab-smte.png" alt="NAB SMTE Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-smte.png" alt="NAB SMTE Logo">
 					</div>
 				</div>
 				<?php
@@ -244,7 +244,7 @@ while ( have_posts() ) :
 							<li>
 								<label class="field__list-input" for="signup-amplify-hide-from-search">
 									<input class="field__input" value="1" type="checkbox" id="signup-amplify-hide-from-search" name="amplify_hide_from_search" /> 
-									<?php esc_html_e('Hide my profile from Amplify search.');?>
+									<?php esc_html_e('Hide my profile on NAB Amplify.');?>
 								</label>
 							</li>
 						</ul>

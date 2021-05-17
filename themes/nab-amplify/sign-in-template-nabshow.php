@@ -66,16 +66,16 @@ while ( have_posts() ) :
 			<div class="container">
 				<div class="signup-logos">
 					<div class="signup-logo-amplify">
-						<img src="/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
 					</div>
 					<div class="signup-logo-show">
-						<img src="/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
 					</div>
 					<div class="signup-logo-radio">
-						<img src="/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">
 					</div>
 					<div class="signup-logo-smte">
-						<img src="/assets/images/logo-login-nab-smte.png" alt="NAB SMTE Logo">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-smte.png" alt="NAB SMTE Logo">
 					</div>
 				</div>
 				<?php do_action( 'woocommerce_before_customer_login_form' ); ?>
