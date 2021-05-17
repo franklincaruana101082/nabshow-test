@@ -17,6 +17,7 @@ $write_key    = get_option( 'segment_tracking_api_key' );
 
 </div> <!-- end site-content -->
 </div><!-- #page -->
+<div id="nab-amp-cookie-consent"></div>
 
 <script type="application/javascript">
   window.consentManagerConfig = function(exports) {

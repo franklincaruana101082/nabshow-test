@@ -229,9 +229,9 @@ while ( have_posts() ) :
 								</label>
 							</li>
 							<li>
-								<label class="field__list-input" for="signup-press-member">
-									<input class="field__input" value="1" type="checkbox" id="signup-press-member" name="press_member" /> 
-									<?php esc_html_e('Are you a member of the press?');?>
+								<label class="field__list-input" for="signup-amplify-hide-from-search">
+									<input class="field__input" value="1" type="checkbox" id="signup-amplify-hide-from-search" name="amplify_hide_from_search" /> 
+									<?php esc_html_e('Hide my profile from Amplify search.');?>
 								</label>
 							</li>
 						</ul>

@@ -1071,6 +1071,7 @@ function nab_member_search_filter_callback()
 
 	$wp_user_ids 	= array();
 	$meta_result	= true;
+	$hide_users		= nab_get_hide_from_search_users();
 
 	if ( ! empty( $company ) || ! empty( $job_title ) || ! empty( $country ) || ! empty( $state ) || ! empty( $city ) ) {
 
@@ -1143,6 +1144,8 @@ function nab_member_search_filter_callback()
 	// 	$members_filter['meta_value']	= $company;
 	// }
 
+	$user_excluded = false;
+
 	if (!empty($connected) && 'yes' === $connected) {
 
 		$members_filter['user_id'] = $logged_user_id;
@@ -1150,9 +1153,22 @@ function nab_member_search_filter_callback()
 
 		$friend_list_ids = friends_get_friend_user_ids($logged_user_id);
 
+		if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+			$friend_list_ids 	= array_unique( array_merge( $friend_list_ids, $hide_users ) );
+			$user_excluded		= true;
+		}
 		if (is_array($friend_list_ids) && count($friend_list_ids) > 0) {
 			$members_filter['exclude']	= $friend_list_ids;
 		}
+	}
+
+	if ( count( $wp_user_ids ) > 0 && is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+		$wp_user_ids	= array_diff( $wp_user_ids, $hide_users );
+		$user_excluded	= true;
+	}
+
+	if ( ! $user_excluded && is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+		$members_filter['exclude']	= $hide_users;	
 	}
 
 	$total_users 	= 0;
