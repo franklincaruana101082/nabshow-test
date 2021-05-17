@@ -115,11 +115,13 @@
 	</div>
 <?php endif; endwhile; endif; ?>
 
-<?php /*if($post->post_content): ?>
-	<div class="decorative _lightlines-bottom-right">
-		<?php the_content(); ?>
+<?php if($post->post_content): ?>
+	<div class="decorative _lightlines-left-side">
+		<div class="section container generic">
+			<?php the_content(); ?>
+		</div>
 	</div>
-<?php endif;*/ ?>
+<?php endif; ?>
 
 <?php if(have_rows('additional_sections')): 
 		while (have_rows('additional_sections')): the_row();
