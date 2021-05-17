@@ -141,7 +141,7 @@
 			<div class="feature__cta">
 				<ul class="button-group">
 					<li><a href="https://nabshow.com/2021/wp-content/uploads/sites/4/2021/05/21LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
-					<li><a href="/exhibit/contact-a-sales-rep" class="button _solid">Explore More Details</a></li>
+					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-rep/'); ?>" class="button _solid">Explore More Details</a></li>
 				</ul>
 			</div>
 		</div>
