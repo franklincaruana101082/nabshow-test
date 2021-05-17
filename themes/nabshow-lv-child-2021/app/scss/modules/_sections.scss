@@ -302,6 +302,15 @@
       margin-bottom: rem(40);
     }
   }
+  ul {
+    @include primary-medium-20-30;
+    margin-bottom: rem(30);
+    padding-left: rem(32);
+    @include bp-768 {
+      @include primary-medium-24-46;
+      margin-bottom: rem(40);
+    }
+  }
 }
 .resource-intro-stats {
   @include bp-1024 {
