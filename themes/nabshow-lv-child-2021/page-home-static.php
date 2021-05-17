@@ -21,7 +21,7 @@ get_header();
               <a href="/show" class="button _solid">Register To Attend</a>
             </li>
             <li class="hero__cta">
-              <a href="/#tba-hotel" class="button _arrow _large">Book a Hotel</a>
+              <a href="https://book.passkey.com/event/50152379/owner/81958/home" class="button _arrow _large">Book a Hotel</a>
             </li>
           </ul>
         </div>
@@ -690,7 +690,7 @@ get_header();
     </div>
   </div>
 
-  <div class="section _mnop decorative _lightlines-left-side">
+<!--   <div class="section _mnop decorative _lightlines-left-side">
     <div class="container">
       <div class="amplify">
         <div class="amplify__container">
@@ -706,9 +706,9 @@ get_header();
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="section container">
+<!--   <div class="section container">
     <div class="section-heading">
       <h2 class="h-xl">STORIES FROM AMPLIFY</h2>
     </div>
@@ -774,7 +774,7 @@ get_header();
         </div>
       </a>
     </div>
-  </div>
+  </div> -->
 
   <div class="decorative _lightlines-footer-corner"></div>
 </main><!-- #main -->
