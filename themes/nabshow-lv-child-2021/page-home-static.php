@@ -52,11 +52,11 @@ get_header();
       <div class="col">
         <figure class="figure">
           <div class="figure__media">
-            <img src="https://www.fillmurray.com/482/271" alt="alt-here" />
+            <div style="position: relative; display: block; max-width: 100%;"><div style="padding-top: 56.25%;"><iframe src="https://players.brightcove.net/1496514776001/S1IGg23j_default/index.html?videoId=6015758748001" allowfullscreen="" allow="encrypted-media" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;"></iframe></div></div>
           </div>
-          <figcaption class="figure__caption">
+          <!-- <figcaption class="figure__caption">
             <p>PHOTO CREDIT Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, odio voluptatem.</p>        
-          </figcaption>
+          </figcaption> -->
         </figure>
       </div>
     </div>
@@ -717,7 +717,7 @@ get_header();
         <div class="story__media">
           <figure class="figure">
             <div class="figure__media">
-              <div style="position: relative; display: block; max-width: 100%;"><div style="padding-top: 56.25%;"><iframe src="https://players.brightcove.net/1496514776001/S1IGg23j_default/index.html?videoId=6015758748001" allowfullscreen="" allow="encrypted-media" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;"></iframe></div></div>
+              <img src="https://www.fillmurray.com/482/271" alt="alt-here" />
             </div>              
           </figure>
         </div>
