@@ -64,6 +64,7 @@ while ( have_posts() ) :
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<div class="signup-wrapper">
 			<div class="container">
+				<img class="hero__logo" src="/wp-content/themes/nabshow-lv-child-2021/assets/images/NAB_Show_Logo_White.png" alt="NAB Show where content comes to life">
 				<?php do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 				<div class="signup _signin">
