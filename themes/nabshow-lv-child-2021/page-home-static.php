@@ -45,7 +45,7 @@ get_header();
     <div class="cols">
       <div class="col intro-body-text">
         <h2 class="h-lg">IT’S SO ON</h2>
-        <p><strong>This October, the wait is over -- NAB Show returns to Las Vegas.</strong> No matter where you fall in the content ecosystem, this is where you’ll reconnect to the tools, technology and people who will empower you on your path. Take the first look at brand-new products and applications. Engage in compelling conversations with current and future partners. And immerse yourself in an experience-rich show floor, where innovative and future-ready solutions are waiting at every turn. If you’re involved with the business of storytelling, then you belong at NAB Show. 
+        <p><strong>This October, the wait is over -- NAB Show returns to Las Vegas.</strong> No matter where you fall in the content ecosystem, this is where you’ll reconnect to the tools, technology and people who will empower you on your path. Take the first look at brand-new products and applications. Engage in compelling conversations with current and future partners. And immerse yourself in a show floor where innovative and future-ready solutions are waiting at every turn. If you’re involved with the business of storytelling, then you belong at NAB Show. 
         </p>
         <a href="<?php echo site_url('/attend/'); ?>" class="button _arrow _alt _full">Learn More About The Show</a>
       </div>
@@ -55,7 +55,7 @@ get_header();
             <div style="position: relative; display: block; max-width: 100%;"><div style="padding-top: 56.25%;"><iframe src="https://players.brightcove.net/1496514776001/S1IGg23j_default/index.html?videoId=6015758748001" allowfullscreen="" allow="encrypted-media" style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;"></iframe></div></div>
           </div>
           <figcaption class="figure__caption">
-            <p>PHOTO CREDIT Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, odio voluptatem.</p>        
+            <p>See what you've been missing.</p>        
           </figcaption>
         </figure>
       </div>
