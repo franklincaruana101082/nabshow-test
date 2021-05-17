@@ -68,6 +68,123 @@ get_header();
     </div>
   </div>
 
+
+<?php 
+if ( have_posts() ) :
+	while ( have_posts() ) : the_post();
+
+	$schedule_page_id = get_field('schedule_page');
+	if(have_rows('feature_timeline', $schedule_page_id)): ?>
+	<div class="schedule">
+		<div class="schedule__menu">
+		<?php while (have_rows('feature_timeline', $schedule_page_id)): the_row(); 
+			$day = new DateTime(get_sub_field('day', $schedule_page_id));
+			$day_number = $day->format('d');
+			$day_name = $day->format('l');
+			if(substr($day_name, 0, 1) == 'T' || substr($day_name, 0, 1) == 'S') {
+				$day_abbr = substr($day_name, 0,2);
+			} else {
+				$day_abbr = substr($day_name, 0,1);
+			}
+			?>
+			<div class="schedule__menu-item">
+				<span class="schedule__menu-item-day-short"><?php echo($day_abbr);?></span>
+				<span class="schedule__menu-item-day"><?php echo($day_name); ?></span>
+				<span class="schedule__menu-item-num"><?php echo($day_number); ?></span>
+			</div>
+			<?php endwhile; ?>
+		</div>
+	
+		<div class="schedule__days">
+			<?php while (have_rows('feature_timeline', $schedule_page_id)): the_row(); 
+				$bg_image = get_sub_field('timeline_feature_background_image', $schedule_page_id);
+				$start_time = new DateTime(get_sub_field('start_time', $schedule_page_id));
+				$end_time = new DateTime(get_sub_field('end_time', $schedule_page_id));
+				$cta = get_sub_field('cta', $schedule_page_id);
+				if(!empty($cta)):
+					$cta_target = $cta['target'] ? $cta['target'] : '_self';
+				endif;
+			?>
+			<div class="schedule__day">
+				<div class="schedule__day-wrapper" style="background-image: url('<?php echo esc_url($bg_image['url']);?>');">
+					<div class="container">
+						<div class="schedule__day-content">
+							<h3 class="schedule__day-time"><?php echo($start_time->format('g:iA').' - '.$end_time->format('g:iA')); ?></h3>
+							<h4 class="schedule__day-title"><?php the_sub_field('timeline_feature_title', $schedule_page_id); ?></h4>
+							<div class="schedule__day-body"><?php the_sub_field('timeline_feature_copy', $schedule_page_id); ?></div>
+							<?php if($cta): ?>
+							<div class="schedule__day-cta">
+								<a href="<?php echo esc_url( $cta['url'] ); ?>" target="<?php echo esc_attr( $cta_target ); ?>" class="button _solid"><?php echo esc_html( $cta['title'] ); ?></a>
+							</div>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+				<?php if( have_rows('sessions_slider', $schedule_page_id) ) : ?>
+				<div class="schedule__sessions">
+					<?php while( have_rows('sessions_slider', $schedule_page_id) ): the_row(); 
+						$session_id = get_sub_field('session', $schedule_page_id);
+						$session = get_post($session_id);
+						$session_meta = get_post_meta($session_id);
+						if(array_key_exists('cta', $session_meta)):
+							$session_cta = unserialize($session_meta['cta'][0]);
+						endif;
+						if(array_key_exists('logo', $session_meta)):
+							$session_logo = get_post($session_meta['logo'][0]);
+						endif;
+						if(array_key_exists('start_time', $session_meta)):
+							$session_start = new DateTime($session_meta['start_time'][0]);
+						endif;
+						if(array_key_exists('end_time', $session_meta)):
+							$session_end = new DateTime($session_meta['end_time'][0]);
+						endif;
+
+						?>
+					<div class="schedule__session">
+						<?php if(!empty($session_cta)): ?>
+						<a href="<?php echo esc_url($session_cta['url']); ?>" target="<?php echo($session_cta['target'] !== '' ? $session_cta['target'] : '_self' ); ?>" class="schedule__session-item">
+						<?php else: ?>
+						<div class="schedule__session-item">
+						<?php endif; ?>
+							<?php if($session_logo->guid):?>
+							<img src="<?php echo esc_url($session_logo->guid); ?>" alt="<?php echo esc_attr($session_logo->post_name); ?>" />
+							<?php endif; ?>
+							<?php if(!empty($session_cta)): ?>
+							<div class="schedule__session-item-content">
+								<h5 class="schedule__session-item-title"><?php echo esc_html($session->post_title); ?></h5>
+								<div class="schedule__session-item-body">
+									<?php echo apply_filters( 'the_content', $session->post_content ); ?>
+								</div>
+								<h6 class="schedule__session-item-time"><?php echo($session_start->format('g:iA').' - '.$session_end->format('g:iA')); ?></h6>
+								<?php if(!empty($session_cta)): ?>
+								<div class="schedule__session-item-cta">
+									<span class="button _solid _compact"><?php echo esc_html($session_cta['title']); ?></span>
+								</div>
+								<?php endif; ?>
+							</div>
+							<?php endif; ?>
+						<?php if(empty($session_cta)): ?>
+						</div>
+						<?php else: ?>
+						</a>
+						<?php endif; ?>
+					</div>
+					<?php endwhile; ?>
+				</div>
+				<?php endif; ?>
+			</div>
+			<?php endwhile; ?>
+		</div>
+	</div>
+<?php endif; 
+
+	endwhile; // End of the loop.
+endif;
+?>
+
+
+
+<?php /*
   <div class="schedule">
     <div class="schedule__menu">
       <div class="schedule__menu-item"><span class="schedule__menu-item-day-short">TU</span><span class="schedule__menu-item-day">Tuesday</span><span class="schedule__menu-item-num">09</span></div>
@@ -689,7 +806,7 @@ get_header();
       </div>
     </div>
   </div>
-
+*/ ?>
 <!--   <div class="section _mnop decorative _lightlines-left-side">
     <div class="container">
       <div class="amplify">
