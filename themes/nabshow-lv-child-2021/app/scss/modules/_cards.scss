@@ -1,0 +1,115 @@
+// Cards
+// Note that Cards uses slick on 'mobile' and then
+// gets css-overrided to be in grid layout
+
+.cards-wrapper {
+  overflow: auto;
+  margin: 0 rem(-32);
+  width: calc(100% + rem(64));
+  @include bp-768 {
+    margin: 0 auto;
+  }
+}
+
+.cards-wrapper .slick-dots {
+  margin-top: rem(16);
+  display: flex !important;
+  li {
+    button {
+      border-radius: 0;
+      width: rem(32);
+      height: rem(4);
+      border: none;
+    }
+    &.slick-active {
+      button {
+        background-color: $color__purple-light;
+        border: none;
+      }
+    }
+  }
+  @include bp-768 {
+    display: none !important; // overrides inline styles
+  }
+}
+
+.cards {
+  list-style-type: none;
+  @include bp-768 {
+    .slick-list {
+      padding: 0 !important;
+      transform: translate3d(0, 0, 0) !important;
+    }
+    .slick-list .slick-track {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(rem(264), 1fr));
+      grid-gap: rem(40) rem(20);
+      width: auto !important;
+      transform: translate3d(0, 0, 0) !important;
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+.card {
+  border-radius: rem(10);
+  overflow: hidden;
+  margin: 0 rem(8);
+  height: rem(512) !important;
+  color: $color__white;
+  text-decoration: none;
+  @include gradient-purple;
+  @include bp-768 {
+    width: auto !important;
+    margin: 0;
+  }
+  > a {
+    color: $color__white;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+      color: $color__pink;
+    }
+  }
+}
+
+.card__image {
+  width: 100%;
+  height: rem(190);
+  object-fit: cover;
+}
+
+.card__title {
+  @include primary-black-12-12-20;
+  line-height: 1.6;
+  text-transform: uppercase;
+  margin-bottom: rem(20);
+}
+
+.card__body {
+  padding: rem(30) rem(30) rem(60) rem(30);
+  ul {
+    padding-left: rem(16);
+  }
+  p {
+    @include primary-medium-italic-16-24;
+    a {
+      color: $color__pink;
+      text-decoration: underline;
+      &:hover,
+      &:focus {
+        opacity: 0.6;
+      }
+    }
+  }
+  @include bp-768 {
+    padding: rem(30) rem(30) rem(116) rem(30);
+    p {
+      @include primary-medium-italic-16-24;
+    }
+  }
+}

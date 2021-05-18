@@ -35,24 +35,21 @@ if ( $user ) {
 	<p><?php printf( esc_html__( 'Dear %s,', 'woocommerce' ), esc_html( $full_name ) ); ?></p>
 <?php /* translators: %1$s: Site title, %2$s: Username, %3$s: My account link */ ?>
 
-	<p>Congratulations on joining NAB Amplify. When you signed up, you activated these exclusive benefits of the Early Access Bundle:</p>
+<p>Welcome to NAB Amplify. You now have access to: </p>
 	<ul>
-		<li>Free <strong>NAB Amplify Newsletters</strong> highlighting fresh content</li>
-		<li>Free <strong>Exhibits Pass to NAB Show in Las Vegas</strong> | October 10-13, 2021 ($159 value). Claim your pass <a href="https://amplify.nabshow.com/sign-up/?r=maritz&marketing_code=AMP01">here</a>! You must be signed in to NAB Amplify. </li>
-		<li>Free <strong>upgraded NAB Amplify subscription</strong> through 2021 ($100 value) which includes access to these special events:
-			<ul>
-				<li>Access to <strong>Demo Days videos</strong> (daily, expert-led product demonstrations) | Originally aired March 15-26, 2021</li>
-				<li>Access to <strong>NAB Show Premiere on NAB Amplify</strong> (reuniting the community to celebrate innovation) | Originally aired April 12-23, 2021</li>
-				<li>And more events and benefits throughout the year.</li>
-			</ul>
-		</li>
+		<li>Fresh <a href="https://amplify.nabshow.com/?s&v=content">content</a> online and delivered to your inbox via the weekly NAB Amplify Newsletter</li>
+		<li>VOD from the recent <a href="https://amplify.nabshow.com/catch-up-rewatch-and-start-the-countdown/">NAB Show Premiere</a> online event</li>
+		<li>1,600+ <a href="https://amplify.nabshow.com/?s&v=company">companies</a> featuring hundreds of <a href="https://amplify.nabshow.com/?s=&v=product">products</a></li>
+		<li>Thousands of people waiting to connect with you</li>
+		<li>And you took the first step in registering for NAB’s October in-person events – NAB Show, Radio Show and SMTE [If you haven’t yet, <a href="https://amplify.nabshow.com/sign-up/?r=maritz&marketing_code=AMP01">continue registering here</a>]</li>
 	</ul>
-	<p>To take full advantage of the community platform, we encourage you to build out your profile, connect with others, search upcoming events, review companies, discover new innovations and engage with articles and videos.</p>
+	<p>To take full advantage of the community platform, we encourage you to <a href="https://amplify.nabshow.com/my-account/edit-account/">build out your profile</a>, connect with others, search upcoming events, review companies, discover new innovations and engage with articles and videos.</p>
 	<p>Plus, we want to hear your ideas and feedback on how we can improve NAB Amplify. Please help us learn and grow by clicking on the lightbulb in the top right corner of the navigation bar and submitting notes on your experience.</p>
 	<p>Thank you again for your support and collaboration in building the global hub for media, entertainment and technology.</p>
 
 	<p>Stay Amped,<br>
 	The NAB Amplify Team</p>
+
 
 <?php
 /**

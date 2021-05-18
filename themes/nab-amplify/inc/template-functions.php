@@ -1086,7 +1086,7 @@ function nab_maritz_redirect_url( $user_id ) {
 
 	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
 
-	$params		= array( 'user_id' => $user_id );
+	$params		= array( 'user_id' => $user_id, 'registration_flow_id' => wp_generate_uuid4() );
 	$first_name	= get_user_meta( $user_id, 'first_name', true );
 	$last_name	= get_user_meta( $user_id, 'last_name', true );
 	$company	= get_user_meta( $user_id, 'attendee_company', true );
@@ -1111,7 +1111,12 @@ function nab_maritz_redirect_url( $user_id ) {
 	if( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 		$params['marketing_code'] = $marketing_code;
     }
-
+	if ( is_page( 'sign-up' ) ) {
+		$params['source'] = 'amplify';
+	}
+	if ( is_page( 'nab-show-sign-up' ) ) {
+		$params['source'] = 'nabshow';
+	}
 	return add_query_arg( $params, $url );
 }
 
@@ -1249,4 +1254,27 @@ function nab_event_time_dropdown_options( $selected = '' ) {
 		<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $selected, $key ); ?>><?php echo esc_html( $option_time ); ?></option>
 		<?php
 	}
+}
+
+/**
+ * Get hide from search users id.
+ *
+ * @return array $user_ids
+ */
+function nab_get_hide_from_search_users() {
+
+	$user_query = new WP_User_Query( array( 
+			'fields' 		=> 'ID',
+			'meta_query'	=> array(
+				array(
+					'key'	=> 'amplify_hide_from_search',
+					'value'	=> '1'
+				)
+			)
+		)
+	);
+
+	$user_ids = $user_query->get_results();
+
+	return $user_ids;
 }

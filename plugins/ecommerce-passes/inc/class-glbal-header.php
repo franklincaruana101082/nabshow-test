@@ -137,7 +137,14 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                             $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
                             $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
                             $sign_up = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'sign-up/' : '#';
+
+                            $current_site_id = get_current_blog_id();
+                            if ($current_site_id == 4) {
+                                $my_account  = trailingslashit( $parent_url ) . 'nab-show-sign-in/';
+                                $sign_up     = trailingslashit( $parent_url ) . 'nab-show-sign-up/';
+                            }
                             ?>
+
                             <nav class="nab-sec-navigation">
                                 <!-- <div class="nab-header-cart">
                                     <a href="<?php // echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
@@ -149,8 +156,11 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                         $current_user    = wp_get_current_user();
                                         $user_images     	= $this->ep_get_user_images( $current_user->ID );
                                         $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
-
-                                        $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                                        if($current_site_id != 4) {
+                                            $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                                        } else {
+                                            $edit_my_profile = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-my-profile/' : '#';
+                                        }
                                         ?>
                                         <ul class="nab-profile nab-logged-in">
                                             <li>
