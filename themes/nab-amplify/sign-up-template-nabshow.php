@@ -107,18 +107,18 @@ while ( have_posts() ) :
 							<p class="field__error" style="display: none;">Last name is Required</p>
 						</div>
 						<div class="field">
-							<label class="field__label" for="email"><?php esc_html_e( 'Email Address*', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<label class="field__label" for="email"><?php esc_html_e( 'Email Address', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<input type="email" class="field__input" name="email" id="reg_email" autocomplete="email"
 								value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>"/>
 							<p class="field__error" style="display: none;">Email is Required</p>
 						</div>
 						<div class="field">
-							<label class="field__label" for="password"><?php esc_html_e( 'Password*', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<label class="field__label" for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<input type="password" class="field__input" name="password" id="reg_password" autocomplete="new-password"/>
 							<p class="field__error" style="display: none;">Password is Required</p>
 						</div>  
 						<div class="field">
-							<label class="field__label" for="password2"><?php esc_html_e( 'Confirm Password*', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<label class="field__label" for="password2"><?php esc_html_e( 'Confirm Password', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<input type="password" class="field__input" name="password2" id="reg_password2" autocomplete="new-password"/>
 							<p class="field__error" style="display: none;">Confirm Password is Required</p>
 						</div>
@@ -238,7 +238,7 @@ while ( have_posts() ) :
 							<li>
 								<label class="field__list-input" for="signup-amplify-communications">
 									<input class="field__input" value="1" type="checkbox" id="signup-amplify-communications" name="amplify_communications" /> 
-									<?php esc_html_e('I would like to receive Amplify communications.');?>
+									<?php esc_html_e('I would like to receive NAB Amplify communications.');?>
 								</label>
 							</li>
 							<li>
@@ -258,7 +258,7 @@ while ( have_posts() ) :
 					<div class="signup__cta">
 						<input type="hidden" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
 						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
+						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Continue Registration', 'woocommerce' ); ?></button>
 					</div>
 
 					<?php do_action( 'woocommerce_register_form_end' ); ?>
