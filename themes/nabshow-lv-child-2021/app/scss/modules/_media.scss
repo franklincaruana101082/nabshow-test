@@ -7,6 +7,11 @@ img {
   vertical-align: middle;
 }
 
+.wp-block-image img {
+  max-width: 100%;
+  width: auto;
+}
+
 .figure,
 .nabshow_2021 .figure {
   display: block;

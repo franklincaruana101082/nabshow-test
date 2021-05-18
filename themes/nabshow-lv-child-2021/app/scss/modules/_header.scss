@@ -202,8 +202,6 @@ html._header-is-open {
 
 .header__mainnav-dropdown,
 .menu-item-has-children {
-  //order: -1;
-  margin: 0 rem(-32);
   @include bp-768 {
     margin: 0;
     position: relative;
@@ -223,6 +221,7 @@ html._header-is-open {
     text-transform: uppercase;
     text-align: left;
     padding: rem(16) rem(32);
+    text-transform: none;
     @include bp-768 {
       padding: 0 0 0 rem(18);
       font-family: $font__primary;
@@ -474,4 +473,9 @@ html._header-is-open {
     display: block;
     position: relative;
   }
+}
+
+// Overrides
+.nab-header-secondary .nab-avatar img {
+  width: rem(32) !important;
 }

@@ -538,3 +538,10 @@
     @include primary-medium-italic-15-24;
   }
 }
+
+.maintenance-wrapper {
+  min-height: 100vh;
+}
+.maintenance-message {
+  min-height: calc(100vh - 470px);
+}
