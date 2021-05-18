@@ -139,10 +139,6 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                             $sign_up = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'sign-up/' : '#';
 
                             $current_site_id = get_current_blog_id();
-                            if ($current_site_id == 4) {
-                                $my_account  = trailingslashit( $parent_url ) . 'nab-show-sign-in/';
-                                $sign_up     = trailingslashit( $parent_url ) . 'nab-show-sign-up/';
-                            }
                             ?>
 
                             <nav class="nab-sec-navigation">
@@ -152,36 +148,36 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 </div> -->
                                 <div class="nab-profile-menu">
                                 <?php
-                                    if ( is_user_logged_in() ) {
-                                        $current_user    = wp_get_current_user();
-                                        $user_images     	= $this->ep_get_user_images( $current_user->ID );
-                                        $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
                                         if($current_site_id != 4) {
+                                            if ( is_user_logged_in() ) {
+                                            $current_user    = wp_get_current_user();
+                                            $user_images     	= $this->ep_get_user_images( $current_user->ID );
+                                            $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
                                             $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
-                                        } else {
-                                            $edit_my_profile = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/edit-my-profile/' : '#';
-                                        }
-                                        ?>
-                                        <ul class="nab-profile nab-logged-in">
-                                            <li>
-                                                <a href="<?php echo esc_url( $edit_my_profile ); ?>">
-                                                    <div class="nab-avatar-wrp">
-                                                        <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
-                                                        <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    <?php } else { ?>
-                                        <ul class="nab-profile">
-                                            <li>
-                                                <a class="amplifySignUp" href="<?php echo esc_url( $sign_up ); ?>"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a>
-                                            </li>
-                                            <li>
-                                                <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
-                                            </li>
-                                        </ul>
-                                    <?php } ?>
+                                            ?>
+                                            <ul class="nab-profile nab-logged-in">
+                                                <li>
+                                                    <a href="<?php echo esc_url( $edit_my_profile ); ?>">
+                                                        <div class="nab-avatar-wrp">
+                                                            <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
+                                                            <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        <?php } else { ?>
+                                            <ul class="nab-profile">
+                                                <li>
+                                                    <a class="amplifySignUp" href="<?php echo esc_url( $sign_up ); ?>"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a>
+                                                </li>
+                                                <li>
+                                                    <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+                                                </li>
+                                            </ul>
+                                        <?php
+                                            }
+                                        } 
+                                ?>
                                 </div>
                             </nav><!-- #site-navigation -->
                         </div>
