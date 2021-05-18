@@ -80,12 +80,12 @@ while ( have_posts() ) :
 					<div class="signup__titles">
 						<h2><?php the_title(); ?></h2>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-							$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
+							$my_account_url = add_query_arg( 'r', $redirect_url, get_site_url(12, '/nab-show-sign-in/') );
 							if ( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 								$my_account_url = add_query_arg( 'marketing_code', $marketing_code, $my_account_url);
 							}
 						} else {
-							$my_account_url = wc_get_page_permalink( 'myaccount' );
+							$my_account_url = get_site_url(12, '/nab-show-sign-in/');
 						} ?>
 						<a class="js-signupLink" href="<?php echo esc_url( $my_account_url ); ?>"><b><?php esc_html_e( 'Already on NAB Amplify?' ); ?> <?php esc_html_e( 'Sign In', 'woocommerce' ); ?></b></a>
 					</div>
