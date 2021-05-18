@@ -33,6 +33,9 @@
   grid-gap: rem(30);
   padding-top: rem(30);
   padding-bottom: rem(60);
+  .field > a {
+    color: $color__pink;
+  }
   .checkbox a {
     color: $color__white;
   }
@@ -51,11 +54,11 @@
       @include primary-black-20-30;
       margin-bottom: rem(20);
       @include bp-768 {
-        @include primary-black-50-60;
+        @include primary-black-45-55;
       }
     }
     a {
-      color: $color__white;
+      color: $color__pink;
     }
   }
   &__text {
@@ -64,11 +67,29 @@
       margin-bottom: rem(30);
       @include bp-768 {
         @include primary-medium-16-24;
-        margin-bottom: rem(30);
+        margin-bottom: rem(22);
       }
       a {
         color: $color__white;
       }
+    }
+    ul {
+      @include primary-medium-16-24;
+      margin: 0 0 rem(18) rem(16);
+      padding: 0;
+      @include bp-768 {
+        @include primary-medium-16-24;
+        margin-bottom: rem(6);
+      }
+      li {
+        line-height: 1.6;
+      }
+      a {
+        color: $color__white;
+      }
+    }
+    ul, ol {
+      margin-left: rem(20);
     }
   }
 
@@ -106,6 +127,11 @@
       font-size: rem(18);
       line-height: rem(26);
       margin-bottom: rem(20);
+      span {
+        font-size: inherit !important;
+        font-family: inherit !important;
+        line-height: inherit !important;
+      }
     }
   }
   &__cta {
@@ -229,6 +255,63 @@
       ._simple & {
         grid-column: 2 / 4;
       }
+    }
+  }
+}
+
+.signup-logos {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  @include bp-604 {
+    margin-top: rem(20);
+  }
+  > div {
+    display: block;
+    margin-top: rem(20);
+    flex: 0 1 calc(50% - 15px);
+    &:nth-child(2n + 1) {
+      margin-right: rem(15);
+    }
+    &:nth-child(2n + 2) {
+      margin-left: rem(15);
+    }
+    @include bp-604 {
+      flex: 0 1 calc(25% - 20px);
+      margin: 0 rem(10);
+      &:nth-child(2n + 1),
+      &:nth-child(2n + 2) {
+        margin-right: rem(10);
+        margin-left: rem(10);
+      }
+    }
+    & > div {
+      height: 0;
+    }
+    &.signup-logo-amplify {
+      img {
+        max-width: rem(277);
+      }
+    }
+    &.signup-logo-show {
+      img {
+        max-width: rem(226);
+      }
+    }
+    &.signup-logo-radio {
+      img {
+        max-width: rem(140);
+      }
+    }
+    &.signup-logo-smte {
+      img {
+        max-width: rem(98);
+      }
+    }
+    img {
+      display: block;
+      margin: 0 auto;
     }
   }
 }
