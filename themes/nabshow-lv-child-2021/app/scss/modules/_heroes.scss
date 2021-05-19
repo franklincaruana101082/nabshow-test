@@ -30,7 +30,6 @@
   // background image declared in markup
   background-size: 0 0;
   text-align: center;
-  background-color: red;
   @include bp-768 {
     background-position: 20% 50%;
     background-size: auto 130%;
