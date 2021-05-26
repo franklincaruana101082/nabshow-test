@@ -466,6 +466,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						$company_id = $company;
 						$company_name = $session_company_name;
 						$opt_in_required = (int)get_field('make_opt_in_required');
+						$displayInline = true;
 						//use this instead of get_template_part so the partial can access the above php vars from here
 						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
 					}

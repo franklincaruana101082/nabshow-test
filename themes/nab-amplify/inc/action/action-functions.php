@@ -646,10 +646,11 @@ function nab_amplify_register_post_types()
         'can_export'          => true,
         'has_archive'         => false,
         'exclude_from_search' => false,
-        'publicly_queryable'  => false,
+        'publicly_queryable'  => true,
         'menu_icon'           => 'dashicons-pdf',
         'capability_type'     => 'post',
         'show_in_rest'        => true,
+        'rewrite'             => array('slug' => 'whitepaper', 'with_front' => false,),
         'supports'            => array('title', 'thumbnail', 'author', 'excerpt', 'revisions', 'custom-fields'),
 
     );
