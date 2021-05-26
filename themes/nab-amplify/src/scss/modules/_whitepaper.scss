@@ -1,0 +1,17 @@
+.whitepaper{
+
+	&__download {
+		padding: rem(50) rem(85) rem(60);
+	}
+
+	&__ext {
+		text-transform: uppercase;
+	}
+
+	&__link {
+		font-size: rem(22);
+		&:hover, &:focus, &:active {
+			color: $color__yellow;
+		}
+	}
+}

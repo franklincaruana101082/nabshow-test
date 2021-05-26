@@ -54,12 +54,13 @@ var cookieName = 'nab_optin';
 var company_id = '<?php echo $company_id;?>';
 var registration_required = <?php echo ($registration_required ? "1" : "0"); ?>;
 var registered = <?php echo ($registered ? "1" : "0"); ?>;
+var displayInline = <?php echo ($displayInline ? "1" : "0"); ?>;
 jQuery(function($) {
 	
 	if(document.cookie.indexOf(cookieName) == -1) {	//optins cookie doesn't exist
 		cookieValue = company_id+':2,';
 		optVal = 2;
-		if(registered) {
+		if(registered && !displayInline) {
 			jQuery('#modal-opt-in').show();
 		} else {
 			var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
@@ -162,8 +163,8 @@ jQuery(function($) {
 						nabNonce: segmentJS.nabNonce,
 						opted_in: opt,
 						user_id: '<?php echo($user_id);?>',
-						company_id: '<?php echo($session_company_id);?>',
-						company_name: '<?php echo($session_company_name);?>',
+						company_id: '<?php echo($company_id);?>',
+						company_name: '<?php echo($company_name);?>',
 						user_firstname: '<?php echo($user_firstname);?>',
 						user_lastname: '<?php echo($user_lastname);?>',
 						user_email: '<?php echo($user_email);?>',
@@ -179,6 +180,7 @@ jQuery(function($) {
 					success: function (response) {
 					}
 				});
+
 				if((opt_in_required && !registration_required) 
 					|| (opt_in_required && registration_required && registered)
 					|| (!opt_in_required && registration_required && registered)) {
