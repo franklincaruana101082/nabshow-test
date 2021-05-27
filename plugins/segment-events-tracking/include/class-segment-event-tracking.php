@@ -239,11 +239,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $track_identity['traits']['Interest']     = $user_interest; 
             }
 
-            if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
-                
-                $track_event['properties']['Amplify_Communications']    = $amplify_communications;
-                $track_identity['traits']['Amplify_Communications']     = $amplify_communications; 
-            }
+            $track_event['properties']['Amplify_Communications']    = $amplify_communications;
+            $track_identity['traits']['Amplify_Communications']     = $amplify_communications;
 
             if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
                 
@@ -1108,13 +1105,18 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'type'  => 'multi',
                     'label' => 'Interest',
                 ),
+                array(
+                    'key'   => 'amplify_communications',
+                    'type'  => 'single',
+                    'label' => 'Amplify_Communications',
+                ),
             );
 
             foreach ( $user_meta_fields as $user_field ) {
 
                 $field_val = get_user_meta( $user_id, $user_field['key'], true );
 
-                if ( ! empty( $field_val ) ) {
+                if ( ! empty( $field_val ) || '0' === $field_val ) {
 
                     $properties[ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
                 }
