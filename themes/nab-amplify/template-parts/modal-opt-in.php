@@ -79,7 +79,7 @@ jQuery(function($) {
 			//get opt in value for company_id
 			optVal = cookieValue.substr(cookieValue.indexOf(company_id+':')+company_id.length+1, 1);
 			if (optVal == 2) { //this might be impossible now
-				if(registered) {
+				if(registered && !displayInline) {
 					jQuery('#modal-opt-in').show();	
 				} else {
 					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
@@ -87,7 +87,7 @@ jQuery(function($) {
 					jQuery('.js-optin_content').parent().show();
 				}
 			} else if(optVal == '0' && opt_in_required) {
-				if(registered) {
+				if(registered && !displayInline) {
 					jQuery('#modal-opt-in').show();
 				} else {
 					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
@@ -100,7 +100,7 @@ jQuery(function($) {
 		} else { //if the company isn't in the cookieValue let's add it to the end
 			cookieValue += company_id+':2,';
 			optVal = 2;
-			if(registered) {
+			if(registered && !displayInline) {
 				jQuery('#modal-opt-in').show();
 			} else {
 				var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
