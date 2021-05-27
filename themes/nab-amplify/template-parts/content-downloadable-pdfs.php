@@ -31,7 +31,7 @@
 	<div class="main _contentborder">
 		<div class="container">
 			<?php 
-				$company =  get_field( 'company' );
+				$company =  get_field( 'nab_selected_company_id' );
 				if ( ! empty( $company ) ) {
 			?>
 				<a href="<?php echo esc_url( get_the_permalink($company) ); ?>" class="event__host _company">
