@@ -162,6 +162,7 @@ jQuery(function($) {
 						action: 'st_track_opt_in_out',
 						nabNonce: segmentJS.nabNonce,
 						opted_in: opt,
+						occurred_at_type: 
 						user_id: '<?php echo($user_id);?>',
 						company_id: '<?php echo($company_id);?>',
 						company_name: '<?php echo($company_name);?>',
@@ -176,6 +177,7 @@ jQuery(function($) {
 						user_country_code: '<?php echo($user_country_code);?>',
 						opt_in_occurred_at_id: '<?php echo($opt_in_occurred_at_id);?>',
             			opt_in_occurred_at_url: '<?php echo($opt_in_occurred_at_url);?>',
+            			occurred_at_type: '<?php echo($occurred_at_type);?>'
 					},
 					success: function (response) {
 					}

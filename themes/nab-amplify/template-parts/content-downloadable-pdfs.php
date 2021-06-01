@@ -123,6 +123,7 @@
 						$user_company			= get_user_meta( $user_id, "attendee_company", true);
 						$user_title				= get_user_meta( $user_id, "attendee_title", true);
 						$user_ip 				= $_SERVER['REMOTE_ADDR'];
+						$occurred_at_type		= 'whitepapers';
 						//use this instead of get_template_part so the partial can access the above php vars from here
 						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
 					}
