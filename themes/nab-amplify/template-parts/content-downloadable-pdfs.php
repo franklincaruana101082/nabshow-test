@@ -95,10 +95,17 @@
 					endif;
 				?>
 					<div class="whitepaper__download nabblock">
-						<h3>Download <span class="whitepaper__ext"><?php echo esc_html($download_type); ?></span></h3>
-						<a class="whitepaper__link" href="<?php echo esc_attr($download_url); ?>" title="<?php echo esc_attr($download_title); ?>">
-					        <span><?php echo esc_html($download_title); ?></span>
-					    </a>
+						<?php if( get_the_post_thumbnail_url() ): ?>
+						<div class="whitepaper__image">
+							<?php the_post_thumbnail('full', array('class' => 'whitepaper__img')); ?>
+						</div>
+						<?php endif; ?>
+						<div class="whitepaper__info">
+							<h3><?php echo esc_html($download_title); ?></h3>
+							<a class="whitepaper__link button _gradientpink" target="_blank" href="<?php echo esc_attr($download_url); ?>" title="<?php echo esc_attr($download_title); ?>">
+						        Download <span class="whitepaper__ext"><?php echo esc_html($download_type); ?></span>
+						    </a>
+						</div>
 					</div>
 				<?php
 				} else {
