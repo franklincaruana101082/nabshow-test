@@ -90,8 +90,7 @@
 					$download = get_field('pdf_file');
 					if($download):
 						$download_url = wp_get_attachment_url($download);
-						$download_fileName = substr($download_url, strrpos($download_url, '/')+1);
-						$download_title = substr($download_url, strrpos($download_url, '/')+1, -4);//substr($download_fileName, 0, -4);
+						$download_title = substr($download_url, strrpos($download_url, '/')+1, -4);
 						$download_type = substr($download_url, strrpos($download_url, '.')+1);
 					endif;
 				?>
