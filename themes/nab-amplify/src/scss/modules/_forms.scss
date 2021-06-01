@@ -88,6 +88,31 @@
   }
 }
 
+.field__select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: $color__gray;
+  border-radius: rem(4);
+  border: 1px solid $color__gray;
+  color: white;
+  font-family: $font__primary;
+  font-size: rem(18);
+  font-weight: 600;
+  line-height: rem(52);
+  text-decoration: none;
+  padding: 0 rem(28) 0 rem(14);
+  transition: border-color 0.25s;
+  position: relative;
+  &:hover {
+    border-color: $color__blurple;
+  }
+  &:focus {
+    outline: none;
+    border-color: $color__pink;
+  }
+}
+
 .field__woowrapper {
   color: $color__white;
 }
