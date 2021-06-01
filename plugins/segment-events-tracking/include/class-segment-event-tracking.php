@@ -629,6 +629,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $user_country_code = filter_input(INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING);
             $opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
             $opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
+            $occurred_at_type = filter_input(INPUT_POST, 'occurred_at_type', FILTER_SANITIZE_STRING);
 
             if($opted_in) {
                 $event_track = 'Company_User_Opted_In';
@@ -653,6 +654,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'user_ip'               => $user_ip,
                     'occurred_at_id'        => $opt_in_occurred_at_id,
                     'occurred_at_url'       => $opt_in_occurred_at_url,
+                    'occurred_at_type'      => $occurred_at_type,
                 ),
             );
 
