@@ -92,7 +92,11 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: $color__gray;
+  background-color: $color__gray;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyLjExNyAxLjMyMyIgaGVpZ2h0PSI1IiB3aWR0aD0iOCI+PHBhdGggZD0iTTAgMGwxLjA1NyAxLjMyMyAxLjA2LTEuMzI0eiIgZmlsbD0iIzg4OCIvPjwvc3ZnPg==);
+  background-repeat: no-repeat;
+  background-position: 90% center;
+  background-size: rem(8) rem(5);
   border-radius: rem(4);
   border: 1px solid $color__gray;
   color: white;
@@ -102,6 +106,9 @@
   line-height: rem(52);
   text-decoration: none;
   padding: 0 rem(28) 0 rem(14);
+  height: rem(28);
+  line-height: rem(28);
+  cursor: pointer;
   transition: border-color 0.25s;
   position: relative;
   &:hover {
@@ -151,6 +158,15 @@
     position: absolute;
     top: 0;
     left: 0;
+  }
+}
+
+.field__list-select {
+  @extend .field__list-input;
+  padding: rem(4) 0 0 0;
+  select {
+    margin-right: rem(6);
+    vertical-align: middle;
   }
 }
 

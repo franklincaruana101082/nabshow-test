@@ -89,17 +89,23 @@
 				if($show_content) {
 					$download = get_field('pdf_file');
 					if($download):
-						$download_url = $download['url'];
-						$download_title = $download['title'];
-						$download_icon = $download['icon'];
+						$download_url = wp_get_attachment_url($download);
+						$download_title = substr($download_url, strrpos($download_url, '/')+1, -4);
 						$download_type = substr($download_url, strrpos($download_url, '.')+1);
 					endif;
 				?>
 					<div class="whitepaper__download nabblock">
-						<h3>Download <span class="whitepaper__ext"><?php echo esc_html($download_type); ?></span></h3>
-						<a class="whitepaper__link" href="<?php echo esc_attr($download_url); ?>" title="<?php echo esc_attr($download_title); ?>">
-					        <span><?php echo esc_html($download_title); ?></span>
-					    </a>
+						<?php if( get_the_post_thumbnail_url() ): ?>
+						<div class="whitepaper__image">
+							<?php the_post_thumbnail('full', array('class' => 'whitepaper__img')); ?>
+						</div>
+						<?php endif; ?>
+						<div class="whitepaper__info">
+							<h3><?php echo esc_html($download_title); ?></h3>
+							<a class="whitepaper__link button _gradientpink" target="_blank" href="<?php echo esc_attr($download_url); ?>" title="<?php echo esc_attr($download_title); ?>">
+						        Download <span class="whitepaper__ext"><?php echo esc_html($download_type); ?></span>
+						    </a>
+						</div>
 					</div>
 				<?php
 				} else {
@@ -123,6 +129,7 @@
 						$user_company			= get_user_meta( $user_id, "attendee_company", true);
 						$user_title				= get_user_meta( $user_id, "attendee_title", true);
 						$user_ip 				= $_SERVER['REMOTE_ADDR'];
+						$occurred_at_type		= 'whitepapers';
 						//use this instead of get_template_part so the partial can access the above php vars from here
 						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
 					}

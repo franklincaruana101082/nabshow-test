@@ -176,6 +176,7 @@ jQuery(function($) {
 						user_country_code: '<?php echo($user_country_code);?>',
 						opt_in_occurred_at_id: '<?php echo($opt_in_occurred_at_id);?>',
             			opt_in_occurred_at_url: '<?php echo($opt_in_occurred_at_url);?>',
+            			occurred_at_type: '<?php echo($occurred_at_type);?>'
 					},
 					success: function (response) {
 					}
