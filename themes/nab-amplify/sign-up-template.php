@@ -228,7 +228,7 @@ while ( have_posts() ) :
 										<option value="1">Yes</option>
 										<option value="0">No</option>
 									</select>
-									<?php esc_html_e('I would like to receive Amplify communications.');?>
+									<?php esc_html_e('I would like to receive the NAB Amplify editorial newsletter and other communications from NAB Amplify.');?>
 								</label>
 							</li>
 							<li>
