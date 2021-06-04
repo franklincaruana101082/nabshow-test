@@ -93,7 +93,10 @@
 						$download_title = substr($download_url, strrpos($download_url, '/')+1, -4);
 						$download_type = substr($download_url, strrpos($download_url, '.')+1);
 					endif;
+					if (get_field('show_opt_inout_modal')) {
 				?>
+					<div class="optout__info js-optin_content nabblock"></div>
+				<?php } ?>
 					<div class="whitepaper__download nabblock">
 						<?php if( get_the_post_thumbnail_url() ): ?>
 						<div class="whitepaper__image">
@@ -110,30 +113,32 @@
 				<?php
 				} else {
 
-					if (get_field('show_opt_inout_modal')) {
-						//we need these defined here because they may change depending on the template we're adding this to
-						$company_id = $company;
-						$company_name = get_the_title( $company );
-						$opt_in_required = (int)get_field('make_opt_in_required');
-						$registration_required = true;
-						$registered = true;
-						$displayInline = true;
-						$user_id				= get_current_user_id();
-						$user					= get_user_by( 'id', $user_id );
-						$user_email				= $user->user_email;
-						$user_firstname			= get_user_meta( $user_id, "first_name", true);
-						$user_lastname			= get_user_meta( $user_id, "last_name", true);
-						$user_city 		        = get_user_meta( $user_id, "user_city", true);
-						$user_state 		    = get_user_meta( $user_id, "user_state", true);
-						$user_country_code		= get_user_meta( $user_id, "user_country", true);
-						$user_company			= get_user_meta( $user_id, "attendee_company", true);
-						$user_title				= get_user_meta( $user_id, "attendee_title", true);
-						$user_ip 				= $_SERVER['REMOTE_ADDR'];
-						$occurred_at_type		= 'whitepapers';
-						//use this instead of get_template_part so the partial can access the above php vars from here
-						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
-					}
+					
 					?><div class="optout__info js-optin_content nabblock"></div><?php
+				}
+
+				if (get_field('show_opt_inout_modal')) {
+					//we need these defined here because they may change depending on the template we're adding this to
+					$company_id = $company;
+					$company_name = get_the_title( $company );
+					$opt_in_required = (int)get_field('make_opt_in_required');
+					$registration_required = true;
+					$registered = true;
+					$displayInline = true;
+					$user_id				= get_current_user_id();
+					$user					= get_user_by( 'id', $user_id );
+					$user_email				= $user->user_email;
+					$user_firstname			= get_user_meta( $user_id, "first_name", true);
+					$user_lastname			= get_user_meta( $user_id, "last_name", true);
+					$user_city 		        = get_user_meta( $user_id, "user_city", true);
+					$user_state 		    = get_user_meta( $user_id, "user_state", true);
+					$user_country_code		= get_user_meta( $user_id, "user_country", true);
+					$user_company			= get_user_meta( $user_id, "attendee_company", true);
+					$user_title				= get_user_meta( $user_id, "attendee_title", true);
+					$user_ip 				= $_SERVER['REMOTE_ADDR'];
+					$occurred_at_type		= 'whitepapers';
+					//use this instead of get_template_part so the partial can access the above php vars from here
+					include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
 				}
 				?>
 				
