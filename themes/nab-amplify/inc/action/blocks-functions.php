@@ -1659,6 +1659,8 @@ function nab_company_downlodable_pdfs_callback($attributes)
                             $attached_pdf_id    = get_field( 'pdf_file', $pdf_id );
                             $pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
                             $pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+                            $pdf_link           = get_permalink( $pdf_id );
+                            $pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
                             ?>
                             <div class="amp-item-col">
                                 <div class="amp-item-inner">
@@ -1681,25 +1683,14 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                             if ( is_user_logged_in() ) {
                                                 ?>
                                                 <div class="download-pdf-input">
-                                                    <div class="amp-check-container">
-                                                        <div class="amp-check-wrp">
-                                                            <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
-                                                            <span class="amp-check"></span>
-                                                        </div>
-                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html(get_the_title($company_id)); ?></label>
-                                                    </div>
+                                                    <?php echo $pdf_desc; ?>
                                                 </div>
                                                 <div class="amp-actions">
                                                     <div class="search-actions nab-action">
                                                         <div class="pdf-disc_btn">
-                                                            <span class="pdf_btn_wrap download-disabled">
-                                                                <a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
+                                                            <span class="pdf_btn_wrap">
+                                                                <a href="<?php echo( $pdf_link ); ?>" class="button">More Info</a>
                                                             </span>
-                                                            <?php if ( ! empty( $pdf_content ) ) { ?>
-                                                                <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                                    <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                                </i>
-                                                            <?php } ?>
                                                         </div>
                                                         <?php
                                                         if ($is_company_admin && $add_pdf) {
