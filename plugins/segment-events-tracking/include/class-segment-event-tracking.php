@@ -239,11 +239,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $track_identity['traits']['Interest']     = $user_interest; 
             }
 
-            if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
-                
-                $track_event['properties']['Amplify_Communications']    = $amplify_communications;
-                $track_identity['traits']['Amplify_Communications']     = $amplify_communications; 
-            }
+            $track_event['properties']['Amplify_Communications']    = $amplify_communications;
+            $track_identity['traits']['Amplify_Communications']     = $amplify_communications;
 
             if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
                 
@@ -632,6 +629,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $user_country_code = filter_input(INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING);
             $opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
             $opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
+            $occurred_at_type = filter_input(INPUT_POST, 'occurred_at_type', FILTER_SANITIZE_STRING);
 
             if($opted_in) {
                 $event_track = 'Company_User_Opted_In';
@@ -656,6 +654,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'user_ip'               => $user_ip,
                     'occurred_at_id'        => $opt_in_occurred_at_id,
                     'occurred_at_url'       => $opt_in_occurred_at_url,
+                    'occurred_at_type'      => $occurred_at_type,
                 ),
             );
 
@@ -1108,13 +1107,18 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     'type'  => 'multi',
                     'label' => 'Interest',
                 ),
+                array(
+                    'key'   => 'amplify_communications',
+                    'type'  => 'single',
+                    'label' => 'Amplify_Communications',
+                ),
             );
 
             foreach ( $user_meta_fields as $user_field ) {
 
                 $field_val = get_user_meta( $user_id, $user_field['key'], true );
 
-                if ( ! empty( $field_val ) ) {
+                if ( ! empty( $field_val ) || '0' === $field_val ) {
 
                     $properties[ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
                 }

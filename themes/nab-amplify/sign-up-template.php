@@ -134,7 +134,7 @@ while ( have_posts() ) :
 								<?php
 								foreach ( $countries as $abbr => $country ) {
 									?>
-									<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $_POST['user_country'] ); ?>><?php echo esc_html( $country ); ?></option>
+									<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $default_country ); ?>><?php echo esc_html( $country ); ?></option>
 									<?php
 								}
 								?>
@@ -145,6 +145,7 @@ while ( have_posts() ) :
 						<div class="field select-dark <?php if(is_array( $default_county_states )) {echo('');}else{echo('_hidden');}?>">
 							<label class="field__label" for="user_state"><?php esc_html_e( 'State', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<?php
+							$default_state = !empty($_POST['user_state']) ? $_POST['user_state'] : '';
 							if ( is_array( $default_county_states ) ) {
 								?>
 								<select name="user_state" class="user-state-select" id="user_state">
@@ -152,7 +153,7 @@ while ( have_posts() ) :
 									<?php
 									foreach ( $default_county_states as $abbr => $state) {
 										?>
-										<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $_POST['user_state'] ); ?>><?php echo esc_html( $state ); ?></option>
+										<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $default_state ); ?>><?php echo esc_html( $state ); ?></option>
 										<?php
 									}
 									?>
@@ -222,9 +223,12 @@ while ( have_posts() ) :
 								<?php do_action( 'woocommerce_register_form' ); ?>
 							</li>
 							<li>
-								<label class="field__list-input" for="signup-amplify-communications">
-									<input class="field__input" value="1" type="checkbox" id="signup-amplify-communications" name="amplify_communications" /> 
-									<?php esc_html_e('I would like to receive Amplify communications.');?>
+								<label class="field__list-select" for="signup-amplify-communications">									
+									<select name="amplify_communications" id="signup-amplify-communications" class="field__select">
+										<option value="1">Yes</option>
+										<option value="0">No</option>
+									</select>
+									<?php esc_html_e('I would like to receive the NAB Amplify editorial newsletter and other communications from NAB Amplify.');?>
 								</label>
 							</li>
 							<li>

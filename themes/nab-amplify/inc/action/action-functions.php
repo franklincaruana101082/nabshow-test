@@ -646,10 +646,11 @@ function nab_amplify_register_post_types()
         'can_export'          => true,
         'has_archive'         => false,
         'exclude_from_search' => false,
-        'publicly_queryable'  => false,
+        'publicly_queryable'  => true,
         'menu_icon'           => 'dashicons-pdf',
         'capability_type'     => 'post',
         'show_in_rest'        => true,
+        'rewrite'             => array('slug' => 'whitepaper', 'with_front' => false,),
         'supports'            => array('title', 'thumbnail', 'author', 'excerpt', 'revisions', 'custom-fields'),
 
     );
@@ -787,12 +788,12 @@ function nab_save_name_fields($customer_id) {
     if ( isset( $user_city ) && ! empty( $user_city ) ) {
         update_user_meta( $customer_id, 'user_city', $user_city );
     }
-    if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
-        update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
-    }
+    
     if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
         update_user_meta( $customer_id, 'amplify_hide_from_search', $amplify_hide_from_search );
     }
+
+    update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
 }
 
 /**
@@ -2742,12 +2743,12 @@ function nab_edit_acount_additional_form_fields() {
             </div>
         </div>
     </fieldset>
-    <div class="checkbox-item amp-check-container">
-        <div class="amp-check-wrp">
-            <input type="checkbox" name="amplify_communications" value="1" id="amplify-communications"  <?php checked( $amplify_communications, '1' ); ?> />
-            <span class="amp-check"></span>
-        </div>
+    <div class="checkbox-item amp-check-container">        
         <label for="amplify-communications">I would like to receive Amplify communications.</label>
+        <select name="amplify_communications" id="amplify-communications">
+            <option value="1" <?php selected( $amplify_communications, '1' ); ?>>Yes</option>
+            <option value="0" <?php selected( $amplify_communications, '0' ); ?>>No</option>
+        </select>
     </div>
     <div class="checkbox-item amp-check-container">
         <div class="amp-check-wrp">
@@ -2801,12 +2802,6 @@ function nab_save_edit_account_additional_form_fields($user_id)
         delete_user_meta( $user_id, 'user_industry' );
     }
 
-    if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
-        update_user_meta( $user_id, 'amplify_communications', $amplify_communications );
-    } else {
-        delete_user_meta( $user_id, 'amplify_communications' );
-    }
-
     if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
         update_user_meta( $user_id, 'amplify_hide_from_search', $amplify_hide_from_search );
     } else {
@@ -2824,7 +2819,8 @@ function nab_save_edit_account_additional_form_fields($user_id)
         'social_youtube',
         'user_country',
         'user_state',
-        'user_city'
+        'user_city',
+        'amplify_communications'
     );
 
     foreach ($user_fields as $field) {
