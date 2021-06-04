@@ -8,6 +8,16 @@ $date_now = $now->format('Y-m-d H:i:s');
 $opt_in_occurred_at_id 	= get_queried_object_id();
 $opt_in_occurred_at_url = get_permalink( get_queried_object_id() );
 
+if(empty($user_country_code)) {
+	$user_country_code = nab_get_geolocation('country');
+}
+if(empty($user_city)) {
+	$user_city = nab_get_geolocation('city');
+}
+if(empty($user_state)) {
+	$user_state = nab_get_geolocation('state');
+}
+
 
 ?>
 <div id="modal-opt-in" class="nab-modal">
