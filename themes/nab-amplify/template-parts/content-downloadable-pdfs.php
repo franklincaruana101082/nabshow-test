@@ -93,8 +93,10 @@
 						$download_title = substr($download_url, strrpos($download_url, '/')+1, -4);
 						$download_type = substr($download_url, strrpos($download_url, '.')+1);
 					endif;
+					if (get_field('show_opt_inout_modal')) {
 				?>
 					<div class="optout__info js-optin_content nabblock"></div>
+				<?php } ?>
 					<div class="whitepaper__download nabblock">
 						<?php if( get_the_post_thumbnail_url() ): ?>
 						<div class="whitepaper__image">
@@ -116,7 +118,6 @@
 				}
 
 				if (get_field('show_opt_inout_modal')) {
-					echo('<!--POOP-->');
 					//we need these defined here because they may change depending on the template we're adding this to
 					$company_id = $company;
 					$company_name = get_the_title( $company );
