@@ -1075,10 +1075,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$pdf_args = array(
 					'post_type'         => 'downloadable-pdfs',
 					'post_status'       => 'publish',
-					'posts_per_page'    => 12,
+					'posts_per_page'    => 15,
 					's'					=> $search_term,
-					'meta_key'          => '_pdf_member_level',
-					'meta_value'        => 'Premium',
+					// 'meta_key'          => '_pdf_member_level',
+					// 'meta_value'        => 'Premium',
 				);
 
 				$pdf_query = new WP_Query( $pdf_args );
@@ -1093,7 +1093,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-pdf-section">
-						<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+						<ul class="colgrid _5up" id="downloadable-pdfs-list">
 							<?php
 
 							$cnt = 1;
@@ -1108,74 +1108,44 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 								$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+								$pdf_link			= get_the_permalink( $pdf_id );
+								$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 								$company_name		= get_the_title( $company_id );
 								$company_link		= get_the_permalink( $company_id );
-								?>
-								<div class="amp-item-col">
-									<div class="amp-item-inner">
-										<div class="amp-item-cover">
-											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
-										</div>
-										<div class="amp-item-info">
-											<div class="amp-item-content">
-												<h4><?php echo esc_html(get_the_title()); ?></h4>
-												<span class="company-name"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></span>
-												<?php
-												if ( is_user_logged_in() ) {
-													?>
-													<div class="download-pdf-input">
-														<div class="amp-check-container">
-															<div class="amp-check-wrp">
-																<input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
-																<span class="amp-check"></span>
-															</div>
-															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
-														</div>
-													</div>
-													<div class="amp-actions">
-														<div class="search-actions nab-action">
-															<span class="pdf_btn_wrap download-disabled">
-																<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
-															</span>
-														</div>
-													</div>
-													<?php if ( ! empty( $pdf_content ) ) { ?>
-                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                        </i>
-                                                    <?php } ?>
-													<?php
-												} else {
-													$current_url = home_url(add_query_arg(NULL, NULL));
-													$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-													$current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
-													?>
-													<div class="amp-pdf-login-msg">
-														<p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
-													</div>
-													<?php if ( ! empty( $pdf_content ) ) { ?>
-                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                        </i>
-                                                    <?php } ?>
-													<?php
-												}
-												?>
-											</div>
-										</div>
-									</div>
-								</div>
+								
+							?>
+								<li>
+	                                <div class="result _content _pdf">
+	                                	<?php if ( is_user_logged_in() ) { ?>
+	                                    <a class="result__imgLink" href="<?php echo esc_url( $pdf_link ); ?>">
+	                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+	                                    </a>
+	                                	<?php } else { ?>
+	                                	<div class="result__imgLink">
+	                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+	                                    </div>
+	                                	<?php } ?>
+	                                    
+	                                    <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+	                                    <h5 class="result__lede"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></h5>
+	                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
+	                                    <?php if ( is_user_logged_in() ) { ?>
+	                                    <a class="button result__button _gradientpink" href="<?php echo esc_url( $pdf_link ); ?>">More Info</a>
+	                                	<?php } ?>
+	                                </div>
+	                            </li>
+
 								<?php
-								if ( 8 === $cnt) {
+								if ( 15 === $cnt) {
 									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								$cnt++;
 							}
-							if ( $cnt < 8 ) {
+							if ( $cnt < 15 ) {
 								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 							}
 							?>
-						</div>
+						</ul>
 					</div>
 					<?php
 				}
@@ -1185,7 +1155,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $pdf_query->max_num_pages > 1 ) {
 					?>
 					<div class="load-more text-center" id="load-more-pdf">
-						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $pdf_query->max_num_pages ); ?>">Load More</a>
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $pdf_query->max_num_pages ); ?>">Load More</a>
 					</div>
 					<?php
 				}
@@ -1364,6 +1334,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 			if ( ! empty( $search_term ) ) {
 
+				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
 				if ( $get_search_term_id ) {
 
 					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
@@ -1423,6 +1394,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
+							$company_poc        = get_field('point_of_contact');
 						?>
 							<li>
 								<div class="result">
@@ -1891,10 +1863,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			$pdf_args = array(
 				'post_type'         => 'downloadable-pdfs',
 				'post_status'       => 'publish',
-				'posts_per_page'    => 4,
+				'posts_per_page'    => 5,
 				's'					=> $search_term,
-				'meta_key'          => '_pdf_member_level',
-				'meta_value'        => 'Premium',
+				// 'meta_key'          => '_pdf_member_level',
+				// 'meta_value'        => 'Premium',
 			);
 
 			$pdf_query = new WP_Query( $pdf_args );
@@ -1909,7 +1881,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					<div class="search-section-heading">
 						<h2><strong>Downloadable PDFs</strong> <span>(<?php echo esc_html( $total_pdf . ' Result'.$ess); ?>)</span></h2>
 						<?php
-						if ($total_pdf > 4 ) {
+						if ($total_pdf > 5 ) {
 
 							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'pdf'), $current_site_url );
 						?>
@@ -1920,7 +1892,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</div>
-					<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+					<ul class="colgrid _5up" id="downloadable-pdfs-list">
 						<?php
 						while ( $pdf_query->have_posts() ) {
 
@@ -1932,67 +1904,35 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 							$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+							$pdf_link			= get_the_permalink( $pdf_id );
+							$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 							$company_name		= get_the_title( $company_id );
 							$company_link		= get_the_permalink( $company_id );
 							?>
-							<div class="amp-item-col">
-                                <div class="amp-item-inner">
-                                    <div class="amp-item-cover">
-                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+							<li>
+                                <div class="result _content _pdf">
+                                	<?php if ( is_user_logged_in() ) { ?>
+                                    <a class="result__imgLink" href="<?php echo esc_url( $pdf_link ); ?>">
+                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+                                    </a>
+                                	<?php } else { ?>
+                                	<div class="result__imgLink">
+                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
                                     </div>
-                                    <div class="amp-item-info">
-                                        <div class="amp-item-content">
-                                            <h4><?php echo esc_html(get_the_title()); ?></h4>
-											<span class="company-name"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></span>
-                                            <?php
-                                            if ( is_user_logged_in() ) {
-                                                ?>
-                                                <div class="download-pdf-input">
-                                                    <div class="amp-check-container">
-                                                        <div class="amp-check-wrp">
-                                                            <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
-                                                            <span class="amp-check"></span>
-                                                        </div>
-                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
-                                                    </div>
-                                                </div>
-                                                <div class="amp-actions">
-                                                    <div class="search-actions nab-action">
-                                                        <span class="pdf_btn_wrap download-disabled">
-                                                        	<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
-                                                       	</span>
-                                                    </div>
-                                                </div>
-                                                <?php if ( ! empty( $pdf_content ) ) { ?>
-                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                    </i>
-                                                <?php } ?>
-                                                <?php
-                                            } else {
-                                                $current_url = home_url(add_query_arg(NULL, NULL));
-		                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-                                                $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
-                                                ?>
-                                                <div class="amp-pdf-login-msg">
-                                                    <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
-                                                </div>
-                                                <?php if ( ! empty( $pdf_content ) ) { ?>
-                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                    </i>
-                                                <?php } ?>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
+                                	<?php } ?>
+                                    
+                                    <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+                                    <h5 class="result__lede"><?php echo esc_html( $company_name ); ?></h5>
+                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
+                                    <?php if ( is_user_logged_in() ) { ?>
+                                    <a class="button result__button _gradientpink" href="<?php echo esc_url( $pdf_link ); ?>">More Info</a>
+                                	<?php } ?>
                                 </div>
-                            </div>
+                            </li>
 							<?php
 						}
 						?>
-					</div>
+					</ul>
 				</div>
 				<?php
 			}
