@@ -5125,131 +5125,80 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
         let pdfListDiv = document.getElementById('downloadable-pdfs-list');
 
         jQuery.each(pdfObj.result_post, function (key, value) {
-          let itemCol = document.createElement('div');
-          itemCol.setAttribute('class', 'amp-item-col');
+          let itemCol = document.createElement('li');
 
           let itemInner = document.createElement('div');
-          itemInner.setAttribute('class', 'amp-item-inner');
+          itemInner.setAttribute('class', 'result _content _pdf');
 
-          let searchItemCover = document.createElement('div');
-          searchItemCover.setAttribute('class', 'amp-item-cover');
+          let searchItemCover;
+          if ( pdfObj.login ) {
+            searchItemCover = document.createElement('a');
+            searchItemCover.setAttribute('href', value.pdf_link);
+          } else {
+            searchItemCover = document.createElement('div');
+          }
+            searchItemCover.setAttribute('class', 'result__imgLink');
 
           let thumbnail = document.createElement('img');
           thumbnail.setAttribute('src', value.thumbnail);
           thumbnail.setAttribute('alt', 'PDF Thumbnail');
+          thumbnail.setAttribute('class', 'result__image');
 
           searchItemCover.appendChild(thumbnail);
 
           itemInner.appendChild(searchItemCover);
 
-          let itemInfo = document.createElement('div');
-          itemInfo.setAttribute('class', 'amp-item-info');
-
-          let itemContent = document.createElement('div');
-          itemContent.setAttribute('class', 'amp-item-content');
-
           let heading = document.createElement('h4');
           heading.innerText = value.title;
+          heading.setAttribute('class', 'result__title')
 
-          itemContent.appendChild(heading);
+          itemInner.appendChild(heading);
 
           if ( value.company && '' !== value.company ) {
-            let companyName = document.createElement('span');
-            companyName.setAttribute('class', 'company-name');
+            let companyName = document.createElement('h5');
+            companyName.setAttribute('class', 'result__lede');
 
             let companyLink = document.createElement('a');
             companyLink.setAttribute('href', value.company_url );
             companyLink.innerText = value.company;
 
             companyName.appendChild(companyLink);
-            itemContent.appendChild(companyName);
+            itemInner.appendChild(companyName);
           }
 
+          let pdfDesc = document.createElement('div');
+          pdfDesc.setAttribute('class', 'result__desc');
+          pdfDesc.innerText = value.pdf_desc;
+          itemInner.appendChild(pdfDesc);
+
           if ( pdfObj.login ) {
-            let inputDiv = document.createElement('div');
-            inputDiv.setAttribute('class', 'download-pdf-input');
+            let pdfLink = document.createElement('a');
+            pdfLink.setAttribute('href', value.pdf_link);
+            pdfLink.setAttribute('class', 'button result__button _gradientpink');
+            pdfLink.innerText = 'More Info';
+            itemInner.appendChild(pdfLink);
 
-            let checkContainer = document.createElement('div');
-            checkContainer.setAttribute('class', 'amp-check-container');
-
-            let checkWrp = document.createElement('div');
-            checkWrp.setAttribute('class', 'amp-check-wrp');
-
-            let inputCheckBox = document.createElement('input');
-            inputCheckBox.setAttribute('class', 'dowload-checkbox');
-            inputCheckBox.setAttribute('type', 'checkbox');
-            inputCheckBox.setAttribute('id', 'download-checkbox-' + value.pdf_id);
-
-            let checkSpan = document.createElement('span');
-            checkSpan.setAttribute('class', 'amp-check');
-
-            checkWrp.appendChild(inputCheckBox);
-            checkWrp.appendChild(checkSpan);
-            checkContainer.appendChild(checkWrp);
-
-            let inputLabel = document.createElement('label');
-            inputLabel.setAttribute('for', 'download-checkbox-' + value.pdf_id );
-            inputLabel.innerText = 'I agree to receive additional information and communications from ' + value.company;
-
-            checkContainer.appendChild(inputLabel);
-            inputDiv.appendChild(checkContainer);
-            itemContent.appendChild(inputDiv);
-
-            let actions = document.createElement('div');
-            actions.setAttribute('class', 'amp-actions');
-
-            let searchActions = document.createElement('div');
-            searchActions.setAttribute('class', 'search-actions nab-action');
-
-            let linkWrapper = document.createElement('span');
-            linkWrapper.setAttribute('class', 'pdf_btn_wrap download-disabled');
-
-            let downloadLink = document.createElement('a');
-            downloadLink.setAttribute('class', 'button');
-            downloadLink.setAttribute('data-pdf', value.pdf_url);
-            downloadLink.setAttribute('data-pid', value.pdf_id);
-            downloadLink.setAttribute('data-cid', value.company_id);
-            downloadLink.setAttribute('disabled', 'disabled');
-            downloadLink.setAttribute('download', 'download');
-            downloadLink.setAttribute('href', 'javascript:void(0);');
-            downloadLink.innerText = 'Download';
-
-            linkWrapper.appendChild(downloadLink);
-            searchActions.appendChild(linkWrapper);
-            actions.appendChild(searchActions);
-            itemContent.appendChild(actions);
-
-            if ( undefined !== value.content && '' !== value.content ) {
-              let iIcon = document.createElement('i');
-              iIcon.setAttribute('class', 'fa fa-info-circle tooltip-wrap');
-              iIcon.setAttribute('aria-hidden', 'true');
-
-              let contentTooltip = document.createElement('span');
-              contentTooltip.setAttribute('class', 'tooltip');
-              contentTooltip.innerText = value.content;
-
-              iIcon.appendChild(contentTooltip);
-              itemContent.appendChild(iIcon);
-            }
           } else {
+
             let msgDiv = document.createElement('div');
             msgDiv.setAttribute('class', 'amp-pdf-login-msg');
 
             let msgP = document.createElement('p');
+
+            let msgBr = document.createElement('br');
 
             let loginLink = document.createElement('a');
             loginLink.setAttribute('href', pdfObj.login_url);
             loginLink.innerText = "Sign in now";
 
             msgP.innerText = "You must be signed in to download this content. ";
+            msgP.appendChild(msgBr);
             msgP.appendChild(loginLink);
             msgP.innerHTML = msgP.innerHTML + '.';
             msgDiv.appendChild(msgP);
-            itemContent.appendChild(msgDiv);
+            itemInner.appendChild(msgDiv);
           }
 
-          itemInfo.appendChild(itemContent);
-          itemInner.appendChild(itemInfo);
           itemCol.appendChild(itemInner);
 
           pdfListDiv.appendChild(itemCol);

@@ -650,7 +650,6 @@ function nab_amplify_register_post_types()
         'menu_icon'           => 'dashicons-pdf',
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'rewrite'             => array('slug' => 'whitepaper', 'with_front' => false,),
         'supports'            => array('title', 'thumbnail', 'author', 'excerpt', 'revisions', 'custom-fields'),
 
     );
