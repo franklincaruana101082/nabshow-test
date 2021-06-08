@@ -3952,9 +3952,9 @@ function nab_pdf_search_filter_callback()
 				$result_post[$cnt]['content'] = $pdf_content;
 			}
 
-			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
+			if ( 0 === $page_number % 2 && ( 5 === $cnt + 1 || 15 === $cnt + 1 ) ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
+			} else if ( 0 !== $page_number % 2 && 10 === $cnt + 1 ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
 
