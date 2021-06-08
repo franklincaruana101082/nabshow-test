@@ -1701,7 +1701,8 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                                 $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
                                                 ?>
                                                 <div class="amp-pdf-login-msg">
-                                                    <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+                                                    <p>You must be signed in to download this content.<br />
+                                                    <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
                                                 </div>
                                                 <?php
                                             }

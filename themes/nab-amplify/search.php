@@ -1131,7 +1131,19 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 	                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
 	                                    <?php if ( is_user_logged_in() ) { ?>
 	                                    <a class="button result__button _gradientpink" href="<?php echo esc_url( $pdf_link ); ?>">More Info</a>
-	                                	<?php } ?>
+	                                	<?php
+	                                	} else {
+                                            $current_url = home_url(add_query_arg(NULL, NULL));
+	                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+                                            $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+                                            ?>
+                                            <div class="amp-pdf-login-msg">
+                                                <p>You must be signed in to download this content.<br />
+                                                <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
 	                                </div>
 	                            </li>
 
