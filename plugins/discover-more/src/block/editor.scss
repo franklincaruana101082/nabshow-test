@@ -24,6 +24,14 @@ h4.homeproducts__title {
   font-size: rem(20);
   letter-spacing: 0.01em;
   color: $color__white !important;
+  textarea {
+  	background-color: transparent;
+  	font-family: $font__primary;
+	  font-weight: 600;
+	  font-size: rem(20);
+	  letter-spacing: 0.01em;
+  	color: $color__white !important;
+  }
 }
 
 h5 {

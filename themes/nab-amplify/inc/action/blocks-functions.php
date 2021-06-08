@@ -1635,8 +1635,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                         <h3>Downloadable PDFS <span>(<?php echo esc_html($result_text); ?>)</span></h3>
                         <i class="amp-note">Transparency and choice are important to NAB. By choosing to download this content, you are selecting to share your name and email address with <?php echo esc_html( $company_name ); ?> to allow them to contact you directly. Per our agreement, <?php echo esc_html( $company_name ); ?> is not permitted to share your data with anyone else. You can stop communications from <?php echo esc_html( $company_name ); ?> or revise your communication settings at any time by directly visiting the <?php echo esc_html( $company_name ); ?> website.</i>
                     </div>
-                    <div class="amp-item-wrap" id="downloadable-pdfs-list">
-                        <?php
+                    <?php
                         if ($is_company_admin && $add_pdf) {
                         ?>
                             <div class="amp-item-col add-new-item">
@@ -1649,6 +1648,9 @@ function nab_company_downlodable_pdfs_callback($attributes)
                             </div>
                         <?php
                         }
+                    ?>
+                    <ul class="colgrid _5up" id="downloadable-pdfs-list">
+                        <?php
     
                         while ($pdf_query->have_posts()) {
     
@@ -1662,8 +1664,8 @@ function nab_company_downlodable_pdfs_callback($attributes)
                             $pdf_link           = get_permalink( $pdf_id );
                             $pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
                             ?>
-                            <div class="amp-item-col">
-                                <div class="amp-item-inner">
+                            <li>
+                                <div class="result _content _pdf">
                                     <?php
                                     if ($is_company_admin && $add_pdf) {
                                     ?>
@@ -1673,61 +1675,46 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                     <?php
                                     }
                                     ?>
-                                    <div class="amp-item-cover">
+                                    <div class="result__imgLink">
                                         <img src="<?php echo esc_url($thumbnail_url); ?>" alt="PDF Thumbnail">
                                     </div>
                                     <div class="amp-item-info">
                                         <div class="amp-item-content">
-                                            <h4><?php echo esc_html(get_the_title()); ?></h4>
+                                            <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+                                            <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
                                             <?php
                                             if ( is_user_logged_in() ) {
                                                 ?>
-                                                <div class="download-pdf-input">
-                                                    <?php echo $pdf_desc; ?>
-                                                </div>
-                                                <div class="amp-actions">
-                                                    <div class="search-actions nab-action">
-                                                        <div class="pdf-disc_btn">
-                                                            <span class="pdf_btn_wrap">
-                                                                <a href="<?php echo( $pdf_link ); ?>" class="button">More Info</a>
-                                                            </span>
-                                                        </div>
-                                                        <?php
-                                                        if ($is_company_admin && $add_pdf) {
-                                                        ?>
-                                                            <div class="nab-action-row">
-                                                                <i class="pdf-add-edit-action edit-block-icon fa fa-pencil" data-id="<?php echo esc_attr($pdf_id); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
-                                                            </div>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </div>
-                                                </div>
+                                                
+                                                <a href="<?php echo( $pdf_link ); ?>" class="button result__button _gradientpink">More Info</a>
                                                 <?php
+                                                if ($is_company_admin && $add_pdf) {
+                                                ?>
+                                                    <div class="nab-action-row">
+                                                        <i class="pdf-add-edit-action edit-block-icon fa fa-pencil" data-id="<?php echo esc_attr($pdf_id); ?>" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                                    </div>
+                                                <?php
+                                                }
                                             } else {
                                                 $current_url = home_url(add_query_arg(NULL, NULL));
 		                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
                                                 $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
                                                 ?>
                                                 <div class="amp-pdf-login-msg">
-                                                    <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+                                                    <p>You must be signed in to download this content.<br />
+                                                    <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
                                                 </div>
-                                                <?php if ( ! empty( $pdf_content ) ) { ?>
-                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                    </i>
-                                                <?php } ?>
                                                 <?php
                                             }
                                             ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </li>
                         <?php
                         }
                         ?>
-                    </div>
+                    </ul>
                 </div>
             </div>
             <?php
