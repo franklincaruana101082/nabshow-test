@@ -1077,8 +1077,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_status'       => 'publish',
 					'posts_per_page'    => 15,
 					's'					=> $search_term,
-					// 'meta_key'          => '_pdf_member_level',
-					// 'meta_value'        => 'Premium',
+					'meta_key'          => '_pdf_member_level',
+					'meta_value'        => 'Premium',
 				);
 
 				$pdf_query = new WP_Query( $pdf_args );
@@ -1877,8 +1877,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_status'       => 'publish',
 				'posts_per_page'    => 5,
 				's'					=> $search_term,
-				// 'meta_key'          => '_pdf_member_level',
-				// 'meta_value'        => 'Premium',
+				'meta_key'          => '_pdf_member_level',
+				'meta_value'        => 'Premium',
 			);
 
 			$pdf_query = new WP_Query( $pdf_args );

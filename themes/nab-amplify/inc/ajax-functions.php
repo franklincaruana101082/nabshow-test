@@ -3904,8 +3904,8 @@ function nab_pdf_search_filter_callback()
 		'posts_per_page'    => $post_limit,
 		's'					=> $search_term,
 		'paged'				=> $page_number,
-		// 'meta_key'          => '_pdf_member_level',
-		// 'meta_value'        => 'Premium',
+		'meta_key'          => '_pdf_member_level',
+		'meta_value'        => 'Premium',
 	);
 
 	if ( 'date' !== $orderby ) {
