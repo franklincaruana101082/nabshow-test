@@ -288,8 +288,8 @@ class DiscoverEdit extends Component {
 								<div className="homeproducts">
 									<h4 className="homeproducts__title">
 										<PlainText
-											onChange={ content => setAttributes({ broadcastProductCompany: content })}
-											value={ attributes.broadcastProductCompany }
+											onChange={ content => setAttributes({ broadcastProductTitle: content })}
+											value={ attributes.broadcastProductTitle }
 											placeholder="Products"
 										/>
 									</h4>
@@ -541,8 +541,8 @@ class DiscoverEdit extends Component {
 								<div className="homeproducts">
 									<h4 className="homeproducts__title">
 										<PlainText
-											onChange={ content => setAttributes({ streamingProductCompany: content })}
-											value={ attributes.streamingProductCompany }
+											onChange={ content => setAttributes({ streamingProductTitle: content })}
+											value={ attributes.streamingProductTitle }
 											placeholder="Products"
 										/>
 									</h4>
@@ -796,8 +796,8 @@ class DiscoverEdit extends Component {
 								<div className="homeproducts">
 									<h4 className="homeproducts__title">
 										<PlainText
-											onChange={ content => setAttributes({ contentProductCompany: content })}
-											value={ attributes.contentProductCompany }
+											onChange={ content => setAttributes({ contentProductTitle: content })}
+											value={ attributes.contentProductTitle }
 											placeholder="Products"
 										/>
 									</h4>
@@ -1049,8 +1049,8 @@ class DiscoverEdit extends Component {
 								<div className="homeproducts">
 									<h4 className="homeproducts__title">
 										<PlainText
-											onChange={ content => setAttributes({ liveProductCompany: content })}
-											value={ attributes.liveProductCompany }
+											onChange={ content => setAttributes({ liveProductTitle: content })}
+											value={ attributes.liveProductTitle }
 											placeholder="Products"
 										/>
 									</h4>
