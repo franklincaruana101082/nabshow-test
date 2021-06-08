@@ -286,7 +286,13 @@ class DiscoverEdit extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">
+										<PlainText
+											onChange={ content => setAttributes({ broadcastProductCompany: content })}
+											value={ attributes.broadcastProductCompany }
+											placeholder="Products"
+										/>
+									</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -533,7 +539,13 @@ class DiscoverEdit extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">
+										<PlainText
+											onChange={ content => setAttributes({ streamingProductCompany: content })}
+											value={ attributes.streamingProductCompany }
+											placeholder="Products"
+										/>
+									</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -782,7 +794,13 @@ class DiscoverEdit extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">
+										<PlainText
+											onChange={ content => setAttributes({ contentProductCompany: content })}
+											value={ attributes.contentProductCompany }
+											placeholder="Products"
+										/>
+									</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -1029,7 +1047,13 @@ class DiscoverEdit extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">
+										<PlainText
+											onChange={ content => setAttributes({ liveProductCompany: content })}
+											value={ attributes.liveProductCompany }
+											placeholder="Products"
+										/>
+									</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -1248,7 +1272,7 @@ class DiscoverSave extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">{ attributes.broadcastProductTitle }</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -1371,7 +1395,7 @@ class DiscoverSave extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">{ attributes.streamingProductTitle }</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -1494,7 +1518,7 @@ class DiscoverSave extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">{ attributes.contentProductTitle }</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -1615,7 +1639,7 @@ class DiscoverSave extends Component {
 
 							<div className="discover__products">
 								<div className="homeproducts">
-									<h4 className="homeproducts__title">Products</h4>
+									<h4 className="homeproducts__title">{ attributes.liveProductTitle }</h4>
 									<div className="homeproducts__listcontainer">
 										<ul className="homeproducts__list">
 											<li className="homeproducts__item product1">
@@ -1772,6 +1796,10 @@ registerBlockType( 'cgb/block-discover-more', {
 		broadcastAd: {
 			source: 'text',
 			selector: '.js-panel-broadcast .discover__adItem'
+		},
+		broadcastProductTitle: {
+			source: 'text',
+			selector: '.js-panel-broadcast .homeproducts__title'
 		},
 		broadcastProduct1Link: {
 			type: 'string',
@@ -1931,6 +1959,10 @@ registerBlockType( 'cgb/block-discover-more', {
 			source: 'text',
 			selector: '.js-panel-streaming .discover__adItem'
 		},
+		streamingProductTitle: {
+			source: 'text',
+			selector: '.js-panel-streaming .homeproducts__title'
+		},
 		streamingProduct1Link: {
 			type: 'string',
 			attribute: 'href',
@@ -2089,6 +2121,10 @@ registerBlockType( 'cgb/block-discover-more', {
 			source: 'text',
 			selector: '.js-panel-content .discover__adItem'
 		},
+		contentProductTitle: {
+			source: 'text',
+			selector: '.js-panel-content .homeproducts__title'
+		},
 		contentProduct1Link: {
 			type: 'string',
 			attribute: 'href',
@@ -2245,6 +2281,10 @@ registerBlockType( 'cgb/block-discover-more', {
 		liveAd: {
 			source: 'text',
 			selector: '.js-panel-live .discover__adItem'
+		},
+		liveProductTitle: {
+			source: 'text',
+			selector: '.js-panel-live .homeproducts__title'
 		},
 		liveProduct1Link: {
 			type: 'string',
