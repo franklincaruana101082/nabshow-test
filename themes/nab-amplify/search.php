@@ -707,8 +707,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
 						array(
-							'key' 		=> array('_EventEndDate','session_end_time'),
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
@@ -720,8 +727,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$compare		= '<';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
 						array(
-							'key' 		=> array('_EventEndDate','session_end_time'),
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
@@ -732,11 +746,17 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$compare		= 'EXISTS';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
 						array(
-							'key' 		=> array('_EventStartDate','session_date'),
+							'key' 		=> 'session_date',
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
-						),						
+						),
+						array(
+							'key' 		=> '_EventStartDate',
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
 					);
 				}
 
@@ -1629,9 +1649,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$compare		= '>=';
 
 				$event_args['meta_query'] = array(
-
+					'relation' => 'OR',
 					array(
-						'key' 		=> array('_EventEndDate','session_end_time'),
+						'key' 		=> 'session_end_time',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					),
+					array(
+						'key' 		=> '_EventEndDate'
 						'value'		=> $current_date,
 						'compare'	=> $compare,
 						'type'		=> 'DATE'
