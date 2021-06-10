@@ -4958,3 +4958,10 @@ function nab_search_user_in_meta( $user_query ) {
         $user_query->query_where = $search_query;
     }    
 }
+
+/**
+ * Chnage default buddypress from email.
+ */
+function nab_change_bp_from_email_address( $email_type, $email_obj ) {
+    $email_obj->set_from( "register@nab.org", "NAB" );
+}
