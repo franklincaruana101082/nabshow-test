@@ -1657,7 +1657,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						'type'		=> 'DATE'
 					),
 					array(
-						'key' 		=> '_EventEndDate'
+						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
 						'compare'	=> $compare,
 						'type'		=> 'DATE'
