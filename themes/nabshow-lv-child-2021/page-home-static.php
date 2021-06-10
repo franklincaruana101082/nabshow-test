@@ -29,6 +29,10 @@ get_header();
     </div>
   </div>
 
+<div class="container">
+  <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
+</div>
+
   <div class="container section">
     <div class="jump-links">
       <h2 class="jump-links__label">Quick Links:</h2>
@@ -180,8 +184,11 @@ if ( have_posts() ) :
 
 	endwhile; // End of the loop.
 endif;
-?>
 
+?>
+<div class="container">
+  <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+</div>
 
 
 <?php /*
@@ -807,6 +814,8 @@ endif;
     </div>
   </div>
 */ ?>
+
+<?php /*
 <!--   <div class="section _mnop decorative _lightlines-left-side">
     <div class="container">
       <div class="amplify">
@@ -892,7 +901,7 @@ endif;
       </a>
     </div>
   </div> -->
-
+*/ ?>
   <div class="decorative _lightlines-footer-corner"></div>
 </main><!-- #main -->
 

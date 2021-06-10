@@ -21,6 +21,7 @@
 		<div class="resource-intro">
 			<div class="resource-intro-content">
 				<div class="resource-intro-body">
+				<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 				<?php if(the_field('header_body')): ?>
 					<?php the_field('header_body') ?>
 				<?php endif; ?>
@@ -57,6 +58,7 @@
 			<?php endif; ?>
 		</div>
 	</div>
+
 	<?php if(have_rows('resource_links')) : ?>
 	<div class="container">
 			<div class="jump-links">
@@ -80,6 +82,9 @@
 			<div class="intro-body-text">
 				<h2 class="h-xl"><?php the_sub_field('opportunities_title'); ?></h2>
 				<?php the_sub_field('opportunities_copy'); ?>
+			</div>
+			<div class="opportunities__ad">
+				<?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
 			</div>
 			<?php if(have_rows('opportunities_items')) : ?>
 			<div class="cards-wrapper">
@@ -118,6 +123,7 @@
 <?php if($post->post_content): ?>
 	<div class="decorative _lightlines-left-side">
 		<div class="section container generic">
+			<?php dynamic_sidebar('broadstreet-ros-middle-tall'); ?>
 			<?php the_content(); ?>
 		</div>
 	</div>
@@ -146,16 +152,14 @@
 			</div>
 		</div>
 	</div>
-<?php endif; /*?>
+<?php endif; ?>
 
-	<?php // TO DO set up broadstreet ads ?>
-	<div class="ad _banner">
-		<div class="container">
-			<a href="#"><img src="assets/images/ad-banner.jpg" alt="advertisement alt text" /></a>
-		</div>
+
+	<div class="container">
+		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
 
-<?php */ if (!$hide_sign_up): ?>
+<?php if (!$hide_sign_up): ?>
 	<div class="section">
 		<div class="container">
 			<div class="amp-signup">

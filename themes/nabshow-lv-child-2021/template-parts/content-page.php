@@ -12,6 +12,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<div class="section container generic">
+
 		<?php
 		the_content();
 
@@ -23,3 +24,8 @@
 	</div><!-- .entry-content -->
 
 </article><!-- #post-<?php the_ID(); ?> -->
+
+	<div class="container">
+		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+	</div>
+<div class="decorative _lightlines-footer-corner"></div>

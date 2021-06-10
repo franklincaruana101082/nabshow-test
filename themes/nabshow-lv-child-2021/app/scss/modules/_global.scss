@@ -194,3 +194,8 @@ ul.woocommerce-error {
     }
   }
 }
+
+//hide blue bar under footer
+body > iframe[src="javascript:false"] {
+  position: absolute;
+}
