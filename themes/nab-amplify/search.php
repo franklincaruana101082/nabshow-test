@@ -693,7 +693,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			} else if ( 'event' === $view_type ) {
 
 				$event_args		= array(
-					'post_type'			=> 'sessions',
+					'post_type'			=> array('tribe_events','sessions'),
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
 					//'s'					=> $search_term,					
@@ -760,7 +760,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$event_query = new WP_Query( $event_args );
 
-				echo 'test1<pre>';
+				echo 'test2<pre>';
 				print_r( $event_query ); exit;
 
 				$search_found	= true;
