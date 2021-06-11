@@ -115,9 +115,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					} else if ( 'event' === $view_type ) {
 						?>
 						<div class="event-type sort-order-btn">
-							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
-							<a href="javascript:void(0);" class="sort-order" data-event='previous'>Previous</a>
-							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? '' : 'active' ); ?>" data-event='upcoming'>Upcoming</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'all' === $event_type ? 'active' : '' ); ?>" data-event='all'>All</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) && 'past' === $event_type ? 'active' : '' ); ?>" data-event='previous'>Previous</a>
+							<a href="javascript:void(0);" class="sort-order <?php echo esc_attr( isset( $event_type ) ? '' : 'active' ); ?>" data-event='upcoming'>Upcoming</a>
 						</div>
 						<?php
 					} else if ('product' === $view_type) {
@@ -299,6 +299,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'type'		=> 'newest'
 				);
 
+				$hide_users = nab_get_hide_from_search_users();
+
+				if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+					
+					$members_filter['exclude'] = $hide_users;
+				}
+
 
 				if (bp_has_members($members_filter)) {
 
@@ -306,9 +313,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 					$total_users	= $members_template->total_member_count;
 					$total_page		= ceil($total_users / 15);
+					$ess = $total_users == 0 || $total_users > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Results for </span> <strong>People</strong></h2>
+						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Result<?php echo($ess);?> for </span> <strong>People</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 
@@ -407,10 +415,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_prod_query->have_posts()) {
 
 					$total_products = $company_prod_query->found_posts;
+					$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Results for </span> <strong>Products</strong></h2>
+						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Products</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
@@ -513,9 +522,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($company_query->have_posts()) {
 
 					$total_company	= nab_get_total_company_count();
+					$ess = $total_company == 0 || $total_company > 1 ? 's' : '';
 				?>
 					<div class="search-view-top-head">
-						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Results for </span> <strong>Companies</strong></h2>
+						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Result<?php echo($ess);?> for </span> <strong>Companies</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
@@ -618,10 +628,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ($product_query->have_posts()) {
 
 					$total_products = $product_query->found_posts;
+					$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 
 				?>
 					<div class="search-view-top-head">
-						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Results for </span> <strong>Shop</strong></h2>
+						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Shop</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
@@ -682,27 +693,70 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			} else if ( 'event' === $view_type ) {
 
 				$event_args		= array(
-					'post_type'			=> 'tribe_events',
+					'post_type'			=> array('tribe_events','sessions'),
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
 					's'					=> $search_term,
-					'meta_key'			=> '_EventStartDate',
 					'orderby'			=> 'meta_value',
-					'order'				=> 'ASC'
+					'order'				=> 'ASC',
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
-
-					$current_date   = current_time('Y-m-d');
+					//show upcoming events by default
+					$current_date   = current_time('Y-m-d H:i:s');
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
+						array(
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
 						array(
 							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
-						)
+						),
+					);
+				} else if ( isset( $event_type ) && 'past' === $event_type ) {
+					//show past events
+					$current_date   = current_time('Y-m-d H:i:s');
+					$compare		= '<';
+
+					$event_args['meta_query'] = array(
+						'relation' => 'OR',
+						array(
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventEndDate',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+					);
+				} else if ( isset( $event_type ) && 'all' === $event_type ) {
+					//show all events
+					$compare		= 'EXISTS';
+
+					$event_args['meta_query'] = array(
+						'relation' => 'OR',
+						array(
+							'key' 		=> 'session_date',
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventStartDate',
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
 					);
 				}
 
@@ -710,9 +764,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
+				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-view-top-head">
-					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Results for </span> <strong>Partner Events</strong></h2>
+					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Result<?php echo($ess);?> for </span> <strong>Events</strong></h2>
 					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
@@ -725,8 +780,16 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$event_post_id		= get_the_ID();
 							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
-							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+							$event_post_type		= get_post_type( $event_post_id );
+							if ( $event_post_type == 'tribe_events') {
+								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+								$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							} else {
+								$event_start_date   = get_post_meta( $event_post_id, 'session_date', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, 'session_end_time', true) ;
+								$company_id			= get_field( 'company', $event_post_id );
+							}
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
@@ -735,9 +798,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$event_day          = date_format( date_create( $event_start_date ), 'j' );
 							$final_date         = $event_start_date;
 							$start_time         = '';
-                            $end_time           = '';
-							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
-							$event_content      = wp_strip_all_tags( get_the_content() );
+							$end_time           = '';
+							
+							$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -884,10 +947,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
-
+					$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Stories</strong></h2>
+						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Stories</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
@@ -969,10 +1032,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $content_query->have_posts() ) {
 
 					$total_content	= $content_query->found_posts;
-
+					$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Results for </span> <strong>Content</strong></h2>
+						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Content</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-page-section">
@@ -1032,7 +1095,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$pdf_args = array(
 					'post_type'         => 'downloadable-pdfs',
 					'post_status'       => 'publish',
-					'posts_per_page'    => 12,
+					'posts_per_page'    => 15,
 					's'					=> $search_term,
 					'meta_key'          => '_pdf_member_level',
 					'meta_value'        => 'Premium',
@@ -1043,13 +1106,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $pdf_query->have_posts() ) {
 
 					$total_pdf = $pdf_query->found_posts;
+					$ess = $total_pdf == 0 || $total_pdf > 1 ? 's' : '';
 					?>
 					<div class="search-view-top-head">
-						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Results for </span><strong>Downloadable PDFs</strong></h2>
+						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Result<?php echo($ess);?> for </span><strong>Downloadable PDFs</strong></h2>
 						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
 					</div>
 					<div class="search-section search-pdf-section">
-						<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+						<ul class="colgrid _5up" id="downloadable-pdfs-list">
 							<?php
 
 							$cnt = 1;
@@ -1064,74 +1128,56 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 								$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 								$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+								$pdf_link			= get_the_permalink( $pdf_id );
+								$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 								$company_name		= get_the_title( $company_id );
 								$company_link		= get_the_permalink( $company_id );
-								?>
-								<div class="amp-item-col">
-									<div class="amp-item-inner">
-										<div class="amp-item-cover">
-											<img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
-										</div>
-										<div class="amp-item-info">
-											<div class="amp-item-content">
-												<h4><?php echo esc_html(get_the_title()); ?></h4>
-												<span class="company-name"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></span>
-												<?php
-												if ( is_user_logged_in() ) {
-													?>
-													<div class="download-pdf-input">
-														<div class="amp-check-container">
-															<div class="amp-check-wrp">
-																<input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
-																<span class="amp-check"></span>
-															</div>
-															<label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
-														</div>
-													</div>
-													<div class="amp-actions">
-														<div class="search-actions nab-action">
-															<span class="pdf_btn_wrap download-disabled">
-																<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
-															</span>
-														</div>
-													</div>
-													<?php if ( ! empty( $pdf_content ) ) { ?>
-                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                        </i>
-                                                    <?php } ?>
-													<?php
-												} else {
-													$current_url = home_url(add_query_arg(NULL, NULL));
-													$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-													$current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
-													?>
-													<div class="amp-pdf-login-msg">
-														<p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
-													</div>
-													<?php if ( ! empty( $pdf_content ) ) { ?>
-                                                        <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                            <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                        </i>
-                                                    <?php } ?>
-													<?php
-												}
-												?>
-											</div>
-										</div>
-									</div>
-								</div>
+								
+							?>
+								<li>
+	                                <div class="result _content _pdf">
+	                                	<?php if ( is_user_logged_in() ) { ?>
+	                                    <a class="result__imgLink" href="<?php echo esc_url( $pdf_link ); ?>">
+	                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+	                                    </a>
+	                                	<?php } else { ?>
+	                                	<div class="result__imgLink">
+	                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+	                                    </div>
+	                                	<?php } ?>
+	                                    
+	                                    <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+	                                    <h5 class="result__lede"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></h5>
+	                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
+	                                    <?php if ( is_user_logged_in() ) { ?>
+	                                    <a class="button result__button _gradientpink" href="<?php echo esc_url( $pdf_link ); ?>">More Info</a>
+	                                	<?php
+	                                	} else {
+                                            $current_url = home_url(add_query_arg(NULL, NULL));
+	                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
+                                            $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
+                                            ?>
+                                            <div class="amp-pdf-login-msg">
+                                                <p>You must be signed in to download this content.<br />
+                                                <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+	                                </div>
+	                            </li>
+
 								<?php
-								if ( 8 === $cnt) {
+								if ( 15 === $cnt) {
 									echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 								}
 								$cnt++;
 							}
-							if ( $cnt < 8 ) {
+							if ( $cnt < 15 ) {
 								echo wp_kses( nab_get_search_result_ad(), $allowed_tags );
 							}
 							?>
-						</div>
+						</ul>
 					</div>
 					<?php
 				}
@@ -1141,7 +1187,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( $pdf_query->max_num_pages > 1 ) {
 					?>
 					<div class="load-more text-center" id="load-more-pdf">
-						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="12" data-total-page="<?php echo absint( $pdf_query->max_num_pages ); ?>">Load More</a>
+						<a href="javascript:void(0);" class="btn-default" data-page-number="2" data-post-limit="15" data-total-page="<?php echo absint( $pdf_query->max_num_pages ); ?>">Load More</a>
 					</div>
 					<?php
 				}
@@ -1183,10 +1229,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
+				$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Stories</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
+						<h2><strong>Stories</strong> <span>(<?php echo esc_html($total_content . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_content > 5) {
 
@@ -1235,16 +1282,24 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'type'		=> 'newest',
 			);
 
+			$hide_users = nab_get_hide_from_search_users();
+
+			if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
+				
+				$members_filter['exclude'] = $hide_users;
+			}
+
 			if (bp_has_members($members_filter)) {
 
 				global $members_template;
 
 				$search_found	= true;
 				$total_users	= $members_template->total_member_count;
+				$ess = $total_users == 0 || $total_users > 1 ? 's' : '';
 				?>
 				<div class="search-section search-user-section">
 					<div class="search-section-heading">
-						<h2><strong>People</strong> <span>(<?php echo esc_html($total_users . ' Results'); ?>)</span></h2>
+						<h2><strong>People</strong> <span>(<?php echo esc_html($total_users . ' Result' . $ess); ?>)</span></h2>
 						<?php
 						if ($total_users > 5) {
 
@@ -1311,6 +1366,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 			if ( ! empty( $search_term ) ) {
 
+				$get_search_term_id = get_term_by( 'name', $search_term, 'company-product-category' );
 				if ( $get_search_term_id ) {
 
 					$company_args['_meta_company_term']		= $get_search_term_id->term_id;
@@ -1337,10 +1393,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_company	= $company_query->found_posts;
+				$ess = $total_company == 0 || $total_company > 1 ? 's' : '';
 			?>
 				<div class="search-section search-company-section">
 					<div class="search-section-heading">
-						<h2><strong>Companies</strong> <span>(<?php echo esc_html(nab_get_total_company_count() . ' Results'); ?>)</span></h2>
+						<h2><strong>Companies</strong> <span>(<?php echo esc_html(nab_get_total_company_count() . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_company > 5) {
 
@@ -1369,6 +1426,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$featured_image     = nab_amplify_get_featured_image( get_the_ID(), false );
 							$profile_picture  	= $featured_image;
 							$company_url		= get_the_permalink();
+							$company_poc        = get_field('point_of_contact');
 						?>
 							<li>
 								<div class="result">
@@ -1446,10 +1504,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found		= true;
 				$total_company_prod = $company_prod_query->found_posts;
+				$ess = $total_company_prod == 0 || $total_company_prod > 1 ? 's' : '';
 			?>
 				<div class="search-section amp-item-main company-products">
 					<div class="search-section-heading">
-						<h2><strong>Products</strong> <span>(<?php echo esc_html($total_company_prod . ' Results'); ?>)</span></h2>
+						<h2><strong>Products</strong> <span>(<?php echo esc_html($total_company_prod . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_company_prod > 5) {
 
@@ -1500,7 +1559,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 			<?php
 			}
-			wp_reset_postdata();	
+			wp_reset_postdata();			
 
 			$product_args = array(
 				'post_type' 		=> 'product',
@@ -1527,10 +1586,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_products = $product_query->found_posts;
+				$ess = $total_products == 0 || $total_products > 1 ? 's' : '';
 			?>
 				<div class="search-section search-product-section">
 					<div class="search-section-heading">
-						<h2><strong>Shop</strong> <span>(<?php echo esc_html($total_products . ' Results'); ?>)</span></h2>
+						<h2><strong>Shop</strong> <span>(<?php echo esc_html($total_products . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_products > 5) {
 
@@ -1575,11 +1635,10 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			wp_reset_postdata();
 
 			$event_args		= array(
-				'post_type'			=> 'tribe_events',
+				'post_type'			=> array('tribe_events','sessions'),
 				'posts_per_page'	=> 5,
 				'post_status'		=> 'publish',
 				's'					=> $search_term,
-				'meta_key'			=> '_EventStartDate',
 				'orderby'			=> 'meta_value',
 				'order'				=> 'ASC'
 			);
@@ -1590,13 +1649,19 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$compare		= '>=';
 
 				$event_args['meta_query'] = array(
-
+					'relation' => 'OR',
+					array(
+						'key' 		=> 'session_end_time',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					),
 					array(
 						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
 						'compare'	=> $compare,
 						'type'		=> 'DATE'
-					)
+					),
 				);
 			}
 
@@ -1606,10 +1671,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
+				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-section search-content-section">
 					<div class="search-section-heading">
-						<h2><strong>Partner Events</strong> <span>(<?php echo esc_html( $total_event . ' Results' ); ?>)</span></h2>
+						<h2><strong>Events</strong> <span>(<?php echo esc_html( $total_event . ' Result'.$ess ); ?>)</span></h2>
 						<?php
 						if ( $total_event > 5 || ( empty( $search_term ) && 0 === $total_event ) ) {
 
@@ -1617,6 +1683,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							if ( empty( $search_term ) && 0 === $total_event ) {
 								$link_param['t'] = 'past';
+							} else if ( !empty( $search_term ) ) {
+								$link_param['t'] = 'all';
 							}
 
 							$event_view_more_link = add_query_arg( $link_param, $current_site_url );
@@ -1641,8 +1709,17 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 							$event_post_id		= get_the_ID();
 							$thumbnail_url      = nab_amplify_get_featured_image( get_the_ID(), true, nab_product_company_placeholder_img() );
-							$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true);
-							$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true);
+							$event_post_type		= get_post_type( $event_post_id );
+							if ( $event_post_type == 'tribe_events') {
+								$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+								$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+							} else {
+								$event_start_date   = get_post_meta( $event_post_id, 'session_date', true) ;
+								$event_end_date     = get_post_meta( $event_post_id, 'session_end_time', true) ;
+								$company_id			= get_field( 'company', $event_post_id );
+							}
+
 							$website_link 		= get_post_meta( $event_post_id, '_EventURL', true );
 							$website_link		= ! empty( $website_link ) ? trim( $website_link ) : get_the_permalink();
 							$target				= 0 === strpos( $website_link, $current_site_url ) ? '_self' : '_blank';
@@ -1652,8 +1729,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$final_date         = $event_start_date;
 							$start_time         = '';
                             $end_time           = '';
-							$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
-							$event_content      = wp_strip_all_tags( get_the_content() );
+							$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
 
@@ -1775,10 +1851,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_content	= $content_query->found_posts;
+				$ess = $total_content == 0 || $total_content > 1 ? 's' : '';
 				?>
 				<div class="search-section search-page-section">
 					<div class="search-section-heading">
-						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Results'); ?>)</span></h2>
+						<h2><strong>Content</strong> <span>(<?php echo esc_html($total_content . ' Result'.$ess); ?>)</span></h2>
 						<?php
 						if ($total_content > 5) {
 
@@ -1824,7 +1901,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			$pdf_args = array(
 				'post_type'         => 'downloadable-pdfs',
 				'post_status'       => 'publish',
-				'posts_per_page'    => 4,
+				'posts_per_page'    => 5,
 				's'					=> $search_term,
 				'meta_key'          => '_pdf_member_level',
 				'meta_value'        => 'Premium',
@@ -1836,12 +1913,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$search_found	= true;
 				$total_pdf		= $pdf_query->found_posts;
+				$ess = $total_pdf == 0 || $total_pdf > 1 ? 's' : '';
 				?>
 				<div class="search-section search-pdf-section">
 					<div class="search-section-heading">
-						<h2><strong>Downloadable PDFs</strong> <span>(<?php echo esc_html( $total_pdf . ' Results'); ?>)</span></h2>
+						<h2><strong>Downloadable PDFs</strong> <span>(<?php echo esc_html( $total_pdf . ' Result'.$ess); ?>)</span></h2>
 						<?php
-						if ($total_pdf > 4 ) {
+						if ($total_pdf > 5 ) {
 
 							$content_view_more_link = add_query_arg(array('s' => $search_term, 'v' => 'pdf'), $current_site_url );
 						?>
@@ -1852,7 +1930,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						}
 						?>
 					</div>
-					<div class="search-section-details amp-item-wrap" id="downloadable-pdfs-list">
+					<ul class="colgrid _5up" id="downloadable-pdfs-list">
 						<?php
 						while ( $pdf_query->have_posts() ) {
 
@@ -1864,67 +1942,35 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 							$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 							$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+							$pdf_link			= get_the_permalink( $pdf_id );
+							$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 							$company_name		= get_the_title( $company_id );
 							$company_link		= get_the_permalink( $company_id );
 							?>
-							<div class="amp-item-col">
-                                <div class="amp-item-inner">
-                                    <div class="amp-item-cover">
-                                        <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+							<li>
+                                <div class="result _content _pdf">
+                                	<?php if ( is_user_logged_in() ) { ?>
+                                    <a class="result__imgLink" href="<?php echo esc_url( $pdf_link ); ?>">
+                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
+                                    </a>
+                                	<?php } else { ?>
+                                	<div class="result__imgLink">
+                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
                                     </div>
-                                    <div class="amp-item-info">
-                                        <div class="amp-item-content">
-                                            <h4><?php echo esc_html(get_the_title()); ?></h4>
-											<span class="company-name"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></span>
-                                            <?php
-                                            if ( is_user_logged_in() ) {
-                                                ?>
-                                                <div class="download-pdf-input">
-                                                    <div class="amp-check-container">
-                                                        <div class="amp-check-wrp">
-                                                            <input type="checkbox" class="dowload-checkbox" id="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>" />
-                                                            <span class="amp-check"></span>
-                                                        </div>
-                                                        <label for="<?php echo esc_attr('download-checkbox-' . $pdf_id); ?>">I agree to receive additional information and communications from <?php echo esc_html( $company_name ); ?></label>
-                                                    </div>
-                                                </div>
-                                                <div class="amp-actions">
-                                                    <div class="search-actions nab-action">
-                                                        <span class="pdf_btn_wrap download-disabled">
-                                                        	<a href="javascript:void(0);" data-pdf="<?php echo esc_url( $pdf_url ); ?>" data-pid="<?php echo esc_attr( $pdf_id ); ?>" data-cid="<?php echo esc_attr( $company_id ); ?>" class="button" disabled download>Download</a>
-                                                       	</span>
-                                                    </div>
-                                                </div>
-                                                <?php if ( ! empty( $pdf_content ) ) { ?>
-                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                    </i>
-                                                <?php } ?>
-                                                <?php
-                                            } else {
-                                                $current_url = home_url(add_query_arg(NULL, NULL));
-		                                        $current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-                                                $current_url = add_query_arg( array( 'r' => $current_url ), wc_get_page_permalink( 'myaccount' ) );
-                                                ?>
-                                                <div class="amp-pdf-login-msg">
-                                                    <p>You must be signed in to download this content. <a href="<?php echo esc_url( $current_url ); ?>">Sign in now</a>.</p>
-                                                </div>
-                                                <?php if ( ! empty( $pdf_content ) ) { ?>
-                                                    <i class="fa fa-info-circle tooltip-wrap" aria-hidden="true">
-                                                        <span class="tooltip"><?php echo esc_html( $pdf_content ); ?></span>
-                                                    </i>
-                                                <?php } ?>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div>
+                                	<?php } ?>
+                                    
+                                    <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
+                                    <h5 class="result__lede"><?php echo esc_html( $company_name ); ?></h5>
+                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
+                                    <?php if ( is_user_logged_in() ) { ?>
+                                    <a class="button result__button _gradientpink" href="<?php echo esc_url( $pdf_link ); ?>">More Info</a>
+                                	<?php } ?>
                                 </div>
-                            </div>
+                            </li>
 							<?php
 						}
 						?>
-					</div>
+					</ul>
 				</div>
 				<?php
 			}

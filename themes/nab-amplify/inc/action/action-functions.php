@@ -720,7 +720,7 @@ function nab_save_name_fields( $customer_id ) {
     $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
     $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
     $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
-    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );    
 
     if ( isset( $first_name ) ) {
         update_user_meta( $customer_id, 'billing_first_name', $first_name );
@@ -751,9 +751,8 @@ function nab_save_name_fields( $customer_id ) {
     if ( isset( $user_city ) && ! empty( $user_city ) ) {
         update_user_meta( $customer_id, 'user_city', $user_city );
     }
-    if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
-        update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
-    }
+
+    update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
 }
 
 /**
@@ -2731,12 +2730,12 @@ function nab_edit_acount_additional_form_fields() {
             </div>
         </div>
     </fieldset>
-    <div class="checkbox-item amp-check-container">
-        <div class="amp-check-wrp">
-            <input type="checkbox" name="amplify_communications" value="1" id="amplify-communications"  <?php checked( $amplify_communications, '1' ); ?> />
-            <span class="amp-check"></span>
-        </div>
+    <div class="checkbox-item amp-check-container">        
         <label for="amplify-communications">I would like to receive Amplify communications.</label>
+        <select name="amplify_communications" id="amplify-communications">
+            <option value="1" <?php selected( $amplify_communications, '1' ); ?>>Yes</option>
+            <option value="0" <?php selected( $amplify_communications, '0' ); ?>>No</option>
+        </select>
     </div>
 <?php
 }
@@ -2782,12 +2781,6 @@ function nab_save_edit_account_additional_form_fields($user_id)
         delete_user_meta( $user_id, 'user_industry' );
     }
 
-    if ( isset( $amplify_communications ) && ! empty( $amplify_communications ) ) {
-        update_user_meta( $user_id, 'amplify_communications', $amplify_communications );
-    } else {
-        delete_user_meta( $user_id, 'amplify_communications' );
-    }
-
     $user_fields = array(
         'attendee_title',
         'attendee_company',
@@ -2799,7 +2792,8 @@ function nab_save_edit_account_additional_form_fields($user_id)
         'social_youtube',
         'user_country',
         'user_state',
-        'user_city'
+        'user_city',
+        'amplify_communications'
     );
 
     foreach ($user_fields as $field) {
