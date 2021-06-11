@@ -698,6 +698,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_status'		=> 'publish',
 					's'					=> $search_term,
 					'orderby'			=> 'meta_value',
+					'tribe_suppress_query_filters' => true,
 					'order'				=> 'ASC',
 				);
 
@@ -755,6 +756,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				$event_query = new WP_Query( $event_args );
+
+				echo 'test5<pre>';
+				print_r( $event_query ); exit;
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
