@@ -760,7 +760,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				$event_query = new WP_Query( $event_args );
 
-				echo '<pre>';
+				echo 'test<pre>';
 				print_r( $event_query ); exit;
 
 				$search_found	= true;
