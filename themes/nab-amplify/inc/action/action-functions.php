@@ -4769,6 +4769,16 @@ add_shortcode( 'query_test', 'nab_search_query_test' );
 
 function nab_search_query_test() {
 
+    global $wpdb;
+
+    $qq = "SELECT wp_9_posts.* FROM wp_9_posts INNER JOIN wp_9_postmeta ON ( wp_9_posts.ID = wp_9_postmeta.post_id ) WHERE 1=1  AND ( 
+        ( wp_9_postmeta.meta_key = 'session_end_time' AND CAST(wp_9_postmeta.meta_value AS DATE) < '2021-06-11 13:17:59' ) 
+        OR 
+        ( wp_9_postmeta.meta_key = '_EventEndDate' AND CAST(wp_9_postmeta.meta_value AS DATE) < '2021-06-11 13:17:59' )
+      ) AND wp_9_posts.post_type IN ('tribe_events', 'sessions') AND ((wp_9_posts.post_status = 'publish')) GROUP BY wp_9_posts.ID ORDER BY CAST(wp_9_postmeta.meta_value AS DATE) ASC LIMIT 0, 50";
+    $result = $wpdb->get_results( $qq );
+    echo '<pre>';
+    print_r( $result ); exit;
     $search_term = '';
     $event_type = 'past';
 
