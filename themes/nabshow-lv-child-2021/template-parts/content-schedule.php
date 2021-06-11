@@ -123,6 +123,7 @@
 <?php endif; ?>
 
 <?php
+	dynamic_sidebar('broadstreet-internal-top');
 	$banner = get_field('banner_image');
 	if(!empty($banner)): 
 	?>
@@ -148,5 +149,9 @@
 		</div>
 	</div>
 <?php endif; ?>
+
+<div class="container">
+	<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+</div>
 
 <div class="decorative _lightlines-footer-strip"></div>

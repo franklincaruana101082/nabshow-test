@@ -379,8 +379,14 @@
   @include bp-768 {
     padding-bottom: rem(100);
   }
-  .intro-body-text h2.h-xl {
-    text-transform: uppercase;
+  .intro-body-text {
+    @include bp-1280 {
+      min-height: rem(190);
+    }
+    h2.h-xl {
+      text-transform: uppercase;
+    }
+
   }
 }
 
