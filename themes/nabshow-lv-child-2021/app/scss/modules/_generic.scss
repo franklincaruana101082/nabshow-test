@@ -4,6 +4,7 @@
 // ==============================
 
 .generic {
+  @include cf();
   img {
     width: auto !important;
     max-width: auto !important;

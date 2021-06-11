@@ -57,6 +57,11 @@
 			<?php endif; ?>
 		</div>
 	</div>
+
+	<div class="container">
+		<?php dynamic_sidebar('broadstreet-internal-top'); ?>
+	</div>
+
 	<?php if(have_rows('resource_links')) : ?>
 	<div class="container">
 			<div class="jump-links">
@@ -77,11 +82,16 @@
 	?>
 	<div class="section opportunities">
 		<div class="container">
+			<?php if(get_sub_field('opportunities_title')): ?>
 			<div class="intro-body-text">
 				<h2 class="h-xl"><?php the_sub_field('opportunities_title'); ?></h2>
 				<?php the_sub_field('opportunities_copy'); ?>
 			</div>
-			<?php if(have_rows('opportunities_items')) : ?>
+			<div class="opportunities__ad">
+				<?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
+			</div>
+			<?php endif;
+			 if(have_rows('opportunities_items')) : ?>
 			<div class="cards-wrapper">
 				<div class="cards">
 					<?php while(have_rows('opportunities_items')): the_row(); ?>
@@ -118,6 +128,7 @@
 <?php if($post->post_content): ?>
 	<div class="decorative _lightlines-left-side">
 		<div class="section container generic">
+			<?php dynamic_sidebar('broadstreet-ros-middle-tall'); ?>
 			<?php the_content(); ?>
 		</div>
 	</div>
@@ -146,16 +157,14 @@
 			</div>
 		</div>
 	</div>
-<?php endif; /*?>
+<?php endif; ?>
 
-	<?php // TO DO set up broadstreet ads ?>
-	<div class="ad _banner">
-		<div class="container">
-			<a href="#"><img src="assets/images/ad-banner.jpg" alt="advertisement alt text" /></a>
-		</div>
+
+	<div class="container">
+		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
 
-<?php */ if (!$hide_sign_up): ?>
+<?php if (!$hide_sign_up): ?>
 	<div class="section">
 		<div class="container">
 			<div class="amp-signup">

@@ -124,9 +124,50 @@ function nabshow_lv_2021_widgets() {
         'after_title'   => '</h3>',
 	) );
 
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Broadstreet Square Ad ROS Middle', 'nabshow_lv' ),
+		'id'			=> 'broadstreet-ros-middle-square',
+		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+		'before_widget' => '<div id="%1$s" class="ad _300x250 _middle %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Broadstreet Home Leaderboard', 'nabshow_lv' ),
+		'id'			=> 'broadstreet-home-leaderboard',
+		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+		'before_widget' => '<div id="%1$s" class="ad _970x90 _home %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Broadstreet Top Banner Ad', 'nabshow_lv' ),
+		'id'			=> 'broadstreet-internal-top',
+		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+		'before_widget' => '<div id="%1$s" class="ad _970x90 _top %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Broadstreet Tall Ad ROS Middle', 'nabshow_lv' ),
+		'id'			=> 'broadstreet-ros-middle-tall',
+		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+		'before_widget' => '<div id="%1$s" class="ad _tall _middle %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Broadstreet ROS Bottom', 'nabshow_lv' ),
+		'id'			=> 'broadstreet-ros-bottom',
+		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+		'before_widget' => '<div id="%1$s" class="ad _728x90 _bottom %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
 }
 
 add_action( 'widgets_init', 'nabshow_lv_2021_widgets' );
+
 
 /**
  * Implement the Custom Header feature.
