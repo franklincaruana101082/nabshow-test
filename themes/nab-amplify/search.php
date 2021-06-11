@@ -727,13 +727,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$compare		= '<';
 
 					$event_args['meta_query'] = array(
-						'relation' => 'OR',
-						array(
-							'key' 		=> 'session_end_time',
-							'value'		=> $current_date,
-							'compare'	=> $compare,
-							'type'		=> 'DATE'
-						),
+						'relation' => 'OR',						
 						array(
 							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
