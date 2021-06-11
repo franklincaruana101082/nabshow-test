@@ -4773,7 +4773,7 @@ function nab_search_query_test() {
     $event_type = 'past';
 
     $event_args		= array(
-        'post_type'			=> array('tribe_events','sessions'),
+        'post_type'			=> array('page','post'),
         'posts_per_page'	=> 15,
         'post_status'		=> 'publish',
         's'					=> $search_term,
@@ -4789,13 +4789,13 @@ function nab_search_query_test() {
         $event_args['meta_query'] = array(
             'relation' => 'OR',
             array(
-                'key' 		=> 'session_end_time',
+                'key' 		=> 'schedule_date',
                 'value'		=> $current_date,
                 'compare'	=> $compare,
                 'type'		=> 'DATE'
             ),
             array(
-                'key' 		=> '_EventEndDate',
+                'key' 		=> 'webinar_page_date',
                 'value'		=> $current_date,
                 'compare'	=> $compare,
                 'type'		=> 'DATE'
@@ -4809,13 +4809,13 @@ function nab_search_query_test() {
         $event_args['meta_query'] = array(
             'relation' => 'OR',
             array(
-                'key' 		=> 'session_end_time',
+                'key' 		=> 'schedule_date',
                 'value'		=> $current_date,
                 'compare'	=> $compare,
                 'type'		=> 'DATE'
             ),
             array(
-                'key' 		=> '_EventEndDate',
+                'key' 		=> 'webinar_page_date',
                 'value'		=> $current_date,
                 'compare'	=> $compare,
                 'type'		=> 'DATE'
@@ -4828,12 +4828,12 @@ function nab_search_query_test() {
         $event_args['meta_query'] = array(
             'relation' => 'OR',
             array(
-                'key' 		=> 'session_date',
+                'key' 		=> 'schedule_date',
                 'compare'	=> $compare,
                 'type'		=> 'DATE'
             ),
             array(
-                'key' 		=> '_EventStartDate',
+                'key' 		=> 'webinar_page_date',
                 'compare'	=> $compare,
                 'type'		=> 'DATE'
             ),
@@ -4842,7 +4842,7 @@ function nab_search_query_test() {
 
     $event_query = new WP_Query( $event_args );
 
-    echo '<pre>test1';
+    echo '<pre>test2';
     print_r( $event_query ); exit;
 
     return '';
