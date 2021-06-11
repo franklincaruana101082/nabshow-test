@@ -1693,7 +1693,8 @@ function nab_event_search_filter_callback()
 		'post_status'		=> 'publish',
 		's'					=> $search_term,
 		'orderby'			=> 'meta_value',
-		'order'				=> 'ASC'
+		'order'				=> 'ASC',
+		'tribe_suppress_query_filters' => true,
 	);
 
 	if ('previous' === $event_type || 'upcoming' === $event_type) {

@@ -699,16 +699,24 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					's'					=> $search_term,
 					'orderby'			=> 'meta_value',
 					'order'				=> 'ASC',
+					'tribe_suppress_query_filters' => true,
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
 					//show upcoming events by default
-					$current_date   = current_time('Y-m-d H:i:s');
+					$current_date   = current_time('Y-m-d');
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
 						array(
-							'key' 		=> array('_EventEndDate','session_end_time'),
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
@@ -716,12 +724,19 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					);
 				} else if ( isset( $event_type ) && 'past' === $event_type ) {
 					//show past events
-					$current_date   = current_time('Y-m-d H:i:s');
+					$current_date   = current_time('Y-m-d');
 					$compare		= '<';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
 						array(
-							'key' 		=> array('_EventEndDate','session_end_time'),
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
@@ -732,16 +747,22 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					$compare		= 'EXISTS';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
 						array(
-							'key' 		=> array('_EventStartDate','session_date'),
+							'key' 		=> 'session_date',
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
-						),						
+						),
+						array(
+							'key' 		=> '_EventStartDate',
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
 					);
 				}
 
 				$event_query = new WP_Query( $event_args );
-
+				
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
@@ -1620,7 +1641,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_status'		=> 'publish',
 				's'					=> $search_term,
 				'orderby'			=> 'meta_value',
-				'order'				=> 'ASC'
+				'order'				=> 'ASC',
+				'tribe_suppress_query_filters' => true,
 			);
 
 			if ( empty( $search_term ) ) {
@@ -1629,9 +1651,15 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$compare		= '>=';
 
 				$event_args['meta_query'] = array(
-
+					'relation' => 'OR',
 					array(
-						'key' 		=> array('_EventEndDate','session_end_time'),
+						'key' 		=> 'session_end_time',
+						'value'		=> $current_date,
+						'compare'	=> $compare,
+						'type'		=> 'DATE'
+					),
+					array(
+						'key' 		=> '_EventEndDate',
 						'value'		=> $current_date,
 						'compare'	=> $compare,
 						'type'		=> 'DATE'
