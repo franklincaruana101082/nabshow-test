@@ -701,7 +701,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
 					//show upcoming events by default
-					$current_date   = current_time('Y-m-d H:i:s');
+					$current_date   = current_time('Y-m-d');
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
@@ -721,7 +721,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					);
 				} else if ( isset( $event_type ) && 'past' === $event_type ) {
 					//show past events
-					$current_date   = current_time('Y-m-d H:i:s');
+					$current_date   = current_time('Y-m-d');
 					$compare		= '<';
 
 					$event_args['meta_query'] = array(
