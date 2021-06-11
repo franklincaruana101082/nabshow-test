@@ -232,3 +232,5 @@ add_action( 'wp_footer', 'nab_enqueue_third_party_script_to_footer' );
 add_action( 'wp', 'nab_update_wc_edit_account_email_on_save', 20 );
 
 add_action( 'pre_user_query','nab_search_user_in_meta' );
+
+add_action( 'bp_email', 'nab_change_bp_from_email_address', 10, 2 );

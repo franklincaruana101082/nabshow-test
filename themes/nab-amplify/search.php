@@ -696,12 +696,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_type'			=> array('tribe_events','sessions'),
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
-					//'s'					=> $search_term,					
+					's'					=> $search_term,
+					'orderby'			=> 'meta_value',
+					'order'				=> 'ASC',
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
 					//show upcoming events by default
-					$current_date   = current_time('Y-m-d');
+					$current_date   = current_time('Y-m-d H:i:s');
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
@@ -721,7 +723,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					);
 				} else if ( isset( $event_type ) && 'past' === $event_type ) {
 					//show past events
-					$current_date   = current_time('Y-m-d');
+					$current_date   = current_time('Y-m-d H:i:s');
 					$compare		= '<';
 
 					$event_args['meta_query'] = array(
@@ -759,9 +761,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				$event_query = new WP_Query( $event_args );
-
-				echo 'test2<pre>';
-				print_r( $event_query ); exit;
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
