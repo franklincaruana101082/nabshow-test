@@ -699,6 +699,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					's'					=> $search_term,
 					'orderby'			=> 'meta_value',
 					'order'				=> 'ASC',
+					'tribe_suppress_query_filters' => true,
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
@@ -1640,7 +1641,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				'post_status'		=> 'publish',
 				's'					=> $search_term,
 				'orderby'			=> 'meta_value',
-				'order'				=> 'ASC'
+				'order'				=> 'ASC',
+				'tribe_suppress_query_filters' => true,
 			);
 
 			if ( empty( $search_term ) ) {
