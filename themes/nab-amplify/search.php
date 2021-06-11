@@ -696,9 +696,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					'post_type'			=> array('tribe_events','sessions'),
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
-					's'					=> $search_term,
-					'orderby'			=> 'meta_value',
-					'order'				=> 'ASC',
+					's'					=> $search_term,					
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
@@ -761,6 +759,9 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				$event_query = new WP_Query( $event_args );
+
+				echo '<pre>';
+				print_r( $event_query ); exit;
 
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
