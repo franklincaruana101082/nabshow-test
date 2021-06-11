@@ -4764,3 +4764,10 @@ function nab_search_user_in_meta( $user_query ) {
 function nab_change_bp_from_email_address( $email_type, $email_obj ) {
     $email_obj->set_from( "register@nab.org", "NAB" );
 }
+
+add_shortcode( 'query_test', 'nab_search_query_test' );
+
+function nab_search_query_test() {
+
+    return '';
+}
