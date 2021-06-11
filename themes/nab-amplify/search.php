@@ -693,34 +693,75 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			} else if ( 'event' === $view_type ) {
 
 				$event_args		= array(
-					'post_type'			=> 'tribe_events',
+					'post_type'			=> array('tribe_events','sessions'),
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
 					's'					=> $search_term,
-					'meta_key'			=> '_EventStartDate',
 					'orderby'			=> 'meta_value',
-					'order'				=> 'ASC'
+					'order'				=> 'ASC',
 				);
 
 				if ( ! isset( $event_type ) && empty( $event_type ) ) {
-
+					//show upcoming events by default
 					$current_date   = current_time('Y-m-d');
 					$compare		= '>=';
 
 					$event_args['meta_query'] = array(
+						'relation' => 'OR',
+						array(
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
 						array(
 							'key' 		=> '_EventEndDate',
 							'value'		=> $current_date,
 							'compare'	=> $compare,
 							'type'		=> 'DATE'
-						)
+						),
+					);
+				} else if ( isset( $event_type ) && 'past' === $event_type ) {
+					//show past events
+					$current_date   = current_time('Y-m-d');
+					$compare		= '<';
+
+					$event_args['meta_query'] = array(
+						'relation' => 'OR',
+						array(
+							'key' 		=> 'session_end_time',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventEndDate',
+							'value'		=> $current_date,
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+					);
+				} else if ( isset( $event_type ) && 'all' === $event_type ) {
+					//show all events
+					$compare		= 'EXISTS';
+
+					$event_args['meta_query'] = array(
+						'relation' => 'OR',
+						array(
+							'key' 		=> 'session_date',
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
+						array(
+							'key' 		=> '_EventStartDate',
+							'compare'	=> $compare,
+							'type'		=> 'DATE'
+						),
 					);
 				}
 
 				$event_query = new WP_Query( $event_args );
-				echo '<pre>';
-				print_r( $event_query );
-				exit;
+				
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
