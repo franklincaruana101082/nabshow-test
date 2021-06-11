@@ -4769,5 +4769,81 @@ add_shortcode( 'query_test', 'nab_search_query_test' );
 
 function nab_search_query_test() {
 
+    $search_term = '';
+    $event_type = 'past';
+
+    $event_args		= array(
+        'post_type'			=> array('tribe_events','sessions'),
+        'posts_per_page'	=> 15,
+        'post_status'		=> 'publish',
+        's'					=> $search_term,
+        'orderby'			=> 'meta_value',
+        'order'				=> 'ASC',
+    );
+
+    if ( ! isset( $event_type ) && empty( $event_type ) ) {
+        //show upcoming events by default
+        $current_date   = current_time('Y-m-d H:i:s');
+        $compare		= '>=';
+
+        $event_args['meta_query'] = array(
+            'relation' => 'OR',
+            array(
+                'key' 		=> 'session_end_time',
+                'value'		=> $current_date,
+                'compare'	=> $compare,
+                'type'		=> 'DATE'
+            ),
+            array(
+                'key' 		=> '_EventEndDate',
+                'value'		=> $current_date,
+                'compare'	=> $compare,
+                'type'		=> 'DATE'
+            ),
+        );
+    } else if ( isset( $event_type ) && 'past' === $event_type ) {
+        //show past events
+        $current_date   = current_time('Y-m-d H:i:s');
+        $compare		= '<';
+
+        $event_args['meta_query'] = array(
+            'relation' => 'OR',
+            array(
+                'key' 		=> 'session_end_time',
+                'value'		=> $current_date,
+                'compare'	=> $compare,
+                'type'		=> 'DATE'
+            ),
+            array(
+                'key' 		=> '_EventEndDate',
+                'value'		=> $current_date,
+                'compare'	=> $compare,
+                'type'		=> 'DATE'
+            ),
+        );
+    } else if ( isset( $event_type ) && 'all' === $event_type ) {
+        //show all events
+        $compare		= 'EXISTS';
+
+        $event_args['meta_query'] = array(
+            'relation' => 'OR',
+            array(
+                'key' 		=> 'session_date',
+                'compare'	=> $compare,
+                'type'		=> 'DATE'
+            ),
+            array(
+                'key' 		=> '_EventStartDate',
+                'compare'	=> $compare,
+                'type'		=> 'DATE'
+            ),
+        );
+    }
+
+    $event_query = new WP_Query( $event_args );
+
+    echo '<pre>test1';
+    print_r( $event_query ); exit;
+
     return '';
 }
