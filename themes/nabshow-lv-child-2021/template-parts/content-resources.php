@@ -21,7 +21,6 @@
 		<div class="resource-intro">
 			<div class="resource-intro-content">
 				<div class="resource-intro-body">
-				<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 				<?php if(the_field('header_body')): ?>
 					<?php the_field('header_body') ?>
 				<?php endif; ?>
@@ -57,6 +56,10 @@
 			</div>
 			<?php endif; ?>
 		</div>
+	</div>
+
+	<div class="container">
+		<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 	</div>
 
 	<?php if(have_rows('resource_links')) : ?>
