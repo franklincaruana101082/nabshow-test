@@ -4748,47 +4748,6 @@ register_meta( 'post', 'user_country', $optin_meta_args );
 register_meta( 'post', 'opt_in_occurred_at_id', $optin_meta_args );
 register_meta( 'post', 'opt_in_occurred_at_url', $optin_meta_args );
 
-if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
-    $string_meta_arg = array(
-        'type'         => 'string',
-        'show_in_rest' => true,
-        'description' => 'A meta key associated with a meta value',
-        'single' => true,
-        'show_in_rest' => true,
-    );
-
-    $array_meta_arg = array(
-        'type'         => 'array',
-        'show_in_rest' => array(
-            'schema' => array(
-                'type'  => 'array',
-                'items' => array(
-                    'type' => 'string',
-                ),
-            ),
-        ),
-        'description' => 'A meta key associated with a meta value',
-        'single' => true,
-        'show_in_rest' => true,
-    );
-
-    // Specific to Article Custom Taxonomy Fields
-    register_meta( 'post', 'article_type', $string_meta_arg );
-    register_meta( 'post', 'community', $array_meta_arg );
-    register_meta( 'post', 'personas', $array_meta_arg );
-    register_meta( 'post', 'content_scope', $string_meta_arg );
-    register_meta( 'post', 'content_format', $array_meta_arg );
-    register_meta( 'post', 'content_subject', $array_meta_arg );
-    register_meta( 'post', 'acquistion_sub', $array_meta_arg );
-    register_meta( 'post', 'distribution_sub', $array_meta_arg );
-    register_meta( 'post', 'management_sub', $array_meta_arg );
-    register_meta( 'post', 'radio_sub', $array_meta_arg );
-    register_meta( 'post', 'display_sub', $array_meta_arg );
-    register_meta( 'post', 'industry_sub', $array_meta_arg );
-    register_meta( 'post', 'content_sub', $array_meta_arg );
-    register_meta( 'post', 'production_sub', $array_meta_arg );
-}
-
 function optins_add_meta_info($posts) {
     if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
         if( $posts ) {
