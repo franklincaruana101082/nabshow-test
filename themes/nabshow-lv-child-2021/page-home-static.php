@@ -29,10 +29,6 @@ get_header();
     </div>
   </div>
 
-<div class="container">
-  <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
-</div>
-
   <div class="container section">
     <div class="jump-links">
       <h2 class="jump-links__label">Quick Links:</h2>
@@ -64,6 +60,10 @@ get_header();
         </figure>
       </div>
     </div>
+  </div>
+
+  <div class="container">
+    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
 
   <div class="section _toplarge">
