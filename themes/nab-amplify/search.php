@@ -693,7 +693,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			} else if ( 'event' === $view_type ) {
 
 				$event_args		= array(
-					'post_type'			=> array('tribe_events','sessions'),
+					'post_type'			=> 'tribe_events',
 					'posts_per_page'	=> 15,
 					'post_status'		=> 'publish',
 					//'s'					=> $search_term,					
