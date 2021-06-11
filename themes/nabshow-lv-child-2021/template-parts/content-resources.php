@@ -79,6 +79,7 @@
 	?>
 	<div class="section opportunities">
 		<div class="container">
+			<?php if(get_sub_field('opportunities_title')): ?>
 			<div class="intro-body-text">
 				<h2 class="h-xl"><?php the_sub_field('opportunities_title'); ?></h2>
 				<?php the_sub_field('opportunities_copy'); ?>
@@ -86,7 +87,8 @@
 			<div class="opportunities__ad">
 				<?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
 			</div>
-			<?php if(have_rows('opportunities_items')) : ?>
+			<?php endif;
+			 if(have_rows('opportunities_items')) : ?>
 			<div class="cards-wrapper">
 				<div class="cards">
 					<?php while(have_rows('opportunities_items')): the_row(); ?>
