@@ -4777,6 +4777,7 @@ function nab_search_query_test() {
         'posts_per_page'	=> 15,
         'post_status'		=> 'publish',
         's'					=> $search_term,
+        'fields'            => 'ids',
         'orderby'			=> 'meta_value',
         'order'				=> 'ASC',
     );
