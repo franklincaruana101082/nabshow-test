@@ -264,6 +264,10 @@ while ( have_posts() ) :
 						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Continue Registration', 'woocommerce' ); ?></button>
 					</div>
 
+					<div class="signup__sponsor">
+						<?php the_field('sponsor_section');?>
+					</div>
+
 					<?php do_action( 'woocommerce_register_form_end' ); ?>
 
 				</form>
