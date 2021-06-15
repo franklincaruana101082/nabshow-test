@@ -28,8 +28,9 @@
 				<?php
 					$header_cta_text = get_field('header_cta_text');
 					$header_cta_url = get_field('header_cta_url');
+					$header_cta_target = get_field('header_cta_target');
 					if(!empty($header_cta_text) && !empty($header_cta_url)): ?>				
-					<a href="<?php echo esc_url($header_cta_url); ?>" class="button _solid _cta"><?php echo $header_cta_text; ?></a>
+					<a href="<?php echo esc_url($header_cta_url); ?>" target="<?php echo $header_cta_target; ?>" class="button _solid _cta"><?php echo $header_cta_text; ?></a>
 				<?php endif; ?>
 				</div>
 
@@ -68,7 +69,7 @@
 				<h2 class="jump-links__label">Quick links:</h2>
 				<ul class="jump-links__menu">
 					<?php while(have_rows('resource_links')): the_row(); ?>
-					<li class="jump-links__item"><a href="<?php the_sub_field('link'); ?>" class="button _arrow _full"><?php the_sub_field('link_text'); ?></a></li>
+					<li class="jump-links__item"><a href="<?php the_sub_field('link'); ?>" target="<?php the_sub_field('link_target');?>" class="button _arrow _full"><?php the_sub_field('link_text'); ?></a></li>
 					<?php endwhile; ?>
 				</ul>
 			</div>
