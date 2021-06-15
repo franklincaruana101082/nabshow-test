@@ -1041,6 +1041,7 @@ function nab_guest_pass_generator() {
 			</fieldset>
 		</form>
 	</div>
+	<div style="clear: both; text-align: center;">
 	<?php if ($results) : ?>
 		<p>Right or control click on a thumbnail below and "Save as..." to download the custom ad to use on your website or social media to let people know that you will be participating in the Show.</p>
 		<h3>Your Custom Web Ads</h3>
@@ -1049,6 +1050,7 @@ function nab_guest_pass_generator() {
 		<?php endforeach; ?>
 		<br />
 	<?php endif; ?>
+</div>
 	<div style="width:100%;padding-bottom:70px;"></div>
 	<?php
 	$html = ob_get_clean();
