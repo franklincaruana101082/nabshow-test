@@ -11,11 +11,11 @@
         $(document).ready(function() {
             $("#customAdForm").validate({
                 rules: {
-                    booth: "required",
+                    //booth: "required",
                     company_name: "required"
                 },
                 messages: {
-                    booth: "Please enter your booth number",
+                    //booth: "Please enter your booth number",
                     company_name: "Please enter your code",
                     logo: "Select a jpg, png or gif image file"
                 }

@@ -789,9 +789,9 @@ function nab_guest_pass_generator() {
 			'logo_y' => 22,
 			'logo_width' => 270,
 			'logo_height' => 270,
-			'booth_x' => 485,
-			'booth_y' => 128,
-			'booth_size' => 92,
+			//'booth_x' => 485,
+			//'booth_y' => 128,
+			//'booth_size' => 92,
 			'code_x' => 666,
 			'code_y' => 233,
 			'code_size' => 24,
@@ -805,9 +805,9 @@ function nab_guest_pass_generator() {
 			'logo_y' => 24,
 			'logo_width' => 225,
 			'logo_height' => 225,
-			'booth_x' => 366,
-			'booth_y' => 108,
-			'booth_size' => 80,
+			//'booth_x' => 366,
+			//'booth_y' => 108,
+			//'booth_size' => 80,
 			'code_x' => 472,
 			'code_y' => 214,
 			'code_size' => 24,
@@ -821,9 +821,9 @@ function nab_guest_pass_generator() {
 			'logo_y' => 63,
 			'logo_width' => 202,
 			'logo_height' => 202,
-			'booth_x' => 100,
-			'booth_y' => 423,
-			'booth_size' => 60,
+			//'booth_x' => 100,
+			//'booth_y' => 423,
+			//'booth_size' => 60,
 			'code_x' => 203,
 			'code_y' => 522,
 			'code_size' => 18,
@@ -837,9 +837,9 @@ function nab_guest_pass_generator() {
 			'logo_y' => 78,
 			'logo_width' => 202,
 			'logo_height' => 202,
-			'booth_x' => 115,
-			'booth_y' => 443,
-			'booth_size' => 62,
+			//'booth_x' => 115,
+			//'booth_y' => 443,
+			//'booth_size' => 62,
 			'code_x' => 200,
 			'code_y' => 546,
 			'code_size' => 18,
@@ -853,9 +853,9 @@ function nab_guest_pass_generator() {
 			'logo_y' => 43,
 			'logo_width' => 277,
 			'logo_height' => 277,
-			'booth_x' => 470,
-			'booth_y' => 150,
-			'booth_size' => 95,
+			//'booth_x' => 470,
+			//'booth_y' => 150,
+			//'booth_size' => 95,
 			'code_x' => 672,
 			'code_y' => 263,
 			'code_size' => 24,
@@ -869,9 +869,9 @@ function nab_guest_pass_generator() {
 			'logo_y' => 100,
 			'logo_width' => 400,
 			'logo_height' => 400,
-			'booth_x' => 200,
-			'booth_y' => 683,
-			'booth_size' => 132,
+			//'booth_x' => 200,
+			//'booth_y' => 683,
+			//'booth_size' => 132,
 			'code_x' => 876,
 			'code_y' => 821,
 			'code_size' => 31,
@@ -1029,10 +1029,10 @@ function nab_guest_pass_generator() {
 			<input type="hidden" name="action" value="makeImage">
 			<fieldset>
 
-			  <label for="booth">Booth: </label>
+				<!--<label for="booth">Booth: </label>
 				<input id="booth" size="8" name="booth" class="required" value="<?php if (isset($_POST['booth'])) print $_POST['booth']; ?>" maxlength="7">
 
-				&nbsp;&nbsp;&nbsp;<label for="code">Code: </label>
+				&nbsp;&nbsp;&nbsp;--><label for="code">Code: </label>
 				<input id="code" size="8" name="code" class="required" value="<?php if (isset($_POST['code'])) print $_POST['code']; ?>" maxlength="7">
 
 
