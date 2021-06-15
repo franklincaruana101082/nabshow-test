@@ -1024,6 +1024,7 @@ function nab_guest_pass_generator() {
 	ob_start();
 	?>
 	<div style="clear: both; text-align: center;">
+		<h2>Create Custom Graphics</h2>
 		<form id="customAdForm" name="customAdForm" method="post" action="" class="cmxform" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="makeImage">
 			<fieldset>
