@@ -5,7 +5,7 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
-.customIMG { 
+.customIMG {
 	max-width: 300px;
 	max-height: 300px;
 	padding: 10px;
@@ -23,7 +23,7 @@ hr.black {
 	margin: 80px 0 25px;
 }
 input[type=submit], .button {
-    padding:12px 22px; 
+    padding:12px 22px;
 	font-size: 15px;
 	font-weight: 500;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffb81c+0,ec008c+100 */
@@ -35,7 +35,7 @@ input[type=submit], .button {
     border:0 none;
     cursor:pointer;
     -webkit-border-radius: 0px;
-    border-radius: 0px; 
+    border-radius: 0px;
 	color: #fff;
 	margin: 15px 0 15px;
 	display: inline-block;
@@ -76,14 +76,14 @@ a.button:active { opacity: .6; text-decoration: none; color: #fff; }
 }
 .toolkit-intro h1,
 .toolkit-intro h2{ color: #fff; }
-.toolkit-code { 
+.toolkit-code {
 	font-family: "Courier";
 	font-weight: bold;
 	background: #eee;
 	padding: 3px 4px;
 	font-size: 15px; }
 
-h3, .h3, h4, .h4 { 
+h3, .h3, h4, .h4 {
 	font-weight: 600 !important;
 	letter-spacing: -.01em;
 }
@@ -105,6 +105,7 @@ html {
 }
 body {
   margin: 0;
+	text-align:center;
 }
 article,
 aside,
@@ -4424,10 +4425,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   line-height: 20px;
 }
 @media (max-width: 767px) {
-	
+
 	h4 { border-top: 1px dashed #ccc; padding-top: 30px; margin-top: 30px; }
 	img { margin-bottom: 15px;}
-	
+
   .navbar-nav .open .dropdown-menu {
     position: static;
     float: none;
