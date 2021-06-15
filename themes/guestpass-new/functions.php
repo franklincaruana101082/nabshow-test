@@ -941,12 +941,12 @@ function nab_guest_pass_generator() {
 				// Create Code image
 				$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2, get_stylesheet_directory() . '/fonts/OpenSans.ttf');
 
-				echo '<pre>';
+				/*echo '<pre>';
 				print_r($_POST);
 				print_r($ad);
 				print_r($booth_image);
 				print_r($code_image);
-				die('<br><---died here');
+				die('<br><---died here');*/
 
 
 				//Scale and maintain aspect ratio of the uploaded logo image
@@ -1024,8 +1024,8 @@ function nab_guest_pass_generator() {
 	ob_start();
 	?>
 	<div style="clear: both; text-align: center;">
-		<h2>Create Custom Graphics</h2>
-		<form id="customAdForm" name="customAdForm" method="post" action="" class="cmxform" enctype="multipart/form-data">
+		<h2>Create Custom Graphics</h3>
+			<form id="customAdForm" name="customAdForm" method="post" action="" class="cmxform" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="makeImage">
 			<fieldset>
 
