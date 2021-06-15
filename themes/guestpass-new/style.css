@@ -130,7 +130,7 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 1.8rem;
 	letter-spacing: -0.015em;
-	text-align: left;
+	text-align: center;
 }
 
 @supports ( font-variation-settings: normal ) {
@@ -6384,4 +6384,3 @@ a.to-the-top > * {
     font-style: normal;
 
 }
-
