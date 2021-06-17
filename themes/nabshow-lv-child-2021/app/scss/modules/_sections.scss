@@ -526,6 +526,7 @@
   &:hover,
   &:focus {
     color: $color__purple-light;
+    text-decoration: none;
   }
   @include bp-768 {
     grid-template-columns: rem(189) 1fr;
