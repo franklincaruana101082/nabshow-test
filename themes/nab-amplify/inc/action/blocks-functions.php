@@ -1640,7 +1640,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                             if ($is_company_admin && $add_pdf) {
                             ?>
                                 <li class="add-new-item">
-                                    <div class="add-item-inner">
+                                    <div class="result add-item-inner">
                                         <div class="add-item-wrap">
                                             <i class="pdf-add-edit-action add-item-icon fa fa-pencil" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
                                             <span class="add-item-label">Add PDF</span>

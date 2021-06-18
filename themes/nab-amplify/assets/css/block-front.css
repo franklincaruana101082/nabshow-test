@@ -307,6 +307,16 @@
 .banner-header+.container .site-main > div:not(.featured-block-wraper):first-child,
 .company-claim-box+.container .site-main > div:not(.featured-block-wraper):first-child{margin-top:0!important}
 
+/* add new item with ul li */
+.colgrid li.add-new-item .result.add-item-inner{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center}
+.colgrid li.add-new-item .result .add-item-wrap{padding:30px 0}
+.colgrid li.add-new-item .result .add-item-icon{width:80px;height:80px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:36px;border-radius:50%;background:#fcd70f;cursor:pointer;color:#000;margin:0 auto 20px;}
+.colgrid li.add-new-item .result .add-item-label{color:#999;font-size:16px;}
+.colgrid li .result .amp-action-remove{position:absolute;right:15px;top:15px;z-index:1;}
+.colgrid li .result .amp-action-remove a{width:26px;height:26px;line-height:26px;background:#fdd80f!important;color:#000;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border-radius:50%;min-width:auto;font-size:0;text-decoration:none;}
+.colgrid li .result .amp-action-remove a::before{content:"\f068";font-size:18px;font-family:'FontAwesome';}
+
+
 /* media css */
 
 @media (min-width:768px) and (max-width:1200px){
@@ -431,6 +441,9 @@
 
 	/* Religion address */
 	#company-address-list .amp-item-inner .edit-block-icon.action-remove-address{right:65px;}
+
+	/* add new item with ul li */
+	.colgrid li.add-new-item .result .add-item-icon{width:60px;height:60px;font-size:32px;}
 }
 
 @media (max-width:600px) {
