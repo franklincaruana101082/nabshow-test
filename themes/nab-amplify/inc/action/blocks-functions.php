@@ -1676,7 +1676,7 @@ function nab_company_downlodable_pdfs_callback($attributes)
                                     }
                                     ?>
                                     <div class="result__imgLink">
-                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="PDF Thumbnail">
+                                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="PDF Thumbnail" class="result__image">
                                     </div>
                                     <div class="amp-item-info">
                                         <div class="amp-item-content">
