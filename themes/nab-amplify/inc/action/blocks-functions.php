@@ -1635,21 +1635,21 @@ function nab_company_downlodable_pdfs_callback($attributes)
                         <h3>Downloadable PDFS <span>(<?php echo esc_html($result_text); ?>)</span></h3>
                         <i class="amp-note">Transparency and choice are important to NAB. By choosing to download this content, you are selecting to share your name and email address with <?php echo esc_html( $company_name ); ?> to allow them to contact you directly. Per our agreement, <?php echo esc_html( $company_name ); ?> is not permitted to share your data with anyone else. You can stop communications from <?php echo esc_html( $company_name ); ?> or revise your communication settings at any time by directly visiting the <?php echo esc_html( $company_name ); ?> website.</i>
                     </div>
-                    <?php
-                        if ($is_company_admin && $add_pdf) {
-                        ?>
-                            <div class="amp-item-col add-new-item">
-                                <div class="amp-item-inner">
-                                    <div class="add-item-wrap">
-                                        <i class="pdf-add-edit-action add-item-icon fa fa-pencil" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
-                                        <span class="add-item-label">Add PDF</span>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php
-                        }
-                    ?>
                     <ul class="colgrid _5up" id="downloadable-pdfs-list">
+                        <?php
+                            if ($is_company_admin && $add_pdf) {
+                            ?>
+                                <li class="add-new-item">
+                                    <div class="add-item-inner">
+                                        <div class="add-item-wrap">
+                                            <i class="pdf-add-edit-action add-item-icon fa fa-pencil" data-company-id="<?php echo esc_attr( $company_id ); ?>"></i>
+                                            <span class="add-item-label">Add PDF</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php
+                            }
+                        ?>
                         <?php
     
                         while ($pdf_query->have_posts()) {
