@@ -941,12 +941,12 @@ function nab_guest_pass_generator() {
 				// Create Code image
 				$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2, get_stylesheet_directory() . '/fonts/OpenSans.ttf');
 
-				echo '<pre>';
+				/*echo '<pre>';
 				print_r($_POST);
 				print_r($ad);
 				print_r($booth_image);
 				print_r($code_image);
-				die('<br><---died here');
+				die('<br><---died here');*/
 
 
 				//Scale and maintain aspect ratio of the uploaded logo image
