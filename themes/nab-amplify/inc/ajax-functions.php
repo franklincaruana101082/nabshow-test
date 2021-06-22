@@ -3815,6 +3815,9 @@ function nab_downloadable_pdf_callback() {
 
 		$msg = 'Downloadable PDF added successfully.';
 
+		update_field( 'show_opt_inout_modal', 1, $pdf_id );
+		update_field( 'make_opt_in_required', 1, $pdf_id );
+
 		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'add' );
 
 	} else {
