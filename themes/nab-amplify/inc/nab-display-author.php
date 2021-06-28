@@ -6,6 +6,7 @@ $author_id         	= get_the_author_meta('ID');
 $user_images       	= nab_amplify_get_user_images($author_id);
 $author_avatar_url 	= $user_images['profile_picture'];
 $author_company    	= get_the_author_meta('attendee_company', $author_id);
+$author_title 		= get_the_author_meta('attendee_title', $author_id);
 $author_full_name 	= get_the_author_meta('first_name', $author_id) . ' ' . get_the_author_meta('last_name', $author_id);
 $author_link		= !empty($author_id) ? bp_core_get_user_domain($author_id) : '#';
 if ($post_type === 'company-products') {
@@ -32,6 +33,9 @@ if (empty(trim($author_full_name))) {
 		<!-- <span class="author-label">Posted by</span> -->
 		<div class="author__name"><a href="<?php echo esc_url($author_link); ?>"><?php echo esc_html($author_full_name) ?></a></div>
 		<?php if ($post_type !== 'company-products') { ?>
+			<?php if($author_title != ''): ?>
+			<div class="author__title"><?php echo esc_html($author_title) ?></div>
+			<?php endif; ?>
 			<div class="author__company"><?php echo esc_html($author_company) ?></div>
 		<?php } ?>
 	</div>
