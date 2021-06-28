@@ -31,7 +31,7 @@ $cta2 = get_field('banner_secondary_cta');
             <?php endif;
             if (!empty($cta2)):?>
             <li class="hero__cta">
-              <a href="<?php echo esc_url( $cta2['url'] ); ?>" target="<?php echo esc_attr($cta1['target'] ? $cta1['target'] : '_self'); ?>" class="button _arrow _large"><?php echo esc_html($cta1['title']);?></a>
+              <a href="<?php echo esc_url( $cta2['url'] ); ?>" target="<?php echo esc_attr($cta2['target'] ? $cta2['target'] : '_self'); ?>" class="button _arrow _large"><?php echo esc_html($cta2['title']);?></a>
             </li>
             <?php endif; ?>
           </ul>

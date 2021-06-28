@@ -408,6 +408,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 						$company_prod_args[ '_tax_search' ] = $category_search_array;
 					}
 
+					$company_product_ids = nab_get_search_company_product_ids( $search_term, $category_search_array );
+
+					if ( is_array( $company_product_ids ) && count( $company_product_ids ) > 0 ) {
+						$company_prod_args['post__in']	= $company_product_ids;
+						$company_prod_args['orderby']	= 'post__in';
+					}
+
 				}
 
 				$company_prod_query = new WP_Query($company_prod_args);
@@ -1495,6 +1502,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				if ( count( $category_search_array ) > 0 ) {
 
 					$company_prod_args[ '_tax_search' ] = $category_search_array;
+				}
+
+				$company_product_ids = nab_get_search_company_product_ids( $search_term, $category_search_array );
+
+				if ( is_array( $company_product_ids ) && count( $company_product_ids ) > 0 ) {
+					$company_prod_args['post__in']	= $company_product_ids;
+					$company_prod_args['orderby']	= 'post__in';
 				}
 
 			}
