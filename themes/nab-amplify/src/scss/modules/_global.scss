@@ -58,6 +58,8 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 	@include cf;
+
+
 	@include bp-480 {
 		padding-left: rem(22);
 		padding-right: rem(22);
@@ -80,6 +82,20 @@
 	
 	@include bp-1440 {
 		max-width: 85rem;
+	}
+	.articles & {
+		max-width: 100%;
+		@include bp-1024 {
+			max-width: 63rem;
+		}
+		
+		@include bp-1280 {
+			max-width: 75rem;
+		}
+		
+		@include bp-1440 {
+			max-width: 85rem;
+		}
 	}
 	
 	&._rel {

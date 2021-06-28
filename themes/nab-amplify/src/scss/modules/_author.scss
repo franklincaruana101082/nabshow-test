@@ -53,6 +53,18 @@
 			line-height: 123%;
 		}
 	}
+	&__title {
+		margin-left: rem(20);
+		padding-top: rem(14);
+		font-family: $font__secondary;
+		font-size: rem(16);
+		font-style: italic;
+		line-height: rem(22);
+		color: $color__gray-lightest;
+		& + .author__company {
+			padding-top: 0;
+		}
+	}
 	&__company {
 		margin-left: rem(20);
 		padding-top: rem(14);
