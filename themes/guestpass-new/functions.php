@@ -775,7 +775,7 @@ add_shortcode( 'guest_pass', 'nab_guest_pass_generator' );
  * @return string
  */
 function nab_guest_pass_generator() {
-	
+
 	$results = FALSE;
 	$dest = $src = $error = $booth = $code = '';
 	$x_diff = $y_diff = 0;
@@ -785,65 +785,65 @@ function nab_guest_pass_generator() {
 		array(
 			'width' => 300,
 			'height' => 250,
-			'logo_x' => 64,
-			'logo_y' => 22,
-			'logo_width' => 270,
-			'logo_height' => 270,
-			//'booth_x' => 485,
-			//'booth_y' => 128,
-			//'booth_size' => 92,
-			'code_x' => 666,
-			'code_y' => 233,
-			'code_size' => 24,
-			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
+			'logo_x' => 15,
+			'logo_y' => 10,
+			'logo_width' => 70,
+			'logo_height' => 70,
+			'booth_x' => 135,
+			'booth_y' => 33,
+			'booth_size' => 28,
+			'code_x' => 253,
+			'code_y' => 64,
+			'code_size' => 7,
+			'color' => array('red'=>17,'grn'=>0,'blu'=>43),
 			'padding' => 10,
 		),
 		array(
 			'width' => 728,
 			'height' => 90,
-			'logo_x' => 24,
-			'logo_y' => 24,
-			'logo_width' => 225,
-			'logo_height' => 225,
-			//'booth_x' => 366,
-			//'booth_y' => 108,
-			//'booth_size' => 80,
-			'code_x' => 472,
-			'code_y' => 214,
-			'code_size' => 24,
-			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
+			'logo_x' => 15,
+			'logo_y' => 15,
+			'logo_width' => 65,
+			'logo_height' => 65,
+			'booth_x' => 123,
+			'booth_y' => 33,
+			'booth_size' => 29,
+			'code_x' => 243,
+			'code_y' => 65,
+			'code_size' => 7,
+			'color' => array('red'=>17,'grn'=>0,'blu'=>43),
 			'padding' => 10,
 		),
 		array(
 			'width' => 440,
 			'height' => 220,
-			'logo_x' => 143,
-			'logo_y' => 63,
-			'logo_width' => 202,
-			'logo_height' => 202,
-			//'booth_x' => 100,
-			//'booth_y' => 423,
-			//'booth_size' => 60,
-			'code_x' => 203,
-			'code_y' => 522,
-			'code_size' => 18,
-			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
+			'logo_x' => 40,
+			'logo_y' => 12,
+			'logo_width' => 102,
+			'logo_height' => 102,
+			'booth_x' => 40,
+			'booth_y' => 151,
+			'booth_size' => 29,
+			'code_x' => 66,
+			'code_y' => 193,
+			'code_size' => 7,
+			'color' => array('red'=>17,'grn'=>0,'blu'=>43),
 			'padding' => 15,
 		),
 		array(
 			'width' => 1200,
 			'height' => 630,
-			'logo_x' => 158,
-			'logo_y' => 78,
-			'logo_width' => 202,
-			'logo_height' => 202,
-			//'booth_x' => 115,
-			//'booth_y' => 443,
-			//'booth_size' => 62,
-			'code_x' => 200,
-			'code_y' => 546,
+			'logo_x' => 115,
+			'logo_y' => 61,
+			'logo_width' => 252,
+			'logo_height' => 252,
+			'booth_x' => 125,
+			'booth_y' => 440,
+			'booth_size' => 69,
+			'code_x' => 199,
+			'code_y' => 553,
 			'code_size' => 18,
-			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
+			'color' => array('red'=>17,'grn'=>0,'blu'=>43),
 			'padding' => 15,
 		),
 		array(
@@ -853,29 +853,29 @@ function nab_guest_pass_generator() {
 			'logo_y' => 43,
 			'logo_width' => 277,
 			'logo_height' => 277,
-			//'booth_x' => 470,
-			//'booth_y' => 150,
-			//'booth_size' => 95,
-			'code_x' => 672,
-			'code_y' => 263,
+			'booth_x' => 471,
+			'booth_y' => 150,
+			'booth_size' => 96,
+			'code_x' => 921,
+			'code_y' => 266,
 			'code_size' => 24,
-			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
+			'color' => array('red'=>17,'grn'=>0,'blu'=>43),
 			'padding' => 15,
 		),
 		array(
 			'width' => 1080,
 			'height' => 1920,
-			'logo_x' => 340,
-			'logo_y' => 100,
-			'logo_width' => 400,
-			'logo_height' => 400,
-			//'booth_x' => 200,
-			//'booth_y' => 683,
-			//'booth_size' => 132,
-			'code_x' => 876,
-			'code_y' => 821,
-			'code_size' => 31,
-			'color' => array('red'=>0,'grn'=>178,'blu'=>186),
+			'logo_x' => 327,
+			'logo_y' => 87,
+			'logo_width' => 450,
+			'logo_height' => 450,
+			'booth_x' => 205,
+			'booth_y' => 681,
+			'booth_size' => 142,
+			'code_x' => 850,
+			'code_y' => 846,
+			'code_size' => 36,
+			'color' => array('red'=>17,'grn'=>0,'blu'=>43),
 			'padding' => 15,
 		),
 	);
@@ -883,7 +883,7 @@ function nab_guest_pass_generator() {
 	if (isset($_POST['action']) && $_POST['action'] == 'makeImage') :
 		$results = TRUE;
 		//$target_dir = "/wp-content/themes/guestpass/custom/";
-	
+
 		$wp_get_upload_dir = wp_get_upload_dir();
 		$base_url   = $wp_get_upload_dir['baseurl'];
 		$base_dir   = $wp_get_upload_dir['basedir'];
@@ -891,20 +891,20 @@ function nab_guest_pass_generator() {
 		if ( ! file_exists( $target_dir ) ) {
 			wp_mkdir_p( $target_dir );
 		}
-	
+
 		$target_file = $target_dir . basename($_FILES["logo"]["name"]);
 		$uploadOk = 1;
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 		$source_file = $_FILES["logo"]["tmp_name"];
-	
+
 		$filename =  $_FILES["logo"]["name"]; //  . $imageFileType
 		$target_file = $target_dir . $filename;
 		move_uploaded_file( $source_file, $target_file );
-	
+
 		$source_file = $base_url . '/custom/'. $filename;
 		//$check_org = getimagesize($_FILES["logo"]["tmp_name"]);
 		$check = getimagesize($target_file);
-	
+
 		if($check === false || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 								&& $imageFileType != "gif")) {
 			$error = 'Select a jpg, png or gif image file';
@@ -917,7 +917,7 @@ function nab_guest_pass_generator() {
 		}
 		if ($uploadOk) {
 			$current_timestamp = time();
-	
+
 			// Create image instances
 			switch($imageFileType)
 			{
@@ -933,38 +933,38 @@ function nab_guest_pass_generator() {
 					break;
 			}
 			list($uploaded_width, $uploaded_height, $type, $attr) = getimagesize($source_file);
-	
+
 			foreach ($ad_options as $ad) {
 				// Create Booth number image
 				$booth_image = textToImage($_POST['booth'], $ad['booth_size'],$ad['color'],$ad['color'],$ad['padding'], get_stylesheet_directory() . '/fonts/Arial-BoldMT.otf');
-	
+
 				// Create Code image
 				$code_image = textToImage($_POST['code'], $ad['code_size'],$ad['color'],$ad['color'],$ad['padding']/2, get_stylesheet_directory() . '/fonts/OpenSans.ttf');
-	
+
 				/*echo '<pre>';
 				print_r($_POST);
 				print_r($ad);
 				print_r($booth_image);
 				print_r($code_image);
 				die('<br><---died here');*/
-	
-	
+
+
 				//Scale and maintain aspect ratio of the uploaded logo image
 				$old_x = imageSX($uploaded_logo);
 				$old_y = imageSY($uploaded_logo);
-	
+
 				if($old_x > $old_y)
 				{
 					$thumb_w = $ad['logo_width'];
 					$thumb_h = $old_y*($ad['logo_height']/$old_x);
 				}
-	
+
 				if($old_x < $old_y)
 				{
 					$thumb_w = $old_x*($ad['logo_width']/$old_y);
 					$thumb_h = $ad['logo_height'];
 				}
-	
+
 				if($old_x == $old_y)
 				{
 					$thumb_w = $ad['logo_width'];
@@ -973,7 +973,7 @@ function nab_guest_pass_generator() {
 				$logo = ImageCreateTrueColor($thumb_w,$thumb_h);
 				imagecopyresampled($logo,$uploaded_logo,0,0,0,0,$thumb_w,$thumb_h,$old_x,$old_y);
 				imagealphablending($logo,true); //allows us to apply logo over ad
-	
+
 				// Center logo based on aspect ratio
 				if ($thumb_w < $ad['logo_width']) {
 					$x_diff = ($ad['logo_width'] - $thumb_w) / 2;
@@ -981,13 +981,13 @@ function nab_guest_pass_generator() {
 				if ($thumb_h < $ad['logo_height']) {
 					$y_diff = ($ad['logo_height'] - $thumb_h) / 2;
 				}
-	
+
 				//Load the ad image
 				//$ad_image = imagecreatefromjpeg('orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg');
 				$ad_image = imagecreatefromjpeg( get_template_directory() . '/orig/custom_'.$ad['width'].'x'.$ad['height'].'.jpg' );
-	
+
 				imagealphablending($ad_image,true); //allows us to apply logo over ad
-	
+
 				//Apply logo to ad
 				imagecopy($ad_image,$logo,$ad['logo_x']+$x_diff,$ad['logo_y']+$y_diff,0,0,$thumb_w,$thumb_h);
 				//Apply booth number to ad
@@ -1004,18 +1004,18 @@ function nab_guest_pass_generator() {
 				//Save new image
 				$filename = $target_dir . $current_timestamp . '_' . $_POST['booth'] . '_'.$ad['width'].'x'.$ad['height'].'.png';
 				//array_push($ad_files, $filename);
-	
+
 				$fileurl = $base_url . '/custom/' . $current_timestamp . '_' . $_POST['booth'] . '_'.$ad['width'].'x'.$ad['height'].'.png';
 				array_push($ad_files, $fileurl);
-	
+
 				$success = imagejpeg($ad_image,$filename);
-	
+
 				imagedestroy($logo);
 				imagedestroy($ad_image);
 				imagedestroy($booth_image);
 				imagedestroy($code_image);
 			}
-	
+
 			imagedestroy($uploaded_logo);
 		} else {
 			$results = FALSE;
@@ -1023,15 +1023,16 @@ function nab_guest_pass_generator() {
 	endif;
 	ob_start();
 	?>
-	<div style="clear: both;">
-		<form id="customAdForm" name="customAdForm" method="post" action="" class="cmxform" enctype="multipart/form-data">
+	<div style="clear: both; text-align: center;">
+		<h2>Create Custom Guest Pass Graphics</h3>
+			<form id="customAdForm" name="customAdForm" method="post" action="" class="cmxform" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="makeImage">
 			<fieldset>
 
-				<!--<label for="booth">Booth: </label>
+				<label for="booth">Booth: </label>
 				<input id="booth" size="8" name="booth" class="required" value="<?php if (isset($_POST['booth'])) print $_POST['booth']; ?>" maxlength="7">
 
-				&nbsp;&nbsp;&nbsp;--><label for="code">Code: </label>
+				&nbsp;&nbsp;&nbsp;<label for="code">Code: </label>
 				<input id="code" size="8" name="code" class="required" value="<?php if (isset($_POST['code'])) print $_POST['code']; ?>" maxlength="7">
 
 
@@ -1040,6 +1041,7 @@ function nab_guest_pass_generator() {
 			</fieldset>
 		</form>
 	</div>
+	<div style="clear: both; text-align: center;">
 	<?php if ($results) : ?>
 		<p>Right or control click on a thumbnail below and "Save as..." to download the custom ad to use on your website or social media to let people know that you will be participating in the Show.</p>
 		<h3>Your Custom Web Ads</h3>
@@ -1048,6 +1050,7 @@ function nab_guest_pass_generator() {
 		<?php endforeach; ?>
 		<br />
 	<?php endif; ?>
+</div>
 	<div style="width:100%;padding-bottom:70px;"></div>
 	<?php
 	$html = ob_get_clean();
@@ -1055,7 +1058,7 @@ function nab_guest_pass_generator() {
 }
 
 if ( ! function_exists('mb_substr_replace') ) {
-		
+
 	/**
 	 * mb_substr_replace
 	 *
@@ -1091,7 +1094,7 @@ if ( ! function_exists('mb_substr_replace') ) {
  * @param  mixed $bg_color
  * @param  mixed $pad
  * @param  mixed $font
- * 
+ *
  * @return mixed $image
  */
 function textToImage( $text, $size=24, $color=array('red'=>0,'grn'=>0,'blu'=>0), $bg_color=array('red'=>255,'grn'=>255,'blu'=>255), $pad=5, $font='./fonts/Arial-BoldMT.otf'){
