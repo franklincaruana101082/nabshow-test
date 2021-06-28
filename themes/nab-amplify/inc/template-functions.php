@@ -1278,3 +1278,67 @@ function nab_get_hide_from_search_users() {
 
 	return $user_ids;
 }
+
+/**
+ * Get company name matched search keyword product ids first and then after other products ids.
+ * 
+ * @param string $keyword
+ * @param array $category_search_array
+ * 
+ * @return array
+ */
+function nab_get_search_company_product_ids( $keyword, $category_search_array ) {
+
+	$product_ids = array();
+
+	if ( ! empty( $keyword ) ) {
+		
+		$company = get_page_by_title( $keyword, OBJECT, 'company' );
+
+		if ( ! empty( $company ) ) {
+			
+			$company_id = $company->ID;
+
+			$query_args = array(
+				'post_type'			=> 'company-products',
+				'post_status'		=> 'publish',
+				'posts_per_page'	=> -1,				
+				'fields'			=> 'ids',
+				'meta_key'			=> 'nab_selected_company_id',
+				'meta_value'		=> $company_id,
+			);
+
+			$query_result	= new WP_Query( $query_args );
+			$product_ids	= $query_result->posts;
+			
+			wp_reset_postdata();
+
+			if ( is_array( $product_ids ) && count( $product_ids ) > 0 ) {
+
+				$query_args = array(
+					'post_type'			=> 'company-products',
+					'post_status'		=> 'publish',
+					'posts_per_page'	=> -1,
+					's'					=> $keyword,
+					'fields'			=> 'ids',
+					'post__not_in'		=> $product_ids,
+				);
+	
+				if ( is_array( $category_search_array ) && count( $category_search_array ) > 0 ) {
+					$query_args['_tax_search'] = $category_search_array;
+				}
+	
+				$query_result		= new WP_Query( $query_args );
+				$other_product_ids	= $query_result->posts;
+
+				if ( is_array( $other_product_ids ) && count( $other_product_ids ) > 0 ) {
+					$product_ids = array_merge( $product_ids, $other_product_ids );
+				}
+
+				wp_reset_postdata();
+			}
+		}
+	}
+
+	return $product_ids;
+}
