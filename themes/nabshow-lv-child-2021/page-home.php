@@ -214,14 +214,16 @@ endif;
   </div>
 <?php endif;
 
-  if( have_rows('stories')):
+	$stories = get_field('stories');
+  if( $stories ):
     while( have_rows('stories')): the_row();
+    	if( have_rows('story_items')):
 ?>
   <div class="section container">
     <div class="section-heading">
-      <h2 class="h-xl"><?php the_sub_field('stories_title'); ?></h2>
+      <h2 class="h-xl"><?php echo $stories['stories_title']; ?></h2>
     </div>
-    <?php if( have_rows('story_items')): ?>
+
     <div class="stories">
       <?php 
         while( have_rows('story_items')): the_row();
@@ -245,9 +247,9 @@ endif;
       </a>
       <?php endwhile; ?>
     </div>
-    <?php endif; ?>
   </div>
   <?php
+  		endif; 
     endwhile;
   endif;
   ?>
