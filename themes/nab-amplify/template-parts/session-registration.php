@@ -11,8 +11,8 @@
 			data-title="<?php the_title(); ?>"
 			data-start="<?php echo $cal_start->format('F d, Y H:i'); ?>"
 			data-end="<?php echo $cal_end->format('F d, Y H:i'); ?>"
-			data-address="The Internet"
-			data-description="<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25).' '.get_the_permalink(); ?>"
+			data-address="<?php the_permalink(); ?>"
+			data-description="<?php echo wp_strip_all_tags(get_the_content(null, false, $post->ID)); ?>"
 			></div>
 	</div>
 
