@@ -226,7 +226,7 @@ while ( have_posts() ) :
 								<label class="field__list-select" for="signup-amplify-communications">									
 									<select name="amplify_communications" id="signup-amplify-communications" class="field__select">
 										<option value="0">No</option>
-										<option value="1">Yes</option>										
+										<option value="1">Yes</option>
 									</select>
 									<?php esc_html_e('I would like to receive the NAB Amplify editorial newsletter and other communications from NAB Amplify.');?>
 								</label>
