@@ -33,3 +33,6 @@ add_action( 'init', 'nabny_register_dynamic_blocks' );
 
 // Action for add gutenberg custom block
 add_action( 'enqueue_block_editor_assets', 'nabny_add_block_editor_assets' );
+
+// Action to add default blocks on new page
+add_action( 'admin_init', 'nabny_page_type_template' );
