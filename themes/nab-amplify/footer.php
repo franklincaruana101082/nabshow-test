@@ -87,6 +87,33 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
+<script type="text/javascript">
+  adroll_adv_id = "SSH5IDWJB5GCXDVUNY5AIZ";
+  adroll_pix_id = "NJDQ2IYGJFGXDCSYUXCS3O";
+  adroll_version = "2.0";
+
+  (function(w, d, e, o, a) {
+    w.__adroll_loaded = true;
+    w.adroll = w.adroll || [];
+    w.adroll.f = [ 'setProperties', 'identify', 'track' ];
+    var roundtripUrl = "https://s.adroll.com/j/" + adroll_adv_id
+        + "/roundtrip.js";
+    for (a = 0; a < w.adroll.f.length; a++) {
+      w.adroll[w.adroll.f[a]] = w.adroll[w.adroll.f[a]] || (function(n) {
+        return function() {
+          w.adroll.push([ n, arguments ])
+        }
+      })(w.adroll.f[a])
+    }
+
+    e = d.createElement('script');
+    o = d.getElementsByTagName('script')[0];
+    e.async = 1;
+    e.src = roundtripUrl;
+    o.parentNode.insertBefore(e, o);
+  })(window, document);
+  adroll.track("pageView");
+</script>
 </body>
 
 </html>
