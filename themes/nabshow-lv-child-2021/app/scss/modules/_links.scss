@@ -86,3 +86,39 @@
 .friendship-button.add {
   @extend .link._plus;
 }
+
+// Info Link
+// like jump-links but with more text info and 1 cta
+
+.info-link {
+  background: $color__blue;
+  padding: rem(34) rem(30) rem(30);
+  @include bp-1024 {
+    padding: rem(28) rem(39) rem(24);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.info-link-text {
+  text-transform: uppercase;
+  @include primary-black-12-12-20;
+  margin-bottom: rem(8);
+  & + .info-link-text {
+    margin-top: rem(20);
+  }
+  @include bp-768 {
+    float: left;
+    & + .info-link-text {
+      float: right;
+      margin-top: 0;
+    }
+  }
+  @include bp-1024 {
+    @include primary-black-16-16-20;
+    margin: 0 0 rem(2) 0 !important;
+  }
+}
+.info-link-cta {
+  clear: both;
+}

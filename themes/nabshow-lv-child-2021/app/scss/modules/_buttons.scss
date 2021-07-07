@@ -28,6 +28,12 @@ input[type="button"].button,
       border-top: rem(1) solid rgba($color__white, 0.5);
       padding: rem(12) 0 rem(10);
     }
+    &._nob {
+      border-bottom: none !important;
+    }
+    &._wide {
+      min-width: rem(200);
+    }
     @include primary-black-12-12-20;
     @include bp-768 {
       @include primary-black-16-16-20;
