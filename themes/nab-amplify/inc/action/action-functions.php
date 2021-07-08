@@ -4731,6 +4731,7 @@ register_meta( 'post', 'video_embed', $optin_meta_args );
 register_meta( 'post', 'session_date', $optin_meta_args );
 register_meta( 'post', 'session_end_time', $optin_meta_args );
 register_meta( 'post', 'session_status', $optin_meta_args );
+register_meta( 'post', 'nab_selected_company_id', $optin_meta_args );
 
 // Specific to Opt ins ACF
 register_meta( 'post', 'company_id', $optin_meta_args );
