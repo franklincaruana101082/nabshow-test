@@ -991,7 +991,237 @@
 // feature text
 .feature-text {
   padding: rem(40);
+  background: linear-gradient(
+      256.59deg,
+      rgba(158, 69, 147, 0) 81.26%,
+      rgba(158, 69, 147, 0.5) 139.5%
+    ),
+    linear-gradient(
+      243.87deg,
+      rgba(12, 165, 234, 0.03) -13.36%,
+      rgba(47, 93, 171, 0.06) 31.04%
+    );
+  border-radius: rem(10);
+  p {
+    @include primary-regular-17-31;
+    @include bp-768 {
+      @include primary-medium-24-46;
+    }
+  }
+
+  h1,
+  h2 {
+    @extend .h-xl;
+    text-transform: uppercase;
+  }
+
+  h3,
+  h4 {
+    @extend .h-sm;
+    margin-bottom: rem(16);
+  }
+  p + h3,
+  p + h4 {
+    margin-top: rem(20);
+  }
+
+  a {
+    color: $color__pink;
+  }
+}
+
+// story steps
+.story-steps-wrapper {
+  @include gradient-purple-blue;
+  padding: rem(48) 0;
+  @include bp-1024 {
+    padding: rem(60) 0;
+  }
+}
+.story-steps {
+  display: grid;
+  grid-gap: rem(80);
+}
+.story-step {
+  padding: 0 rem(32);
+  display: flex;
+  flex-direction: column-reverse;
+  .story-step-counter {
+    @include primary-black-60-60;
+    opacity: 0.2;
+    display: block;
+    margin-bottom: rem(12);
+  }
+  h3 {
+    @include primary-black-31-44;
+  }
+  p {
+    @include primary-regular-17-31;
+  }
+  @include bp-604 {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    grid-gap: rem(80);
+    &:nth-child(even) {
+      direction: rtl;
+      * {
+        direction: ltr;
+      }
+    }
+  }
   @include bp-768 {
-    padding: rem(60);
+    grid-gap: rem(140);
+    align-items: center;
+    .story-step-counter {
+      @include primary-black-70-70;
+    }
+    h3 {
+      @include primary-black-38-50;
+    }
+    p {
+      @include primary-medium-24-46;
+    }
+  }
+}
+.story-step-media {
+  img {
+    border-radius: 50%;
+  }
+}
+
+// logo banner
+.logo-banner {
+  display: grid;
+  grid-gap: rem(32);
+  p {
+    @include primary-regular-17-31;
+  }
+  .logo-banner-media {
+    margin: 0 auto;
+    max-width: rem(300);
+  }
+  @include bp-768 {
+    grid-template-columns: rem(310) 1fr;
+    grid-gap: rem(50);
+    .logo-banner-body {
+      p {
+        @include primary-medium-24-46;
+      }
+    }
+  }
+}
+
+// faq section
+.faq-section {
+  display: grid;
+  grid-gap: rem(40);
+  .faq-section-body {
+    h3 {
+      text-transform: uppercase;
+      @include primary-black-31-44;
+    }
+    p {
+      @include primary-regular-17-31;
+    }
+  }
+  .faq-section-faqs {
+  }
+  @include bp-768 {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: rem(80);
+    .faq-section-body {
+      h3 {
+        @include primary-black-38-50;
+      }
+      p {
+        @include primary-medium-24-46;
+      }
+    }
+  }
+}
+
+.faqs {
+  list-style-type: none;
+  display: grid;
+  grid-gap: rem(16);
+}
+.faq {
+  background: $color__purple;
+  border-radius: rem(10);
+  padding: rem(16);
+  h4 {
+    text-transform: uppercase;
+    @include primary-bold-18-18;
+    button {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      border: none;
+      background: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding-right: rem(10);
+      cursor: pointer;
+      &::after {
+        content: "";
+        position: relative;
+        height: 0.75em;
+        width: 0.75em;
+        border-bottom: 2px solid;
+        border-left: 2px solid;
+        transform: rotate(-45deg);
+        top: -0.25em;
+      }
+      &[aria-expanded="true"]::after {
+        top: 0.25em;
+        transform: rotate(135deg);
+      }
+    }
+  }
+  .faq-content {
+    padding: rem(12) rem(10) 0;
+  }
+  .button {
+    margin-top: rem(16);
+  }
+}
+
+// ad section
+.ad-section {
+  @include bp-960 {
+    display: grid;
+    grid-template-columns: 1fr rem(160);
+    grid-gap: rem(150);
+  }
+}
+.ad-section-body {
+  p,
+  ul {
+    @include primary-regular-17-31;
+  }
+  ul {
+    margin-left: 1em;
+  }
+  @include bp-768 {
+    ul {
+      column-count: 2;
+      column-gap: rem(100);
+    }
+  }
+  @include bp-960 {
+    p,
+    ul {
+      @include primary-medium-24-46;
+    }
+  }
+}
+.ad-section-ad {
+  display: none;
+  @include bp-960 {
+    display: block;
   }
 }

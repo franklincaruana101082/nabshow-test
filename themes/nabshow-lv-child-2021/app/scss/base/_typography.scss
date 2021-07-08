@@ -131,6 +131,12 @@ $weight__black: 900;
   line-height: rem(30);
 }
 
+@mixin primary-bold-18-18 {
+  font-weight: $weight__bold;
+  font-size: rem(18);
+  line-height: rem(18);
+}
+
 @mixin primary-regular-18-30 {
   font-weight: $weight__regular;
   font-size: rem(18);
@@ -285,7 +291,15 @@ body {
   Headings 
   ======================================= */
 .nabshow_2021 {
-  h1, h2, h3, h4, h5, h6, p, blockquote, li {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  li {
     font-family: $font__primary;
     color: $color__white;
   }

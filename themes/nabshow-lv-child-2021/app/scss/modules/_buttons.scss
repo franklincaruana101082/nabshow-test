@@ -34,6 +34,9 @@ input[type="button"].button,
     &._wide {
       min-width: rem(200);
     }
+    &._full {
+      display: flex;
+    }
     @include primary-black-12-12-20;
     @include bp-768 {
       @include primary-black-16-16-20;

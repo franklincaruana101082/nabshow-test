@@ -45,6 +45,29 @@ jQuery(function($) {
 		}
 	});
 
+	// FAQs
+	$(".faq").each(function(){
+		var el = $(this);
+		var toggle = el.find(".faq-toggle");
+		var content = el.find(".faq-content");
+		toggle.click(function(){
+			// If its expanded
+			if (toggle.attr("aria-expanded") === 'true') {
+				console.log('IF TRUE: faq toggle is', toggle.attr("aria-expanded"));
+				toggle.attr("aria-expanded", 'false');
+				content.attr("hidden", true);
+				console.log("content is now", content.attr("hidden"));
+			// If its closed	
+			} else {
+				console.log('ELSE: faq toggle is', toggle.attr("aria-expanded"));
+				toggle.attr("aria-expanded", 'true');
+				content.attr("hidden", false);
+				console.log("content is now", content.attr("hidden"));
+			}
+		});
+
+	});
+
 
 	$('.cards').slick({
 		slidesToShow: 1,
@@ -56,7 +79,24 @@ jQuery(function($) {
 		centerPadding: '20px',
 	});
 
-	if ($('.schedule__days').length > 0) {
+
+  if ($('.conference-sessions-speakers').length > 0) {
+		// each day
+		$('.conference-sessions-speakers').slick({
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			arrows: false,
+			fade: true,	
+			speed: 1000,
+			autoplay: true,
+			autoplaySpeed: 10000,		
+			dots: true,
+		});
+	}
+
+	
+
+	if ($('.schedule__days').length > 0 || $('.schedule__sessions').length > 0) {
 		// each day
 		$('.schedule__days').slick({
 			slidesToShow: 1,

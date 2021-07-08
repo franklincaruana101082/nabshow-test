@@ -2,6 +2,9 @@
 	wp_enqueue_script('nab-ouical', get_template_directory_uri().'/assets/js/ouical.js', array(), '1.0', true); 
 	$cal_start    = new DateTime($session_start);
 	$cal_end      = new DateTime($session_end);
+
+	$invite_location = get_field('calendar_invite_location') ? get_field('calendar_invite_location') : get_the_permalink();
+	$invite_desc = get_field('calendar_invite_description') ? get_field('calendar_invite_description') : get_the_content(null, false, $post->ID);
 ?>
 <div class="register">
 <button class="button <?php echo($registered ? '' : '_gradientpink'); ?> js-register" <?php echo($registered ? 'disabled="true"' : ''); ?>><?php echo($registered ? 'Registered' : 'Register Now'); ?></button>
@@ -11,8 +14,8 @@
 			data-title="<?php the_title(); ?>"
 			data-start="<?php echo $cal_start->format('F d, Y H:i'); ?>"
 			data-end="<?php echo $cal_end->format('F d, Y H:i'); ?>"
-			data-address="<?php the_permalink(); ?>"
-			data-description="<?php echo wp_strip_all_tags(get_the_content(null, false, $post->ID)); ?>"
+			data-address="<?php echo $invite_location; ?>"
+			data-description="<?php echo wp_strip_all_tags($invite_desc); ?>"
 			></div>
 	</div>
 

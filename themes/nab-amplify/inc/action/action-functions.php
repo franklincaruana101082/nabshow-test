@@ -4732,6 +4732,20 @@ register_meta( 'post', 'session_date', $optin_meta_args );
 register_meta( 'post', 'session_end_time', $optin_meta_args );
 register_meta( 'post', 'session_status', $optin_meta_args );
 register_meta( 'post', 'nab_selected_company_id', $optin_meta_args );
+register_meta( 'post', 'article_type', $optin_meta_args );
+register_meta( 'post', 'community', $optin_meta_args );
+register_meta( 'post', 'personas', $optin_meta_args );
+register_meta( 'post', 'content_scope', $optin_meta_args );
+register_meta( 'post', 'content_format', $optin_meta_args );
+register_meta( 'post', 'content_subject', $optin_meta_args );
+register_meta( 'post', 'acquisition_sub', $optin_meta_args );
+register_meta( 'post', 'distribution_sub', $optin_meta_args );
+register_meta( 'post', 'management_sub', $optin_meta_args );
+register_meta( 'post', 'radio_sub', $optin_meta_args );
+register_meta( 'post', 'display_sub', $optin_meta_args );
+register_meta( 'post', 'industry_sub', $optin_meta_args );
+register_meta( 'post', 'content_sub', $optin_meta_args );
+register_meta( 'post', 'production_sub', $optin_meta_args );
 
 // Specific to Opt ins ACF
 register_meta( 'post', 'company_id', $optin_meta_args );
