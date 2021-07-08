@@ -275,3 +275,44 @@ add_action( 'widgets_init', 'nabshow_lv_2021_widgets' );
  * @todo can't upload to VIP server it's use for internal server only.
  */
 // add_filter( 'allow_subdirectory_install', '__return_true' );
+
+/**
+ * Nabshow LV 2021 custom post types. 
+ */
+function nabshow_lv_2021_register_custom_post_type() {
+	$labels = array(
+        'name'               => _x('Conference', 'Post Type General Name', 'nabshow-lv'),
+        'singular_name'      => _x('Conference', 'Post Type Singular Name', 'nabshow-lv'),
+        'menu_name'          => __('Conference', 'nabshow-lv'),
+        'parent_item_colon'  => __('Parent Conference', 'nabshow-lv'),
+        'all_items'          => __('All Conference', 'nabshow-lv'),
+        'view_item'          => __('View Conference', 'nabshow-lv'),
+        'add_new_item'       => __('Add New Conference', 'nabshow-lv'),
+        'add_new'            => __('Add New', 'nabshow-lv'),
+        'edit_item'          => __('Edit Conference', 'nabshow-lv'),
+        'update_item'        => __('Update Conference', 'nabshow-lv'),
+        'search_items'       => __('Search Conference', 'nabshow-lv'),
+        'not_found'          => __('Not Found', 'nabshow-lv'),
+        'not_found_in_trash' => __('Not found in Trash', 'nabshow-lv'),
+    );
+
+    $args = array(
+        'label'               => __('Conference', 'nabshow-lv'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'can_export'          => true,
+        'has_archive'         => false,        
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
+
+    );
+    
+    register_post_type( 'conference', $args );	
+}
+add_action( 'init', 'nabshow_lv_2021_register_custom_post_type' );
