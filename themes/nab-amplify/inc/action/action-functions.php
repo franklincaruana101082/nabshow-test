@@ -4717,8 +4717,26 @@ if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_ke
         'single' => true,
         'show_in_rest' => true,
     );
+    $array_meta_args = array(
+        'single'       => true,
+        'type'         => 'array',
+        'show_in_rest' => array(
+            'schema' => array(
+                'type'  => 'array',
+                'items' => array(
+                    'type' => 'string',
+                ),
+            ),
+        ),
+    );
 } else {
     $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => false,
+    );
+    $array_meta_args = array(
         'type' => 'string',
         'description' => 'A meta key associated with a meta value',
         'single' => true,
@@ -4733,19 +4751,19 @@ register_meta( 'post', 'session_end_time', $optin_meta_args );
 register_meta( 'post', 'session_status', $optin_meta_args );
 register_meta( 'post', 'nab_selected_company_id', $optin_meta_args );
 register_meta( 'post', 'article_type', $optin_meta_args );
-register_meta( 'post', 'community', $optin_meta_args );
-register_meta( 'post', 'personas', $optin_meta_args );
+register_meta( 'post', 'community', $array_meta_args );
+register_meta( 'post', 'personas', $array_meta_args );
 register_meta( 'post', 'content_scope', $optin_meta_args );
-register_meta( 'post', 'content_format', $optin_meta_args );
-register_meta( 'post', 'content_subject', $optin_meta_args );
-register_meta( 'post', 'acquisition_sub', $optin_meta_args );
-register_meta( 'post', 'distribution_sub', $optin_meta_args );
-register_meta( 'post', 'management_sub', $optin_meta_args );
-register_meta( 'post', 'radio_sub', $optin_meta_args );
-register_meta( 'post', 'display_sub', $optin_meta_args );
-register_meta( 'post', 'industry_sub', $optin_meta_args );
-register_meta( 'post', 'content_sub', $optin_meta_args );
-register_meta( 'post', 'production_sub', $optin_meta_args );
+register_meta( 'post', 'content_format', $array_meta_args );
+register_meta( 'post', 'content_subject', $array_meta_args );
+register_meta( 'post', 'acquisition_sub', $array_meta_args );
+register_meta( 'post', 'distribution_sub', $array_meta_args );
+register_meta( 'post', 'management_sub', $array_meta_args );
+register_meta( 'post', 'radio_sub', $array_meta_args );
+register_meta( 'post', 'display_sub', $array_meta_args );
+register_meta( 'post', 'industry_sub', $array_meta_args );
+register_meta( 'post', 'content_sub', $array_meta_args );
+register_meta( 'post', 'production_sub', $array_meta_args );
 
 // Specific to Opt ins ACF
 register_meta( 'post', 'company_id', $optin_meta_args );
