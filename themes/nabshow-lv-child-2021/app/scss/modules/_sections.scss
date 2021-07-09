@@ -461,7 +461,6 @@
     h2.h-xl {
       text-transform: uppercase;
     }
-
   }
 }
 
@@ -661,6 +660,9 @@
   grid-gap: rem(32);
   max-width: rem(550);
   margin: 0 auto;
+  li {
+    text-align: center;
+  }
   @include bp-768 {
     grid-template-columns: 1fr 1fr;
   }
