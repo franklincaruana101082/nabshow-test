@@ -26,7 +26,7 @@ if ( $display_feature_text_block ) {
     $feature_text_body  = get_field( 'feature_text_body' );
     ?>
     <div class="section container">
-        <div class="feature-text">
+        <div class="feature-text wysiwyg-typography">
             <h2><?php echo esc_html( $feature_text_title ); ?></h2>
             <?php echo wp_kses_post( $feature_text_body ); ?>
         </div>
@@ -53,7 +53,9 @@ if ( $display_story_steps ) {
                                 <div class="story-step-body">
                                     <span class="story-step-counter"><?php echo esc_html( $row['counter'] ); ?></span>
                                     <h3><?php echo esc_html( $row['title'] ); ?></h3>
-                                    <?php echo wp_kses_post( $row['body'] ); ?>
+                                    <div class="wysiwyg-typography">
+                                        <?php echo wp_kses_post( $row['body'] ); ?>
+                                    </div>
                                 </div>
                                 <div class="story-step-media">                                    
                                     <img src="<?php echo esc_url( $story_image ); ?>" alt="<?php echo esc_attr( $row['image_alt'] ); ?>" />
@@ -82,7 +84,7 @@ if ( $display_logo_banner ) {
             <div class="logo-banner-media">
                 <img src="<?php echo esc_url( $logo_banner_url ); ?>" alt="<?php echo esc_attr( $logo_banner_image_alt ); ?>" />
             </div>
-            <div class="logo-banner-body">
+            <div class="logo-banner-body wysiwyg-typography">
                 <?php echo wp_kses_post( $logo_banner_body ); ?>
             </div>
         </div>
@@ -98,7 +100,7 @@ if ( $display_faq_section ) {
     ?>
     <div class="section container">
         <div class="faq-section">
-            <div class="faq-section-body">
+            <div class="faq-section-body wysiwyg-typography">
                 <h3><?php echo esc_html( $faq_section_title ); ?></h3>
                 <?php echo wp_kses_post( $faq_section_body ); ?>
             </div>
@@ -139,7 +141,7 @@ if ( $display_ad_section ) {
     ?>
     <div class="section container">
         <div class="ad-section">
-            <div class="ad-section-body">
+            <div class="ad-section-body wysiwyg-typography">
                 <h2 class="h-xl"><?php echo esc_html( $ad_section_title ); ?></h2>
                 <?php echo $ad_section_body; ?>
             </div>

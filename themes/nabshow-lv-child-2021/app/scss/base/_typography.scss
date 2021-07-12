@@ -463,3 +463,43 @@ body {
     font-style: normal;
   }
 }
+
+.wysiwyg-typography {
+  @include primary-medium-24-46;
+  color: $color__white;
+  p,
+  li,
+  p span {
+    color: $color__white;
+    @include primary-regular-17-31;
+    @include bp-768 {
+      @include primary-medium-24-46;
+    }
+  }
+  ul,
+  ol {
+    margin-left: 1em;
+  }
+
+  h1,
+  h2 {
+    color: $color__white;
+    @extend .h-xl;
+    text-transform: uppercase;
+  }
+
+  h3,
+  h4 {
+    color: $color__white;
+    @extend .h-sm;
+    margin-bottom: rem(16);
+  }
+  p + h3,
+  p + h4 {
+    margin-top: rem(20);
+  }
+
+  a {
+    color: $color__pink;
+  }
+}
