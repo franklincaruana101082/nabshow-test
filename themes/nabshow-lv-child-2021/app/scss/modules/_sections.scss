@@ -1049,6 +1049,7 @@
   display: flex;
   flex-direction: column-reverse;
   .story-step-counter {
+    color: $color__white;
     @include primary-black-60-60;
     opacity: 0.2;
     display: block;
