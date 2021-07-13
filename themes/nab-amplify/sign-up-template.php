@@ -225,7 +225,7 @@ while ( have_posts() ) :
 							<li>
 								<label class="field__list-select" for="signup-amplify-communications">									
 									<select name="amplify_communications" id="signup-amplify-communications" class="field__select">
-										<option value="" disabled selected></option>
+										<option value="" disabled selected></option>	
 										<option value="0">No</option>
 										<option value="1">Yes</option>
 									</select>
