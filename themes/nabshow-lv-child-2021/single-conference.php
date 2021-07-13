@@ -185,112 +185,70 @@ if ( $display_speakers_and_sessions ) {
     </div>
     <?php
 }
-?>
 
-<div class="section">
-    <div class="schedule__sessions">
-        <div class="schedule__session">
-            <!-- example of a session without a link uses a div instead of an anchor -->
-            <div class="schedule__session-item">
-                <img src="/assets/images/logo-nab-smte.png" alt="logo alt text" />
-                <!-- there is no content without a link -->
-            </div>
-        </div>
-        <!-- All Sessions in all conferences -->
-        <div class="schedule__session">
-            <a href="#" class="schedule__session-item">
-                <img src="/assets/images/logo-radio-show.png" alt="logo alt text" />
-                <div class="schedule__session-item-content">
-                    <h5 class="schedule__session-item-title">Title Here</h5>
-                    <div class="schedule__session-item-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dignissimos laudantium magnam mollitia dolor cum officiis eum doloremque alias voluptatum?</p>
-                    </div>
-                    <h6 class="schedule__session-item-time">5:30PM - 6:30PM</h6>
-                    <div class="schedule__session-item-cta">
-                        <span class="button _solid _compact">Register</span>
-                    </div>
+$query_args = array(
+    'post_type'         => 'conference',
+    'posts_per_page'    => -1,
+    'post__not_in'      => array( get_the_ID() ),
+    'fields'            => 'ids'
+);
+
+$all_conferences = new WP_Query( $query_args );
+$conferences_ids = $all_conferences->posts;
+
+if ( $all_conferences->have_posts() ) {
+    ?>
+    <div class="section">
+        <div class="schedule__sessions">
+            <?php
+            while ( $all_conferences->have_posts() ) {
+                
+                $all_conferences->the_post();
+
+                $conference_logo        = get_field( 'logo' );
+                $conference_image       = isset( $conference_logo['ID'] ) && ! empty( $conference_logo['ID'] ) ? wp_get_attachment_url( $conference_logo['ID'] ) : '';
+                $short_description      = get_field( 'short_description' );
+                $conference_final_date  = '';
+                $conference_start_date  = get_field( 'start_date' );
+                $conference_end_date    = get_field( 'end_date' );
+
+                if ( ! empty( $conference_start_date ) && ! empty( $conference_end_date ) ) {
+                    
+                    if ( date_format( date_create( $conference_start_date ), 'Ymd' ) !== date_format( date_create( $conference_end_date ), 'Ymd' ) ) {
+                        $month                  = date_format( date_create( $conference_start_date ), 'F' );
+                        $start_day              = date_format( date_create( $conference_start_date ), 'j' );
+                        $end_day                = date_format( date_create( $conference_end_date ), 'j' );
+                        $year                   = date_format( date_create( $conference_start_date ), 'Y' );
+                        $conference_final_date  = $month . ' ' . $start_day . '-' . $end_day . ' ' . $year;
+                    } else {
+                        $conference_final_date  = date_format( date_create( $conference_start_date ), 'F j Y' );
+                    }
+                }
+                ?>
+                <div class="schedule__session">
+                    <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="schedule__session-item">
+                        <img src="<?php echo esc_url( $conference_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" />
+                        <div class="schedule__session-item-content">
+                            <h5 class="schedule__session-item-title"><?php echo esc_html( get_the_title() ); ?></h5>
+                            <div class="schedule__session-item-body">
+                                <?php echo wp_kses_post( $short_description ); ?>
+                            </div>
+                            <h6 class="schedule__session-item-time"><?php echo esc_html( $conference_final_date ); ?></h6>
+                            <div class="schedule__session-item-cta">
+                                <span class="button _solid _compact">Register</span>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                <?php
+            }
+            ?>
         </div>
-        <div class="schedule__session">
-            <a href="#" class="schedule__session-item">
-                <img src="/assets/images/logo-radio-show.png" alt="logo alt text" />
-                <div class="schedule__session-item-content">
-                    <h5 class="schedule__session-item-title">Title Here</h5>
-                    <div class="schedule__session-item-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dignissimos laudantium magnam mollitia dolor cum officiis eum doloremque alias voluptatum?</p>
-                    </div>
-                    <h6 class="schedule__session-item-time">5:30PM - 6:30PM</h6>
-                    <div class="schedule__session-item-cta">
-                        <span class="button _solid _compact">Register</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="schedule__session">
-            <a href="#" class="schedule__session-item">
-                <img src="/assets/images/logo-radio-show.png" alt="logo alt text" />
-                <div class="schedule__session-item-content">
-                    <h5 class="schedule__session-item-title">Title Here</h5>
-                    <div class="schedule__session-item-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dignissimos laudantium magnam mollitia dolor cum officiis eum doloremque alias voluptatum?</p>
-                    </div>
-                    <h6 class="schedule__session-item-time">5:30PM - 6:30PM</h6>
-                    <div class="schedule__session-item-cta">
-                        <span class="button _solid _compact">Register</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="schedule__session">
-            <a href="#" class="schedule__session-item">
-                <img src="/assets/images/logo-radio-show.png" alt="logo alt text" />
-                <div class="schedule__session-item-content">
-                    <h5 class="schedule__session-item-title">Title Here</h5>
-                    <div class="schedule__session-item-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dignissimos laudantium magnam mollitia dolor cum officiis eum doloremque alias voluptatum?</p>
-                    </div>
-                    <h6 class="schedule__session-item-time">5:30PM - 6:30PM</h6>
-                    <div class="schedule__session-item-cta">
-                        <span class="button _solid _compact">Register</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="schedule__session">
-            <a href="#" class="schedule__session-item">
-                <img src="/assets/images/logo-radio-show.png" alt="logo alt text" />
-                <div class="schedule__session-item-content">
-                    <h5 class="schedule__session-item-title">Title Here</h5>
-                    <div class="schedule__session-item-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dignissimos laudantium magnam mollitia dolor cum officiis eum doloremque alias voluptatum?</p>
-                    </div>
-                    <h6 class="schedule__session-item-time">5:30PM - 6:30PM</h6>
-                    <div class="schedule__session-item-cta">
-                        <span class="button _solid _compact">Register</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="schedule__session">
-            <a href="#" class="schedule__session-item">
-                <img src="/assets/images/logo-radio-show.png" alt="logo alt text" />
-                <div class="schedule__session-item-content">
-                    <h5 class="schedule__session-item-title">Title Here</h5>
-                    <div class="schedule__session-item-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dignissimos laudantium magnam mollitia dolor cum officiis eum doloremque alias voluptatum?</p>
-                    </div>
-                    <h6 class="schedule__session-item-time">5:30PM - 6:30PM</h6>
-                    <div class="schedule__session-item-cta">
-                        <span class="button _solid _compact">Register</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    <!-- END All Sessions in all conferences -->
     </div>
-</div>
-<?php
+    <?php
+}
+wp_reset_postdata();
+
 if ( $display_cta_block ) {
 
     $cta_title          = get_field( 'cta_title' );
@@ -332,23 +290,7 @@ if ( $display_mailing_list_block ) {
         <div class="container">
             <div class="amp-signup">
                 <div class="amp-signup__content">
-                    <div class="amp-signup__body">
-                        <h3 class="h-md">STAY IN THE LOOP</h3>
-                        <div class="body-text-medium">
-                            <p>
-                                Join the mailing list and we’ll share the latest on NAB Show, including discounts and speaker announcements.
-                            </p>
-                        </div>
-                        <div class="amp-signup__form">
-                            <form action="#" class="email-signup">
-                                <input type="email" placeholder="EMAIL" class="email-signup__input" />
-                                <button type="submit" class="email-signup__submit button _arrow _small">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="amp-signup__media">
-                        <img src="/assets/images/signup-media.png" alt="signup alt text" />
-                    </div>
+                    <?php dynamic_sidebar('Sign Up'); ?>
                 </div>
             </div>
         </div>
