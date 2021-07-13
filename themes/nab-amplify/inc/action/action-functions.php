@@ -66,6 +66,10 @@ function nab_confirm_password_matches_checkout($errors, $username, $email)
         return new WP_Error('registration-error', __('Please enter City.', 'woocommerce'));
     }
 
+    if ( is_null( $amplify_communications ) ) {
+        return new WP_Error('registration-error', __('NAB Amplify communications field is required.', 'woocommerce'));
+    }
+
     return $errors;
 }
 
