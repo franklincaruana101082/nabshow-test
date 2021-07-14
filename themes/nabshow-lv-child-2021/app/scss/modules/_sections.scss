@@ -250,6 +250,7 @@
       height: 33%;
       @include background-image("decorative-blur.png");
       background-size: contain;
+      background-repeat: no-repeat;
     }
     &::before {
       top: 0;
@@ -258,6 +259,17 @@
     }
     &::after {
       bottom: 0;
+      right: 0;
+    }
+  }
+  &._blur-middle {
+    &:before,
+    &:after {
+      width: 50%;
+      height: 50%;
+    }
+    &::after {
+      bottom: 20%;
       right: 0;
     }
   }
@@ -1169,6 +1181,9 @@
       width: 100%;
       padding-right: rem(10);
       cursor: pointer;
+      &:focus {
+        outline: none;
+      }
       &::after {
         content: "";
         position: relative;
@@ -1226,5 +1241,167 @@
   display: none;
   @include bp-960 {
     display: block;
+  }
+}
+
+// schedule-table
+.schedule-table-intro {
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-transform: uppercase;
+  }
+}
+
+.schedule-table {
+  table {
+    width: 100%;
+    color: $color__white;
+    border-collapse: collapse;
+    border: none;
+    caption {
+      @include screen-reader-text;
+    }
+    th {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0 rem(18) rem(22);
+      & + * {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+    td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: rem(22);
+      text-align: center;
+      vertical-align: center;
+      & + * {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    .col-heading {
+      @include primary-medium-12-18;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 1rem 0;
+    }
+    .col-date {
+      text-align: center;
+      @include primary-black-12-12-20;
+      text-transform: uppercase;
+      b {
+        display: block;
+        padding-top: rem(6);
+        @include primary-black-20-20;
+      }
+    }
+    .row-heading {
+      padding: rem(22) rem(22) rem(22) 0;
+      text-align: left;
+      vertical-align: center;
+      a {
+        @include primary-black-16-16-20;
+        color: $color__white;
+        text-transform: uppercase;
+        text-decoration: none;
+        max-width: 20em;
+        display: block;
+        line-height: 1.5;
+        min-height: 2.5em;
+        &:focus,
+        &:hover {
+          color: $color__pink;
+        }
+      }
+    }
+    .row-date {
+      span {
+        display: block;
+        margin: 0 auto;
+        width: rem(16);
+        height: rem(16);
+        overflow: hidden;
+        border-radius: 50%;
+        background: $color__pink;
+        text-indent: 999%;
+      }
+    }
+  }
+}
+@media (max-width: 1023px) {
+  .schedule-table {
+    table {
+      .col-date {
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 742px) {
+  .schedule-table {
+    table {
+      .row-heading {
+        a {
+          @include primary-medium-12-18;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .schedule-table {
+    table {
+      thead {
+        display: none;
+      }
+      tr,
+      td,
+      th {
+        display: block;
+        text-align: left;
+        &:empty {
+          display: none;
+        }
+      }
+      td {
+        border: none;
+        padding: rem(12) 0;
+      }
+      .row-heading {
+        padding: rem(22) 0 rem(8) 0;
+        a {
+          @include primary-black-16-16-20;
+          line-height: 1.5;
+          min-width: 100%;
+          min-height: 0;
+        }
+      }
+      .row-date {
+        span {
+          display: block;
+          margin: 0 auto;
+          width: auto;
+          height: auto;
+          overflow: visible;
+          text-indent: 0;
+          background: none;
+
+          &::before {
+            content: "";
+            display: inline-block;
+            margin-right: rem(10);
+            width: rem(16);
+            height: rem(16);
+            border-radius: 50%;
+            background: $color__pink;
+          }
+        }
+      }
+    }
   }
 }
