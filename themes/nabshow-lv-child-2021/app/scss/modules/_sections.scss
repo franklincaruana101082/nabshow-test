@@ -10,6 +10,12 @@
       padding-top: rem(120);
     }
   }
+  &._bottom {
+    padding-bottom: rem(48);
+    @include bp-768 {
+      padding-bottom: rem(60);
+    }
+  }
 }
 
 .section-heading {
