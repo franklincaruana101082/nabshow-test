@@ -1325,8 +1325,8 @@
       span {
         display: block;
         margin: 0 auto;
-        width: rem(16);
-        height: rem(16);
+        width: rem(10);
+        height: rem(10);
         overflow: hidden;
         border-radius: 50%;
         background: $color__pink;
@@ -1389,7 +1389,8 @@
       }
       .row-date {
         span {
-          display: block;
+          display: flex;
+          align-items: center;
           margin: 0 auto;
           width: auto;
           height: auto;
@@ -1401,8 +1402,8 @@
             content: "";
             display: inline-block;
             margin-right: rem(10);
-            width: rem(16);
-            height: rem(16);
+            width: rem(10);
+            height: rem(10);
             border-radius: 50%;
             background: $color__pink;
           }
