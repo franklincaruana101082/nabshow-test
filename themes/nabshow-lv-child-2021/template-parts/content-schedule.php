@@ -45,10 +45,10 @@
 								<th scope="row" class="row-heading"><a href="#">NAB Show Show Floor</a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Sunday 10</span></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
@@ -56,55 +56,55 @@
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">BEA</a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Sunday 10</span></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">Broadcast Engineering and IT</a></th>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Saturday 09</span></td>
-								<td class="row-date"><span>Sunday 10</span></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">Business of Media</a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Sunday 10</span></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">Creative Master Symposium</a></th>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Saturday 09</span></td>
-								<td class="row-date"><span>Sunday 10</span></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">Cybersecurity and Content Protection Summit</a></th>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
@@ -114,11 +114,11 @@
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">Post|Production World</a></th>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Saturday 09</span></td>
-								<td class="row-date"><span>Sunday 10</span></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
@@ -128,13 +128,13 @@
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Wednesday 13</span></td>
-								<td class="row-date"><span>Thursday 14</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"><span>Thursday, October 14</span></td>
 							</tr>
 							<tr>
 								<th scope="row" class="row-heading"><a href="#">Sales and Management Television Exchange</a></th>
-								<td class="row-date"><span>Friday 08</span></td>
-								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"><span>Friday, October 08</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
@@ -146,8 +146,8 @@
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-								<td class="row-date"><span>Monday 11</span></td>
-								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 							</tr>
