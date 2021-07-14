@@ -18,6 +18,147 @@
 	<div class="intro__body"><?php the_field('subtitle');?></div>
 </div>
 
+<!-- Schedule Table Begins here -->
+	<div class="section _bottom">
+		<div class="decorative _blur _blur-middle">
+			<div class="container">
+				<div class="schedule-table">
+					<div class="schedule-table-intro">
+						<h2 class="h-xl">October Event<br/>Schedule</h2>
+					</div>
+					<div class="schedule-table-table">
+						<table>
+							<caption>NAB SHOW October Event Schedule</caption>
+							<thead>
+								<tr>
+									<th scope="col" class="col-heading">Featured Events</th>
+									<th scope="col" class="col-date">Fri<span>day</span><b>08</b></th>
+									<th scope="col" class="col-date">Sat<span>urday</span><b>09</b></th>
+									<th scope="col" class="col-date">Sun<span>day</span><b>10</b></th>
+									<th scope="col" class="col-date">Mon<span>day</span><b>11</b></th>
+									<th scope="col" class="col-date">Tue<span>sday</span><b>12</b></th>
+									<th scope="col" class="col-date">Wed<span>nesday</span><b>13</b></th>
+									<th scope="col" class="col-date">Thu<span>rsday</span><b>14</b></th>
+								</tr>
+							</thead>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">NAB Show Show Floor</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday 10</span></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">AES Show</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">BEA</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday 10</span></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Broadcast Engineering and IT</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"><span>Sunday 10</span></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Business of Media</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday 10</span></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Creative Master Symposium</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"><span>Sunday 10</span></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Cybersecurity and Content Protection Summit</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Post|Production World</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"><span>Sunday 10</span></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Radio Show</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Wednesday 13</span></td>
+								<td class="row-date"><span>Thursday 14</span></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Sales and Management Television Exchange</a></th>
+								<td class="row-date"><span>Friday 08</span></td>
+								<td class="row-date"><span>Saturday 09</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="#">Streaming Summit</a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Monday 11</span></td>
+								<td class="row-date"><span>Tuesday 12</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Schedule Table -->
+
 <?php if(have_rows('feature_timeline')): ?>
 	<div class="schedule">
 		<div class="schedule__menu">
