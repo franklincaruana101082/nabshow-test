@@ -27,7 +27,7 @@
 						<h2 class="h-xl">October Event<br/>Schedule</h2>
 					</div>
 					<div class="schedule-table-table">
-						<table>
+					<table>
 							<caption>NAB SHOW October Event Schedule</caption>
 							<thead>
 								<tr>
@@ -42,7 +42,7 @@
 								</tr>
 							</thead>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">NAB Show Show Floor</a></th>
+								<th scope="row" class="row-heading"><span>NAB Show Show Floor</span></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -52,7 +52,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">AES Show</a></th>
+								<th scope="row" class="row-heading"><span>AES Show</span></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
@@ -62,7 +62,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">BEA</a></th>
+								<th scope="row" class="row-heading"><span>BEA</span></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -72,7 +72,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Broadcast Engineering and IT</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/broadcast-engineering-it-conference/">Broadcast Engineering and <b>IT</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -82,7 +82,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Business of Media</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/business-of-media-conference/">Business of <b>Media</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -92,7 +92,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Creative Master Symposium</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/creative-master-symposium/">Creative Master <b>Symposium</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -102,7 +102,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Cybersecurity and Content Protection Summit</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/cybersecurity-content-protection-summit/">Cybersecurity and Content Protection <b>Summit</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"></td>
@@ -112,7 +112,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Post|Production World</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/postproduction-world/">Post|Production <b>World</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -122,7 +122,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Radio Show</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/radio-show/">Radio <b>Show</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
@@ -132,7 +132,7 @@
 								<td class="row-date"><span>Thursday, October 14</span></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Sales and Management Television Exchange</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/sales-and-management-television-exchange/">Sales and Management Television <b>Exchange</b></a></th>
 								<td class="row-date"><span>Friday, October 08</span></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
 								<td class="row-date"></td>
@@ -142,7 +142,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="#">Streaming Summit</a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/streaming-summit/">Streaming <b>Summit</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>

@@ -1319,7 +1319,8 @@
       padding: rem(22) rem(22) rem(22) 0;
       text-align: left;
       vertical-align: center;
-      a {
+      a,
+      span {
         @include primary-black-16-16-20;
         color: $color__white;
         text-transform: uppercase;
@@ -1328,6 +1329,23 @@
         display: block;
         line-height: 1.5;
         min-height: 2.5em;
+      }
+      a {
+        b {
+          white-space: nowrap;
+          font-family: inherit;
+          font-weight: inherit;
+          &::after {
+            content: "→";
+            transition: all 0.25s ease-in-out;
+            display: inline-block;
+            margin: 0 0 rem(4) rem(16);
+            font-size: 2em;
+            @include bp-768 {
+              font-size: 1em;
+            }
+          }
+        }
         &:focus,
         &:hover {
           color: $color__pink;
