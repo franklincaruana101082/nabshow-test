@@ -650,7 +650,7 @@
   display: grid;
   grid-gap: rem(40);
   @include bp-1024 {
-    grid-template-columns: 1fr rem(400);
+    display: flex;
   }
 }
 .conference__intro-text {
@@ -669,6 +669,9 @@
     text-transform: uppercase;
     text-align: center;
     margin-bottom: rem(30);
+    @include bp-604 {
+      white-space: nowrap;
+    }
   }
 }
 
