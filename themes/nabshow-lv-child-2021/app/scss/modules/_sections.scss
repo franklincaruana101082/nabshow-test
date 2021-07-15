@@ -16,6 +16,14 @@
       padding-bottom: rem(60);
     }
   }
+  &._bottom-only {
+    padding-top: 0;
+    padding-bottom: rem(48);
+    @include bp-768 {
+      padding-top: 0;
+      padding-bottom: rem(60);
+    }
+  }
 }
 
 .section-heading {
