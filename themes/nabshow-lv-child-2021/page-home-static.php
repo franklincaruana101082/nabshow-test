@@ -62,7 +62,7 @@ get_header();
     </div>
   </div>
 
-  <div class="container">
+  <div class="section _bottom-only container">
     <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
 
@@ -172,10 +172,8 @@ get_header();
     </div>
   </div>
 
-  <div class="section _toplarge">
-    <div class="banner">
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/las-vegas-banner.jpg" class="banner__image" alt="alt-here" />
-    </div>
+  <div class="banner">
+    <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/las-vegas-banner.jpg" class="banner__image" alt="alt-here" />
   </div>
 
 
