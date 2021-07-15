@@ -1451,6 +1451,18 @@
 // Attending
 .attending {
 }
+.attending-section {
+  background: linear-gradient(
+      256.59deg,
+      rgba(158, 69, 147, 0) 81.26%,
+      #9e4593 139.5%
+    ),
+    linear-gradient(
+      243.87deg,
+      rgba(12, 165, 234, 0.3) -13.36%,
+      rgba(47, 93, 171, 0.05) 31.04%
+    );
+}
 .attending-title {
   text-align: center;
   text-transform: uppercase;
@@ -1461,6 +1473,7 @@
 }
 .attending-panel {
   text-align: center;
+  overflow: hidden;
   @include bp-768 {
     margin: 0 rem(-15);
   }
@@ -1468,6 +1481,9 @@
 .attending-panels {
   .slick-dots {
     margin-top: rem(16);
+    @include bp-1024 {
+      margin-top: rem(32);
+    }
     display: flex !important;
     li {
       button {
@@ -1498,12 +1514,22 @@
     align-items: center;
     padding: rem(30) 0;
     white-space: nowrap;
-    &::after {
+  }
+  @include bp-768 {
+    position: relative;
+    &::after,
+    &::before {
       content: "";
-      height: rem(6);
-      width: rem(6);
-      background: #9e4593;
-      border-radius: 50%;
+      position: absolute;
+      border: 1px solid #1e233f;
+      bottom: 0;
+      width: 100%;
+    }
+    &::after {
+      left: 50%;
+    }
+    &::before {
+      right: 50%;
     }
   }
 }
@@ -1516,7 +1542,18 @@
 }
 .attending-item-title {
   @include primary-medium-12-12-20;
-  display: inline-block;
-  padding: 0 rem(15);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0 0 rem(15);
   text-transform: uppercase;
+  @include bp-604 {
+    &::after {
+      content: "";
+      height: rem(6);
+      width: rem(6);
+      background: #9e4593;
+      border-radius: 50%;
+      margin-left: rem(15);
+    }
+  }
 }
