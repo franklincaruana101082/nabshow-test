@@ -650,6 +650,7 @@
   display: grid;
   grid-gap: rem(40);
   @include bp-1024 {
+    grid-gap: rem(38);
     display: flex;
   }
 }
