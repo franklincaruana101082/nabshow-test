@@ -21,7 +21,7 @@
 <!-- Schedule Table Begins here -->
 	<div class="section _bottom">
 		<div class="decorative _blur _blur-middle">
-			<div class="container">
+			<div class="schedule-table-container">
 				<div class="schedule-table">
 					<div class="schedule-table-intro">
 						<h2 class="h-xl">October Event<br/>Schedule</h2>
