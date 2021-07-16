@@ -136,7 +136,9 @@ if(optin_required){
 			function( data ) {
 				//set registration cookie
 				document.cookie = rCookieName+'='+rCookieValue+'; expires='+rOneYearFromNow+';path=/';
-				jQuery(self).text('Registered').attr('disabled', 'true').removeClass('_gradientpink');
+				if(!optin_required || optin_complete){
+					jQuery(self).text('Registered').attr('disabled', 'true').removeClass('_gradientpink');
+				}
 				registered = 1;
 				if(optin_complete) {
 					//reload to show the registered content
@@ -171,7 +173,7 @@ if(optin_required){
 						if(optin_required && !optin_complete){
 						//call ajax to opt-in
 						var opt = 'true';
-						//jQuery(self).addClass('_loading').css('opacity', '1').text('Opting In...');
+						jQuery(self).text('Opting In...');
 						
 						jQuery.post(
 							amplifyJS.ajaxurl,
@@ -204,7 +206,7 @@ if(optin_required){
 								//update cookieValue and set to cookie
 								cookieValue = cookieValue.replace(company_id+':'+optVal, company_id+':'+optNum);
 								document.cookie = cookieName+'='+cookieValue+'; expires='+rOneYearFromNow+';path=/';
-								// jQuery(self).text('Saved');
+								
 								// document.setTimeout(function() {
 								// 	jQuery(self).text('Registered');
 								// },1000);
@@ -234,6 +236,7 @@ if(optin_required){
 				            			occurred_at_type: '<?php echo($occurred_at_type);?>'
 									},
 									success: function (response) {
+										jQuery(self).text('Registered').attr('disabled', 'true').removeClass('_gradientpink');
 										//reload page to display preview content
 										location.reload();
 									}
