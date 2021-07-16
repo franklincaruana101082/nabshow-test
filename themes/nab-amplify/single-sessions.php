@@ -212,6 +212,12 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									$registered = true;
 								}
 								if ($registration_required) {
+									$user_id = $user_id;
+									$company_id = $company;
+									$company_name = $session_company_name;
+									$opt_in_required = (int)get_field('make_opt_in_required');
+									$displayInline = false;
+									$occurred_at_type = 'session';
 									include ( locate_template( 'template-parts/session-registration.php', false, false ) );
 								}
 							}
