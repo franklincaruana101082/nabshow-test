@@ -1531,7 +1531,7 @@
       position: absolute;
       border: 1px solid #1e233f;
       bottom: 0;
-      width: 100%;
+      width: 300%;
     }
     &::after {
       left: 50%;
@@ -1544,6 +1544,18 @@
 .attending-item-name {
   text-transform: uppercase;
   @include primary-black-12-12-20;
+  display: inline-flex;
+  @include bp-604 {
+    &::after {
+      content: "";
+      display: block;
+      height: rem(6);
+      width: rem(6);
+      background: #9e4593;
+      border-radius: 50%;
+      margin-left: rem(15);
+    }
+  }
   @include bp-1280 {
     @include primary-black-16-16-20;
   }
@@ -1554,14 +1566,4 @@
   align-items: center;
   padding: 0 0 0 rem(15);
   text-transform: uppercase;
-  @include bp-604 {
-    &::after {
-      content: "";
-      height: rem(6);
-      width: rem(6);
-      background: #9e4593;
-      border-radius: 50%;
-      margin-left: rem(15);
-    }
-  }
 }
