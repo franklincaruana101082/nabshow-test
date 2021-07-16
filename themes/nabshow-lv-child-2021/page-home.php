@@ -168,10 +168,8 @@ $cta2 = get_field('banner_secondary_cta');
     $midbanner = get_field('mid_page_wide_angle_image');
     if(!empty($midbanner)):
   ?>
-  <div class="section _toplarge">
-    <div class="banner">
-      <img src="<?php echo esc_url($midbanner['url']); ?>" alt="<?php echo esc_attr($midbanner['alt']); ?>" class="banner__image" />
-    </div>
+  <div class="banner">
+    <img src="<?php echo esc_url($midbanner['url']); ?>" alt="<?php echo esc_attr($midbanner['alt']); ?>" class="banner__image" />
   </div>
   <?php endif; ?>
 
