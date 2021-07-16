@@ -24,7 +24,7 @@
 			<div class="schedule-table-container">
 				<div class="schedule-table">
 					<div class="schedule-table-intro">
-						<h2 class="h-xl">October Event<br/>Schedule</h2>
+						<h2 class="h-xl">Schedule<br/>At-A-Glance</h2>
 					</div>
 					<div class="schedule-table-table">
 					<table>
