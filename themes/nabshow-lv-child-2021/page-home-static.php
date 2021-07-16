@@ -73,98 +73,89 @@ get_header();
         <div class="attending-panels">
           <div class="attending-panel">
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Company Goes Here</b>
+            </span>
+          </div>
+          <div class="attending-panel">            
+            <span class="attending-item">
+              <b class="attending-item-name">Another Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">Another Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Name Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Name Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Goes Here</b>
+            </span>
+            <span class="attending-item">
+              <b class="attending-item-name">Another Goes Here</b>
             </span>
           </div>
           <div class="attending-panel">
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Name Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Goes Here</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-          </div>
-          <div class="attending-panel">
-            <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b> <span class="attending-item-title">Person's Title Goes Here</span>
+              <b class="attending-item-name">One Goes Here</b>
             </span>
           </div>
         </div>
