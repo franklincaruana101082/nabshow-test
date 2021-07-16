@@ -1482,9 +1482,6 @@
 .attending-panel {
   text-align: center;
   overflow: hidden;
-  @include bp-768 {
-    margin: 0 rem(-15);
-  }
 }
 .attending-panels {
   .slick-dots {
@@ -1520,7 +1517,7 @@
   @include bp-604 {
     display: inline-flex;
     align-items: center;
-    padding: rem(30) 0;
+    padding: rem(30) rem(8);
     white-space: nowrap;
   }
   @include bp-768 {
@@ -1545,6 +1542,8 @@
   text-transform: uppercase;
   @include primary-black-12-12-20;
   display: inline-flex;
+  align-items: center;
+  line-height: 1.75;
   @include bp-604 {
     &::after {
       content: "";
@@ -1553,10 +1552,10 @@
       width: rem(6);
       background: #9e4593;
       border-radius: 50%;
-      margin-left: rem(15);
+      margin-left: rem(30);
     }
   }
-  @include bp-1280 {
+  @include bp-768 {
     @include primary-black-16-16-20;
   }
 }

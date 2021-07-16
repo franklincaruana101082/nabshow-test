@@ -73,89 +73,89 @@ get_header();
         <div class="attending-panels">
           <div class="attending-panel">
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b>
+              <b class="attending-item-name">ABC</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b>
+              <b class="attending-item-name">Apple</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b>
+              <b class="attending-item-name">CBS</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b>
+              <b class="attending-item-name">Dallas Cowboys</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b>
+              <b class="attending-item-name">Department of Defense</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b>
+              <b class="attending-item-name">Discovery Channel</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Name Goes Here</b>
+              <b class="attending-item-name">Disney Streaming Services</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b>
+              <b class="attending-item-name">Dreamworks</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Company Goes Here</b>
+              <b class="attending-item-name">Epic Games</b>
             </span>
           </div>
           <div class="attending-panel">            
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b>
+              <b class="attending-item-name">ESPN</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b>
+              <b class="attending-item-name">Facebook</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b>
+              <b class="attending-item-name">FIFA</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b>
+              <b class="attending-item-name">Formula 1</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b>
+              <b class="attending-item-name">Fox</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Name Goes Here</b>
+              <b class="attending-item-name">Google</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b>
+              <b class="attending-item-name">HULU</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b>
+              <b class="attending-item-name">iHeartMedia</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">Another Goes Here</b>
+              <b class="attending-item-name">Jaguar Land Rover</b>
             </span>
           </div>
           <div class="attending-panel">
             <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b>
+              <b class="attending-item-name">Los Angeles Police Department</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b>
+              <b class="attending-item-name">Lululemon</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b>
+              <b class="attending-item-name">NBC</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b>
+              <b class="attending-item-name">Netflix</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b>
+              <b class="attending-item-name">Paramount Studios</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Name Goes Here</b>
+              <b class="attending-item-name">ROKU</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b>
+              <b class="attending-item-name">Spotify</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b>
+              <b class="attending-item-name">Utah Jazz</b>
             </span>
             <span class="attending-item">
-              <b class="attending-item-name">One Goes Here</b>
+              <b class="attending-item-name">Youtube</b>
             </span>
           </div>
         </div>
