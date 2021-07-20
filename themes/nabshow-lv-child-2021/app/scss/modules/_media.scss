@@ -1,0 +1,72 @@
+// Media
+// images, videos, figures
+
+img {
+  width: 100%;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.wp-block-image img {
+  max-width: 100%;
+  width: auto;
+}
+
+.video-embed {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 56.25%;
+  iframe {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.figure,
+.nabshow_2021 .figure {
+  display: block;
+}
+
+.figure__media {
+  border-radius: rem(10);
+  overflow: hidden;
+  width: 100%;
+}
+.figure__caption {
+  margin-top: rem(18);
+  p {
+    @include primary-medium-12-18;
+  }
+}
+
+.banner {
+  position: relative;
+  &::after {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    @include gradient-purple-orange-corners;
+  }
+}
+
+.banner__image {
+  width: 100%;
+  height: rem(300);
+  object-fit: cover;
+  @include bp-768 {
+    height: auto;
+    max-height: rem(400);
+  }
+}

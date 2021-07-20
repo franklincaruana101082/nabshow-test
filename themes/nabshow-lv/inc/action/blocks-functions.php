@@ -168,6 +168,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 'parentPageId'  => array(
                     'type' => 'string'
                 ),
+                'selection' => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                ),
                 'itemToFetch'  => array(
                     'type' => 'number',
                     'default' => 10

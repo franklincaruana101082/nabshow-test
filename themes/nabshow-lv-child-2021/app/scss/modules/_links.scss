@@ -1,0 +1,124 @@
+// LINKS
+
+.jump-links {
+  background: $color__blue;
+  padding: rem(34) rem(30) rem(30);
+  @include bp-1024 {
+    padding: rem(28) rem(39) rem(24);
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.jump-links__label {
+  color: $color__white;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: rem(30);
+  @include primary-black-12-12-20;
+  @include bp-1024 {
+    text-align: left;
+    margin-top: rem(13);
+    @include primary-black-16-16-20;
+  }
+}
+
+.jump-links__menu {
+  list-style-type: none;
+  @include bp-1024 {
+    flex: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.jump-links__item {
+  ._arrow._full {
+    white-space: normal;
+    line-height: 1.4;
+    text-align: left;
+  }
+}
+
+.jump-links__item {
+  & + .jump-links__item {
+    margin-top: rem(18);
+  }
+  @include bp-1024 {
+    padding-left: rem(32);
+    padding-bottom: rem(18);
+    & + .jump-links__item {
+      margin-top: 0;
+    }
+  }
+}
+
+.jump-links__item .link {
+  &._back {
+    position: relative;
+    display: inline-block;
+    padding-left: 1.5rem;
+    &:before {
+      content: "";
+      display: block;
+      width: rem(8);
+      height: rem(8);
+      position: absolute;
+      //top: calc(50% - 6px);
+      top: 0;
+      left: 0;
+      border-width: 2px 0 0 2px;
+      border-style: solid;
+      border-color: $color__purple;
+      border-radius: 2px 0 0 0;
+      transform-origin: center;
+      transform: translateY(50%) rotate(-45deg);
+    }
+  }
+  &._plus {
+    &:before {
+      content: "+ ";
+    }
+  }
+  &._profile {
+    color: $color__gray-light;
+    text-decoration: none;
+  }
+}
+.friendship-button.add {
+  @extend .link._plus;
+}
+
+// Info Link
+// like jump-links but with more text info and 1 cta
+
+.info-link {
+  background: $color__blue;
+  padding: rem(34) rem(30) rem(30);
+  @include bp-1024 {
+    padding: rem(28) rem(39) rem(24);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.info-link-text {
+  text-transform: uppercase;
+  @include primary-black-12-12-20;
+  margin-bottom: rem(8);
+  & + .info-link-text {
+    margin-top: rem(20);
+  }
+  @include bp-768 {
+    float: left;
+    & + .info-link-text {
+      float: right;
+      margin-top: 0;
+    }
+  }
+  @include bp-1024 {
+    @include primary-black-16-16-20;
+    margin: 0 0 rem(2) 0 !important;
+  }
+}
+.info-link-cta {
+  clear: both;
+}

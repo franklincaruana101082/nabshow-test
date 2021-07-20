@@ -1,0 +1,451 @@
+// Font imports and variable
+
+// Almost entire site uses brandon-grotesque
+$font__primary: brandon-grotesque, sans-serif;
+// Top nav uses proxima-nova
+$font__secondary: proxima-nova, sans-serif;
+
+$weight__regular: 400;
+$weight__medium: 500;
+$weight__semibold: 600;
+$weight__bold: 700;
+$weight__black: 900;
+
+@mixin primary-black-108-108 {
+  font-weight: $weight__black;
+  font-size: rem(108);
+  line-height: rem(108);
+}
+
+@mixin primary-black-80-80 {
+  font-weight: $weight__black;
+  font-size: rem(80);
+  line-height: rem(80);
+}
+
+@mixin primary-black-70-70 {
+  font-weight: $weight__black;
+  font-size: rem(70);
+  line-height: rem(70);
+}
+
+@mixin primary-black-60-60 {
+  font-weight: $weight__black;
+  font-size: rem(60);
+  line-height: rem(60);
+}
+
+@mixin primary-black-58-54 {
+  font-weight: $weight__black;
+  font-size: rem(58);
+  line-height: rem(54);
+}
+
+@mixin primary-black-50-60 {
+  font-weight: $weight__black;
+  font-size: rem(50);
+  line-height: rem(60);
+}
+
+@mixin primary-black-54-57 {
+  font-weight: $weight__black;
+  font-size: rem(54);
+  line-height: rem(57);
+}
+
+@mixin primary-black-45-55 {
+  font-weight: $weight__black;
+  font-size: rem(45);
+  line-height: rem(55);
+}
+
+@mixin primary-black-40-44 {
+  font-weight: $weight__black;
+  font-size: rem(40);
+  line-height: rem(44);
+}
+
+@mixin primary-black-38-50 {
+  font-weight: $weight__black;
+  font-size: rem(38);
+  line-height: rem(50);
+}
+
+@mixin primary-black-31-44 {
+  font-weight: $weight__black;
+  font-size: rem(31);
+  line-height: rem(44);
+}
+
+@mixin primary-black-25-40 {
+  font-weight: $weight__black;
+  font-size: rem(25);
+  line-height: rem(40);
+}
+
+@mixin primary-medium-24-46 {
+  font-weight: $weight__medium;
+  font-size: rem(24);
+  line-height: rem(46);
+}
+
+@mixin primary-medium-22-30 {
+  font-weight: $weight__medium;
+  font-size: rem(22);
+  line-height: rem(30);
+}
+
+@mixin primary-black-22-32 {
+  font-weight: $weight__black;
+  font-size: rem(22);
+  line-height: rem(32);
+}
+
+@mixin primary-bold-20-20 {
+  font-weight: $weight__bold;
+  font-size: rem(20);
+  line-height: rem(20);
+}
+
+@mixin primary-black-20-20 {
+  font-weight: $weight__black;
+  font-size: rem(20);
+  line-height: rem(20);
+}
+
+@mixin primary-medium-20-38 {
+  font-weight: $weight__medium;
+  font-size: rem(20);
+  line-height: rem(38);
+}
+
+@mixin primary-medium-20-30 {
+  font-weight: $weight__medium;
+  font-size: rem(20);
+  line-height: rem(30);
+}
+
+@mixin primary-black-20-30 {
+  font-weight: $weight__black;
+  font-size: rem(20);
+  line-height: rem(30);
+}
+
+@mixin primary-regular-18-30 {
+  font-weight: $weight__regular;
+  font-size: rem(18);
+  line-height: rem(30);
+}
+
+@mixin primary-medium-18-18 {
+  font-weight: $weight__medium;
+  font-size: rem(18);
+  line-height: rem(18);
+}
+
+@mixin primary-regular-17-24 {
+  font-weight: $weight__black;
+  font-size: rem(17);
+  line-height: rem(24);
+}
+
+@mixin primary-regular-17-31 {
+  font-weight: $weight__regular;
+  font-size: rem(18);
+  line-height: rem(31);
+}
+
+@mixin primary-medium-16-16 {
+  font-weight: $weight__medium;
+  font-size: rem(16);
+  line-height: rem(16);
+}
+
+@mixin primary-medium-16-24 {
+  font-weight: $weight__medium;
+  font-size: rem(16);
+  line-height: rem(24);
+}
+
+@mixin primary-medium-italic-16-24 {
+  font-weight: $weight__medium;
+  font-style: italic;
+  font-size: rem(16);
+  line-height: rem(24);
+}
+
+@mixin primary-bold-16-16 {
+  font-weight: $weight__bold;
+  font-size: rem(16);
+  line-height: rem(16);
+}
+
+@mixin primary-black-16-16-20 {
+  font-weight: $weight__black;
+  font-size: rem(16);
+  line-height: rem(16);
+  letter-spacing: rem(16 * 0.2);
+}
+
+@mixin primary-black-15-15-20 {
+  font-weight: $weight__black;
+  font-size: rem(15);
+  line-height: rem(15);
+  letter-spacing: rem(15 * 0.2);
+}
+
+@mixin primary-medium-italic-15-24 {
+  font-weight: $weight__medium;
+  font-style: italic;
+  font-size: rem(15);
+  line-height: rem(24);
+}
+
+@mixin primary-medium-14-14 {
+  font-weight: $weight__medium;
+  font-size: rem(14);
+  line-height: rem(14);
+}
+
+@mixin primary-black-14-14-20 {
+  font-weight: $weight__black;
+  font-size: rem(14);
+  line-height: rem(14);
+  letter-spacing: rem(14 * 0.2);
+}
+
+@mixin primary-medium-12-18 {
+  font-weight: $weight__medium;
+  font-size: rem(12);
+  line-height: rem(18);
+}
+
+@mixin primary-medium-12-12-20 {
+  font-weight: $weight__medium;
+  font-size: rem(12);
+  line-height: rem(12);
+  letter-spacing: rem(12 * 0.2);
+}
+
+@mixin primary-bold-12-12 {
+  font-weight: $weight__bold;
+  font-size: rem(12);
+  line-height: rem(12);
+}
+
+@mixin primary-black-10-10-12 {
+  font-weight: $weight__black;
+  font-size: rem(10);
+  line-height: rem(10);
+  letter-spacing: rem(10 * 0.2);
+}
+
+@mixin primary-black-12-12-20 {
+  font-weight: $weight__black;
+  font-size: rem(12);
+  line-height: rem(12);
+  letter-spacing: rem(12 * 0.2);
+}
+
+@mixin secondary-semibold-18-18 {
+  font-family: $font__secondary;
+  font-weight: $weight__semibold;
+  font-size: rem(18);
+  line-height: rem(18);
+}
+
+@mixin secondary-semibold-12-12-6 {
+  font-family: $font__secondary;
+  font-weight: $weight__semibold;
+  font-size: rem(12);
+  line-height: rem(12);
+  letter-spacing: rem(12 * 0.06);
+}
+@mixin secondary-bold-12-12-6 {
+  font-family: $font__secondary;
+  font-weight: $weight__bold;
+  font-size: rem(12);
+  line-height: rem(12);
+  letter-spacing: rem(12 * 0.06);
+}
+
+/* 
+  HTML, BODY, global
+  ======================================= */
+
+html,
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: $font__primary;
+  color: $color__white;
+}
+
+/* 
+  Headings 
+  ======================================= */
+.nabshow_2021 {
+  h1, h2, h3, h4, h5, h6, p, blockquote, li {
+    font-family: $font__primary;
+    color: $color__white;
+  }
+}
+.h {
+}
+
+.h-xxl {
+  @include bp-768 {
+    @include primary-black-70-70;
+  }
+}
+.h-xl {
+  @include primary-black-20-30;
+  margin-bottom: rem(20);
+  @include bp-768 {
+    @include primary-black-50-60;
+  }
+}
+.h-lg {
+  @include primary-black-20-30;
+  margin-bottom: rem(20);
+  @include bp-768 {
+    @include primary-black-45-55;
+  }
+}
+.h-md {
+  @include primary-black-22-32;
+  margin-bottom: rem(20);
+  @include bp-768 {
+    @include primary-black-54-57;
+    margin-bottom: rem(20);
+  }
+}
+.h-sm {
+  @include bp-768 {
+    @include primary-bold-20-20;
+  }
+}
+.h-xs {
+  @include bp-768 {
+    @include primary-black-16-16-20;
+  }
+}
+
+/* 
+  Text
+  =======================================
+  These classes wrap the target paragraphs
+  ======================================= */
+
+.intro-body-text {
+  max-width: rem(734);
+  margin-bottom: rem(18);
+  @include bp-768 {
+    margin-bottom: rem(60);
+  }
+  p {
+    @include primary-medium-italic-16-24;
+    margin-bottom: rem(30);
+    @include bp-768 {
+      @include primary-medium-italic-16-24;
+      margin-bottom: rem(30);
+    }
+  }
+}
+
+.body-text-small {
+  p {
+    @include bp-768 {
+      @include primary-regular-17-24;
+    }
+  }
+}
+
+.body-text {
+  p {
+    @include bp-768 {
+      @include primary-regular-18-30;
+    }
+  }
+}
+
+.body-text-medium {
+  p {
+    @include primary-regular-17-31;
+    @include bp-768 {
+      @include primary-medium-24-46;
+    }
+  }
+}
+
+%body-text-small {
+  @include bp-768 {
+    @include primary-regular-17-24;
+  }
+}
+
+%body-text {
+  @include bp-768 {
+    @include primary-regular-18-30;
+  }
+}
+
+%body-text-medium {
+  @include primary-regular-17-31;
+  @include bp-768 {
+    @include primary-medium-24-46;
+  }
+}
+
+/* 
+  Quotes
+  =======================================
+  Blockquotes etc
+  ======================================= */
+
+.pullquote {
+  position: relative;
+  padding: rem(40) 0;
+  text-align: center;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      285.1deg,
+      rgba(158, 69, 147, 0) -15.62%,
+      $color__purple-light 146.86%
+    );
+    width: rem(125);
+    height: rem(5);
+  }
+  &::before {
+    top: 0;
+  }
+  &::after {
+    bottom: 0;
+  }
+  @include bp-768 {
+    text-align: left;
+    &::before,
+    &::after {
+      left: 0;
+      transform: translateX(0);
+    }
+  }
+  p {
+    @include primary-black-25-40;
+    text-transform: uppercase;
+    margin-bottom: rem(20);
+    @include bp-768 {
+      @include primary-black-31-44;
+    }
+  }
+  cite {
+    @include primary-black-12-12-20;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+}
