@@ -68,7 +68,6 @@ jQuery(function($) {
 
 	});
 
-
 	$('.cards').slick({
 		slidesToShow: 1,
 		slidesToScroll: 1,
@@ -79,6 +78,17 @@ jQuery(function($) {
 		centerPadding: '20px',
 	});
 
+	$('.attending-panels').slick({
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		dots: true,
+		arrows: false,
+		infinite: false,
+		fade: true,	
+		speed: 1000,
+		autoplay: true,
+		autoplaySpeed: 5000,	
+	});
 
   if ($('.conference-sessions-speakers').length > 0) {
 		// each day
