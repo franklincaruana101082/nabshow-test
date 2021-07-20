@@ -60,7 +60,6 @@ var cookieName = 'nab_optin';
 var company_id = '<?php echo $company_id;?>';
 var registration_required = <?php echo ($registration_required ? "1" : "0"); ?>;
 var registered = <?php echo ($registered ? "1" : "0"); ?>;
-var displayInline = <?php echo ($displayInline ? "1" : "0"); ?>;
 jQuery(function($) {
 
 if(optin_required){
@@ -256,9 +255,5 @@ if(optin_required){
 	});
 });
 
-jQuery('.js-optbtn').on('click', function() {
-		
-		
-	});
 </script>
 </div>
