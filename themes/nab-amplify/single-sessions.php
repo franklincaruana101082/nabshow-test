@@ -212,6 +212,11 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									$registered = true;
 								}
 								if ($registration_required) {
+									$user_id = $user_id;
+									$company_id = $company;
+									$company_name = $session_company_name;
+									$opt_in_required = (int)get_field('make_opt_in_required');
+									$occurred_at_type = 'session';
 									include ( locate_template( 'template-parts/session-registration.php', false, false ) );
 								}
 							}
@@ -252,12 +257,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					registerCometChatProSession();
 					addUserToCometChatPro($user_id);
 
-					if($registration_required) {
-						if ($using_optin) { ?>
-							<div class="container" style="display: none;">
-								<div class="optout__info js-optin_content nabblock"></div>
-							</div>
-					<?php }	} //end internal registration
+					
 					if($show_content) {
 
 					if($session_status == "pre-event") {
@@ -457,7 +457,6 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 						$company_id = $company;
 						$company_name = $session_company_name;
 						$opt_in_required = (int)get_field('make_opt_in_required');
-						$displayInline = false;
 						$occurred_at_type = 'session';
 						//use this instead of get_template_part so the partial can access the above php vars from here
 						include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );

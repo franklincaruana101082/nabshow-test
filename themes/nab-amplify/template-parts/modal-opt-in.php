@@ -17,7 +17,11 @@ if(empty($user_city)) {
 if(empty($user_state)) {
 	$user_state = nab_get_geolocation('state');
 }
-
+echo("<!-- Registration required: ".$registration_required." | Opt In Required: ".$opt_in_required." -->");
+if($registration_required && $opt_in_required) {
+	// if registration is required AND opt-in is required don't show anything here
+	// opt-in will be handled by session-registration.php
+} else {
 
 ?>
 <div id="modal-opt-in" class="nab-modal">
@@ -26,7 +30,7 @@ if(empty($user_state)) {
 			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
 				<h3>Opt In To Communications</h3>
-				<p>Would you like to opt-in to communications from <?php echo $company_name;?>? By opting in, you are indicating that you would like to stay informed of this and other <?php echo $company_name;?> product innovations and allow them to contact you directly. Per our agreement, <?php echo $company_name;?> is not permitted to share your data with anyone else. You can stop communications from <?php echo $company_name;?> or revise your communication settings at any time by directly visiting the <?php echo $company_name;?> website.</p>
+				<p>By opting in, you consent to receive communications from <?php echo $company_name;?>. Per our agreement, <?php echo $company_name;?> is not permitted to share your data with anyone else. You can stop communications or revise your communication settings at any time by visiting the <?php echo $company_name;?> website.</p>
 				<?php if ($opt_in_required) { ?>
 					<p>Opt in is required to access this content.</p>
 				<?php } ?>
@@ -64,18 +68,13 @@ var cookieName = 'nab_optin';
 var company_id = '<?php echo $company_id;?>';
 var registration_required = <?php echo ($registration_required ? "1" : "0"); ?>;
 var registered = <?php echo ($registered ? "1" : "0"); ?>;
-var displayInline = <?php echo ($displayInline ? "1" : "0"); ?>;
 jQuery(function($) {
 	
 	if(document.cookie.indexOf(cookieName) == -1) {	//optins cookie doesn't exist
 		cookieValue = company_id+':2,';
 		optVal = 2;
-		if(registered && !displayInline) {
+		if(registered) {
 			jQuery('#modal-opt-in').show();
-		} else {
-			var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
-			jQuery('.js-optin_content').html(optin_content);
-			jQuery('.js-optin_content').parent().show();
 		}
 	} else { //optins cookie does exist
 		var cookiePart = document.cookie.substr(document.cookie.indexOf(cookieName));
@@ -89,20 +88,12 @@ jQuery(function($) {
 			//get opt in value for company_id
 			optVal = cookieValue.substr(cookieValue.indexOf(company_id+':')+company_id.length+1, 1);
 			if (optVal == 2) { //this might be impossible now
-				if(registered && !displayInline) {
+				if(registered) {
 					jQuery('#modal-opt-in').show();	
-				} else {
-					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
-					jQuery('.js-optin_content').html(optin_content);
-					jQuery('.js-optin_content').parent().show();
 				}
 			} else if(optVal == '0' && opt_in_required) {
-				if(registered && !displayInline) {
+				if(registered) {
 					jQuery('#modal-opt-in').show();
-				} else {
-					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
-					jQuery('.js-optin_content').html(optin_content);
-					jQuery('.js-optin_content').parent().show();
 				}
 			} else if(optVal == '0') {
 				jQuery('.js-optout_content').show();	
@@ -110,12 +101,8 @@ jQuery(function($) {
 		} else { //if the company isn't in the cookieValue let's add it to the end
 			cookieValue += company_id+':2,';
 			optVal = 2;
-			if(registered && !displayInline) {
+			if(registered) {
 				jQuery('#modal-opt-in').show();
-			} else {
-				var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
-				jQuery('.js-optin_content').html(optin_content);
-				jQuery('.js-optin_content').parent().show();
 			}
 		}
 
@@ -204,3 +191,5 @@ jQuery(function($) {
 
 });
 </script>
+
+<?php } ?>
