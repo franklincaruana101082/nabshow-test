@@ -165,17 +165,42 @@ if ( $display_speakers_and_sessions ) {
                     </div>
                     <div class="conference-sessions-sessions">
                         <?php
-                        if ( $featured_sessions ) {
+                        if ( have_rows('featured_sessions') ) {
                             
-                            foreach ( $featured_sessions as $row ) {
+                            while ( have_rows('featured_sessions') ) : the_row();
+                                if (get_sub_field('session')) {
+                                    $session_id = get_sub_field('session');
+                                    $session_link = get_field('cta', $session_id);
+                                    $session_title = get_the_title($session_id);
+                                    $session_date = get_field('session_date', $session_id);
+                                    $session_desc = apply_filters( 'the_content', get_the_content(null, false, $session_id) );
+                                }
+                                if (get_sub_field('session_title')) { $session_title = get_sub_field('session_title');}
+                                if (get_sub_field('dates')) { $session_date = get_sub_field('dates');}
+                                if (get_sub_field('description')) { $session_desc = '<p>'.get_sub_field('description').'</p>';}
+                                if (get_sub_field('session_link')) { $session_link = get_sub_field('session_link');}
+                                if (!empty($session_link)) :
                                 ?>
-                                <!-- ARRAY featured_sessions-->
-                                <div class="conference-sessions-session">                                    
-                                    <p><?php echo esc_html( $row['session_title'] ); ?></p>
-                                    <h6 class="datetime-small icon-calendar"><?php echo esc_html( $row['dates'] ); ?></h6>
-                                </div>                                
-                                <?php
-                            }
+                                <a href="<?php echo esc_url($session_link['url']);?>" class="conference-sessions-session">
+                                <?php else : ?>
+                                <div class="conference-sessions-session">
+                                <?php endif; ?>
+                                    <p><?php echo esc_html( $session_title ); ?></p>
+                                    <h6 class="datetime-small icon-calendar"><?php echo esc_html( $session_date ); ?></h6>
+                                    <div class="conference-sessions-session-desc"><?php echo $session_desc; ?></div>
+                                <?php if (!empty($session_link)) : ?>
+                                </a>
+                                <?php else : ?>
+                                </div>
+                                <?php endif; 
+
+                                //clear all vars for next iteration otherwise empty vars there will get previously assigned values
+                                $session_id = '';
+                                $session_link = '';
+                                $session_title = '';
+                                $session_date = '';
+                                $session_desc = '';
+                            endwhile;
                         }
                         ?>                        
                     </div>
