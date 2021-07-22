@@ -150,7 +150,7 @@ if ( $display_speakers_and_sessions ) {
                                 ?>                                
                                 <div class="conference-sessions-speaker">                                    
                                     <img class="conference-sessions-speaker-image" src="<?php echo esc_url( $speaker_image ); ?>" />
-                                    <h4 class="conference-sessions-speaker-label"> Speaker</h4>
+                                    <?php // <h4 class="conference-sessions-speaker-label"> Speaker</h4> ?>
                                     <h5 class="conference-sessions-speaker-name"><?php echo esc_html( $speaker_name ); ?></h5>
                                     <h6 class="conference-sessions-speaker-date datetime-small icon-calendar"><?php echo esc_html( $speaker_dates ); ?></h6>
                                     <div class="conference-sessions-speaker-body">                                        
@@ -181,11 +181,11 @@ if ( $display_speakers_and_sessions ) {
                                 if (get_sub_field('session_link')) { $session_link = get_sub_field('session_link');}
                                 if (!empty($session_link)) :
                                 ?>
-                                <a href="<?php echo esc_url($session_link['url']);?>" class="conference-sessions-session">
+                                <a href="<?php echo esc_url($session_link['url']);?>" class="conference-sessions-session _link">
                                 <?php else : ?>
                                 <div class="conference-sessions-session">
                                 <?php endif; ?>
-                                    <p><?php echo esc_html( $session_title ); ?></p>
+                                    <p class="conference-sessions-session-title"><?php echo esc_html( $session_title ); ?></p>
                                     <h6 class="datetime-small icon-calendar"><?php echo esc_html( $session_date ); ?></h6>
                                     <div class="conference-sessions-session-desc"><?php echo $session_desc; ?></div>
                                 <?php if (!empty($session_link)) : ?>

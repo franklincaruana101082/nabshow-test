@@ -887,6 +887,37 @@
     padding-left: rem(40);
     padding-right: rem(40);
   }
+  &._link {
+    p.conference-sessions-session-title {
+      transition: color 0.25s ease-in-out;
+    }
+    &:hover, &:focus, &:active {
+      text-decoration: none;
+      p.conference-sessions-session-title {
+        color: $color__pink;
+      }
+    }
+    p.conference-sessions-session-title {
+      &::after {
+        content: "→";
+        transition: color 0.25s ease-in-out;
+        display: inline-block;
+        margin: 0 0 rem(4) rem(16);
+        font-size: 2em;
+        @include bp-768 {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+}
+.conference-sessions-session-desc {
+  font-size: rem(14);
+  line-height: 1.36;
+  p {
+    font-size: rem(14);
+    line-height: 1.36;
+  }
 }
 .conference-sessions-cta {
   margin-top: rem(32);
