@@ -14,9 +14,9 @@ body {
   background-color: $color__purple-dark !important;
   color: $color__white;
   font-family: $font__primary;
-  // * {
-  //   font-family: $font__primary;
-  // }
+  * {
+    font-family: $font__primary;
+  }
 }
 html {
   // html same color as footer in case the content is short
