@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying single Conference
+ * The template for displaying single Destination
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
