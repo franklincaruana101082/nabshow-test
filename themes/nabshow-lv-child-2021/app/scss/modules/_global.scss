@@ -176,6 +176,9 @@ ul.woocommerce-error {
   padding-left: rem(40);
   > li {
     color: $color__white;
+    a {
+      color: $color__pink;
+    }
   }
 }
 

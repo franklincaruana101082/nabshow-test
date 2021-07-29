@@ -1,5 +1,5 @@
 <?php 
-	wp_enqueue_script('nab-ouical', get_template_directory_uri().'/assets/js/ouical.js', array(), '1.0', true); 
+	//wp_enqueue_script('nab-ouical', get_template_directory_uri().'/assets/js/ouical.js', array(), '1.0.2', true); 
 	$cal_start    = new DateTime($session_start);
 	$cal_end      = new DateTime($session_end);
 
