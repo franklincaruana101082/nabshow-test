@@ -42,7 +42,7 @@
 								</tr>
 							</thead>
 							<tr>
-								<th scope="row" class="row-heading"><span>NAB Show Show Floor</span></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/exhibits/">NAB Show Show <b>Floor</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -52,7 +52,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><span>AES Show</span></th>
+								<th scope="row" class="row-heading"><a href="https://aesshow.com/fall2021home/" target="_blank">AES <b>Show</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
@@ -62,7 +62,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><span>BEA</span></th>
+								<th scope="row" class="row-heading"><a href="https://www.beaweb.org/OL/" target="_blank"><b>BEA</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
