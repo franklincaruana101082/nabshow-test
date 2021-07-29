@@ -80,7 +80,7 @@ var calendarGenerators = {
 				'DTSTART:' + (startTime || ''),
 				'DTEND:' + (endTime || ''),
 				'SUMMARY:' + (event.title || ''),
-				'DESCRIPTION:' + (event.description.replace(/[\n\r]/g, " ") || ''),
+				'DESCRIPTION:' + (event.description || ''),
 				'LOCATION:' + (event.address || ''),
 				'END:VEVENT',
 				'END:VCALENDAR'].join('\n'));
