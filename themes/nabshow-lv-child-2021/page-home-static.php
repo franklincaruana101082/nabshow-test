@@ -75,9 +75,9 @@ get_header();
             <span class="attending-item">
               <b class="attending-item-name">ABC</b>
             </span>
-            <span class="attending-item">
+            <?php/*<span class="attending-item">
               <b class="attending-item-name">Apple</b>
-            </span>
+            </span>*/?>
             <span class="attending-item">
               <b class="attending-item-name">CBS</b>
             </span>
