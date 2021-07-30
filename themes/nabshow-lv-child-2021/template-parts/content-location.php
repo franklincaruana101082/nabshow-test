@@ -266,7 +266,7 @@ if ( $all_conferences->have_posts() ) {
                             </div>
                             <h6 class="schedule__session-item-time"><?php echo esc_html( $conference_final_date ); ?></h6>
                             <div class="schedule__session-item-cta">
-                                <span class="button _solid _compact">Register</span>
+                                <span class="button _solid _compact">Learn More</span>
                             </div>
                         </div>
                     </a>
