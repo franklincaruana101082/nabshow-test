@@ -746,7 +746,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 								if ( is_array( $value ) ) {
 									$value = wp_json_encode( $value, true );
 								} else {
-									$value = trim( $value );
+									$value = 1000 > strlen( $value ) ? trim( $value ) : $value;
 								}
 								update_post_meta( $update_post_id, $name, $value );
 							}
@@ -774,7 +774,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						//Adding meta
 						if ( $post_id ) {
 							foreach ( $individual_item as $name => $value ) {
-								$value = trim( $value );
+								$value = 1000 > strlen( $value ) ? trim( $value ) : $value;
 								if ( ! in_array( $name, $exclude_from_meta, true ) && ! empty( $value ) ) {
 									if ( is_array( $value ) ) {
 										$value = wp_json_encode( $value, true );
@@ -1026,6 +1026,8 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 						if ( ( ! is_array( $terms ) && ! empty( $terms ) ) || ( is_array( $terms ) && 0 !== count( $terms ) ) ) {
 							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( $terms, $tax, $post_id );
+						} else {
+							$post_detail .= $this->nab_mys_cron_assign_single_term_by_name( '', $tax, $post_id );
 						}
 					}
 
