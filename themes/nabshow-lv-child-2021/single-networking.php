@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying single Destination
+ * The template for displaying single Networking posts
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
