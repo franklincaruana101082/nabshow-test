@@ -23,24 +23,24 @@ get_header();
 
   <div class="section _bottom container _wide">
     <div class="logo-group">
-      <!-- Loop thru attendee images -->
-      <img src="/assets/images/logo-group-logo-cbs.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-paramount.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-spotify.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-disney.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-cbs.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-paramount.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-espn.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-disney.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-netflix.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-hulu.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-espn.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-discovery.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-fox.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-hulu.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-youtube.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-discovery.png" alt="logo name here" />
-      <img src="/assets/images/logo-group-logo-fox.png" alt="logo name here" />
+      <!-- Loop thru attendee images -->      
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-cbs.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-paramount.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-spotify.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-disney.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-cbs.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-paramount.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-espn.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-disney.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-netflix.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-hulu.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-espn.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-discovery.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-fox.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-hulu.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-youtube.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-discovery.png" alt="logo name here" />
+      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-fox.png" alt="logo name here" />
       <!-- END Loop thru attendee images -->      
     </div>
   </div>
