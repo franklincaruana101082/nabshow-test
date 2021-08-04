@@ -10,7 +10,7 @@
  */
 
 ?>
-
+</div><?php //close <div data-swiftype-name="body" data-swiftype-type="text"> ?>
   <footer class="footer">
     <div class="footer__container">
       <div class="footer__main">
