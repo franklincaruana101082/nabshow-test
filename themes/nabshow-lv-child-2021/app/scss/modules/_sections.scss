@@ -1622,6 +1622,14 @@
   text-transform: uppercase;
 }
 
+.attending-list-wrapper {
+  @include gradient-purple-blue;
+  padding: rem(48) 0;
+  @include bp-1024 {
+    padding: rem(60) 0;
+  }
+}
+
 .attending-list {
   list-style-type: none;
   li {
