@@ -16,6 +16,14 @@
       padding-bottom: rem(60);
     }
   }
+  &._bottom-only {
+    padding-top: 0;
+    padding-bottom: rem(48);
+    @include bp-768 {
+      padding-top: 0;
+      padding-bottom: rem(60);
+    }
+  }
 }
 
 .section-heading {
@@ -193,12 +201,6 @@
     p {
       @include primary-medium-24-46;
     }
-  }
-}
-.intro__title + .intro__body {
-  margin-top: rem(30);
-  @include bp-768 {
-    margin-top: rem(50);
   }
 }
 
@@ -656,6 +658,7 @@
   display: grid;
   grid-gap: rem(40);
   @include bp-1024 {
+    grid-gap: rem(38);
     display: flex;
   }
 }
@@ -796,6 +799,28 @@
 .conference-sessions-speaker {
   text-align: center;
 }
+.conference-sessions-speaker-link {
+  text-decoration: none;
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    .conference-sessions-speaker-name {
+      color: $color__pink;
+      text-decoration: none;
+    }
+  }
+  .conference-sessions-speaker-name {
+    transition: color 0.25s ease-in-out;
+    text-decoration: none;
+    &:after {
+      content: "→";
+      display: inline-block;
+      font-size: 1em;
+      margin: 0 0 0.25rem 1rem;
+    }
+  }
+}
 .conference-sessions-speaker-image {
   border-radius: 50%;
   display: block;
@@ -883,6 +908,39 @@
   @include bp-1280 {
     padding-left: rem(40);
     padding-right: rem(40);
+  }
+  &._link {
+    p.conference-sessions-session-title {
+      transition: color 0.25s ease-in-out;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+      p.conference-sessions-session-title {
+        color: $color__pink;
+      }
+    }
+    p.conference-sessions-session-title {
+      &::after {
+        content: "→";
+        transition: color 0.25s ease-in-out;
+        display: inline-block;
+        margin: 0 0 rem(4) rem(16);
+        font-size: 2em;
+        @include bp-768 {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+}
+.conference-sessions-session-desc {
+  font-size: rem(14);
+  line-height: 1.36;
+  p {
+    font-size: rem(14);
+    line-height: 1.36;
   }
 }
 .conference-sessions-cta {
@@ -1076,6 +1134,7 @@
   display: flex;
   flex-direction: column-reverse;
   .story-step-counter {
+    color: $color__white;
     @include primary-black-60-60;
     opacity: 0.2;
     display: block;
@@ -1195,6 +1254,9 @@
       width: 100%;
       padding-right: rem(10);
       cursor: pointer;
+      &:focus {
+        outline: none;
+      }
       &::after {
         content: "";
         position: relative;
@@ -1255,6 +1317,7 @@
   }
 }
 
+// schedule-table
 .schedule-table-container {
   position: relative;
   z-index: 1;
@@ -1268,7 +1331,6 @@
   }
 }
 
-// schedule-table
 .schedule-table-intro {
   h1,
   h2,
@@ -1361,17 +1423,17 @@
       span {
         display: block;
         margin: 0 auto;
-        width: rem(16);
-        height: rem(16);
+        width: rem(10);
+        height: rem(10);
         overflow: hidden;
         border-radius: 50%;
-        background: $color__pink;
+        background: #c25cb6;
         text-indent: 999%;
       }
     }
   }
 }
-@media (max-width: 1023px) {
+@media (max-width: 1080px) {
   .schedule-table {
     table {
       .col-date {
@@ -1383,7 +1445,7 @@
   }
 }
 
-@media (max-width: 742px) {
+@media (max-width: 770px) {
   .schedule-table {
     table {
       .row-heading {
@@ -1425,7 +1487,8 @@
       }
       .row-date {
         span {
-          display: block;
+          display: flex;
+          align-items: center;
           margin: 0 auto;
           width: auto;
           height: auto;
@@ -1437,10 +1500,10 @@
             content: "";
             display: inline-block;
             margin-right: rem(10);
-            width: rem(16);
-            height: rem(16);
+            width: rem(10);
+            height: rem(10);
             border-radius: 50%;
-            background: $color__pink;
+            background: #c25cb6;
           }
         }
       }
@@ -1557,14 +1620,6 @@
   align-items: center;
   padding: 0 0 0 rem(15);
   text-transform: uppercase;
-}
-
-.attending-list-wrapper {
-  @include gradient-purple-blue;
-  padding: rem(48) 0;
-  @include bp-1024 {
-    padding: rem(60) 0;
-  }
 }
 
 .attending-list {
