@@ -801,7 +801,9 @@
 }
 .conference-sessions-speaker-link {
   text-decoration: none;
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     text-decoration: none;
     .conference-sessions-speaker-name {
       color: $color__pink;
@@ -809,15 +811,15 @@
     }
   }
   .conference-sessions-speaker-name {
-    transition: color .25s ease-in-out;
+    transition: color 0.25s ease-in-out;
     text-decoration: none;
     &:after {
       content: "→";
       display: inline-block;
       font-size: 1em;
-      margin: 0 0 .25rem 1rem;
+      margin: 0 0 0.25rem 1rem;
     }
-  }  
+  }
 }
 .conference-sessions-speaker-image {
   border-radius: 50%;
@@ -911,7 +913,9 @@
     p.conference-sessions-session-title {
       transition: color 0.25s ease-in-out;
     }
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       text-decoration: none;
       p.conference-sessions-session-title {
         color: $color__pink;
@@ -1616,4 +1620,102 @@
   align-items: center;
   padding: 0 0 0 rem(15);
   text-transform: uppercase;
+}
+
+.attending-list {
+  list-style-type: none;
+  li {
+    padding: rem(14) 0 rem(14) rem(38);
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      top: rem(24);
+      left: 0;
+      display: block;
+      height: rem(6);
+      width: rem(6);
+      background: #9e4593;
+      border-radius: 50%;
+      margin-left: rem(16);
+    }
+    @include bp-1280 {
+      padding: rem(14) 0;
+      &::before {
+        display: none;
+      }
+    }
+  }
+  @include bp-768 {
+    column-count: 2;
+    column-gap: rem(100);
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(50% - 1px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+.attending-list-item-name {
+  text-transform: uppercase;
+  @include primary-black-12-12-20;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.75;
+  @include bp-1280 {
+    &::after {
+      content: "";
+      display: block;
+      height: rem(6);
+      width: rem(6);
+      background: #9e4593;
+      border-radius: 50%;
+      margin-left: rem(16);
+    }
+  }
+  @include bp-604 {
+    @include primary-black-16-16-20;
+    line-height: 1.5;
+  }
+}
+.attending-list-item-title {
+  @include primary-medium-12-12-20;
+  align-items: center;
+  text-transform: uppercase;
+  display: block;
+  padding: rem(8) 0 0 0;
+  @include bp-1280 {
+    display: inline-flex;
+    padding: 0 0 0 rem(15);
+  }
+}
+
+// Logo Group
+.logo-group {
+  text-align: center;
+  margin: -2% -2%;
+  @include bp-768 {
+    margin: -1% -2%;
+  }
+  img {
+    display: inline-block;
+    width: auto;
+    max-height: 2.75rem;
+    margin: 4%;
+    @include bp-604 {
+      max-height: 2.5rem;
+      margin: 3% 3%;
+    }
+    @include bp-768 {
+      max-height: 2.5rem;
+      margin: 2% 2.5%;
+    }
+    @include bp-1280 {
+      max-height: 2.75rem;
+    }
+  }
 }
