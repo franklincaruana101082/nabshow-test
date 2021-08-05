@@ -491,7 +491,7 @@ html._header-is-open {
   color: $color__white;
   font-family: $font__primary;
   font-weight: 400;
-  font-size: rem(14);
+  font-size: rem(18);
   line-height: 1.14;
   box-sizing: content-box;
   box-shadow: none;
@@ -523,4 +523,14 @@ html._header-is-open {
 // Overriding Swiftype's Input Focus Color
 .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
   border-color: $color__blue !important;
+}
+//override swiftypes search result tiny font sizes
+.st-install-_2XyWYChms3Vq4a5zLBs .st-ui-result {
+  .st-ui-type-heading {
+    font-size: rem(16) !important;
+  }
+  .st-ui-type-detail {
+    font-size: rem(14) !important;
+    max-height: rem(38) !important;
+  }
 }
