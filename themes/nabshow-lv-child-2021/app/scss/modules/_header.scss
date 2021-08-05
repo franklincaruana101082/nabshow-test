@@ -325,7 +325,7 @@ html._header-is-open {
     @extend .button._solid;
     @extend .button._compact;
     display: inline-block;
-    padding: rem(17) rem(32);
+    padding: rem(12) rem(32);
     color: $color__blue;
     font-size: rem(12);
   }
