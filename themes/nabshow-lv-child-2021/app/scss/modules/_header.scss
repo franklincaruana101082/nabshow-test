@@ -499,6 +499,7 @@ html._header-is-open {
   width: rem(268);
   @include bp-1024 {
     display: block;
+    float: right;
   }
 }
 .header__mobileSearch.st-default-search-input {
@@ -510,5 +511,5 @@ html._header-is-open {
 
 // Overriding Swiftype's Input Focus Color
 .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
-  border-color: #cc0000 !important;
+  border-color: $color__blue !important;
 }
