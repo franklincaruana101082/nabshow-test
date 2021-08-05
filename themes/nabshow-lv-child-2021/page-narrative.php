@@ -18,7 +18,9 @@ $display_ad_section         = get_field( 'display_ad_section' );
         <h2 class="intro__title"><?php echo esc_html( $page_subtitle ); ?></h2>
     </div>
 </div>
-
+<div class="container">
+    <?php dynamic_sidebar('broadstreet-internal-top'); ?>
+</div>
 <?php
 if ( $display_feature_text_block ) {
     
@@ -83,6 +85,9 @@ if ( $display_logo_banner ) {
         <div class="logo-banner">
             <div class="logo-banner-media">
                 <img src="<?php echo esc_url( $logo_banner_url ); ?>" alt="<?php echo esc_attr( $logo_banner_image_alt ); ?>" />
+                <div class="logo-banner-ad">
+                    <?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
+                </div>
             </div>
             <div class="logo-banner-body wysiwyg-typography">
                 <?php echo wp_kses_post( $logo_banner_body ); ?>
@@ -152,5 +157,9 @@ if ( $display_ad_section ) {
     </div>
     <?php
 }
-
+?>
+<div class="container">
+    <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+</div>
+<?php
 get_footer();
