@@ -11,6 +11,11 @@
   @include bp-1280 {
     max-width: rem(1200);
   }
+  &._wide {
+    @include bp-1280 {
+      max-width: rem(1344);
+    }
+  }
 
   &._nop {
     padding-left: 0;
