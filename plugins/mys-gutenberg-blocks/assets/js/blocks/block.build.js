@@ -4531,7 +4531,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 100,
+                        max: 200,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
