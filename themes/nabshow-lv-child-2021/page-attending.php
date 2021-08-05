@@ -17,7 +17,7 @@ get_header();
       <h2 class="intro__title">
         YOU'LL BE IN GOOD COMPANY
       </h2>
-      <div class="intro__body"><p>Thousand are already registered representing the following brands.</p></div>
+      <div class="intro__body"><p>Thousands are already registered representing the following brands.</p></div>
     </div>
   </div>
 
