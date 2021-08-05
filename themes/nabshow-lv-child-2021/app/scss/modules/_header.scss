@@ -479,3 +479,36 @@ html._header-is-open {
 .nab-header-secondary .nab-avatar img {
   width: rem(32) !important;
 }
+
+
+// Overriding Swiftype's search box styles
+.header__mobileSearch.st-default-search-input,
+.header__search.st-default-search-input {
+  height: rem(24);
+  border-radius: rem(20);
+  border: 1px solid $color__white;
+  padding: rem(7) rem(11) rem(7) rem(36);
+  color: $color__white;
+  background: rgba($color__white, .1) 8px 8px no-repeat url('data:image/svg+xml;utf8,<svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33579 17.1398C13.9395 17.1398 17.6716 13.5268 17.6716 9.06991C17.6716 4.61302 13.9395 1 9.33579 1C4.73206 1 1 4.61302 1 9.06991C1 13.5268 4.73206 17.1398 9.33579 17.1398Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/><line y1="-0.75" x2="8.7296" y2="-0.75" transform="matrix(0.739365 0.673304 -0.696866 0.717201 14.5459 15.1223)" stroke="white" stroke-width="1.5"/></svg>') !important;
+  &:focus {
+    border: 1px solid $color__white;
+  }
+}
+.header__search.st-default-search-input {
+  display: none;
+  width: rem(268);
+  @include bp-1024 {
+    display: block;
+  }
+}
+.header__mobileSearch.st-default-search-input {
+  width: calc(100% - #{rem(47)});
+  @include bp-768 {
+    display: none;
+  }
+}
+
+// Overriding Swiftype's Input Focus Color
+.st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
+  border-color: #cc0000 !important;
+}

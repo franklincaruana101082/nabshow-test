@@ -148,6 +148,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 </div> -->
                                 <div class="nab-profile-menu">
                                 <?php
+                                        //if site is not NABShow.com show login/sign up or profile links
                                         if($current_site_id != 4) {
                                             if ( is_user_logged_in() ) {
                                             $current_user    = wp_get_current_user();
@@ -176,6 +177,11 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                             </ul>
                                         <?php
                                             }
+                                        } else {
+                                            //show swiftype search on NABShow.com
+                                            ?>
+                                            <input type="text" class="st-default-search-input header__search">
+                                            <?php
                                         } 
                                 ?>
                                 </div>
