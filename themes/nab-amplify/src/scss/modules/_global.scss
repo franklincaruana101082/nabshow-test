@@ -529,7 +529,7 @@ input[type="button"].button {
 broadstreet-zone-container {
 	padding-top: rem(20);
 	padding-bottom: rem(20);
-	broadstreet-zone div span {
+	broadstreet-zone div > span {
 		&:before {
 			content: "Advertisement";
 			display: block;
