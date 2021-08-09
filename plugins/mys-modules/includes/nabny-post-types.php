@@ -255,19 +255,19 @@ add_action( 'init', 'nab_mys_sessions_taxonomies', 0 );
 function nab_mys_sessions_post_type() {
 
 	$labels = array(
-		'name'               => __( 'Sessions', 'mys-modules' ),
-		'singular_name'      => __( 'Session', 'mys-modules' ),
+		'name'               => __( 'MYS Sessions', 'mys-modules' ),
+		'singular_name'      => __( 'MYS Session', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
-		'add_new_item'       => __( 'Add New Session', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New MYS Session', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
-		'new_item'           => __( 'New Session', 'mys-modules' ),
-		'all_items'          => __( 'All Sessions', 'mys-modules' ),
-		'view_item'          => __( 'View Sessions', 'mys-modules' ),
-		'search_items'       => __( 'Search Sessions', 'mys-modules' ),
-		'not_found'          => __( 'No Sessions found', 'mys-modules' ),
-		'not_found_in_trash' => __( 'No Sessions found in Trash', 'mys-modules' ),
+		'new_item'           => __( 'New MYS Session', 'mys-modules' ),
+		'all_items'          => __( 'All MYS Sessions', 'mys-modules' ),
+		'view_item'          => __( 'View MYS Sessions', 'mys-modules' ),
+		'search_items'       => __( 'Search MYS Sessions', 'mys-modules' ),
+		'not_found'          => __( 'No MYS Sessions found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No MYS Sessions found in Trash', 'mys-modules' ),
 		'parent_item_colon'  => __( '', 'mys-modules' ),
-		'menu_name'          => __( 'Sessions', 'mys-modules' )
+		'menu_name'          => __( 'MYS Sessions', 'mys-modules' )
 	);
 
 	$args = array(
@@ -293,7 +293,7 @@ function nab_mys_sessions_post_type() {
 			'thumbnail',
 			'revisions',
 			'trackbacks',
-			'excerpt',			
+			'excerpt',
 			'custom-fields'
 		)
 	);
@@ -382,19 +382,19 @@ add_action( 'init', 'nab_mys_speakers_taxonomies', 0 );
 function nab_mys_speakers_post_type() {
 
 	$labels = array(
-		'name'               => __( 'Speakers', 'mys-modules' ),
-		'singular_name'      => __( 'Speaker', 'mys-modules' ),
+		'name'               => __( 'MYS Speakers', 'mys-modules' ),
+		'singular_name'      => __( 'MYS Speaker', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
-		'add_new_item'       => __( 'Add New Speaker', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New MYS Speaker', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
-		'new_item'           => __( 'New Speaker', 'mys-modules' ),
-		'all_items'          => __( 'All Speakers', 'mys-modules' ),
-		'view_item'          => __( 'View Speakers', 'mys-modules' ),
-		'search_items'       => __( 'Search Speakers', 'mys-modules' ),
-		'not_found'          => __( 'No Speakers found', 'mys-modules' ),
-		'not_found_in_trash' => __( 'No Speakers found in Trash', 'mys-modules' ),
+		'new_item'           => __( 'New MYS Speaker', 'mys-modules' ),
+		'all_items'          => __( 'All MYS Speakers', 'mys-modules' ),
+		'view_item'          => __( 'View MYS Speakers', 'mys-modules' ),
+		'search_items'       => __( 'Search MYS Speakers', 'mys-modules' ),
+		'not_found'          => __( 'No MYS Speakers found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No MYS Speakers found in Trash', 'mys-modules' ),
 		'parent_item_colon'  => __( '', 'mys-modules' ),
-		'menu_name'          => __( 'Speakers', 'mys-modules' )
+		'menu_name'          => __( 'MYS Speakers', 'mys-modules' )
 	);
 
 	$args = array(
@@ -505,19 +505,19 @@ add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
 function nab_mys_sponsor_post_type() {
 
 	$labels = array(
-		'name'               => __( 'Sponsors-Partners', 'mys-modules' ),
-		'singular_name'      => __( 'Sponsor-Partner', 'mys-modules' ),
+		'name'               => __( 'MYS Sponsors-Partners', 'mys-modules' ),
+		'singular_name'      => __( 'MYS Sponsor-Partner', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
-		'add_new_item'       => __( 'Add New Sponsor-Partner', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New MYS Sponsor-Partner', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
-		'new_item'           => __( 'New Sponsor-Partner', 'mys-modules' ),
-		'all_items'          => __( 'All Sponsors-Partners', 'mys-modules' ),
-		'view_item'          => __( 'View Sponsors-Partners', 'mys-modules' ),
-		'search_items'       => __( 'Search Sponsors-Partners', 'mys-modules' ),
-		'not_found'          => __( 'No Sponsors-Partners found', 'mys-modules' ),
-		'not_found_in_trash' => __( 'No Sponsors-Partners found in Trash', 'mys-modules' ),
+		'new_item'           => __( 'New MYS Sponsor-Partner', 'mys-modules' ),
+		'all_items'          => __( 'All MYS Sponsors-Partners', 'mys-modules' ),
+		'view_item'          => __( 'View MYS Sponsors-Partners', 'mys-modules' ),
+		'search_items'       => __( 'Search MYS Sponsors-Partners', 'mys-modules' ),
+		'not_found'          => __( 'No MYS Sponsors-Partners found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No MYS Sponsors-Partners found in Trash', 'mys-modules' ),
 		'parent_item_colon'  => __( '', 'mys-modules' ),
-		'menu_name'          => __( 'Sponsors-Partners', 'mys-modules' )
+		'menu_name'          => __( 'MYS Sponsors-Partners', 'mys-modules' )
 	);
 
 	$args = array(
@@ -713,19 +713,19 @@ add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );
 function nab_mys_exhibitor_post_type() {
 
 	$labels = array(
-		'name'               => __( 'Exhibitors', 'mys-modules' ),
-		'singular_name'      => __( 'Exhibitor', 'mys-modules' ),
+		'name'               => __( 'MYS Exhibitors', 'mys-modules' ),
+		'singular_name'      => __( 'MYS Exhibitor', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
-		'add_new_item'       => __( 'Add New Exhibitor', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New MYS Exhibitor', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
-		'new_item'           => __( 'New Exhibitor', 'mys-modules' ),
-		'all_items'          => __( 'All Exhibitors', 'mys-modules' ),
-		'view_item'          => __( 'View Exhibitors', 'mys-modules' ),
-		'search_items'       => __( 'Search Exhibitors', 'mys-modules' ),
-		'not_found'          => __( 'No Exhibitors found', 'mys-modules' ),
-		'not_found_in_trash' => __( 'No Exhibitors found in Trash', 'mys-modules' ),
+		'new_item'           => __( 'New MYS Exhibitor', 'mys-modules' ),
+		'all_items'          => __( 'All MYS Exhibitors', 'mys-modules' ),
+		'view_item'          => __( 'View MYS Exhibitors', 'mys-modules' ),
+		'search_items'       => __( 'Search MYS Exhibitors', 'mys-modules' ),
+		'not_found'          => __( 'No MYS Exhibitors found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No MYS Exhibitors found in Trash', 'mys-modules' ),
 		'parent_item_colon'  => __( '', 'mys-modules' ),
-		'menu_name'          => __( 'Exhibitors', 'mys-modules' )
+		'menu_name'          => __( 'MYS Exhibitors', 'mys-modules' )
 	);
 
 	$args = array(
@@ -771,19 +771,19 @@ add_action( 'init', 'nab_mys_exhibitor_post_type' );
 function nab_mys_product_post_type() {
 
 	$labels = array(
-		'name'               => __( 'Products', 'mys-modules' ),
-		'singular_name'      => __( 'Product', 'mys-modules' ),
+		'name'               => __( 'MYS Products', 'mys-modules' ),
+		'singular_name'      => __( 'MYS Product', 'mys-modules' ),
 		'add_new'            => __( 'Add New', 'mys-modules' ),
-		'add_new_item'       => __( 'Add New Product', 'mys-modules' ),
+		'add_new_item'       => __( 'Add New MYS Product', 'mys-modules' ),
 		'edit_item'          => __( 'Edit', 'mys-modules' ),
-		'new_item'           => __( 'New Product', 'mys-modules' ),
-		'all_items'          => __( 'All Products', 'mys-modules' ),
-		'view_item'          => __( 'View Products', 'mys-modules' ),
-		'search_items'       => __( 'Search Products', 'mys-modules' ),
-		'not_found'          => __( 'No Products found', 'mys-modules' ),
-		'not_found_in_trash' => __( 'No Products found in Trash', 'mys-modules' ),
+		'new_item'           => __( 'New MYS Product', 'mys-modules' ),
+		'all_items'          => __( 'All MYS Products', 'mys-modules' ),
+		'view_item'          => __( 'View MYS Products', 'mys-modules' ),
+		'search_items'       => __( 'Search MYS Products', 'mys-modules' ),
+		'not_found'          => __( 'No MYS Products found', 'mys-modules' ),
+		'not_found_in_trash' => __( 'No MYS Products found in Trash', 'mys-modules' ),
 		'parent_item_colon'  => __( '', 'mys-modules' ),
-		'menu_name'          => __( 'Products', 'mys-modules' )
+		'menu_name'          => __( 'MYS Products', 'mys-modules' )
 	);
 
 	$args = array(

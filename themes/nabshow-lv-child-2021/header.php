@@ -88,7 +88,7 @@
             ?>
         </a>
         <?php wp_nav_menu( array( 'theme_location' => 'menu-main', 'container' => false, 'menu_class' => 'header__mainnav-menu menu' ) ); ?>
-      
+        <?php //echo('<input type="text" class="st-default-search-input header__search">');?>
       </nav>
       <?php do_action( 'nab_global_header' ); ?>
       <?php /*
