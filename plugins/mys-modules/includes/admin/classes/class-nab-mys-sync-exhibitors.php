@@ -386,9 +386,9 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 */
 		public function nab_mys_exh_csv() {
 
-			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
-			$date_csv             = FILTER_INPUT( INPUT_POST, 'date-csv', FILTER_SANITIZE_STRING );
-			$time_csv             = FILTER_INPUT( INPUT_POST, 'time-csv', FILTER_SANITIZE_STRING );
+			$sync_exhibitors_data = filter_input( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
+			$date_csv             = filter_input( INPUT_POST, 'date-csv', FILTER_SANITIZE_STRING );
+			$time_csv             = filter_input( INPUT_POST, 'time-csv', FILTER_SANITIZE_STRING );
 			$csv_from_date        = "$date_csv $time_csv";
 			$current_time         = current_time( 'Y-m-d H:i:s' );
 

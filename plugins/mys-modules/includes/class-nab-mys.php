@@ -258,7 +258,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 			$this->nab_mys_load_history_class();
 
-			$history_groupid = FILTER_INPUT( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
+			$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
 			//Load Page
 			$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );
