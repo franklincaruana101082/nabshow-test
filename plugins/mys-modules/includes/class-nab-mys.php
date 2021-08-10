@@ -255,13 +255,13 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		 * @since 1.0.0
 		 */
 		public function nab_mys_page_history() {
+			echo "<h1>MYS MOdules</h1>";
+			//$this->nab_mys_load_history_class();
 
-			$this->nab_mys_load_history_class();
-
-			$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
+			//$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
 			//Load Page
-			$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );
+			//$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );
 
 		}
 
