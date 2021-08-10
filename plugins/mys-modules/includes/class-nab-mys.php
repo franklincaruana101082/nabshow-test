@@ -256,11 +256,11 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		 */
 		public function nab_mys_page_history() {
 			
-			$this->nab_mys_load_history_class();
+			$this->nab_mys_load_history_class();			
 
-			echo "<h1>MYS Modules1</h1>";
+			$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
-			//$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
+			echo "<h1>MYS Modules2</h1>";
 
 			//Load Page
 			//$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );
