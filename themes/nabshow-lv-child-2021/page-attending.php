@@ -49,54 +49,54 @@ get_header();
     <div class="container _wide">
       <ul class="attending-list">
         <!-- Loop thru attendee names/titles -->
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b></li>
+        <li><b class="attending-list-item-name">COMPANY NAME</b></li>
         <!-- END Loop thru attendee names/titles -->
       </ul>
     </div>
