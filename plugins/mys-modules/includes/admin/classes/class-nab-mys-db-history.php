@@ -123,7 +123,10 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 					'orderby' => 'display_name',
 					'order'   => 'ASC'
 				);
-				
+
+				echo '<pre>';
+				print_r( get_users( $args ) );
+				exit;
 				$this->request_data['all_users'] = get_users( $args );
 				
 				$user_ids                        = array();
