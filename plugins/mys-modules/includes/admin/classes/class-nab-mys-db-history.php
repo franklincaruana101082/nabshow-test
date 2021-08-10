@@ -123,9 +123,9 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 					'order'   => 'ASC'
 				);
 
-				echo 'Remove Blog id<pre>';
-				print_r( get_users( $args ) );
-				exit;
+				// echo 'Remove Blog id<pre>';
+				// print_r( get_users( $args ) );
+				// exit;
 				$this->request_data['all_users'] = get_users( $args );
 				
 				$user_ids                        = array();
