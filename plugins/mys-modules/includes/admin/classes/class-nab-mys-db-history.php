@@ -379,33 +379,33 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->nab_mys_db_cron_object = $nab_mys_db_cron_object;
 
 			//Set variables
-			$this->nab_mys_history_set_vars();
-
-			echo "<h1>MYS Modules3</h1>";
+			$this->nab_mys_history_set_vars();			
 
 			//Set filters
 			$this->nab_mys_history_set_filters();
 
-			//Get History Data
-			$this->nab_mys_history_get_data();
+			echo "<h1>MYS Modules4</h1>";
 
-			//Ordering
-			$this->nab_mys_history_set_ordering();
+			// //Get History Data
+			// $this->nab_mys_history_get_data();
 
-			//Pagination
-			$this->nab_mys_history_set_pagination();
+			// //Ordering
+			// $this->nab_mys_history_set_ordering();
 
-			//MYS Header
-			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
+			// //Pagination
+			// $this->nab_mys_history_set_pagination();
 
-			//History Header
-			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-header.php' );
+			// //MYS Header
+			// require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 
-			if ( 'listing' === $this->page_template ) {
-				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-list.php' );
-			} else {
-				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-detail.php' );
-			}
+			// //History Header
+			// require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-header.php' );
+
+			// if ( 'listing' === $this->page_template ) {
+			// 	require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-list.php' );
+			// } else {
+			// 	require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-detail.php' );
+			// }
 
 		}
 
