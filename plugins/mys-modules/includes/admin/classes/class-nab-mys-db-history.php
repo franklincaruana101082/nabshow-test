@@ -381,10 +381,10 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			//Set variables
 			$this->nab_mys_history_set_vars();			
 
-			//Set filters
-			$this->nab_mys_history_set_filters();
-
 			echo "<h1>MYS Modules4</h1>";
+
+			//Set filters
+			//$this->nab_mys_history_set_filters();			
 
 			// //Get History Data
 			// $this->nab_mys_history_get_data();
