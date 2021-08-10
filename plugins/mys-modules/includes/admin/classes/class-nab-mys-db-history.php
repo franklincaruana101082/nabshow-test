@@ -115,7 +115,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				} else {
 					$this->where_clause_history[] = "HistoryDataType = '" . $data_type . "'";
 				}
-				echo '<h1>MYS Modules 7</h1>';
+				
 				// User - Filter
 				$args = array(
 					'blog_id' => '0',
@@ -125,12 +125,12 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				);
 				
 				$this->request_data['all_users'] = get_users( $args );
-				echo '<h1>MYS Modules 9</h1>';
+				
 				$user_ids                        = array();
 				foreach ( $this->request_data['all_users'] as $u ) {
 					$user_ids[] = $u->ID;
 				}
-				echo '<h1>MYS Modules 10</h1>';
+
 				if ( null !== $this->request_data['user'] && 'all' !== $this->request_data['user'] ) {
 					$this->where_clause_history[] = "HistoryUser = " . (int) $this->request_data['user'];
 				}				
