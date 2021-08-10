@@ -381,6 +381,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			//Set variables
 			$this->nab_mys_history_set_vars();
 
+			echo "<h1>MYS Modules3</h1>";
+
 			//Set filters
 			$this->nab_mys_history_set_filters();
 

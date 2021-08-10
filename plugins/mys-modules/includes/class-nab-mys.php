@@ -261,9 +261,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 			$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );			
 
 			//Load Page
-			$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );
-
-			echo "<h1>MYS Modules3</h1>";
+			$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );			
 
 		}
 
