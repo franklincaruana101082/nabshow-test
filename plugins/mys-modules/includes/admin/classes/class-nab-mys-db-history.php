@@ -98,16 +98,11 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 		 */
 		private function nab_mys_history_set_filters() {
 
-			$data_type = $this->request_data['data_type'];	
-			
-			echo $this->page_template . ' template name';
+			$data_type = $this->request_data['data_type'];
 
 			if ( 'listing' === $this->page_template ) {
 
-				echo '<h1>MYS Module 6</h1>';
-
 				//LISTING PAGE
-
 				$name_date_col = 'HistoryStartTime';
 
 				if ( null === $data_type || 'all' === $data_type ) {
@@ -142,6 +137,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				if ( null !== $this->request_data['status'] && 'all' !== $this->request_data['status'] ) {
 					$this->where_clause_history[] = "HistoryStatus = " . (int) $this->request_data['status'];
 				}
+
+				echo '<h1>MYS Modules 7</h1>';
 
 			} else {
 				//DETAIL or SEARCH PAGE
