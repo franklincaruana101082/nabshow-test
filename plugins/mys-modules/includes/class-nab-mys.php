@@ -255,8 +255,10 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		 * @since 1.0.0
 		 */
 		public function nab_mys_page_history() {
-			echo "<h1>MYS MOdules</h1>";
-			//$this->nab_mys_load_history_class();
+			
+			$this->nab_mys_load_history_class();
+
+			echo "<h1>MYS Modules1</h1>";
 
 			//$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
