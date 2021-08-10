@@ -100,6 +100,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 			$data_type = $this->request_data['data_type'];
 
+			echo '<h1>MYS Module 5</h1>';
+
 			if ( 'listing' === $this->page_template ) {
 				//LISTING PAGE
 
@@ -379,33 +381,31 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->nab_mys_db_cron_object = $nab_mys_db_cron_object;
 
 			//Set variables
-			$this->nab_mys_history_set_vars();			
-
-			echo "<h1>MYS Modules4</h1>";
+			$this->nab_mys_history_set_vars();
 
 			//Set filters
-			//$this->nab_mys_history_set_filters();			
+			$this->nab_mys_history_set_filters();			
 
-			// //Get History Data
-			// $this->nab_mys_history_get_data();
+			//Get History Data
+			$this->nab_mys_history_get_data();
 
-			// //Ordering
-			// $this->nab_mys_history_set_ordering();
+			//Ordering
+			$this->nab_mys_history_set_ordering();
 
-			// //Pagination
-			// $this->nab_mys_history_set_pagination();
+			//Pagination
+			$this->nab_mys_history_set_pagination();
 
-			// //MYS Header
-			// require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
+			//MYS Header
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-header-page.php' );
 
-			// //History Header
-			// require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-header.php' );
+			//History Header
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-header.php' );
 
-			// if ( 'listing' === $this->page_template ) {
-			// 	require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-list.php' );
-			// } else {
-			// 	require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-detail.php' );
-			// }
+			if ( 'listing' === $this->page_template ) {
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-list.php' );
+			} else {
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-history-detail.php' );
+			}
 
 		}
 
