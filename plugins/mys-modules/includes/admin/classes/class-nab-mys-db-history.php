@@ -117,14 +117,13 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				}
 				
 				// User - Filter
-				$args = array(
-					'blog_id' => '0',
+				$args = array(			
 					'role'    => 'administrator',
 					'orderby' => 'display_name',
 					'order'   => 'ASC'
 				);
 
-				echo '<pre>';
+				echo 'Remove Blog id<pre>';
 				print_r( get_users( $args ) );
 				exit;
 				$this->request_data['all_users'] = get_users( $args );
