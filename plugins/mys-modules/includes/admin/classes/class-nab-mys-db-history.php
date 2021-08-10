@@ -98,11 +98,14 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 		 */
 		private function nab_mys_history_set_filters() {
 
-			$data_type = $this->request_data['data_type'];
-
-			echo '<h1>MYS Module 5</h1>';
+			$data_type = $this->request_data['data_type'];	
+			
+			echo $this->page_template . ' template name';
 
 			if ( 'listing' === $this->page_template ) {
+
+				echo '<h1>MYS Module 6</h1>';
+
 				//LISTING PAGE
 
 				$name_date_col = 'HistoryStartTime';
