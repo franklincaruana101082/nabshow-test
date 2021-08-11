@@ -32,6 +32,10 @@ if ( ! defined( 'MYS_PLUGIN_BASE' ) ) {
 if ( ! defined( 'MYS_PLUGIN_MODIFIED_SEQUENCE' ) ) {
 	define( 'MYS_PLUGIN_MODIFIED_SEQUENCE', (int) get_option( 'test_modified_sequence' ) );
 }
+if ( ! defined( 'MYS_IS_AMPLIFY_VERSION' ) ) {
+	$version = 'nab-amplify' === get_option( 'stylesheet' ) ? true : false;
+	define( 'MYS_IS_AMPLIFY_VERSION', $version );
+}
 
 //Load Main Class
 require_once( WP_PLUGIN_DIR . '/mys-modules/includes/class-nab-mys.php' );

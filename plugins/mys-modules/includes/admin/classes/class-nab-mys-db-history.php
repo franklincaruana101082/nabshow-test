@@ -118,7 +118,6 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 
 				// User - Filter
 				$args = array(
-					'blog_id' => '0',
 					'role'    => 'administrator',
 					'orderby' => 'display_name',
 					'order'   => 'ASC'
@@ -724,31 +723,34 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 		 */
 		static function nab_mys_dashboard_glance() {
 
-			$glance_data = array();
+			$glance_data		= array();
+			$sessions_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
+			$exhibitors_slug	= MYS_IS_AMPLIFY_VERSION ? 'mys-exhibitors' : 'exhibitors';
+			$sponsors_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-sponsors' : 'sponsors';
 
 			//Sessions
-			$glance_data['Sessions']['count'] = wp_count_posts( 'sessions' )->publish;
-			$glance_data['Sessions']['link']  = admin_url( "edit.php?post_type=sessions" );
+			$glance_data['Sessions']['count'] = wp_count_posts( $sessions_slug )->publish;
+			$glance_data['Sessions']['link']  = admin_url( "edit.php?post_type=" . $sessions_slug );
 
 			$glance_data['Sessions']['terms']['Tracks']['tcount']    = wp_count_terms( 'tracks' );
-			$glance_data['Sessions']['terms']['Tracks']['tlink']     = admin_url( "edit-tags.php?taxonomy=tracks&post_type=sessions" );
+			$glance_data['Sessions']['terms']['Tracks']['tlink']     = admin_url( "edit-tags.php?taxonomy=tracks&post_type=" . $sessions_slug );
 			$glance_data['Sessions']['terms']['Locations']['tcount'] = wp_count_terms( 'session-locations' );
-			$glance_data['Sessions']['terms']['Locations']['tlink']  = admin_url( "edit-tags.php?taxonomy=session-locations&post_type=sessions" );
+			$glance_data['Sessions']['terms']['Locations']['tlink']  = admin_url( "edit-tags.php?taxonomy=session-locations&post_type=" . $sessions_slug );
 
 			//Sponsors
-			$glance_data['Sponsors']['count'] = wp_count_posts( 'sponsors' )->publish;
-			$glance_data['Sponsors']['link']  = admin_url( "edit.php?post_type=sponsors" );
+			$glance_data['Sponsors']['count'] = wp_count_posts( $sponsors_slug )->publish;
+			$glance_data['Sponsors']['link']  = admin_url( "edit.php?post_type=" . $sponsors_slug );
 
 			//Exhibitors
-			$glance_data['Exhibitors']['count'] = wp_count_posts( 'exhibitors' )->publish;
-			$glance_data['Exhibitors']['link']  = admin_url( "edit.php?post_type=exhibitors" );
+			$glance_data['Exhibitors']['count'] = wp_count_posts( $exhibitors_slug )->publish;
+			$glance_data['Exhibitors']['link']  = admin_url( "edit.php?post_type=" . $exhibitors_slug );
 
 			$glance_data['Exhibitors']['terms']['Halls']['tcount']                 = wp_count_terms( 'halls' );
-			$glance_data['Exhibitors']['terms']['Halls']['tlink']                  = admin_url( "edit-tags.php?taxonomy=halls&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Halls']['tlink']                  = admin_url( "edit-tags.php?taxonomy=halls&post_type=" . $exhibitors_slug );
 			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tcount'] = wp_count_terms( 'exhibitor-categories' );
-			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tlink']  = admin_url( "edit-tags.php?taxonomy=exhibitor-categories&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Exhibitors Categories']['tlink']  = admin_url( "edit-tags.php?taxonomy=exhibitor-categories&post_type=" . $exhibitors_slug );
 			$glance_data['Exhibitors']['terms']['Pavilions']['tcount']             = wp_count_terms( 'pavilions' );
-			$glance_data['Exhibitors']['terms']['Pavilions']['tlink']              = admin_url( "edit-tags.php?taxonomy=pavilions&post_type=exhibitors" );
+			$glance_data['Exhibitors']['terms']['Pavilions']['tlink']              = admin_url( "edit-tags.php?taxonomy=pavilions&post_type=" . $exhibitors_slug );
 
 			return $glance_data;
 		}
