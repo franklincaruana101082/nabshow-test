@@ -56,5 +56,10 @@
       z-index: 2;
       margin-top: rem(-56);
     }
+    .schedule + & {
+      @include bp-768 {
+        z-index: 101;
+      }
+    }
   }
 }

@@ -9,6 +9,7 @@
 get_header();
 
 $hero = get_field('banner_background_image');
+$video= get_field('banner_video_embed');
 $logo = get_field('banner_logo_image');
 $cta1 = get_field('banner_main_cta');
 $cta2 = get_field('banner_secondary_cta');

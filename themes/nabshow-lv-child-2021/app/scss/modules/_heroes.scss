@@ -23,6 +23,9 @@
     }
     padding: rem(120) 0;
     background-size: cover;
+    .new & {
+      padding: 0;
+    }
   }
 }
 
