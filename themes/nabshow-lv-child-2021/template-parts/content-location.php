@@ -28,6 +28,10 @@ $display_mailing_list_block     = get_field( 'display_mailing_list_block' );
     </div>
 </div>
 
+<div class="container">
+    <?php dynamic_sidebar('broadstreet-internal-top'); ?>
+</div>
+
 <?php
 if ( ! empty( $featured_video ) ) {
     ?>
@@ -314,7 +318,11 @@ if ( ! empty( $ad_code ) ) {
     </div>    
     <?php
 }
-
+?>
+<div class="container">
+    <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+</div>
+<?php
 if ( $display_mailing_list_block ) {
     ?>
     <div class="section">

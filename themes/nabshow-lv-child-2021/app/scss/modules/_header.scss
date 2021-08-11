@@ -325,7 +325,7 @@ html._header-is-open {
     @extend .button._solid;
     @extend .button._compact;
     display: inline-block;
-    padding: rem(17) rem(64);
+    padding: rem(12) rem(32);
     color: $color__blue;
     font-size: rem(12);
   }
@@ -489,9 +489,20 @@ html._header-is-open {
   border: 1px solid $color__white;
   padding: rem(7) rem(11) rem(7) rem(36);
   color: $color__white;
+  font-family: $font__primary;
+  font-weight: 400;
+  font-size: rem(18);
+  line-height: 1.14;
+  box-sizing: content-box;
+  box-shadow: none;
   background: rgba($color__white, .1) 8px 8px no-repeat url('data:image/svg+xml;utf8,<svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33579 17.1398C13.9395 17.1398 17.6716 13.5268 17.6716 9.06991C17.6716 4.61302 13.9395 1 9.33579 1C4.73206 1 1 4.61302 1 9.06991C1 13.5268 4.73206 17.1398 9.33579 17.1398Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/><line y1="-0.75" x2="8.7296" y2="-0.75" transform="matrix(0.739365 0.673304 -0.696866 0.717201 14.5459 15.1223)" stroke="white" stroke-width="1.5"/></svg>') !important;
+  opacity: 0;
+  transition: opacity .25s ease-in-out;
   &:focus {
     border: 1px solid $color__white;
+  }
+  &[autocomplete] {
+    opacity: 1;
   }
 }
 .header__search.st-default-search-input {
@@ -499,6 +510,7 @@ html._header-is-open {
   width: rem(268);
   @include bp-1024 {
     display: block;
+    float: right;
   }
 }
 .header__mobileSearch.st-default-search-input {
@@ -510,5 +522,15 @@ html._header-is-open {
 
 // Overriding Swiftype's Input Focus Color
 .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
-  border-color: #cc0000 !important;
+  border-color: $color__blue !important;
+}
+//override swiftypes search result tiny font sizes
+.st-install-_2XyWYChms3Vq4a5zLBs .st-ui-result {
+  .st-ui-type-heading {
+    font-size: rem(16) !important;
+  }
+  .st-ui-type-detail {
+    font-size: rem(14) !important;
+    max-height: rem(38) !important;
+  }
 }
