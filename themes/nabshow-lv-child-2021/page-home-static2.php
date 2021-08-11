@@ -13,7 +13,10 @@ get_header();
   <div class="hero">
     <?php the_field('banner_video_embed'); ?>
   </div>
-
+  <div class="showinfo">
+    <span class="showinfo__when"><?php the_field('banner_date'); ?></span> |
+    <span class="showinfo__where"><?php the_field('banner_location'); ?></span>
+  </div>
 <?php 
 if ( have_posts() ) :
   while ( have_posts() ) : the_post();
