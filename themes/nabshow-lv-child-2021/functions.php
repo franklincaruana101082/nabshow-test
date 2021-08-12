@@ -388,3 +388,25 @@ function nabshow_lv_2021_register_custom_post_type() {
     register_post_type( 'networking', $args );
 }
 add_action( 'init', 'nabshow_lv_2021_register_custom_post_type' );
+
+add_action( 'wp_head', 'nabshow_get_existing_exhibitors_ids' );
+function nabshow_get_existing_exhibitors_ids() {
+
+	if ( isset( $_GET['ex'] ) && ! empty( $_GET['ex'] ) ) {
+
+		$query_args = array(
+			'post_type' => 'exhibitors',
+			'posts_per_page' => -1,
+			'fields'	=> 'ids'
+		);
+
+		$exhibitors = new WP_Query( $query_args );
+		$all_ids = $exhibitors->posts;
+		$exhibitors_id = array();
+		foreach( $all_ids as $current_id ) {
+			$exhibitors_id[] = get_post_meta( $current_id, 'exhid', true );
+		}
+
+		echo '<pre>'; print_r( $exhibitors_id ); exit;
+	}
+}
