@@ -100,6 +100,124 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
                 add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
                 add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
+                add_action( 'transition_post_status', array( $this, 'st_track_mys_post_creation' ), 10, 3 );
+                add_action( 'save_post', array( $this, 'st_track_mys_post_update' ), 10, 3 );
+                add_action( 'delete_post', array( $this, 'st_track_mys_post_delete' ), 10, 2 );
+            }
+        }
+
+        public function st_track_mys_post_creation( $new_status, $old_status, $post ) {
+            
+            if ( defined( 'MYS_IS_AMPLIFY_VERSION' ) && MYS_IS_AMPLIFY_VERSION ) {
+                $post_type_list = array( 'mys-sessions', 'mys-speakers', 'mys-sponsors', 'mys-products', 'mys-exhibitors' );
+            } else {
+                $post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
+            }
+            
+            if ( ( 'publish' === $new_status && 'publish' !== $old_status ) && in_array( $post->post_type, $post_type_list, true ) ) {
+                    
+                $event_name = '';
+
+                if ( 'mys-sessions' === $post->post_type || 'sessions' === $post->post_type ) {
+                    $event_name = 'MYSSession_Created';
+                } else if ( 'mys-speakers' === $post->post_type || 'speakers' === $post->post_type ) {
+                    $event_name = 'MYSSpeaker_Created';
+                } else if ( 'mys-sponsors' === $post->post_type || 'sponsors' === $post->post_type ) {
+                    $event_name = 'MYSSponsor_Created';
+                } else if ( 'mys-products' === $post->post_type || 'products' === $post->post_type ) {
+                    $event_name = 'MYSProduct_Created';
+                } else if ( 'mys-exhibitors' === $post->post_type || 'exhibitors' === $post->post_type ) {
+                    $event_name = 'MYSExhibitor_Created';
+                } else {
+                    $event_name = $post->post_type . '_Created';
+                }
+
+                $track_event = array(                    
+                    'event'         => $event_name,
+                    'properties'    => array(
+                        'title' => $post->post_title,
+                    )
+                );
+
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_track_mys_post_update( $post_id, $post, $update ) {
+            
+            if ( ! $update || 'publish' !== $post->post_status ) {
+                return;
+            }
+
+            if ( defined( 'MYS_IS_AMPLIFY_VERSION' ) && MYS_IS_AMPLIFY_VERSION ) {
+                $post_type_list = array( 'mys-sessions', 'mys-speakers', 'mys-sponsors', 'mys-products', 'mys-exhibitors' );
+            } else {
+                $post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
+            }
+            
+            if ( in_array( $post->post_type, $post_type_list, true ) ) {
+                    
+                $event_name = '';
+
+                if ( 'mys-sessions' === $post->post_type || 'sessions' === $post->post_type ) {
+                    $event_name = 'MYSSession_Updated';
+                } else if ( 'mys-speakers' === $post->post_type || 'speakers' === $post->post_type ) {
+                    $event_name = 'MYSSpeaker_Updated';
+                } else if ( 'mys-sponsors' === $post->post_type || 'sponsors' === $post->post_type ) {
+                    $event_name = 'MYSSponsor_Updated';
+                } else if ( 'mys-products' === $post->post_type || 'products' === $post->post_type ) {
+                    $event_name = 'MYSProduct_Updated';
+                } else if ( 'mys-exhibitors' === $post->post_type || 'exhibitors' === $post->post_type ) {
+                    $event_name = 'MYSExhibitor_Updated';
+                } else {
+                    $event_name = $post->post_type . '_Updated';
+                }
+
+                $track_event = array(                    
+                    'event'         => $event_name,
+                    'properties'    => array(
+                        'title' => $post->post_title,
+                    )
+                );
+
+                $this->st_track_event( $track_event );
+            }
+        }
+
+        public function st_track_mys_post_delete( $post_id, $post ) {            
+
+            if ( defined( 'MYS_IS_AMPLIFY_VERSION' ) && MYS_IS_AMPLIFY_VERSION ) {
+                $post_type_list = array( 'mys-sessions', 'mys-speakers', 'mys-sponsors', 'mys-products', 'mys-exhibitors' );
+            } else {
+                $post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
+            }
+            
+            if ( in_array( $post->post_type, $post_type_list, true ) ) {
+                    
+                $event_name = '';                
+
+                if ( 'mys-sessions' === $post->post_type || 'sessions' === $post->post_type ) {
+                    $event_name = 'MYSSession_Deleted';
+                } else if ( 'mys-speakers' === $post->post_type || 'speakers' === $post->post_type ) {
+                    $event_name = 'MYSSpeaker_Deleted';
+                } else if ( 'mys-sponsors' === $post->post_type || 'sponsors' === $post->post_type ) {
+                    $event_name = 'MYSSponsor_Deleted';
+                } else if ( 'mys-products' === $post->post_type || 'products' === $post->post_type ) {
+                    $event_name = 'MYSProduct_Deleted';
+                } else if ( 'mys-exhibitors' === $post->post_type || 'exhibitors' === $post->post_type ) {
+                    $event_name = 'MYSExhibitor_Deleted';
+                } else {
+                    $event_name = $post->post_type . '_Deleted';
+                }
+
+                $track_event = array(                    
+                    'event'         => $event_name,
+                    'properties'    => array(
+                        'title' => $post->post_title,
+                    )
+                );
+
+                $this->st_track_event( $track_event );
             }
         }
 

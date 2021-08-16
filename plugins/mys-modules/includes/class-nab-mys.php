@@ -185,6 +185,9 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 			//Adding an Exhibitors Page
 			add_submenu_page( 'null', 'MYS Exhibitors', 'MYS Exhibitors', 'manage_options', 'mys-exhibitors', array( $this, 'nab_mys_page_exhibitors' ) );
 
+			//Adding an Exhibitors Improt by ids page
+			add_submenu_page( 'null', 'MYS Import Exhibitors', 'MYS Import Exhibitors', 'manage_options', 'mys-import-exhibitors', array( $this, 'nab_mys_page_import_exhibitors' ) );
+
 		}
 
 		/**
@@ -274,6 +277,18 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		public function nab_mys_page_exhibitors() {
 
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-exhibitors-page.php' );
+
+		}
+
+		/**
+		 * HTML for Exhibitors Page
+		 *
+		 * @package MYS Modules
+		 * @since 1.0.0
+		 */
+		public function nab_mys_page_import_exhibitors() {
+
+			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/settings/html-mys-import-exhibitors-page.php' );
 
 		}
 
