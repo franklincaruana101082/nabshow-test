@@ -213,9 +213,6 @@ function nab_mys_sessions_post_type() {
 			'menu_order',
 			'custom-fields'
 		),
-		'capabilities' => array(
-			'create_posts'	=> 'do_not_allow',		
-		),
 	);
 
 	register_post_type( 'sessions', $args );
@@ -342,9 +339,6 @@ function nab_mys_speakers_post_type() {
 			'menu_order',
 			'custom-fields'
 		),
-		'capabilities' => array(
-			'create_posts'	=> 'do_not_allow',		
-		),
 	);
 
 	register_post_type( 'speakers', $args );
@@ -468,9 +462,6 @@ function nab_mys_sponsor_post_type() {
 			'page-attributes',
 			'menu_order',
 			'custom-fields'
-		),
-		'capabilities' => array(
-			'create_posts'	=> 'do_not_allow',		
 		),
 	);
 
@@ -681,9 +672,6 @@ function nab_mys_exhibitor_post_type() {
 			'menu_order',
 			'custom-fields'
 		),
-		'capabilities' => array(
-			'create_posts'	=> 'do_not_allow',		
-		),
 	);
 
 	register_post_type( 'exhibitors', $args );
@@ -742,31 +730,9 @@ function nab_mys_product_post_type() {
 			'menu_order',
 			'custom-fields'
 		),
-		'capabilities' => array(
-			'create_posts'	=> 'do_not_allow',		
-		),
 	);
 
 	register_post_type( 'products', $args );
 }
 
 add_action( 'init', 'nab_mys_product_post_type' );
-
-/**
- * Hide editor update and publish button from the editor
- */
-function nab_mys_hide_editor_update_button() {
-
-	global $pagenow, $post;
-
-	$post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
-
-	if ( 'post.php' === $pagenow && in_array( get_post_type( $post ), $post_type_list ) ) {
-		?>
-		<style>
-			#editor .edit-post-header .editor-post-publish-button__button{display:none;}
-		</style>
-		<?php
-	}
-}
- add_action( 'admin_head', 'nab_mys_hide_editor_update_button' );
