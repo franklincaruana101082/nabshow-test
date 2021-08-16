@@ -10,7 +10,7 @@ get_header();
 ?>
 
 <main id="main" class="new">
-  <div class="hero">
+  <div class="hero-banner">
     <?php the_field('banner_video_embed'); ?>
   </div>
   <div class="showinfo">
@@ -166,6 +166,27 @@ endif;
     </div>
   </div>
 
+  <div class="section _bottom attending-section">
+    <div class="container">
+      <div class="exhibiting">
+        <h3 class="exhibiting-subtitle">Discover new tech and solutions</h3>
+        <h2 class="h-xl exhibiting-title">Explore the hundreds of exhibiting companies</h2>
+        <div class="logo-group exhibiting-logo-group">
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-sony.png" alt="SONY"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-canon.png" alt="canon"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-telestream.png" alt="telestream"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-panasonic.png" alt="panasonic"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-mediakind.png" alt="mediakind"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-vizrt.png" alt="vizrt"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-AWS.png" alt="AWS"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-AJA.png" alt="AJA"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-grassvalley.png" alt="grass valley"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-chyron.png" alt="chyron"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-ross.png" alt="ross"/>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="banner">
     <img src="https://nabshow.com/2021/wp-content/uploads/sites/4/2021/07/Homepage-wide-angle.jpg" alt="NAB Show: An unrivaled audio and video experience. Together with: Radio Show, SMTE, AES Show Fall 2021, and BEA." class="banner__image">
