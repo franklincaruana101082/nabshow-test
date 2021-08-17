@@ -1803,7 +1803,7 @@
       margin: 0 -2%;
     }
     @include bp-1280 {
-      margin: 0 -5%;
+      margin: -1.5% -12.5% 2%;
     }
     img {
       display: inline-block;
@@ -1814,7 +1814,7 @@
         margin: 3% 3%;
       }
       @include bp-768 {
-        margin: 2% 2.5%;
+        margin: 2% 2.5% 0%;
       }
     }
   }
@@ -1981,5 +1981,6 @@
   margin-bottom: rem(32);
   @include bp-768 {
     margin-bottom: rem(48);
+    font-size: 2.5rem;
   }
 }
