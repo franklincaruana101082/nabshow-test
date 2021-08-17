@@ -166,8 +166,8 @@ endif;
     </div>
   </div>
 
-  <div class="section _bottom attending-section">
-    <div class="container">
+  <div class="section _bottom exhibiting-section">
+    <div class="container exhibiting-container">
       <div class="exhibiting">
         <h3 class="exhibiting-subtitle">Discover new tech and solutions</h3>
         <h2 class="h-xl exhibiting-title">Explore the hundreds of exhibiting companies</h2>
