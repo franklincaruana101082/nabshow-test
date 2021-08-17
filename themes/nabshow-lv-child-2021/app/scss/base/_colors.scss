@@ -148,18 +148,19 @@
   @include gradient-purple-orange-corners;
 }
 
-// left purple right orange corner, no background
+// left purple right orange corner, black background
 @mixin gradient-orange-orange-corners {
   background: linear-gradient(
       306.61deg,
       rgba(158, 69, 147, 0) 71.61%,
-      rgba(234, 12, 159, 0.6) 167.25%
+      #9e4593 167.25%
     ),
     linear-gradient(
       247.83deg,
       rgba(234, 12, 159, 0.6) -7.26%,
       rgba(253, 216, 15, 0) 16.65%
-    );
+    ),
+    #000000;
 }
 .gradient__orange-orange-corners {
   @include gradient-orange-orange-corners;

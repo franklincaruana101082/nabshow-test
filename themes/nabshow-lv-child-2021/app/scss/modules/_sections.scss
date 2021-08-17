@@ -508,6 +508,10 @@
   }
 }
 
+.new .testimonials-wrapper {
+  background: blue;
+}
+
 .new .testimonials {
   margin: rem(20) 0;
   @include bp-768 {
@@ -1923,13 +1927,7 @@
 
 // Exhibiting
 .exhibiting-section {
-  @include gradient-orange-orange-corners;
-  &::after {
-    content: "";
-    @include background-image("lightlines-strip.jpg");
-    width: 100%;
-    height: rem(20);
-  }
+  @include background-image("lightlines-strip.jpg");
 }
 .exhibiting-subtitle {
   @include primary-black-16-16-20;
