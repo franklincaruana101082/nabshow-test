@@ -508,6 +508,10 @@
   }
 }
 
+.new .testimonials-wrapper {
+  background: blue;
+}
+
 .new .testimonials {
   margin: rem(20) 0;
   @include bp-768 {
@@ -1817,16 +1821,11 @@
     @include background-image("lightlines-10.png");
     background-position: 100% 50%;
     background-repeat: no-repeat;
-    background-size: rem(127) rem(549);
+    background-size: rem(100) rem(490);
   }
   @include bp-1024 {
     padding: rem(80) 0 rem(70);
-  }
-  @include bp-1280 {
-    background-position: calc(100% + #{rem(100)}) top;
-  }
-  @include bp-1440 {
-    background-position: right top;
+    background-size: rem(127) rem(549);
   }
   &__title {
     text-align: center;
@@ -1928,13 +1927,7 @@
 
 // Exhibiting
 .exhibiting-section {
-  @include gradient-orange-orange-corners;
-  &::after {
-    content: "";
-    @include background-image("lightlines-strip.jpg");
-    width: 100%;
-    height: rem(20);
-  }
+  @include background-image("lightlines-strip.jpg");
 }
 .exhibiting-subtitle {
   @include primary-black-16-16-20;

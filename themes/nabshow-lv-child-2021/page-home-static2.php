@@ -92,21 +92,22 @@ endif;
     </div>
   </div>
 
-
-  <div class="container">
-    <div class="testimonials">
-      <figure class="testimonial">
-        <blockquote>The ability to meet with a large number of our current and potential customers is the reason we return to NAB Show year after year, and that opportunity was sorely missed in 2020.</blockquote>
-        <figcaption>Ken Frommert, President, Enco Systems, Inc</figcaption>
-      </figure>
-      <figure class="testimonial">
-        <blockquote>The AES is eagerly anticipating being face-to-face with our peers in-person in Las Vegas! Our colocation with NAB Show is the perfect time to reconnect as our industry regains its footing.</blockquote>
-        <figcaption>Colleen Harper, Executive Director, AES</figcaption>
-      </figure>
-      <figure class="testimonial">
-        <blockquote>I love discovering innovations from startups in Futures Park, finding new technology on the exhibit floor, and networking... I’m  energized just thinking about the chance to see everyone face-to-face again.</blockquote>
-        <figcaption>Brett Jenkins, CTO, Nextar Media Group</figcaption>
-      </figure>
+  <div class="testimonials-wrapper">
+    <div class="container">
+      <div class="testimonials">
+        <figure class="testimonial">
+          <blockquote>The ability to meet with a large number of our current and potential customers is the reason we return to NAB Show year after year, and that opportunity was sorely missed in 2020.</blockquote>
+          <figcaption>Ken Frommert, President, Enco Systems, Inc</figcaption>
+        </figure>
+        <figure class="testimonial">
+          <blockquote>The AES is eagerly anticipating being face-to-face with our peers in-person in Las Vegas! Our colocation with NAB Show is the perfect time to reconnect as our industry regains its footing.</blockquote>
+          <figcaption>Colleen Harper, Executive Director, AES</figcaption>
+        </figure>
+        <figure class="testimonial">
+          <blockquote>I love discovering innovations from startups in Futures Park, finding new technology on the exhibit floor, and networking... I’m  energized just thinking about the chance to see everyone face-to-face again.</blockquote>
+          <figcaption>Brett Jenkins, CTO, Nextar Media Group</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
@@ -116,7 +117,7 @@ endif;
   </div>
 
 
-  <div class="section _bottom attending-section">
+  <div class="section _bottom">
     <div class="container">
       <div class="attending">
         <h3 class="attending-subtitle">Thousand of attendees, hundreds of exhibitors are ready</h3>
