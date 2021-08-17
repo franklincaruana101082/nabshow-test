@@ -1942,7 +1942,9 @@
 
 // Exhibiting
 .exhibiting-section {
-  @include background-image("lightlines-strip.jpg");
+  //
+  @include background-image("exhibiting-background.jpg");
+  background-size: cover;
 }
 .exhibiting-subtitle {
   @include primary-black-16-16-20;
