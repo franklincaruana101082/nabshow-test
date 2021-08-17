@@ -330,6 +330,9 @@
         width: rem(240);
         height: rem(230);
         background-size: cover;
+        &._pulled {
+          left: -6.5rem;
+        }
       }
     }
   }
