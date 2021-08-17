@@ -107,7 +107,6 @@
 }
 .schedule__day-content {
   @include bp-768 {
-    min-height: rem(331);
     max-width: rem(660);
     background-size: rem(41) auto;
     background-position: 0 0;
@@ -115,7 +114,6 @@
     background-repeat: no-repeat;
     padding-left: rem(67);
     .new & {
-      min-height: 0;
       background-image: none;
       padding-left: 0;
       max-width: rem(720);
