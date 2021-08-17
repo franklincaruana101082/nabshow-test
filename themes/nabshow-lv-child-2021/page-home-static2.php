@@ -173,17 +173,17 @@ endif;
         <h3 class="exhibiting-subtitle">Discover new tech and solutions</h3>
         <h2 class="h-xl exhibiting-title">Explore the hundreds of exhibiting companies</h2>
         <div class="logo-group _small exhibiting-logo-group">
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-sony.png" alt="SONY"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-canon-logo.png" alt="canon"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-telestream.png" alt="telestream"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-panasonic.png" alt="panasonic"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-mediakind.png" alt="mediakind"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-vizrt.png" alt="vizrt"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-AWS.png" alt="AWS"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-AJA.png" alt="AJA"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-grassvalley-logo.png" alt="grass valley"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-chyron.png" alt="chyron"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-ross.png" alt="ross"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-sony.png" alt="SONY"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-canon.png" alt="canon"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-telestream.png" alt="telestream"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-panasonic.png" alt="panasonic"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-mediakind.png" alt="mediakind"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-vizrt.png" alt="vizrt"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-AWS.png" alt="AWS"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-AJA.png" alt="AJA"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-grassvalley.png" alt="grass valley"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-chyron.png" alt="chyron"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-ross.png" alt="ross"/>
         </div>
       </div>
     </div>
