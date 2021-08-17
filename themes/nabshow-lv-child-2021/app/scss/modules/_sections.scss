@@ -508,8 +508,23 @@
   }
 }
 
-.new .testimonials-wrapper {
-  background: blue;
+.testimonials-wrapper {
+  position: relative;
+  @include bp-768 {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin-top: -10rem;
+      width: 7rem;
+      height: 20rem;
+      display: block;
+      background-size: contain;
+      background-repeat: no-repeat;
+      @include background-image("lightlines-11.png");
+    }
+  }
 }
 
 .new .testimonials {
