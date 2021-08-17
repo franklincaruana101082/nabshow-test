@@ -179,8 +179,8 @@ endif;
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-panasonic.png" alt="panasonic"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-mediakind.png" alt="mediakind"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-vizrt.png" alt="vizrt"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-AWS.png" alt="AWS"/>
-          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-AJA.png" alt="AJA"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-aws.png" alt="AWS"/>
+          <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-aja.png" alt="AJA"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-grassvalley.png" alt="grass valley"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-chyron.png" alt="chyron"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibitor-ross.png" alt="ross"/>
