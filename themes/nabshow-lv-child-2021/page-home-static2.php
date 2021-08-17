@@ -172,7 +172,7 @@ endif;
       <div class="exhibiting">
         <h3 class="exhibiting-subtitle">Discover new tech and solutions</h3>
         <h2 class="h-xl exhibiting-title">Explore the hundreds of exhibiting companies</h2>
-        <div class="logo-group exhibiting-logo-group">
+        <div class="logo-group _small exhibiting-logo-group">
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-sony.png" alt="SONY"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-canon-logo.png" alt="canon"/>
           <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-telestream.png" alt="telestream"/>

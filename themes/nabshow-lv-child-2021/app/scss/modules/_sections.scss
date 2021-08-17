@@ -1798,6 +1798,26 @@
       max-height: 2.75rem;
     }
   }
+  &._small {
+    @include bp-768 {
+      margin: -1% -2%;
+    }
+    @include bp-1280 {
+      margin: -5% -2%;
+    }
+    img {
+      display: inline-block;
+      width: auto;
+      max-height: rem(24);
+      margin: 4%;
+      @include bp-604 {
+        margin: 3% 3%;
+      }
+      @include bp-768 {
+        margin: 2% 2.5%;
+      }
+    }
+  }
 }
 
 .showinfo {
