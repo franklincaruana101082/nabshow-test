@@ -1800,15 +1800,15 @@
   }
   &._small {
     @include bp-768 {
-      margin: -1% -2%;
+      margin: 0 -2%;
     }
     @include bp-1280 {
-      margin: -5% -2%;
+      margin: 0 -5%;
     }
     img {
       display: inline-block;
       width: auto;
-      max-height: rem(24);
+      max-height: rem(60);
       margin: 4%;
       @include bp-604 {
         margin: 3% 3%;
