@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function nab_mys_sessions_taxonomies() {
 
+	$session_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
+
 	// Taxonomy - tracks
 	$tracks_labels = array(
 		'name'              => __( 'Tracks', 'taxonomy general name', 'mys-modules' ),
@@ -44,7 +46,7 @@ function nab_mys_sessions_taxonomies() {
 		'rewrite'           => array( 'slug' => 'tracks' ),
 	);
 
-	register_taxonomy( 'tracks', array( 'sessions' ), $tracks_args );
+	register_taxonomy( 'tracks', array( $session_slug ), $tracks_args );
 
 	// Taxonomy - session-categories
 	$category_labels = array(
@@ -72,7 +74,7 @@ function nab_mys_sessions_taxonomies() {
 		'rewrite'           => array( 'slug' => 'session-categories' ),
 	);
 
-	register_taxonomy( 'session-categories', array( 'sessions' ), $category_args );
+	register_taxonomy( 'session-categories', array( $session_slug ), $category_args );
 
 	// Taxonomy - session-levels
 	$level_labels = array(
@@ -100,7 +102,7 @@ function nab_mys_sessions_taxonomies() {
 		'rewrite'           => array( 'slug' => 'session-levels' ),
 	);
 
-	register_taxonomy( 'session-levels', array( 'sessions' ), $level_args );
+	register_taxonomy( 'session-levels', array( $session_slug ), $level_args );
 
 	// Taxonomy - session-types
 	$type_labels = array(
@@ -128,7 +130,7 @@ function nab_mys_sessions_taxonomies() {
 		'rewrite'           => array( 'slug' => 'session-types' ),
 	);
 
-	register_taxonomy( 'session-types', array( 'sessions' ), $type_args );
+	register_taxonomy( 'session-types', array( $session_slug ), $type_args );
 
 	// Taxonomy - session-locations
 	$location_labels = array(
@@ -156,7 +158,7 @@ function nab_mys_sessions_taxonomies() {
 		'rewrite'           => array( 'slug' => 'session-locations' ),
 	);
 
-	register_taxonomy( 'session-locations', array( 'sessions' ), $location_args );
+	register_taxonomy( 'session-locations', array( $session_slug ), $location_args );
 
 }
 
@@ -215,8 +217,11 @@ function nab_mys_sessions_post_type() {
 		),
 	);
 
-	register_post_type( 'sessions', $args );
-	register_taxonomy_for_object_type( 'tracks', 'sessions' );
+	// change post type slug for amplify site.
+	$session_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
+
+	register_post_type( $session_slug, $args );
+	register_taxonomy_for_object_type( 'tracks', $session_slug );
 
 }
 
@@ -230,6 +235,7 @@ add_action( 'init', 'nab_mys_sessions_post_type' );
  */
 function nab_mys_speakers_taxonomies() {
 
+	$speaker_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-speakers' : 'speakers';
 	// Taxonomy - speaker-categories
 	$category_labels = array(
 		'name'              => __( 'Categories', 'taxonomy general name', 'mys-modules' ),
@@ -256,7 +262,7 @@ function nab_mys_speakers_taxonomies() {
 		'rewrite'           => array( 'slug' => 'speaker-categories' ),
 	);
 
-	register_taxonomy( 'speaker-categories', array( 'speakers' ), $category_args );
+	register_taxonomy( 'speaker-categories', array( $speaker_slug ), $category_args );
 
 	// Taxonomy - speaker-companies
 	$company_labels = array(
@@ -284,7 +290,7 @@ function nab_mys_speakers_taxonomies() {
 		'rewrite'           => array( 'slug' => 'speaker-companies' ),
 	);
 
-	register_taxonomy( 'speaker-companies', array( 'speakers' ), $company_args );
+	register_taxonomy( 'speaker-companies', array( $speaker_slug ), $company_args );
 
 }
 
@@ -341,7 +347,10 @@ function nab_mys_speakers_post_type() {
 		),
 	);
 
-	register_post_type( 'speakers', $args );
+	// change post type slug for amplify site.
+	$speaker_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-speakers' : 'speakers';
+
+	register_post_type( $speaker_slug, $args );
 
 }
 
@@ -354,6 +363,8 @@ add_action( 'init', 'nab_mys_speakers_post_type' );
  * @since 1.0.0
  */
 function nab_mys_sponsors_taxonomies() {
+
+	$sponsors_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-sponsors' : 'sponsors';
 
 	// Taxonomy - sponsor-categories
 	$category_labels = array(
@@ -381,7 +392,7 @@ function nab_mys_sponsors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'sponsor-categories' ),
 	);
 
-	register_taxonomy( 'sponsor-categories', array( 'sponsors' ), $category_args );
+	register_taxonomy( 'sponsor-categories', array( $sponsors_slug ), $category_args );
 
 	// Taxonomy - sponsor-types
 	$type_labels = array(
@@ -409,7 +420,7 @@ function nab_mys_sponsors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'sponsor-types' ),
 	);
 
-	register_taxonomy( 'sponsor-types', array( 'sponsors' ), $type_args );
+	register_taxonomy( 'sponsor-types', array( $sponsors_slug ), $type_args );
 }
 
 add_action( 'init', 'nab_mys_sponsors_taxonomies', 0 );
@@ -465,7 +476,10 @@ function nab_mys_sponsor_post_type() {
 		),
 	);
 
-	register_post_type( 'sponsors', $args );
+	// change post type slug for amplify site.
+	$sponsors_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-sponsors' : 'sponsors';
+
+	register_post_type( $sponsors_slug, $args );
 
 }
 
@@ -478,6 +492,9 @@ add_action( 'init', 'nab_mys_sponsor_post_type' );
  * @since 1.0.0
  */
 function nab_mys_exhibitors_taxonomies() {
+
+	$exhibitors_slug	= MYS_IS_AMPLIFY_VERSION ? 'mys-exhibitors' : 'exhibitors';
+	$products_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-products' : 'products';
 
 	// Taxonomy - exhibitor-categories
 	$category_labels = array(
@@ -505,7 +522,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'exhibitor-categories' ),
 	);
 
-	register_taxonomy( 'exhibitor-categories', array( 'exhibitors', 'products' ), $category_args );
+	register_taxonomy( 'exhibitor-categories', array( $exhibitors_slug, $products_slug ), $category_args );
 
 	// Taxonomy - halls
 	$hall_labels = array(
@@ -533,7 +550,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'halls' ),
 	);
 
-	register_taxonomy( 'halls', array( 'exhibitors' ), $hall_args );
+	register_taxonomy( 'halls', array( $exhibitors_slug ), $hall_args );
 
 	// Taxonomy - pavilions
 	$pavilion_labels = array(
@@ -561,7 +578,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'pavilions' ),
 	);
 
-	register_taxonomy( 'pavilions', array( 'exhibitors' ), $pavilion_args );
+	register_taxonomy( 'pavilions', array( $exhibitors_slug ), $pavilion_args );
 
 	// Taxonomy - exhibitor-keywords
 	$keyword_labels = array(
@@ -589,7 +606,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'exhibitor-keywords' ),
 	);
 
-	register_taxonomy( 'exhibitor-keywords', array( 'exhibitors' ), $keyword_args );
+	register_taxonomy( 'exhibitor-keywords', array( $exhibitors_slug ), $keyword_args );
 
 	// Taxonomy - exhibitor-trends
 	$trend_labels = array(
@@ -617,7 +634,7 @@ function nab_mys_exhibitors_taxonomies() {
 		'rewrite'           => array( 'slug' => 'exhibitor-trends' ),
 	);
 
-	register_taxonomy( 'exhibitor-trends', array( 'exhibitors' ), $trend_args );
+	register_taxonomy( 'exhibitor-trends', array( $exhibitors_slug ), $trend_args );
 }
 
 add_action( 'init', 'nab_mys_exhibitors_taxonomies', 0 );
@@ -674,7 +691,10 @@ function nab_mys_exhibitor_post_type() {
 		),
 	);
 
-	register_post_type( 'exhibitors', $args );
+	// change post type slug for amplify site.
+	$exhibitors_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-exhibitors' : 'exhibitors';
+
+	register_post_type( $exhibitors_slug, $args );
 
 }
 
@@ -732,7 +752,10 @@ function nab_mys_product_post_type() {
 		),
 	);
 
-	register_post_type( 'products', $args );
+	// change post type slug for amplify site.
+	$products_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-products' : 'products';
+
+	register_post_type( $products_slug, $args );
 }
 
 add_action( 'init', 'nab_mys_product_post_type' );

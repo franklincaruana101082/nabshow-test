@@ -228,15 +228,18 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			$dry  = isset( $parameters['dry'] ) ? $parameters['dry'] : '';
 			$data = isset( $parameters['data'] ) ? $parameters['data'] : '';
 
-			if ( empty( $data ) || ( 'speakers' !== $data && 'sponsors' !== $data ) ) {
-				echo "Please specify the data to be deleted. (i.e. &data=speakers or &data=sponsors.";
+			$speaker_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-speakers' : 'speakers';
+			$sponsor_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-sponsors' : 'sponsors';
+
+			if ( empty( $data ) || ( $sponsor_slug !== $data && $sponsor_slug !== $data ) ) {
+				echo "Please specify the data to be deleted. (i.e. &data=" . $speaker_slug . " or &data=" . $sponsor_slug . ".";
 				die();
 			}
 
 			$data_mysid_name = '';
-			if ( 'speakers' === $data ) {
+			if ( $speaker_slug === $data ) {
 				$data_mysid_name = 'speakerid';
-			} else if ( 'sponsors' === $data ) {
+			} else if ( $sponsor_slug === $data ) {
 				$data_mysid_name = 'sponsorid';
 			}
 
@@ -245,11 +248,14 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			$comma_separated_ids = '';
 
 			// Get data ids from the session's meta.
+			$sessions_slug 	= MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
+			$post_meta_key	= ( 'speakers' === $data || 'mys-speakers' === $data ) ? 'speakers' : 'sponsors';
+
 			$session_args = array(
-				'post_type'      => 'sessions',
+				'post_type'      => $sessions_slug,
 				'posts_per_page' => - 1,
 				'fields'         => 'ids',
-				'meta_key'       => $data
+				'meta_key'       => $post_meta_key
 			);
 
 			$session_query = new WP_Query( $session_args );
@@ -264,7 +270,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 				foreach ( $session_ids as $session_id ) {
 
-					$post_id = get_post_meta( $session_id, $data, true );
+					$post_id = get_post_meta( $session_id, $post_meta_key, true );
 
 					if ( ! empty( $post_id ) ) {
 
@@ -410,7 +416,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							ORDER BY DataID ASC LIMIT %d",
 					$wpdb->prefix, $limit ) );
 
-
 			if ( count( $data_to_migrate ) > 0 ) {
 
 				if ( 0 === $manual_run ) {
@@ -486,7 +491,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 * @package MYS Modules
 		 */
 		public function nab_mys_cron_master_flow( $data_to_migrate, $manual_run ) {
-
+			
 			$result = $data_group_migrated = array();
 
 			foreach ( $data_to_migrate as $item ) {
@@ -513,7 +518,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 				switch ( $data_type ) {
 					case 'sessions':
 
-						$prepared_data['post_type']         = 'sessions';
+						$prepared_data['post_type']         = MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
 						$prepared_data['exclude_from_meta'] = array( 'sessionid', 'title', 'description' );
 						$prepared_data['typeidname']        = 'sessionid';
 						$prepared_data['title_name']        = 'title';
@@ -533,7 +538,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					case 'speakers':
 
-						$prepared_data['post_type']         = 'speakers';
+						$prepared_data['post_type']         = MYS_IS_AMPLIFY_VERSION ? 'mys-speakers' : 'speakers';
 						$prepared_data['exclude_from_meta'] = array( 'firstname', 'lastname', 'bio', 'photo' );
 						$prepared_data['typeidname']        = 'speakerid';
 						$prepared_data['title_name']        = 'firstname';
@@ -545,7 +550,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					case 'sponsors':
 
-						$prepared_data['post_type']         = 'sponsors';
+						$prepared_data['post_type']         = MYS_IS_AMPLIFY_VERSION ? 'mys-sponsors' : 'sponsors';
 						$prepared_data['exclude_from_meta'] = array( 'sponsorname', 'logo' );
 						$prepared_data['typeidname']        = 'sponsorid';
 						$prepared_data['title_name']        = 'sponsorname';
@@ -556,7 +561,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 
 					case stristr( $data_type, 'single-exhibitor' ):
 
-						$prepared_data['post_type']         = 'exhibitors';
+						$prepared_data['post_type']         = MYS_IS_AMPLIFY_VERSION ? 'mys-exhibitors' : 'exhibitors';
 						$prepared_data['main_mys_key']      = 'exhid';
 						$prepared_data['exclude_from_meta'] = array( 'exhid', 'exhname', 'logo', 'description' );
 						$prepared_data['typeidname']        = 'exhid';
@@ -650,18 +655,21 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 * @return string Dispalys the status of the migration with migrated IDs in the form of DataID -> PostID.
 		 */
 		public function nab_mys_cron_insert_to_master( $prepared_data ) {
-
-			$data              = $prepared_data['data'];
-			$item              = $prepared_data['item'];
-			$post_type         = $prepared_data['post_type'];
-			$exclude_from_meta = $prepared_data['exclude_from_meta'];
-			$main_mys_value    = isset ( $prepared_data['main_mys_value'] ) ? $prepared_data['main_mys_value'] : '';
-			$main_mys_key      = isset ( $prepared_data['main_mys_key'] ) ? $prepared_data['main_mys_key'] : '';
-			$typeidname        = $prepared_data['typeidname'];
-			$title_name        = $prepared_data['title_name'];
-			$description_name  = isset( $prepared_data['description_name'] ) ? $prepared_data['description_name'] : '';
-			$image_name        = isset( $prepared_data['image_name'] ) ? $prepared_data['image_name'] : '';
-
+			
+			$data              	= $prepared_data['data'];
+			$item              	= $prepared_data['item'];
+			$post_type         	= $prepared_data['post_type'];
+			$exclude_from_meta 	= $prepared_data['exclude_from_meta'];
+			$main_mys_value    	= isset ( $prepared_data['main_mys_value'] ) ? $prepared_data['main_mys_value'] : '';
+			$main_mys_key      	= isset ( $prepared_data['main_mys_key'] ) ? $prepared_data['main_mys_key'] : '';
+			$typeidname        	= $prepared_data['typeidname'];
+			$title_name        	= $prepared_data['title_name'];
+			$description_name  	= isset( $prepared_data['description_name'] ) ? $prepared_data['description_name'] : '';
+			$image_name        	= isset( $prepared_data['image_name'] ) ? $prepared_data['image_name'] : '';
+			$sessions_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
+			$exhibitors_slug 	= MYS_IS_AMPLIFY_VERSION ? 'mys-exhibitors' : 'exhibitors';
+			$products_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-products' : 'products';
+			$speakers_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-speakers' : 'speakers';
 			/**
 			 * 0 - Deleted
 			 * 1 - Added
@@ -677,7 +685,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			//Set data manually to pass SessionID when the status is 'Delete'
 			//Doing this beacuse there will be no sessionid in the Data Json
 			//So fetching it from the 'ModifiedID' column.
-			if ( 0 === $item_status && "sessions" === $post_type && ! is_array( $data[0] ) ) {
+			if ( 0 === $item_status && $sessions_slug === $post_type && ! is_array( $data[0] ) ) {
 				$data = array();
 
 				$data[0]['sessionid'] = $item->ModifiedID;
@@ -808,9 +816,9 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					/**
 					 * Preparing taxonomies data.
 					 */
-					$save_taxonomies = array();
+					$save_taxonomies 	= array();					
 
-					if ( "exhibitors" === $post_type ) {
+					if ( $exhibitors_slug === $post_type ) {
 
 						/**
 						 * Sometimes MYS sending single array and sometimes multidimentinal,
@@ -924,7 +932,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['exhibitor-trends'] = $trends_array;
 
 						//Adding/Updating Products
-						$products = $individual_item['products'];
+						$products		= $individual_item['products'];						
 						if ( 0 !== count( $products ) ) {
 							foreach ( $products as $product ) {
 								$prepared_data                      = array();
@@ -934,7 +942,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 								$prepared_data['main_mys_value']    = $product['productname'];
 								$product['exhid']                   = $post_id;
 								$prepared_data['data'][]            = $product;
-								$prepared_data['post_type']         = 'products';
+								$prepared_data['post_type']         = $products_slug;
 								$prepared_data['exclude_from_meta'] = array( 'productdescription', 'categoryname', 'productname', 'productimage' );
 								$prepared_data['typeidname']        = 'productname';
 								$prepared_data['title_name']        = 'productname';
@@ -960,11 +968,11 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							update_post_meta( $post_id, 'products_assigned', $prod_ids );
 						}
 
-					} else if ( "products" === $post_type ) {
+					} else if ( $products_slug === $post_type ) {
 
 						$save_taxonomies['exhibitor-categories'] = 'categoryname';
 
-					} else if ( "sessions" === $post_type ) {
+					} else if ( $sessions_slug === $post_type ) {
 
 						//Remove 00:00:00 from date as this is not required.
 						$session_date = $individual_item['date'];
@@ -1016,7 +1024,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						//Assign Categories.
 						wp_set_post_terms( $post_id, $cat_ids, 'session-categories' );
 
-					} else if ( "speakers" === $post_type ) {
+					} else if ( $speakers_slug === $post_type ) {
 						$save_taxonomies['speaker-companies'] = 'company';
 					}
 
@@ -1046,12 +1054,12 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			}
 
 			//Flush previous comma separated relations and add new once.
-			if ( ( "speakers" === $post_type || "sponsors" === $post_type ) && null !== $data ) {
+			if ( ( $speakers_slug === $post_type || $sponsor_slug === $post_type ) && null !== $data ) {
 
 				$post_ids_to_save_in_session = implode( ',', $post_ids_to_save_in_session );
 
 				//Resetting sessions meta where (speaker/sponsors) are comma separated and adding new ids.
-				$session_post_id = $this->nab_mys_cron_get_wpid_from_meta( 'sessions', $main_mys_key, $main_mys_value );
+				$session_post_id = $this->nab_mys_cron_get_wpid_from_meta( $sessions_slug, $main_mys_key, $main_mys_value );
 				update_post_meta( $session_post_id, $post_type, $post_ids_to_save_in_session );
 
 				if ( '' !== $session_post_id ) {
@@ -1146,10 +1154,10 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 */
 		public function nab_mys_cron_master_tracks( $data_to_migrate ) {
 
-			$data      = $data_to_migrate['data'];
-			$item      = $data_to_migrate['item'];
-			$sessionid = $data_to_migrate['main_mys_value'];
-
+			$data      		= $data_to_migrate['data'];
+			$item      		= $data_to_migrate['item'];
+			$sessionid 		= $data_to_migrate['main_mys_value'];
+			$session_slug	= MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
 			/**
 			 * 1 - Added
 			 * 2 - Updated
@@ -1159,7 +1167,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			// if sessiond = 0, it means no sessions are assigned to track
 			$session_post_id = '';
 			if ( 0 !== $sessionid ) {
-				$session_post_id = $this->nab_mys_cron_get_wpid_from_meta( 'sessions', 'sessionid', $sessionid );
+				$session_post_id = $this->nab_mys_cron_get_wpid_from_meta( $session_slug, 'sessionid', $sessionid );
 			}
 
 			$track_post_ids = array();

@@ -158,8 +158,16 @@ if ( $display_ad_section ) {
     <?php
 }
 ?>
+
+<?php if( get_the_content() ): ?>
+<div class="section container generic">
+    <?php the_content(); ?>
+</div>
+<?php endif; ?>
+
 <div class="container">
     <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 </div>
 <?php
+
 get_footer();

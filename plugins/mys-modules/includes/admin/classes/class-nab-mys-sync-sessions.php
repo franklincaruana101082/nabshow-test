@@ -518,9 +518,10 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 			$parameters = $request->get_params();
 
-			$force             = isset( $parameters['force'] ) ? $parameters['force'] : '';
-			$limit             = isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
-			$unlinked_speakers = isset( $parameters['unlinked-speakers'] ) ? $parameters['unlinked-speakers'] : '';
+			$force             	= isset( $parameters['force'] ) ? $parameters['force'] : '';
+			$limit             	= isset( $parameters['limit'] ) ? (int) $parameters['limit'] : 10;
+			$unlinked_speakers	= isset( $parameters['unlinked-speakers'] ) ? $parameters['unlinked-speakers'] : '';
+			$speakers_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-speakers' : 'speakers';
 
 			if ( isset( $parameters['delete'] ) ) {
 				delete_option( 'custom_cron_speakers' );
@@ -566,7 +567,7 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 
 				//Check if post already available
 				$args              = array(
-					'post_type'  => array( "speakers" ),
+					'post_type'  => array( $speakers_slug ),
 					'meta_query' => array(
 						array(
 							'key'   => "speakerid",

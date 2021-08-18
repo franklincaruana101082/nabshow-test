@@ -6,6 +6,8 @@
  * @since 1.0.0
  */
 
+use function Automattic\Jetpack\Extensions\Eventbrite\get_current_url;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -31,7 +33,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Upload CSV
 			add_action( 'admin_post_sync_exhibitors_request', array( $this, 'nab_mys_exh_csv' ) );
 
-			add_action( 'admin_post_import_exhibitors_request', array( $this, 'nab_mys_import_exhibitors_by_ids' ) );
+			add_action( 'admin_post_import_exhibitors_request', array( $this, 'nab_mys_import_exhibitors_by_ids' ) );			
 
 			//Action for the Ajax Call from ( /assets/js/nab-mys-script.js ).
 			add_action( 'wp_ajax_nab_mys_exhibitor_data', array( $this, 'nab_mys_sync_exhibitors' ) );

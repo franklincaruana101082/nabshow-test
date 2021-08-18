@@ -15,10 +15,12 @@ if ( ! current_user_can( 'manage_options' ) ) {
 	wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
 }
 
-$request_data = $this->request_data;
-$allowed_tags = $this->allowed_tags;
-$sorting_data = $this->sorting_data;
-$history_data = $this->history_data;
+$request_data 		= $this->request_data;
+$allowed_tags 		= $this->allowed_tags;
+$sorting_data 		= $this->sorting_data;
+$history_data 		= $this->history_data;
+$sessions_slug		= MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
+$exhibitors_slug	= MYS_IS_AMPLIFY_VERSION ? 'mys-exhibitors' : 'exhibitors';
 ?>
 <table class="wp-list-table widefat striped pages"> <!--table-outer syn-table history-table-->
 	<thead>
@@ -169,7 +171,7 @@ $history_data = $this->history_data;
 
 					$status_int = $single_row->AddedStatus;
 
-					if ( 'sessions' === $data_type || 'exhibitors' === $data_type ) {
+					if ( $sessions_slug === $data_type || $exhibitors_slug === $data_type ) {
 						$session_post_title = '<i>self</i>';
 						$assignee_hash      = '';
 					} else {
@@ -178,7 +180,7 @@ $history_data = $this->history_data;
 							$session_post_title = $session_wpdata[ $assigned_id ]['title'];
 							$session_post_link  = $session_wpdata[ $assigned_id ]['link'];
 						} else {
-							$session_post_id = $this->nab_mys_db_cron_object->nab_mys_cron_get_wpid_from_meta( 'sessions', 'sessionid', $assigned_id );
+							$session_post_id = $this->nab_mys_db_cron_object->nab_mys_cron_get_wpid_from_meta( $sessions_slug, 'sessionid', $assigned_id );
 
 							if ( ! empty( $session_post_id ) ) {
 								$session_post_title = get_the_title( $session_post_id );

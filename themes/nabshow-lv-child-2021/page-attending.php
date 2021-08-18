@@ -6,101 +6,61 @@
  */
 
 get_header();
+
+$page_subtitle  = get_field( 'page_subtitle' );
+$attendee_imgs  = get_field( 'attendee_images' );
+$attendee_names = get_field( 'attendee_names' );
 ?>
 
 <main id="main">
   <div class="intro _lightlines-strip">
     <div class="container intro__container">
-      <h1 class="intro__label">
-        NAB SHOW | LAS VEGAS
-      </h1>
-      <h2 class="intro__title">
-        YOU'LL BE IN GOOD COMPANY
-      </h2>
-      <div class="intro__body"><p>Thousands are already registered representing the following brands.</p></div>
+      <h1 class="intro__label"><?php the_title(); ?></h1>
+      <h2 class="intro__title"><?php echo esc_html( $page_subtitle ); ?></h2>
+      <div class="intro__body"><?php the_content(); ?></div>
     </div>
   </div>
 
-  <div class="section _bottom container _wide">
-    <div class="logo-group">
-      <!-- Loop thru attendee images -->      
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-cbs.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-paramount.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-spotify.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-disney.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-cbs.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-paramount.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-espn.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-disney.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-netflix.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-hulu.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-espn.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-discovery.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-fox.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-hulu.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-youtube.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-discovery.png" alt="logo name here" />
-      <img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-group-logo-fox.png" alt="logo name here" />
-      <!-- END Loop thru attendee images -->      
+  <?php
+  if ( $attendee_imgs ) {
+    
+    ?>
+    <div class="section _bottom container _wide">
+      <div class="logo-group">
+        <?php
+        foreach ( $attendee_imgs as $row ) {
+          $logo_name = $row['name'];
+          $logo = $row['image']['ID'];
+          if ( isset( $logo ) && !empty( $logo ) ):
+          ?>
+          <img src="<?php echo esc_url( wp_get_attachment_url( $logo ) ); ?>" alt="<?php echo esc_attr( $logo_name ); ?>" />                    
+          <?php
+          endif;
+        }
+        ?>             
+      </div>
     </div>
-  </div>
+    <?php
+  }
 
-  <div class="section attending-list-wrapper">
-    <div class="container _wide">
-      <ul class="attending-list">
-        <!-- Loop thru attendee names/titles -->
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME GOES HERE</b><span class="attending-list-item-title">Persons' Title goes here</span></li>
-        <li><b class="attending-list-item-name">COMPANY NAME</b><span class="attending-list-item-title">Title goes here</span></li>
-        <!-- END Loop thru attendee names/titles -->
-      </ul>
+  if ( $attendee_names ) {
+    ?>
+    <div class="section attending-list-wrapper">
+      <div class="container _wide">
+        <ul class="attending-list">
+          <?php
+          foreach ( $attendee_names as $row ) {
+            ?>
+            <li><b class="attending-list-item-name"><?php echo esc_html( $row['name'] ); ?></b></li>
+            <?php
+          }
+          ?>          
+        </ul>
+      </div>
     </div>
-  </div>
+    <?php
+  }
+  ?>  
   
 </main><!-- #main -->
 
