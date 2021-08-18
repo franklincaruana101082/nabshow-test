@@ -12,7 +12,7 @@ if(has_category('video')) {
 	$articleTypeClass = '_video';
 }
 
-$using_optin = (get_field('show_opt_inout_modal') ? "1" : "0");
+$using_optin = (int)get_field('show_opt_inout_modal');
 if($using_optin) {
 	$optin_complete = '0';
 } else {
@@ -20,6 +20,33 @@ if($using_optin) {
 	//for setting up functionality in registration below
 	$optin_complete = '1';
 }
+
+$company = get_field('nab_selected_company_id');
+
+$show_content = true;
+						
+$content_protected = (int)get_field('make_opt_in_required');
+
+$cookieName = 'nab_optin';
+if(isset($_COOKIE[$cookieName])) {
+	if(stripos($_COOKIE[$cookieName], $company.':') !== false) { //check if opted in OR out
+		$using_optin = '0';
+		$optin_complete = '1';
+	}
+	if($content_protected) {
+		$show_content = false;
+		$optin_complete = '0';
+		$using_optin = '1';
+		if(stripos($_COOKIE[$cookieName], $company.':1') !== false) { //check if already opted IN
+			$show_content = true;
+			$optin_complete = '1';
+			$using_optin = '0';
+		}
+	}
+} elseif ($content_protected) {
+	$show_content = false;
+}
+
 
 ?>
 
@@ -57,6 +84,10 @@ if($using_optin) {
 			} else {
 			?>
 			<div class="content">
+
+				<?php
+				if($show_content) {
+				?>
 				<div style="display: none;">
 					<div class="optout__info js-optin_content nabblock"></div>
 				</div>
@@ -75,6 +106,14 @@ if($using_optin) {
 						wp_kses_post( get_the_title() )
 					)
 				);
+				} else {
+					the_excerpt();
+					?>
+					<div style="display: none;">
+						<div class="optout__info js-optin_content nabblock"></div>
+					</div>
+					<?php
+				}
 
 				wp_link_pages(
 					array(
@@ -92,14 +131,13 @@ if($using_optin) {
 		//opt in modal
 		if (get_field('show_opt_inout_modal') && get_field('nab_selected_company_id')) {
 			//we need these defined here because they may change depending on the template we're adding this to
-			$user_id = $user_id;
 			$company_id = get_field('nab_selected_company_id');
 			$company_name = get_the_title( $company_id );
 			$opt_in_required = (int)get_field('make_opt_in_required');
 			$occurred_at_type = 'article';
 			$displayInline = true;
 			$registration_required = false;
-			$registered = false;
+			$registered = true;
 			$user_id				= get_current_user_id();
 			$user					= get_user_by( 'id', $user_id );
 			$user_email				= $user->user_email;
