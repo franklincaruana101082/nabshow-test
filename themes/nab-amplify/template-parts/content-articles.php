@@ -12,6 +12,15 @@ if(has_category('video')) {
 	$articleTypeClass = '_video';
 }
 
+$using_optin = (get_field('show_opt_inout_modal') ? "1" : "0");
+if($using_optin) {
+	$optin_complete = '0';
+} else {
+	//set as complete if we're not using an opt in
+	//for setting up functionality in registration below
+	$optin_complete = '1';
+}
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -48,6 +57,9 @@ if(has_category('video')) {
 			} else {
 			?>
 			<div class="content">
+				<div style="display: none;">
+					<div class="optout__info js-optin_content nabblock"></div>
+				</div>
 				<?php
 				the_content(
 					sprintf(
@@ -75,7 +87,35 @@ if(has_category('video')) {
 		<?php } ?>
 		</div>
 	</div><!-- .entry-content -->
-
+	<?php 
+	if(is_user_logged_in()) {
+		//opt in modal
+		if (get_field('show_opt_inout_modal') && get_field('nab_selected_company_id')) {
+			//we need these defined here because they may change depending on the template we're adding this to
+			$user_id = $user_id;
+			$company_id = get_field('nab_selected_company_id');
+			$company_name = get_the_title( $company_id );
+			$opt_in_required = (int)get_field('make_opt_in_required');
+			$occurred_at_type = 'article';
+			$displayInline = true;
+			$registration_required = false;
+			$registered = false;
+			$user_id				= get_current_user_id();
+			$user					= get_user_by( 'id', $user_id );
+			$user_email				= $user->user_email;
+			$user_firstname			= get_user_meta( $user_id, "first_name", true);
+			$user_lastname			= get_user_meta( $user_id, "last_name", true);
+			$user_city 		        = get_user_meta( $user_id, "user_city", true);
+			$user_state 		    = get_user_meta( $user_id, "user_state", true);
+			$user_country_code		= get_user_meta( $user_id, "user_country", true);
+			$user_company			= get_user_meta( $user_id, "attendee_company", true);
+			$user_title				= get_user_meta( $user_id, "attendee_title", true);
+			$user_ip 				= $_SERVER['REMOTE_ADDR'];
+			//use this instead of get_template_part so the partial can access the above php vars from here
+			include ( locate_template( 'template-parts/modal-opt-in.php', false, false ) );
+		}
+	}
+	?>
 	<footer class="entry-footer">
 		<?php nab_amplify_entry_footer(); ?>
 	</footer><!-- .entry-footer -->

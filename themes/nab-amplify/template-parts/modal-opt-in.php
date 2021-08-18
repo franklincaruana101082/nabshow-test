@@ -68,13 +68,18 @@ var cookieName = 'nab_optin';
 var company_id = '<?php echo $company_id;?>';
 var registration_required = <?php echo ($registration_required ? "1" : "0"); ?>;
 var registered = <?php echo ($registered ? "1" : "0"); ?>;
+var displayInline = <?php echo ($displayInline ? "1" : "0"); ?>;
 jQuery(function($) {
 	
 	if(document.cookie.indexOf(cookieName) == -1) {	//optins cookie doesn't exist
 		cookieValue = company_id+':2,';
 		optVal = 2;
-		if(registered) {
+		if(registered && !displayInline) {
 			jQuery('#modal-opt-in').show();
+		} else {
+			var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+			jQuery('.js-optin_content').html(optin_content);
+			jQuery('.js-optin_content').parent().show();
 		}
 	} else { //optins cookie does exist
 		var cookiePart = document.cookie.substr(document.cookie.indexOf(cookieName));
@@ -88,12 +93,20 @@ jQuery(function($) {
 			//get opt in value for company_id
 			optVal = cookieValue.substr(cookieValue.indexOf(company_id+':')+company_id.length+1, 1);
 			if (optVal == 2) { //this might be impossible now
-				if(registered) {
-					jQuery('#modal-opt-in').show();	
+				if(registered && !displayInline) {
+					jQuery('#modal-opt-in').show();
+				} else {
+					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+					jQuery('.js-optin_content').html(optin_content);
+					jQuery('.js-optin_content').parent().show();
 				}
 			} else if(optVal == '0' && opt_in_required) {
-				if(registered) {
+				if(registered && !displayInline) {
 					jQuery('#modal-opt-in').show();
+				} else {
+					var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+					jQuery('.js-optin_content').html(optin_content);
+					jQuery('.js-optin_content').parent().show();
 				}
 			} else if(optVal == '0') {
 				jQuery('.js-optout_content').show();	
@@ -101,8 +114,12 @@ jQuery(function($) {
 		} else { //if the company isn't in the cookieValue let's add it to the end
 			cookieValue += company_id+':2,';
 			optVal = 2;
-			if(registered) {
+			if(registered && !displayInline) {
 				jQuery('#modal-opt-in').show();
+			} else {
+				var optin_content = jQuery('#modal-opt-in .modal-content-wrap').html();
+				jQuery('.js-optin_content').html(optin_content);
+				jQuery('.js-optin_content').parent().show();
 			}
 		}
 
