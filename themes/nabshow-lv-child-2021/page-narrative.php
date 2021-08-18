@@ -159,7 +159,7 @@ if ( $display_ad_section ) {
 }
 ?>
 
-<?php if($post->post_content): ?>
+<?php if( get_the_content() ): ?>
 <div class="section container generic">
     <?php the_content(); ?>
 </div>
