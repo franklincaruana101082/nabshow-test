@@ -101,8 +101,8 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$data_type = $this->request_data['data_type'];
 
 			if ( 'listing' === $this->page_template ) {
-				//LISTING PAGE
 
+				//LISTING PAGE
 				$name_date_col = 'HistoryStartTime';
 
 				if ( null === $data_type || 'all' === $data_type ) {
@@ -115,27 +115,29 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 				} else {
 					$this->where_clause_history[] = "HistoryDataType = '" . $data_type . "'";
 				}
-
+				
 				// User - Filter
 				$args = array(
 					'role'    => 'administrator',
 					'orderby' => 'display_name',
 					'order'   => 'ASC'
 				);
-
+				
 				$this->request_data['all_users'] = get_users( $args );
+				
 				$user_ids                        = array();
 				foreach ( $this->request_data['all_users'] as $u ) {
 					$user_ids[] = $u->ID;
 				}
+
 				if ( null !== $this->request_data['user'] && 'all' !== $this->request_data['user'] ) {
 					$this->where_clause_history[] = "HistoryUser = " . (int) $this->request_data['user'];
-				}
+				}				
 
 				// Status - Filter
 				if ( null !== $this->request_data['status'] && 'all' !== $this->request_data['status'] ) {
 					$this->where_clause_history[] = "HistoryStatus = " . (int) $this->request_data['status'];
-				}
+				}				
 
 			} else {
 				//DETAIL or SEARCH PAGE
@@ -381,7 +383,7 @@ if ( ! class_exists( 'NAB_MYS_DB_History' ) ) {
 			$this->nab_mys_history_set_vars();
 
 			//Set filters
-			$this->nab_mys_history_set_filters();
+			$this->nab_mys_history_set_filters();			
 
 			//Get History Data
 			$this->nab_mys_history_get_data();
