@@ -82,7 +82,7 @@ endif;
 
   <div class="container _pull-up">
     <div class="jump-links">
-      <h2 class="jump-links__label">Resources for:</h2>
+      <h2 class="jump-links__label">Quick Links:</h2>
       <ul class="jump-links__menu">
         <li class="jump-links__item"><a href="<?php echo site_url('/attend/'); ?>" class="button _arrow _full">Attend</a></li>
         <li class="jump-links__item"><a href="<?php echo site_url('/resources-for/press/'); ?>" class="button _arrow _full">Press</a></li>
@@ -160,9 +160,11 @@ endif;
               <b class="attending-item-name">Formula 1</b>
             </span>
           </div>
+          <!--
           <div class="attending-more">
             <a href="<?php echo site_url('/whos-attending/'); ?>" class="button _solid">View more</a>
           </div>
+          -->
       </div>
     </div>
   </div>
