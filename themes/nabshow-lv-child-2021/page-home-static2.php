@@ -111,11 +111,11 @@ endif;
     </div>
   </div>
 
-
+<?php /*
   <div class="section _bottom-only container">
     <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
-
+*/ ?>
 
   <div class="section _bottom">
     <div class="container">
