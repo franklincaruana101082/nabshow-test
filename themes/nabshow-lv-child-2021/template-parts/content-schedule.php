@@ -42,6 +42,16 @@
 								</tr>
 							</thead>
 							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/main-stage/">Main <b>Stage</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
 								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/exhibits/">NAB Show Show <b>Floor</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
