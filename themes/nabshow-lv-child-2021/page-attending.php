@@ -7,6 +7,7 @@
 
 get_header();
 
+$page_title  = get_field( 'page_title' );
 $page_subtitle  = get_field( 'page_subtitle' );
 $attendee_imgs  = get_field( 'attendee_images' );
 $attendee_names = get_field( 'attendee_names' );
@@ -15,7 +16,7 @@ $attendee_names = get_field( 'attendee_names' );
 <main id="main">
   <div class="intro _lightlines-strip">
     <div class="container intro__container">
-      <h1 class="intro__label"><?php the_title(); ?></h1>
+      <h1 class="intro__label"><?php echo esc_html( $page_title ); ?></h1>
       <h2 class="intro__title"><?php echo esc_html( $page_subtitle ); ?></h2>
       <div class="intro__body"><?php the_content(); ?></div>
     </div>
