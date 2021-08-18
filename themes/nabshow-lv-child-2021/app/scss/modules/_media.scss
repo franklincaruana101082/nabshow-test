@@ -63,10 +63,5 @@ img {
 
 .banner__image {
   width: 100%;
-  height: rem(300);
-  object-fit: cover;
-  @include bp-768 {
-    height: auto;
-    max-height: rem(400);
-  }
+  height: auto;
 }
