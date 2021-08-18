@@ -116,6 +116,7 @@ jQuery(function($) {
 			asNavFor: '.schedule__menu',
 			swipe: false,
 			swipeToSlide: false,
+			adaptiveHeight: true
 		});
 		// menu for days
 		$('.schedule__menu').slick({

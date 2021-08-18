@@ -120,7 +120,7 @@ endif;
   <div class="section _bottom">
     <div class="container">
       <div class="attending">
-        <h3 class="attending-subtitle">Thousand of attendees, hundreds of exhibitors are ready</h3>
+        <h3 class="attending-subtitle">Thousands of attendees, hundreds of exhibitors are ready</h3>
         <h2 class="h-xl attending-title">You’ll Be In Good Company</h2>
           <div class="attending-panel">
             <span class="attending-item">

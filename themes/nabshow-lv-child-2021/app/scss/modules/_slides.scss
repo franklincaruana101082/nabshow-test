@@ -79,6 +79,11 @@
   position: relative;
   z-index: 100;
 }
+.schedule__day {
+  .new & {
+    //padding-bottom: rem(56);
+  }
+}
 .schedule__day-wrapper {
   background-size: cover; // bg is defined inline in markup
   background-position: 80% 0;
@@ -101,7 +106,7 @@
     padding: rem(188) 0 rem(156);
     margin-bottom: rem(-50);
     .new & {
-      padding: rem(168) 0 rem(80);
+      padding: rem(168) 0 rem(136);
     }
   }
 }
