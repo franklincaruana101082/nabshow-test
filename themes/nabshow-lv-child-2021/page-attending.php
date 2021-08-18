@@ -29,12 +29,13 @@ $attendee_names = get_field( 'attendee_names' );
       <div class="logo-group">
         <?php
         foreach ( $attendee_imgs as $row ) {
-          
-          $logo_name  = $row['name'];
-          $logo       = isset( $row['image']['ID'] ) && ! empty( $row['image']['ID'] ) ? wp_get_attachment_url( $row['image']['ID'] ) : '';
+          $logo_name = $row['name'];
+          $logo = $row['image']['ID'];
+          if ( isset( $logo ) && !empty( $logo ) ):
           ?>
-          <img src="<?php echo esc_url( $logo ); ?>" alt="<?php echo esc_attr( $logo_name ); ?>" />                    
+          <img src="<?php echo esc_url( wp_get_attachment_url( $logo ) ); ?>" alt="<?php echo esc_attr( $logo_name ); ?>" />                    
           <?php
+          endif;
         }
         ?>             
       </div>
@@ -48,7 +49,7 @@ $attendee_names = get_field( 'attendee_names' );
       <div class="container _wide">
         <ul class="attending-list">
           <?php
-          foreach ( $attendee_imgs as $row ) {
+          foreach ( $attendee_names as $row ) {
             ?>
             <li><b class="attending-list-item-name"><?php echo esc_html( $row['name'] ); ?></b></li>
             <?php
