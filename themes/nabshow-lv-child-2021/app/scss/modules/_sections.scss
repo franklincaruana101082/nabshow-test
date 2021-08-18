@@ -1598,6 +1598,7 @@
 }
 .attending-subtitle {
   @include primary-black-16-16-20;
+  line-height: 1.6;
   text-transform: uppercase;
   margin-bottom: rem(20);
   text-align: center;
@@ -1979,6 +1980,7 @@
 }
 .exhibiting-subtitle {
   @include primary-black-16-16-20;
+  line-height: 1.6;
   text-transform: uppercase;
   margin-bottom: rem(20);
   text-align: center;
