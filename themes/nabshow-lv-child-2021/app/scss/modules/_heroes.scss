@@ -3,6 +3,10 @@
 .hero-banner {
   position: relative;
   z-index: 1;
+  img {
+    max-height: 42rem;
+    object-fit: cover;
+  }
 }
 
 .hero {
