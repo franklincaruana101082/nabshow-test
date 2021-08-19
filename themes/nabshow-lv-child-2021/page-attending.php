@@ -26,7 +26,7 @@ $attendee_names = get_field( 'attendee_names' );
   if ( $attendee_imgs ) {
     
     ?>
-    <div class="section _bottom container _wide">
+    <div class="section _bottom container">
       <div class="logo-group">
         <?php
         foreach ( $attendee_imgs as $row ) {
@@ -51,9 +51,11 @@ $attendee_names = get_field( 'attendee_names' );
         <ul class="attending-list">
           <?php
           foreach ( $attendee_names as $row ) {
+            if( $row['name'] ):
             ?>
             <li><b class="attending-list-item-name"><?php echo esc_html( $row['name'] ); ?></b></li>
             <?php
+            endif;
           }
           ?>          
         </ul>
@@ -65,6 +67,9 @@ $attendee_names = get_field( 'attendee_names' );
   
 </main><!-- #main -->
 
+<div class="container">
+  <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+</div>
 
 <?php
-get_footer('maintenance');
+get_footer();

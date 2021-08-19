@@ -160,11 +160,11 @@ endif;
               <b class="attending-item-name">Formula 1</b>
             </span>
           </div>
-          <!--
+          
           <div class="attending-more">
             <a href="<?php echo site_url('/whos-attending/'); ?>" class="button _solid">View more</a>
           </div>
-          -->
+          
       </div>
     </div>
   </div>

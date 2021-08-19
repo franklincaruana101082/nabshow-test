@@ -1724,12 +1724,6 @@
       border-radius: 50%;
       margin-left: rem(16);
     }
-    @include bp-1280 {
-      padding: rem(14) 0;
-      &::before {
-        display: none;
-      }
-    }
   }
   @include bp-768 {
     column-count: 2;
@@ -1751,17 +1745,6 @@
   display: inline-flex;
   align-items: center;
   line-height: 1.75;
-  @include bp-1280 {
-    &::after {
-      content: "";
-      display: block;
-      height: rem(6);
-      width: rem(6);
-      background: #9e4593;
-      border-radius: 50%;
-      margin-left: rem(16);
-    }
-  }
   @include bp-604 {
     @include primary-black-16-16-20;
     line-height: 1.5;

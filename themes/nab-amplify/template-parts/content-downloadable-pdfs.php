@@ -113,7 +113,7 @@
 					endif;
 					if (get_field('show_opt_inout_modal')) {
 				?>
-					<div class="optout__info js-optin_content nabblock"></div>
+					<div style="display: none;"><div class="optout__info js-optin_content nabblock"></div></div>
 				<?php } ?>
 					<div class="whitepaper__download nabblock">
 						<?php if( get_the_post_thumbnail_url() ): ?>
@@ -132,7 +132,7 @@
 				} else {
 
 					
-					?><div class="optout__info js-optin_content nabblock"></div><?php
+					?><div style="display: none;"><div class="optout__info js-optin_content nabblock"></div></div><?php
 				}
 
 				if (get_field('show_opt_inout_modal')) {
@@ -140,7 +140,7 @@
 					$company_id = $company;
 					$company_name = get_the_title( $company );
 					$opt_in_required = (int)get_field('make_opt_in_required');
-					$registration_required = true;
+					$registration_required = false;
 					$registered = true;
 					$displayInline = true;
 					$user_id				= get_current_user_id();
