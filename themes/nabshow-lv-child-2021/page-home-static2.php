@@ -162,7 +162,7 @@ endif;
           </div>
           
           <div class="attending-more">
-            <a href="<?php echo site_url('/whos-attending/'); ?>" class="button _solid">View more</a>
+            <a href="<?php echo site_url('/youll-be-in-good-company/'); ?>" class="button _solid">View more</a>
           </div>
           
       </div>
