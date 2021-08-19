@@ -73,6 +73,9 @@
     order: -1;
     @include primary-bold-16-16;
   }
+  a {
+    color: $color__white;
+  }
 }
 
 .footer__secondary {
