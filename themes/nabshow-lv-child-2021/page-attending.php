@@ -26,7 +26,7 @@ $attendee_names = get_field( 'attendee_names' );
   if ( $attendee_imgs ) {
     
     ?>
-    <div class="section _bottom container _wide">
+    <div class="section _bottom container">
       <div class="logo-group">
         <?php
         foreach ( $attendee_imgs as $row ) {
