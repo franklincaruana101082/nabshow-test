@@ -2,6 +2,8 @@
 namespace Automattic\WooCommerce\Blocks\Domain\Services;
 
 use Automattic\WooCommerce\Blocks\Domain\Package;
+use Automattic\WooCommerce\Blocks\StoreApi\Routes\RouteException;
+use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartExtensionsSchema;
 use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartItemSchema;
 use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartSchema;
 use Automattic\WooCommerce\Blocks\StoreApi\Formatters;
@@ -11,7 +13,7 @@ use Exception;
 /**
  * Service class to provide utility functions to extend REST API.
  */
-class ExtendRestApi {
+final class ExtendRestApi {
 	/**
 	 * Holds the Package instance
 	 *
@@ -62,6 +64,20 @@ class ExtendRestApi {
 	private $extend_data = [];
 
 	/**
+	 * Data to be extended
+	 *
+	 * @var array
+	 */
+	private $callback_methods = [];
+
+	/**
+	 * Array of payment requirements
+	 *
+	 * @var array
+	 */
+	private $payment_requirements = [];
+
+	/**
 	 * An endpoint that validates registration method call
 	 *
 	 * @param array $args {
@@ -71,6 +87,7 @@ class ExtendRestApi {
 	 *     @type string   $namespace Plugin namespace.
 	 *     @type callable $schema_callback Callback executed to add schema data.
 	 *     @type callable $data_callback Callback executed to add endpoint data.
+	 *     @type string   $data_type The type of data, object or array.
 	 * }
 	 *
 	 * @throws Exception On failure to register.
@@ -95,12 +112,92 @@ class ExtendRestApi {
 			$this->throw_exception( '$data_callback must be a callable function.' );
 		}
 
+		if ( isset( $args['data_type'] ) && ! in_array( $args['data_type'], [ ARRAY_N, ARRAY_A ], true ) ) {
+			$this->throw_exception(
+				sprintf( 'Data type must be either ARRAY_N for a numeric array or ARRAY_A for an object like array. You provided %1$s.', $args['data_type'] )
+			);
+		}
+
 		$this->extend_data[ $args['endpoint'] ][ $args['namespace'] ] = [
 			'schema_callback' => $args['schema_callback'],
 			'data_callback'   => $args['data_callback'],
+			'data_type'       => isset( $args['data_type'] ) ? $args['data_type'] : ARRAY_A,
 		];
 
 		return true;
+	}
+
+	/**
+	 * Add callback functions that can be executed by the cart/extensions endpoint.
+	 *
+	 * @param array $args {
+	 *     An array of elements that make up the callback configuration.
+	 *
+	 *     @type string   $endpoint The endpoint to extend.
+	 *     @type string   $namespace Plugin namespace.
+	 *     @type callable $callback The function/callable to execute.
+	 * }
+	 *
+	 * @throws RouteException On failure to register.
+	 * @returns boolean True on success.
+	 */
+	public function register_update_callback( $args ) {
+		if ( ! array_key_exists( 'namespace', $args ) || ! is_string( $args['namespace'] ) ) {
+			throw new RouteException(
+				'woocommerce_rest_cart_extensions_error',
+				'You must provide a plugin namespace when extending a Store REST endpoint.',
+				400
+			);
+		}
+
+		if ( ! array_key_exists( 'callback', $args ) || ! is_callable( $args['callback'] ) ) {
+			throw new RouteException(
+				'woocommerce_rest_cart_extensions_error',
+				'There is no valid callback supplied to register_update_callback.',
+				400
+			);
+		}
+
+		$this->callback_methods[ $args['namespace'] ] = [
+			'callback' => $args['callback'],
+		];
+		return true;
+	}
+
+	/**
+	 * Get callback for a specific endpoint and namespace.
+	 *
+	 * @param string $namespace The namespace to get callbacks for.
+	 *
+	 * @return callable The callback registered by the extension.
+	 * @throws RouteException When callback is not callable or parameters are incorrect.
+	 */
+	public function get_update_callback( $namespace ) {
+		$method = null;
+		if ( ! is_string( $namespace ) ) {
+			throw new RouteException(
+				'woocommerce_rest_cart_extensions_error',
+				'You must provide a plugin namespace when extending a Store REST endpoint.',
+				400
+			);
+		}
+
+		if ( ! array_key_exists( $namespace, $this->callback_methods ) ) {
+			throw new RouteException(
+				'woocommerce_rest_cart_extensions_error',
+				sprintf( 'There is no such namespace registered: %1$s.', $namespace ),
+				400
+			);
+		}
+
+		if ( ! array_key_exists( 'callback', $this->callback_methods[ $namespace ] ) || ! is_callable( $this->callback_methods[ $namespace ]['callback'] ) ) {
+			throw new RouteException(
+				'woocommerce_rest_cart_extensions_error',
+				sprintf( 'There is no valid callback registered for: %1$s.', $namespace ),
+				400
+			);
+		}
+		return $this->callback_methods[ $namespace ]['callback'];
 	}
 
 	/**
@@ -163,11 +260,65 @@ class ExtendRestApi {
 				continue;
 			}
 
-			$schema = $this->format_extensions_properties( $namespace, $schema );
+			$schema = $this->format_extensions_properties( $namespace, $schema, $callbacks['data_type'] );
 
 			$registered_schema[ $namespace ] = $schema;
 		}
 		return (object) $registered_schema;
+	}
+
+	/**
+	 * Registers and validates payment requirements callbacks.
+	 *
+	 * @param array $args {
+	 *     Array of registration data.
+	 *
+	 *     @type callable $data_callback Callback executed to add payment requirements data.
+	 * }
+	 *
+	 * @throws Exception On failure to register.
+	 * @return boolean True on success.
+	 */
+	public function register_payment_requirements( $args ) {
+		if ( ! is_callable( $args['data_callback'] ) ) {
+			$this->throw_exception( '$data_callback must be a callable function.' );
+		}
+
+		$this->payment_requirements[] = $args['data_callback'];
+
+		return true;
+	}
+
+	/**
+	 * Returns the additional payment requirements.
+	 *
+	 * @param array $initial_requirements list of requirements that should be added to the collected requirements.
+	 * @return array Returns a list of payment requirements.
+	 * @throws Exception If a registered callback throws an error, or silently logs it.
+	 */
+	public function get_payment_requirements( array $initial_requirements = [ 'products' ] ) {
+		$requirements = $initial_requirements;
+		if ( empty( $this->payment_requirements ) ) {
+			return $initial_requirements;
+		}
+
+		foreach ( $this->payment_requirements as $callback ) {
+			$data = [];
+
+			try {
+				$data = $callback();
+
+				if ( ! is_array( $data ) ) {
+					throw new Exception( '$data_callback must return an array.' );
+				}
+			} catch ( Throwable $e ) {
+				$this->throw_exception( $e );
+				continue;
+			}
+			$requirements = array_merge( $requirements, $data );
+		}
+
+		return array_unique( $requirements );
 	}
 
 	/**
@@ -194,10 +345,21 @@ class ExtendRestApi {
 	 *
 	 * @param string $namespace Error message or Exception.
 	 * @param array  $schema An error to throw if we have debug enabled and user is admin.
+	 * @param string $data_type How should data be shaped.
 	 *
 	 * @return array Formatted schema.
 	 */
-	private function format_extensions_properties( $namespace, $schema ) {
+	private function format_extensions_properties( $namespace, $schema, $data_type ) {
+		if ( ARRAY_N === $data_type ) {
+			return [
+				/* translators: %s: extension namespace */
+				'description' => sprintf( __( 'Extension data registered by %s', 'woocommerce' ), $namespace ),
+				'type'        => [ 'array', 'null' ],
+				'context'     => [ 'view', 'edit' ],
+				'readonly'    => true,
+				'items'       => $schema,
+			];
+		}
 		return [
 			/* translators: %s: extension namespace */
 			'description' => sprintf( __( 'Extension data registered by %s', 'woocommerce' ), $namespace ),
