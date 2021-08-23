@@ -204,7 +204,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 				'Authorization' => $authorization,
 				'Accept'        => 'application/json;ver=1.0',
 				'Content-Type'  => 'application/json; charset=UTF-8',
-				'Host'          => 'api.mapyourshow.com'
+				//'Host'          => 'api.mapyourshow.com'
 			);
 			$request = array(
 				'headers' => $headers,

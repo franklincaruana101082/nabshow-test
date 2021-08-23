@@ -416,7 +416,6 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 							ORDER BY DataID ASC LIMIT %d",
 					$wpdb->prefix, $limit ) );
 
-
 			if ( count( $data_to_migrate ) > 0 ) {
 
 				if ( 0 === $manual_run ) {
@@ -492,7 +491,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 * @package MYS Modules
 		 */
 		public function nab_mys_cron_master_flow( $data_to_migrate, $manual_run ) {
-
+			
 			$result = $data_group_migrated = array();
 
 			foreach ( $data_to_migrate as $item ) {
@@ -656,7 +655,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 * @return string Dispalys the status of the migration with migrated IDs in the form of DataID -> PostID.
 		 */
 		public function nab_mys_cron_insert_to_master( $prepared_data ) {
-
+			
 			$data              	= $prepared_data['data'];
 			$item              	= $prepared_data['item'];
 			$post_type         	= $prepared_data['post_type'];
