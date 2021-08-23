@@ -40,9 +40,14 @@ class Homescreen {
 	public function __construct() {
 		add_filter( 'woocommerce_admin_get_user_data_fields', array( $this, 'add_user_data_fields' ) );
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
-		// priority is 20 to run after https://github.com/woocommerce/woocommerce/blob/a55ae325306fc2179149ba9b97e66f32f84fdd9c/includes/admin/class-wc-admin-menus.php#L165.
-		add_action( 'admin_head', array( $this, 'update_link_structure' ), 20 );
-		add_filter( 'woocommerce_admin_plugins_whitelist', array( $this, 'get_homescreen_allowed_plugins' ) );
+		// In WC Core 5.1 $submenu manipulation occurs in admin_menu, not admin_head. See https://github.com/woocommerce/woocommerce/pull/29088.
+		if ( version_compare( WC_VERSION, '5.1', '>=' ) ) {
+			// priority is 20 to run after admin_menu hook for woocommerce runs, so that submenu is populated.
+			add_action( 'admin_menu', array( $this, 'update_link_structure' ), 20 );
+		} else {
+			// priority is 20 to run after https://github.com/woocommerce/woocommerce/blob/a55ae325306fc2179149ba9b97e66f32f84fdd9c/includes/admin/class-wc-admin-menus.php#L165.
+			add_action( 'admin_head', array( $this, 'update_link_structure' ), 20 );
+		}
 		add_filter( 'woocommerce_admin_preload_options', array( $this, 'preload_options' ) );
 		add_filter( 'woocommerce_shared_settings', array( $this, 'component_settings' ), 20 );
 	}
@@ -71,11 +76,12 @@ class Homescreen {
 	public function register_page() {
 		wc_admin_register_page(
 			array(
-				'id'     => 'woocommerce-home',
-				'title'  => __( 'Home', 'woocommerce' ),
-				'parent' => 'woocommerce',
-				'path'   => self::MENU_SLUG,
-				'order'  => 0,
+				'id'         => 'woocommerce-home',
+				'title'      => __( 'Home', 'woocommerce' ),
+				'parent'     => 'woocommerce',
+				'path'       => self::MENU_SLUG,
+				'order'      => 0,
+				'capability' => 'manage_woocommerce',
 			)
 		);
 	}
@@ -108,21 +114,6 @@ class Homescreen {
 		// Move menu item to top of array.
 		unset( $submenu['woocommerce'][ $wc_admin_key ] );
 		array_unshift( $submenu['woocommerce'], $menu );
-	}
-
-	/**
-	 * Gets an array of plugins that can be installed & activated via the home screen.
-	 *
-	 * @param array $plugins Array of plugin slugs to be allowed.
-	 *
-	 * @return array
-	 */
-	public static function get_homescreen_allowed_plugins( $plugins ) {
-		$homescreen_plugins = array(
-			'jetpack' => 'jetpack/jetpack.php',
-		);
-
-		return array_merge( $plugins, $homescreen_plugins );
 	}
 
 	/**
