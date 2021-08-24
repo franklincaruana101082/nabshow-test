@@ -545,7 +545,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		 */
 		public function nab_mys_import_exhibitors_by_ids() {
 
-			$sync_exhibitors_data = FILTER_INPUT( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );			
+			$sync_exhibitors_data = filter_input( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );			
 			$csv_from_date        = $this->nab_mys_db_exh->nab_mys_db_previous_date( 'modified-exhibitors' );
 			
 			if ( empty( $csv_from_date ) ) {

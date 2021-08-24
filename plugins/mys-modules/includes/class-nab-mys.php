@@ -86,7 +86,7 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 				//Class File - Custom Dashboard Widget
 				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-dashboard-widget.php' );
-			}
+			}			
 		}
 
 		/**
@@ -143,6 +143,11 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 
 			//Class File - Exhibitors
 			require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-sync-exhibitors.php' );
+
+			if ( MYS_IS_AMPLIFY_VERSION ) {
+				//Class File - Single Sign-On
+				require_once( WP_PLUGIN_DIR . '/mys-modules/includes/admin/classes/class-nab-mys-sso.php' );
+			}
 
 		}
 
@@ -258,13 +263,13 @@ if ( ! class_exists( 'NAB_MYS_Main' ) ) {
 		 * @since 1.0.0
 		 */
 		public function nab_mys_page_history() {
-			
-			$this->nab_mys_load_history_class();			
 
-			$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );			
+			$this->nab_mys_load_history_class();
+
+			$history_groupid = filter_input( INPUT_GET, 'groupid', FILTER_SANITIZE_STRING );
 
 			//Load Page
-			$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );			
+			$this->nab_mys_db_history_object->nab_mys_history_page_loader( $history_groupid, $this->nab_mys_db_cron_object );
 
 		}
 
