@@ -77,6 +77,9 @@ if(isset($_COOKIE[$cookieName])) {
 			</div>
 			<?php 
 			$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
+			if (!$content_accessible) {
+				$content_accessible = get_post_meta( $post->ID, 'make_opt_in_required', true);
+			}
 			if ( ! is_user_logged_in() && $content_accessible ) {
 
 				get_template_part( 'template-parts/not-signed-in' );
