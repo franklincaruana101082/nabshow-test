@@ -52,7 +52,7 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/exhibits/">NAB Show Show <b>Floor</b></a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/exhibits/">Show <b>Floor</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
@@ -62,23 +62,13 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="row-heading"><a href="https://aesshow.com/fall2021home/" target="_blank">AES <b>Show</b></a></th>
-								<td class="row-date"></td>
-								<td class="row-date"></td>
-								<td class="row-date"></td>
-								<td class="row-date"><span>Monday, October 11</span></td>
-								<td class="row-date"><span>Tuesday, October 12</span></td>
-								<td class="row-date"><span>Wednesday, October 13</span></td>
-								<td class="row-date"></td>
-							</tr>
-							<tr>
-								<th scope="row" class="row-heading"><a href="https://www.beaweb.org/OL/" target="_blank"><b>BEA</b></a></th>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/networking/#sts=Floor%20Tours">Floor <b>Tours</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Sunday, October 10</span></td>
 								<td class="row-date"><span>Monday, October 11</span></td>
 								<td class="row-date"><span>Tuesday, October 12</span></td>
-								<td class="row-date"></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
 								<td class="row-date"></td>
 							</tr>
 							<tr>
@@ -122,6 +112,36 @@
 								<td class="row-date"></td>
 							</tr>
 							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/devoncroft-executive-summit/"><b>Devoncroft</b></a></th>
+								<td class="row-date"><span>Friday, October 08</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/field-workshops/">Field <b>Workshops</b></a></th>
+								<td class="row-date"><span>Friday, October 08</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/galsngear-launch-your-leadership-journey/"><b>GalsNGear</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
 								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/postproduction-world/">Post|Production <b>World</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
@@ -161,6 +181,67 @@
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/networking/#sts=Birds%20of%20a%20Feather">Birds of a <b>Feather</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/attend/education/#sts=Floor%20Theaters">Floor <b>Theaters</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/learning-labs/">Learning <b>Labs</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://aesshow.com/fall2021home/" target="_blank">AES <b>Show</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"></td>
+							</tr>
+							<tr>
+								<th scope="row" class="row-heading"><a href="https://www.beaweb.org/OL/" target="_blank"><b>BEA</b></a></th>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"></td>
+								<td class="row-date"></td>
+							</tr>
+
+<!-- 							<tr>
+								<th scope="row" class="row-heading"><a href=""> <b></b></a></th>
+								<td class="row-date"><span>Friday, October 08</span></td>
+								<td class="row-date"><span>Saturday, October 09</span></td>
+								<td class="row-date"><span>Sunday, October 10</span></td>
+								<td class="row-date"><span>Monday, October 11</span></td>
+								<td class="row-date"><span>Tuesday, October 12</span></td>
+								<td class="row-date"><span>Wednesday, October 13</span></td>
+								<td class="row-date"><span>Thursday, October 14</span></td>
+							</tr> -->
 						</table>
 					</div>
 				</div>
