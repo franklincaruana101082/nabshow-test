@@ -34,6 +34,14 @@
 
   // Ready.
   $(document).ready(function () {
+
+    /**
+     * Display loader in sing in and sign up page after click on submit button. 
+     */
+    $(document).on('click', 'form.signup .signup__cta .button, form.signup__fields .signup__cta .button', function(){
+      $('body').addClass('is-loading');
+    });
+
     $(".section-professional-details .user-job-role-select").select2({
       width: "100%",
     });
