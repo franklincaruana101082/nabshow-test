@@ -34,13 +34,16 @@
 
   // Ready.
   $(document).ready(function () {
-
     /**
-     * Display loader in sing in and sign up page after click on submit button. 
+     * Display loader in sing in and sign up page after click on submit button.
      */
-    $(document).on('click', 'form.signup .signup__cta .button, form.signup__fields .signup__cta .button', function(){
-      $('body').addClass('is-loading');
-    });
+    $(document).on(
+      "click",
+      "form.signup .signup__cta .button, form.signup__fields .signup__cta .button",
+      function () {
+        $("body").addClass("is-loading");
+      }
+    );
 
     $(".section-professional-details .user-job-role-select").select2({
       width: "100%",
@@ -59,12 +62,12 @@
       width: "100%",
     });
 
-    $('.signup .user-country-select').select2({
-      width: '100%'
+    $(".signup .user-country-select").select2({
+      width: "100%",
     });
 
-    $('.signup .user-state-select').select2({
-      width: '100%'
+    $(".signup .user-state-select").select2({
+      width: "100%",
     });
 
     $(".nab-custom-select select").select2({ width: "100%" });
@@ -83,71 +86,98 @@
       }
     });
 
-    if (0 < $('#user-country-select').length) {
-      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
+    if (0 < $("#user-country-select").length) {
+      var wc_states_json = wc_country_select_params.countries.replace(
+        /&quot;/g,
+        '"'
+      );
       var wc_states = $.parseJSON(wc_states_json);
-      $(document).on('change', '#user-country-select', function () {
-
+      $(document).on("change", "#user-country-select", function () {
         var state = wc_states[$(this).val()];
-        if ( undefined === state || 0 === state.length ) {
-
-          if ( $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
-            $('.section-professional-details .user-state-select').select2('destroy');
-            $('.section-professional-details .user-state-select').empty();
-            $('.section-professional-details .user-state-select').replaceWith('<input type="text" name="user_state" class="input-text" id="user-state-select">');
+        if (undefined === state || 0 === state.length) {
+          if (
+            $(".section-professional-details #user-state-select").hasClass(
+              "user-state-select"
+            )
+          ) {
+            $(".section-professional-details .user-state-select").select2(
+              "destroy"
+            );
+            $(".section-professional-details .user-state-select").empty();
+            $(".section-professional-details .user-state-select").replaceWith(
+              '<input type="text" name="user_state" class="input-text" id="user-state-select">'
+            );
           }
-
         } else {
-
-          if ( ! $('.section-professional-details #user-state-select').hasClass('user-state-select') ) {
-            $('.section-professional-details #user-state-select').replaceWith('<select name="user_state" class="user-state-select" id="user-state-select"></select>');
-            $('.section-professional-details .user-state-select').select2({ width: '100%' });
+          if (
+            !$(".section-professional-details #user-state-select").hasClass(
+              "user-state-select"
+            )
+          ) {
+            $(".section-professional-details #user-state-select").replaceWith(
+              '<select name="user_state" class="user-state-select" id="user-state-select"></select>'
+            );
+            $(".section-professional-details .user-state-select").select2({
+              width: "100%",
+            });
           }
 
-          $('.section-professional-details .user-state-select').empty();
+          $(".section-professional-details .user-state-select").empty();
 
           $.each(state, function (index) {
-            var $option = $('<option></option>').prop('value', index).text(state[index]);
-            $('.section-professional-details .user-state-select').append($option);
+            var $option = $("<option></option>")
+              .prop("value", index)
+              .text(state[index]);
+            $(".section-professional-details .user-state-select").append(
+              $option
+            );
           });
 
-          $('.section-professional-details .user-state-select').val('').change();
+          $(".section-professional-details .user-state-select")
+            .val("")
+            .change();
         }
-      })
+      });
     }
 
-    if ( 0 < $('.signup .user-country-select').length ) {
-      var wc_states_json = wc_country_select_params.countries.replace(/&quot;/g,'"');
+    if (0 < $(".signup .user-country-select").length) {
+      var wc_states_json = wc_country_select_params.countries.replace(
+        /&quot;/g,
+        '"'
+      );
       var wc_states = $.parseJSON(wc_states_json);
-      $(document).on('change', '.signup .user-country-select', function () {
-
+      $(document).on("change", ".signup .user-country-select", function () {
         var state = wc_states[$(this).val()];
 
-        if ( undefined === state || 0 === state.length ) {
-          if ( $('.signup #user_state').hasClass('user-state-select') ) {
-            $('.signup .user-state-select').parent().addClass('_hidden');
-            $('.signup .user-state-select').select2('destroy');
-            $('.signup .user-state-select').empty();
-            $('.signup .user-state-select').replaceWith('<input type="text" class="field__input" name="user_state" id="user_state">');
+        if (undefined === state || 0 === state.length) {
+          if ($(".signup #user_state").hasClass("user-state-select")) {
+            $(".signup .user-state-select").parent().addClass("_hidden");
+            $(".signup .user-state-select").select2("destroy");
+            $(".signup .user-state-select").empty();
+            $(".signup .user-state-select").replaceWith(
+              '<input type="text" class="field__input" name="user_state" id="user_state">'
+            );
           }
         } else {
-
-          if ( ! $('.signup #user_state').hasClass('user-state-select') ) {
-            $('.signup #user_state').parent().removeClass('_hidden');
-            $('.signup #user_state').replaceWith('<select name="user_state" class="user-state-select" id="user_state"></select>');
-            $('.signup .user-state-select').select2({ width: '100%' });
+          if (!$(".signup #user_state").hasClass("user-state-select")) {
+            $(".signup #user_state").parent().removeClass("_hidden");
+            $(".signup #user_state").replaceWith(
+              '<select name="user_state" class="user-state-select" id="user_state"></select>'
+            );
+            $(".signup .user-state-select").select2({ width: "100%" });
           }
 
-          $('.signup .user-state-select').empty();
+          $(".signup .user-state-select").empty();
 
           $.each(state, function (index) {
-            var $option = $('<option></option>').prop('value', index).text(state[index]);
-            $('.signup .user-state-select').append($option);
-          })
+            var $option = $("<option></option>")
+              .prop("value", index)
+              .text(state[index]);
+            $(".signup .user-state-select").append($option);
+          });
 
-          $('.signup .user-state-select').val('').change();
+          $(".signup .user-state-select").val("").change();
         }
-
       });
     }
 
@@ -362,7 +392,6 @@
       placeholder: "Select Point of contact",
       allowClear: true,
     });
-
   });
   charcount("keyup", "#company_about", "#character-count-comp-about", 2000);
   charcount(
@@ -404,507 +433,489 @@
     });
   }
 
-  $(document).on('click', '.action-add-address ', function () {
+  $(document).on("click", ".action-add-address ", function () {
     const address_id =
-      undefined !== $(this).data('id') ? $(this).data('id') : ''
-    const company_id = amplifyJS.postID
-    const _this = $(this)
-    _this.addClass('loading')
+      undefined !== $(this).data("id") ? $(this).data("id") : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    _this.addClass("loading");
     jQuery.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_amplify_add_address',
+        action: "nab_amplify_add_address",
         address_id: address_id,
-        company_id: company_id
+        company_id: company_id,
       },
       success: function (data) {
-        _this.removeClass('loading')
-        if (jQuery('#addProductModal').length === 0) {
-          jQuery('body').append(data)
-          jQuery('#addProductModal')
-            .show()
-            .addClass('nab-modal-active')
-          $('#country').select2({
-            placeholder: 'Select Country',
-            allowClear: true
-          })
-          if ($('#country').val()) {
-            filter_states($('#country').find(':selected').data('country-code'))
+        _this.removeClass("loading");
+        if (jQuery("#addProductModal").length === 0) {
+          jQuery("body").append(data);
+          jQuery("#addProductModal").show().addClass("nab-modal-active");
+          $("#country").select2({
+            placeholder: "Select Country",
+            allowClear: true,
+          });
+          if ($("#country").val()) {
+            filter_states($("#country").find(":selected").data("country-code"));
           }
         } else {
-          jQuery('#addProductModal').remove()
-          jQuery('body').append(data)
-          jQuery('#addProductModal')
-            .show()
-            .addClass('nab-modal-active')
-          if (jQuery('#nab_company_id').length > 0) {
-            jQuery('#nab_company_id').val(company_id)
+          jQuery("#addProductModal").remove();
+          jQuery("body").append(data);
+          jQuery("#addProductModal").show().addClass("nab-modal-active");
+          if (jQuery("#nab_company_id").length > 0) {
+            jQuery("#nab_company_id").val(company_id);
           }
-          $('#country').select2({
-            placeholder: 'Select Country',
-            allowClear: true
-          })
-          if ($('#country').val()) {
-            filter_states($('#country').find(':selected').data('country-code'))
+          $("#country").select2({
+            placeholder: "Select Country",
+            allowClear: true,
+          });
+          if ($("#country").val()) {
+            filter_states($("#country").find(":selected").data("country-code"));
           }
         }
-      }
-    })
-  })
+      },
+    });
+  });
 
-  function filter_states (country_code) {
+  function filter_states(country_code) {
     jQuery.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_amplify_state_filter',
-        country_code: country_code
+        action: "nab_amplify_state_filter",
+        country_code: country_code,
       },
       beforeSend: function () {
-        $('body').addClass('is-loading')
+        $("body").addClass("is-loading");
       },
       success: function (data) {
-        $('body').removeClass('is-loading')
-        jQuery('#state_select_wrapper').show()
-        var pre_state = jQuery('#country').attr('data-state')
+        $("body").removeClass("is-loading");
+        jQuery("#state_select_wrapper").show();
+        var pre_state = jQuery("#country").attr("data-state");
         if (data.length) {
-          jQuery('#state_select_wrapper .input-text').remove()
-          if (jQuery('#state').length === 0) {
-            jQuery('#state_select_wrapper').append(
+          jQuery("#state_select_wrapper .input-text").remove();
+          if (jQuery("#state").length === 0) {
+            jQuery("#state_select_wrapper").append(
               '<div class="select-dark-simple"><select name="state" id="state"></select></div>'
-            )
+            );
           }
 
-          jQuery('#state').empty()
-          jQuery('#state').append('<option value="" selected> </option>' )
+          jQuery("#state").empty();
+          jQuery("#state").append('<option value="" selected> </option>');
           data.forEach(function (item) {
-            if (pre_state !== '' && typeof pre_state !== 'undefined') {
+            if (pre_state !== "" && typeof pre_state !== "undefined") {
               if (item.Display == pre_state) {
-                if (jQuery('#state').is('select')) {
-                  jQuery('#state').append(
+                if (jQuery("#state").is("select")) {
+                  jQuery("#state").append(
                     '<option value="' +
                       item.Display +
                       '" selected>' +
                       item.Display +
-                      '</option>'
-                  )
+                      "</option>"
+                  );
                 } else {
-                  jQuery('#state').val(pre_state)
+                  jQuery("#state").val(pre_state);
                 }
               } else {
-                if (jQuery('#state').is('select')) {
-                  jQuery('#state').append(
+                if (jQuery("#state").is("select")) {
+                  jQuery("#state").append(
                     '<option value="' +
                       item.Display +
                       '" >' +
                       item.Display +
-                      '</option>'
-                  )
+                      "</option>"
+                  );
                 }
               }
             } else {
-              if (jQuery('#state').is('select')) {
-                jQuery('#state').append(
+              if (jQuery("#state").is("select")) {
+                jQuery("#state").append(
                   '<option value="' +
                     item.Display +
                     '" >' +
                     item.Display +
-                    '</option>'
-                )
+                    "</option>"
+                );
               }
             }
-          })
+          });
 
-          jQuery('#state').select2({
-            placeholder: 'Select State',
-            allowClear: true
-          })
+          jQuery("#state").select2({
+            placeholder: "Select State",
+            allowClear: true,
+          });
         } else {
-          jQuery('#state_select_wrapper .select-dark-simple').remove()
-          if (jQuery('#state_select_wrapper .input-text').length === 0) {
-            jQuery('#state_select_wrapper').append(
+          jQuery("#state_select_wrapper .select-dark-simple").remove();
+          if (jQuery("#state_select_wrapper .input-text").length === 0) {
+            jQuery("#state_select_wrapper").append(
               '<input type="text" class="input-text nab-featured-block-button-link" name="state" id="state" value=""></input>'
-            )
+            );
           }
 
-          if (pre_state !== '') {
-            jQuery('#state').val(pre_state)
+          if (pre_state !== "") {
+            jQuery("#state").val(pre_state);
           }
         }
-      }
-    })
+      },
+    });
   }
 
-  $(document).on('change', '#country ', function () {
+  $(document).on("change", "#country ", function () {
     const address_id =
-      undefined !== $(this).data('address-id')
-        ? $(this).data('address-id')
-        : ''
-    const company_id = amplifyJS.postID
-    const _this = $(this)
-    _this.addClass('loading')
-    const country_code = $(this).find(':selected').data('country-code')
-    $(this).attr('data-state', '')
-    if (jQuery('#state').length && jQuery('#state').is('input')) {
-      jQuery('#state').val('')
-    } else if (jQuery('#state').length && jQuery('#state').is('select')) {
-      jQuery('#state').empty()
+      undefined !== $(this).data("address-id")
+        ? $(this).data("address-id")
+        : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    _this.addClass("loading");
+    const country_code = $(this).find(":selected").data("country-code");
+    $(this).attr("data-state", "");
+    if (jQuery("#state").length && jQuery("#state").is("input")) {
+      jQuery("#state").val("");
+    } else if (jQuery("#state").length && jQuery("#state").is("select")) {
+      jQuery("#state").empty();
     }
 
-    filter_states(country_code)
-  })
+    filter_states(country_code);
+  });
 
-   // sign up template memberpress popup
-    $(document).on('change', '#signup-press-member', function(){
-      if (this.checked) {
-        $('#modal-member-press').addClass('nab-modal-active');
-      }
-    });
+  // sign up template memberpress popup
+  $(document).on("change", "#signup-press-member", function () {
+    if (this.checked) {
+      $("#modal-member-press").addClass("nab-modal-active");
+    }
+  });
 
   function validateURL(urltext) {
     if (urltext !== "") {
-      var rg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2,4}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
+      var rg =
+        /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2,4}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
       return rg.test(urltext);
     } else {
       return true;
     }
   }
 
-  $(document).on('click', '.action-remove-address ', function () {
+  $(document).on("click", ".action-remove-address ", function () {
     const address_id =
-      undefined !== $(this).data('id') ? $(this).data('id') : ''
-    const company_id = amplifyJS.postID
-    const _this = $(this)
-    _this.addClass('loading')
-    get_address_remove_popup('Are you sure want to remove?',address_id)
+      undefined !== $(this).data("id") ? $(this).data("id") : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    _this.addClass("loading");
+    get_address_remove_popup("Are you sure want to remove?", address_id);
+  });
 
-  })
-
-  $(document).on('click', '.remove-employee ', function (e) {
+  $(document).on("click", ".remove-employee ", function (e) {
     e.preventDefault();
     const empolyee_id =
-      undefined !== $(this).data('id') ? $(this).data('id') : ''
-    const company_id = amplifyJS.postID
-    const _this = $(this)
-    _this.addClass('loading')
-    get_employee_remove_popup('Are you sure want to remove?',empolyee_id)
+      undefined !== $(this).data("id") ? $(this).data("id") : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    _this.addClass("loading");
+    get_employee_remove_popup("Are you sure want to remove?", empolyee_id);
+  });
 
-  })
-
-  $(document).on('click', '.remove-employee ', function (e) {
+  $(document).on("click", ".remove-employee ", function (e) {
     e.preventDefault();
     const empolyee_id =
-      undefined !== $(this).data('id') ? $(this).data('id') : ''
-    const company_id = amplifyJS.postID
-    const _this = $(this)
-    _this.addClass('loading')
-    get_employee_remove_popup('Are you sure want to remove?',empolyee_id)
+      undefined !== $(this).data("id") ? $(this).data("id") : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    _this.addClass("loading");
+    get_employee_remove_popup("Are you sure want to remove?", empolyee_id);
+  });
 
+  $(document).on("click", "#nab-add-address-submit", function () {
+    var company_id = jQuery("#nab_company_id").val();
+    var address_id = jQuery(this).data("id");
+    var street_line_1 = jQuery("#street_line_1").val();
+    var street_line_2 = jQuery("#street_line_2").val();
+    var city = jQuery("#city").val();
+    var state = jQuery("#state").val();
+    var country = jQuery("#country").val();
+    var zip = jQuery("#zip").val();
+    var form_data = new FormData();
 
-  })
-
-  $(document).on('click', '#nab-add-address-submit', function () {
-    var company_id = jQuery('#nab_company_id').val()
-    var address_id = jQuery(this).data('id')
-    var street_line_1 = jQuery('#street_line_1').val()
-    var street_line_2 = jQuery('#street_line_2').val()
-    var city = jQuery('#city').val()
-    var state = jQuery('#state').val()
-    var country = jQuery('#country').val()
-    var zip = jQuery('#zip').val()
-    var form_data = new FormData()
-
-    form_data.append('street_line_1', street_line_1)
-    form_data.append('street_line_2', street_line_2)
-    form_data.append('city', city)
-    form_data.append('state', state)
-    form_data.append('country', country)
-    form_data.append('zip', zip)
-    form_data.append('action', 'nab_amplify_submit_address')
-    form_data.append('company_id', company_id)
-    form_data.append('address_id', address_id)
+    form_data.append("street_line_1", street_line_1);
+    form_data.append("street_line_2", street_line_2);
+    form_data.append("city", city);
+    form_data.append("state", state);
+    form_data.append("country", country);
+    form_data.append("zip", zip);
+    form_data.append("action", "nab_amplify_submit_address");
+    form_data.append("company_id", company_id);
+    form_data.append("address_id", address_id);
 
     jQuery.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: form_data,
       contentType: false,
       processData: false,
       beforeSend: function () {
-        $('body').addClass('is-loading')
+        $("body").addClass("is-loading");
       },
       success: function (data) {
-        $('body').removeClass('is-loading')
+        $("body").removeClass("is-loading");
         if (undefined !== data.success && !data.success) {
-          addSuccessMsg('.add-product-content-popup', data.data)
+          addSuccessMsg(".add-product-content-popup", data.data);
         } else {
           addSuccessMsg(
-            '.add-product-content-popup',
-            'Address Updated Successfully!'
-          )
+            ".add-product-content-popup",
+            "Address Updated Successfully!"
+          );
         }
-      }
-    })
-  })
+      },
+    });
+  });
 
-  $(document).on('click', '.action-add-employee', function () {
-
-    const company_id = amplifyJS.postID
-    const _this = $(this)
-    _this.addClass('loading')
+  $(document).on("click", ".action-add-employee", function () {
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    _this.addClass("loading");
     jQuery.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_amplify_add_employee',
-        company_id: company_id
+        action: "nab_amplify_add_employee",
+        company_id: company_id,
       },
       success: function (data) {
-        _this.removeClass('loading')
-        if (jQuery('#addProductModal').length === 0) {
-          jQuery('body').append(data)
-          jQuery('#addProductModal')
-            .show()
-            .addClass('nab-modal-active')
-            jQuery('#company_employees').select2({
-              ajax: {
-                url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
-                dataType: 'json',
-                delay: 250, // delay in ms while typing when to perform a AJAX search
-                data: function (params) {
-                  return {
-                    q: params.term, // search query
-                    action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
-                  }
-                },
-                processResults: function (data) {
-                  var options = []
-                  if (data) {
-                    // data is the array of arrays, and each of them contains ID and the Label of the option
-                    $.each(data, function (index, text) {
-                      // do not forget that "index" is just auto incremented value
-                      options.push({ id: text[0], text: text[1] })
-                    })
-                  }
-                  return {
-                    results: options
-                  }
-                },
-                cache: true
-              },
-              minimumInputLength: 3,
-              placeholder: 'Select Employee',
-              allowClear: true
-            })
-        } else {
-          jQuery('#addProductModal').remove()
-          jQuery('body').append(data)
-          jQuery('#addProductModal')
-            .show()
-            .addClass('nab-modal-active')
-          if (jQuery('#nab_company_id').length > 0) {
-            jQuery('#nab_company_id').val(company_id)
-          }
-          jQuery('#company_employees').select2({
+        _this.removeClass("loading");
+        if (jQuery("#addProductModal").length === 0) {
+          jQuery("body").append(data);
+          jQuery("#addProductModal").show().addClass("nab-modal-active");
+          jQuery("#company_employees").select2({
             ajax: {
               url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
-              dataType: 'json',
+              dataType: "json",
               delay: 250, // delay in ms while typing when to perform a AJAX search
               data: function (params) {
                 return {
                   q: params.term, // search query
-                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
-                }
+                  action: "nab_product_point_of_contact", // AJAX action for admin-ajax.php
+                };
               },
               processResults: function (data) {
-                var options = []
+                var options = [];
                 if (data) {
                   // data is the array of arrays, and each of them contains ID and the Label of the option
                   $.each(data, function (index, text) {
                     // do not forget that "index" is just auto incremented value
-                    options.push({ id: text[0], text: text[1] })
-                  })
+                    options.push({ id: text[0], text: text[1] });
+                  });
                 }
                 return {
-                  results: options
-                }
+                  results: options,
+                };
               },
-              cache: true
+              cache: true,
             },
             minimumInputLength: 3,
-            placeholder: 'Select Employee',
-            allowClear: true
-          })
+            placeholder: "Select Employee",
+            allowClear: true,
+          });
+        } else {
+          jQuery("#addProductModal").remove();
+          jQuery("body").append(data);
+          jQuery("#addProductModal").show().addClass("nab-modal-active");
+          if (jQuery("#nab_company_id").length > 0) {
+            jQuery("#nab_company_id").val(company_id);
+          }
+          jQuery("#company_employees").select2({
+            ajax: {
+              url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
+              dataType: "json",
+              delay: 250, // delay in ms while typing when to perform a AJAX search
+              data: function (params) {
+                return {
+                  q: params.term, // search query
+                  action: "nab_product_point_of_contact", // AJAX action for admin-ajax.php
+                };
+              },
+              processResults: function (data) {
+                var options = [];
+                if (data) {
+                  // data is the array of arrays, and each of them contains ID and the Label of the option
+                  $.each(data, function (index, text) {
+                    // do not forget that "index" is just auto incremented value
+                    options.push({ id: text[0], text: text[1] });
+                  });
+                }
+                return {
+                  results: options,
+                };
+              },
+              cache: true,
+            },
+            minimumInputLength: 3,
+            placeholder: "Select Employee",
+            allowClear: true,
+          });
         }
-      }
-    })
-  })
+      },
+    });
+  });
 
+  $(document).on("click", "#nab-add-employee-submit", function () {
+    var company_id = jQuery("#nab_company_id").val();
+    var company_employees = jQuery("#company_employees").val();
+    var form_data = new FormData();
 
-  $(document).on('click', '#nab-add-employee-submit', function () {
-    var company_id = jQuery('#nab_company_id').val()
-    var company_employees = jQuery('#company_employees').val()
-    var form_data = new FormData()
-
-
-    form_data.append('company_id', company_id)
-    form_data.append('company_employees', company_employees)
-    form_data.append('action', 'nab_amplify_submit_employee')
+    form_data.append("company_id", company_id);
+    form_data.append("company_employees", company_employees);
+    form_data.append("action", "nab_amplify_submit_employee");
 
     jQuery.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: form_data,
       contentType: false,
       processData: false,
       beforeSend: function () {
-        $('body').addClass('is-loading')
+        $("body").addClass("is-loading");
       },
       success: function (data) {
-        $('body').removeClass('is-loading')
+        $("body").removeClass("is-loading");
         if (undefined !== data.success && !data.success) {
-          addSuccessMsg('.add-product-content-popup', data.content)
+          addSuccessMsg(".add-product-content-popup", data.content);
         } else {
           addSuccessMsg(
-            '.add-product-content-popup',
-            'Employees Updated Successfully!'
-          )
+            ".add-product-content-popup",
+            "Employees Updated Successfully!"
+          );
         }
-      }
-    })
-  })
+      },
+    });
+  });
 
-  function get_error_popup(message){
+  function get_error_popup(message) {
     $.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_get_error_popup',
+        action: "nab_get_error_popup",
         message: message,
       },
       success: function (data) {
-        if (0 === $('#connection-message-popup').length) {
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('connection-popup-added')
+        if (0 === $("#connection-message-popup").length) {
+          $("body").append(data);
+          $("#connection-message-popup").show();
+          $("body").addClass("connection-popup-added");
         } else {
-          $('body').addClass('connection-popup-added')
-          $('#connection-message-popup').remove()
-          $('body').append(data)
-          $('#connection-message-popup').show()
+          $("body").addClass("connection-popup-added");
+          $("#connection-message-popup").remove();
+          $("body").append(data);
+          $("#connection-message-popup").show();
         }
-      }
-    })
-  }
-
-  function get_address_remove_popup(message,address_id){
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_get_error_popup',
-        message: message,
-        confirm:'1',
-        address_id:address_id
       },
-      success: function (data) {
-        if (0 === $('#connection-message-popup').length) {
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('connection-popup-added')
-        } else {
-          $('body').addClass('connection-popup-added')
-          $('#connection-message-popup').remove()
-          $('body').append(data)
-          $('#connection-message-popup').show()
-        }
-      }
-    })
+    });
   }
 
-  function get_employee_remove_popup(message,employee_id){
+  function get_address_remove_popup(message, address_id) {
     $.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_get_error_popup',
+        action: "nab_get_error_popup",
         message: message,
-        employee_remove:'1',
-        employee_id:employee_id
-      },
-      success: function (data) {
-        if (0 === $('#connection-message-popup').length) {
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('connection-popup-added')
-        } else {
-          $('body').addClass('connection-popup-added')
-          $('#connection-message-popup').remove()
-          $('body').append(data)
-          $('#connection-message-popup').show()
-        }
-      }
-    })
-  }
-
-  $(document).on('click', '.confirm_address_remove_yes', function () {
-    const address_id =
-        undefined !== $(this).data('id') ? $(this).data('id') : ''
-      const company_id = amplifyJS.postID
-      const _this = $(this)
-    jQuery.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_amplify_remove_address',
+        confirm: "1",
         address_id: address_id,
-        company_id: company_id
-      },
-      beforeSend:function(){
-        $('body').addClass('is-loading');
       },
       success: function (data) {
-        if (data.success) {
-          location.reload()
+        if (0 === $("#connection-message-popup").length) {
+          $("body").append(data);
+          $("#connection-message-popup").show();
+          $("body").addClass("connection-popup-added");
+        } else {
+          $("body").addClass("connection-popup-added");
+          $("#connection-message-popup").remove();
+          $("body").append(data);
+          $("#connection-message-popup").show();
         }
-      }
-    })
-  })
-  $(document).on('click', '.confirm_address_remove_no', function () {
-    $(this)
-    .parents('.nab-modal')
-    .hide()
-  })
+      },
+    });
+  }
 
-  $(document).on('click', '.confirm_employee_remove_yes', function () {
-    const employee_id =
-        undefined !== $(this).data('id') ? $(this).data('id') : ''
-      const company_id = amplifyJS.postID
-      const _this = $(this)
-    jQuery.ajax({
-      type: 'POST',
+  function get_employee_remove_popup(message, employee_id) {
+    $.ajax({
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_amplify_remove_employee',
+        action: "nab_get_error_popup",
+        message: message,
+        employee_remove: "1",
         employee_id: employee_id,
-        company_id: company_id
       },
-      beforeSend:function(){
-        $('body').addClass('is-loading');
+      success: function (data) {
+        if (0 === $("#connection-message-popup").length) {
+          $("body").append(data);
+          $("#connection-message-popup").show();
+          $("body").addClass("connection-popup-added");
+        } else {
+          $("body").addClass("connection-popup-added");
+          $("#connection-message-popup").remove();
+          $("body").append(data);
+          $("#connection-message-popup").show();
+        }
+      },
+    });
+  }
+
+  $(document).on("click", ".confirm_address_remove_yes", function () {
+    const address_id =
+      undefined !== $(this).data("id") ? $(this).data("id") : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    jQuery.ajax({
+      type: "POST",
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: "nab_amplify_remove_address",
+        address_id: address_id,
+        company_id: company_id,
+      },
+      beforeSend: function () {
+        $("body").addClass("is-loading");
       },
       success: function (data) {
         if (data.success) {
-          location.reload()
+          location.reload();
         }
-      }
-    })
-  })
-  $(document).on('click', '.confirm_employee_remove_no', function () {
-    $(this)
-    .parents('.nab-modal')
-    .hide()
-  })
+      },
+    });
+  });
+  $(document).on("click", ".confirm_address_remove_no", function () {
+    $(this).parents(".nab-modal").hide();
+  });
+
+  $(document).on("click", ".confirm_employee_remove_yes", function () {
+    const employee_id =
+      undefined !== $(this).data("id") ? $(this).data("id") : "";
+    const company_id = amplifyJS.postID;
+    const _this = $(this);
+    jQuery.ajax({
+      type: "POST",
+      url: amplifyJS.ajaxurl,
+      data: {
+        action: "nab_amplify_remove_employee",
+        employee_id: employee_id,
+        company_id: company_id,
+      },
+      beforeSend: function () {
+        $("body").addClass("is-loading");
+      },
+      success: function (data) {
+        if (data.success) {
+          location.reload();
+        }
+      },
+    });
+  });
+  $(document).on("click", ".confirm_employee_remove_no", function () {
+    $(this).parents(".nab-modal").hide();
+  });
 
   function load_tinyMCE_withPlugins(tag, countTag, limit = 2000) {
     var d = new Date();
@@ -937,25 +948,26 @@
       },
       content_css:
         amplifyJS.ThemeUri + "/assets/css/nab-front-tinymce.css?ver=" + time,
-        valid_elements : ""
-          +"a[href|target|class],"
-          +"b,"
-          +"br,"
-          +"font[color|face|size],"
-          +"img[src|id|width|height|align|hspace|vspace|class|align],"
-          +"em,"
-          +"strong,"
-          +"li[class],"
-          +"p[align|class],"
-          +"h1[class],"
-          +"h2[class],"
-          +"h3[class],"
-          +"h4[class],"
-          +"h5[class],"
-          +"h6[class],"
-          +"span[class],"
-          +"textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops],"
-          +"u"
+      valid_elements:
+        "" +
+        "a[href|target|class]," +
+        "b," +
+        "br," +
+        "font[color|face|size]," +
+        "img[src|id|width|height|align|hspace|vspace|class|align]," +
+        "em," +
+        "strong," +
+        "li[class]," +
+        "p[align|class]," +
+        "h1[class]," +
+        "h2[class]," +
+        "h3[class]," +
+        "h4[class]," +
+        "h5[class]," +
+        "h6[class]," +
+        "span[class]," +
+        "textformat[blockindent|indent|leading|leftmargin|rightmargin|tabstops]," +
+        "u",
     });
   }
 
@@ -1046,27 +1058,27 @@
     jQuery("body").addClass("nab-close-reload");
   });
 
-  function get_error_popup(message){
+  function get_error_popup(message) {
     $.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_get_error_popup',
+        action: "nab_get_error_popup",
         message: message,
       },
       success: function (data) {
-        if (0 === $('#connection-message-popup').length) {
-          $('body').append(data)
-          $('#connection-message-popup').show()
-          $('body').addClass('connection-popup-added')
+        if (0 === $("#connection-message-popup").length) {
+          $("body").append(data);
+          $("#connection-message-popup").show();
+          $("body").addClass("connection-popup-added");
         } else {
-          $('body').addClass('connection-popup-added')
-          $('#connection-message-popup').remove()
-          $('body').append(data)
-          $('#connection-message-popup').show()
+          $("body").addClass("connection-popup-added");
+          $("#connection-message-popup").remove();
+          $("body").append(data);
+          $("#connection-message-popup").show();
         }
-      }
-    })
+      },
+    });
   }
 
   $(document).on("click", ".action-edit ", function () {
@@ -1089,9 +1101,11 @@
           jQuery("#addProductModal").show().addClass("nab-modal-active");
 
           // Make image draggable.
-          $('#product_media_wrapper').sortable(function (){
-            connectWith: '#product_media_wrapper'
-          }).disableSelection();
+          $("#product_media_wrapper")
+            .sortable(function () {
+              connectWith: "#product_media_wrapper";
+            })
+            .disableSelection();
 
           if (jQuery("#nab_company_id").length > 0) {
             jQuery("#nab_company_id").val(company_id);
@@ -1138,8 +1152,10 @@
               var prod_specs_content_length = tinyMCE
                 .get("nab_product_specs")
                 .getContent()
-                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, "")
-                .length;
+                .replace(
+                  /(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi,
+                  ""
+                ).length;
               var diff = 2000 - prod_specs_content_length;
               if (diff < 0) {
                 jQuery("#character-count-specs").html(
@@ -1167,9 +1183,11 @@
           }
 
           // Make image draggable.
-          $('#product_media_wrapper').sortable(function (){
-            connectWith: '#product_media_wrapper'
-          }).disableSelection();
+          $("#product_media_wrapper")
+            .sortable(function () {
+              connectWith: "#product_media_wrapper";
+            })
+            .disableSelection();
 
           jQuery("#product_categories").select2();
           jQuery("#company_point_of_contact").select2({
@@ -1212,8 +1230,10 @@
               var prod_specs_content_length = tinyMCE
                 .get("nab_product_specs")
                 .getContent()
-                .replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, "")
-                .length;
+                .replace(
+                  /(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi,
+                  ""
+                ).length;
               var diff = 2000 - prod_specs_content_length;
               if (diff < 0) {
                 jQuery("#character-count-specs").html(
@@ -1355,7 +1375,9 @@
           $.inArray(file.name.split(".").pop().toLowerCase(), fileExtension) ==
           -1
         ) {
-          get_error_popup('This file type is not supported here. Acceptable File Types: .jpeg, .jpg, .png.');
+          get_error_popup(
+            "This file type is not supported here. Acceptable File Types: .jpeg, .jpg, .png."
+          );
           return false;
         }
         var timestamp = Date.now();
@@ -1412,7 +1434,10 @@
     var nab_product_specs = jQuery(
       "#nab-edit-product-form #nab_product_specs"
     ).val();
-    var nab_product_contact = 0 < jQuery("#nab-edit-product-form #nab_product_contact").length ? jQuery("#nab-edit-product-form #nab_product_contact").val() : '';
+    var nab_product_contact =
+      0 < jQuery("#nab-edit-product-form #nab_product_contact").length
+        ? jQuery("#nab-edit-product-form #nab_product_contact").val()
+        : "";
     var nab_feature_product = jQuery(
       "#nab-edit-product-form #nab_feature_product"
     ).prop("checked")
@@ -1458,21 +1483,21 @@
     var form_data = new FormData();
 
     // If bynder images selected.
-    if( 'function' === typeof addBMpopup ) {
+    if ("function" === typeof addBMpopup) {
       let product_media_bm_src = [];
       let countImgs = 1;
-      $('.nab-product-media-item img').each(function () {
-        if( countImgs < 5 ) {
-          product_media_bm_src.push($(this).attr('src'));
+      $(".nab-product-media-item img").each(function () {
+        if (countImgs < 5) {
+          product_media_bm_src.push($(this).attr("src"));
         }
         countImgs++;
       });
-      product_media_bm_src = product_media_bm_src.join(',');
-      form_data.append('product_media_bm', product_media_bm_src)
+      product_media_bm_src = product_media_bm_src.join(",");
+      form_data.append("product_media_bm", product_media_bm_src);
     } else {
       $.each(productMedia, function (key, file) {
         form_data.append(key, file[0]);
-      })
+      });
     }
 
     if (product_title == "") {
@@ -1500,12 +1525,15 @@
 
     if (!validateURL(nab_product_learn_more_url)) {
       addSuccessMsg(
-        '.add-product-content-popup',
-        'Please Enter Correct URL For Product Learn More!'
+        ".add-product-content-popup",
+        "Please Enter Correct URL For Product Learn More!"
       );
       return false;
     } else {
-      form_data.append('nab_product_learn_more_url', nab_product_learn_more_url);
+      form_data.append(
+        "nab_product_learn_more_url",
+        nab_product_learn_more_url
+      );
     }
 
     form_data.append("product_status", postStatus);
@@ -1781,8 +1809,11 @@
       }
     }
     if (jQuery("#company_about").length) {
-      var aboutContent = jQuery('#company_about').val();
-      aboutContent = aboutContent.replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi, '');
+      var aboutContent = jQuery("#company_about").val();
+      aboutContent = aboutContent.replace(
+        /(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/gi,
+        ""
+      );
       if (aboutContent.length > 2000) {
         alert(
           "The length of Company about content is " +
@@ -1879,8 +1910,8 @@
       }
     }
 
-    if (jQuery('#company_admins').length) {
-      fd.append('company_admins', jQuery('#company_admins').val())
+    if (jQuery("#company_admins").length) {
+      fd.append("company_admins", jQuery("#company_admins").val());
     }
 
     jQuery.ajax({
@@ -1964,38 +1995,38 @@
             placeholder: "Select Point of contact",
             allowClear: true,
           });
-          $('.company-admins').select2({
+          $(".company-admins").select2({
             ajax: {
               url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
-              dataType: 'json',
+              dataType: "json",
               delay: 250, // delay in ms while typing when to perform a AJAX search
               data: function (params) {
                 return {
                   q: params.term, // search query
-                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
-                }
+                  action: "nab_product_point_of_contact", // AJAX action for admin-ajax.php
+                };
               },
               processResults: function (data) {
-                var options = []
+                var options = [];
                 if (data) {
                   // data is the array of arrays, and each of them contains ID and the Label of the option
                   $.each(data, function (index, text) {
                     // do not forget that "index" is just auto incremented value
-                    options.push({ id: text[0], text: text[1] })
-                  })
+                    options.push({ id: text[0], text: text[1] });
+                  });
                 }
                 return {
-                  results: options
-                }
+                  results: options,
+                };
               },
-              cache: true
+              cache: true,
             },
-            minimumInputLength: 3
+            minimumInputLength: 3,
           });
           load_tinyMCE_withPlugins(
-            '#company_about',
-            '#character-count-comp-about'
-          )
+            "#company_about",
+            "#character-count-comp-about"
+          );
         } else {
           jQuery("#addProductModal").remove();
           jQuery("body").append(data);
@@ -2035,38 +2066,38 @@
             placeholder: "Select Point of contact",
             allowClear: true,
           });
-          $('.company-admins').select2({
+          $(".company-admins").select2({
             ajax: {
               url: amplifyJS.ajaxurl, // AJAX URL is predefined in WordPress admin
-              dataType: 'json',
+              dataType: "json",
               delay: 250, // delay in ms while typing when to perform a AJAX search
               data: function (params) {
                 return {
                   q: params.term, // search query
-                  action: 'nab_product_point_of_contact' // AJAX action for admin-ajax.php
-                }
+                  action: "nab_product_point_of_contact", // AJAX action for admin-ajax.php
+                };
               },
               processResults: function (data) {
-                var options = []
+                var options = [];
                 if (data) {
                   // data is the array of arrays, and each of them contains ID and the Label of the option
                   $.each(data, function (index, text) {
                     // do not forget that "index" is just auto incremented value
-                    options.push({ id: text[0], text: text[1] })
-                  })
+                    options.push({ id: text[0], text: text[1] });
+                  });
                 }
                 return {
-                  results: options
-                }
+                  results: options,
+                };
               },
-              cache: true
+              cache: true,
             },
-            minimumInputLength: 3
-          })
+            minimumInputLength: 3,
+          });
           load_tinyMCE_withPlugins(
-            '#company_about',
-            '#character-count-comp-about'
-          )
+            "#company_about",
+            "#character-count-comp-about"
+          );
         }
 
         setTimeout(() => {
@@ -2191,10 +2222,14 @@
   // Prevent Events link in Month view for multidays events.
   // Doing so because we do not have control
   // to change the event link to custom link.
-  $(document).on("click", 'a.tribe-events-calendar-month__multiday-event-hidden-link', function (e) {
-    e.preventDefault();
-    $(this).attr('href', 'javascript:void(0)');
-  });
+  $(document).on(
+    "click",
+    "a.tribe-events-calendar-month__multiday-event-hidden-link",
+    function (e) {
+      e.preventDefault();
+      $(this).attr("href", "javascript:void(0)");
+    }
+  );
 
   $(document).on("click", ".product-head .product-layout span", function () {
     $(".product-head .product-layout span").removeClass("active");
@@ -2229,21 +2264,21 @@
   });
 
   // Remove user company bg image.
-  $('#banner_image_remove').on('click', function (e) {
-    e.preventDefault()
+  $("#banner_image_remove").on("click", function (e) {
+    e.preventDefault();
 
-    $('body').addClass('is-loading')
+    $("body").addClass("is-loading");
 
     $.ajax({
-      type: 'POST',
+      type: "POST",
       url: amplifyJS.ajaxurl,
       data: {
-        action: 'nab_amplify_banner_image_remove',
-        company_id:amplifyJS.postID
+        action: "nab_amplify_banner_image_remove",
+        company_id: amplifyJS.postID,
       },
       success: function (data) {
-        location.reload()
-      }
+        location.reload();
+      },
     });
   });
 
@@ -3049,7 +3084,8 @@
         return;
       }
 
-      let emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      let emailRegex =
+        /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (!emailRegex.test(editEmail)) {
         alert("Enter a valid email address");
         return;
@@ -4211,7 +4247,7 @@
           nabNonce: amplifyJS.nabNonce,
           message: connectionMsg,
           send_to: memberID,
-          post_id: undefined !== amplifyJS.postID ? amplifyJS.postID : ''
+          post_id: undefined !== amplifyJS.postID ? amplifyJS.postID : "",
         },
         beforeSend: function () {
           $("body").addClass("is-loading");
@@ -4328,9 +4364,9 @@
     }
 
     // Bynder_Featured_Company
-    let featuredImg = $('#product_featured_preview').attr('src');
-    featuredImg = undefined !== featuredImg ? featuredImg : '';
-    form_data.append('feature_background_image', featuredImg)
+    let featuredImg = $("#product_featured_preview").attr("src");
+    featuredImg = undefined !== featuredImg ? featuredImg : "";
+    form_data.append("feature_background_image", featuredImg);
 
     form_data.append("action", "nab_edit_feature_block");
     form_data.append("company_id", amplifyJS.postID);
@@ -4389,13 +4425,16 @@
   });
 
   $(document).click(function (e) {
-    if (!$(e.target).is(".color-picker, .iris-picker, .iris-picker-inner") && 'function' === typeof iris) {
+    if (
+      !$(e.target).is(".color-picker, .iris-picker, .iris-picker-inner") &&
+      "function" === typeof iris
+    ) {
       $(".color-picker").iris("hide");
       //return false
     }
   });
   $(document).on("click", ".color-picker", function (event) {
-    if( 'function' === typeof iris ) {
+    if ("function" === typeof iris) {
       $(".color-picker").iris("hide");
       $(this).iris("show");
       //return false
@@ -4413,124 +4452,219 @@
   });
 
   // Content submissions.
-  $(document).on( 'click', '.company-content #company-content-list .content-add-action', function () {
-    $('body').addClass('is-loading');
-    $('#addProductModal').remove();
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_add_company_content_form',
-        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
-        nabNonce: amplifyJS.nabNonce
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        $('body').append(response);
-        load_tinyMCE_withPlugins('#content-copy');
-        $('#addProductModal').show().addClass('nab-modal-active');
+  $(document).on(
+    "click",
+    ".company-content #company-content-list .content-add-action",
+    function () {
+      $("body").addClass("is-loading");
+      $("#addProductModal").remove();
+      $.ajax({
+        type: "POST",
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: "nab_add_company_content_form",
+          company_id:
+            undefined !== $(this).data("company-id")
+              ? $(this).data("company-id")
+              : "",
+          nabNonce: amplifyJS.nabNonce,
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          $("body").append(response);
+          load_tinyMCE_withPlugins("#content-copy");
+          $("#addProductModal").show().addClass("nab-modal-active");
+        },
+      });
+    }
+  );
+
+  $(document).on(
+    "change",
+    "#nab-add-content-form #content-featured-image",
+    function () {
+      contentUploadedFeaturedImg(this);
+    }
+  );
+
+  $(document).on(
+    "click",
+    "#content_media_wrapper .remove-featred-img",
+    function () {
+      if (confirm("Are you sure want to remove?")) {
+        $(this).parents(".nab-content-media-item").remove();
+        $(this)
+          .parents("#nab-add-content-form")
+          .find("#content-featured-image")
+          .val("");
       }
-    });
-  });
-
-  $(document).on( 'change', '#nab-add-content-form #content-featured-image', function() {
-    contentUploadedFeaturedImg(this);
-  });
-
-  $(document).on('click', '#content_media_wrapper .remove-featred-img', function(){
-    if ( confirm( 'Are you sure want to remove?' ) ) {
-      $(this).parents('.nab-content-media-item').remove();
-      $(this).parents('#nab-add-content-form').find('#content-featured-image').val('');
     }
-  });
+  );
 
-  $(document).on( 'click', '.modal-content-wrap #nab-add-content-submit', function(){
-    tinyMCE.triggerSave();
+  $(document).on(
+    "click",
+    ".modal-content-wrap #nab-add-content-submit",
+    function () {
+      tinyMCE.triggerSave();
 
-    var titleLimit = 60;
-    var contentCopy =  $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-copy').val();
+      var titleLimit = 60;
+      var contentCopy = $(this)
+        .parents(".modal-content-wrap")
+        .find("#nab-add-content-form #content-copy")
+        .val();
 
-    $(this).parents('.modal-content-wrap').find('.global-notice').hide();
+      $(this).parents(".modal-content-wrap").find(".global-notice").hide();
 
-    if ( $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val().length > titleLimit ) {
-      $(this).parents('.modal-content-wrap').find('.global-notice').text('Title can not be more than ' + titleLimit + ' characters.').show();
-      return false;
-    } else if ( '' === $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() ) {
-      $(this).parents('.modal-content-wrap').find('.global-notice').text('Title can not be empty.').show();
-      return false;
-    }
-
-    if ( '' === contentCopy ) {
-      $(this).parents('.modal-content-wrap').find('.global-notice').text('Content copy can not be empty.').show();
-      return false;
-    }
-
-    $('body').addClass('nab-close-reload');
-
-    var form_data = new FormData();
-    var companyId = 0 < $(this).parents('.modal-content-wrap').find('#nab_company_id').length ? $(this).parents('.modal-content-wrap').find('#nab_company_id').val() : 0;
-    var _this = $(this);
-    form_data.append( 'action', 'nab_content_submission' );
-    form_data.append( 'nabNonce', amplifyJS.nabNonce );
-    form_data.append( 'company_id', companyId );
-    form_data.append( 'content_title', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-title').val() );
-    form_data.append( 'content_copy', contentCopy );
-
-    // Bynder_Featured_Content
-    let previewImg = $(this).parents('.modal-content-wrap').find('.preview-content-featured-img').attr('src');
-    previewImg = undefined !== previewImg ? previewImg : '';
-    if ( 'function' === typeof addBMpopup ) {
-      form_data.append( 'featured_img', previewImg );
-
-    } else if ( '' !== $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image').val() ) {
-      form_data.append( 'featured_img', $(this).parents('.modal-content-wrap').find('#nab-add-content-form #content-featured-image')[0].files[0] );
-    }
-
-    jQuery.ajax({
-      url: amplifyJS.ajaxurl,
-      processData: false,
-      contentType: false,
-      type: 'POST',
-      data: form_data,
-      beforeSend: function () {
-        $('body').addClass('is-loading');
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        var contentData = response;
-
-        if ( undefined !== contentData.data.msg ) {
-          _this.parents('.modal-content-wrap').find('.global-notice').text(contentData.data.msg).show();
-        }
-        if ( contentData.success ) {
-          _this.parents('.modal-content-wrap').find('#nab-add-content-form .nab-content-media-item').remove();
-          _this.parents('.modal-content-wrap').find('#nab-add-content-form').trigger('reset');
-        }
+      if (
+        $(this)
+          .parents(".modal-content-wrap")
+          .find("#nab-add-content-form #content-title")
+          .val().length > titleLimit
+      ) {
+        $(this)
+          .parents(".modal-content-wrap")
+          .find(".global-notice")
+          .text("Title can not be more than " + titleLimit + " characters.")
+          .show();
+        return false;
+      } else if (
+        "" ===
+        $(this)
+          .parents(".modal-content-wrap")
+          .find("#nab-add-content-form #content-title")
+          .val()
+      ) {
+        $(this)
+          .parents(".modal-content-wrap")
+          .find(".global-notice")
+          .text("Title can not be empty.")
+          .show();
+        return false;
       }
-    });
-    return false;
 
-  });
+      if ("" === contentCopy) {
+        $(this)
+          .parents(".modal-content-wrap")
+          .find(".global-notice")
+          .text("Content copy can not be empty.")
+          .show();
+        return false;
+      }
+
+      $("body").addClass("nab-close-reload");
+
+      var form_data = new FormData();
+      var companyId =
+        0 <
+        $(this).parents(".modal-content-wrap").find("#nab_company_id").length
+          ? $(this).parents(".modal-content-wrap").find("#nab_company_id").val()
+          : 0;
+      var _this = $(this);
+      form_data.append("action", "nab_content_submission");
+      form_data.append("nabNonce", amplifyJS.nabNonce);
+      form_data.append("company_id", companyId);
+      form_data.append(
+        "content_title",
+        $(this)
+          .parents(".modal-content-wrap")
+          .find("#nab-add-content-form #content-title")
+          .val()
+      );
+      form_data.append("content_copy", contentCopy);
+
+      // Bynder_Featured_Content
+      let previewImg = $(this)
+        .parents(".modal-content-wrap")
+        .find(".preview-content-featured-img")
+        .attr("src");
+      previewImg = undefined !== previewImg ? previewImg : "";
+      if ("function" === typeof addBMpopup) {
+        form_data.append("featured_img", previewImg);
+      } else if (
+        "" !==
+        $(this)
+          .parents(".modal-content-wrap")
+          .find("#nab-add-content-form #content-featured-image")
+          .val()
+      ) {
+        form_data.append(
+          "featured_img",
+          $(this)
+            .parents(".modal-content-wrap")
+            .find("#nab-add-content-form #content-featured-image")[0].files[0]
+        );
+      }
+
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        processData: false,
+        contentType: false,
+        type: "POST",
+        data: form_data,
+        beforeSend: function () {
+          $("body").addClass("is-loading");
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          var contentData = response;
+
+          if (undefined !== contentData.data.msg) {
+            _this
+              .parents(".modal-content-wrap")
+              .find(".global-notice")
+              .text(contentData.data.msg)
+              .show();
+          }
+          if (contentData.success) {
+            _this
+              .parents(".modal-content-wrap")
+              .find("#nab-add-content-form .nab-content-media-item")
+              .remove();
+            _this
+              .parents(".modal-content-wrap")
+              .find("#nab-add-content-form")
+              .trigger("reset");
+          }
+        },
+      });
+      return false;
+    }
+  );
 
   function contentUploadedFeaturedImg(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      reader.onload = function(e) {
-        var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
-            $('#nab-add-content-form #content-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
-            input.value = '';
-            return false;
+      reader.onload = function (e) {
+        var fileExt = input.value.split(".").pop().toLowerCase();
+        if ($.inArray(fileExt, ["png", "jpg", "jpeg"]) === -1) {
+          $("#nab-add-content-form #content-featured-image")
+            .parents(".form-row")
+            .append(
+              '<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>'
+            );
+          input.value = "";
+          return false;
         } else {
-          $('#nab-add-content-form #content-featured-image').parents('.form-row').find('.form-field-error').remove();
+          $("#nab-add-content-form #content-featured-image")
+            .parents(".form-row")
+            .find(".form-field-error")
+            .remove();
         }
-        if ( 0 < $('#content_media_wrapper .preview-content-featured-img').length ) {
-          $('#content_media_wrapper .preview-content-featured-img').attr('src', e.target.result);
+        if (
+          0 < $("#content_media_wrapper .preview-content-featured-img").length
+        ) {
+          $("#content_media_wrapper .preview-content-featured-img").attr(
+            "src",
+            e.target.result
+          );
         } else {
-          var previewImg = '<div class="nab-content-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-content-featured-img common-preview-img" /></div>';
-          $('#content_media_wrapper').append(previewImg);
+          var previewImg =
+            '<div class="nab-content-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' +
+            e.target.result +
+            '" class="preview-content-featured-img common-preview-img" /></div>';
+          $("#content_media_wrapper").append(previewImg);
         }
-      }
+      };
       reader.readAsDataURL(input.files[0]);
     }
   }
@@ -4538,254 +4672,461 @@
   /**
    * Downloadable PDF
    */
-   $(document).on( 'click', '.company-pdfs #downloadable-pdfs-list .pdf-add-edit-action', function () {
-    $('body').addClass('is-loading');
-    $('#addProductModal').remove();
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_edit_downloadable_company_pdf',
-        pdf_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
-        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
-        nabNonce: amplifyJS.nabNonce
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        $('body').append(response);
-        $('#addProductModal').show().addClass('nab-modal-active');
-      }
-    });
-  });
+  $(document).on(
+    "click",
+    ".company-pdfs #downloadable-pdfs-list .pdf-add-edit-action",
+    function () {
+      $("body").addClass("is-loading");
+      $("#addProductModal").remove();
+      $.ajax({
+        type: "POST",
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: "nab_edit_downloadable_company_pdf",
+          pdf_id: undefined !== $(this).data("id") ? $(this).data("id") : "",
+          company_id:
+            undefined !== $(this).data("company-id")
+              ? $(this).data("company-id")
+              : "",
+          nabNonce: amplifyJS.nabNonce,
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          $("body").append(response);
+          $("#addProductModal").show().addClass("nab-modal-active");
+        },
+      });
+    }
+  );
 
-  $(document).on( 'change', '#nab-add-edit-pdf-form #pdf-featured-image', function() {
-    renderUploadedFeaturedImg(this);
-  });
+  $(document).on(
+    "change",
+    "#nab-add-edit-pdf-form #pdf-featured-image",
+    function () {
+      renderUploadedFeaturedImg(this);
+    }
+  );
 
-  $(document).on( 'change', '#nab-add-edit-pdf-form #pdf-document', function() {
+  $(document).on("change", "#nab-add-edit-pdf-form #pdf-document", function () {
     renderUploadedPDFFile(this);
   });
 
-  $(document).on('click', '#pdf_media_wrapper .remove-featred-img', function(){
-    if ( confirm( 'Are you sure want to remove?' ) ) {
-      $(this).parents('.nab-pdf-media-item').remove();
-      $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val('');
-    }
-  });
-
-  $(document).on('click', '#pdf_document_wrapper .remove-attached-pdf', function(){
-    if ( confirm( 'Are you sure want to remove?' ) ) {
-      $(this).parents('.nab-pdf-media-item').remove();
-      $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val('');
-    }
-  });
-
-  $(document).on( 'keyup', '#nab-add-edit-pdf-form #pdf-description', function(){
-    var maxLimit  = 200;
-    var currentCount = $(this).val().length;
-    var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
-    $(this).parents('.form-row').find('.info-msg #pdf-desc-count').text( remaining + ' Characters Remaining');
-  });
-
-  $(document).on( 'change', '.download-pdf-input .dowload-checkbox', function(){
-
-    if ( this.checked ) {
-      $(this).parents('.amp-item-content').find('.amp-actions a.button').removeAttr('disabled');
-      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('data-pdf') );
-      $(this).parents('.amp-item-content').find('.pdf_btn_wrap').removeClass('download-disabled');
-    } else {
-      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('disabled', 'disabled');
-      $(this).parents('.amp-item-content').find('.amp-actions a.button').attr('href', 'javascript:void(0);' );
-      $(this).parents('.amp-item-content').find('.pdf_btn_wrap').addClass('download-disabled');
-    }
-  });
-
-  $(document).on( 'click', '#downloadable-pdfs-list .amp-action-remove .remove-pdf', function(){
-
-    $('body').addClass('nab-modal-off-scroll');
-
-    var pdf_id = $(this).attr('data-id');
-    if ( undefined === pdf_id || '' === pdf_id ) {
-      return false;
-    }
-
-    $('.error-message-popup').remove();
-
-    var modalOuter = document.createElement('div');
-    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup trash-pdf');
-
-    var modalInner = document.createElement('div');
-    modalInner.setAttribute('class', 'nab-modal-inner');
-
-    var modalContent = document.createElement('div');
-    modalContent.setAttribute('class', 'modal-content');
-
-    var modalClose = document.createElement('div');
-    modalClose.setAttribute('class', 'nab-modal-close fa fa-times');
-
-    modalContent.appendChild(modalClose);
-
-    var contentWrapper = document.createElement('div');
-    contentWrapper.setAttribute('class', 'modal-content-wrap');
-
-    var heading = document.createElement('h3');
-    heading.innerText = 'Are you sure want to remove?';
-
-    contentWrapper.appendChild(heading);
-
-    var buttonGroup = document.createElement('div');
-    buttonGroup.setAttribute('class', 'btn-group');
-
-    var buttonYes = document.createElement('button');
-    buttonYes.setAttribute('class', 'btn btn-confirm-yes');
-    buttonYes.innerText = 'Yes';
-    buttonYes.setAttribute('data-pdf-id', pdf_id);
-
-    buttonGroup.appendChild( buttonYes );
-
-    var buttonNo = document.createElement('button');
-    buttonNo.setAttribute('class', 'btn btn-confirm-no');
-    buttonNo.innerText = 'No';
-
-    buttonGroup.appendChild( buttonNo );
-    contentWrapper.appendChild( buttonGroup );
-    modalContent.appendChild( contentWrapper );
-    modalInner.appendChild(modalContent);
-    modalOuter.appendChild(modalInner);
-
-    $('body').append(modalOuter);
-
-    $('.error-message-popup').show();
-
-  });
-
-  $(document).on('click', '.error-message-popup.trash-pdf .btn-confirm-yes', function(){
-    var pdf_id = $(this).attr('data-pdf-id');
-    $('body').addClass('is-loading');
-    $('.error-message-popup').remove();
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_remove_downloadable_pdf',
-        pdf_id: pdf_id,
-        nabNonce: amplifyJS.nabNonce
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        location.reload();
+  $(document).on(
+    "click",
+    "#pdf_media_wrapper .remove-featred-img",
+    function () {
+      if (confirm("Are you sure want to remove?")) {
+        $(this).parents(".nab-pdf-media-item").remove();
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find("#pdf-featured-image")
+          .val("");
       }
-    });
-
-  });
-
-  $(document).on('click', '.error-message-popup.trash-pdf .btn-confirm-no', function(){
-    $('.error-message-popup').remove();
-    $('body').removeClass('nab-modal-off-scroll');
-  });
-
-  $(document).on( 'click', '#nab-add-edit-pdf-form #nab-edit-pdf-submit', function(){
-    var doumentLimit = 60;
-    var descLimit = 200;
-    $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').hide();
-
-    if ( $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val().length > doumentLimit ) {
-      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document name can not be more than ' + doumentLimit + ' characters.').show();
-      return false;
-    } else if ( '' === $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val() ) {
-      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document name can not be empty.').show();
-      return false;
     }
+  );
 
-    if ( $(this).parents('#nab-add-edit-pdf-form').find('#pdf-description').val().length > descLimit ) {
-      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document description not more than ' + descLimit + ' characters.').show();
-      return false;
-    }
-
-    if ( '' === $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val() && ( undefined === $(this).parents('#nab-add-edit-pdf-form').find('.remove-attached-pdf').attr('data-attachment-id') || '' === $(this).parents('#nab-add-edit-pdf-form').find('.remove-attached-pdf').attr('data-attachment-id') ) ) {
-      $(this).parents('#nab-add-edit-pdf-form').find('.global-notice').text('Document attachment is required field.').show();
-      return false;
-    }
-
-    $('body').addClass('nab-close-reload');
-
-    var form_data = new FormData();
-    var companyId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#nab_company_id').val() : 0;
-    var pdfId = 0 < $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').length ? $(this).parents('#nab-add-edit-pdf-form').find('#pdf_id').val() : 0;
-    var _this = $(this);
-    form_data.append( 'action', 'nab_downloadable_pdf' );
-    form_data.append( 'nabNonce', amplifyJS.nabNonce );
-    form_data.append( 'company_id', companyId );
-    form_data.append( 'pdf_id', pdfId );
-    form_data.append( 'pdf_title', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document-name').val() );
-    form_data.append( 'pdf_desc', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-description').val() );
-
-    if ( 0 === $(this).parents('#nab-add-edit-pdf-form').find('#pdf_media_wrapper .remove-featred-img').length ) {
-      form_data.append( 'remove_featured_img', true );
-    }
-
-    if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val() ) {
-      form_data.append( 'featured_img', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-featured-image')[0].files[0] );
-    }
-    if ( '' !== $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document').val() ) {
-      form_data.append( 'pdf_file', $(this).parents('#nab-add-edit-pdf-form').find('#pdf-document')[0].files[0] );
-    }
-
-    jQuery.ajax({
-      url: amplifyJS.ajaxurl,
-      processData: false,
-      contentType: false,
-      type: 'POST',
-      data: form_data,
-      beforeSend: function () {
-        $('body').addClass('is-loading');
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        var pdfData = response;
-
-        if ( undefined !== pdfData.data.msg ) {
-          _this.parents('#nab-add-edit-pdf-form').find('.global-notice').text(pdfData.data.msg).show();
-        }
-        if ( pdfData.success ) {
-          if ( undefined !== pdfData.data.featured_attachment_id ) {
-            _this.parents('#nab-add-edit-pdf-form').find('.remove-featred-img').attr('data-attachment-id', pdfData.data.featured_attachment_id );
-          }
-          if ( undefined !== pdfData.data.pdf_attachment_id ) {
-            _this.parents('#nab-add-edit-pdf-form').find('.remove-attached-pdf').attr('data-attachment-id', pdfData.data.pdf_attachment_id );
-          }
-          if ( undefined !== pdfData.data.pdf_id ) {
-            _this.parents('#nab-add-edit-pdf-form').find('#pdf_id').val( pdfData.data.pdf_id );
-          }
-          _this.parents('#nab-add-edit-pdf-form').find('#pdf-featured-image').val('');
-          _this.parents('#nab-add-edit-pdf-form').find('#pdf-document').val('');
-          _this.parents('#nab-add-edit-pdf-form').find('#nab-edit-pdf-submit').val('Update');
-          _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Downloadable PDF');
-        }
+  $(document).on(
+    "click",
+    "#pdf_document_wrapper .remove-attached-pdf",
+    function () {
+      if (confirm("Are you sure want to remove?")) {
+        $(this).parents(".nab-pdf-media-item").remove();
+        $(this).parents("#nab-add-edit-pdf-form").find("#pdf-document").val("");
       }
-    });
-    return false;
-  });
+    }
+  );
+
+  $(document).on(
+    "keyup",
+    "#nab-add-edit-pdf-form #pdf-description",
+    function () {
+      var maxLimit = 200;
+      var currentCount = $(this).val().length;
+      var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
+      $(this)
+        .parents(".form-row")
+        .find(".info-msg #pdf-desc-count")
+        .text(remaining + " Characters Remaining");
+    }
+  );
+
+  $(document).on(
+    "change",
+    ".download-pdf-input .dowload-checkbox",
+    function () {
+      if (this.checked) {
+        $(this)
+          .parents(".amp-item-content")
+          .find(".amp-actions a.button")
+          .removeAttr("disabled");
+        $(this)
+          .parents(".amp-item-content")
+          .find(".amp-actions a.button")
+          .attr(
+            "href",
+            $(this)
+              .parents(".amp-item-content")
+              .find(".amp-actions a.button")
+              .attr("data-pdf")
+          );
+        $(this)
+          .parents(".amp-item-content")
+          .find(".pdf_btn_wrap")
+          .removeClass("download-disabled");
+      } else {
+        $(this)
+          .parents(".amp-item-content")
+          .find(".amp-actions a.button")
+          .attr("disabled", "disabled");
+        $(this)
+          .parents(".amp-item-content")
+          .find(".amp-actions a.button")
+          .attr("href", "javascript:void(0);");
+        $(this)
+          .parents(".amp-item-content")
+          .find(".pdf_btn_wrap")
+          .addClass("download-disabled");
+      }
+    }
+  );
+
+  $(document).on(
+    "click",
+    "#downloadable-pdfs-list .amp-action-remove .remove-pdf",
+    function () {
+      $("body").addClass("nab-modal-off-scroll");
+
+      var pdf_id = $(this).attr("data-id");
+      if (undefined === pdf_id || "" === pdf_id) {
+        return false;
+      }
+
+      $(".error-message-popup").remove();
+
+      var modalOuter = document.createElement("div");
+      modalOuter.setAttribute(
+        "class",
+        "nab-modal theme-dark error-message-popup trash-pdf"
+      );
+
+      var modalInner = document.createElement("div");
+      modalInner.setAttribute("class", "nab-modal-inner");
+
+      var modalContent = document.createElement("div");
+      modalContent.setAttribute("class", "modal-content");
+
+      var modalClose = document.createElement("div");
+      modalClose.setAttribute("class", "nab-modal-close fa fa-times");
+
+      modalContent.appendChild(modalClose);
+
+      var contentWrapper = document.createElement("div");
+      contentWrapper.setAttribute("class", "modal-content-wrap");
+
+      var heading = document.createElement("h3");
+      heading.innerText = "Are you sure want to remove?";
+
+      contentWrapper.appendChild(heading);
+
+      var buttonGroup = document.createElement("div");
+      buttonGroup.setAttribute("class", "btn-group");
+
+      var buttonYes = document.createElement("button");
+      buttonYes.setAttribute("class", "btn btn-confirm-yes");
+      buttonYes.innerText = "Yes";
+      buttonYes.setAttribute("data-pdf-id", pdf_id);
+
+      buttonGroup.appendChild(buttonYes);
+
+      var buttonNo = document.createElement("button");
+      buttonNo.setAttribute("class", "btn btn-confirm-no");
+      buttonNo.innerText = "No";
+
+      buttonGroup.appendChild(buttonNo);
+      contentWrapper.appendChild(buttonGroup);
+      modalContent.appendChild(contentWrapper);
+      modalInner.appendChild(modalContent);
+      modalOuter.appendChild(modalInner);
+
+      $("body").append(modalOuter);
+
+      $(".error-message-popup").show();
+    }
+  );
+
+  $(document).on(
+    "click",
+    ".error-message-popup.trash-pdf .btn-confirm-yes",
+    function () {
+      var pdf_id = $(this).attr("data-pdf-id");
+      $("body").addClass("is-loading");
+      $(".error-message-popup").remove();
+      $.ajax({
+        type: "POST",
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: "nab_remove_downloadable_pdf",
+          pdf_id: pdf_id,
+          nabNonce: amplifyJS.nabNonce,
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          location.reload();
+        },
+      });
+    }
+  );
+
+  $(document).on(
+    "click",
+    ".error-message-popup.trash-pdf .btn-confirm-no",
+    function () {
+      $(".error-message-popup").remove();
+      $("body").removeClass("nab-modal-off-scroll");
+    }
+  );
+
+  $(document).on(
+    "click",
+    "#nab-add-edit-pdf-form #nab-edit-pdf-submit",
+    function () {
+      var doumentLimit = 60;
+      var descLimit = 200;
+      $(this).parents("#nab-add-edit-pdf-form").find(".global-notice").hide();
+
+      if (
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find("#pdf-document-name")
+          .val().length > doumentLimit
+      ) {
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find(".global-notice")
+          .text(
+            "Document name can not be more than " +
+              doumentLimit +
+              " characters."
+          )
+          .show();
+        return false;
+      } else if (
+        "" ===
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find("#pdf-document-name")
+          .val()
+      ) {
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find(".global-notice")
+          .text("Document name can not be empty.")
+          .show();
+        return false;
+      }
+
+      if (
+        $(this).parents("#nab-add-edit-pdf-form").find("#pdf-description").val()
+          .length > descLimit
+      ) {
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find(".global-notice")
+          .text(
+            "Document description not more than " + descLimit + " characters."
+          )
+          .show();
+        return false;
+      }
+
+      if (
+        "" ===
+          $(this)
+            .parents("#nab-add-edit-pdf-form")
+            .find("#pdf-document")
+            .val() &&
+        (undefined ===
+          $(this)
+            .parents("#nab-add-edit-pdf-form")
+            .find(".remove-attached-pdf")
+            .attr("data-attachment-id") ||
+          "" ===
+            $(this)
+              .parents("#nab-add-edit-pdf-form")
+              .find(".remove-attached-pdf")
+              .attr("data-attachment-id"))
+      ) {
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find(".global-notice")
+          .text("Document attachment is required field.")
+          .show();
+        return false;
+      }
+
+      $("body").addClass("nab-close-reload");
+
+      var form_data = new FormData();
+      var companyId =
+        0 <
+        $(this).parents("#nab-add-edit-pdf-form").find("#nab_company_id").length
+          ? $(this)
+              .parents("#nab-add-edit-pdf-form")
+              .find("#nab_company_id")
+              .val()
+          : 0;
+      var pdfId =
+        0 < $(this).parents("#nab-add-edit-pdf-form").find("#pdf_id").length
+          ? $(this).parents("#nab-add-edit-pdf-form").find("#pdf_id").val()
+          : 0;
+      var _this = $(this);
+      form_data.append("action", "nab_downloadable_pdf");
+      form_data.append("nabNonce", amplifyJS.nabNonce);
+      form_data.append("company_id", companyId);
+      form_data.append("pdf_id", pdfId);
+      form_data.append(
+        "pdf_title",
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find("#pdf-document-name")
+          .val()
+      );
+      form_data.append(
+        "pdf_desc",
+        $(this).parents("#nab-add-edit-pdf-form").find("#pdf-description").val()
+      );
+
+      if (
+        0 ===
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find("#pdf_media_wrapper .remove-featred-img").length
+      ) {
+        form_data.append("remove_featured_img", true);
+      }
+
+      if (
+        "" !==
+        $(this)
+          .parents("#nab-add-edit-pdf-form")
+          .find("#pdf-featured-image")
+          .val()
+      ) {
+        form_data.append(
+          "featured_img",
+          $(this)
+            .parents("#nab-add-edit-pdf-form")
+            .find("#pdf-featured-image")[0].files[0]
+        );
+      }
+      if (
+        "" !==
+        $(this).parents("#nab-add-edit-pdf-form").find("#pdf-document").val()
+      ) {
+        form_data.append(
+          "pdf_file",
+          $(this).parents("#nab-add-edit-pdf-form").find("#pdf-document")[0]
+            .files[0]
+        );
+      }
+
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        processData: false,
+        contentType: false,
+        type: "POST",
+        data: form_data,
+        beforeSend: function () {
+          $("body").addClass("is-loading");
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          var pdfData = response;
+
+          if (undefined !== pdfData.data.msg) {
+            _this
+              .parents("#nab-add-edit-pdf-form")
+              .find(".global-notice")
+              .text(pdfData.data.msg)
+              .show();
+          }
+          if (pdfData.success) {
+            if (undefined !== pdfData.data.featured_attachment_id) {
+              _this
+                .parents("#nab-add-edit-pdf-form")
+                .find(".remove-featred-img")
+                .attr(
+                  "data-attachment-id",
+                  pdfData.data.featured_attachment_id
+                );
+            }
+            if (undefined !== pdfData.data.pdf_attachment_id) {
+              _this
+                .parents("#nab-add-edit-pdf-form")
+                .find(".remove-attached-pdf")
+                .attr("data-attachment-id", pdfData.data.pdf_attachment_id);
+            }
+            if (undefined !== pdfData.data.pdf_id) {
+              _this
+                .parents("#nab-add-edit-pdf-form")
+                .find("#pdf_id")
+                .val(pdfData.data.pdf_id);
+            }
+            _this
+              .parents("#nab-add-edit-pdf-form")
+              .find("#pdf-featured-image")
+              .val("");
+            _this
+              .parents("#nab-add-edit-pdf-form")
+              .find("#pdf-document")
+              .val("");
+            _this
+              .parents("#nab-add-edit-pdf-form")
+              .find("#nab-edit-pdf-submit")
+              .val("Update");
+            _this
+              .parents(".nab-modal-with-form")
+              .find(".add-product-content-popup h2")
+              .text("Update Downloadable PDF");
+          }
+        },
+      });
+      return false;
+    }
+  );
 
   function renderUploadedFeaturedImg(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      reader.onload = function(e) {
-        var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
-            $('#nab-add-edit-pdf-form #pdf-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
-            input.value = '';
-            return false;
+      reader.onload = function (e) {
+        var fileExt = input.value.split(".").pop().toLowerCase();
+        if ($.inArray(fileExt, ["png", "jpg", "jpeg"]) === -1) {
+          $("#nab-add-edit-pdf-form #pdf-featured-image")
+            .parents(".form-row")
+            .append(
+              '<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>'
+            );
+          input.value = "";
+          return false;
         } else {
-          $('#nab-add-edit-pdf-form #pdf-featured-image').parents('.form-row').find('.form-field-error').remove();
+          $("#nab-add-edit-pdf-form #pdf-featured-image")
+            .parents(".form-row")
+            .find(".form-field-error")
+            .remove();
         }
-        if ( 0 < $('#pdf_media_wrapper .preview-pdf-featured-img').length ) {
-          $('#pdf_media_wrapper .preview-pdf-featured-img').attr('src', e.target.result);
+        if (0 < $("#pdf_media_wrapper .preview-pdf-featured-img").length) {
+          $("#pdf_media_wrapper .preview-pdf-featured-img").attr(
+            "src",
+            e.target.result
+          );
         } else {
-          var previewImg = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-pdf-featured-img" /></div>';
-          $('#pdf_media_wrapper').append(previewImg);
+          var previewImg =
+            '<div class="nab-pdf-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' +
+            e.target.result +
+            '" class="preview-pdf-featured-img" /></div>';
+          $("#pdf_media_wrapper").append(previewImg);
         }
-      }
+      };
       reader.readAsDataURL(input.files[0]);
     }
   }
@@ -4793,297 +5134,519 @@
   function renderUploadedPDFFile(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      reader.onload = function(e) {
-        var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( 'pdf' !== fileExt ) {
-            $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').append('<p class="form-field-error">Invalid file type. Only .pdf file type acceptable.</p>');
-            input.value = '';
-            return false;
+      reader.onload = function (e) {
+        var fileExt = input.value.split(".").pop().toLowerCase();
+        if ("pdf" !== fileExt) {
+          $("#nab-add-edit-pdf-form #pdf-document")
+            .parents(".form-row")
+            .append(
+              '<p class="form-field-error">Invalid file type. Only .pdf file type acceptable.</p>'
+            );
+          input.value = "";
+          return false;
         } else {
-          $('#nab-add-edit-pdf-form #pdf-document').parents('.form-row').find('.form-field-error').remove();
+          $("#nab-add-edit-pdf-form #pdf-document")
+            .parents(".form-row")
+            .find(".form-field-error")
+            .remove();
         }
-        if ( 0 == $('#pdf_document_wrapper .pdf-icon').length ) {
-          var previewFile = '<div class="nab-pdf-media-item"><i class="fa fa-times remove-attached-pdf" aria-hidden="true"></i><span class="pdf-icon fa fa-file-pdf-o"></span></div>';
-          $('#pdf_document_wrapper').append(previewFile);
+        if (0 == $("#pdf_document_wrapper .pdf-icon").length) {
+          var previewFile =
+            '<div class="nab-pdf-media-item"><i class="fa fa-times remove-attached-pdf" aria-hidden="true"></i><span class="pdf-icon fa fa-file-pdf-o"></span></div>';
+          $("#pdf_document_wrapper").append(previewFile);
         }
-      }
+      };
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
 
   // PDF Search Filters
-  $(document).on('click', '#load-more-pdf a', function () {
-    let pdfPageNumber = parseInt( $(this).attr('data-page-number') );
-    nabSearchDownloadablePDFAjax( true, pdfPageNumber );
-  })
-
-  $(document).on( 'click', '.other-search-filter .sort-pdf a.sort-order', function () {
-    if ( ! $(this).hasClass('active') ) {
-      $(this).addClass('active').siblings().removeClass('active');
-      nabSearchDownloadablePDFAjax(false, 1);
-    }
+  $(document).on("click", "#load-more-pdf a", function () {
+    let pdfPageNumber = parseInt($(this).attr("data-page-number"));
+    nabSearchDownloadablePDFAjax(true, pdfPageNumber);
   });
+
+  $(document).on(
+    "click",
+    ".other-search-filter .sort-pdf a.sort-order",
+    function () {
+      if (!$(this).hasClass("active")) {
+        $(this).addClass("active").siblings().removeClass("active");
+        nabSearchDownloadablePDFAjax(false, 1);
+      }
+    }
+  );
   // Downloadable PDF code end.
 
   // Add Events
-  $(document).on( 'click', '#company-events-list .event-add-edit-action', function () {
-    $('body').addClass('is-loading');
-    $('#addProductModal').remove();
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_edit_company_event',
-        event_id: undefined !== $(this).data('id') ? $(this).data('id') : '',
-        company_id: undefined !== $(this).data('company-id') ? $(this).data('company-id') : '',
-        nabNonce: amplifyJS.nabNonce
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        $('body').append(response);
-        $('#addProductModal').show().addClass('nab-modal-active');
-        $('#event-date').datepicker();
-        $('#event-start-time').select2({ width: '100%', minimumResultsForSearch: -1 });
-        $('#event-end-time').select2({ width: '100%', minimumResultsForSearch: -1 });
+  $(document).on(
+    "click",
+    "#company-events-list .event-add-edit-action",
+    function () {
+      $("body").addClass("is-loading");
+      $("#addProductModal").remove();
+      $.ajax({
+        type: "POST",
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: "nab_edit_company_event",
+          event_id: undefined !== $(this).data("id") ? $(this).data("id") : "",
+          company_id:
+            undefined !== $(this).data("company-id")
+              ? $(this).data("company-id")
+              : "",
+          nabNonce: amplifyJS.nabNonce,
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          $("body").append(response);
+          $("#addProductModal").show().addClass("nab-modal-active");
+          $("#event-date").datepicker();
+          $("#event-start-time").select2({
+            width: "100%",
+            minimumResultsForSearch: -1,
+          });
+          $("#event-end-time").select2({
+            width: "100%",
+            minimumResultsForSearch: -1,
+          });
+        },
+      });
+    }
+  );
+
+  $(document).on(
+    "keyup",
+    "#nab-add-edit-event-form #event-description",
+    function () {
+      var maxLimit = 200;
+      var currentCount = $(this).val().length;
+      var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
+      $(this)
+        .parents(".form-row")
+        .find(".info-msg #event-desc-count")
+        .text(remaining + " Characters Remaining");
+    }
+  );
+
+  $(document).on(
+    "change",
+    "#nab-add-edit-event-form #event-featured-image",
+    function () {
+      eventUploadedFeaturedImg(this);
+    }
+  );
+
+  $(document).on(
+    "click",
+    "#event_media_wrapper .remove-featred-img",
+    function () {
+      if (confirm("Are you sure want to remove?")) {
+        $(this).parents(".nab-event-media-item").remove();
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-featured-image")
+          .val("");
       }
-    });
-  });
-
-  $(document).on( 'keyup', '#nab-add-edit-event-form #event-description', function(){
-    var maxLimit  = 200;
-    var currentCount = $(this).val().length;
-    var remaining = currentCount > 200 ? 0 : maxLimit - currentCount;
-    $(this).parents('.form-row').find('.info-msg #event-desc-count').text( remaining + ' Characters Remaining');
-  });
-
-  $(document).on( 'change', '#nab-add-edit-event-form #event-featured-image', function() {
-    eventUploadedFeaturedImg(this);
-  });
-
-  $(document).on('click', '#event_media_wrapper .remove-featred-img', function(){
-    if ( confirm( 'Are you sure want to remove?' ) ) {
-      $(this).parents('.nab-event-media-item').remove();
-      $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val('');
     }
-  });
+  );
 
-  $(document).on('change', '#nab-add-edit-event-form #event-start-time', function(){
-    var startTimeIndex = $(this)[0].selectedIndex;
-    var endTimeIndex = $(this).parents('#nab-add-edit-event-form').find('#event-end-time')[0].selectedIndex;
-    if ( endTimeIndex < startTimeIndex ) {
-      $(this).parents('#nab-add-edit-event-form').find('#event-end-time').val($(this).val());
-      $(this).parents('#nab-add-edit-event-form').find('#event-end-time').trigger('change');
-    }
-  });
-
-  $(document).on('change', '#nab-add-edit-event-form #event-end-time', function(){
-    var startTimeIndex = $(this).parents('#nab-add-edit-event-form').find('#event-start-time')[0].selectedIndex;
-    var endTimeIndex = $(this)[0].selectedIndex;
-    if ( endTimeIndex < startTimeIndex ) {
-      $(this).val($(this).parents('#nab-add-edit-event-form').find('#event-start-time').val());
-      $(this).trigger('change');
-    }
-  });
-
-  $(document).on( 'click', '#company-events-list .amp-action-remove .remove-event', function(){
-
-    $('body').addClass('nab-modal-off-scroll');
-
-    var event_id = $(this).attr('data-id');
-    if ( undefined === event_id || '' === event_id ) {
-      return false;
-    }
-
-    $('.error-message-popup').remove();
-
-    var modalOuter = document.createElement('div');
-    modalOuter.setAttribute('class', 'nab-modal theme-dark error-message-popup trash-event');
-
-    var modalInner = document.createElement('div');
-    modalInner.setAttribute('class', 'nab-modal-inner');
-
-    var modalContent = document.createElement('div');
-    modalContent.setAttribute('class', 'modal-content');
-
-    var modalClose = document.createElement('div');
-    modalClose.setAttribute('class', 'nab-modal-close fa fa-times');
-
-    modalContent.appendChild(modalClose);
-
-    var contentWrapper = document.createElement('div');
-    contentWrapper.setAttribute('class', 'modal-content-wrap');
-
-    var heading = document.createElement('h3');
-    heading.innerText = 'Are you sure want to remove?';
-
-    contentWrapper.appendChild(heading);
-
-    var buttonGroup = document.createElement('div');
-    buttonGroup.setAttribute('class', 'btn-group');
-
-    var buttonYes = document.createElement('button');
-    buttonYes.setAttribute('class', 'btn btn-confirm-yes');
-    buttonYes.innerText = 'Yes';
-    buttonYes.setAttribute('data-event-id', event_id);
-
-    buttonGroup.appendChild( buttonYes );
-
-    var buttonNo = document.createElement('button');
-    buttonNo.setAttribute('class', 'btn btn-confirm-no');
-    buttonNo.innerText = 'No';
-
-    buttonGroup.appendChild( buttonNo );
-    contentWrapper.appendChild( buttonGroup );
-    modalContent.appendChild( contentWrapper );
-    modalInner.appendChild(modalContent);
-    modalOuter.appendChild(modalInner);
-
-    $('body').append(modalOuter);
-
-    $('.error-message-popup').show();
-
-  });
-
-  $(document).on('click', '.error-message-popup.trash-event .btn-confirm-yes', function(){
-    var event_id = $(this).attr('data-event-id');
-    $('body').addClass('is-loading');
-    $('.error-message-popup').remove();
-    $.ajax({
-      type: 'POST',
-      url: amplifyJS.ajaxurl,
-      data: {
-        action: 'nab_remove_company_event',
-        event_id: event_id,
-        nabNonce: amplifyJS.nabNonce
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        location.reload();
+  $(document).on(
+    "change",
+    "#nab-add-edit-event-form #event-start-time",
+    function () {
+      var startTimeIndex = $(this)[0].selectedIndex;
+      var endTimeIndex = $(this)
+        .parents("#nab-add-edit-event-form")
+        .find("#event-end-time")[0].selectedIndex;
+      if (endTimeIndex < startTimeIndex) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-end-time")
+          .val($(this).val());
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-end-time")
+          .trigger("change");
       }
-    });
-
-  });
-
-  $(document).on('click', '.error-message-popup.trash-event .btn-confirm-no', function(){
-    $('.error-message-popup').remove();
-    $('body').removeClass('nab-modal-off-scroll');
-  });
-
-  $(document).on( 'click', '#nab-add-edit-event-form #nab-edit-event-submit', function(){
-    var titleLimit = 60;
-    var descLimit = 200;
-    $(this).parents('#nab-add-edit-event-form').find('.global-notice').hide();
-
-    if ( $(this).parents('#nab-add-edit-event-form').find('#event-name').val().length > titleLimit ) {
-      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event name can not be more than ' + doumentLimit + ' characters.').show();
-      return false;
-    } else if ( '' === $(this).parents('#nab-add-edit-event-form').find('#event-name').val() ) {
-      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event name can not be empty.').show();
-      return false;
     }
+  );
 
-    if ( $(this).parents('#nab-add-edit-event-form').find('#event-description').val().length > descLimit ) {
-      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event description can not more than ' + descLimit + ' characters.').show();
-      return false;
+  $(document).on(
+    "change",
+    "#nab-add-edit-event-form #event-end-time",
+    function () {
+      var startTimeIndex = $(this)
+        .parents("#nab-add-edit-event-form")
+        .find("#event-start-time")[0].selectedIndex;
+      var endTimeIndex = $(this)[0].selectedIndex;
+      if (endTimeIndex < startTimeIndex) {
+        $(this).val(
+          $(this)
+            .parents("#nab-add-edit-event-form")
+            .find("#event-start-time")
+            .val()
+        );
+        $(this).trigger("change");
+      }
     }
+  );
 
-    if ( '' === $(this).parents('#nab-add-edit-event-form').find('#event-date').val() ) {
-      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event date is required field.').show();
-      return false;
+  $(document).on(
+    "click",
+    "#company-events-list .amp-action-remove .remove-event",
+    function () {
+      $("body").addClass("nab-modal-off-scroll");
+
+      var event_id = $(this).attr("data-id");
+      if (undefined === event_id || "" === event_id) {
+        return false;
+      }
+
+      $(".error-message-popup").remove();
+
+      var modalOuter = document.createElement("div");
+      modalOuter.setAttribute(
+        "class",
+        "nab-modal theme-dark error-message-popup trash-event"
+      );
+
+      var modalInner = document.createElement("div");
+      modalInner.setAttribute("class", "nab-modal-inner");
+
+      var modalContent = document.createElement("div");
+      modalContent.setAttribute("class", "modal-content");
+
+      var modalClose = document.createElement("div");
+      modalClose.setAttribute("class", "nab-modal-close fa fa-times");
+
+      modalContent.appendChild(modalClose);
+
+      var contentWrapper = document.createElement("div");
+      contentWrapper.setAttribute("class", "modal-content-wrap");
+
+      var heading = document.createElement("h3");
+      heading.innerText = "Are you sure want to remove?";
+
+      contentWrapper.appendChild(heading);
+
+      var buttonGroup = document.createElement("div");
+      buttonGroup.setAttribute("class", "btn-group");
+
+      var buttonYes = document.createElement("button");
+      buttonYes.setAttribute("class", "btn btn-confirm-yes");
+      buttonYes.innerText = "Yes";
+      buttonYes.setAttribute("data-event-id", event_id);
+
+      buttonGroup.appendChild(buttonYes);
+
+      var buttonNo = document.createElement("button");
+      buttonNo.setAttribute("class", "btn btn-confirm-no");
+      buttonNo.innerText = "No";
+
+      buttonGroup.appendChild(buttonNo);
+      contentWrapper.appendChild(buttonGroup);
+      modalContent.appendChild(contentWrapper);
+      modalInner.appendChild(modalContent);
+      modalOuter.appendChild(modalInner);
+
+      $("body").append(modalOuter);
+
+      $(".error-message-popup").show();
     }
+  );
 
-    if ( '' === $(this).parents('#nab-add-edit-event-form').find('#event-url').val() ) {
-      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Event URL is required field.').show();
-      return false;
+  $(document).on(
+    "click",
+    ".error-message-popup.trash-event .btn-confirm-yes",
+    function () {
+      var event_id = $(this).attr("data-event-id");
+      $("body").addClass("is-loading");
+      $(".error-message-popup").remove();
+      $.ajax({
+        type: "POST",
+        url: amplifyJS.ajaxurl,
+        data: {
+          action: "nab_remove_company_event",
+          event_id: event_id,
+          nabNonce: amplifyJS.nabNonce,
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          location.reload();
+        },
+      });
     }
+  );
 
-    if ( ! validateURL( $(this).parents('#nab-add-edit-event-form').find('#event-url').val() ) ) {
-      $(this).parents('#nab-add-edit-event-form').find('.global-notice').text('Please enter valid event URL.').show();
-      return false;
+  $(document).on(
+    "click",
+    ".error-message-popup.trash-event .btn-confirm-no",
+    function () {
+      $(".error-message-popup").remove();
+      $("body").removeClass("nab-modal-off-scroll");
     }
+  );
 
-    $('body').addClass('nab-close-reload');
+  $(document).on(
+    "click",
+    "#nab-add-edit-event-form #nab-edit-event-submit",
+    function () {
+      var titleLimit = 60;
+      var descLimit = 200;
+      $(this).parents("#nab-add-edit-event-form").find(".global-notice").hide();
 
-    var form_data = new FormData();
-    var companyId = 0 < $(this).parents('#nab-add-edit-event-form').find('#nab_company_id').length ? $(this).parents('#nab-add-edit-event-form').find('#nab_company_id').val() : 0;
-    var eventId = 0 < $(this).parents('#nab-add-edit-event-form').find('#event_id').length ? $(this).parents('#nab-add-edit-event-form').find('#event_id').val() : 0;
-    var _this = $(this);
-    form_data.append( 'action', 'nab_company_events' );
-    form_data.append( 'nabNonce', amplifyJS.nabNonce );
-    form_data.append( 'company_id', companyId );
-    form_data.append( 'event_id', eventId );
-    form_data.append( 'event_name', $(this).parents('#nab-add-edit-event-form').find('#event-name').val() );
-    form_data.append( 'event_desc', $(this).parents('#nab-add-edit-event-form').find('#event-description').val() );
-    form_data.append( 'event_date', $(this).parents('#nab-add-edit-event-form').find('#event-date').val() );
-    form_data.append( 'event_start_time', $(this).parents('#nab-add-edit-event-form').find('#event-start-time').val() );
-    form_data.append( 'event_end_time', $(this).parents('#nab-add-edit-event-form').find('#event-end-time').val() );
-    form_data.append( 'event_url', $(this).parents('#nab-add-edit-event-form').find('#event-url').val() );
+      if (
+        $(this).parents("#nab-add-edit-event-form").find("#event-name").val()
+          .length > titleLimit
+      ) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find(".global-notice")
+          .text(
+            "Event name can not be more than " + doumentLimit + " characters."
+          )
+          .show();
+        return false;
+      } else if (
+        "" ===
+        $(this).parents("#nab-add-edit-event-form").find("#event-name").val()
+      ) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find(".global-notice")
+          .text("Event name can not be empty.")
+          .show();
+        return false;
+      }
 
-    if ( 0 === $(this).parents('#nab-add-edit-event-form').find('#event_media_wrapper .remove-featred-img').length ) {
-      form_data.append( 'remove_featured_img', true );
-    }
+      if (
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-description")
+          .val().length > descLimit
+      ) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find(".global-notice")
+          .text(
+            "Event description can not more than " + descLimit + " characters."
+          )
+          .show();
+        return false;
+      }
 
-    // Bynder_Featured_Event
-    let previewImg = $(this).parents('#nab-add-edit-event-form').find('.preview-event-featured-img').attr('src');
-    previewImg = undefined !== previewImg ? previewImg : '';
-    if ( 'function' === typeof addBMpopup ) {
-      form_data.append( 'featured_img', previewImg );
+      if (
+        "" ===
+        $(this).parents("#nab-add-edit-event-form").find("#event-date").val()
+      ) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find(".global-notice")
+          .text("Event date is required field.")
+          .show();
+        return false;
+      }
 
-    } else if ( '' !== $(this).parents('#nab-add-edit-event-form').find('#event-featured-image').val() ) {
-      form_data.append( 'featured_img', $(this).parents('#nab-add-edit-event-form').find('#event-featured-image')[0].files[0] );
-    }
+      if (
+        "" ===
+        $(this).parents("#nab-add-edit-event-form").find("#event-url").val()
+      ) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find(".global-notice")
+          .text("Event URL is required field.")
+          .show();
+        return false;
+      }
 
-    jQuery.ajax({
-      url: amplifyJS.ajaxurl,
-      processData: false,
-      contentType: false,
-      type: 'POST',
-      data: form_data,
-      beforeSend: function () {
-        $('body').addClass('is-loading');
-      },
-      success: function (response) {
-        $('body').removeClass('is-loading');
-        var eventData = response;
+      if (
+        !validateURL(
+          $(this).parents("#nab-add-edit-event-form").find("#event-url").val()
+        )
+      ) {
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find(".global-notice")
+          .text("Please enter valid event URL.")
+          .show();
+        return false;
+      }
 
-        if ( undefined !== eventData.data.msg ) {
-          _this.parents('#nab-add-edit-event-form').find('.global-notice').text(eventData.data.msg).show();
-        }
-        if ( eventData.success ) {
-          if ( undefined !== eventData.data.featured_attachment_id ) {
-            _this.parents('#nab-add-edit-event-form').find('.remove-featred-img').attr('data-attachment-id', eventData.data.featured_attachment_id );
+      $("body").addClass("nab-close-reload");
+
+      var form_data = new FormData();
+      var companyId =
+        0 <
+        $(this).parents("#nab-add-edit-event-form").find("#nab_company_id")
+          .length
+          ? $(this)
+              .parents("#nab-add-edit-event-form")
+              .find("#nab_company_id")
+              .val()
+          : 0;
+      var eventId =
+        0 < $(this).parents("#nab-add-edit-event-form").find("#event_id").length
+          ? $(this).parents("#nab-add-edit-event-form").find("#event_id").val()
+          : 0;
+      var _this = $(this);
+      form_data.append("action", "nab_company_events");
+      form_data.append("nabNonce", amplifyJS.nabNonce);
+      form_data.append("company_id", companyId);
+      form_data.append("event_id", eventId);
+      form_data.append(
+        "event_name",
+        $(this).parents("#nab-add-edit-event-form").find("#event-name").val()
+      );
+      form_data.append(
+        "event_desc",
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-description")
+          .val()
+      );
+      form_data.append(
+        "event_date",
+        $(this).parents("#nab-add-edit-event-form").find("#event-date").val()
+      );
+      form_data.append(
+        "event_start_time",
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-start-time")
+          .val()
+      );
+      form_data.append(
+        "event_end_time",
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-end-time")
+          .val()
+      );
+      form_data.append(
+        "event_url",
+        $(this).parents("#nab-add-edit-event-form").find("#event-url").val()
+      );
+
+      if (
+        0 ===
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event_media_wrapper .remove-featred-img").length
+      ) {
+        form_data.append("remove_featured_img", true);
+      }
+
+      // Bynder_Featured_Event
+      let previewImg = $(this)
+        .parents("#nab-add-edit-event-form")
+        .find(".preview-event-featured-img")
+        .attr("src");
+      previewImg = undefined !== previewImg ? previewImg : "";
+      if ("function" === typeof addBMpopup) {
+        form_data.append("featured_img", previewImg);
+      } else if (
+        "" !==
+        $(this)
+          .parents("#nab-add-edit-event-form")
+          .find("#event-featured-image")
+          .val()
+      ) {
+        form_data.append(
+          "featured_img",
+          $(this)
+            .parents("#nab-add-edit-event-form")
+            .find("#event-featured-image")[0].files[0]
+        );
+      }
+
+      jQuery.ajax({
+        url: amplifyJS.ajaxurl,
+        processData: false,
+        contentType: false,
+        type: "POST",
+        data: form_data,
+        beforeSend: function () {
+          $("body").addClass("is-loading");
+        },
+        success: function (response) {
+          $("body").removeClass("is-loading");
+          var eventData = response;
+
+          if (undefined !== eventData.data.msg) {
+            _this
+              .parents("#nab-add-edit-event-form")
+              .find(".global-notice")
+              .text(eventData.data.msg)
+              .show();
           }
-          if ( undefined !== eventData.data.event_id ) {
-            _this.parents('#nab-add-edit-event-form').find('#event_id').val( eventData.data.event_id );
+          if (eventData.success) {
+            if (undefined !== eventData.data.featured_attachment_id) {
+              _this
+                .parents("#nab-add-edit-event-form")
+                .find(".remove-featred-img")
+                .attr(
+                  "data-attachment-id",
+                  eventData.data.featured_attachment_id
+                );
+            }
+            if (undefined !== eventData.data.event_id) {
+              _this
+                .parents("#nab-add-edit-event-form")
+                .find("#event_id")
+                .val(eventData.data.event_id);
+            }
+            _this
+              .parents("#nab-add-edit-event-form")
+              .find("#event-featured-image")
+              .val("");
+            _this
+              .parents("#nab-add-edit-event-form")
+              .find("#nab-edit-event-submit")
+              .val("Update");
+            _this
+              .parents(".nab-modal-with-form")
+              .find(".add-product-content-popup h2")
+              .text("Update Event");
           }
-          _this.parents('#nab-add-edit-event-form').find('#event-featured-image').val('');
-          _this.parents('#nab-add-edit-event-form').find('#nab-edit-event-submit').val('Update');
-          _this.parents('.nab-modal-with-form').find('.add-product-content-popup h2').text('Update Event');
-        }
-      }
-    });
-    return false;
-  });
+        },
+      });
+      return false;
+    }
+  );
 
   function eventUploadedFeaturedImg(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      reader.onload = function(e) {
-        var fileExt = input.value.split('.').pop().toLowerCase();
-        if ( $.inArray( fileExt, ['png','jpg','jpeg'] ) === -1 ) {
-            $('#nab-add-edit-event-form #event-featured-image').parents('.form-row').append('<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>');
-            input.value = '';
-            return false;
+      reader.onload = function (e) {
+        var fileExt = input.value.split(".").pop().toLowerCase();
+        if ($.inArray(fileExt, ["png", "jpg", "jpeg"]) === -1) {
+          $("#nab-add-edit-event-form #event-featured-image")
+            .parents(".form-row")
+            .append(
+              '<p class="form-field-error">Invalid file type. Acceptable File Types: .jpeg. .jpg, .png.</p>'
+            );
+          input.value = "";
+          return false;
         } else {
-          $('#nab-add-edit-event-form #event-featured-image').parents('.form-row').find('.form-field-error').remove();
+          $("#nab-add-edit-event-form #event-featured-image")
+            .parents(".form-row")
+            .find(".form-field-error")
+            .remove();
         }
-        if ( 0 < $('#event_media_wrapper .preview-event-featured-img').length ) {
-          $('#event_media_wrapper .preview-event-featured-img').attr('src', e.target.result);
+        if (0 < $("#event_media_wrapper .preview-event-featured-img").length) {
+          $("#event_media_wrapper .preview-event-featured-img").attr(
+            "src",
+            e.target.result
+          );
         } else {
-          var previewImg = '<div class="nab-event-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' + e.target.result + '" class="preview-event-featured-img common-preview-img" /></div>';
-          $('#event_media_wrapper').append(previewImg);
+          var previewImg =
+            '<div class="nab-event-media-item common-media-item"><i class="fa fa-times remove-featred-img" aria-hidden="true"></i><img src="' +
+            e.target.result +
+            '" class="preview-event-featured-img common-preview-img" /></div>';
+          $("#event_media_wrapper").append(previewImg);
         }
-      }
+      };
       reader.readAsDataURL(input.files[0]);
     }
   }
@@ -5094,115 +5657,126 @@
     nabSearchPageAjax(true, contentPageNumber);
   });
 
-  $(document).on( "click", ".other-search-filter .sort-page a.sort-order", function () {
-    if (!$(this).hasClass("active")) {
-      $(this).addClass("active").siblings().removeClass("active");
-      nabSearchPageAjax(false, 1);
+  $(document).on(
+    "click",
+    ".other-search-filter .sort-page a.sort-order",
+    function () {
+      if (!$(this).hasClass("active")) {
+        $(this).addClass("active").siblings().removeClass("active");
+        nabSearchPageAjax(false, 1);
+      }
     }
-  });
-
+  );
 })(jQuery);
 
 // Downloadable PDF Search Ajax.
-function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
+function nabSearchDownloadablePDFAjax(loadMore, pageNumber) {
+  let postPerPage = jQuery("#load-more-pdf a").attr("data-post-limit")
+    ? parseInt(jQuery("#load-more-pdf a").attr("data-post-limit"))
+    : 12;
+  let searchTerm =
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
+      : "";
+  let orderBy =
+    0 < jQuery(".other-search-filter .sort-pdf a.active").length
+      ? jQuery(".other-search-filter .sort-pdf a.active").attr("data-order")
+      : "date";
 
-  let postPerPage = jQuery('#load-more-pdf a').attr('data-post-limit') ? parseInt(jQuery('#load-more-pdf a').attr('data-post-limit')) : 12;
-  let searchTerm = 0 < jQuery('.search-result-filter .search__form input[name="s"]').length ? jQuery('.search-result-filter .search__form input[name="s"]').val() : '';
-  let orderBy = 0 < jQuery('.other-search-filter .sort-pdf a.active').length ? jQuery('.other-search-filter .sort-pdf a.active').attr('data-order') : 'date';
-
-  jQuery('body').addClass('is-loading');
+  jQuery("body").addClass("is-loading");
 
   jQuery.ajax({
     url: amplifyJS.ajaxurl,
-    type: 'POST',
+    type: "POST",
     data: {
-      action: 'nab_pdf_search_filter',
+      action: "nab_pdf_search_filter",
       nabNonce: amplifyJS.nabNonce,
       page_number: pageNumber,
       post_limit: postPerPage,
       search_term: searchTerm,
-      orderby: orderBy
+      orderby: orderBy,
     },
     success: function (response) {
       if (!loadMore) {
-        jQuery('#downloadable-pdfs-list').empty()
+        jQuery("#downloadable-pdfs-list").empty();
       }
-      let pdfObj = jQuery.parseJSON(response)
+      let pdfObj = jQuery.parseJSON(response);
 
-      if ('' !== pdfObj.result_post && 0 < pdfObj.result_post.length ) {
-        let pdfListDiv = document.getElementById('downloadable-pdfs-list');
+      if ("" !== pdfObj.result_post && 0 < pdfObj.result_post.length) {
+        let pdfListDiv = document.getElementById("downloadable-pdfs-list");
 
         jQuery.each(pdfObj.result_post, function (key, value) {
-          let itemCol = document.createElement('li');
+          let itemCol = document.createElement("li");
 
-          let itemInner = document.createElement('div');
-          itemInner.setAttribute('class', 'result _content _pdf');
+          let itemInner = document.createElement("div");
+          itemInner.setAttribute("class", "result _content _pdf");
 
           let searchItemCover;
-          if ( pdfObj.login ) {
-            searchItemCover = document.createElement('a');
-            searchItemCover.setAttribute('href', value.pdf_link);
+          if (pdfObj.login) {
+            searchItemCover = document.createElement("a");
+            searchItemCover.setAttribute("href", value.pdf_link);
           } else {
-            searchItemCover = document.createElement('div');
+            searchItemCover = document.createElement("div");
           }
-            searchItemCover.setAttribute('class', 'result__imgLink');
+          searchItemCover.setAttribute("class", "result__imgLink");
 
-          let thumbnail = document.createElement('img');
-          thumbnail.setAttribute('src', value.thumbnail);
-          thumbnail.setAttribute('alt', 'PDF Thumbnail');
-          thumbnail.setAttribute('class', 'result__image');
+          let thumbnail = document.createElement("img");
+          thumbnail.setAttribute("src", value.thumbnail);
+          thumbnail.setAttribute("alt", "PDF Thumbnail");
+          thumbnail.setAttribute("class", "result__image");
 
           searchItemCover.appendChild(thumbnail);
 
           itemInner.appendChild(searchItemCover);
 
-          let heading = document.createElement('h4');
+          let heading = document.createElement("h4");
           heading.innerText = value.title;
-          heading.setAttribute('class', 'result__title')
+          heading.setAttribute("class", "result__title");
 
           itemInner.appendChild(heading);
 
-          if ( value.company && '' !== value.company ) {
-            let companyName = document.createElement('h5');
-            companyName.setAttribute('class', 'result__lede');
+          if (value.company && "" !== value.company) {
+            let companyName = document.createElement("h5");
+            companyName.setAttribute("class", "result__lede");
 
-            let companyLink = document.createElement('a');
-            companyLink.setAttribute('href', value.company_url );
+            let companyLink = document.createElement("a");
+            companyLink.setAttribute("href", value.company_url);
             companyLink.innerText = value.company;
 
             companyName.appendChild(companyLink);
             itemInner.appendChild(companyName);
           }
 
-          let pdfDesc = document.createElement('div');
-          pdfDesc.setAttribute('class', 'result__desc');
+          let pdfDesc = document.createElement("div");
+          pdfDesc.setAttribute("class", "result__desc");
           pdfDesc.innerText = value.pdf_desc;
           itemInner.appendChild(pdfDesc);
 
-          if ( pdfObj.login ) {
-            let pdfLink = document.createElement('a');
-            pdfLink.setAttribute('href', value.pdf_link);
-            pdfLink.setAttribute('class', 'button result__button _gradientpink');
-            pdfLink.innerText = 'More Info';
+          if (pdfObj.login) {
+            let pdfLink = document.createElement("a");
+            pdfLink.setAttribute("href", value.pdf_link);
+            pdfLink.setAttribute(
+              "class",
+              "button result__button _gradientpink"
+            );
+            pdfLink.innerText = "More Info";
             itemInner.appendChild(pdfLink);
-
           } else {
+            let msgDiv = document.createElement("div");
+            msgDiv.setAttribute("class", "amp-pdf-login-msg");
 
-            let msgDiv = document.createElement('div');
-            msgDiv.setAttribute('class', 'amp-pdf-login-msg');
+            let msgP = document.createElement("p");
 
-            let msgP = document.createElement('p');
+            let msgBr = document.createElement("br");
 
-            let msgBr = document.createElement('br');
-
-            let loginLink = document.createElement('a');
-            loginLink.setAttribute('href', pdfObj.login_url);
+            let loginLink = document.createElement("a");
+            loginLink.setAttribute("href", pdfObj.login_url);
             loginLink.innerText = "Sign in now";
 
             msgP.innerText = "You must be signed in to download this content. ";
             msgP.appendChild(msgBr);
             msgP.appendChild(loginLink);
-            msgP.innerHTML = msgP.innerHTML + '.';
+            msgP.innerHTML = msgP.innerHTML + ".";
             msgDiv.appendChild(msgP);
             itemInner.appendChild(msgDiv);
           }
@@ -5211,33 +5785,45 @@ function nabSearchDownloadablePDFAjax (loadMore, pageNumber) {
 
           pdfListDiv.appendChild(itemCol);
 
-          if ( value.banner ) {
-            jQuery('#downloadable-pdfs-list').append(value.banner);
+          if (value.banner) {
+            jQuery("#downloadable-pdfs-list").append(value.banner);
           }
         });
       }
-      jQuery('#load-more-pdf a').attr('data-page-number', pdfObj.next_page_number );
+      jQuery("#load-more-pdf a").attr(
+        "data-page-number",
+        pdfObj.next_page_number
+      );
 
-      if ( pdfObj.next_page_number > pdfObj.total_page ) {
-        jQuery('#load-more-pdf').hide();
+      if (pdfObj.next_page_number > pdfObj.total_page) {
+        jQuery("#load-more-pdf").hide();
       } else {
-        jQuery('#load-more-pdf').show();
+        jQuery("#load-more-pdf").show();
       }
 
       if (0 === pdfObj.total_page) {
-        jQuery('#downloadable-pdfs-list').empty().parents('.nab-search-result-wrapper').find('p.no-search-data').show();
+        jQuery("#downloadable-pdfs-list")
+          .empty()
+          .parents(".nab-search-result-wrapper")
+          .find("p.no-search-data")
+          .show();
       } else {
-        jQuery('#downloadable-pdfs-list').parents('.nab-search-result-wrapper').find('p.no-search-data').hide();
+        jQuery("#downloadable-pdfs-list")
+          .parents(".nab-search-result-wrapper")
+          .find("p.no-search-data")
+          .hide();
       }
-      jQuery('.search-view-top-head .pdf-search-count').text( pdfObj.total_pdf + ' Results for ');
-      jQuery('body').removeClass('is-loading');
-    }
-  })
+      jQuery(".search-view-top-head .pdf-search-count").text(
+        pdfObj.total_pdf + " Results for "
+      );
+      jQuery("body").removeClass("is-loading");
+    },
+  });
 }
 
 function nabAddProdBlankImage(unique_key) {
-  jQuery('#product_media_wrapper').append(
-      '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
+  jQuery("#product_media_wrapper").append(
+    '<div class="nab-product-media-item" ><button type="button" class="nab-remove-attachment" data-attach-id="0"><i class="fa fa-times" aria-hidden="true"></i></button><img id="product_media_preview_' +
       unique_key +
       '" src="#" alt="your image" style="display:none;"/></div>'
   );
@@ -5600,8 +6186,8 @@ function nabSearchCompanyAjax(loadMore, pageNumber) {
           companyTitle.innerText = value.title;
           searchContent.appendChild(companyTitle);
 
-          let searchAction = document.createElement('div')
-          searchAction.innerHTML = value.button
+          let searchAction = document.createElement("div");
+          searchAction.innerHTML = value.button;
 
           searchContent.appendChild(searchAction);
 
@@ -6058,19 +6644,19 @@ function nabSearchEventAjax(loadMore, pageNumber) {
 
           searchItemInfo.appendChild(postTitle);
 
-          if ( undefined !== value.event_time ) {
-            let eventTime = document.createElement('span');
-            eventTime.setAttribute('class', 'event-time');
+          if (undefined !== value.event_time) {
+            let eventTime = document.createElement("span");
+            eventTime.setAttribute("class", "event-time");
             eventTime.innerText = value.event_time;
             searchItemInfo.appendChild(eventTime);
           }
 
-          if ( undefined !== value.company_title ) {
-            let titleP = document.createElement('p');
-            titleP.setAttribute('class', 'company-info');
+          if (undefined !== value.company_title) {
+            let titleP = document.createElement("p");
+            titleP.setAttribute("class", "company-info");
 
-            let companyLink = document.createElement('a');
-            companyLink.setAttribute('href', value.company_link);
+            let companyLink = document.createElement("a");
+            companyLink.setAttribute("href", value.company_link);
             companyLink.innerText = value.company_title;
 
             titleP.appendChild(companyLink);
@@ -6079,13 +6665,13 @@ function nabSearchEventAjax(loadMore, pageNumber) {
 
           searchItemInfo.appendChild(eventLink);
 
-          if ( undefined !== value.event_content && '' !== value.event_content ) {
-            let iIcon = document.createElement('i');
-            iIcon.setAttribute('class', 'fa fa-info-circle tooltip-wrap');
-            iIcon.setAttribute('aria-hidden', 'true');
+          if (undefined !== value.event_content && "" !== value.event_content) {
+            let iIcon = document.createElement("i");
+            iIcon.setAttribute("class", "fa fa-info-circle tooltip-wrap");
+            iIcon.setAttribute("aria-hidden", "true");
 
-            let contentSpan = document.createElement('span');
-            contentSpan.setAttribute('class', 'tooltip');
+            let contentSpan = document.createElement("span");
+            contentSpan.setAttribute("class", "tooltip");
             contentSpan.innerText = value.event_content;
 
             iIcon.appendChild(contentSpan);
@@ -6269,9 +6855,17 @@ function nabSearchContentAjax(loadMore, pageNumber) {
 
 /** page Search Ajax */
 function nabSearchPageAjax(loadMore, pageNumber) {
-  let postPerPage = jQuery("#load-more-page a").attr("data-post-limit") ? parseInt(jQuery("#load-more-page a").attr("data-post-limit")) : 15;
-  let searchTerm = 0 < jQuery('.search-result-filter .search__form input[name="s"]').length ? jQuery('.search-result-filter .search__form input[name="s"]').val() : "";
-  let orderBy = 0 < jQuery(".other-search-filter .sort-page a.active").length ? jQuery(".other-search-filter .sort-page a.active").attr("data-order") : "date";
+  let postPerPage = jQuery("#load-more-page a").attr("data-post-limit")
+    ? parseInt(jQuery("#load-more-page a").attr("data-post-limit"))
+    : 15;
+  let searchTerm =
+    0 < jQuery('.search-result-filter .search__form input[name="s"]').length
+      ? jQuery('.search-result-filter .search__form input[name="s"]').val()
+      : "";
+  let orderBy =
+    0 < jQuery(".other-search-filter .sort-page a.active").length
+      ? jQuery(".other-search-filter .sort-page a.active").attr("data-order")
+      : "date";
 
   jQuery("body").addClass("is-loading");
 
@@ -6325,7 +6919,10 @@ function nabSearchPageAjax(loadMore, pageNumber) {
           }
         });
       }
-      jQuery("#load-more-page a").attr("data-page-number", contentObj.next_page_number);
+      jQuery("#load-more-page a").attr(
+        "data-page-number",
+        contentObj.next_page_number
+      );
 
       if (contentObj.next_page_number > contentObj.total_page) {
         jQuery("#load-more-page").hide();
@@ -6334,12 +6931,21 @@ function nabSearchPageAjax(loadMore, pageNumber) {
       }
 
       if (0 === contentObj.total_page) {
-        jQuery("#search-page-list").empty().parents(".nab-search-result-wrapper").find("p.no-search-data").show();
+        jQuery("#search-page-list")
+          .empty()
+          .parents(".nab-search-result-wrapper")
+          .find("p.no-search-data")
+          .show();
       } else {
-        jQuery("#search-page-list").parents(".nab-search-result-wrapper").find("p.no-search-data").hide();
+        jQuery("#search-page-list")
+          .parents(".nab-search-result-wrapper")
+          .find("p.no-search-data")
+          .hide();
       }
 
-      jQuery(".search-view-top-head .page-search-count").text( contentObj.total_content + " Results for ");
+      jQuery(".search-view-top-head .page-search-count").text(
+        contentObj.total_content + " Results for "
+      );
 
       jQuery("body").removeClass("is-loading");
     },

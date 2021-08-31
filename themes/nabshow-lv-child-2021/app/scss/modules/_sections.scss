@@ -543,18 +543,28 @@
   margin: rem(20) 0;
   @include bp-768 {
     margin: rem(50) 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: rem(18);
+    // display: grid;
+    // grid-template-columns: 1fr 1fr 1fr;
+    // grid-gap: rem(18);
   }
   @include bp-1024 {
     margin: rem(80) 0;
+  }
+
+  .slick-track {
+    display: flex !important;
   }
 }
 .new .testimonial {
   display: block;
   padding: rem(40);
   border: 1px solid rgba($color__white, 0.1);
+
+  @include bp-604 {
+      margin: 0 rem(9);
+      height: inherit;
+  }
+
   blockquote {
     font-family: $font__primary;
     font-style: italic;
