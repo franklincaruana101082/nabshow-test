@@ -106,7 +106,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   <?php
 }
 ?>
-  <div class="section _bottm-only container">
+  <div class="section container">
     <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
 <?php
