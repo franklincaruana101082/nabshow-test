@@ -59,7 +59,7 @@
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="section _bottom-only container">
 		<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 	</div>
 

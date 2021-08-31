@@ -21,7 +21,7 @@
 <!-- Schedule Table Begins here -->
 	<div class="section _bottom">
 		<div class="section _bottom-only container">
-			<?php dynamic_sidebar('broadstreet-ros-top'); ?>
+			<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 		</div>
 		<div class="decorative _blur _blur-middle">
 			<div class="schedule-table-container">
