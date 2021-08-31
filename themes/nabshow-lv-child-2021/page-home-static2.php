@@ -105,7 +105,11 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   </div>
   <?php
 }
-
+?>
+  <div class="section _bottm-only container">
+    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
+  </div>
+<?php
 if ( is_array( $testimonials ) && count( $testimonials ) > 0 ) {
   ?>
   <div class="testimonials-wrapper">
@@ -130,11 +134,8 @@ if ( is_array( $testimonials ) && count( $testimonials ) > 0 ) {
 }
 ?>
 
-<?php /*
-  <div class="section _bottom-only container">
-    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
-  </div>
-*/ ?>
+
+
 
 <?php
 if ( is_array( $attending_companies ) && count( $attending_companies ) > 0 ) {

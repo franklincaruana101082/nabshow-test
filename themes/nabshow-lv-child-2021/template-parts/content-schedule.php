@@ -20,6 +20,9 @@
 
 <!-- Schedule Table Begins here -->
 	<div class="section _bottom">
+		<div class="section _bottom-only container">
+			<?php dynamic_sidebar('broadstreet-ros-top'); ?>
+		</div>
 		<div class="decorative _blur _blur-middle">
 			<div class="schedule-table-container">
 				<div class="schedule-table">
@@ -246,6 +249,9 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="section container">
+			<?php dynamic_sidebar('broadstreet-ros-middle'); ?>
 		</div>
 	</div>
 	<!-- END Schedule Table -->

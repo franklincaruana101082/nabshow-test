@@ -69,6 +69,9 @@ if ( $display_story_steps ) {
                     ?>
                 </div>    
             </div>
+            <div class="section _bottm-only container">
+                <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+            </div>
         </div>
     </div>
     <?php
