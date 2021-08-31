@@ -156,6 +156,14 @@ function nabshow_lv_2021_widgets() {
         'after_widget'  => '</div>',
 	) );
 
+    register_sidebar( array(
+        'name'          => esc_html__( 'Broadstreet Banner ROS Middle', 'nabshow_lv' ),
+        'id'            => 'broadstreet-ros-middle',
+        'description'   => esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+        'before_widget' => '<div id="%1$s" class="ad _728x90 _middle %2$s">',
+        'after_widget'  => '</div>',
+    ) );
+
 	register_sidebar( array(
 		'name'			=> esc_html__( 'Broadstreet ROS Bottom', 'nabshow_lv' ),
 		'id'			=> 'broadstreet-ros-bottom',

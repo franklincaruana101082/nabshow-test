@@ -123,8 +123,15 @@
 			</div>
 			<?php endif; ?>
 		</div>
+		<div class="section container">
+			<?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+		</div>
 	</div>
 <?php endif; endwhile; endif; ?>
+
+
+
+
 
 <?php if($post->post_content): ?>
 	<div class="decorative _lightlines-left-side">
