@@ -11,7 +11,7 @@ get_header();
 
 global $wp_query;
 
-$current_page	= filter_input( INPUT_GET, 'pg', FILTER_SANITIZE_NUMBER_INT );
+$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
 $current_page	= isset( $current_page ) && ! empty( $current_page ) ? $current_page : 1;
 $total_pages    = $wp_query->max_num_pages;
                

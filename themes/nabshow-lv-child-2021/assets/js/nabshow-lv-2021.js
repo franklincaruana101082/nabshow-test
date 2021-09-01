@@ -99,9 +99,9 @@
         // added query param merter based on search filter.
         let currentUrl = new URL( window.location );
         if ( parseInt( page ) > 1 ) {
-            currentUrl.searchParams.set('pg', page );
+            currentUrl.searchParams.set('page', page );
         } else {
-            currentUrl.searchParams.delete('pg');
+            currentUrl.searchParams.delete('page');
         }
         if ( '' !== program ) {
             currentUrl.searchParams.set('program', program );
@@ -160,7 +160,7 @@
                 action: 'nab_2021_session_filter',
                 nabNonce: nabObject.ajax_filter_nonce,
                 date: sessionDate,
-                pg: page,
+                page: page,
                 program: program,
                 registration_pass: registrationPass,
                 topic: topic,

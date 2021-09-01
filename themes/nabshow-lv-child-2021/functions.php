@@ -415,7 +415,7 @@ function nabshow_lv_2021_modified_session_list_query( $query ) {
         $query->set( 'orderby', 'meta_value' );  
         $query->set( 'order', 'ASC' );
 
-		$current_page = filter_input( INPUT_GET, 'pg', FILTER_SANITIZE_NUMBER_INT );
+		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
 		
 		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
 			$query->set( 'paged', $current_page );
@@ -562,7 +562,7 @@ function nabshow_lv_2021_session_filter() {
 	
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
-	$current_page	= filter_input( INPUT_GET, 'pg', FILTER_SANITIZE_NUMBER_INT );
+	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
 	$current_page	= isset( $current_page ) && ! empty( $current_page ) ? $current_page : 1;
 
 	$query_args = array(
