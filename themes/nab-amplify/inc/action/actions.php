@@ -233,3 +233,7 @@ add_action( 'wp', 'nab_update_wc_edit_account_email_on_save', 20 );
 add_action( 'pre_user_query','nab_search_user_in_meta' );
 
 add_action( 'bp_email', 'nab_change_bp_from_email_address', 10, 2 );
+
+// Loader with Text for sign up and sign in.
+add_action( 'woocommerce_register_form_end', 'nab_sign_loader_with_text' );
+add_action( 'woocommerce_login_form_end', 'nab_sign_loader_with_text' );
