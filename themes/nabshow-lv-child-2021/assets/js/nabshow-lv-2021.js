@@ -179,9 +179,6 @@
                 }
 
                 $('body').removeClass('is-loading');
-                $('html, body').animate({
-                    scrollTop: $('#mys-session-list').offset().top
-                }, 2000);
             }
         });
     }
