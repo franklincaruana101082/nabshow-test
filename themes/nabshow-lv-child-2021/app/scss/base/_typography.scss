@@ -71,6 +71,12 @@ $weight__black: 900;
   line-height: rem(50);
 }
 
+@mixin primary-medium-36-36 {
+  font-weight: $weight__medium;
+  font-size: rem(36);
+  line-height: rem(36);
+}
+
 @mixin primary-black-31-44 {
   font-weight: $weight__black;
   font-size: rem(31);
@@ -79,8 +85,14 @@ $weight__black: 900;
 
 @mixin primary-black-25-40 {
   font-weight: $weight__black;
-  font-size: rem(25);
+  font-size: rem(24);
   line-height: rem(40);
+}
+
+@mixin primary-black-24-24 {
+  font-weight: $weight__black;
+  font-size: rem(24);
+  line-height: rem(24);
 }
 
 @mixin primary-medium-24-46 {
@@ -137,10 +149,23 @@ $weight__black: 900;
   line-height: rem(18);
 }
 
+@mixin primary-black-18-18-20 {
+  font-weight: $weight__black;
+  font-size: rem(18);
+  line-height: rem(18);
+  letter-spacing: rem(18 * 0.2);
+}
+
 @mixin primary-regular-18-30 {
   font-weight: $weight__regular;
   font-size: rem(18);
   line-height: rem(30);
+}
+
+@mixin primary-medium-18-25 {
+  font-weight: $weight__medium;
+  font-size: rem(18);
+  line-height: rem(25);
 }
 
 @mixin primary-medium-18-18 {
@@ -205,6 +230,12 @@ $weight__black: 900;
   font-style: italic;
   font-size: rem(15);
   line-height: rem(24);
+}
+
+@mixin primary-medium-15-15 {
+  font-weight: $weight__medium;
+  font-size: rem(15);
+  line-height: rem(15);
 }
 
 @mixin primary-medium-14-14 {
@@ -314,24 +345,24 @@ body {
 }
 .h-xl {
   @include primary-black-20-30;
-  margin-bottom: rem(20);
+  padding-bottom: rem(20);
   @include bp-768 {
     @include primary-black-50-60;
   }
 }
 .h-lg {
   @include primary-black-20-30;
-  margin-bottom: rem(20);
+  padding-bottom: rem(20);
   @include bp-768 {
     @include primary-black-45-55;
   }
 }
 .h-md {
   @include primary-black-22-32;
-  margin-bottom: rem(20);
+  padding-bottom: rem(20);
   @include bp-768 {
     @include primary-black-54-57;
-    margin-bottom: rem(20);
+    padding-bottom: rem(20);
   }
 }
 .h-sm {
@@ -341,7 +372,9 @@ body {
 }
 .h-xs {
   @include bp-768 {
-    @include primary-black-16-16-20;
+    font-weight: $weight__medium !important;
+    font-size: rem(16) !important;
+    line-height: rem(16) !important;
   }
 }
 
@@ -353,16 +386,16 @@ body {
 
 .intro-body-text {
   max-width: rem(734);
-  margin-bottom: rem(18);
+  padding-bottom: rem(18);
   @include bp-768 {
-    margin-bottom: rem(60);
+    padding-bottom: rem(60);
   }
   p {
     @include primary-medium-italic-16-24;
-    margin-bottom: rem(30);
+    padding-bottom: rem(30);
     @include bp-768 {
       @include primary-medium-italic-16-24;
-      margin-bottom: rem(30);
+      padding-bottom: rem(30);
     }
   }
 }
@@ -452,7 +485,7 @@ body {
   p {
     @include primary-black-25-40;
     text-transform: uppercase;
-    margin-bottom: rem(20);
+    padding-bottom: rem(20);
     @include bp-768 {
       @include primary-black-31-44;
     }
@@ -492,7 +525,7 @@ body {
   h4 {
     color: $color__white;
     @extend .h-sm;
-    margin-bottom: rem(16);
+    padding-bottom: rem(16);
   }
   p + h3,
   p + h4 {

@@ -12,6 +12,35 @@ img {
   width: auto;
 }
 
+.video-block {
+}
+.video-block__caption {
+  margin-top: rem(24);
+}
+.video-block__ctas {
+  margin-top: rem(30);
+  @include bp-768 {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.video-block__socials {
+  display: flex;
+  justify-content: center;
+  @include bp-768 {
+    justify-content: flex-start;
+    margin: 0;
+  }
+}
+.video-block__cta {
+  text-align: center;
+  margin-top: rem(30);
+  @include bp-768 {
+    margin-top: 0;
+    text-align: left;
+  }
+}
+
 .video-embed {
   position: relative;
   width: 100%;
@@ -25,6 +54,7 @@ img {
     right: 0;
     width: 100%;
     height: 100%;
+    border: none;
   }
 }
 
