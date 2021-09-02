@@ -11,7 +11,7 @@
 html,
 body {
   scroll-behavior: smooth;
-  background-color: $color__purple-dark !important;
+  background-color: $color__purple;
   color: $color__white;
   font-family: $font__primary;
   * {
@@ -21,6 +21,9 @@ body {
 html {
   // html same color as footer in case the content is short
   background-color: $color__purple;
+}
+body {
+  background-color: $color__purple-dark;
 }
 @mixin screen-reader-text {
   border: 0;

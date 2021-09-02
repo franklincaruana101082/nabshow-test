@@ -59,6 +59,7 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
     <div class="filter-wrap-main">
         <div class="filter-row">
             <div class="filter-column">
+                <h2 class="filter-title">Filter <span>by date or category</span></h2>
                 <div class="filter-settings-wrap">
                     <div class="filter-item-dates">
                         <?php
@@ -94,16 +95,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                             
                             $query_program = filter_input( INPUT_GET, 'program', FILTER_SANITIZE_STRING );
                             ?>
-                            <select class="filter-program">
-                                <option value="">Program/Conference</option>
-                                <?php
-                                foreach ( $fitler_programs as $current_program ) {
-                                    ?>
-                                    <option value="<?php echo esc_attr( $current_program->term_id ); ?>" <?php selected( $query_program, $current_program->term_id ); ?>><?php echo esc_html( $current_program->name ); ?></option>
+                            <div class="filter-dropdown">
+                                <select class="filter-program">
+                                    <option value="">Program/Conference</option>
                                     <?php
-                                }
-                                ?>
-                            </select>
+                                    foreach ( $fitler_programs as $current_program ) {
+                                        ?>
+                                        <option value="<?php echo esc_attr( $current_program->term_id ); ?>" <?php selected( $query_program, $current_program->term_id ); ?>><?php echo esc_html( $current_program->name ); ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                             <?php
                         }
 
@@ -121,16 +124,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                 
                                 $query_registration_pass = filter_input( INPUT_GET, 'registration_pass', FILTER_SANITIZE_STRING );
                                 ?>
-                                <select class="filter-registration-pass">
-                                    <option value="">Registration Pass</option>
-                                    <?php
-                                    foreach ( $registration_passes as $pass ) {
-                                        ?>
-                                        <option value="<?php echo esc_attr( $pass->term_id ); ?>" <?php selected( $query_registration_pass, $pass->term_id ); ?>><?php echo esc_html( $pass->name ); ?></option>
+                                <div class="filter-dropdown">
+                                    <select class="filter-registration-pass">
+                                        <option value="">Registration Pass</option>
                                         <?php
-                                    }
-                                    ?>
-                                </select>
+                                        foreach ( $registration_passes as $pass ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $pass->term_id ); ?>" <?php selected( $query_registration_pass, $pass->term_id ); ?>><?php echo esc_html( $pass->name ); ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <?php
                             }
                         }
@@ -149,16 +154,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                 
                                 $query_topic = filter_input( INPUT_GET, 'topic', FILTER_SANITIZE_STRING );
                                 ?>
-                                <select class="filter-topic">
-                                    <option value="">Topic</option>
-                                    <?php
-                                    foreach ( $topics as $topic ) {
-                                        ?>
-                                        <option value="<?php echo esc_attr( $topic->term_id ); ?>" <?php selected( $query_topic, $topic->term_id ); ?>><?php echo esc_html( $topic->name ); ?></option>
+                                <div class="filter-dropdown">
+                                    <select class="filter-topic">
+                                        <option value="">Topic</option>
                                         <?php
-                                    }
-                                    ?>
-                                </select>
+                                        foreach ( $topics as $topic ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $topic->term_id ); ?>" <?php selected( $query_topic, $topic->term_id ); ?>><?php echo esc_html( $topic->name ); ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <?php
                             }
                         }
@@ -177,16 +184,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                 
                                 $query_education_partner = filter_input( INPUT_GET, 'education_partner', FILTER_SANITIZE_STRING );
                                 ?>
-                                <select class="filter-education-partner">
-                                    <option value="">Education Partner</option>
-                                    <?php
-                                    foreach ( $education_partners as $partner ) {
-                                        ?>
-                                        <option value="<?php echo esc_attr( $partner->term_id ); ?>" <?php selected( $query_education_partner, $partner->term_id ); ?>><?php echo esc_html( $partner->name ); ?></option>
+                                <div class="filter-dropdown">
+                                    <select class="filter-education-partner">
+                                        <option value="">Education Partner</option>
                                         <?php
-                                    }
-                                    ?>
-                                </select>
+                                        foreach ( $education_partners as $partner ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $partner->term_id ); ?>" <?php selected( $query_education_partner, $partner->term_id ); ?>><?php echo esc_html( $partner->name ); ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <?php
                             }
                         }
@@ -205,16 +214,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                 
                                 $query_session_type = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
                                 ?>
-                                <select class="filter-session-type">
-                                    <option value="">Session Type</option>
-                                    <?php
-                                    foreach ( $session_types as $session_type ) {
-                                        ?>
-                                        <option value="<?php echo esc_attr( $session_type->term_id ); ?>" <?php selected( $query_session_type, $session_type->term_id ); ?>><?php echo esc_html( $session_type->name ); ?></option>
+                                <div class="filter-dropdown">
+                                    <select class="filter-session-type">
+                                        <option value="">Session Type</option>
                                         <?php
-                                    }
-                                    ?>
-                                </select>
+                                        foreach ( $session_types as $session_type ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $session_type->term_id ); ?>" <?php selected( $query_session_type, $session_type->term_id ); ?>><?php echo esc_html( $session_type->name ); ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <?php
                             }
                         }
@@ -232,16 +243,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                 
                                 $query_experience_level = filter_input( INPUT_GET, 'experience_level', FILTER_SANITIZE_STRING );
                                 ?>
-                                <select class="filter-experience-level">
-                                    <option value="">Experience Level</option>
-                                    <?php
-                                    foreach ( $experience_levels as $experience_level ) {
-                                        ?>
-                                        <option value="<?php echo esc_attr( $experience_level->term_id ); ?>" <?php selected( $query_experience_level, $experience_level->term_id ); ?>><?php echo esc_html( $experience_level->name ); ?></option>
+                                <div class="filter-dropdown">
+                                    <select class="filter-experience-level">
+                                        <option value="">Experience Level</option>
                                         <?php
-                                    }
-                                    ?>
-                                </select>
+                                        foreach ( $experience_levels as $experience_level ) {
+                                            ?>
+                                            <option value="<?php echo esc_attr( $experience_level->term_id ); ?>" <?php selected( $query_experience_level, $experience_level->term_id ); ?>><?php echo esc_html( $experience_level->name ); ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <?php
                             }
                         }
@@ -264,16 +277,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 
                             $query_speaker = filter_input( INPUT_GET, 'speaker', FILTER_SANITIZE_STRING );
                             ?>
-                            <select class="filter-speaker-name">
-                                <option value="">Speaker Name</option>
-                                <?php
-                                foreach ( $speaker_ids as $current_speaker_id ) {
-                                    ?>
-                                    <option value="<?php echo esc_attr( $current_speaker_id ); ?>" <?php selected( $query_speaker, $current_speaker_id ); ?>><?php echo esc_html( str_replace( ',', '', get_the_title( $current_speaker_id ) ) ); ?></option>
+                            <div class="filter-dropdown">
+                                <select class="filter-speaker-name">
+                                    <option value="">Speaker Name</option>
                                     <?php
-                                }
-                                ?>
-                            </select>
+                                    foreach ( $speaker_ids as $current_speaker_id ) {
+                                        ?>
+                                        <option value="<?php echo esc_attr( $current_speaker_id ); ?>" <?php selected( $query_speaker, $current_speaker_id ); ?>><?php echo esc_html( str_replace( ',', '', get_the_title( $current_speaker_id ) ) ); ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                             <?php
                         }
                          
@@ -286,16 +301,18 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                             
                             $query_location = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
                             ?>
-                            <select class="filter-location">
-                                <option value="">Location</option>
-                                <?php
-                                foreach ( $locations as $current_location ) {
-                                    ?>
-                                    <option value="<?php echo esc_attr( $current_location->term_id ); ?>" <?php selected( $query_location, $current_location->term_id ); ?>><?php echo esc_html( $current_location->name ); ?></option>
+                            <div class="filter-dropdown">
+                                <select class="filter-location">
+                                    <option value="">Location</option>
                                     <?php
-                                }
-                                ?>
-                            </select>
+                                    foreach ( $locations as $current_location ) {
+                                        ?>
+                                        <option value="<?php echo esc_attr( $current_location->term_id ); ?>" <?php selected( $query_location, $current_location->term_id ); ?>><?php echo esc_html( $current_location->name ); ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                             <?php
                         }
                         ?>
@@ -305,6 +322,7 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
             </div>
             <!-- .filter-column -->
             <div class="filter-column" id="mys-session-list">
+                <h2 class="filter-title">Results</h2>
                 <div class="filter-result-wrap">
                     <?php
                     if ( have_posts() ) {
@@ -351,28 +369,41 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 
 	                        ?>
                             <div class="filter-result-box">
+                                <!-- datetime -->
+                                <div class="filter-result-box-datetime">
+                                    <?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?> <?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?>
+                                    <?php
+                                    if ( ! empty( $location ) ) {
+                                        ?>
+                                        <a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <!-- END datetime -->
+
+                                <!-- title -->
+                                <h2 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
+                                <!-- END title -->
+
+                                <!-- category -->
                                 <?php
                                 if ( ! empty( $program_name ) ) {
                                     
                                     $program_url = $program_planner_url . $program_name . '/show/all'; 
                                     ?>
-                                    <span><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
+                                    <span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
                                     <?php
                                 }
                                 ?>
-                                <h2><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
-                                <div class="session-info">
-                                    <span><?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?></span>
-                                    <span><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></span>
-                                    <?php
-                                    if ( ! empty( $location ) ) {
-                                        ?>
-                                        <span><a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a></span>
-                                        <?php
-                                    }
-                                    ?>
+                                <!-- END category -->	
+                                
+                                <!-- description -->
+                                <div class="filter-result-box-description">
+                                    <p><?php the_excerpt(); ?></p>
                                 </div>
-                                <p><?php the_excerpt(); ?></p>
+                                <!-- END description -->
+
                                 <?php
                                 $speakers       = get_post_meta( $session_id, 'speakers', true );
                                 $speaker_ids    = explode( ',', $speakers );
@@ -390,11 +421,15 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                     <div class="speakers-list">
                                         <i>Featured Speakers:</i>
                                         <?php echo wp_kses_post( implode( ', ', $all_speakers ) ); ?>
-                                    </div>
+                                    </div>                                    
                                     <?php
                                 }
                                 ?>
-                                <a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
+                                
+                                <!-- cta -->
+                                <a class="filter-result-box-cta" href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
+                                <!-- END cta -->
+
                             </div>
                             <?php
 	                    }
