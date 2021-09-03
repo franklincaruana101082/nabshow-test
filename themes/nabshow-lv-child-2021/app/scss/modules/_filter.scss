@@ -77,10 +77,24 @@
   grid-gap: rem(6);
   .filter-dropdown {
     border-radius: rem(6);
-    padding-right: rem(12);
     background: $color__white;
     overflow: hidden;
+    position: relative;
+    &::after {
+      content: "";
+      height: 0.5rem;
+      width: 0.5rem;
+      display: block;
+      position: absolute;
+      right: 1rem;
+      top: calc(50% - 0.25rem);
+      border-bottom: 2px solid;
+      border-right: 2px solid;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
     select {
+      position: relative;
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
