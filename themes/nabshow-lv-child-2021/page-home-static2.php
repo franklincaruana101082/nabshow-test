@@ -240,7 +240,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
         if ( ! empty( $safety_copy ) ) {
           ?>
           <div class="safety__copy">
-            <p><?php echo esc_html( $safety_copy ); ?></p>
+            <p><?php echo $safety_copy; ?></p>
           </div>
           <?php
         }
