@@ -6,8 +6,8 @@
   display: grid;
   grid-gap: rem(30);
   @include bp-768 {
-    grid-template-columns: 1fr 1.5fr;
-    grid-gap: rem(60);
+    grid-template-columns: 1fr 2.5fr;
+    grid-gap: 7.5%;
   }
 }
 //.filter-column {}
@@ -103,11 +103,23 @@
 .filter-result-box {
   @include gradient-purple;
   padding: rem(30) rem(55);
+  a {
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
 
   .filter-result-box-datetime {
+    color: $color__white;
     @include primary-black-12-12-20;
+    line-height: 1;
     text-transform: uppercase;
     margin-bottom: rem(14);
+    a {
+      text-decoration: none;
+      color: $color__purple-lighter;
+    }
   }
   .filter-result-box-title {
     margin-bottom: rem(12);
@@ -130,6 +142,16 @@
     margin-bottom: rem(20);
     p {
       @include primary-medium-18-25;
+    }
+  }
+  .speakers-list {
+    margin-bottom: rem(20);
+    i {
+      color: $color__white;
+    }
+    a {
+      color: $color__purple-lighter;
+      text-decoration: none;
     }
   }
   .filter-result-box-cta {
