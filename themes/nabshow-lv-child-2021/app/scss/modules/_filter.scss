@@ -119,6 +119,10 @@
     a {
       text-decoration: none;
       color: $color__purple-lighter;
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
     }
   }
   .filter-result-box-title {
@@ -127,6 +131,10 @@
       text-decoration: none;
       color: $color__white;
       @include primary-medium-36-36;
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
     }
   }
   .filter-result-box-category {
@@ -136,6 +144,10 @@
       text-decoration: none;
       color: $color__white;
       @include primary-medium-15-15;
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
     }
   }
   .filter-result-box-description {
@@ -152,6 +164,10 @@
     a {
       color: $color__purple-lighter;
       text-decoration: none;
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
     }
   }
   .filter-result-box-cta {
@@ -160,6 +176,10 @@
     color: $color__purple-lighter;
     @include primary-black-14-14-20;
     text-transform: uppercase;
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
   }
   > p {
     display: none;
@@ -177,13 +197,16 @@
   display: inline-block;
   padding: 0 rem(6);
   text-transform: uppercase;
-  &.current {
-    color: $color__white;
-  }
   &:hover,
   &:focus {
+    color: $color__purple-lighter;
     opacity: 0.7;
   }
+  &.current {
+    color: $color__white;
+    pointer-events: none;
+  }
+
   &.next {
     &::after {
       content: "→";
