@@ -23,7 +23,7 @@ html {
   background-color: $color__purple;
 }
 body {
-  background-color: $color__purple-dark;
+  background-color: $color__purple-dark !important;
 }
 @mixin screen-reader-text {
   border: 0;

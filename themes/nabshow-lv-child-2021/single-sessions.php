@@ -8,7 +8,8 @@
  */
 get_header();
 ?>
-    <div id="primary" class="container">
+    <div class="decorative _lightlines-strip"></div>
+    <div class="section container">
         <div class="session-detail-page">
             <?php
             while ( have_posts() ) {
@@ -116,6 +117,8 @@ get_header();
             }
             ?>
         </div>
-    </div><!-- #primary -->
+    </div>
+    <div class="decorative _lightlines-footer-strip"></div>
+    
 <?php
 get_footer();
