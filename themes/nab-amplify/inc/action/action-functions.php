@@ -5018,3 +5018,78 @@ function nab_sign_loader_with_text(){
     </div>
     <?php
 }
+
+/**
+ * Register show video post type and category.
+ */
+function nab_register_show_video_post_type_and_taxonomy() {
+
+    
+    $labels = array(
+        'name'               => _x('Show Videos', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Show Video', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Show Videos', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Show Video', 'nab-amplify'),
+        'all_items'          => __('All Show Videos', 'nab-amplify'),
+        'view_item'          => __('View Show Video', 'nab-amplify'),
+        'add_new_item'       => __('Add New Show Video', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Show Video', 'nab-amplify'),
+        'update_item'        => __('Update Show Video', 'nab-amplify'),
+        'search_items'       => __('Search Show Video', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Show Video', 'nab-amplify'),
+        'description'         => __('Show Video posts', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => false,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'can_export'          => true,
+        'has_archive'         => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'menu_icon'           => 'dashicons-format-video',
+        'supports'            => array('title', 'thumbnail', 'author', 'excerpt', 'revisions', 'custom-fields'),
+
+    );
+
+    // Registering Show Video Custom Post Type
+    register_post_type( 'show-video', $args);
+
+    // Taxonomy
+	$category_labels = array(
+		'name'              => __( 'Categories', 'taxonomy general name', 'nab-amplify' ),
+		'singular_name'     => __( 'Categories', 'taxonomy singular name', 'nab-amplify' ),
+		'search_items'      => __( 'Search Categories', 'nab-amplify' ),
+		'all_items'         => __( 'All Categories', 'nab-amplify' ),
+		'parent_item'       => __( 'Parent Category', 'nab-amplify' ),
+		'parent_item_colon' => __( 'Parent Category:', 'nab-amplify' ),
+		'edit_item'         => __( 'Edit Category', 'nab-amplify' ),
+		'update_item'       => __( 'Update Category', 'nab-amplify' ),
+		'add_new_item'      => __( 'Add New Category', 'nab-amplify' ),
+		'new_item_name'     => __( 'New Genre Category', 'nab-amplify' ),
+		'menu_name'         => __( 'Categories', 'nab-amplify' ),
+	);
+
+	$category_args = array(
+		'public'            => true,
+		'hierarchical'      => true,
+		'labels'            => $category_labels,
+		'show_in_rest'      => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'video-library' ),
+	);
+
+	register_taxonomy( 'video-library', array( 'show-video' ), $category_args );
+}
