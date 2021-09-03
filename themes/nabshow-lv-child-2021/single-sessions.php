@@ -65,6 +65,10 @@ get_header();
                     </div>
                     <!-- END datetime -->
 
+                    <!-- title -->
+                    <h1 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h1>
+                    <!-- END title --> 
+
                     <!-- category -->
                     <?php
                     if ( ! empty( $program_name ) ) {
@@ -75,11 +79,7 @@ get_header();
                         <?php
                     }
                     ?>
-                    <!-- END category -->	
-
-                    <!-- title -->
-                    <h1 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h1>
-                    <!-- END title -->                     
+                    <!-- END category -->                                        
 
                     <!-- description -->
                     <div class="filter-result-box-description">
