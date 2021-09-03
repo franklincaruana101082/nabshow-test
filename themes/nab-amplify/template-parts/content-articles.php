@@ -87,9 +87,6 @@ if(isset($_COOKIE[$cookieName])) {
 			} else {
 			?>
 			<div class="content">
-				<script src="https://cdn.broadstreetads.com/init-2.min.js"></script>
-				<script>broadstreet.watch({ networkId: 6638 })</script>
-				<broadstreet-zone zone-id="84303"></broadstreet-zone>
 
 				<?php
 				if($show_content) {
