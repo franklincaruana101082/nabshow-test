@@ -464,8 +464,8 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                     'current'   => $current_page,
                                     'total'     => $total_pages,
                                     'add_args'  => false,
-                                    'prev_text' => __( '<i class="fa fa-arrow-left"></i> Previous' ),
-                                    'next_text' => __( 'Next <i class="fa fa-arrow-right"></i>' ),
+                                    'prev_text' => __( 'Previous' ),
+                                    'next_text' => __( 'Next' ),
                                 ) ), $allowed_tags );
 
                             }
