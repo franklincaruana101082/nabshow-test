@@ -81,6 +81,9 @@
     background: $color__white;
     overflow: hidden;
     select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       width: 100%;
       max-width: 100%;
       padding: rem(12);
@@ -102,7 +105,10 @@
 
 .filter-result-box {
   @include gradient-purple;
-  padding: rem(30) rem(55);
+  padding: rem(30);
+  @include bp-604 {
+    padding: rem(30) rem(55);
+  }
   a {
     &:hover,
     &:focus {
@@ -144,6 +150,7 @@
       text-decoration: none;
       color: $color__white;
       @include primary-medium-15-15;
+      line-height: 1.4;
       &:hover,
       &:focus {
         text-decoration: underline;
@@ -220,6 +227,22 @@
       text-decoration: none;
       &::after {
         transform: translateX(rem(4));
+      }
+    }
+  }
+  &.prev {
+    &::before {
+      content: "←";
+      transition: all 0.25s ease-in-out;
+      display: inline-block;
+      margin: 0 rem(4) rem(2) 0;
+      font-size: 1em;
+    }
+    &:focus,
+    &:hover {
+      text-decoration: none;
+      &::before {
+        transform: translateX(rem(-4));
       }
     }
   }
