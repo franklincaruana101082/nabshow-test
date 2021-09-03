@@ -1920,6 +1920,13 @@
       @include bp-768 {
         font-size: rem(24);
       }
+      a {
+        color: $color__purple-lighter;
+        &:hover,
+        &:focus {
+          color: $color__purple-lighter;
+        }
+      }
     }
   }
 
