@@ -113,7 +113,7 @@
   .filter-result-box-datetime {
     color: $color__white;
     @include primary-black-12-12-20;
-    line-height: 1;
+    line-height: 1.5;
     text-transform: uppercase;
     margin-bottom: rem(14);
     a {
