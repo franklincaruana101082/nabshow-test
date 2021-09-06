@@ -7,12 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
     
-    class Segment_Event_Tracking {
-
-        /**
-         * @var string $success
-         */
-        public $success = false;
+    class Segment_Event_Tracking extends Segment_Event_DB {
 
         /**
          * @var string $post_type
@@ -29,27 +24,9 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          */
         public function __construct() {
             
-            add_action( 'wp_loaded', array( $this, 'st_setup_segment_tracking' ) );
             add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );
-        }
 
-        /**
-         * Initial setup segment tracking.
-         */
-        public function st_setup_segment_tracking() {
-
-            $segment_api_key = get_option( 'segment_tracking_api_key' );
-
-            if ( ! empty( $segment_api_key ) ) {
-                
-                require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
-
-                class_alias( 'Segment', 'Analytics' );
-                Segment::init( $segment_api_key );
-
-                $this->success = true;
-                $this->st_init_hooks_for_segement_track();
-            }
+            $this->st_init_hooks_for_segement_track();
         }
 
         /**
@@ -57,53 +34,50 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          */
         public function st_init_hooks_for_segement_track() {
 
-            if ( $this->success ) {
+            add_action( 'wp_enqueue_scripts', array( $this, 'st_enqueue_script' ) );
+            add_action( 'wp_login', array( $this, 'st_logged_in_event' ), 10 , 2 );
+            add_action( 'wp_logout', array( $this, 'st_logout_event' ), 10 , 1 );
+            add_action( 'user_register', array( $this, 'st_user_register_event' ), 99, 1 );
+            add_action( 'woocommerce_save_account_details', array( $this, 'st_user_interest_event' ), 5, 1 );
+            add_action( 'woocommerce_save_account_details', array( $this, 'st_user_profile_update' ), 11, 1);
+            add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
+            add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
+            //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
+            //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );
+            add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
+            add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
+            add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
+            add_action( 'friends_friendship_rejected', array( $this, 'st_conection_request_rejected' ), 10, 2 );
+            add_action( 'messages_message_sent', array( $this, 'st_message_sent' ), 10, 1 );
+            add_action( 'woocommerce_customer_save_address', array( $this, 'st_user_billing_address_updated' ), 10, 2 );
+            add_action( 'nab_company_profile_update', array( $this, 'st_company_profile_updated' ), 10, 1 );
+            add_action( 'nab_company_profile_image_update', array( $this, 'st_company_profile_image_updated' ), 10, 1 );
+            add_action( 'nab_company_product_action', array( $this, 'st_company_product_action' ), 10, 3 );
+            add_action( 'nab_featured_block_added', array( $this, 'st_featured_block_added' ), 10, 3 );
+            add_action( 'nab_company_admin_added_through_link', array( $this, 'st_company_admin_added_through_link' ), 10, 1 );
+            add_action( 'nab_company_admin_add_remove', array( $this, 'st_company_admin_add_remove' ), 10, 2 );
 
-                add_action( 'wp_enqueue_scripts', array( $this, 'st_enqueue_script' ) );
-                add_action( 'wp_login', array( $this, 'st_logged_in_event' ), 10 , 2 );
-                add_action( 'wp_logout', array( $this, 'st_logout_event' ), 10 , 1 );
-                add_action( 'user_register', array( $this, 'st_user_register_event' ), 99, 1 );
-                add_action( 'woocommerce_save_account_details', array( $this, 'st_user_interest_event' ), 5, 1 );
-                add_action( 'woocommerce_save_account_details', array( $this, 'st_user_profile_update' ), 11, 1);
-                add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
-                add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
-                //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
-                //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );
-                add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
-                add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
-                add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
-                add_action( 'friends_friendship_rejected', array( $this, 'st_conection_request_rejected' ), 10, 2 );
-                add_action( 'messages_message_sent', array( $this, 'st_message_sent' ), 10, 1 );
-                add_action( 'woocommerce_customer_save_address', array( $this, 'st_user_billing_address_updated' ), 10, 2 );
-                add_action( 'nab_company_profile_update', array( $this, 'st_company_profile_updated' ), 10, 1 );
-                add_action( 'nab_company_profile_image_update', array( $this, 'st_company_profile_image_updated' ), 10, 1 );
-                add_action( 'nab_company_product_action', array( $this, 'st_company_product_action' ), 10, 3 );
-                add_action( 'nab_featured_block_added', array( $this, 'st_featured_block_added' ), 10, 3 );
-                add_action( 'nab_company_admin_added_through_link', array( $this, 'st_company_admin_added_through_link' ), 10, 1 );
-                add_action( 'nab_company_admin_add_remove', array( $this, 'st_company_admin_add_remove' ), 10, 2 );
+            add_action( 'wp_ajax_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
+            add_action( 'wp_ajax_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );                
+            add_action( 'wp_ajax_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
+            add_action( 'wp_ajax_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
+            add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
+            add_action( 'wp_ajax_st_track_session_registration', array( $this, 'st_track_session_registration' ) );
+            add_action( 'wp_ajax_st_track_opt_in_out', array( $this, 'st_track_opt_in_out' ) );
 
-                add_action( 'wp_ajax_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
-                add_action( 'wp_ajax_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );                
-                add_action( 'wp_ajax_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
-                add_action( 'wp_ajax_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
-                add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
-                add_action( 'wp_ajax_st_track_session_registration', array( $this, 'st_track_session_registration' ) );
-                add_action( 'wp_ajax_st_track_opt_in_out', array( $this, 'st_track_opt_in_out' ) );
-
-                add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
-                add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
-                add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
-                add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
-                add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
-                add_action( 'transition_post_status', array( $this, 'st_track_mys_post_creation' ), 10, 3 );
-                add_action( 'save_post', array( $this, 'st_track_mys_post_update' ), 10, 3 );
-                add_action( 'delete_post', array( $this, 'st_track_mys_post_delete' ), 10, 2 );
-            }
+            add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
+            add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
+            add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
+            add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
+            add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
+            add_action( 'transition_post_status', array( $this, 'st_track_mys_post_creation' ), 10, 3 );
+            add_action( 'save_post', array( $this, 'st_track_mys_post_update' ), 10, 3 );
+            add_action( 'delete_post', array( $this, 'st_track_mys_post_delete' ), 10, 2 );
         }
 
         public function st_track_mys_post_creation( $new_status, $old_status, $post ) {
@@ -274,12 +248,15 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     $tracking_details['anonymousId'] = uniqid();
                 }
             }
-            Segment::track( $tracking_details );
+            $tracking_details = wp_json_encode( $tracking_details );
+
+            $this->st_insert_event( 'track', $tracking_details );
         }
 
         public function st_identity_event( $identity_details = array() ) {
 
-            Segment::identify( $identity_details );
+            $identity_details = wp_json_encode( $identity_details );
+            $this->st_insert_event( 'identify', $identity_details );
         }
 
         public function st_logged_in_event( $user_login, $user ) {
