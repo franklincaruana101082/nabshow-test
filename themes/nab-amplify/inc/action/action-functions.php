@@ -5002,3 +5002,19 @@ function nab_search_user_in_meta( $user_query ) {
 function nab_change_bp_from_email_address( $email_type, $email_obj ) {
     $email_obj->set_from( "register@nab.org", "NAB" );
 }
+
+/**
+ * Loader with Text Html for sign up and sign in.
+ */
+function nab_sign_loader_with_text(){
+    ?>
+    <div class="loader-with-text">
+        <div class="loader-inner">
+            <div class="loader-content">
+                <img src="<?php echo get_template_directory_uri() . '/assets/images/spinner-2x.svg'; ?>" alt="loading">
+                <p>Thank you for your patience while we sign you in.</p>
+            </div>
+        </div>
+    </div>
+    <?php
+}
