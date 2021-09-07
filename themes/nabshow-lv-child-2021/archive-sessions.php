@@ -64,265 +64,267 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
             <div class="filter-wrap-main">
                 <div class="filter-row">
                     <div class="filter-column">
-                        <h2 class="filter-title">Filter <span>by date or category</span></h2>
-                        <div class="filter-settings-wrap">
-                            <div class="filter-item-dates">
-                                <?php
-                                if ( is_array( $session_dates ) && count( $session_dates ) > 0 ) {
+                        <div class="filter-column-sticky">
+                            <h2 class="filter-title">Filter <span>by date or category</span></h2>
+                            <div class="filter-settings-wrap">
+                                <div class="filter-item-dates">
+                                    <?php
+                                    if ( is_array( $session_dates ) && count( $session_dates ) > 0 ) {
 
-                                    usort( $session_dates, 'nabshow_lv_2021_date_sort' );
-                                    $query_date = filter_input( INPUT_GET, 'date', FILTER_SANITIZE_STRING );  
-                                    foreach ( $session_dates as $session_date ) {
+                                        usort( $session_dates, 'nabshow_lv_2021_date_sort' );
+                                        $query_date = filter_input( INPUT_GET, 'date', FILTER_SANITIZE_STRING );  
+                                        foreach ( $session_dates as $session_date ) {
+                                            
+                                            $session_month  = date( 'M', strtotime( $session_date ) );
+                                            $session_day    = date( 'j', strtotime( $session_date ) );
+                                            $date_class     = isset( $query_date ) && $query_date === $session_date ? 'filter-date active' : 'filter-date';
+                                            ?>
+                                            <button class="<?php echo esc_attr( $date_class ); ?>" data-date="<?php echo esc_attr( $session_date ); ?>">
+                                                <?php echo esc_html( $session_month ); ?>
+                                                <strong><?php echo esc_html( $session_day ); ?></strong>
+                                            </button>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <!-- .filter-item-dates -->
+                                <div class="filter-item-dropdowns">
+
+                                    <?php
+                                    $fitler_programs = get_terms( array(
+                                            'taxonomy' => 'tracks'
+                                        )
+                                    );
+
+                                    if ( ! empty( $fitler_programs ) && ! is_wp_error( $fitler_programs ) ){
                                         
-                                        $session_month  = date( 'M', strtotime( $session_date ) );
-                                        $session_day    = date( 'j', strtotime( $session_date ) );
-                                        $date_class     = isset( $query_date ) && $query_date === $session_date ? 'filter-date active' : 'filter-date';
+                                        $query_program = filter_input( INPUT_GET, 'program', FILTER_SANITIZE_STRING );
                                         ?>
-                                        <button class="<?php echo esc_attr( $date_class ); ?>" data-date="<?php echo esc_attr( $session_date ); ?>">
-                                            <?php echo esc_html( $session_month ); ?>
-                                            <strong><?php echo esc_html( $session_day ); ?></strong>
-                                        </button>
+                                        <div class="filter-dropdown">
+                                            <select class="filter-program">
+                                                <option value="">Program/Conference</option>
+                                                <?php
+                                                foreach ( $fitler_programs as $current_program ) {
+                                                    ?>
+                                                    <option value="<?php echo esc_attr( $current_program->term_id ); ?>" <?php selected( $query_program, $current_program->term_id ); ?>><?php echo esc_html( $current_program->name ); ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                         <?php
                                     }
-                                }
-                                ?>
+
+                                    $registration_pass_term = get_term_by( 'slug', 'registration-pass', 'session-categories' );
+                                    
+                                    if ( ! empty( $registration_pass_term ) && ! is_wp_error( $registration_pass_term ) ) {
+                                        
+                                        $registration_passes = get_terms( array(
+                                                'taxonomy'  => 'session-categories',
+                                                'parent'    => $registration_pass_term->term_id,
+                                            )
+                                        );
+
+                                        if ( ! empty( $registration_passes ) && ! is_wp_error( $registration_passes ) ) {
+                                            
+                                            $query_registration_pass = filter_input( INPUT_GET, 'registration_pass', FILTER_SANITIZE_STRING );
+                                            ?>
+                                            <div class="filter-dropdown">
+                                                <select class="filter-registration-pass">
+                                                    <option value="">Registration Pass</option>
+                                                    <?php
+                                                    foreach ( $registration_passes as $pass ) {
+                                                        ?>
+                                                        <option value="<?php echo esc_attr( $pass->term_id ); ?>" <?php selected( $query_registration_pass, $pass->term_id ); ?>><?php echo esc_html( $pass->name ); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+
+                                    $topic_term = get_term_by( 'slug', 'hot-topics', 'session-categories' );
+                                    
+                                    if ( ! empty( $topic_term ) && ! is_wp_error( $topic_term ) ) {
+                                        
+                                        $topics = get_terms( array(
+                                                'taxonomy'  => 'session-categories',
+                                                'parent'    => $topic_term->term_id,
+                                            )
+                                        );
+
+                                        if ( ! empty( $topics ) && ! is_wp_error( $topics ) ) {
+                                            
+                                            $query_topic = filter_input( INPUT_GET, 'topic', FILTER_SANITIZE_STRING );
+                                            ?>
+                                            <div class="filter-dropdown">
+                                                <select class="filter-topic">
+                                                    <option value="">Topic</option>
+                                                    <?php
+                                                    foreach ( $topics as $topic ) {
+                                                        ?>
+                                                        <option value="<?php echo esc_attr( $topic->term_id ); ?>" <?php selected( $query_topic, $topic->term_id ); ?>><?php echo esc_html( $topic->name ); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+
+                                    $education_term = get_term_by( 'slug', 'education-partner', 'session-categories' );
+                                    
+                                    if ( ! empty( $education_term ) && ! is_wp_error( $education_term ) ) {
+                                        
+                                        $education_partners = get_terms( array(
+                                                'taxonomy'  => 'session-categories',
+                                                'parent'    => $education_term->term_id,
+                                            )
+                                        );
+
+                                        if ( ! empty( $education_partners ) && ! is_wp_error( $education_partners ) ) {
+                                            
+                                            $query_education_partner = filter_input( INPUT_GET, 'education_partner', FILTER_SANITIZE_STRING );
+                                            ?>
+                                            <div class="filter-dropdown">
+                                                <select class="filter-education-partner">
+                                                    <option value="">Education Partner</option>
+                                                    <?php
+                                                    foreach ( $education_partners as $partner ) {
+                                                        ?>
+                                                        <option value="<?php echo esc_attr( $partner->term_id ); ?>" <?php selected( $query_education_partner, $partner->term_id ); ?>><?php echo esc_html( $partner->name ); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+
+                                    $session_type_term = get_term_by( 'slug', 'session-type', 'session-categories' );
+                                    
+                                    if ( ! empty( $session_type_term ) && ! is_wp_error( $session_type_term ) ) {
+                                        
+                                        $session_types = get_terms( array(
+                                                'taxonomy'  => 'session-categories',
+                                                'parent'    => $session_type_term->term_id,
+                                            )
+                                        );
+
+                                        if ( ! empty( $session_types ) && ! is_wp_error( $session_types ) ) {
+                                            
+                                            $query_session_type = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
+                                            ?>
+                                            <div class="filter-dropdown">
+                                                <select class="filter-session-type">
+                                                    <option value="">Session Type</option>
+                                                    <?php
+                                                    foreach ( $session_types as $session_type ) {
+                                                        ?>
+                                                        <option value="<?php echo esc_attr( $session_type->term_id ); ?>" <?php selected( $query_session_type, $session_type->term_id ); ?>><?php echo esc_html( $session_type->name ); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+                                    $experience_level_term = get_term_by( 'slug', 'experience-level', 'session-categories' );
+                                    
+                                    if ( ! empty( $experience_level_term ) && ! is_wp_error( $experience_level_term ) ) {
+                                        
+                                        $experience_levels = get_terms( array(
+                                                'taxonomy'  => 'session-categories',
+                                                'parent'    => $experience_level_term->term_id,
+                                            )
+                                        );
+
+                                        if ( ! empty( $experience_levels ) && ! is_wp_error( $experience_levels ) ) {
+                                            
+                                            $query_experience_level = filter_input( INPUT_GET, 'experience_level', FILTER_SANITIZE_STRING );
+                                            ?>
+                                            <div class="filter-dropdown">
+                                                <select class="filter-experience-level">
+                                                    <option value="">Experience Level</option>
+                                                    <?php
+                                                    foreach ( $experience_levels as $experience_level ) {
+                                                        ?>
+                                                        <option value="<?php echo esc_attr( $experience_level->term_id ); ?>" <?php selected( $query_experience_level, $experience_level->term_id ); ?>><?php echo esc_html( $experience_level->name ); ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+
+                                    if ( is_array( $speaker_ids ) && count( $speaker_ids ) > 0 ) {
+
+                                        $speaker_args = array(
+                                            'post_type'         => 'speakers',
+                                            'posts_per_page'    => -1,
+                                            'orderby'           => 'title',
+                                            'order'             => 'ASC',
+                                            'post__in'          => $speaker_ids,
+                                            'fields'            => 'ids',
+                                        );
+
+                                        $speaker_query  = new WP_Query( $speaker_args );
+                                        $speaker_ids    = is_array( $speaker_query->posts ) && count( $speaker_query->posts ) > 0 ? $speaker_query->posts : $speaker_ids;
+
+                                        wp_reset_postdata();
+
+                                        $query_speaker = filter_input( INPUT_GET, 'speaker', FILTER_SANITIZE_STRING );
+                                        ?>
+                                        <div class="filter-dropdown">
+                                            <select class="filter-speaker-name">
+                                                <option value="">Speaker Name</option>
+                                                <?php
+                                                foreach ( $speaker_ids as $current_speaker_id ) {
+                                                    ?>
+                                                    <option value="<?php echo esc_attr( $current_speaker_id ); ?>" <?php selected( $query_speaker, $current_speaker_id ); ?>><?php echo esc_html( str_replace( ',', '', get_the_title( $current_speaker_id ) ) ); ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <?php
+                                    }
+                                    
+                                    $locations = get_terms( array(
+                                            'taxonomy' => 'session-locations'
+                                        )
+                                    );
+
+                                    if ( ! empty( $locations ) && ! is_wp_error( $locations ) ){
+                                        
+                                        $query_location = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
+                                        ?>
+                                        <div class="filter-dropdown">
+                                            <select class="filter-location">
+                                                <option value="">Location</option>
+                                                <?php
+                                                foreach ( $locations as $current_location ) {
+                                                    ?>
+                                                    <option value="<?php echo esc_attr( $current_location->term_id ); ?>" <?php selected( $query_location, $current_location->term_id ); ?>><?php echo esc_html( $current_location->name ); ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <!-- .filter-item-dropdowns -->
                             </div>
-                            <!-- .filter-item-dates -->
-                            <div class="filter-item-dropdowns">
-
-                                <?php
-                                $fitler_programs = get_terms( array(
-                                        'taxonomy' => 'tracks'
-                                    )
-                                );
-
-                                if ( ! empty( $fitler_programs ) && ! is_wp_error( $fitler_programs ) ){
-                                    
-                                    $query_program = filter_input( INPUT_GET, 'program', FILTER_SANITIZE_STRING );
-                                    ?>
-                                    <div class="filter-dropdown">
-                                        <select class="filter-program">
-                                            <option value="">Program/Conference</option>
-                                            <?php
-                                            foreach ( $fitler_programs as $current_program ) {
-                                                ?>
-                                                <option value="<?php echo esc_attr( $current_program->term_id ); ?>" <?php selected( $query_program, $current_program->term_id ); ?>><?php echo esc_html( $current_program->name ); ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <?php
-                                }
-
-                                $registration_pass_term = get_term_by( 'slug', 'registration-pass', 'session-categories' );
-                                
-                                if ( ! empty( $registration_pass_term ) && ! is_wp_error( $registration_pass_term ) ) {
-                                    
-                                    $registration_passes = get_terms( array(
-                                            'taxonomy'  => 'session-categories',
-                                            'parent'    => $registration_pass_term->term_id,
-                                        )
-                                    );
-
-                                    if ( ! empty( $registration_passes ) && ! is_wp_error( $registration_passes ) ) {
-                                        
-                                        $query_registration_pass = filter_input( INPUT_GET, 'registration_pass', FILTER_SANITIZE_STRING );
-                                        ?>
-                                        <div class="filter-dropdown">
-                                            <select class="filter-registration-pass">
-                                                <option value="">Registration Pass</option>
-                                                <?php
-                                                foreach ( $registration_passes as $pass ) {
-                                                    ?>
-                                                    <option value="<?php echo esc_attr( $pass->term_id ); ?>" <?php selected( $query_registration_pass, $pass->term_id ); ?>><?php echo esc_html( $pass->name ); ?></option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <?php
-                                    }
-                                }
-
-                                $topic_term = get_term_by( 'slug', 'hot-topics', 'session-categories' );
-                                
-                                if ( ! empty( $topic_term ) && ! is_wp_error( $topic_term ) ) {
-                                    
-                                    $topics = get_terms( array(
-                                            'taxonomy'  => 'session-categories',
-                                            'parent'    => $topic_term->term_id,
-                                        )
-                                    );
-
-                                    if ( ! empty( $topics ) && ! is_wp_error( $topics ) ) {
-                                        
-                                        $query_topic = filter_input( INPUT_GET, 'topic', FILTER_SANITIZE_STRING );
-                                        ?>
-                                        <div class="filter-dropdown">
-                                            <select class="filter-topic">
-                                                <option value="">Topic</option>
-                                                <?php
-                                                foreach ( $topics as $topic ) {
-                                                    ?>
-                                                    <option value="<?php echo esc_attr( $topic->term_id ); ?>" <?php selected( $query_topic, $topic->term_id ); ?>><?php echo esc_html( $topic->name ); ?></option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <?php
-                                    }
-                                }
-
-                                $education_term = get_term_by( 'slug', 'education-partner', 'session-categories' );
-                                
-                                if ( ! empty( $education_term ) && ! is_wp_error( $education_term ) ) {
-                                    
-                                    $education_partners = get_terms( array(
-                                            'taxonomy'  => 'session-categories',
-                                            'parent'    => $education_term->term_id,
-                                        )
-                                    );
-
-                                    if ( ! empty( $education_partners ) && ! is_wp_error( $education_partners ) ) {
-                                        
-                                        $query_education_partner = filter_input( INPUT_GET, 'education_partner', FILTER_SANITIZE_STRING );
-                                        ?>
-                                        <div class="filter-dropdown">
-                                            <select class="filter-education-partner">
-                                                <option value="">Education Partner</option>
-                                                <?php
-                                                foreach ( $education_partners as $partner ) {
-                                                    ?>
-                                                    <option value="<?php echo esc_attr( $partner->term_id ); ?>" <?php selected( $query_education_partner, $partner->term_id ); ?>><?php echo esc_html( $partner->name ); ?></option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <?php
-                                    }
-                                }
-
-                                $session_type_term = get_term_by( 'slug', 'session-type', 'session-categories' );
-                                
-                                if ( ! empty( $session_type_term ) && ! is_wp_error( $session_type_term ) ) {
-                                    
-                                    $session_types = get_terms( array(
-                                            'taxonomy'  => 'session-categories',
-                                            'parent'    => $session_type_term->term_id,
-                                        )
-                                    );
-
-                                    if ( ! empty( $session_types ) && ! is_wp_error( $session_types ) ) {
-                                        
-                                        $query_session_type = filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
-                                        ?>
-                                        <div class="filter-dropdown">
-                                            <select class="filter-session-type">
-                                                <option value="">Session Type</option>
-                                                <?php
-                                                foreach ( $session_types as $session_type ) {
-                                                    ?>
-                                                    <option value="<?php echo esc_attr( $session_type->term_id ); ?>" <?php selected( $query_session_type, $session_type->term_id ); ?>><?php echo esc_html( $session_type->name ); ?></option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <?php
-                                    }
-                                }
-                                $experience_level_term = get_term_by( 'slug', 'experience-level', 'session-categories' );
-                                
-                                if ( ! empty( $experience_level_term ) && ! is_wp_error( $experience_level_term ) ) {
-                                    
-                                    $experience_levels = get_terms( array(
-                                            'taxonomy'  => 'session-categories',
-                                            'parent'    => $experience_level_term->term_id,
-                                        )
-                                    );
-
-                                    if ( ! empty( $experience_levels ) && ! is_wp_error( $experience_levels ) ) {
-                                        
-                                        $query_experience_level = filter_input( INPUT_GET, 'experience_level', FILTER_SANITIZE_STRING );
-                                        ?>
-                                        <div class="filter-dropdown">
-                                            <select class="filter-experience-level">
-                                                <option value="">Experience Level</option>
-                                                <?php
-                                                foreach ( $experience_levels as $experience_level ) {
-                                                    ?>
-                                                    <option value="<?php echo esc_attr( $experience_level->term_id ); ?>" <?php selected( $query_experience_level, $experience_level->term_id ); ?>><?php echo esc_html( $experience_level->name ); ?></option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <?php
-                                    }
-                                }
-
-                                if ( is_array( $speaker_ids ) && count( $speaker_ids ) > 0 ) {
-
-                                    $speaker_args = array(
-                                        'post_type'         => 'speakers',
-                                        'posts_per_page'    => -1,
-                                        'orderby'           => 'title',
-                                        'order'             => 'ASC',
-                                        'post__in'          => $speaker_ids,
-                                        'fields'            => 'ids',
-                                    );
-
-                                    $speaker_query  = new WP_Query( $speaker_args );
-                                    $speaker_ids    = is_array( $speaker_query->posts ) && count( $speaker_query->posts ) > 0 ? $speaker_query->posts : $speaker_ids;
-
-                                    wp_reset_postdata();
-
-                                    $query_speaker = filter_input( INPUT_GET, 'speaker', FILTER_SANITIZE_STRING );
-                                    ?>
-                                    <div class="filter-dropdown">
-                                        <select class="filter-speaker-name">
-                                            <option value="">Speaker Name</option>
-                                            <?php
-                                            foreach ( $speaker_ids as $current_speaker_id ) {
-                                                ?>
-                                                <option value="<?php echo esc_attr( $current_speaker_id ); ?>" <?php selected( $query_speaker, $current_speaker_id ); ?>><?php echo esc_html( str_replace( ',', '', get_the_title( $current_speaker_id ) ) ); ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <?php
-                                }
-                                
-                                $locations = get_terms( array(
-                                        'taxonomy' => 'session-locations'
-                                    )
-                                );
-
-                                if ( ! empty( $locations ) && ! is_wp_error( $locations ) ){
-                                    
-                                    $query_location = filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
-                                    ?>
-                                    <div class="filter-dropdown">
-                                        <select class="filter-location">
-                                            <option value="">Location</option>
-                                            <?php
-                                            foreach ( $locations as $current_location ) {
-                                                ?>
-                                                <option value="<?php echo esc_attr( $current_location->term_id ); ?>" <?php selected( $query_location, $current_location->term_id ); ?>><?php echo esc_html( $current_location->name ); ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                            <!-- .filter-item-dropdowns -->
                         </div>
                     </div>
                     <!-- .filter-column -->

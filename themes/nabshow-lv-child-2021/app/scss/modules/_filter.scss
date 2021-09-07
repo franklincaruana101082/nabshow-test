@@ -1,7 +1,5 @@
 // Filter
 
-//.filter-wrap-main {}
-
 .filter-row {
   display: grid;
   grid-gap: rem(30);
@@ -10,7 +8,13 @@
     grid-gap: 7.5%;
   }
 }
-//.filter-column {}
+
+.filter-column-sticky {
+  @include bp-768 {
+    position: sticky;
+    top: rem(16);
+  }
+}
 
 .filter-title {
   @include primary-black-24-24;
