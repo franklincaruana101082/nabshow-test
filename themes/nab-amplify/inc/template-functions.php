@@ -541,6 +541,7 @@ function nab_get_search_post_types()
 	unset($all_post_types['downloadable-pdfs']);
 	unset($all_post_types['page']);
 	unset($all_post_types['sessions']);
+	unset($all_post_types['show-video']);
 
 	$all_post_types = array_keys($all_post_types);
 

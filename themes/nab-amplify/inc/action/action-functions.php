@@ -5053,7 +5053,7 @@ function nab_register_show_video_post_type_and_taxonomy() {
         'show_in_admin_bar'   => true,
         'can_export'          => true,
         'has_archive'         => true,
-        'exclude_from_search' => true,
+        'exclude_from_search' => false,
         'publicly_queryable'  => true,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
