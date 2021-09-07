@@ -179,6 +179,7 @@
     margin-bottom: rem(20);
     p {
       @include primary-medium-18-25;
+      color: $color__gray-light;
     }
   }
   .speakers-list {
