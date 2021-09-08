@@ -415,7 +415,7 @@ function nabshow_lv_2021_modified_session_list_query( $query ) {
         $query->set( 'orderby', 'meta_value' );  
         $query->set( 'order', 'ASC' );
 
-		$current_page = filter_input( INPUT_GET, 'pg', FILTER_SANITIZE_NUMBER_INT );
+		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
 		
 		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
 			$query->set( 'paged', $current_page );
@@ -562,7 +562,7 @@ function nabshow_lv_2021_session_filter() {
 	
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
-	$current_page	= filter_input( INPUT_GET, 'pg', FILTER_SANITIZE_NUMBER_INT );
+	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
 	$current_page	= isset( $current_page ) && ! empty( $current_page ) ? $current_page : 1;
 
 	$query_args = array(
@@ -632,30 +632,44 @@ function nabshow_lv_2021_session_filter() {
 				$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 				$end_time   = str_replace(':00', '', $end_time );
 			}
-			?>
+			?>		
+
 			<div class="filter-result-box">
+				<!-- datetime -->
+				<div class="filter-result-box-datetime">
+					<?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?> <?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?>
+					<?php
+					if ( ! empty( $location ) ) {
+						?>
+						<a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a>
+						<?php
+					}
+					?>
+				</div>
+				<!-- END datetime -->
+
+				<!-- title -->
+				<h2 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
+				<!-- END title -->
+
+				<!-- category -->
 				<?php
 				if ( ! empty( $program_name ) ) {
 					
 					$program_url = $program_planner_url . $program_name . '/show/all'; 
 					?>
-					<span><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
+					<span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
 					<?php
 				}
 				?>
-				<h2><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
-				<div class="session-info">
-					<span><?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?></span>
-					<span><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></span>
-					<?php
-					if ( ! empty( $location ) ) {
-						?>
-						<span><a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a></span>
-						<?php
-					}
-					?>
+				<!-- END category -->												
+
+				<!-- description -->
+				<div class="filter-result-box-description">
+					<p><?php the_excerpt(); ?></p>
 				</div>
-				<p><?php the_excerpt(); ?></p>
+				<!-- END description -->	
+
 				<?php
 				$speakers       = get_post_meta( $session_id, 'speakers', true );
 				$speaker_ids    = explode( ',', $speakers );
@@ -677,7 +691,11 @@ function nabshow_lv_2021_session_filter() {
 					<?php
 				}
 				?>
-				<a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
+
+				<!-- cta -->
+				<a class="filter-result-box-cta" href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
+				<!-- END cta -->
+
 			</div>
 			<?php
 		}
@@ -702,8 +720,8 @@ function nabshow_lv_2021_session_filter() {
 			'current'   => $current_page,
 			'total'     => $total_pages,
 			'add_args'  => false,
-			'prev_text' => __( '<i class="fa fa-arrow-left"></i> Previous' ),
-			'next_text' => __( 'Next <i class="fa fa-arrow-right"></i>' ),
+			'prev_text' => __( 'Previous' ),
+			'next_text' => __( 'Next' ),
 		) ), $allowed_tags );
 
 	} else {

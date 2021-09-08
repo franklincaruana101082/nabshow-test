@@ -5087,7 +5087,7 @@ function nab_register_show_video_post_type_and_taxonomy() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-        'rewrite'           => array('slug' => 'video-library'),
+		'rewrite'           => array( 'slug' => 'video-library' ),
 	);
 
 	register_taxonomy( 'video-library', array( 'show-video' ), $category_args );

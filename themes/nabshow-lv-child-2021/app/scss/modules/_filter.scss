@@ -1,7 +1,5 @@
 // Filter
 
-//.filter-wrap-main {}
-
 .filter-row {
   display: grid;
   grid-gap: rem(30);
@@ -10,7 +8,15 @@
     grid-gap: 7.5%;
   }
 }
-//.filter-column {}
+
+.filter-column-sticky {
+  @include bp-768 {
+    position: sticky;
+    top: rem(16);
+    max-height: calc(100vh - 2rem);
+    overflow: auto;
+  }
+}
 
 .filter-title {
   @include primary-black-24-24;
@@ -77,10 +83,24 @@
   grid-gap: rem(6);
   .filter-dropdown {
     border-radius: rem(6);
-    padding-right: rem(12);
     background: $color__white;
     overflow: hidden;
+    position: relative;
+    &::after {
+      content: "";
+      height: 0.5rem;
+      width: 0.5rem;
+      display: block;
+      position: absolute;
+      right: 1rem;
+      top: calc(50% - 0.25rem);
+      border-bottom: 2px solid;
+      border-right: 2px solid;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
     select {
+      position: relative;
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -161,6 +181,7 @@
     margin-bottom: rem(20);
     p {
       @include primary-medium-18-25;
+      color: $color__gray-light;
     }
   }
   .speakers-list {
@@ -194,7 +215,7 @@
 }
 
 .filter-pagination {
-  text-align: end;
+  text-align: center;
   margin-top: rem(32);
 }
 .page-numbers {

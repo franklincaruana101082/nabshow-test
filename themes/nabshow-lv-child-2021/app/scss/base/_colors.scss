@@ -112,11 +112,11 @@
 // vertical purple used in cards
 @mixin gradient-purple {
   background: linear-gradient(
-    180deg,
-    #2e153f 0%,
-    #482f57 33.24%,
-    #3e3345 73.99%,
-    #271434 100%
+    148deg,
+    rgba(24, 15, 44, 1) 0%,
+    rgba(33, 25, 50, 1) 33%,
+    rgba(33, 25, 50, 1) 65%,
+    rgba(21, 14, 37, 1) 100%
   );
 }
 .gradient__purple {
