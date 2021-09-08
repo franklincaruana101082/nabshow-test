@@ -271,6 +271,14 @@ function nab_amplify_widgets_init() {
 			'after_title'   => '</h4>',	
 		)
 	);
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Broadstreet in Footer', 'nab-amplify' ),
+		'id'			=> 'broadstreet-footer',
+		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
+		'before_widget' => '<div id="%1$s" class="ad _footer %2$s">',
+        'after_widget'  => '</div>',
+	) );
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );
