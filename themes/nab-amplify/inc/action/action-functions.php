@@ -5023,7 +5023,6 @@ function nab_sign_loader_with_text(){
  * Register show video post type and category.
  */
 function nab_register_show_video_post_type_and_taxonomy() {
-
     
     $labels = array(
         'name'               => _x('Show Videos', 'Post Type General Name', 'nab-amplify'),

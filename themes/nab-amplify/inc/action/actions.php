@@ -238,4 +238,4 @@ add_action( 'bp_email', 'nab_change_bp_from_email_address', 10, 2 );
 add_action( 'woocommerce_register_form_end', 'nab_sign_loader_with_text' );
 add_action( 'woocommerce_login_form_end', 'nab_sign_loader_with_text' );
 
-add_action( 'init', 'nab_register_show_video_post_type_and_taxonomy' );
+add_action( 'init', 'nab_register_show_video_post_type_and_taxonomy', 9999 );
