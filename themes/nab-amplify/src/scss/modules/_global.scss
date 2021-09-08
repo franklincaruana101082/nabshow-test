@@ -552,6 +552,18 @@ broadstreet-zone-container {
 	&._hidden {
 		display: none;
 	}
+	.ad._footer & {
+		padding-top: 0;
+		padding-bottom: 0;
+		broadstreet-zone div {
+			height: 0;
+			& > span {
+				&:before {
+					display: none;
+				}
+			}
+		}
+	}
 }
 .ad {
 	font-family: $font__secondary;
