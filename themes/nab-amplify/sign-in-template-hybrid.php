@@ -13,7 +13,7 @@ get_header('hybrid');
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-/*
+
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
 $marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
@@ -159,5 +159,5 @@ endwhile; // End of the loop.
 </main><!-- #main -->
 
 <?php
-*/
+
 get_footer('hybrid');
