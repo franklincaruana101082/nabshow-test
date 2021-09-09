@@ -541,6 +541,7 @@ function nab_get_search_post_types()
 	unset($all_post_types['downloadable-pdfs']);
 	unset($all_post_types['page']);
 	unset($all_post_types['sessions']);
+	unset($all_post_types['show-video']);
 
 	$all_post_types = array_keys($all_post_types);
 
@@ -1082,9 +1083,22 @@ function nab_maritz_redirect_url( $user_id ) {
 		return;
 	}
 
+	// Default to '21 LV Registration
+	$experient_production_url = 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/';
+	$experient_qa_url = 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+
+	$show_code = filter_input( INPUT_GET, 'show_code', FILTER_SANITIZE_STRING );
+	if ( isset( $show_code ) && ! empty( $show_code ) ) {
+		// If show_code parameter is set, check for matches
+		if ( $show_code === 'shownab221') {
+			$experient_production_url = 'https://registration.experientevent.com/shownab221/';
+			$experient_qa_url = 'https://qawebreg.experientevent.com/shownab221/';
+		}
+    }
+
 	$url_parse = wp_parse_url( get_site_url() );
 
-	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? $experient_production_url : $experient_qa_url;
 
 	$params		= array( 'user_id' => $user_id, 'registration_flow_id' => wp_generate_uuid4() );
 	$first_name	= get_user_meta( $user_id, 'first_name', true );

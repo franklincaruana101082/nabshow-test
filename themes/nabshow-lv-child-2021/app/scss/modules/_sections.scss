@@ -338,6 +338,28 @@
       }
     }
   }
+  &._lightlines-top-left-angle {
+    position: relative;
+    @include bp-1440 {
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 14rem;
+        height: 40rem;
+        display: block;
+        background-size: contain;
+        background-repeat: no-repeat;
+        @include background-image("lightlines-11.png");
+      }
+    }
+  }
+  &._lightlines-strip {
+    @include background-image("lightlines-strip.jpg");
+    height: rem(20);
+    background-size: cover;
+  }
   &._lightlines-footer-strip {
     display: none;
     @include bp-768 {
@@ -561,8 +583,8 @@
   border: 1px solid rgba($color__white, 0.1);
 
   @include bp-604 {
-      margin: 0 rem(9);
-      height: inherit;
+    margin: 0 rem(9);
+    height: inherit;
   }
 
   blockquote {
@@ -1897,6 +1919,13 @@
       text-align: center;
       @include bp-768 {
         font-size: rem(24);
+      }
+      a {
+        color: $color__purple-lighter;
+        &:hover,
+        &:focus {
+          color: $color__purple-lighter;
+        }
       }
     }
   }

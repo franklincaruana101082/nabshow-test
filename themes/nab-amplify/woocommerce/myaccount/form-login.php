@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $referer_url  = $_SERVER[ 'HTTP_REFERER' ];
 $marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+$show_code = filter_input( INPUT_GET, 'show_code', FILTER_SANITIZE_STRING );
 
 // Note: Turning this off because it's creating multiple query strings and it's not apparent why this is in place.
 // if ( ! empty( $redirect_url ) ) {
@@ -74,6 +75,10 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 				$sign_up_page_url = add_query_arg( 'r', $redirect_url, $sign_up_page_url );
 				if ( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 					$sign_up_page_url = add_query_arg( 'marketing_code', $marketing_code, $sign_up_page_url);
+				}
+
+				if ( isset( $show_code ) && ! empty( $show_code ) ) {
+					$sign_up_page_url = add_query_arg( 'show_code', $show_code, $sign_up_page_url);
 				}
 			}
 		} else {

@@ -24,7 +24,7 @@ if($using_optin) {
 $company = get_field('nab_selected_company_id');
 
 $show_content = true;
-						
+
 $content_protected = (int)get_field('make_opt_in_required');
 
 $cookieName = 'nab_optin';
@@ -53,7 +53,7 @@ if(isset($_COOKIE[$cookieName])) {
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="container">
 	    <header class="intro">
-	    	
+
 			<?php
 			the_title( '<h1 class="intro__title entry-title">', '</h1>' );
 			echo do_shortcode( '[bookmark]' );
@@ -67,7 +67,7 @@ if(isset($_COOKIE[$cookieName])) {
 			</div>
 	    </header><!-- .entry-header -->
 
-	    
+
 	</div>
 
 	<div class="main _contentborder <?=$articleTypeClass;?>">
@@ -75,7 +75,7 @@ if(isset($_COOKIE[$cookieName])) {
 			<div class="post-action-author">
 				<?php echo do_shortcode( '[nab_display_author]' ); ?>
 			</div>
-			<?php 
+			<?php
 			$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
 			if (!$content_accessible) {
 				$content_accessible = get_post_meta( $post->ID, 'make_opt_in_required', true);
@@ -83,7 +83,7 @@ if(isset($_COOKIE[$cookieName])) {
 			if ( ! is_user_logged_in() && $content_accessible ) {
 
 				get_template_part( 'template-parts/not-signed-in' );
-				
+
 			} else {
 			?>
 			<div class="content">
@@ -124,12 +124,12 @@ if(isset($_COOKIE[$cookieName])) {
 						'after'  => '</div>',
 					)
 				);
-				?>		
+				?>
 			</div>
 		<?php } ?>
 		</div>
 	</div><!-- .entry-content -->
-	<?php 
+	<?php
 	if(is_user_logged_in()) {
 		//opt in modal
 		if (get_field('show_opt_inout_modal') && get_field('nab_selected_company_id')) {

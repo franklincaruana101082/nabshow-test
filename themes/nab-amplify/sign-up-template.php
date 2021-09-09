@@ -12,6 +12,7 @@ get_header();
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+$show_code = filter_input( INPUT_GET, 'show_code', FILTER_SANITIZE_STRING );
 
 if ( empty( $redirect_url ) ) {
 
@@ -69,6 +70,10 @@ while ( have_posts() ) :
 							$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
 							if ( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 								$my_account_url = add_query_arg( 'marketing_code', $marketing_code, $my_account_url);
+							}
+
+							if ( isset( $show_code ) && ! empty( $show_code ) ) {
+								$my_account_url = add_query_arg( 'show_code', $show_code, $my_account_url);
 							}
 						} else {
 							$my_account_url = wc_get_page_permalink( 'myaccount' );
