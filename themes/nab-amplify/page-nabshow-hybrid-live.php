@@ -4,7 +4,7 @@
  * Template Name: NABShow Hybrid Live
  */
 
-  get_header('nabshow');
+  get_header('hybrid');
 
 
 
@@ -322,4 +322,4 @@ $exhibit_videos         = get_field( 'exhibit_videos' );
   <div class="decorative _lightlines-footer-strip"></div>
 </main><!-- #main -->
 
-<?php get_footer('nabshow');
+<?php get_footer('hybrid');

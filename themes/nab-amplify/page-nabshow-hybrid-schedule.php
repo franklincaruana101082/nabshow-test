@@ -4,7 +4,7 @@
  * Template Name: NABShow Hybrid Schedule
  */
 
-  get_header('nabshow');
+  get_header('hybrid');
 
 
 /* 
@@ -139,4 +139,4 @@ $session_planner_url  = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions
 
 </main><!-- #main -->
 
-<?php get_footer('nabshow');
+<?php get_footer('hybrid');

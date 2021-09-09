@@ -4,7 +4,7 @@
 * Template Name: NABShow Hybrid Exhibit
 */
 
-get_header('nabshow');
+get_header('hybrid');
 
 
 
@@ -245,4 +245,4 @@ $banner                   = get_field( 'banner' );
   <div class="decorative _lightlines-footer-strip"></div>
 </main><!-- #main -->
 
-<?php get_footer('nabshow');
+<?php get_footer('hybrid');
