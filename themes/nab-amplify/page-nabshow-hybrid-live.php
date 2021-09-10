@@ -32,6 +32,9 @@ $education_videos       = get_field( 'education_videos' );
 $banner                 = get_field( 'banner' );
 $exhibit_videos_title   = get_field( 'exhibit_videos_title' );
 $exhibit_videos         = get_field( 'exhibit_videos' );
+$ad_code_1              = get_field( 'ad_code_1' );
+$ad_code_2              = get_field( 'ad_code_2' );
+$ad_code_3              = get_field( 'ad_code_3' );
 ?>
 
 <main id="primary" class="site-main">
@@ -129,11 +132,15 @@ $exhibit_videos         = get_field( 'exhibit_videos' );
   }
   ?>
 
-  <!-- ad_code - Leave this alone for now - will eventually be replaced with Broadstreet code -->
-  <div class="ad _banner">
-    <a href="#"><img src="/assets/images/ad-banner.jpg" alt="" /></a>
-  </div>
-  <!-- END ad_code -->
+  <?php
+  if ( ! empty( $ad_code_1 ) ) {
+  ?>
+    <div class="ad _banner">
+        <?php echo do_shortcode( $ad_code_1 ); ?>
+    </div>
+  <?php
+  }
+  ?>
 
   <?php
   if ( $education_videos && is_array( $education_videos ) && count( $education_videos ) > 0 ) {
@@ -201,11 +208,15 @@ $exhibit_videos         = get_field( 'exhibit_videos' );
   }
   ?>
 
-  <!-- ad_code - Leave this alone for now - will eventually be replaced with Broadstreet code -->
-  <div class="ad _banner">
-    <a href="#"><img src="/assets/images/ad-banner.jpg" alt="" /></a>
-  </div>
-  <!-- END ad_code -->
+  <?php
+  if ( ! empty( $ad_code_2 ) ) {
+  ?>
+    <div class="ad _banner">
+        <?php echo do_shortcode( $ad_code_2 ); ?>
+    </div>
+  <?php
+  }
+  ?>
 
   <?php
   if ( $exhibit_videos ) {
@@ -308,12 +319,15 @@ $exhibit_videos         = get_field( 'exhibit_videos' );
   }
   ?>
 
-  <!-- ad_code - Leave this alone for now - will eventually be replaced with Broadstreet code -->
-  <div class="ad _banner">
-    <a href="#"><img src="/assets/images/ad-banner.jpg" alt="" /></a>
-  </div>
-  <!-- END ad_code -->
-
+  <?php
+  if ( ! empty( $ad_code_3 ) ) {
+  ?>
+    <div class="ad _banner">
+        <?php echo do_shortcode( $ad_code_3 ); ?>
+    </div>
+  <?php
+  }
+  ?>
   
   <!-- INCLUDE template_parts/content-upcoming-mys-sessions.php -->  
   <?php get_template_part( 'template-parts/content', 'upcoming-mys-sessions' ); ?>
