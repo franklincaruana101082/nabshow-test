@@ -91,7 +91,7 @@
 }
 
 // Background image asset management
-// note: $theme_url comes from _variables.scss
+// note: $theme_path comes from _variables.scss
 @mixin background-image($img) {
   background-image: url("#{$theme_path}/assets/images/#{$img}");
 }
