@@ -14,7 +14,7 @@
 
 
 function nabshow_styles() {
-    wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
+    //wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
 	wp_enqueue_style( 'nabshow-lv-child-2021', '/wp-content/themes/nabshow-lv-child-2021/assets/css/styles.min.css', array(), wp_get_theme()->get( 'Version' ) );
     wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
 
@@ -67,6 +67,8 @@ switch_to_blog('4');
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
     <script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- adding typekit link here since wordpress isn't doing it -->
+    <link rel="stylesheet" href="https://use.typekit.net/qbe2mua.css" />
 </head>
 
 <body <?php body_class(); ?>>
