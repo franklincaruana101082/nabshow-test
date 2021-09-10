@@ -118,6 +118,7 @@ jQuery(function($) {
 		autoplaySpeed: 5000,	
 	});
 
+
   if ($('.conference-sessions-speakers').length > 0) {
 		// each day
 		$('.conference-sessions-speakers').slick({
@@ -129,6 +130,64 @@ jQuery(function($) {
 			autoplay: true,
 			autoplaySpeed: 10000,		
 			dots: true,
+		});
+	}
+
+	if ($('.videos-carousel').length > 0) {		
+		$('.videos-carousel--3').slick({
+			slidesToShow: 3,
+			slidesToScroll: 3,
+			dots: true,
+			arrows: false,
+			responsive: [					
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+					}
+				},						
+			]
+		});
+	}
+
+	if ($('.thumbcards').length > 0) {
+		$('.thumbcards--4').slick({
+			slidesToShow: 4,
+			slidesToScroll: 4,
+			dots: true,
+			arrows: false,
+			responsive: [	
+				{
+					breakpoint: 880,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3,
+					}
+				},
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+					}
+				},						
+			]
+		});
+		$('.thumbcards--3').slick({
+			slidesToShow: 3,
+			slidesToScroll: 3,
+			dots: true,
+			arrows: false,
+			responsive: [					
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+					}
+				},						
+			]
 		});
 	}
 
