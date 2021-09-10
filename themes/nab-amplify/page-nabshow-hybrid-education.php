@@ -102,6 +102,7 @@ $ad_code                  = get_field( 'ad_code' );
                 <ul class="teaser-aside__cta">
                   <li><a href="<?php echo esc_url( $track_mys_url ); ?>" class="button _solid _compact">See all sessions</a></li>           
                 </ul>
+                </div>
               </div>
             </div>
             <!-- END teaser_track -->
@@ -121,44 +122,44 @@ $ad_code                  = get_field( 'ad_code' );
         <h2 class="h-xl"><?php echo esc_html( $popular_sessions_title ); ?></h2>
       </div>
       <div class="thumbcards-wrapper">
-          <div class="thumbcards thumbcards--3">
-            <?php
-            
-            $session_type_term    = get_term_by( 'slug', 'session-type', 'session-categories' );
-            $session_planner_url  = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=';
+        <div class="thumbcards thumbcards--3">
+          <?php
+          
+          $session_type_term    = get_term_by( 'slug', 'session-type', 'session-categories' );
+          $session_planner_url  = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=';
 
-            foreach ( $popular_sessions as $current_session ) {
+          foreach ( $popular_sessions as $current_session ) {
 
-              $event_type   = '';
-              $start_time   = get_post_meta( $current_session, 'starttime', true );
-              $schedule_id  = get_post_meta( $current_session, 'scheduleid', true );
+            $event_type   = '';
+            $start_time   = get_post_meta( $current_session, 'starttime', true );
+            $schedule_id  = get_post_meta( $current_session, 'scheduleid', true );
 
-              if ( ! empty( $session_type_term ) && ! is_wp_error( $session_type_term) ) {
+            if ( ! empty( $session_type_term ) && ! is_wp_error( $session_type_term) ) {
 
-                $session_types = wp_get_post_terms( $current_session, 'session-categories', array(
-                  'taxonomy'  => 'session-categories',
-                  'parent'    => $session_type_term->term_id,
-                ));
+              $session_types = wp_get_post_terms( $current_session, 'session-categories', array(
+                'taxonomy'  => 'session-categories',
+                'parent'    => $session_type_term->term_id,
+              ));
 
-                if ( ! empty( $session_types ) && ! is_wp_error( $session_types ) ) {
-                  $event_type = wp_list_pluck( $session_types, 'name' );
-                  $event_type = implode( ', ', $event_type );
-                }
+              if ( ! empty( $session_types ) && ! is_wp_error( $session_types ) ) {
+                $event_type = wp_list_pluck( $session_types, 'name' );
+                $event_type = implode( ', ', $event_type );
               }
-              ?>
-              <div class="thumbcard">
-                <div class="thumbcard__body">
-                  <h4 class="thumbcard__datetime"><?php echo esc_html( date_format( date_create( $start_time ), 'F jS - gA' ) . ' EST' ); ?></h4>
-                  <h3 class="thumbcard__title"><?php echo esc_html( get_the_title( $current_session ) ); ?></h3>
-                  <h4 class="thumbcard__category"><?php echo esc_html( $event_type ); ?></h4>
-                  <a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" class="thumbcard__cta">+ Add To My Schedule</a>
-                </div>
-              </div>
-              <?php
             }
             ?>
-          </div>
+            <div class="thumbcard">
+              <div class="thumbcard__body">
+                <h4 class="thumbcard__datetime"><?php echo esc_html( date_format( date_create( $start_time ), 'F jS - gA' ) . ' EST' ); ?></h4>
+                <h3 class="thumbcard__title"><?php echo esc_html( get_the_title( $current_session ) ); ?></h3>
+                <h4 class="thumbcard__category"><?php echo esc_html( $event_type ); ?></h4>
+                <a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" class="thumbcard__cta">+ Add To My Schedule</a>
+              </div>
+            </div>
+            <?php
+          }
+          ?>
         </div>
+      </div>
     </div>
     <?php
   }
