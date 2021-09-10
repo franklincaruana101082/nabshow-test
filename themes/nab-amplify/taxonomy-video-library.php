@@ -4,7 +4,7 @@
  * Template for displaying video library category post.
  */
 
-  get_header('nabshow');
+  get_header('hybrid');
 
   /* 
 
@@ -83,4 +83,4 @@ ARCHIVE PAGE for showvideo category
 
 </main><!-- #main -->
 
-<?php get_footer('nabshow');
+<?php get_footer('hybrid');
