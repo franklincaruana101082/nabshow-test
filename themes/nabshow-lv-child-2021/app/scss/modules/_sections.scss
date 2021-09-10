@@ -27,14 +27,36 @@
 }
 
 .section-heading {
-  margin-bottom: rem(20);
+  padding-bottom: rem(30);
   text-align: center;
+  &._centered {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: rem(380);
+  }
+  h1,
+  h2,
+  h3 {
+    text-transform: uppercase;
+    padding-bottom: 0 !important;
+  }
   @include bp-768 {
     margin-bottom: rem(80);
     text-align: left;
     &._centered {
       text-align: center;
+      max-width: rem(820);
     }
+  }
+}
+
+.section-heading._with-cta {
+  display: grid;
+  grid-gap: rem(16);
+  @include bp-960 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
@@ -1127,6 +1149,7 @@
   h1,
   h2,
   h3 {
+    text-transform: uppercase;
     @include primary-black-25-40;
     margin-bottom: rem(22);
   }

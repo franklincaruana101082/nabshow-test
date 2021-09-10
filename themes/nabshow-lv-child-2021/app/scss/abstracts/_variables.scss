@@ -1,5 +1,13 @@
 // Scss variables (colours etc...)
 
+// WP Theme
+
+// PROD
+// $theme_path: "/wp-content/themes/nabshow-lv-child-2021";
+// DEV
+$theme_path: "";
+
+// Colors
 $color__black: #000000;
 $color__gray-dark: #333333;
 $color__gray: #404040;
@@ -11,7 +19,7 @@ $color__white: #ffffff;
 $color__pink: #f4b2ec;
 $color__blue: #2f5dab;
 $color__purple-slate: #817a89;
-$color__pruple-slate-dark: #2d2930;
+$color__purple-slate-dark: #2d2930;
 $color__purple-lighter: #cd8ec4;
 $color__purple-light: #9e4593;
 $color__purple-lightish: #6b3b99;
