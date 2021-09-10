@@ -108,6 +108,20 @@ input[type="button"].button,
       padding: rem(14) rem(32);
     }
   }
+
+  &._plus {
+    background: none;
+    @include primary-black-14-14-20;
+    text-transform: uppercase;
+    color: $color__purple-lighter;
+    &::before {
+      content: "+ ";
+    }
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+    }
+  }
 }
 
 // button-group
