@@ -211,6 +211,7 @@ $ad_code                  = get_field( 'ad_code' );
           <?php
         }
         ?>
+      </div>
     </div>
     <?php
   }
