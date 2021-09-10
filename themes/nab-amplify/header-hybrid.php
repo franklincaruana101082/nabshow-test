@@ -11,7 +11,10 @@
  * @package Amplify
  */
 
+
+
 function nabshow_styles() {
+    wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
 	wp_enqueue_style( 'nabshow-lv-child-2021', '/wp-content/themes/nabshow-lv-child-2021/assets/css/styles.min.css', array(), wp_get_theme()->get( 'Version' ) );
     wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
 
@@ -24,12 +27,15 @@ add_action( 'wp_enqueue_scripts', 'nabshow_styles', 100 );
 function remove_amplify_css() {
     wp_dequeue_style( 'amplify-style' );
     wp_deregister_style( 'amplify-style' );
-
-    wp_dequeue_style( 'roboto-mono' );
-    wp_deregister_style( 'roboto-mono' );
+    
+    wp_dequeue_style( 'nab-amplify-style' );
+    wp_deregister_style( 'nab-amplify-style' );
 
     wp_dequeue_script( 'nab-amplify-navigation' );
     wp_deregister_script( 'nab-amplify-navigation' );
+
+    //wp_dequeue_script();
+    //wp_deregister_script();
 
 }
 add_action( 'wp_enqueue_scripts', 'remove_amplify_css', 99 );
@@ -94,12 +100,6 @@ switch_to_blog('4');
         }
         ?>
       </a>
-      <?php /*
-      <div class="header__mobile-cart cart">
-        <a class="cart__link" href="https://amplify.nabshow.com/cart/">Cart</a>
-        <span class="cart__count">0</span>
-      </div>  
-      */ ?>    
     </nav>
 
     <div class="header__navwrapper">

@@ -235,6 +235,12 @@ body.is-loading {
 
 //hybrid style overrides
 
-.logged-in #page.nab_hybrid {
-  padding-top: 0;
+#page.nab_hybrid {
+  .logged-in & {
+    padding-top: 0;
+  }
+  [hidden] {
+    display: none !important;
+  }
 }
+
