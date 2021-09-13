@@ -136,7 +136,7 @@ $session_planner_url  = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions
     <?php
   }
   ?>
-
+  <div class="decorative _lightlines-footer-strip"></div>
 </main><!-- #main -->
 
 <?php get_footer('hybrid');
