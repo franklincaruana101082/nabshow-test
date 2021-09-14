@@ -236,6 +236,7 @@ body.is-loading {
 //hybrid style overrides
 
 #page.nab_hybrid {
+  padding-top: 0;
   .logged-in & {
     padding-top: 0;
   }
