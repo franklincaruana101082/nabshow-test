@@ -42,10 +42,9 @@ $session_dates  = array();
 if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 
     foreach ( $all_session_id as $current_session_id ) {
-        echo('current_session_id: '.$current_session_id);
+
         $speaker_post_id        = get_post_meta( $current_session_id, 'speakers', true );
         $current_session_date   = get_post_meta( $current_session_id, 'date', true );
-        echo($speaker_post_id);
         if ( ! empty( $current_session_date ) ) {
             $session_dates[] = $current_session_date;
         }
@@ -60,7 +59,6 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
         }
     }
 
-    echo('POOP: '.empty($speaker_ids));
     $speaker_ids    = trim( $speaker_ids, ',' );
     $speaker_ids    = explode( ',', $speaker_ids );
     $speaker_ids    = array_unique( $speaker_ids );
@@ -293,7 +291,7 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                         
 
                                         $query_speaker = filter_input( INPUT_GET, 'speaker', FILTER_SANITIZE_STRING );
-                                        print_r($all_session_id);
+                                        
                                         ?>
                                         <div class="filter-dropdown">
                                             <select class="filter-speaker-name">
