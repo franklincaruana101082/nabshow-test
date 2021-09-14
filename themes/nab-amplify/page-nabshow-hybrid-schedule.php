@@ -43,7 +43,7 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 
     foreach ( $all_session_id as $current_session_id ) {
 
-        $speaker_post_id        = get_post_meta( $current_session_id, 'speakers', true );
+        $speaker_post_id        = get_post_meta( $current_session_id, 'mys-speakers', true );
         $current_session_date   = get_post_meta( $current_session_id, 'date', true );
         if ( ! empty( $current_session_date ) ) {
             $session_dates[] = $current_session_date;
