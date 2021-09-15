@@ -357,6 +357,351 @@ function nab_get_geolocation($locationType) {
 }
 
 
+// sort date array.
+function nabshow_lv_2021_date_sort( $a, $b ) {
+    return strtotime( $a ) - strtotime( $b );
+}
+/**
+ * Modified session archive page default query.
+ * 
+ * @param WP_Query $query
+ */
+function nabshow_lv_2021_modified_session_list_query( $query ) {
+
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {  
+   
+		$query->set( 'meta_key', 'starttime' ); 
+        $query->set( 'orderby', 'meta_value' );  
+        $query->set( 'order', 'ASC' );
+
+		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
+		
+		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
+			$query->set( 'paged', $current_page );
+		}
+
+		$tax_query_args		= nabshow_lv_2021_prepare_session_tax_query();
+		$meta_query_args	= nabshow_lv_2021_prepare_session_meta_query();
+
+		if ( is_array( $tax_query_args ) && count( $tax_query_args ) > 0 ) {
+			$query->set( 'tax_query', $tax_query_args );
+		}
+
+		if ( is_array( $meta_query_args ) && count( $meta_query_args ) > 0 ) {
+			$query->set( 'meta_query', $meta_query_args );
+		}
+		
+    }   
+}
+add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
+
+// function nabshow_lv_2021_register_custom_script() {
+
+// 	wp_enqueue_script( 'nabshow-lv-2021-custom', get_stylesheet_directory_uri() . '/assets/js/nabshow-lv-2021.js', array( 'jquery' ) );
+// 	wp_localize_script( 'nabshow-lv-2021-custom', 'nabObject', array(
+// 		'ajax_url'			=> admin_url( 'admin-ajax.php' ),
+// 		'ajax_filter_nonce' => wp_create_nonce( 'ajax_filter_nonce' ),
+// 	) );
+// }
+// add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_register_custom_script' );
+
+/**
+ * Prepare session archive page tax query args.
+ * 
+ * @return array
+ */
+function nabshow_lv_2021_prepare_session_tax_query() {
+
+	$session_program			= filter_input( INPUT_GET, 'program', FILTER_SANITIZE_STRING );
+	$session_registration_pass	= filter_input( INPUT_GET, 'registration_pass', FILTER_SANITIZE_STRING );
+	$session_topic				= filter_input( INPUT_GET, 'topic', FILTER_SANITIZE_STRING );
+	$session_education_partner	= filter_input( INPUT_GET, 'education_partner', FILTER_SANITIZE_STRING );
+	$session_session_type		= filter_input( INPUT_GET, 'session_type', FILTER_SANITIZE_STRING );
+	$session_experience_level	= filter_input( INPUT_GET, 'experience_level', FILTER_SANITIZE_STRING );
+	$session_location			= filter_input( INPUT_GET, 'location', FILTER_SANITIZE_STRING );
+	$tax_query_args				= array();
+
+	if ( isset( $session_program ) && ! empty( $session_program ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'tracks',
+			'terms'		=> $session_program,
+		);
+	}
+
+	if ( isset( $session_location ) && ! empty( $session_location ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'session-locations',
+			'terms'		=> $session_location,
+		);
+	}
+
+	if ( isset( $session_registration_pass ) && ! empty( $session_registration_pass ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'session-categories',
+			'terms'		=> $session_registration_pass,
+		);
+	}
+
+	if ( isset( $session_topic ) && ! empty( $session_topic ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'session-categories',
+			'terms'		=> $session_topic,
+		);
+	}
+
+	if ( isset( $session_education_partner ) && ! empty( $session_education_partner ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'session-categories',
+			'terms'		=> $session_education_partner,
+		);
+	}
+
+	if ( isset( $session_session_type ) && ! empty( $session_session_type ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'session-categories',
+			'terms'		=> $session_session_type,
+		);
+	}
+
+	if ( isset( $session_experience_level ) && ! empty( $session_experience_level ) ) {
+		
+		$tax_query_args[] = array(
+			'taxonomy'	=> 'session-categories',
+			'terms'		=> $session_experience_level,
+		);
+	}
+
+	return $tax_query_args;
+
+}
+
+/**
+ * Prepare session archive page meta query args.
+ * 
+ * @return array
+ */
+function nabshow_lv_2021_prepare_session_meta_query() {
+
+	$session_date		= filter_input( INPUT_GET, 'date', FILTER_SANITIZE_STRING );
+	$session_speaker	= filter_input( INPUT_GET, 'speaker', FILTER_SANITIZE_STRING );
+	$meta_query_args	= array();
+
+	if ( isset( $session_date ) && ! empty( $session_date ) ) {
+
+		$meta_query_args[] = array(
+			array(
+				'key'     => 'date',
+				'value'   => $session_date,
+				'type'    => 'DATE'
+			)
+		);
+	}
+
+	if ( isset( $session_speaker ) && ! empty( $session_speaker ) ) {
+
+		$meta_query_args[] = array(
+			array(
+				'key'     => 'speakers',
+				'value'   => $session_speaker,
+				'compare' => 'LIKE',
+			)
+		);
+	}
+
+	return $meta_query_args;
+}
+
+function nabshow_lv_2021_session_filter() {
+	
+	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
+
+	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
+	$current_page	= isset( $current_page ) && ! empty( $current_page ) ? $current_page : 1;
+
+	$query_args = array(
+		'post_type' => 'mys-sessions',
+		'meta_key'	=> 'starttime',
+		'orderby'	=> 'meta_value',
+		'order'		=> 'ASC',
+		'paged'		=> $current_page,
+	);
+
+	$tax_query_args		= nabshow_lv_2021_prepare_session_tax_query();
+	$meta_query_args	= nabshow_lv_2021_prepare_session_meta_query();
+
+	if ( is_array( $tax_query_args ) && count( $tax_query_args ) > 0 ) {
+		$query_args['tax_query'] = $tax_query_args;
+	}
+
+	if ( is_array( $meta_query_args ) && count( $meta_query_args ) > 0 ) {
+		$query_args['meta_query'] = $meta_query_args;
+	}
+
+	$session_query 	= new WP_Query( $query_args );
+	$total_pages	= $session_query->max_num_pages;
+	$session_html	= '';
+	$pagination		= '';
+
+	if ( $session_query->have_posts() ) {
+
+		$nab_mys_urls           = get_option( 'nab_mys_urls' );
+		$show_code              = isset( $nab_mys_urls['show_code'] ) ? $nab_mys_urls['show_code'] : '';
+		$session_planner_url    = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=';
+		$speaker_planner_url    = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/speaker-details.cfm?speakerid=';
+		$location_url           = 'https://' . $show_code . '.mapyourshow.com/8_0/floorplan/';
+		$program_planner_url    = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/#/searchtype/sessiontrack/search/';
+
+		ob_start();
+
+		while ( $session_query->have_posts() ) {
+
+			$session_query->the_post();
+
+			$session_id     = get_the_ID();
+			$date           = get_post_meta( $session_id, 'date', true );
+			$start_time     = get_post_meta( $session_id, 'starttime', true );
+			$end_time       = get_post_meta( $session_id, 'endtime', true );
+			$schedule_id    = get_post_meta( $session_id, 'scheduleid', true );
+			$program        = get_the_terms( $session_id, 'tracks' );
+			$location_term  = get_the_terms( $session_id, 'session-locations' );
+			$program_name   = '';
+			$location       = '';
+
+			if ( $program && ! is_wp_error( $program ) ) {
+				$all_programs   = wp_list_pluck( $program, 'name' );
+				$program_name   = isset( $all_programs[0] ) ? $all_programs[0] : '';
+			}
+
+			if ( $location_term && ! is_wp_error( $location_term ) ) {
+				$all_location   = wp_list_pluck( $location_term, 'name' );
+				$location       = isset( $all_location[0] ) ? $all_location[0] : '';
+			}
+
+			if ( ! empty( $start_time ) ) {
+				$start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+				$start_time = str_replace(':00', '', $start_time );
+			}
+			if ( ! empty( $end_time ) ) {
+				$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
+				$end_time   = str_replace(':00', '', $end_time );
+			}
+			?>		
+
+			<div class="filter-result-box">
+				<!-- datetime -->
+				<div class="filter-result-box-datetime">
+					<?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?> <?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?>
+					<?php
+					if ( ! empty( $location ) ) {
+						?>
+						<a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a>
+						<?php
+					}
+					?>
+				</div>
+				<!-- END datetime -->
+
+				<!-- title -->
+				<h2 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
+				<!-- END title -->
+
+				<!-- category -->
+				<?php
+				if ( ! empty( $program_name ) ) {
+					
+					$program_url = $program_planner_url . $program_name . '/show/all'; 
+					?>
+					<span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
+					<?php
+				}
+				?>
+				<!-- END category -->												
+
+				<!-- description -->
+				<div class="filter-result-box-description">
+					<p><?php the_excerpt(); ?></p>
+				</div>
+				<!-- END description -->	
+
+				<?php
+				$speakers       = get_post_meta( $session_id, 'speakers', true );
+				$speaker_ids    = explode( ',', $speakers );
+				$all_speakers   = array();
+
+				if ( ! empty( $speakers ) && count( $speaker_ids ) > 0 ) {
+					
+					foreach ( $speaker_ids as $speaker_id ) {
+						
+						$speaker_name   = get_the_title( $speaker_id );
+						$mys_speaker_id = get_post_meta( $speaker_id, 'speakerid', true );
+						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>'; 
+					}
+					?>
+					<div class="speakers-list">
+						<i>Featured Speakers:</i>
+						<?php echo wp_kses_post( implode( ', ', $all_speakers ) ); ?>
+					</div>
+					<?php
+				}
+				?>
+
+				<!-- cta -->
+				<a class="filter-result-box-cta" href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
+				<!-- END cta -->
+
+			</div>
+			<?php
+		}
+
+		$session_html = ob_get_clean();
+
+		$allowed_tags = [
+			'span' => [
+				'class' => [],
+			],
+			'i'    => [
+				'class' => [],
+			],
+			'a'    => [
+				'class' => [],
+				'href'  => [],
+			],
+		];
+
+		$pagination = wp_kses( paginate_links( array(
+			'base'      => '#%#%',
+			'current'   => $current_page,
+			'total'     => $total_pages,
+			'add_args'  => false,
+			'prev_text' => __( 'Previous' ),
+			'next_text' => __( 'Next' ),
+		) ), $allowed_tags );
+
+	} else {
+		ob_start();
+		?>
+		<p class="result-not-found">No sessions could be found. Try removing some of your filters to broaden your search.</p>
+		<?php
+		$session_html = ob_get_clean();
+	}
+	wp_reset_postdata();
+
+	wp_send_json_success( array(
+			'session_html' 	=> $session_html,
+			'pagination'	=> $pagination,
+		)
+	);
+
+}
+add_action( 'wp_ajax_nab_2021_session_filter', 'nabshow_lv_2021_session_filter' );
+add_action( 'wp_ajax_nopriv_nab_2021_session_filter', 'nabshow_lv_2021_session_filter' );
+
 /**
  * WooCommerce - Remove Actions
  */

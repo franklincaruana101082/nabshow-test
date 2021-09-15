@@ -37,7 +37,14 @@
 @mixin bp-960() {
   @media (min-width: 60em) {
     @content;
-    /*content:"1024px";*/
+    /*content:"960px";*/
+  }
+}
+
+@mixin bp-860() {
+  @media (min-width: 53.75em) {
+    @content;
+    /*content:"860px";*/
   }
 }
 
@@ -84,13 +91,29 @@
 }
 
 // Background image asset management
-//$env: "dev";
-$env: 'prod';
+// note: $theme_path comes from _variables.scss
 @mixin background-image($img) {
-  @if $env == "dev" {
-    background-image: url("/assets/images/#{$img}");
-  }
-  @if $env == "prod" {
-    background-image: url("/wp-content/themes/nabshow-lv-child-2021/assets/images/#{$img}");
+  background-image: url("#{$theme_path}/assets/images/#{$img}");
+}
+
+@mixin font-face-import(
+  $font-family,
+  $font-file-slug,
+  $font-weight,
+  $font-style
+) {
+  @font-face {
+    font-family: $font-family;
+    src: url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.eot?v=4.7.0);
+    src: url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.eot?#iefix&v=4.7.0)
+        format("embedded-opentype"),
+      url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.woff2?v=4.7.0)
+        format("woff2"),
+      url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.woff?v=4.7.0)
+        format("woff"),
+      url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.svg?v=4.7.0#hashbuster)
+        format("svg");
+    font-weight: $font-weight;
+    font-style: $font-style;
   }
 }

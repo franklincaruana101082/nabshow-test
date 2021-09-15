@@ -114,7 +114,7 @@
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/devoncroft-executive-summit/"><b>Devoncroft</b></a></th>
 								<td class="row-date"></td>
 								<td class="row-date"><span>Saturday, October 09</span></td>
@@ -123,7 +123,7 @@
 								<td class="row-date"></td>
 								<td class="row-date"></td>
 								<td class="row-date"></td>
-							</tr>
+							</tr> -->
 							<tr>
 								<th scope="row" class="row-heading"><a href="https://nabshow.com/2021/conference/field-workshops/">Field <b>Workshops</b></a></th>
 								<td class="row-date"><span>Friday, October 08</span></td>
