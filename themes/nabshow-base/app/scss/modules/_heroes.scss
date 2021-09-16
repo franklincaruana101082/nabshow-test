@@ -1,0 +1,133 @@
+// HERO
+
+.hero-banner {
+  position: relative;
+  z-index: 1;
+  img {
+    max-height: 42rem;
+    object-fit: cover;
+  }
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  // background image declared in markup
+  background-size: 100% 49.3vw;
+  background-repeat: no-repeat;
+  padding-top: 49.3vw;
+  @include bp-768 {
+    position: relative;
+    &::before {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      @include gradient-purple-orange-corners;
+    }
+    padding: rem(120) 0;
+    background-size: cover;
+    .new & {
+      padding: 0;
+    }
+  }
+}
+
+.hero__inner {
+  // background image declared in markup
+  background-size: 0 0;
+  text-align: center;
+  @include bp-768 {
+    background-position: 20% 50%;
+    background-size: auto 130%;
+    position: relative;
+    &::before {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      @include gradient-purple-blue-corners-dark;
+    }
+  }
+}
+
+.hero__content {
+  position: relative;
+  padding: rem(34) 0 rem(54);
+  @include bp-768 {
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 30%;
+      height: 50%;
+      @include background-image("lightlines-1.png");
+      mix-blend-mode: lighten;
+      background-size: cover;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15%;
+      height: 100%;
+      @include background-image("lightlines-2.png");
+      mix-blend-mode: lighten;
+      background-size: cover;
+    }
+  }
+  @include bp-1440 {
+    padding: rem(78);
+  }
+}
+
+.hero__label {
+  @include primary-black-14-14-20;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: rem(26);
+  &::after {
+    content: "";
+    border-bottom: rem(3) solid $color__white;
+    width: rem(82);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @include bp-768 {
+    @include primary-black-16-16-20;
+    padding-bottom: rem(26);
+  }
+}
+
+.hero__logo {
+  position: relative;
+  display: block;
+  margin: rem(30) auto rem(23.2);
+  max-width: rem(217);
+  @include bp-768 {
+    max-width: rem(460);
+  }
+}
+
+.hero__ctas {
+  position: relative;
+  list-style-type: none;
+  text-align: center;
+}
+.hero__cta + .hero__cta {
+  margin-top: rem(20);
+}
