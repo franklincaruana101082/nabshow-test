@@ -550,7 +550,7 @@ span.amp-bookmark.bookmark-fill{background-position:right center}
 .company-details-wrapper .company-contact-inner-box{background-color:#404040;padding:30px}
 .company-details-wrapper .company-contact-inner-box .author-info .author-title{padding-right:0;margin:0;text-transform:capitalize;font-family:'Open Sans', Arial, sans-serif}
 .company-details-wrapper .company-contact-inner-box .author-info .author-subtitle{color:#999;text-transform:capitalize;font-weight:700;font-size:16px;font-family:'Open Sans', Arial, sans-serif;padding-top:5px}
-.company-details-wrapper .company-contact-inner-box ul li a{color:#fff}
+.company-details-wrapper .company-contact-inner-box ul li a{color:#fff;word-wrap: break-word;}
 .company-details-wrapper .company-contact-inner-box ul li a:hover{text-decoration:underline}
 .company-details-wrapper ul{margin:0!important;padding:0!important;list-style-type:none!important}
 .company-details-wrapper ul li{font-size:18px;color:#fff;font-family:'OpenSans-Regular', Arial, sans-serif;margin-bottom:10px!important}
