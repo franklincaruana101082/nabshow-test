@@ -25,3 +25,15 @@ $color__purple-light: #9e4593;
 $color__purple-lightish: #6b3b99;
 $color__purple: #2a173c;
 $color__purple-dark: #030621;
+
+
+//using css vars
+$color__purple: var(--primary-color, #2a173c);
+$color__blue: var(--secondary-color, #2f5dab);
+$color__pink: var(--tertiary-color, #f4b2ec);
+$color__purple-slate: var(--primary-slate, #817a89);
+$color__purple-slate-dark: var(--primary-slate-dark, #2d2930);
+$color__purple-lighter: var(--primary-lighter, #cd8ec4);
+$color__purple-light: var(--primary-light, #9e4593);
+$color__purple-lightish: var(--primary-lightish, #6b3b99);
+$color__purple-dark: var(--primary-dark, #030621);
