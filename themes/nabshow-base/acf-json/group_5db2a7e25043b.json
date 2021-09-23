@@ -1,67 +1,65 @@
-[
+{
+  "key": "group_5db2a7e25043b",
+  "title": "Topics",
+  "fields": [
     {
-        "key": "group_5db2a7e25043b",
-        "title": "Topics",
-        "fields": [
-            {
-                "key": "field_5db2a7f67c1c8",
-                "label": "Topics",
-                "name": "topics",
-                "type": "checkbox",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "choices": {
-                    "advanced-advertising": "Advanced Advertising",
-                    "ar-vr-xr": "AR\/VR\/XR",
-                    "artificial-intelligence-ai": "Artificial Intelligence (AI)",
-                    "broadcast-technologies": "Broadcast Technologies",
-                    "business-strategies": "Business Strategies",
-                    "cloud-tech": "Cloud Tech",
-                    "content-creators-creative-masters": "Content Creators & Creative Masters",
-                    "content-protection": "Content Protection",
-                    "data-analytics": "Data & Analytics",
-                    "esports": "Esports",
-                    "game-development": "Game Development",
-                    "live-tv": "Live TV",
-                    "podcasting": "Podcasting",
-                    "policy-advocacy": "Policy & Advocacy",
-                    "post-production": "Post-Production",
-                    "production-technologies": "Production Technologies",
-                    "social-media": "Social Media",
-                    "streaming-ott": "Streaming & OTT",
-                    "the-future-of-delivery": "The Future of Delivery",
-                    "the-in-vehicle-experience": "The In-Vehicle Experience"
-                },
-                "allow_custom": 0,
-                "default_value": [],
-                "layout": "vertical",
-                "toggle": 0,
-                "return_format": "value",
-                "save_custom": 0
-            }
-        ],
-        "location": [
-            [
-                {
-                    "param": "post_type",
-                    "operator": "==",
-                    "value": "page"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "side",
-        "style": "default",
-        "label_placement": "top",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": ""
+      "key": "field_5db2a7f67c1c8",
+      "label": "Topics",
+      "name": "topics",
+      "type": "checkbox",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "advanced-advertising": "Advanced Advertising",
+        "ar-vr-xr": "AR/VR/XR",
+        "artificial-intelligence-ai": "Artificial Intelligence (AI)",
+        "broadcast-technologies": "Broadcast Technologies",
+        "business-strategies": "Business Strategies",
+        "cloud-tech": "Cloud Tech",
+        "content-creators-creative-masters": "Content Creators & Creative Masters",
+        "content-protection": "Content Protection",
+        "data-analytics": "Data & Analytics",
+        "esports": "Esports",
+        "game-development": "Game Development",
+        "live-tv": "Live TV",
+        "podcasting": "Podcasting",
+        "policy-advocacy": "Policy & Advocacy",
+        "post-production": "Post-Production",
+        "production-technologies": "Production Technologies",
+        "social-media": "Social Media",
+        "streaming-ott": "Streaming & OTT",
+        "the-future-of-delivery": "The Future of Delivery",
+        "the-in-vehicle-experience": "The In-Vehicle Experience"
+      },
+      "allow_custom": 0,
+      "default_value": [],
+      "layout": "vertical",
+      "toggle": 0,
+      "return_format": "value",
+      "save_custom": 0
     }
-]
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}
