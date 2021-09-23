@@ -1,0 +1,65 @@
+{
+  "key": "group_5d946f255ae86",
+  "title": "Is Open To",
+  "fields": [
+    {
+      "key": "field_5d946f441236b",
+      "label": "Is Open To",
+      "name": "is_open_to",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "Select": "Select Open To",
+        "all-registered-attendees": "All Registered Attendees",
+        "broadcast-engineering-and-it-pass-and-the-nab-show-conference-pass": "Broadcast Engineering and IT Pass and The NAB Show Conference Pass",
+        "content-protection-summit": "Cybersecurity & Content Protection Summit Pass",
+        "digital-futures": "Digital Futures Pass and The NAB Show Conference Pass",
+        "els": "Executive Leadership Summit Pass",
+        "field-workshops-for-creative-registrants": "Field Workshops for Creative Registrants",
+        "hands-on-software-training-registrants": "Hands-On Software Training Registrants",
+        "hands-on-studio-experience": "Hands-On! Studio Experience Pass",
+        "nab-members": "NAB Members",
+        "nab-show-conference-pass-and-nab-show-conference-session-3-pack": "NAB Show Conference Pass and NAB Show Conference Session 3-Pack",
+        "nspire-pass": "NSPIRE Pass",
+        "post|production-world-pass-and-post|production-session-3-pack": "Post|Production World Pass and Post|Production Session 3-Pack",
+        "premiere-access": "Premiere Access Pass",
+        "product-of-the-year-awards-reception-ticket-holders": "Product of the Year Awards Reception Ticket",
+        "other-separate-registration-required": "Separate Registration Required",
+        "small-medium-market-radio-forum-pass-and-the-nab-show-conference-pass": "Small Medium Market Radio Forum Pass and the NAB Show Conference Pass",
+        "streaming-summit-pass": "Streaming Summit Pass",
+        "aws-media-spotlight-labs-and-workshop": "AWS Media Spotlight Labs & Workshops Ticket Holders"
+      },
+      "default_value": [],
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "label",
+      "ajax": 0,
+      "placeholder": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}

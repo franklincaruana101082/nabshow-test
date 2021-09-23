@@ -1,0 +1,111 @@
+{
+  "key": "group_609dd425ef8a4",
+  "title": "Session Fields",
+  "fields": [
+    {
+      "key": "field_609dd431b68a1",
+      "label": "Session Date",
+      "name": "session_date",
+      "type": "date_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "F j, Y",
+      "return_format": "m/d/Y",
+      "first_day": 1
+    },
+    {
+      "key": "field_609dd469b68a2",
+      "label": "Start Time",
+      "name": "start_time",
+      "type": "time_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "g:i a",
+      "return_format": "g:i a"
+    },
+    {
+      "key": "field_609dd483b68a3",
+      "label": "End Time",
+      "name": "end_time",
+      "type": "time_picker",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "display_format": "g:i a",
+      "return_format": "g:i a"
+    },
+    {
+      "key": "field_609dd4c6b68a5",
+      "label": "Logo",
+      "name": "logo",
+      "type": "image",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": ""
+    },
+    {
+      "key": "field_60a01f8c05806",
+      "label": "CTA",
+      "name": "cta",
+      "type": "link",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "array"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "sessions"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}
