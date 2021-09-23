@@ -1,0 +1,55 @@
+[
+    {
+        "key": "group_5db2c2ddebd7d",
+        "title": "Program Categories",
+        "fields": [
+            {
+                "key": "field_5db2c2f179d13",
+                "label": "Program Categories",
+                "name": "program_categories",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Select Category": "Select Category",
+                    "education-conferences": "Education (Conferences)",
+                    "education-all-badge-access-programs": "Education (All-Badge Access Programs)",
+                    "education-workshops-and-training": "Education (Workshops and Training)",
+                    "events": "Events",
+                    "networking": "Networking",
+                    "co-located": "Co-Located Education\/Event"
+                },
+                "default_value": [],
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "page"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "side",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    }
+]
