@@ -123,8 +123,12 @@ function nabshow_lv_customize_register( $wp_customize ) {
 			'type'		=> 'checkbox',
 		) ) );
 
+	$wp_customize->remove_control( 'background_color' );
 	$wp_customize->remove_setting( 'background_color' );
+	$wp_customize->remove_control( 'header_textcolor' );
 	$wp_customize->remove_setting( 'header_textcolor' );
+	$wp_customize->remove_control( 'display_header_text' );
+
 }
 
 add_action( 'customize_register', 'nabshow_lv_customize_register' );
