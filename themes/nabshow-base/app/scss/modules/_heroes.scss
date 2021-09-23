@@ -72,7 +72,7 @@
       bottom: 0;
       width: 30%;
       height: 50%;
-      @include background-image("lightlines-1.png");
+      // @include background-image("lightlines-1.png");
       mix-blend-mode: lighten;
       background-size: cover;
     }
@@ -83,7 +83,7 @@
       top: 0;
       width: 15%;
       height: 100%;
-      @include background-image("lightlines-2.png");
+      // @include background-image("lightlines-2.png");
       mix-blend-mode: lighten;
       background-size: cover;
     }
