@@ -1,53 +1,51 @@
-[
+{
+  "key": "group_5db2bdc4b2e77",
+  "title": "Level",
+  "fields": [
     {
-        "key": "group_5db2bdc4b2e77",
-        "title": "Level",
-        "fields": [
-            {
-                "key": "field_5db2bdd5771c0",
-                "label": "Level",
-                "name": "level",
-                "type": "select",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "choices": {
-                    "Select Level": "Select Level",
-                    "beginner": "Beginner",
-                    "intermediate": "Intermediate",
-                    "advanced": "Advanced",
-                    "all-experience-levels": "All Experience Levels"
-                },
-                "default_value": [],
-                "allow_null": 0,
-                "multiple": 0,
-                "ui": 0,
-                "return_format": "value",
-                "ajax": 0,
-                "placeholder": ""
-            }
-        ],
-        "location": [
-            [
-                {
-                    "param": "post_type",
-                    "operator": "==",
-                    "value": "page"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "side",
-        "style": "default",
-        "label_placement": "top",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": ""
+      "key": "field_5db2bdd5771c0",
+      "label": "Level",
+      "name": "level",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "Select Level": "Select Level",
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced",
+        "all-experience-levels": "All Experience Levels"
+      },
+      "default_value": [],
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "value",
+      "ajax": 0,
+      "placeholder": ""
     }
-]
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}

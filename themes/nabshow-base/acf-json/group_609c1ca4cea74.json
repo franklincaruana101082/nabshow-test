@@ -1,296 +1,292 @@
-[
+{
+  "key": "group_609c1ca4cea74",
+  "title": "Schedule Page Fields",
+  "fields": [
     {
-        "key": "group_609c1ca4cea74",
-        "title": "Schedule Page Fields",
-        "fields": [
+      "key": "field_609c1cacbec8c",
+      "label": "Big Title",
+      "name": "big_title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": "",
+      "maxlength": ""
+    },
+    {
+      "key": "field_609c1cb5bec8d",
+      "label": "Subtitle",
+      "name": "subtitle",
+      "type": "wysiwyg",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "tabs": "text",
+      "media_upload": 0,
+      "toolbar": "full",
+      "delay": 0
+    },
+    {
+      "key": "field_609c1cc2bec8e",
+      "label": "Feature Timeline",
+      "name": "feature_timeline",
+      "type": "repeater",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "collapsed": "field_609c1cedbec91",
+      "min": 0,
+      "max": 5,
+      "layout": "row",
+      "button_label": "",
+      "sub_fields": [
+        {
+          "key": "field_609efed69cfa0",
+          "label": "Day",
+          "name": "day",
+          "type": "date_picker",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "display_format": "m/d/Y",
+          "return_format": "Ymd",
+          "first_day": 1
+        },
+        {
+          "key": "field_609efee09cfa1",
+          "label": "Start Time",
+          "name": "start_time",
+          "type": "time_picker",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "display_format": "g:i a",
+          "return_format": "g:i a"
+        },
+        {
+          "key": "field_609efeec9cfa2",
+          "label": "End Time",
+          "name": "end_time",
+          "type": "time_picker",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "display_format": "g:i a",
+          "return_format": "g:i a"
+        },
+        {
+          "key": "field_609c1cedbec91",
+          "label": "Title",
+          "name": "timeline_feature_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": ""
+        },
+        {
+          "key": "field_609c1d05bec92",
+          "label": "Copy",
+          "name": "timeline_feature_copy",
+          "type": "wysiwyg",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "tabs": "all",
+          "toolbar": "basic",
+          "media_upload": 0,
+          "delay": 0
+        },
+        {
+          "key": "field_609effbf9cfa3",
+          "label": "CTA",
+          "name": "cta",
+          "type": "link",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "return_format": "array"
+        },
+        {
+          "key": "field_609c1d3dbec93",
+          "label": "Background Image",
+          "name": "timeline_feature_background_image",
+          "type": "image",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "return_format": "array",
+          "preview_size": "medium",
+          "library": "all",
+          "min_width": "",
+          "min_height": "",
+          "min_size": "",
+          "max_width": "",
+          "max_height": "",
+          "max_size": "",
+          "mime_types": ""
+        },
+        {
+          "key": "field_60a01fbcbb2da",
+          "label": "Sessions Slider",
+          "name": "sessions_slider",
+          "type": "repeater",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "collapsed": "",
+          "min": 0,
+          "max": 0,
+          "layout": "table",
+          "button_label": "",
+          "sub_fields": [
             {
-                "key": "field_609c1cacbec8c",
-                "label": "Big Title",
-                "name": "big_title",
-                "type": "text",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": "",
-                "maxlength": ""
-            },
-            {
-                "key": "field_609c1cb5bec8d",
-                "label": "Subtitle",
-                "name": "subtitle",
-                "type": "wysiwyg",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "tabs": "text",
-                "media_upload": 0,
-                "toolbar": "full",
-                "delay": 0
-            },
-            {
-                "key": "field_609c1cc2bec8e",
-                "label": "Feature Timeline",
-                "name": "feature_timeline",
-                "type": "repeater",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "collapsed": "field_609c1cedbec91",
-                "min": 0,
-                "max": 5,
-                "layout": "row",
-                "button_label": "",
-                "sub_fields": [
-                    {
-                        "key": "field_609efed69cfa0",
-                        "label": "Day",
-                        "name": "day",
-                        "type": "date_picker",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "display_format": "m\/d\/Y",
-                        "return_format": "Ymd",
-                        "first_day": 1
-                    },
-                    {
-                        "key": "field_609efee09cfa1",
-                        "label": "Start Time",
-                        "name": "start_time",
-                        "type": "time_picker",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "display_format": "g:i a",
-                        "return_format": "g:i a"
-                    },
-                    {
-                        "key": "field_609efeec9cfa2",
-                        "label": "End Time",
-                        "name": "end_time",
-                        "type": "time_picker",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "display_format": "g:i a",
-                        "return_format": "g:i a"
-                    },
-                    {
-                        "key": "field_609c1cedbec91",
-                        "label": "Title",
-                        "name": "timeline_feature_title",
-                        "type": "text",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "placeholder": "",
-                        "prepend": "",
-                        "append": "",
-                        "maxlength": ""
-                    },
-                    {
-                        "key": "field_609c1d05bec92",
-                        "label": "Copy",
-                        "name": "timeline_feature_copy",
-                        "type": "wysiwyg",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "tabs": "all",
-                        "toolbar": "basic",
-                        "media_upload": 0,
-                        "delay": 0
-                    },
-                    {
-                        "key": "field_609effbf9cfa3",
-                        "label": "CTA",
-                        "name": "cta",
-                        "type": "link",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "return_format": "array"
-                    },
-                    {
-                        "key": "field_609c1d3dbec93",
-                        "label": "Background Image",
-                        "name": "timeline_feature_background_image",
-                        "type": "image",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "return_format": "array",
-                        "preview_size": "medium",
-                        "library": "all",
-                        "min_width": "",
-                        "min_height": "",
-                        "min_size": "",
-                        "max_width": "",
-                        "max_height": "",
-                        "max_size": "",
-                        "mime_types": ""
-                    },
-                    {
-                        "key": "field_60a01fbcbb2da",
-                        "label": "Sessions Slider",
-                        "name": "sessions_slider",
-                        "type": "repeater",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "collapsed": "",
-                        "min": 0,
-                        "max": 0,
-                        "layout": "table",
-                        "button_label": "",
-                        "sub_fields": [
-                            {
-                                "key": "field_60a01fd7bb2db",
-                                "label": "Session",
-                                "name": "session",
-                                "type": "post_object",
-                                "instructions": "",
-                                "required": 0,
-                                "conditional_logic": 0,
-                                "wrapper": {
-                                    "width": "",
-                                    "class": "",
-                                    "id": ""
-                                },
-                                "post_type": [
-                                    "sessions"
-                                ],
-                                "taxonomy": "",
-                                "allow_null": 0,
-                                "multiple": 0,
-                                "return_format": "id",
-                                "ui": 1
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "key": "field_609c1e06bec9a",
-                "label": "Mid-Page Banner Image",
-                "name": "banner_image",
-                "type": "image",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "return_format": "array",
-                "preview_size": "medium",
-                "library": "all",
-                "min_width": "",
-                "min_height": "",
-                "min_size": "",
-                "max_width": "",
-                "max_height": "",
-                "max_size": "",
-                "mime_types": ""
-            },
-            {
-                "key": "field_609c1e0ebec9b",
-                "label": "Hide mailing list sign up section",
-                "name": "hide_sign_up",
-                "type": "true_false",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "message": "",
-                "default_value": 0,
-                "ui": 1,
-                "ui_on_text": "",
-                "ui_off_text": ""
+              "key": "field_60a01fd7bb2db",
+              "label": "Session",
+              "name": "session",
+              "type": "post_object",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": 0,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "post_type": ["sessions"],
+              "taxonomy": "",
+              "allow_null": 0,
+              "multiple": 0,
+              "return_format": "id",
+              "ui": 1
             }
-        ],
-        "location": [
-            [
-                {
-                    "param": "post_type",
-                    "operator": "==",
-                    "value": "schedule"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "acf_after_title",
-        "style": "default",
-        "label_placement": "top",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": ""
+          ]
+        }
+      ]
+    },
+    {
+      "key": "field_609c1e06bec9a",
+      "label": "Mid-Page Banner Image",
+      "name": "banner_image",
+      "type": "image",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": ""
+    },
+    {
+      "key": "field_609c1e0ebec9b",
+      "label": "Hide mailing list sign up section",
+      "name": "hide_sign_up",
+      "type": "true_false",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
     }
-]
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "schedule"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "acf_after_title",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}
