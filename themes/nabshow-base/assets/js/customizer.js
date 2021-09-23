@@ -60,8 +60,13 @@
 					'--secondary-color': '#2f5dab'
 				} );
 			} else {
+				var secondaryHSV		= hex2hsv(to);
+				var secondaryLight	= hsv2rgb(secondaryHSV[0]-19.1,secondaryHSV[1]*1.308965517,secondaryHSV[2]*1.368107303);
+				var secondaryDark		= hsv2rgb(secondaryHSV[0]+11.1,secondaryHSV[1]*1.015172414, secondaryHSV[2]*0.508196721);
 				$( ':root' ).css( {
-					'--secondary-color': to
+					'--secondary-color': to,
+					'--secondary-light': secondaryLight,
+					'--secondary-dark': secondaryDark,
 				} );
 				
 			}

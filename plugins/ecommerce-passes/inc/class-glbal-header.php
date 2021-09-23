@@ -148,12 +148,23 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 </div> -->
                                 <div class="nab-profile-menu">
                                 <?php
-                                        //if site is not NABShow.com show login/sign up or profile links
-                                        if($current_site_id != 4) {
+                                    //if site is using nabshow-base or a child of it show swiftype search, 
+                                    //otherwise show login/sign up or profile links
+
+                                        $theme_info = wp_get_theme();
+                                        $theme_template = $theme_info->get('Template');
+                                        $theme_textdomain = $theme_info->get('TextDomain');
+
+                                        if($theme_textdomain == 'nabshow-base' || $theme_template == 'nabshow-base' || $current_site_id == 4) {
+                                            //show swiftype search on NABShow.com
+                                            ?>
+                                            <input type="text" class="st-default-search-input header__search">
+                                            <?php
+                                        } else {
                                             if ( is_user_logged_in() ) {
                                             $current_user    = wp_get_current_user();
-                                            $user_images     	= $this->ep_get_user_images( $current_user->ID );
-                                            $user_thumb      	= isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
+                                            $user_images        = $this->ep_get_user_images( $current_user->ID );
+                                            $user_thumb         = isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
                                             $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
                                             ?>
                                             <ul class="nab-profile nab-logged-in">
@@ -176,13 +187,8 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                                 </li>
                                             </ul>
                                         <?php
-                                            }
-                                        } else {
-                                            //show swiftype search on NABShow.com
-                                            ?>
-                                            <input type="text" class="st-default-search-input header__search">
-                                            <?php
-                                        } 
+                                        }
+                                    } 
                                 ?>
                                 </div>
                             </nav><!-- #site-navigation -->

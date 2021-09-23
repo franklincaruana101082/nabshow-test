@@ -90,64 +90,14 @@
         <?php wp_nav_menu( array( 'theme_location' => 'menu-main', 'container' => false, 'menu_class' => 'header__mainnav-menu menu' ) ); ?>
         <?php //echo('<input type="text" class="st-default-search-input header__search">');?>
       </nav>
-      <?php do_action( 'nab_global_header' ); ?>
-      <?php /*
-      <div class="header__secondarynav">
-        <nav class="header__brandnav">
-          <?php wp_nav_menu( array( 'theme_location' => 'menu-brand', 'container' => false, 'menu_class' => 'header__brandnav-menu menu' ) ); ?>
-        </nav>
-        <nav class="header__utilitynav">
-          <ul class="header__utilitynav-menu menu">
-            <?php /*
-            if ( is_user_logged_in() ) {
-                $current_user       = wp_get_current_user();
-                $user_images        = nab_amplify_get_user_images( $current_user->ID );
-                $user_thumb         = $user_images['profile_picture'];
-                $user_full_name     = get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );                                                     
-                
-                if ( empty( trim( $user_full_name ) ) ) {
-
-                    $user_full_name = $current_user->display_name;
-                }
-                
-                ?>
-                <li class="menu__item _profile">
-                    <a class="menu__link" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
-                        <div class="author">
-                            <div class="author__photo"><img src="<?php echo esc_url( $user_thumb ); ?>"/></div>
-                            <span class="author__name"><?php echo $user_full_name; ?></span>
-                        </div>
-                    </a>
-                </li>
-            <?php } else { ?>
-                <?php
-                    $sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
-                    if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
-                        $sign_up_page_url = get_permalink( $sign_up_page->ID );
-                ?>
-                <li class="menu__item"><a href="<?php echo esc_url( $sign_up_page_url ); ?>" class="menu__link"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a></li>
-                <?php } ?>
-
-                <li class="menu__item">
-                    <a class="menu__link _login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
-                </li>
-            <?php } ?>
-            <?php /*
-            <li class="cart">
-                <a href="<?php echo esc_url( wc_get_cart_url() ); ?>">Cart</a>
-                <span class="cart__count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-            </li>
-            
-            <li class="menu__item"><a href="#" class="menu__link">Sign Up</a></li>
-            <li class="menu__item"><a href="#" class="menu__link">Sign In</a></li>
-            <?php /*<li class="header__utilitynav-cart">
-              <a class="cart__link" href="https://amplify.nabshow.com/cart/">Cart</a>
-              <span class="cart__count ">0</span>
-            </li>  ?>
-          </ul>
-        </nav>
-      </div>  
-        */?>
+      <?php /* call global header shortcode from ecommerce passes plugin */
+            do_action( 'nab_global_header' ); ?>
     </div>
   </header>  
+  <p><?php 
+    $theme_info = wp_get_theme(); 
+    echo 'Template: '.$theme_info->get('Template');
+    echo '<br>';
+    echo 'TextDomain: '.$theme_info->get('TextDomain');
+    ?></p>
 <div data-swiftype-name="body" data-swiftype-type="text">

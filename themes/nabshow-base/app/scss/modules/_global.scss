@@ -233,6 +233,12 @@ body.is-loading {
   }
 }
 
+body {
+  a {
+    color: $color__pink;
+  }
+}
+
 //hybrid style overrides
 
 #page.nab_hybrid {
