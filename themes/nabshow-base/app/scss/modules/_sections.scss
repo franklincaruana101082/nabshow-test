@@ -179,7 +179,7 @@
       left: 0;
       right: 0;
       height: rem(20);
-      @include background-image("lightlines-strip.jpg");
+      // @include background-image("lightlines-strip.jpg");
       background-size: cover;
     }
   }
@@ -192,7 +192,7 @@
       right: 0;
       width: 35%;
       height: 75%;
-      @include background-image("lightlines-7.png");
+      // @include background-image("lightlines-7.png");
       background-size: cover;
       mix-blend-mode: lighten;
     }
@@ -323,7 +323,7 @@
         top: 0;
         width: rem(64);
         height: rem(400);
-        @include background-image("lightlines-8.png");
+        //@include background-image("lightlines-8.png");
         background-repeat: no-repeat;
         background-size: 100% auto;
         background-position: 0 -50%;
@@ -331,7 +331,7 @@
     }
   }
   &._lightlines-bottom-right {
-    @include background-image("lightlines-5.png");
+    //@include background-image("lightlines-5.png");
     background-repeat: no-repeat;
     background-position: 100% 100%;
     padding-bottom: rem(48);
@@ -348,7 +348,7 @@
         position: absolute;
         bottom: rem(-120);
         left: 0;
-        @include background-image("lightlines-4.png");
+        //@include background-image("lightlines-4.png");
         width: rem(240);
         height: rem(230);
         background-size: cover;
@@ -373,12 +373,12 @@
         display: block;
         background-size: contain;
         background-repeat: no-repeat;
-        @include background-image("lightlines-11.png");
+        //@include background-image("lightlines-11.png");
       }
     }
   }
   &._lightlines-strip {
-    @include background-image("lightlines-strip.jpg");
+    //@include background-image("lightlines-strip.jpg");
     height: rem(20);
     background-size: cover;
   }
@@ -393,7 +393,7 @@
         bottom: rem(-120);
         left: 0;
         right: 0;
-        @include background-image("lightlines-strip.jpg");
+        //@include background-image("lightlines-strip.jpg");
         height: rem(20);
         background-size: cover;
       }
@@ -571,7 +571,7 @@
       display: block;
       background-size: contain;
       background-repeat: no-repeat;
-      @include background-image("lightlines-11.png");
+      //@include background-image("lightlines-11.png");
     }
   }
   @include bp-1280 {
@@ -653,7 +653,7 @@
       bottom: 0;
       right: 0;
       width: 44%;
-      @include background-image("lightlines-6.png");
+      //@include background-image("lightlines-6.png");
       background-size: cover;
     }
   }
@@ -1903,7 +1903,7 @@
   padding: rem(40) 0;
   @include bp-768 {
     padding: rem(60) 0 rem(50);
-    @include background-image("lightlines-10.png");
+    //@include background-image("lightlines-10.png");
     background-position: 100% 50%;
     background-repeat: no-repeat;
     background-size: rem(100) rem(490);
