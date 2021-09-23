@@ -1,0 +1,41 @@
+[
+    {
+        "key": "group_5d9ee1b289cc8",
+        "title": "Partners \/ Sponsors Link",
+        "fields": [
+            {
+                "key": "field_5d9ee1df003d3",
+                "label": "Partners\/Sponsors Link",
+                "name": "partners_sponsors_link",
+                "type": "url",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "sponsors"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "side",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    }
+]
