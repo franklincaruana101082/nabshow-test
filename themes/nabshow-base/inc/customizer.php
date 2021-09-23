@@ -87,30 +87,41 @@ function nabshow_lv_customize_register( $wp_customize ) {
 		'transport'	=> 'refresh',
 	) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'primary_color', array(
-		'label'		=> __( 'Primary Theme Color', 'nabshow-base' ),
-		'section'	=> 'colors',
-	) ) );
+		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'primary_color', array(
+			'label'		=> __( 'Primary Theme Color', 'nabshow-base' ),
+			'section'	=> 'colors',
+		) ) );
 
-		$wp_customize->add_setting( 'secondary_color', array(
+	$wp_customize->add_setting( 'secondary_color', array(
 		'default'	=> "#2f5dab",
 		'transport'	=> 'refresh',
 	) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'secondary_color', array(
-		'label'		=> __( 'Secondary Theme Color', 'nabshow-base' ),
-		'section'	=> 'colors',
-	) ) );
+		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'secondary_color', array(
+			'label'		=> __( 'Secondary Theme Color', 'nabshow-base' ),
+			'section'	=> 'colors',
+		) ) );
 
-		$wp_customize->add_setting( 'tertiary_color', array(
+	$wp_customize->add_setting( 'tertiary_color', array(
 		'default'	=> "#f4b2ec",
 		'transport'	=> 'refresh',
 	) );
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'tertiary_color', array(
-		'label'		=> __( 'Tertiary Theme Color', 'nabshow-base' ),
-		'section'	=> 'colors',
-	) ) );
+		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'tertiary_color', array(
+			'label'		=> __( 'Tertiary Theme Color', 'nabshow-base' ),
+			'section'	=> 'colors',
+		) ) );
+
+	$wp_customize->add_setting( 'light_theme', array(
+		'default'	=> "0",
+		'transport'	=> 'refresh',
+	) );
+
+		$wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'light_theme', array(
+			'label'		=> __( 'Use Light Theme Colors', 'nabshow-base' ),
+			'section'	=> 'colors',
+			'type'		=> 'checkbox',
+		) ) );
 
 	$wp_customize->remove_setting( 'background_color' );
 	$wp_customize->remove_setting( 'header_textcolor' );
@@ -154,6 +165,8 @@ function nabshow_customize_css()
 	$secondary = get_theme_mod('secondary_color', "#2f5dab");
 	$tertiary  = get_theme_mod('tertiary_color', "#f4b2ec");
 
+	$swapGrays = get_theme_mod('light_theme', false);
+
 	$primary_hsv = hex_to_hsv($primary);
 
 	//create derivative colors from primary color
@@ -164,6 +177,7 @@ function nabshow_customize_css()
 	$primary_lightish   = hsv_to_hex(array('h'=>$primary_hsv['h']-0.2, 's'=>$primary_hsv['s']*0.995137763, 'v'=>$primary_hsv['v']*2.553191489));//var(--primary-lightish, #6b3b99);
 	$primary_dark       = hsv_to_hex(array('h'=>$primary_hsv['h']-36.8, 's'=>$primary_hsv['s']*1.473257699, 'v'=>$primary_hsv['v']*0.54893617));//var(--primary-dark, #030621);
 
+	echo("<!--".$swapGrays."-->");
     ?>
     <style type="text/css">
         :root { 
@@ -176,6 +190,15 @@ function nabshow_customize_css()
 			--primary-light: <?php echo $primary_light; ?>;
 			--primary-lightish: <?php echo $primary_lightish; ?>;
 			--primary-dark: <?php echo $primary_dark; ?>;
+			<?php if ($swapGrays) { ?>
+				--black: #ffffff;
+				--gray-dark: #c4c4c4;
+				--gray: #9e9e9e;
+				--gray-medium: #737373;
+				--gray-medium-light: #404040;
+				--gray-light: #333333;
+				--white: #000000;
+			<?php } ?>
         }
     </style>
     <?php
@@ -278,3 +301,4 @@ function hsv_to_hex(array $hsv) {
     //return $rgb;
 	return '#' . sprintf('%02x', $rgb['r']) . sprintf('%02x', $rgb['g']) . sprintf('%02x', $rgb['b']);
 }
+

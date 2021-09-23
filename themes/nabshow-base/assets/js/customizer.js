@@ -21,7 +21,6 @@
 
 	// Header text color.
 	wp.customize( 'primary_color', function( value ) {
-		console.log('primary color changed');
 		value.bind( function( to ) {
 			if ( 'blank' === to ) {
 				$( ':root' ).css( {
@@ -69,7 +68,9 @@
 		} );
 	} );
 	wp.customize( 'tertiary_color', function( value ) {
+		console.log('tert color value: '+value);
 		value.bind( function( to ) {
+			console.log('tert color to: '+to);
 			if ( 'blank' === to ) {
 				$( ':root' ).css( {
 					'--tertiary-color': '#f4b2ec'
@@ -77,6 +78,24 @@
 			} else {
 				$( ':root' ).css( {
 					'--tertiary-color': to
+				} );
+				
+			}
+		} );
+	} );
+	wp.customize( 'light_theme', function( value ) {
+
+		value.bind( function( to ) {
+			console.log('light theme value: '+to);
+			if ( to ) {
+				$( ':root' ).css( {
+					'--black': '#ffffff',
+					'--white': '#000000'
+				} );
+			} else {
+				$( ':root' ).css( {
+					'--black': '#000000',
+					'--white': '#ffffff'
 				} );
 				
 			}
