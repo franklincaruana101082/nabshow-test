@@ -94,10 +94,4 @@
             do_action( 'nab_global_header' ); ?>
     </div>
   </header>  
-  <p><?php 
-    $theme_info = wp_get_theme(); 
-    echo 'Template: '.$theme_info->get('Template');
-    echo '<br>';
-    echo 'TextDomain: '.$theme_info->get('TextDomain');
-    ?></p>
 <div data-swiftype-name="body" data-swiftype-type="text">
