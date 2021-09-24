@@ -123,13 +123,14 @@ add_filter( 'allow_subdirectory_install', '__return_true' );
 function nabshow_base_enqueue_styles() {
 	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
     wp_enqueue_style( 'nabshow-lv-child-2021', 
-    	get_stylesheet_directory_uri().'/assets/css/styles.min.css'
+    	get_template_directory_uri().'/assets/css/styles.min.css'
     );
     wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
 
     //wp_enqueue_script( 'nabshow-2021-jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array(), '1.0', true );
     wp_enqueue_script( 'nabshow-2021-slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array(), '1.8.1', true);
-    wp_enqueue_script( 'nabshow-2021-main', get_stylesheet_directory_uri() . '/assets/js/app.min.js', array(), '1.0', true );
+
+    wp_enqueue_script( 'nabshow-2021-main', get_template_directory_uri() . '/assets/js/app.min.js', array(), '1.0', true );
     wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
 
 }
@@ -184,7 +185,7 @@ function nab_amplify_get_user_images($user_id = 0) {
 			} else if ('profile_picture' === $user_image['name'] && empty($user_image_id)) {
 				// Show WordPress avatar for fresh users, who haven't uploaded their profile pic yet.
 				//$user_images[$user_image['name']] = bp_core_fetch_avatar(array('item_id' => $user_id, 'type' => 'full', 'class' => 'friend-avatar', 'html' => false));
-				$user_images[$user_image['name']] = get_stylesheet_directory_uri() . '/assets/images/user-image-default.jpg';
+				$user_images[$user_image['name']] = get_template_directory_uri() . '/assets/images/user-image-default.jpg';
 			} else {
 				// Show uploaded images or the default ones.
 				$user_images[$user_image['name']] = !empty($user_image_id)
@@ -433,7 +434,7 @@ add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
 
 function nabshow_lv_2021_register_custom_script() {
 
-	wp_enqueue_script( 'nabshow-lv-2021-custom', get_stylesheet_directory_uri() . '/assets/js/nabshow-lv-2021.js', array( 'jquery' ) );
+	wp_enqueue_script( 'nabshow-lv-2021-custom', get_template_directory_uri() . '/assets/js/nabshow-lv-2021.js', array( 'jquery' ) );
 	wp_localize_script( 'nabshow-lv-2021-custom', 'nabObject', array(
 		'ajax_url'			=> admin_url( 'admin-ajax.php' ),
 		'ajax_filter_nonce' => wp_create_nonce( 'ajax_filter_nonce' ),
