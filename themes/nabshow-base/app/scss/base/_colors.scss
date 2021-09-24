@@ -145,7 +145,7 @@
     );
 }
 .gradient__purple-orange-corners {
-  @include gradient-purple-orange-corners;
+  //@include gradient-purple-orange-corners;
 }
 
 // left purple right orange corner, black background
@@ -163,7 +163,7 @@
     $color__black;
 }
 .gradient__orange-orange-corners {
-  @include gradient-orange-orange-corners;
+  //@include gradient-orange-orange-corners;
 }
 
 // left purple right blue corner, dark background
@@ -203,7 +203,7 @@
     $color__black;
 }
 .gradient__orange-purple-dark {
-  @include gradient-orange-purple-dark;
+  //@include gradient-orange-purple-dark;
 }
 
 // left purple right orange corner, dark background
@@ -221,7 +221,7 @@
     $color__black;
 }
 .gradient__purple-orange-corners-dark {
-  @include gradient-purple-orange-corners-dark;
+  //@include gradient-purple-orange-corners-dark;
 }
 
 // gradient from left to right purple, blue
