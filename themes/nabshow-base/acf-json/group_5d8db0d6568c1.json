@@ -1,48 +1,46 @@
-[
+{
+  "key": "group_5d8db0d6568c1",
+  "title": "New This Year",
+  "fields": [
     {
-        "key": "group_5d8db0d6568c1",
-        "title": "New This Year",
-        "fields": [
-            {
-                "key": "field_5d8db0e8feb17",
-                "label": "New This Year",
-                "name": "new_this_year",
-                "type": "checkbox",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "choices": {
-                    "yes": "Yes"
-                },
-                "allow_custom": 0,
-                "default_value": [],
-                "layout": "vertical",
-                "toggle": 0,
-                "return_format": "label",
-                "save_custom": 0
-            }
-        ],
-        "location": [
-            [
-                {
-                    "param": "post_type",
-                    "operator": "==",
-                    "value": "page"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "side",
-        "style": "default",
-        "label_placement": "top",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": ""
+      "key": "field_5d8db0e8feb17",
+      "label": "New This Year",
+      "name": "new_this_year",
+      "type": "checkbox",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "yes": "Yes"
+      },
+      "allow_custom": 0,
+      "default_value": [],
+      "layout": "vertical",
+      "toggle": 0,
+      "return_format": "label",
+      "save_custom": 0
     }
-]
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}
