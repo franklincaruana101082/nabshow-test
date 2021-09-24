@@ -181,6 +181,11 @@ function nabshow_customize_css()
 	$primary_lightish   = hsv_to_hex(array('h'=>$primary_hsv['h']-0.2, 's'=>$primary_hsv['s']*0.995137763, 'v'=>$primary_hsv['v']*2.553191489));//var(--primary-lightish, #6b3b99);
 	$primary_dark       = hsv_to_hex(array('h'=>$primary_hsv['h']-36.8, 's'=>$primary_hsv['s']*1.473257699, 'v'=>$primary_hsv['v']*0.54893617));//var(--primary-dark, #030621);
 
+	//create derivative colors from secondary color
+	$secondary_hsv = hex_to_hsv($secondary);
+	$secondary_light = hsv_to_hex(array('h'=>$secondary_hsv['h']-19.1,'s'=>$secondary_hsv['s']*1.308965517, 'v'=>$secondary_hsv['v']*1.368107303));
+	$secondary_dark = hsv_to_hex(array('h'=>$secondary_hsv['h']+11.1,'s'=>$secondary_hsv['s']*1.015172414, 'v'=>$secondary_hsv['v']*0.508196721));
+
 	echo("<!--".$swapGrays."-->");
     ?>
     <style type="text/css">

@@ -10,7 +10,7 @@
       position: absolute;
       bottom: rem(-120);
       right: 0;
-      @include background-image("lightlines-4.png");
+      //@include background-image("lightlines-4.png");
       width: rem(320);
       height: rem(280);
       background-size: contain;
@@ -19,7 +19,7 @@
     }
   }
   @include bp-768 {
-    @include background-image("lightlines-9.png");
+    //@include background-image("lightlines-9.png");
     background-repeat: no-repeat;
     background-size: rem(60) auto;
   }

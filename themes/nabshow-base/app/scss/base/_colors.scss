@@ -100,10 +100,10 @@
 @mixin gradient-black {
   background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(0, 0, 0, 0.5) 100%
+      rgba($color__white, 0) 0%,
+      rgba($color__black, 0.5) 100%
     ),
-    #000000;
+    $color__black;
 }
 .gradient__black {
   @include gradient-black;
@@ -113,10 +113,10 @@
 @mixin gradient-purple {
   background: linear-gradient(
     0deg,
-    rgba(26, 14, 45, 1) 0%,
-    rgba(40, 26, 59, 1) 28%,
-    rgba(40, 26, 59, 1) 52%,
-    rgba(32, 16, 53, 1) 100%
+    rgba($color__purple-dark, 1) 0%,
+    rgba($color__purple, 1) 28%,
+    rgba($color__purple, 1) 52%,
+    rgba($color__purple-dark, 1) 100%
   );
 }
 .gradient__purple {
@@ -125,7 +125,7 @@
 
 // vertical puple-slate used in session rollovers
 @mixin gradient-purple-slate {
-  background: linear-gradient(180deg, #2b272e 0%, #323035 51.04%, #2b272e 100%);
+  background: linear-gradient(180deg, $color__purple-slate-dark 0%, $color__gray-dark 51.04%, $color__purple-slate-dark 100%);
 }
 .gradient__purple-slate {
   @include gradient-purple-slate;
@@ -135,8 +135,8 @@
 @mixin gradient-purple-orange-corners {
   background: linear-gradient(
       306.61deg,
-      rgba(158, 69, 147, 0) 71.61%,
-      #9e4593 167.25%
+      rgba($color__purple-light, 0) 71.61%,
+      $color__purple-light 167.25%
     ),
     linear-gradient(
       247.83deg,
@@ -145,43 +145,43 @@
     );
 }
 .gradient__purple-orange-corners {
-  @include gradient-purple-orange-corners;
+  //@include gradient-purple-orange-corners;
 }
 
 // left purple right orange corner, black background
 @mixin gradient-orange-orange-corners {
   background: linear-gradient(
       306.61deg,
-      rgba(158, 69, 147, 0) 71.61%,
-      #9e4593 167.25%
+      rgba($color__purple-light, 0) 71.61%,
+      $color__purple-light 167.25%
     ),
     linear-gradient(
       247.83deg,
       rgba(234, 12, 159, 0.6) -7.26%,
       rgba(253, 216, 15, 0) 16.65%
     ),
-    #000000;
+    $color__black;
 }
 .gradient__orange-orange-corners {
-  @include gradient-orange-orange-corners;
+  //@include gradient-orange-orange-corners;
 }
 
 // left purple right blue corner, dark background
 @mixin gradient-purple-blue-corners-dark {
   background: linear-gradient(
       256.59deg,
-      rgba(158, 69, 147, 0) 81.26%,
-      #9e4593 139.5%
+      rgba($color__purple-light, 0) 81.26%,
+      $color__purple-light 139.5%
     ),
     linear-gradient(
       243.87deg,
-      rgba(12, 165, 234, 0.6) -13.36%,
-      rgba(47, 93, 171, 0.12) 31.04%
+      rgba($color__blue-light, 0.6) -13.36%,
+      rgba($color__blue, 0.12) 31.04%
     ),
     linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0.4) 15.56%,
-      rgba(0, 0, 0, 0.72) 92.4%
+      rgba($color__black, 0.4) 15.56%,
+      rgba($color__black, 0.72) 92.4%
     );
 }
 .gradient-purple-blue-corners-dark {
@@ -192,36 +192,36 @@
 @mixin gradient-orange-purple-dark {
   background: linear-gradient(
       306.61deg,
-      rgba(158, 69, 147, 0) 71.61%,
-      #9e4593 167.25%
+      rgba($color__purple-light, 0) 71.61%,
+      $color__purple-light 167.25%
     ),
     linear-gradient(
       247.83deg,
       rgba(234, 12, 159, 0.6) -7.26%,
       rgba(253, 216, 15, 0) 16.65%
     ),
-    #000000;
+    $color__black;
 }
 .gradient__orange-purple-dark {
-  @include gradient-orange-purple-dark;
+  //@include gradient-orange-purple-dark;
 }
 
 // left purple right orange corner, dark background
 @mixin gradient-purple-orange-corners-dark {
   background: linear-gradient(
       306.61deg,
-      rgba(158, 69, 147, 0) 71.61%,
-      #9e4593 167.25%
+      rgba($color__purple-light, 0) 71.61%,
+      $color__purple-light 167.25%
     ),
     linear-gradient(
       247.83deg,
       rgba(234, 12, 159, 0.6) -7.26%,
       rgba(253, 216, 15, 0) 16.65%
     ),
-    #000000;
+    $color__black;
 }
 .gradient__purple-orange-corners-dark {
-  @include gradient-purple-orange-corners-dark;
+  //@include gradient-purple-orange-corners-dark;
 }
 
 // gradient from left to right purple, blue
@@ -229,13 +229,13 @@
 @mixin gradient-purple-blue {
   background: linear-gradient(
       256.59deg,
-      rgba(158, 69, 147, 0) 81.26%,
-      rgba(158, 69, 147, 0.5) 139.5%
+      rgba($color__purple-light, 0) 81.26%,
+      rgba($color__purple-light, 0.5) 139.5%
     ),
     linear-gradient(
       243.87deg,
-      rgba(12, 165, 234, 0.5) -13.36%,
-      rgba(47, 93, 171, 0.12) 31.04%
+      rgba($color__blue-light, 0.5) -13.36%,
+      rgba($color__blue, 0.12) 31.04%
     );
 }
 .gradient__purple-blue {
@@ -245,10 +245,10 @@
 @mixin gradient-purple-blue-slant {
   background: linear-gradient(
     45deg,
-    rgba(44, 18, 70, 1) 0%,
-    rgba(25, 10, 58, 1) 28%,
-    rgba(25, 10, 58, 1) 52%,
-    rgba(23, 35, 87, 1) 100%
+    rgba($color__purple-dark, 1) 0%,
+    rgba($color__purple, 1) 28%,
+    rgba($color__purple, 1) 52%,
+    rgba($color__blue-dark, 1) 100%
   );
 }
 .gradient__purple-blue-slant {
