@@ -11,11 +11,15 @@
  * @package Amplify
  */
 
+ $post_id = get_the_id();
+ $post_type = get_post_type( $post_id );
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
 
 <head>
+	<!-- Post ID: <?php echo $post_id ?>-->
+	<!-- Post Type: <?php echo $post_type ?>-->
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="facebook-domain-verification" content="0w5cbue76vinu1cmjikcyz6tpbzbql" />
