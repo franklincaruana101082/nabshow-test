@@ -119,6 +119,18 @@ add_filter( 'allow_subdirectory_install', '__return_true' );
 
 
 
+if( function_exists('acf_add_options_page') ) {
+    
+    acf_add_options_page(array(
+        'page_title' => 'Theme Settings',
+        'menu_title' => 'Theme Settings',
+        'menu_slug'  => 'theme-general-settings',
+        'capability' => 'edit_posts',
+        'redirect'   => false,
+    ));
+    
+}
+
 
 function nabshow_base_enqueue_styles() {
 	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
