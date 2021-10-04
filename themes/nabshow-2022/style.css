@@ -11,3 +11,39 @@ Text Domain: nabshow-2022
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
 
  */
+
+
+ :root {
+      --primary-color: #2a173c;
+      --secondary-color: #6c216d;
+      --tertiary-color: #19bac1;
+      --primary-slate: #817a89;
+      --primary-slate-dark: #2d2930;
+      --primary-lighter: #fdc34e;
+      --primary-light: #c12367;
+      --primary-lightish: #1983c3;
+      --primary-dark: #030621;
+ }
+
+
+/* Homepage */
+
+ .hero__inner:before {
+     pointer-events: none;
+     content: "";
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     height: 100%;
+     left: 0;
+     right: 0;
+     width: 100%;
+     background: linear-gradient(
+ 256.59deg,rgba(158,69,147,0) 81.26%,#9e4593 139.5%),linear-gradient(
+ 243.87deg,rgba(12,165,234,.6) -13.36%,rgba(47,93,171,.12) 31.04%),linear-gradient(
+ 180deg,rgba(0,0,0,.4) 15.56%,rgba(0,0,0,.72) 92.4%);
+ }
+
+ .hero-inner {
+ background-image: none;
+ }
