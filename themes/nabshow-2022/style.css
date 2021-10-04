@@ -45,5 +45,5 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
  }
 
  .hero-inner {
- background-image: none;
+ background-image: none !important;
  }
