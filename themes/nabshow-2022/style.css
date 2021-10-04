@@ -14,10 +14,9 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 
 
 
-
  /* 2022 Design Modifications */
  :root {
-       --primary-color: #281940;
+       --primary-color: #11002b;
        --secondary-color: #6c216d;
        --tertiary-color: #19bac1;
        --primary-slate: #817a89;
@@ -31,31 +30,80 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
  body, body *, html, html * {
  	    font-family: open sans,sans-serif;
  }
-
+ @media only screen and (min-width: 48em) {
+ .header__mainnav-logo-link {
+     width: 15.4375rem;
+ }
+ }
  .nabshow_2021 blockquote, .nabshow_2021 h1, .nabshow_2021 h2, .nabshow_2021 h3, .nabshow_2021 h4, .nabshow_2021 h5, .nabshow_2021 h6  {
      font-family: open sans,sans-serif;
+ }
+ @media only screen and (min-width: 48em) { h2.intro__title {
+     font-size: 3.875rem;
+     line-height: 3.875rem;
+ }
+ }
+ @media only screen and (min-width: 64em) {
+ .stat__number {
+     font-weight: 900;
+     font-size: 4.5rem;
+     line-height: 4.5rem;
+ }
  }
  .nabshow_2021 p, .nabshow_2021 li {
      font-family: open sans,sans-serif;
  	font-size:.8em;
  	line-height: 1.8em;
  }
- .resource-intro-body p {
-     font-size: 1em;
+ .intro-body-text {
+     font-size: 1.2em;
  	line-height: 2.2em;
+ }
+ .resource-intro-body, .resource-intro-body p {
+     font-size: 1.1em;
+ 	line-height: 2.1em;
+ }
+  p.cta-text, .body-text-medium, p.has-medium-font-size {
+     font-size: 1em;
+ 	line-height: 2em;
+ }
+
+ .feature-text li {
+ 	font-size:0.9em;
+ 	line-height: 1.8em;
+ 	padding-bottom: 15px;
+ }
+ .feature-text li:last-child {
+ 	padding-bottom: 5px !important;
  }
  .header__mainnav-menu .menu-item a {
      font-family: open sans,sans-serif;
- 	font-size:1em;
+ 	font-size:1.1em;
  	line-height: 1.8em;
+ 	letter-spacing:.04em;
  }
  .menu-item-has-children a:not([href]):not([tabindex]){
      font-family: open sans,sans-serif;
- 	font-size:1em !important;
+ 	font-size:1.1em !important;
  	line-height: 1.4em;
+ 	letter-spacing:.05em;
  }
 
-
+ .button._arrow, .button.with-arrow, .header__mainnav-cta.menu-item>a._arrow, .header__mainnav-cta.menu-item>a.with-arrow, .mo-openid-app-icons a._arrow.btn.btn-mo.btn-block.btn-social.btn-customtheme.btn-custom-dec.login-button, .mo-openid-app-icons a.with-arrow.btn.btn-mo.btn-block.btn-social.btn-customtheme.btn-custom-dec.login-button, .nab-btn-main a._arrow, .nab-btn-main a.with-arrow, .nabshow_2021 .mktoForm .mktoButtonWrap.mktoBlueBox button.mktoButton, .nabshow_2021 .mktoForm .mktoButtonWrap.mktoBlueBox button.with-arrow.mktoButton, input[type=button].button._arrow, input[type=button].button.with-arrow, input[type=submit].button._arrow, input[type=submit].button.with-arrow {
+     background-color: transparent;
+     padding: .625rem 0;
+     border-bottom: .0625rem solid hsla(0,0%,100%,.5);
+     color: #fff;
+     text-transform: uppercase;
+     display: inline-flex;
+     align-items: center;
+     justify-content: space-between;
+     border-radius: 0;
+     font-weight: 900;
+     font-size: .75rem;
+     line-height: .75rem;
+     letter-spacing: .15rem;
+ }
  .decorative._lightlines-footer-corner:before {
      content: "";
      position: absolute;
@@ -89,6 +137,12 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
  243.87deg,rgba(12,165,234,.5) -13.36%,rgba(8,17,49,.12) 31.04%);
      padding-bottom: 3.4375rem;
  }
+ .story-steps-wrapper {
+     background: linear-gradient(
+ 256.59deg,rgba(158,69,147,0) 81.26%,rgba(158,69,147,.5) 139.5%),linear-gradient(
+ 243.87deg,rgba(12,165,234,.5) -13.36%,rgba(47,93,171,.12) 31.04%);
+     padding: 3rem 0;
+ }
  .decorative {
      background: #040621;
  	padding-bottom:50px;
@@ -115,6 +169,33 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
      text-decoration: none;
      background: linear-gradient(
  0deg,#1A0F2D,#281940 28%,#281a3b 52%,#201035);
+ }
+ @media only screen and (min-width: 48em) { .resource-intro-body {
+     width: calc(100% - 4.375rem);
+ }
+ 	.exhibiting-section {
+     background-image: url(/wp-content/themes/nabshow-lv-child-2021/assets/images/exhibiting-background.jpg);
+     background-size: cover;
+ }
+ 	.safety {
+     padding: 3.75rem 0 3.125rem;
+     background-image: url(/wp-content/themes/nabshow-lv-child-2021/assets/images/lightlines-10.png);
+     background-position: 100% 50%;
+     background-repeat: no-repeat;
+     background-size: 6.25rem 30.625rem;
+ }
+ 	.testimonials-wrapper:before {
+     content: "";
+     position: absolute;
+     top: 50%;
+     left: 0;
+     margin-top: -10rem;
+     width: 7rem;
+     height: 20rem;
+     display: block;
+     background-size: contain;
+     background-repeat: no-repeat;
+     background-image: url(/wp-content/themes/nabshow-lv-child-2021/assets/images/lightlines-11.png);
  }
 
 
@@ -164,6 +245,6 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
      bottom: 0;
      right: 0;
      width: 44%;
-     background-image: url(/wp-content/themes/nabshow-lv-child-2021/assets/images/lightlines-6.png);
+     background-image: url(https://nabshow.com/2022/wp-content/uploads/sites/16/2021/10/lightlines-15.png);
      background-size: cover;
  }
