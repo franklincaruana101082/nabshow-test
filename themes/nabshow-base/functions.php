@@ -134,9 +134,10 @@ if( function_exists('acf_add_options_page') ) {
 
 function nabshow_base_enqueue_styles() {
 	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
-    wp_enqueue_style( 'nabshow-lv-child-2021', 
+    wp_enqueue_style( 'nabshow-base', 
     	get_template_directory_uri().'/assets/css/styles.min.css'
     );
+    wp_enqueue_style( 'nabshow-style', get_stylesheet_uri(), array(), $theme_version );
     wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
 
     //wp_enqueue_script( 'nabshow-2021-jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array(), '1.0', true );
