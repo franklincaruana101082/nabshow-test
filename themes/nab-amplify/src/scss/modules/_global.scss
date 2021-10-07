@@ -638,6 +638,32 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 }
 
 
+.section-heading {
+  padding-top: rem(30);
+  padding-bottom: rem(30);
+  text-align: center;
+  &._centered {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: rem(380);
+  }
+  h1,
+  h2,
+  h3 {
+    text-transform: uppercase;
+    padding-bottom: 0 !important;
+  }
+  @include bp-768 {
+    //margin-bottom: rem(80);
+    text-align: left;
+    &._centered {
+      text-align: center;
+      max-width: rem(820);
+    }
+  }
+}
+
+
 //woocommerce stuff {
 .woocommerce {
 	margin: rem(40) 0 rem(60);
