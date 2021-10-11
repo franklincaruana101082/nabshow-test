@@ -70,7 +70,10 @@
             if($video_img_url == '') {
               $video_img_url = get_template_directory_uri().'/assets/images/amplify-video-placeholder.png';
             }
-            $video_company = get_the_title( get_field('company', $video) );
+            $video_company_id = get_field('company', $video);
+            if ($video_company_id) {
+              $video_company = get_the_title( get_field('company', $video) );
+            }
             $video_speakers = get_field('speakers', $video);
             ?>
             <a class="teaser" href="<?php echo get_permalink( $video ); ?>">
@@ -85,15 +88,17 @@
                   <div class="teaser__desc">
                     <?php echo $video_desc; ?>
                   </div>
+                  <?php if ($video_company_id) { ?>
                   <div class="teaser__company">By <?php echo $video_company; ?></div>
+                  <?php } ?>
                   <?php if(!empty($video_speakers)) : ?>
                   <div class="teaser__speakers">
                     Featuring:
                     <?php 
                     
-                    foreach($video_speakers as $speaker) {
-                      $speaker_name = get_field('first_name',$speaker) . ' ' . get_field('last_name',$speaker);
-                      $speaker_photo = get_field('headshot',$speaker);
+                    if(!empty($video_speakers)) {
+                      $speaker_name = get_field('first_name',$video_speakers[0]) . ' ' . get_field('last_name',$video_speakers[0]);
+                      $speaker_photo = get_field('headshot',$video_speakers[0]);
                       ?>
                       <div class="teaser__speaker">
                         <?php
@@ -104,7 +109,9 @@
                         <?php endif; ?>
                         <span class="teaser__speakerName"><?php echo $speaker_name; ?></span>
                       </div>
-                      <?php
+                      <?php if (count($video_speakers) > 1) { ?>
+                      <div class="teaser__speakerMore">And more</div>
+                      <?php }
                     }
                     ?>
                   </div>
