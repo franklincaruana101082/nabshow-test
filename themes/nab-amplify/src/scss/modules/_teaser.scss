@@ -133,6 +133,9 @@
       flex-flow: row wrap;
       justify-content: flex-start;
     }
+    @include bp-1024 {
+      grid-area: nav-start / nav-start / nav-end / nav-end;
+    }
     .button {
       margin-left: rem(10);
       margin-right: rem(10);
@@ -153,6 +156,36 @@
       }
     }
   }
+
+
+  &__intro {
+    @include bp-1024 {
+      display: grid;
+      grid-template-columns: 1fr #{rem(275)};
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "copy product"
+        "nav nav";
+      grid-gap: rem(20);
+    }
+  }
+    &__desc {
+      @include bp-1024 {
+        grid-area: copy-start / copy-start / copy-end / copy-end;
+      }
+    }
+    &__products {
+      @include bp-1024 {
+        grid-area: product-start / product-start / product-end / product-end;
+        .product-list .product-item {
+          width: 100%;
+          margin-bottom: rem(30);
+        }
+        .woocommerce {
+          margin-bottom: 0;
+        }
+      } 
+    }
 }
 
 .teaser-small {

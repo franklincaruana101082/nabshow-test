@@ -3,6 +3,35 @@
     "title": "Video Library Fields",
     "fields": [
         {
+            "key": "field_61608498b9e06",
+            "label": "Related Product",
+            "name": "related_product",
+            "type": "relationship",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "product"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search",
+                "post_type",
+                "taxonomy"
+            ],
+            "elements": [
+                "featured_image"
+            ],
+            "min": "",
+            "max": "",
+            "return_format": "id"
+        },
+        {
             "key": "field_615ddb16e6bce",
             "label": "Video Section",
             "name": "video_section",
@@ -101,5 +130,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1633541459
+    "modified": 1633719899
 }
