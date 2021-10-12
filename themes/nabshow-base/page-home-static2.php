@@ -278,11 +278,6 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
     <?php
   }
 ?>
-<div class="container section">
-  <?php
-    the_content();
-  ?>
-</div>
 
 
 <div class="container">
