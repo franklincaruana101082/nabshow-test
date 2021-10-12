@@ -17,7 +17,7 @@ get_header();
     <span class="showinfo__when"><?php the_field('banner_date'); ?></span> |
     <span class="showinfo__where"><?php the_field('banner_location'); ?></span>
   </div>
-<?php 
+<?php
 if ( have_posts() ) :
   while ( have_posts() ) : the_post();
 
@@ -25,7 +25,7 @@ if ( have_posts() ) :
   if(have_rows('feature_timeline', $schedule_page_id)): ?>
   <div class="schedule">
     <div class="schedule__menu">
-    <?php while (have_rows('feature_timeline', $schedule_page_id)): the_row(); 
+    <?php while (have_rows('feature_timeline', $schedule_page_id)): the_row();
       $day = new DateTime(get_sub_field('day', $schedule_page_id));
       $day_number = $day->format('d');
       $day_name = $day->format('l');
@@ -42,9 +42,9 @@ if ( have_posts() ) :
       </div>
       <?php endwhile; ?>
     </div>
-  
+
     <div class="schedule__days">
-      <?php while (have_rows('feature_timeline', $schedule_page_id)): the_row(); 
+      <?php while (have_rows('feature_timeline', $schedule_page_id)): the_row();
         $bg_image = get_sub_field('timeline_feature_background_image', $schedule_page_id);
         $start_time = new DateTime(get_sub_field('start_time', $schedule_page_id));
         $end_time = new DateTime(get_sub_field('end_time', $schedule_page_id));
@@ -72,7 +72,7 @@ if ( have_posts() ) :
       <?php endwhile; ?>
     </div>
   </div>
-<?php endif; 
+<?php endif;
 
   endwhile; // End of the loop.
 endif;
@@ -91,7 +91,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
       <ul class="jump-links__menu">
         <?php
         foreach ( $quick_links as $link ) {
-          
+
           $link_url     = $link['link']['url'];
           $link_title   = $link['link']['title'];
           $link_target  = isset( $link['link']['target'] ) && ! empty( $link['link']['target'] ) ? $link['link']['target'] : '_self';
@@ -148,7 +148,7 @@ if ( is_array( $attending_companies ) && count( $attending_companies ) > 0 ) {
           <div class="attending-panel">
             <?php
             foreach ( $attending_companies as $company ) {
-              
+
               if ( ! empty( $company['company'] ) ) {
                 ?>
                 <span class="attending-item">
@@ -204,7 +204,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
 
 <?php
   if ( $display_safety ) {
-    
+
     $safety_title       = get_field( 'safety_title' );
     $safety_icons       = get_field( 'safety_icons' );
     $safety_copy        = get_field( 'safety_copy' );
@@ -226,7 +226,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
           <div class="safety__icons">
             <?php
             foreach ( $safety_icons as $icon ) {
-              
+
               $alt  = isset( $icon['icon']['alt'] ) && ! empty( $icon['icon']['alt'] ) ? $icon['icon']['alt'] : 'Safety Icon';
               $logo = isset( $icon['icon']['ID'] ) && ! empty( $icon['icon']['ID'] ) ? wp_get_attachment_url( $icon['icon']['ID'] ) : '';
               ?>
@@ -251,7 +251,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
           <ul class="safety__stats">
             <?php
             foreach ( $safety_stats as $stat ) {
-              
+
               ?>
               <li class="safety__stat">
                 <div class="safety__statTitle"><?php echo esc_html( $stat['title'] ); ?></div>
@@ -261,7 +261,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
                 <div class="safety__statFollow"><?php echo esc_html( $stat['subtext'] ); ?></div>
               </li>
               <?php
-            } 
+            }
             ?>
           </ul>
           <?php
@@ -273,11 +273,16 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
           <?php
         }
         ?>
-      </div>  
+      </div>
     </div>
     <?php
   }
 ?>
+<div class="container section">
+  <?php
+    the_content();
+  ?>
+</div>
 
 
 <div class="container">
