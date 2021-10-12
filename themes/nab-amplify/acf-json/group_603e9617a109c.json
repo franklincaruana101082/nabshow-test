@@ -51,7 +51,7 @@
             "label": "Session Date & Start Time",
             "name": "session_date",
             "type": "date_time_picker",
-            "instructions": "All times are in time zone America\/New York",
+            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -64,8 +64,8 @@
             "first_day": 1
         },
         {
-            "key": "field_603e8d27dbeff",
-            "label": "Session Date & End Time",
+            "key": "field_603e963992b72",
+            "label": "Session End Time",
             "name": "session_end_time",
             "type": "date_time_picker",
             "instructions": "",
@@ -99,7 +99,7 @@
                 "live": "live",
                 "post-event": "post-event"
             },
-            "default_value": [],
+            "default_value": false,
             "allow_null": 0,
             "multiple": 0,
             "ui": 0,
@@ -260,7 +260,7 @@
             "key": "field_604156debb6e4",
             "label": "Video Embed",
             "name": "video_embed",
-            "type": "wysiwyg",
+            "type": "textarea",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -270,10 +270,10 @@
                 "id": ""
             },
             "default_value": "",
-            "tabs": "text",
-            "media_upload": 0,
-            "toolbar": "full",
-            "delay": 0
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": ""
         },
         {
             "key": "field_60493e17535ab",
@@ -318,5 +318,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1633632480
+    "modified": 1634061125
 }
