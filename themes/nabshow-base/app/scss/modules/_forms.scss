@@ -438,6 +438,9 @@
       .select2-selection__rendered {
         color: $color__white;
         line-height: rem(52);
+        .nabshow_signup & {
+          color: $color__black;
+        }
       }
     }
   }

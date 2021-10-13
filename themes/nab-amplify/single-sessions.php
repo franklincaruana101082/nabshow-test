@@ -260,6 +260,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					
 					if($show_content) {
 
+					if ( Woocommerce_Pay_Per_Post_Helper::has_access() ):
 					if($session_status == "pre-event") {
 						if($pre_event_registration_id != '') {
 					?>
@@ -353,6 +354,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							</div>
 						</div>
 					<?php } //end session status if statement 
+						endif; //end pay for post access if
 						} //end opt in hide_content if
 					?>
 					
@@ -383,13 +385,16 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							);
 							
 							if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show) {
+								if ( Woocommerce_Pay_Per_Post_Helper::has_access() ):
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
 										<?php echo $video_embed; ?>
 									</div>
 								</div>	
-							<?php } ?>
+							<?php 
+								endif; //pay for post acess
+							} ?>
 							</div>
 						</div>
 					</div>

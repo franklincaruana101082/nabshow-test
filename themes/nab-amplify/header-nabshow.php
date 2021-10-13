@@ -12,7 +12,7 @@
  */
 
 function nabshow_styles() {
-	wp_enqueue_style( 'nabshow-styles', '/wp-content/themes/nabshow-lv-child-2021/assets/css/styles.min.css', array(), wp_get_theme()->get( 'Version' ) );
+	wp_enqueue_style( 'nabshow-styles', '/wp-content/themes/nabshow-base/assets/css/styles.min.css', array(), wp_get_theme()->get( 'Version' ) );
 }
 add_action( 'wp_enqueue_scripts', 'nabshow_styles', 100 );
 
