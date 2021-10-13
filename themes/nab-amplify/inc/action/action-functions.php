@@ -4757,6 +4757,7 @@ register_meta( 'post', 'nab_selected_company_id', $optin_meta_args );
 register_meta( 'post', 'article_type', $optin_meta_args );
 register_meta( 'post', 'community', $array_meta_args );
 register_meta( 'post', 'personas', $array_meta_args );
+register_meta( 'post', 'content_pillars', $array_meta_args );
 register_meta( 'post', 'content_scope', $optin_meta_args );
 register_meta( 'post', 'content_format', $array_meta_args );
 register_meta( 'post', 'content_subject', $array_meta_args );
