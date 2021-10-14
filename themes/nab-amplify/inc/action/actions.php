@@ -239,3 +239,7 @@ add_action( 'woocommerce_register_form_end', 'nab_sign_loader_with_text' );
 add_action( 'woocommerce_login_form_end', 'nab_sign_loader_with_text' );
 
 add_action( 'init', 'nab_register_show_video_post_type_and_taxonomy', 9999 );
+
+
+add_action( 'admin_head-post.php', 'session_excerpt_count_js');
+add_action( 'admin_head-post-new.php', 'session_excerpt_count_js');
