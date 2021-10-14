@@ -97,9 +97,10 @@
                 "Select": "Select",
                 "pre-event": "pre-event",
                 "live": "live",
-                "post-event": "post-event"
+                "post-event": "post-event",
+                "VOD": "VOD"
             },
-            "default_value": false,
+            "default_value": [],
             "allow_null": 0,
             "multiple": 0,
             "ui": 0,
@@ -318,5 +319,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1634061125
+    "modified": 1634232597
 }
