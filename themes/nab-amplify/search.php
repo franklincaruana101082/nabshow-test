@@ -22,8 +22,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 <!-- START legacy-template: search -->
 <div class="container">
 <main id="primary" class="site-main">
-	<?php dynamic_sidebar(‘broadstreet-82835’); ?>
-
 	<div class="nab-search-result-wrapper">
 		<div class="search-result-filter">
 			<div class="search-box">
@@ -2006,7 +2004,6 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 		?>
 	</div>
 </main>
-<?php dynamic_sidebar(‘broadstreet-82836’); ?>
 </div><!-- .container -->
 <!-- END legacy-template -->
 <?php
