@@ -562,7 +562,7 @@ function nab_get_search_result_ad()
 	<div class="nab-ad-wrap">
 		<div class="nab-ad-inner">
 			<div class="nab-ad-block body_ad">
-				<broadstreet-zone zone-id="82836"></broadstreet-zone>
+				<broadstreet-zone zone-id="83512"></broadstreet-zone>
 			</div>
 		</div>
 	</div>
@@ -1277,7 +1277,7 @@ function nab_event_time_dropdown_options( $selected = '' ) {
  */
 function nab_get_hide_from_search_users() {
 
-	$user_query = new WP_User_Query( array( 
+	$user_query = new WP_User_Query( array(
 			'fields' 		=> 'ID',
 			'meta_query'	=> array(
 				array(
@@ -1295,10 +1295,10 @@ function nab_get_hide_from_search_users() {
 
 /**
  * Get company name matched search keyword product ids first and then after other products ids.
- * 
+ *
  * @param string $keyword
  * @param array $category_search_array
- * 
+ *
  * @return array
  */
 function nab_get_search_company_product_ids( $keyword, $category_search_array ) {
@@ -1306,17 +1306,17 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 	$product_ids = array();
 
 	if ( ! empty( $keyword ) ) {
-		
+
 		$company = get_page_by_title( $keyword, OBJECT, 'company' );
 
 		if ( ! empty( $company ) ) {
-			
+
 			$company_id = $company->ID;
 
 			$query_args = array(
 				'post_type'			=> 'company-products',
 				'post_status'		=> 'publish',
-				'posts_per_page'	=> -1,				
+				'posts_per_page'	=> -1,
 				'fields'			=> 'ids',
 				'meta_key'			=> 'nab_selected_company_id',
 				'meta_value'		=> $company_id,
@@ -1324,7 +1324,7 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 
 			$query_result	= new WP_Query( $query_args );
 			$product_ids	= $query_result->posts;
-			
+
 			wp_reset_postdata();
 
 			if ( is_array( $product_ids ) && count( $product_ids ) > 0 ) {
@@ -1337,11 +1337,11 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 					'fields'			=> 'ids',
 					'post__not_in'		=> $product_ids,
 				);
-	
+
 				if ( is_array( $category_search_array ) && count( $category_search_array ) > 0 ) {
 					$query_args['_tax_search'] = $category_search_array;
 				}
-	
+
 				$query_result		= new WP_Query( $query_args );
 				$other_product_ids	= $query_result->posts;
 

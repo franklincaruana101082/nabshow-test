@@ -232,7 +232,7 @@ function nab_amplify_widgets_init() {
 			'before_widget' => '<section id="%1$s" class="introtext widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h3 class="intro__title">',
-			'after_title'   => '</h3>',	
+			'after_title'   => '</h3>',
 		)
 	);
 
@@ -244,7 +244,7 @@ function nab_amplify_widgets_init() {
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h4>',
-			'after_title'   => '</h4>',	
+			'after_title'   => '</h4>',
 		)
 	);
 
@@ -256,7 +256,7 @@ function nab_amplify_widgets_init() {
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h4>',
-			'after_title'   => '</h4>',	
+			'after_title'   => '</h4>',
 		)
 	);
 
@@ -268,7 +268,7 @@ function nab_amplify_widgets_init() {
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h4>',
-			'after_title'   => '</h4>',	
+			'after_title'   => '</h4>',
 		)
 	);
 
@@ -277,6 +277,54 @@ function nab_amplify_widgets_init() {
 		'id'			=> 'broadstreet-footer',
 		'description'	=> esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
 		'before_widget' => '<div id="%1$s" class="ad _footer %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Run of Site 120x600 or 160x600', 'nab-amplify' ),
+		'id'			=> 'broadstreet-82845',
+		'description'	=> esc_html__( 'Broadstreet Zone 82845.', 'nab-amplify' ),
+		'before_widget' => '<div id="%1$s" class="ad _82845 %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Run of Site 300x250', 'nab-amplify' ),
+		'id'			=> 'broadstreet-83096',
+		'description'	=> esc_html__( 'Broadstreet Zone 83096.', 'nab-amplify' ),
+		'before_widget' => '<div id="%1$s" class="ad _83096 %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Run of Site 300x600', 'nab-amplify' ),
+		'id'			=> 'broadstreet-88909',
+		'description'	=> esc_html__( 'Broadstreet Zone 88909.', 'nab-amplify' ),
+		'before_widget' => '<div id="%1$s" class="ad _88909 %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Run of Site Bottom 728x90', 'nab-amplify' ),
+		'id'			=> 'broadstreet-82836',
+		'description'	=> esc_html__( 'Broadstreet Zone 82836.', 'nab-amplify' ),
+		'before_widget' => '<div id="%1$s" class="ad _82836 %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Run of Site Mid 728x90', 'nab-amplify' ),
+		'id'			=> 'broadstreet-83512',
+		'description'	=> esc_html__( 'Broadstreet Zone 83512.', 'nab-amplify' ),
+		'before_widget' => '<div id="%1$s" class="ad _83512 %2$s">',
+        'after_widget'  => '</div>',
+	) );
+
+	register_sidebar( array(
+		'name'			=> esc_html__( 'Run of Site Top 970x90', 'nab-amplify' ),
+		'id'			=> 'broadstreet-82835',
+		'description'	=> esc_html__( 'Broadstreet Zone 82835.', 'nab-amplify' ),
+		'before_widget' => '<div id="%1$s" class="ad _82835 %2$s">',
         'after_widget'  => '</div>',
 	) );
 }
@@ -307,9 +355,9 @@ function nab_amplify_scripts() {
 add_action( 'wp_enqueue_scripts', 'nab_amplify_scripts' );
 
 add_action( 'woocommerce_register_form', 'nab_add_registration_privacy_policy', 100 );
-   
+
 function nab_add_registration_privacy_policy() {
- 
+
 woocommerce_form_field( 'privacy_policy_reg', array(
    'type'          => 'checkbox',
    'class'         => array('field__woowrapper'),
@@ -318,13 +366,13 @@ woocommerce_form_field( 'privacy_policy_reg', array(
    'required'      => true,
    'label'         => 'I agree to the NAB Amplify <a href="'. site_url() . '/privacy-policy/">privacy policy</a>, <a href="' . site_url() . '/terms-of-use/">terms of use</a> and <a href="' . site_url() . '/nab-virtual-events-code-of-conduct/">code of conduct</a>.',
 ));
-  
+
 }
-  
+
 // Show error if user does not tick
-   
+
 add_filter( 'woocommerce_registration_errors', 'nab_validate_privacy_registration', 10, 3 );
-  
+
 function nab_validate_privacy_registration( $errors, $username, $email ) {
 if ( ! is_checkout() ) {
     if ( ! (int) isset( $_POST['privacy_policy_reg'] ) ) {
@@ -363,19 +411,19 @@ function nabshow_lv_2021_date_sort( $a, $b ) {
 }
 /**
  * Modified session archive page default query.
- * 
+ *
  * @param WP_Query $query
  */
 function nabshow_lv_2021_modified_session_list_query( $query ) {
 
-	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {  
-   
-		$query->set( 'meta_key', 'starttime' ); 
-        $query->set( 'orderby', 'meta_value' );  
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {
+
+		$query->set( 'meta_key', 'starttime' );
+        $query->set( 'orderby', 'meta_value' );
         $query->set( 'order', 'ASC' );
 
 		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
-		
+
 		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
 			$query->set( 'paged', $current_page );
 		}
@@ -390,8 +438,8 @@ function nabshow_lv_2021_modified_session_list_query( $query ) {
 		if ( is_array( $meta_query_args ) && count( $meta_query_args ) > 0 ) {
 			$query->set( 'meta_query', $meta_query_args );
 		}
-		
-    }   
+
+    }
 }
 add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
 
@@ -407,7 +455,7 @@ add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
 
 /**
  * Prepare session archive page tax query args.
- * 
+ *
  * @return array
  */
 function nabshow_lv_2021_prepare_session_tax_query() {
@@ -422,7 +470,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	$tax_query_args				= array();
 
 	if ( isset( $session_program ) && ! empty( $session_program ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'tracks',
 			'terms'		=> $session_program,
@@ -430,7 +478,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_location ) && ! empty( $session_location ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-locations',
 			'terms'		=> $session_location,
@@ -438,7 +486,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_registration_pass ) && ! empty( $session_registration_pass ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_registration_pass,
@@ -446,7 +494,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_topic ) && ! empty( $session_topic ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_topic,
@@ -454,7 +502,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_education_partner ) && ! empty( $session_education_partner ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_education_partner,
@@ -462,7 +510,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_session_type ) && ! empty( $session_session_type ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_session_type,
@@ -470,7 +518,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_experience_level ) && ! empty( $session_experience_level ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_experience_level,
@@ -483,7 +531,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 
 /**
  * Prepare session archive page meta query args.
- * 
+ *
  * @return array
  */
 function nabshow_lv_2021_prepare_session_meta_query() {
@@ -518,7 +566,7 @@ function nabshow_lv_2021_prepare_session_meta_query() {
 }
 
 function nabshow_lv_2021_session_filter() {
-	
+
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
 	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
@@ -591,7 +639,7 @@ function nabshow_lv_2021_session_filter() {
 				$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 				$end_time   = str_replace(':00', '', $end_time );
 			}
-			?>		
+			?>
 
 			<div class="filter-result-box">
 				<!-- datetime -->
@@ -614,20 +662,20 @@ function nabshow_lv_2021_session_filter() {
 				<!-- category -->
 				<?php
 				if ( ! empty( $program_name ) ) {
-					
-					$program_url = $program_planner_url . $program_name . '/show/all'; 
+
+					$program_url = $program_planner_url . $program_name . '/show/all';
 					?>
 					<span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
 					<?php
 				}
 				?>
-				<!-- END category -->												
+				<!-- END category -->
 
 				<!-- description -->
 				<div class="filter-result-box-description">
 					<p><?php the_excerpt(); ?></p>
 				</div>
-				<!-- END description -->	
+				<!-- END description -->
 
 				<?php
 				$speakers       = get_post_meta( $session_id, 'speakers', true );
@@ -635,12 +683,12 @@ function nabshow_lv_2021_session_filter() {
 				$all_speakers   = array();
 
 				if ( ! empty( $speakers ) && count( $speaker_ids ) > 0 ) {
-					
+
 					foreach ( $speaker_ids as $speaker_id ) {
-						
+
 						$speaker_name   = get_the_title( $speaker_id );
 						$mys_speaker_id = get_post_meta( $speaker_id, 'speakerid', true );
-						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>'; 
+						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>';
 					}
 					?>
 					<div class="speakers-list">
