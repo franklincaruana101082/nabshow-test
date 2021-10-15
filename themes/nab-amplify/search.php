@@ -22,6 +22,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 <!-- START legacy-template: search -->
 <div class="container">
 <main id="primary" class="site-main">
+	<div class="nab-ad-wrap">
+		<div class="nab-ad-inner">
+			<div class="nab-ad-block body_ad">
+				<broadstreet-zone zone-id="82835"></broadstreet-zone>
+			</div>
+		</div>
+	</div>
 	<div class="nab-search-result-wrapper">
 		<div class="search-result-filter">
 			<div class="search-box">
@@ -302,7 +309,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$hide_users = nab_get_hide_from_search_users();
 
 				if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
-					
+
 					$members_filter['exclude'] = $hide_users;
 				}
 
@@ -769,7 +776,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				$event_query = new WP_Query( $event_args );
-				
+
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
@@ -807,7 +814,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$final_date         = $event_start_date;
 							$start_time         = '';
 							$end_time           = '';
-							
+
 							$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
@@ -1140,7 +1147,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 								$company_name		= get_the_title( $company_id );
 								$company_link		= get_the_permalink( $company_id );
-								
+
 							?>
 								<li>
 	                                <div class="result _content _pdf">
@@ -1153,7 +1160,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 	                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
 	                                    </div>
 	                                	<?php } ?>
-	                                    
+
 	                                    <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
 	                                    <h5 class="result__lede"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></h5>
 	                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
@@ -1293,7 +1300,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			$hide_users = nab_get_hide_from_search_users();
 
 			if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
-				
+
 				$members_filter['exclude'] = $hide_users;
 			}
 
@@ -1574,7 +1581,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 			<?php
 			}
-			wp_reset_postdata();			
+			wp_reset_postdata();
 
 			$product_args = array(
 				'post_type' 		=> 'product',
@@ -1974,7 +1981,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                         <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
                                     </div>
                                 	<?php } ?>
-                                    
+
                                     <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
                                     <h5 class="result__lede"><?php echo esc_html( $company_name ); ?></h5>
                                     <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
@@ -2002,6 +2009,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			}
 		}
 		?>
+	</div>
+	<div class="nab-ad-wrap">
+		<div class="nab-ad-inner">
+			<div class="nab-ad-block body_ad">
+				<broadstreet-zone zone-id="82836"></broadstreet-zone>
+			</div>
+		</div>
 	</div>
 </main>
 </div><!-- .container -->
