@@ -26,6 +26,7 @@
 ?>
 <div class="register">
 <button class="button <?php echo($registered ? '' : '_gradientpink'); ?> js-register" <?php echo($registered ? 'disabled="true"' : ''); ?>><?php echo($registered ? 'Registered' : 'Register Now'); ?></button>
+	<?php if ($session_status != "VOD") { ?>
 	<div class="register__calendar <?php echo($registered ? '_display' : ''); ?>">
 		<div 
 			class="events-list__event__add"
@@ -36,8 +37,8 @@
 			data-description="<?php echo wp_strip_all_tags($invite_desc); ?>"
 			></div>
 	</div>
-
-	<?php if(!$optin_complete && $opt_in_required) : ?>
+	<?php }
+	if(!$optin_complete && $opt_in_required) : ?>
 	<div class="register__message">
 		<p>By registering, you consent to receive communications from <?php echo $company_name;?>. Per our agreement, <?php echo $company_name;?> is not permitted to share your data with anyone else. You can stop communications or revise your communication settings at any time by visiting the <?php echo $company_name;?> website.</p>
 	</div>
