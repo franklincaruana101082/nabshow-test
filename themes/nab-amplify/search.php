@@ -22,6 +22,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 <!-- START legacy-template: search -->
 <div class="container">
 <main id="primary" class="site-main">
+	<div class="nab-ad-wrap">
+		<div class="nab-ad-inner">
+			<div class="nab-ad-block body_ad">
+				<broadstreet-zone zone-id="82835"></broadstreet-zone>
+			</div>
+		</div>
+	</div>
 	<div class="nab-search-result-wrapper">
 		<div class="search-result-filter">
 			<div class="search-box">
@@ -2002,6 +2009,13 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			}
 		}
 		?>
+	</div>
+	<div class="nab-ad-wrap">
+		<div class="nab-ad-inner">
+			<div class="nab-ad-block body_ad">
+				<broadstreet-zone zone-id="82836"></broadstreet-zone>
+			</div>
+		</div>
 	</div>
 </main>
 </div><!-- .container -->
