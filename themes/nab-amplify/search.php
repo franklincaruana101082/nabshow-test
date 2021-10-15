@@ -22,6 +22,8 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 <!-- START legacy-template: search -->
 <div class="container">
 <main id="primary" class="site-main">
+	<?php dynamic_sidebar(‘broadstreet-82835’); ?>
+
 	<div class="nab-search-result-wrapper">
 		<div class="search-result-filter">
 			<div class="search-box">
@@ -302,7 +304,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				$hide_users = nab_get_hide_from_search_users();
 
 				if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
-					
+
 					$members_filter['exclude'] = $hide_users;
 				}
 
@@ -317,7 +319,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Result<?php echo($ess);?> for </span> <strong>People</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 
 					<div class="search-section search-user-section">
@@ -427,7 +429,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Products</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
 						<ul class="colgrid _5up" id="company-products-list">
@@ -533,7 +535,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Result<?php echo($ess);?> for </span> <strong>Companies</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
 						<ul class="colgrid _5up" id="search-company-list">
@@ -640,7 +642,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Shop</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
 						<ul class="colgrid _5up" id="search-product-list">
@@ -769,14 +771,14 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				}
 
 				$event_query = new WP_Query( $event_args );
-				
+
 				$search_found	= true;
 				$total_event	= $event_query->found_posts;
 				$ess = $total_event == 0 || $total_event > 1 ? 's' : '';
 				?>
 				<div class="search-view-top-head">
 					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Result<?php echo($ess);?> for </span> <strong>Events</strong></h2>
-					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
 					<ul class="colgrid _5up" id="search-event-list">
@@ -807,7 +809,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 							$final_date         = $event_start_date;
 							$start_time         = '';
 							$end_time           = '';
-							
+
 							$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 							if ( ! empty( $event_start_date ) && ! empty( $event_end_date ) ) {
@@ -959,7 +961,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Stories</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
 						<ul class="colgrid _5up" id="search-content-list">
@@ -1044,7 +1046,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Content</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-page-section">
 						<ul class="colgrid _5up" id="search-page-list">
@@ -1118,7 +1120,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Result<?php echo($ess);?> for </span><strong>Downloadable PDFs</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-pdf-section">
 						<ul class="colgrid _5up" id="downloadable-pdfs-list">
@@ -1140,7 +1142,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 								$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 								$company_name		= get_the_title( $company_id );
 								$company_link		= get_the_permalink( $company_id );
-								
+
 							?>
 								<li>
 	                                <div class="result _content _pdf">
@@ -1153,7 +1155,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 	                                        <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
 	                                    </div>
 	                                	<?php } ?>
-	                                    
+
 	                                    <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
 	                                    <h5 class="result__lede"><a href="<?php echo esc_url( $company_link );?>"><?php echo esc_html( $company_name ); ?></a></h5>
 	                                    <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
@@ -1293,7 +1295,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 			$hide_users = nab_get_hide_from_search_users();
 
 			if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
-				
+
 				$members_filter['exclude'] = $hide_users;
 			}
 
@@ -1574,7 +1576,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				</div>
 			<?php
 			}
-			wp_reset_postdata();			
+			wp_reset_postdata();
 
 			$product_args = array(
 				'post_type' 		=> 'product',
@@ -1974,7 +1976,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
                                         <img class="result__image" src="<?php echo esc_url( $thumbnail_url ); ?>" alt="PDF Thumbnail">
                                     </div>
                                 	<?php } ?>
-                                    
+
                                     <h4 class="result__title"><?php echo esc_html(get_the_title()); ?></h4>
                                     <h5 class="result__lede"><?php echo esc_html( $company_name ); ?></h5>
                                     <div class="result__desc"><?php echo esc_html( $pdf_desc ); ?></div>
@@ -2004,6 +2006,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 		?>
 	</div>
 </main>
+<?php dynamic_sidebar(‘broadstreet-82836’); ?>
 </div><!-- .container -->
 <!-- END legacy-template -->
 <?php
