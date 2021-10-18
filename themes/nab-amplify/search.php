@@ -324,7 +324,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="user-search-count"><?php echo esc_html($total_users); ?> Result<?php echo($ess);?> for </span> <strong>People</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 
 					<div class="search-section search-user-section">
@@ -434,7 +434,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="company-product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Products</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section amp-item-main company-products">
 						<ul class="colgrid _5up" id="company-products-list">
@@ -540,7 +540,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="company-search-count"><?php echo esc_html($total_company); ?> Result<?php echo($ess);?> for </span> <strong>Companies</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-company-section">
 						<ul class="colgrid _5up" id="search-company-list">
@@ -647,7 +647,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 					<div class="search-view-top-head">
 						<h2><span class="product-search-count"><?php echo esc_html($total_products); ?> Result<?php echo($ess);?> for </span> <strong>Shop</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-product-section">
 						<ul class="colgrid _5up" id="search-product-list">
@@ -783,7 +783,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 				?>
 				<div class="search-view-top-head">
 					<h2><span class="event-search-count"><?php echo esc_html($total_event); ?> Result<?php echo($ess);?> for </span> <strong>Events</strong></h2>
-					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+					<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 				</div>
 				<div class="search-section search-content-section">
 					<ul class="colgrid _5up" id="search-event-list">
@@ -966,7 +966,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="content-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Stories</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-content-section">
 						<ul class="colgrid _5up" id="search-content-list">
@@ -1051,7 +1051,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="page-search-count"><?php echo esc_html($total_content); ?> Result<?php echo($ess);?> for </span> <strong>Content</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-page-section">
 						<ul class="colgrid _5up" id="search-page-list">
@@ -1125,7 +1125,7 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 					?>
 					<div class="search-view-top-head">
 						<h2><span class="pdf-search-count"><?php echo esc_html($total_pdf); ?> Result<?php echo($ess);?> for </span><strong>Downloadable PDFs</strong></h2>
-						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/2021/">Click Here</a></p>
+						<p class="view-top-other-info">Are you looking for something on NAB Show? <a href="https://nabshow.com/">Click Here</a></p>
 					</div>
 					<div class="search-section search-pdf-section">
 						<ul class="colgrid _5up" id="downloadable-pdfs-list">

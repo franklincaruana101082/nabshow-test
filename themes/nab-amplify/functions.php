@@ -327,7 +327,6 @@ function nab_amplify_widgets_init() {
 		'before_widget' => '<div id="%1$s" class="ad _82835 %2$s">',
         'after_widget'  => '</div>',
 	) );
-
 }
 
 add_action( 'widgets_init', 'nab_amplify_widgets_init' );

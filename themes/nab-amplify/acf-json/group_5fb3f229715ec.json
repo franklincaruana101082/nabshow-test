@@ -63,15 +63,20 @@
             "label": "Content Pillars",
             "name": "content_pillars",
             "type": "checkbox",
-            "instructions": "Create\r\nConnect\r\nCapitalize\r\nIntelligent Content",
-            "required": 0,
+            "instructions": "",
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "choices": [],
+            "choices": {
+                "Create": "Create",
+                "Connect": "Connect",
+                "Capitalize": "Capitalize",
+                "Intelligent Content": "Intelligent Content"
+            },
             "allow_custom": 0,
             "default_value": [],
             "layout": "vertical",
@@ -612,5 +617,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1633978891
+    "modified": 1634589091
 }

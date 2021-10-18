@@ -139,6 +139,9 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							$registered_show = 0;
 							$registration_required = (int)get_field('require_registration');
 							$using_optin = (get_field('show_opt_inout_modal') ? "1" : "0");
+							$content_protected = (int)get_field('make_opt_in_required');
+							//set using_optin to true if optin is required
+							if($content_protected && !$using_optin) { $using_optin = "1";}
 							if($using_optin) {
 								$optin_complete = '0';
 							} else {
@@ -167,8 +170,6 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 
 
 								$show_content = true;
-						
-								$content_protected = (int)get_field('make_opt_in_required');
 								
 								$cookieName = 'nab_optin';
 								if(isset($_COOKIE[$cookieName])) {
@@ -459,12 +460,14 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					<?php } //end related if ?>
 
 					<?php //opt in modal
-					if (get_field('show_opt_inout_modal')) {
+					$using_optin = (int)get_field('show_opt_inout_modal');
+					$opt_in_required = (int)get_field('make_opt_in_required');
+					if($opt_in_required && !$using_optin) { $using_optin = 1; }
+					if ($using_optin) { 
 						//we need these defined here because they may change depending on the template we're adding this to
 						$user_id = $user_id;
 						$company_id = $company;
 						$company_name = $session_company_name;
-						$opt_in_required = (int)get_field('make_opt_in_required');
 						$occurred_at_type = 'session';
 						$displayInline = false;
 						//use this instead of get_template_part so the partial can access the above php vars from here

@@ -17,8 +17,8 @@ if(empty($user_city)) {
 if(empty($user_state)) {
 	$user_state = nab_get_geolocation('state');
 }
-echo("<!-- Registration required: ".$registration_required." | Opt In Required: ".$opt_in_required." -->");
-if($registration_required && $opt_in_required) {
+echo("<!-- Registration required: ".$registration_required." | Opt In Required: ".$opt_in_required." | Opt In Completed: ".$optin_complete." -->");
+if($registration_required && $opt_in_required && $optin_complete) {
 	// if registration is required AND opt-in is required don't show anything here
 	// opt-in will be handled by session-registration.php
 } else {
