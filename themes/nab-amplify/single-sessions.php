@@ -424,6 +424,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									?>
 									<li class="related__item">
 										<a href="<?php echo esc_url( get_the_permalink($event_id) ); ?>" class="event">
+											<?php if ($session_status != "VOD") { ?>
 											<div class="event__date">
 												<div class="event__month"><?php echo esc_html($rel_month); ?></div>
 												<div class="event__day text-gradient _blue"><?php echo esc_html($rel_day); ?></div>
@@ -432,6 +433,11 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 												<div class="event__link link _plus">Learn More</div>
 												<!-- <img class="event__image" src="square-image" /> -->
 											</div>
+											<?php } else { ?>
+											<div class="event__date _hidden"></div>
+											<div class="event__photo _hidden"></div>
+											<?php } ?>
+											
 											<div class="event__info">
 												<h4 class="event__title"><?php echo esc_html( get_the_title($event_id) ); ?></h4>
 												<div class="event__time"><?php echo esc_html($rel_time_start); ?> - <?php echo esc_html($rel_time_end); ?> ET</div>
