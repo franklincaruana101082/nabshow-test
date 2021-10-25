@@ -713,3 +713,7 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 			}
 		}
 	}
+
+	.woo_shop_page {
+		@extend .container;
+	}
