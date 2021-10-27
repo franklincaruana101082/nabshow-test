@@ -136,7 +136,7 @@
             "label": "Hide Videos Until",
             "name": "hide_videos_until",
             "type": "date_time_picker",
-            "instructions": "Video sections will be hidden prior to this time if \"Hide Content Until Start Time\" is enabled.\r\nAll times are in Eastern\/New York.",
+            "instructions": "Video sections will be hidden prior to this time if \"Hide Content Until Start Time\" is enabled.",
             "required": 0,
             "conditional_logic": [
                 [
@@ -152,8 +152,8 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "F j, Y g:i a",
-            "return_format": "F j, Y g:i a",
+            "display_format": "d\/m\/Y g:i a",
+            "return_format": "d\/m\/Y g:i a",
             "first_day": 1
         }
     ],
@@ -172,7 +172,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1635370818
+    "modified": 1635378523
 }
