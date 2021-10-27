@@ -200,7 +200,11 @@
     }
 
   &__soon {
-    font-size: rem(18);
+    font-size: rem(22);
+    .embed-group._video_and_chat & {
+      padding-left: rem(30);
+      padding-right: rem(30);
+    }
   }
 }
 

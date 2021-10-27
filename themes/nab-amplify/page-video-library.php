@@ -9,13 +9,12 @@
 $hide_videos = get_field('hide_video');
 
 if($hide_videos) {
-  date_default_timezone_set('America/New_York');
-
-  $show_time = get_field('hide_videos_until');
-  $show_time = new DateTime($show_time);
   $current_time = new DateTime("now");
+  $current_time->setTimezone(new DateTimeZone('America/New_York'));
+  $current_time_string = $current_time->format('Y-m-d H:i:s');
+  $current_time_adjusted = new DateTime($current_time_string);
 
-  if($show_time < $current_time) {
+  if($show_time < $current_time_adjusted) {
     $hide_videos = false;
   }
 }
@@ -146,7 +145,7 @@ if($hide_videos) {
       endwhile; ?>
   </div>
   <?php
-  } else {
+  } else if (have_rows('video_section') && $hide_videos ) {
     ?>
     <div class="main _contentborder teaser__wrap">
       <div class="section container teaser__section">

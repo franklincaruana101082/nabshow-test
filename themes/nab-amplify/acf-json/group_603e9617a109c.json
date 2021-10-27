@@ -51,7 +51,7 @@
             "label": "Session Date & Start Time",
             "name": "session_date",
             "type": "date_time_picker",
-            "instructions": "Video content will be hidden prior to this time if \"Hide Video Until Start Time\" is enabled. This time is only displayed if a session's status is not VOD.",
+            "instructions": "Video content will be hidden prior to this time if \"Hide Video Until Start Time\" is enabled. This time is only displayed if a session's status is not VOD.\r\nAll times are in Eastern\/New York.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -68,7 +68,7 @@
             "label": "Session End Time",
             "name": "session_end_time",
             "type": "date_time_picker",
-            "instructions": "",
+            "instructions": "All times are in Eastern\/New York.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -85,7 +85,7 @@
             "label": "Hide Video Until Start Time",
             "name": "hide_video",
             "type": "true_false",
-            "instructions": "If this is turned on, session content won't be displayed until after the start time.",
+            "instructions": "If this is turned on, session video embed won't be displayed until after the start time.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -338,5 +338,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1635274228
+    "modified": 1635371073
 }
