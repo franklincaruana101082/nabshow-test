@@ -136,7 +136,7 @@
             "label": "Hide Videos Until",
             "name": "hide_videos_until",
             "type": "date_time_picker",
-            "instructions": "Video sections will be hidden prior to this time if \"Hide Content Until Start Time\" is enabled.",
+            "instructions": "Video sections will be hidden prior to this time if \"Hide Content Until Start Time\" is enabled. All times are in Eastern\/New York.",
             "required": 0,
             "conditional_logic": [
                 [
@@ -174,5 +174,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "modified": 1635378523
+    "modified": 1635378775
 }
