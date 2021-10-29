@@ -15,6 +15,22 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 	$preregistered = false;
 }
 
+$hide_videos = get_field('hide_video');
+
+if($hide_videos) {
+
+  $show_time = get_field('session_date');
+  $show_time = new DateTime($show_time);
+  $current_time = new DateTime("now");
+  $current_time->setTimezone(new DateTimeZone('America/New_York'));
+  $current_time_string = $current_time->format('Y-m-d H:i:s');
+  $current_time_adjusted = new DateTime($current_time_string);
+
+  if($show_time < $current_time_adjusted) {
+    $hide_videos = false;
+  }  
+}
+
 ?>
 
 	<main id="primary" class="site-main single_php">
@@ -299,14 +315,18 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature__media">
 							<div class="container">
 								<div class="embed-group _video_and_chat">
-									<?php if($video_embed != '') { ?>
+									<?php if($video_embed != '' && !$hide_videos) { ?>
 									<div class="embed-group__item _video">
 										<div class="embed-wrapper _video">
 											<?php echo $video_embed; ?>
 										</div>
 									</div>
 									<?php 
-										}
+										} else if($video_embed != '' && $hide_videos) { ?>
+									<div class="section container teaser__section">
+										<div class="teaser__soon">This content will be available for streaming on <?php echo esc_html($date_start) . ' at ' . esc_html($time_start); ?></div>
+									</div>
+									<?php }
 										if($chat_room_id != '') { 
 									?>
 									<div class="embed-wrapper _chat">
@@ -340,11 +360,15 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
-								<?php if($video_embed != '') { ?>
+								<?php if($video_embed != '' && !$hide_videos) { ?>
 								<div class="embed-group _video">
 									<div class="embed-wrapper _video">
 										<?php echo $video_embed; ?>
 									</div>
+								</div>
+								<?php } else if($video_embed != '' && $hide_videos) { ?>
+								<div class="section container teaser__section">
+									<div class="teaser__soon">This content will be available for streaming on <?php echo esc_html($date_start) . ' at ' . esc_html($time_start); ?></div>
 								</div>
 								<?php }
 								if ($post_event_survey_id != '') { ?>
@@ -388,7 +412,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show) {
+							if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show && !$hide_videos) {
 								if ( Woocommerce_Pay_Per_Post_Helper::has_access() ):
 							?>
 								<div class="session__prevideo">
@@ -398,7 +422,11 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								</div>	
 							<?php 
 								endif; //pay for post acess
-							} ?>
+							} else if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show && $hide_videos) { ?>
+								<div class="section container teaser__section">
+									<div class="teaser__soon">This content will be available for streaming on <?php echo esc_html($date_start) . ' at ' . esc_html($time_start); ?></div>
+								</div>
+								<?php } ?>
 							</div>
 						</div>
 					</div>

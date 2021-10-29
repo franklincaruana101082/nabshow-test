@@ -5096,7 +5096,7 @@ function nab_register_show_video_post_type_and_taxonomy() {
 
 
 function session_excerpt_count_js() {
-    if ('session' != get_post_type()) {
+    if ('sessions' == get_post_type()) {
         echo '<script>jQuery(document).ready(function() {
             jQuery("#postexcerpt .handlediv").after("<div style=\"position:absolute;top:12px;right:94px;color:#666;\"><small>Excerpt length: </small><span id=\"excerpt_counter\"></span><span style=\"font-weight:bold;padding-left:7px;\">/ 250</span><small><span style=\"font-weight: bold; padding-left:7px;\">character(s).</span></small></div>");
             jQuery("span#excerpt_counter").text(jQuery("#excerpt").val().length);
