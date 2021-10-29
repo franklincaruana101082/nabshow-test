@@ -28,8 +28,6 @@ if($hide_videos) {
 
   if($show_time < $current_time_adjusted) {
     $hide_videos = false;
-
-    echo("show video");
   }  
 }
 
