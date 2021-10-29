@@ -23,6 +23,7 @@ global $product;
 
 $regular_price = (float) $product->get_regular_price(); // Regular price
 $sale_price = (float) $product->get_price(); // Active price (the "Sale price" when on-sale)
+$saving_percentage = null;
 
 // "Saving Percentage" calculation and formatting
 if( $regular_price !== $sale_price && 0 !== (int) $regular_price && 0 !== (int) $sale_price ) {
