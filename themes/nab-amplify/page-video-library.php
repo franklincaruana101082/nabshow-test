@@ -4,16 +4,18 @@
  * Template Name: Amplify Video Library
  */
 
-  get_header();
+get_header();
 
 $hide_videos = get_field('hide_video');
 
 if($hide_videos) {
+  $show_time = get_field('hide_videos_until');
+  $show_time = new DateTime($show_time);
   $current_time = new DateTime("now");
   $current_time->setTimezone(new DateTimeZone('America/New_York'));
   $current_time_string = $current_time->format('Y-m-d H:i:s');
   $current_time_adjusted = new DateTime($current_time_string);
-
+  
   if($show_time < $current_time_adjusted) {
     $hide_videos = false;
   }
