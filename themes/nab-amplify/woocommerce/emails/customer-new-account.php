@@ -41,7 +41,7 @@ if ( $user ) {
 		<li>VOD for online events</li>
 		<li>1,600+ <a href="https://amplify.nabshow.com/?s&v=company">companies</a> featuring hundreds of <a href="https://amplify.nabshow.com/?s=&v=product">products</a></li>
 		<li>Thousands of people waiting to connect with you</li>
-		<li>And you took the first step in registering for NAB Show [If you haven’t yet, <a href="https://amplify.nabshow.com/sign-up/?r=maritz">continue registering here</a>]</li>
+		<li>And you took the first step in registering for NAB Show [If you haven’t yet, <a href="https://amplify.nabshow.com/nab-show-sign-up/?r=maritz">continue registering here</a>]</li>
 	</ul>
 	<p>To take full advantage of the community platform, we encourage you to <a href="https://amplify.nabshow.com/my-account/edit-account/">build out your profile</a>, connect with others, search upcoming events, review companies, discover new innovations and engage with articles and videos.</p>
 	<p>Plus, we want to hear your ideas and feedback on how we can improve NAB Amplify. Please help us learn and grow by clicking on the lightbulb in the top right corner of the navigation bar and submitting notes on your experience.</p>
