@@ -111,6 +111,50 @@
                     "ui": 1
                 }
             ]
+        },
+        {
+            "key": "field_61784251d803f",
+            "label": "Hide Videos Until Start Time",
+            "name": "hide_video",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_61784111d803e",
+            "label": "Hide Videos Until",
+            "name": "hide_videos_until",
+            "type": "date_time_picker",
+            "instructions": "Video sections will be hidden prior to this time if \"Hide Content Until Start Time\" is enabled. All times are in Eastern\/New York.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_61784251d803f",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y g:i a",
+            "return_format": "F j, Y g:i a",
+            "first_day": 1
         }
     ],
     "location": [
@@ -128,7 +172,7 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1633719899
+    "modified": 1635436745
 }

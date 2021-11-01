@@ -717,3 +717,35 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 	.woo_shop_page {
 		@extend .container;
 	}
+
+	.wsb-button {
+		@extend .button;
+		@extend ._gradientpink;
+		.buttom + &, .buttom + p & {
+			display: block;
+			margin-left: auto;
+		}
+	}
+	.product-item.virtual {
+		.item-inner {
+			.details {
+				&+p {
+					margin-bottom: 0;
+				}
+				.buttom {
+					&+p {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+	}
+  .product.purchasable {
+  	.summary {
+  		.cart {
+  			.single_add_to_cart_button {
+  				display: none;
+  			}
+  		}
+  	}
+  }

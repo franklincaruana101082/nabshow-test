@@ -19,10 +19,18 @@ defined( 'ABSPATH' ) || exit;
 
 global $product;
 
+wp_enqueue_style( 'buy-now-woo' );
+wp_enqueue_script( 'buy-now-woo' );
+
+wp_localize_script( 'buy-now-woo', 'buy_now_woo', [
+	'ajax_url' => admin_url( 'admin-ajax.php' ),
+] );
+
 // Ensure visibility.
 if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
+
 
 // Get product categories.
 $current_product_id = $product->get_id();
@@ -38,7 +46,7 @@ $categories = implode( ', ', $product_cats_names);
 		<?php
 		
 		// bookmark product
-		nab_get_product_bookmark_html( $current_product_id, 'user-bookmark-action' );	
+		//nab_get_product_bookmark_html( $current_product_id, 'user-bookmark-action' );	
 
 		$link = apply_filters( 'woocommerce_loop_product_link', get_the_permalink(), $product );
 
@@ -85,8 +93,10 @@ $categories = implode( ', ', $product_cats_names);
 			 * @hooked woocommerce_template_loop_product_link_close - 5 (removed this action)
 			 * @hooked woocommerce_template_loop_add_to_cart - 10
 			 */
-			do_action( 'woocommerce_after_shop_loop_item' );
+			//do_action( 'woocommerce_after_shop_loop_item' );
+			echo do_shortcode( '[buy_now_woo_button]' );
 			?>
+			
 		</div>
 	</div>
 </div>
