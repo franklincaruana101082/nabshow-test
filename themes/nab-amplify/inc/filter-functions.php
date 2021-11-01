@@ -337,7 +337,7 @@ function nab_add_login_link_on_checkout_page()
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 ?>
-		<p>You’ll need to have an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</p>
+		<p>You’ll need to have an NAB Amplify account to access content, register for NAB Show, and more.</p>
 		<div class="nab_checkout_links">
 			<p>Don't have an account? <strong><a class="checkout-signup-link" href="<?php echo esc_url($sign_up_page_url); ?>">Sign up</a></strong></p>
 			<p>Already have an account? <strong><a class="checkout-signin-link" href="<?php echo esc_url($sign_in_url); ?>">Sign In</a></strong></p>
@@ -1233,7 +1233,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
 
 	$tax_search			= $query_object->get('_tax_search');
-	$meta_company_term	= $query_object->get('_meta_company_term');	
+	$meta_company_term	= $query_object->get('_meta_company_term');
 
 	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
@@ -1247,7 +1247,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
-		
+
 	}
 
 	return $clauses;
@@ -1265,20 +1265,20 @@ function nabamplify_tiny_mce_before_init($initArray)
     var content = ed.getContent().replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/ig,'');
     var max = 2000;
     var len = content.length;
-	var diff = max - len;  
-	 count++;     
+	var diff = max - len;
+	 count++;
 
     if (diff < 1) {
 		if(tinyMCE.activeEditor.id == 'nab_product_copy'){
 			document.getElementById("character-count-copy").innerHTML =  "Maximum Characters Limit exeeds!";
 		}
 		if(tinyMCE.activeEditor.id == 'nab_product_specs'){
-			document.getElementById("character-count-specs").innerHTML =  "Maximum Characters Limit exeeds!";  
+			document.getElementById("character-count-specs").innerHTML =  "Maximum Characters Limit exeeds!";
 		}
-		
-		 
+
+
 		return false
-		
+
     }else{
 		if(tinyMCE.activeEditor.id == 'nab_product_copy'){
 		document.getElementById("character-count-copy").innerHTML = diff+ " Characters Remaining";
@@ -1288,7 +1288,7 @@ function nabamplify_tiny_mce_before_init($initArray)
 		}
 	}
 
-	
+
 	}
 } );
 
@@ -1509,10 +1509,10 @@ function custom_search_query($query)
 add_filter("pre_get_posts", "custom_search_query");
 
 /**
- * Allow special character in the post title for all user roles. 
+ * Allow special character in the post title for all user roles.
  *
  * @param  array $data
- * 
+ *
  * @return array $data
  */
 function nab_update_spcial_character_post_title( $data ) {
@@ -1520,6 +1520,6 @@ function nab_update_spcial_character_post_title( $data ) {
     if ( isset( $data['post_title'] ) && strpos( $data['post_title'], '&amp;' ) ) {
         $data['post_title'] = str_replace( '&amp;', '&', $data['post_title'] );
     }
-    
+
     return $data;
 }
