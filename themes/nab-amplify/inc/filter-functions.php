@@ -780,7 +780,7 @@ function nab_title_order_received($title, $id)
 {
 
 	if (is_order_received_page() && get_the_ID() === $id) {
-		$title = "Registration Confirmation";
+		$title = "Purchase Confirmation";
 	}
 
 	return $title;
