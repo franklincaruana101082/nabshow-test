@@ -36,7 +36,7 @@ if( 'yes' !== $is_bulk_child ) {
 ?>
 
 <p>To view and/or add items to your registration or make changes to your NAB Amplify account, simply <a
-		href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">Log In</a>. Have questions? Contact us at ? Contact us at <a href="mailto:support@nabamplify.zendesk.com">support@nabamplify.zendesk.com</a>.</p>
+		href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">Log In</a>. Have questions? Contact us at <a href="mailto:support@nabamplify.zendesk.com">support@nabamplify.zendesk.com</a>.</p>
 
 	<p>Stay Amped!<br>
 		Team NAB</p>
