@@ -72,10 +72,7 @@ defined( 'ABSPATH' ) || exit;
 			Please check your spam filters to ensure these emails did not end up there, and if you do not receive one or both of these emails please contact <a
 				href="mailto:register@nab.org">register@nab.org</a>.<br /><br />-->
 
-				<span style="font-size:20px;"><b>How to Access Virtual Event Content</b></span><br />
-				The account you created as a part of the registration process will be the same account that gives you access to the online content. To view which events you have access to and the passes you purchased please visit <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. To attend the digital event, simply click on the logos to access and browse to the sessions you wish to attend. Those videos available as VODs will be immediately availalbe. If a session is set to start at a specific time, beginning at the session start time, you will see a video or zoom link at the top of the page. For additional assistance regarding attending virtual or hybrid events, please <a href="https://amplify.nabshow.com/faqs/">view the FAQs</a>.<br />
 
-		</p>
 
 		<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 
@@ -113,6 +110,11 @@ defined( 'ABSPATH' ) || exit;
 
 		</ul>
 
+		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">	<span style="font-size:20px;"><b>How to Access Virtual Event Content</b></span><br />
+			The account you created as a part of the registration process will be the same account that gives you access to the online content. To view which events you have access to and the passes you purchased please visit <a href="https://amplify.nabshow.com/my-account/my-purchases/">My Purchases</a>. To attend the digital event, simply click on the logos to access and browse to the sessions you wish to attend. Those videos available as VODs will be immediately availalbe. If a session is set to start at a specific time, beginning at the session start time, you will see a video or zoom link at the top of the page. For additional assistance regarding attending virtual or hybrid events, please <a href="https://amplify.nabshow.com/faqs/">view the FAQs</a>.<br />
+
+	</p>
+
 	<?php endif; ?>
 
 		<?php do_action( 'woocommerce_thankyou_' . $order->get_payment_method(), $order->get_id() ); ?>
@@ -123,5 +125,7 @@ defined( 'ABSPATH' ) || exit;
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your order has been received.', 'woocommerce' ), null ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 
 	<?php endif; ?>
+
+
 
 </div>
