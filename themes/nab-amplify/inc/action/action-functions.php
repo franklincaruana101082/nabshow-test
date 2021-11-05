@@ -4416,7 +4416,9 @@ function nab_generate_company_export_csv_file()
     if ('edit.php' === $pagenow && 'amplify_company_export' === $comment_page  && !empty($submit)) {
         // CSV header row fields titles
         $csv_fields   = array();
+        $csv_fields[] = 'Company Wordpress ID';
         $csv_fields[] = 'Company Name';
+        $csv_fields[] = 'Member Level';
         $csv_fields[] = 'Claimed Status';
         $csv_fields[] = 'Admin URL';
         $csv_fields[] = 'Salesforce ID';
@@ -4445,6 +4447,7 @@ function nab_generate_company_export_csv_file()
         foreach ($company_result as $company) {
 
             $company_admins     = get_field( 'company_user_id', $company->ID );
+            $member_level       = get_field( 'member_level', $company->ID );
             $admin_add_string   = get_field( 'admin_add_string', $company->ID );
             $admin_user_ids     = get_field( 'company_user_id', $company->ID );
 
@@ -4477,7 +4480,9 @@ function nab_generate_company_export_csv_file()
 
             if ($company->post_title != '') {
                 $dynamic_fields = array();
+                $dynamic_fields[] = $company->ID;
                 $dynamic_fields[] = $company->post_title;
+                $dynamic_fields[] = $member_level
                 $dynamic_fields[] = $claim_status;
                 $dynamic_fields[] = $admin_url;
                 $dynamic_fields[] = $salesforce_id;
