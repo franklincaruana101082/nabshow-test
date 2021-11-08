@@ -1544,8 +1544,8 @@ function nab_woocommerce_report_orders_export_columns( $column_headers ) {
 		if ( 'customer_type' === $key ) {
 
 			// Add columns for each piece of data
-			$new_headers['customer_id'] = 'customer_id';
-			$new_headers['customer_email'] = 'customer_email';
+			$new_headers['customer_id'] = 'Customer ID';
+			$new_headers['customer_email'] = 'Customer Email';
 		}
 
 	}

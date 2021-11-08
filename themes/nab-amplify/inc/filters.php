@@ -123,5 +123,5 @@ add_filter( 'wp_count_comments', 'nab_update_wp_admin_comments_count', 999, 2 );
 add_filter( 'pre_get_posts', 'nab_increase_session_archive_post_limit' );
 add_filter( 'wp_insert_post_data', 'nab_update_spcial_character_post_title' );
 
-add_filter( 'nab_woocommerce_report_orders_export_columns', 'woocommerce_report_orders_export_columns' );
-add_filter( 'nab_woocommerce_report_orders_prepare_export_item', 'woocommerce_report_orders_prepare_export_item', 10, 2 );
+add_filter( 'woocommerce_report_orders_export_columns', 'nab_woocommerce_report_orders_export_columns' );
+add_filter( 'woocommerce_report_orders_prepare_export_item', 'nab_woocommerce_report_orders_prepare_export_item', 10, 2 );
