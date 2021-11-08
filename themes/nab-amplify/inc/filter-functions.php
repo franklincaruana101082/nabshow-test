@@ -1534,16 +1534,18 @@ function nab_update_spcial_character_post_title( $data ) {
  */
 function nab_woocommerce_report_orders_export_columns( $column_headers ) {
 	$export_columns = array(
-		'date_created'   => __( 'Date', 'woocommerce' ),
-		'order_number'   => __( 'Order #', 'woocommerce' ),
-		'status'         => __( 'Status', 'woocommerce' ),
-		'customer_type'  => __( 'Customer', 'woocommerce' ),
-		'customer_id'    => 'Customer ID',
-		'customer_email' => 'Customer Email',
-		'products'       => __( 'Product(s)', 'woocommerce' ),
-		'num_items_sold' => __( 'Items Sold', 'woocommerce' ),
-		'coupons'        => __( 'Coupon(s)', 'woocommerce' ),
-		'net_total'      => __( 'N. Revenue', 'woocommerce' ),
+		'date_created'        => __( 'Date', 'woocommerce' ),
+		'order_number'        => __( 'Order #', 'woocommerce' ),
+		'status'              => __( 'Status', 'woocommerce' ),
+		'customer_type'       => __( 'Customer', 'woocommerce' ),
+		'customer_id'         => 'Customer ID',
+		'customer_email'      => 'Customer Email',
+		'customer_first_name' => 'Customer First Name',
+		'customer_last_name'  => 'Customer Last Name',
+		'products'            => __( 'Product(s)', 'woocommerce' ),
+		'num_items_sold'      => __( 'Items Sold', 'woocommerce' ),
+		'coupons'             => __( 'Coupon(s)', 'woocommerce' ),
+		'net_total'           => __( 'N. Revenue', 'woocommerce' ),
 	);
 
 
@@ -1562,5 +1564,7 @@ function nab_woocommerce_report_orders_export_columns( $column_headers ) {
  */
 function nab_woocommerce_report_orders_prepare_export_item( $customer_data, $item ) {
 	$customer_email = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['email'] : null;
-	return array_merge( array( 'customer_id' => $item['customer_id'], 'customer_email' => $customer_email ), $customer_data );
+	$customer_first_name = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['first_name'] : null;
+	$customer_last_name = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['last_name'] : null;
+	return array_merge( array( 'customer_id' => $item['customer_id'], 'customer_email' => $customer_email, 'customer_first_name' => $customer_first_name, 'customer_last_name' => $customer_last_name ), $customer_data );
 }
