@@ -1533,7 +1533,21 @@ function nab_update_spcial_character_post_title( $data ) {
  * @return array column headers in column_key => column_name format
  */
 function nab_woocommerce_report_orders_export_columns( $column_headers ) {
-	return array_merge( array( 'customer_id' => __( 'Customer ID', 'automatewoo' ), 'customer_email' => __( 'Customer - Email', 'automatewoo' ) ), $column_headers );
+	$export_columns = array(
+		'date_created'   => __( 'Date', 'woocommerce' ),
+		'order_number'   => __( 'Order #', 'woocommerce' ),
+		'status'         => __( 'Status', 'woocommerce' ),
+		'customer_type'  => __( 'Customer', 'woocommerce' ),
+		'customer_id'    => 'Customer ID',
+		'customer_email' => 'Customer Email',
+		'products'       => __( 'Product(s)', 'woocommerce' ),
+		'num_items_sold' => __( 'Items Sold', 'woocommerce' ),
+		'coupons'        => __( 'Coupon(s)', 'woocommerce' ),
+		'net_total'      => __( 'N. Revenue', 'woocommerce' ),
+	);
+
+
+	return $export_columns;
 }
 
 /**
