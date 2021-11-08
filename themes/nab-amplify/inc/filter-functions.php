@@ -1523,3 +1523,47 @@ function nab_update_spcial_character_post_title( $data ) {
 
     return $data;
 }
+
+/**
+ * Filters the column headers for the customer export
+ *
+ * @param array $column_headers {
+ *     column headers in key => name format
+ * }
+ * @return array column headers in column_key => column_name format
+ */
+function nab_woocommerce_report_orders_export_columns( $column_headers ) {
+
+	$new_headers = array();
+
+	foreach( $column_headers as $key => $value ) {
+
+		$new_headers[ $key ] = $value;
+
+		// Adds new columns after 'customer_id' column
+		if ( 'customer_type' === $key ) {
+
+			// Add columns for each piece of data
+			$new_headers['customer_id'] = 'customer_id';
+			$new_headers['customer_email'] = 'customer_email';
+		}
+
+	}
+
+	return $new_headers;
+}
+
+/**
+ * Filters the individual row data for the customer export
+ *
+ * @param array $customer_data {
+ *     order data in key => value format
+ *     to modify the row data, ensure the key matches any of the header keys and set your own value
+ * }
+ * @param $item WooCommerce Order object
+ * @return array customer data in the format key => content
+ */
+function nab_woocommerce_report_orders_prepare_export_item( $customer_data, $item ) {
+	$customer_email = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['email'] : null;
+	return array_merge( array( 'customer_id' => $item['customer_id'], 'customer_email' => $customer_email ), $customer_data );
+}
