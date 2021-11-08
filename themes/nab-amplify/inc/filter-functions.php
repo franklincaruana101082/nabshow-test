@@ -1533,24 +1533,7 @@ function nab_update_spcial_character_post_title( $data ) {
  * @return array column headers in column_key => column_name format
  */
 function nab_woocommerce_report_orders_export_columns( $column_headers ) {
-
-	$new_headers = array();
-
-	foreach( $column_headers as $key => $value ) {
-
-		$new_headers[ $key ] = $value;
-
-		// Adds new columns after 'customer_id' column
-		if ( 'customer_type' === $key ) {
-
-			// Add columns for each piece of data
-			$new_headers['customer_id'] = 'Customer ID';
-			$new_headers['customer_email'] = 'Customer Email';
-		}
-
-	}
-
-	return $new_headers;
+	return array_merge( array( 'customer_id' => __( 'Customer ID', 'automatewoo' ), 'customer_email' => __( 'Customer - Email', 'automatewoo' ) ), $column_headers );
 }
 
 /**
