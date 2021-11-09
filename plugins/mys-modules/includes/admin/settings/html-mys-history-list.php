@@ -19,19 +19,6 @@ $request_data = $this->request_data;
 $allowed_tags = $this->allowed_tags;
 $sorting_data = $this->sorting_data;
 $history_data = $this->history_data;
-
-global $wpdb;
-$data_type = 'modified-exhibitors';
-
-$previous_date = $wpdb->get_var(
-	$wpdb->prepare( "SELECT HistoryStartTime FROM %1smys_history
-		WHERE HistoryDataType LIKE %s
-		AND HistoryStatus != 0
-		AND HistoryStatus != 10
-		ORDER BY HistoryID DESC LIMIT 1",
-		$wpdb->prefix, '%' . $data_type . '%' ) );
-
-var_dump( $previous_date );
 ?>
 
 <table class="wp-list-table widefat striped pages">
