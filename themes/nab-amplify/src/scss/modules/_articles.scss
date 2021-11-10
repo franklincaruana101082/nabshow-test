@@ -15,6 +15,9 @@
 			@media (prefers-color-scheme: dark) {
 				color: $color__gray-lightest;
 			}
+			&.newsletter__title {
+				color: $color__white;
+			}
 		}
 		.wp-block-pullquote {
 			blockquote {
