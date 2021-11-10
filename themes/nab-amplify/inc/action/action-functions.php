@@ -5114,3 +5114,31 @@ function session_excerpt_count_js() {
         });</script>';
     }
 }
+
+
+function display_newsletter_signup() {
+    ob_start();
+    $nl_post_id = get_the_ID();
+    $nl_user_id = get_current_user_id();
+    ?>
+    <div class="newsletter force-full-width">
+        <div class="container">
+            <h2 class="newsletter__title"><span class="highlight">Sign up</span> for more content like this sent directly to your inbox:</h2>
+            <form class="newsletter__form">
+                <input type="hidden" name="postID" value="<?php echo($nl_post_id); ?>">
+                <input type="hidden" name="userID" value="<?php echo($nl_user_id); ?>">
+                <fieldset class="newsletter__input">
+                    <label for="emailsignup">Email Address<span class="required">*</span></label>
+                    <input type="email" name="emailsignup" />
+                </fieldset>
+                <fieldset class="newsletter__submit">
+                    <button class="button _gradientpink" type="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <?php
+        $newsletter_signup = ob_get_clean();
+    
+    return $newsletter_signup;
+}

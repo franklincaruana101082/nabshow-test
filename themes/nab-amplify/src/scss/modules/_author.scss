@@ -15,18 +15,22 @@
 		background: linear-gradient(90deg, $color__purple, $color__pink);
 		padding: 2px;
 		img {
+		  object-fit: cover;
 		  border-radius: 50%;
 		  border: 3px solid $color__gray-dark;
 		  background-color: $color__white;
 		  text-decoration: none;
 		  color: $color__gray-darker;
 		  display: block;
-		  max-width: rem(70);
+		  width: rem(70);
+		  height: rem(70);
 		  .menu__link & {
 		  	width: rem(40);
+		  	height: rem(40);
 		  }
 		  .weekly__author & {
 			  width: rem(52);
+			  height: rem(52);
 			  border: 3px solid $color__gray-darker;
 		  }
 		  &.event__host-photo {

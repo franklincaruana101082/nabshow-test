@@ -51,30 +51,29 @@ if(isset($_COOKIE[$cookieName])) {
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<div class="container">
-	    <header class="intro">
-
-			<?php
-			the_title( '<h1 class="intro__title entry-title">', '</h1>' );
-			echo do_shortcode( '[bookmark]' );
-			?>
-
-
-			<div class="intro__reactions post-action-wrap">
-				<div class="post-action-reaction">
-					<?php echo do_shortcode( '[reaction_button]' ); ?>
-				</div>
-			</div>
-	    </header><!-- .entry-header -->
-
-
-	</div>
-
-	<div class="main _contentborder <?=$articleTypeClass;?>">
+	<div class="titlecolor">
 		<div class="container">
+			<header class="intro">
+
+				<?php
+				the_title( '<h1 class="intro__title entry-title">', '</h1>' );
+				echo do_shortcode( '[bookmark]' );
+				?>
+
+
+				<div class="intro__reactions post-action-wrap">
+					<div class="post-action-reaction">
+						<?php echo do_shortcode( '[reaction_button]' ); ?>
+					</div>
+				</div>
+			</header><!-- .entry-header -->
 			<div class="post-action-author">
 				<?php echo do_shortcode( '[nab_display_author]' ); ?>
 			</div>
+		</div>
+	</div>
+	<div class="main _contentborder <?=$articleTypeClass;?>">
+		<div class="container">
 			<?php
 			$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
 			if (!$content_accessible) {
