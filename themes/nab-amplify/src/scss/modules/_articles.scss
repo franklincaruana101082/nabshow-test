@@ -87,7 +87,13 @@
 		.comment-form a {
 			&:active, &:focus, &:hover {
 				color: $color__blurple;
-			}	
+			}
+		}
+		.amp-tag-main .amp-tag-list li .btn {
+			color: $color__white !important;
+			&:active, &:focus, &:hover {
+				color: $color__gray-lightester;
+			}
 		}
 	}
 }
