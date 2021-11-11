@@ -19,47 +19,46 @@
 				color: $color__white;
 			}
 		}
-		.wp-block-pullquote, .wp-block-quote {
-			blockquote {
-				//display: inline-block; 
-				background: linear-gradient(90deg, $color__blurple, $color__blue);
+		.wp-block-pullquote blockquote, .wp-block-quote {
+			//display: inline-block; 
+			background: linear-gradient(90deg, $color__blurple, $color__blue);
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+			text-fill-color: transparent;
+			
+			p {
+				font-weight: 600;
+				font-size: rem(40);
+				line-height: 1.16667;
+				@include bp-1024 {
+					font-size: rem(45);
+				}
+				@include bp-1280 {
+					font-size: rem(50);
+				}
+				@include bp-1440 {
+					font-size: rem(60);
+				}
+			}
+			cite {
+				background-color: $color__black;
 				background-clip: text;
 				-webkit-text-fill-color: transparent;
 				text-fill-color: transparent;
-				
-				p {
-					font-weight: 600;
-					font-size: rem(40);
-					line-height: 1.16667;
-					@include bp-1024 {
-						font-size: rem(45);
-					}
-					@include bp-1280 {
-						font-size: rem(50);
-					}
-					@include bp-1440 {
-						font-size: rem(60);
-					}
+				font-style: normal;
+				font-size: rem(18);
+				letter-spacing: -0.04em;
+				@include bp-1024 {
+					font-size: rem(20);
 				}
-				cite {
-					background-color: $color__black;
-					background-clip: text;
-					-webkit-text-fill-color: transparent;
-					text-fill-color: transparent;
-					font-style: normal;
-					font-size: rem(18);
-					letter-spacing: -0.04em;
-					@include bp-1024 {
-						font-size: rem(20);
-					}
-					@include bp-1280 {
-						font-size: rem(22);
-					}
-					@include bp-1440 {
-						font-size: rem(24);
-					}	
+				@include bp-1280 {
+					font-size: rem(22);
 				}
+				@include bp-1440 {
+					font-size: rem(24);
+				}	
 			}
+			
 		}
 
 		figure {
