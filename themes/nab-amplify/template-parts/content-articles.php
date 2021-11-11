@@ -57,13 +57,25 @@ if(isset($_COOKIE[$cookieName])) {
 
 				<?php
 				the_title( '<h1 class="intro__title entry-title">', '</h1>' );
-				echo do_shortcode( '[bookmark]' );
+				//echo do_shortcode( '[bookmark]' );
 				?>
 
 
-				<div class="intro__reactions post-action-wrap">
-					<div class="post-action-reaction">
-						<?php echo do_shortcode( '[reaction_button]' ); ?>
+				<div class="intro__meta">
+					<div class="intro__reactions post-action-wrap">
+						<div class="post-action-reaction">
+							<?php echo do_shortcode( '[reaction_button]' ); ?>
+						</div>
+					</div>
+					<div class="intro__sharing">
+						<div class="addthis_toolbox">
+							<a class="addthis_button_instagram"><img src="/wp-content/themes/nab-amplify/assets/images/icon-ig.svg" /></a>
+							<a class="addthis_button_linkedin"><img src="/wp-content/themes/nab-amplify/assets/images/icon-li.svg" /></a>
+							<a class="addthis_button_facebook"><img src="/wp-content/themes/nab-amplify/assets/images/icon-fb.svg" /></a>
+							<a class="addthis_button_twitter"><img src="/wp-content/themes/nab-amplify/assets/images/icon-tw.svg" /></a>
+							<a class="addthis_button_email"><img src="/wp-content/themes/nab-amplify/assets/images/icon-email.svg" /></a>
+							<!-- <a class="addthis_button_compact"></a> -->
+						</div>
 					</div>
 				</div>
 			</header><!-- .entry-header -->
