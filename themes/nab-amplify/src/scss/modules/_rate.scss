@@ -1,0 +1,78 @@
+.rate {
+	background-color: $color__gray-darker;
+	padding: rem(60) 0;
+	&__title {
+		text-align: center;
+	}
+	&__form {
+		display: flex;
+		justify-content: space-around;
+		max-width: rem(408);
+		margin-right: auto;
+		margin-left: auto;
+		label {
+			cursor: pointer;
+			display: block;
+			width: rem(75);
+			height: rem(75);
+			background-color: $color__black;
+			border-radius: 50%;
+			text-align: center;
+			display: flex;
+			flex-flow: column nowrap;
+			align-items: center;
+			justify-content: center;
+			@include bp-480 {
+				width: rem(100);
+				height: rem(100);
+			}
+			&:hover, &:active, &:focus {
+				background-color: $color__gray;
+				.rate__symbol {
+					opacity: 1;
+				}
+			}
+			input {
+				display: none;
+				&:checked + .rate__symbol {
+					opacity: 1;
+				}
+			}
+		}
+	}
+		&__like {
+			&:hover, &:active, &:focus {
+				.rate__symbol {
+					top: rem(-8);
+					transform: rotate(-10deg);
+					font-size: rem(45);
+				}
+			}
+		}
+		&__ok {
+			&:hover, &:active, &:focus {
+				.rate__symbol {
+					transform: rotate(20deg);
+					font-size: rem(45);
+				}
+			}
+		}
+		&__dislike {
+			&:hover, &:active, &:focus {
+				.rate__symbol {
+					top: rem(8);
+					transform: rotate(10deg);
+					font-size: rem(45);
+				}
+			}
+		}
+
+			&__symbol {
+				position: relative;
+				top: 0;
+				transform: rotate(0deg);
+				font-size: rem(40);
+				opacity: 0.7;
+				transition: opacity .25s ease-in-out, top .25s ease-in-out, transform .25s ease-in-out, font-size .25s ease-in-out;
+			}
+}
