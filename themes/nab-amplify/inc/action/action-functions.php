@@ -5142,3 +5142,36 @@ function display_newsletter_signup() {
     
     return $newsletter_signup;
 }
+
+
+function display_content_rating() {
+    ob_start();
+    $cr_post_id = get_the_ID();
+    $cr_user_id = get_current_user_id();
+    ?>
+    <div class="rate force-full-width">
+        <div class="container">
+            <h2 class="rate__title">Did you like this article?</h2>
+            <form class="rate__form">
+                <input type="hidden" name="postID" value="<?php echo($nl_post_id); ?>">
+                <input type="hidden" name="userID" value="<?php echo($nl_user_id); ?>">
+                <label for="rateLike" class="rate__like">
+                    <input type="radio" name="rate" id="rateLike" value="+1" />
+                    <span class="rate__symbol">👍</span>
+                </label>
+                <label for="rateOk" class="rate__ok">
+                    <input type="radio" name="rate" id="rateOk" value="0" />
+                    <span class="rate__symbol">👌</span>
+                </label>
+                <label for="rateDislike" class="rate__dislike">
+                    <input type="radio" name="rate" id="rateDislike" value="-1" />
+                    <span class="rate__symbol">👎</span>
+                </label>
+            </form>
+        </div>
+    </div>
+    <?php
+        $newsletter_signup = ob_get_clean();
+    
+    return $newsletter_signup;
+}

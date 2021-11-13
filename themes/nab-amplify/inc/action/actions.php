@@ -23,6 +23,8 @@ add_shortcode( 'nab_display_author', 'nab_amplify_display_author' );
 
 add_shortcode( 'email_signup', 'display_newsletter_signup' );
 
+add_shortcode( 'rate_content', 'display_content_rating' );
+
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
