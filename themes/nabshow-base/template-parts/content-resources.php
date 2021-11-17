@@ -95,7 +95,9 @@
 			 if(have_rows('opportunities_items')) : ?>
 			<div class="cards-wrapper">
 				<div class="cards">
-					<?php while(have_rows('opportunities_items')): the_row(); ?>
+					<?php while(have_rows('opportunities_items')): the_row(); 
+						if(!get_sub_field('hide_opportunity')) :
+					?>
 					<div class="card">
 						<?php 
 						$url = get_sub_field('opportunity_url'); 
@@ -118,7 +120,7 @@
 						<?php endif; ?>
 
 					</div>
-					<?php endwhile; ?>
+					<?php endif; endwhile; ?>
 				</div>
 			</div>
 			<?php endif; ?>
