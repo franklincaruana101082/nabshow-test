@@ -5159,10 +5159,6 @@ function display_content_rating() {
                     <input type="radio" name="rate" id="rateLike" value="+1" />
                     <span class="rate__symbol">👍</span>
                 </label>
-                <label for="rateOk" class="rate__ok">
-                    <input type="radio" name="rate" id="rateOk" value="0" />
-                    <span class="rate__symbol">👌</span>
-                </label>
                 <label for="rateDislike" class="rate__dislike">
                     <input type="radio" name="rate" id="rateDislike" value="-1" />
                     <span class="rate__symbol">👎</span>
