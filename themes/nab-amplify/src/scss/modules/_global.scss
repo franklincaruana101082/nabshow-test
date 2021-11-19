@@ -316,14 +316,18 @@ figure {
 		padding: rem(85);
 		margin: rem(40) 0;
 	}
-	p {
+	>h3 {
+		color: $color__white !important;
+	}
+	>p {
 		font-size: rem(18);
 		line-height: rem(26);
-		color: $color__gray-lightest;
+		color: $color__gray-lightest !important;
+		> a {
+			color: $color__white !important;
+		}
 	}
-	a {
-		color: $color__white;
-	}
+	
 }
 
 
@@ -538,6 +542,10 @@ broadstreet-zone-container {
 	padding-top: rem(20);
 	padding-bottom: rem(20);
 	broadstreet-zone div > span {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		
 		&:before {
 			content: "Advertisement";
 			display: block;
@@ -548,6 +556,10 @@ broadstreet-zone-container {
 			line-height: 1;
 			padding-bottom: rem(4);
 		}
+		// >[onmouseover^="typeof(broadstreet)"] {
+		// 	margin-left: auto;
+		// 	margin-right: auto;
+		// }
 	}
 	&._hidden {
 		display: none;
@@ -638,6 +650,41 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 }
 
 
+.section-heading {
+  padding-top: rem(30);
+  padding-bottom: rem(30);
+  text-align: center;
+  &._centered {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: rem(380);
+  }
+  h1,
+  h2,
+  h3 {
+    text-transform: uppercase;
+    padding-bottom: 0 !important;
+  }
+  @include bp-768 {
+    //margin-bottom: rem(80);
+    text-align: left;
+    &._centered {
+      text-align: center;
+      max-width: rem(820);
+    }
+  }
+}
+
+.force-full-width {
+	width: 100vw;
+	position: relative;
+	left: 50%;
+	right: 50%;
+	margin-left: -50vw;
+	margin-right: -50vw;
+}
+
+
 //woocommerce stuff {
 .woocommerce {
 	margin: rem(40) 0 rem(60);
@@ -687,3 +734,39 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 			}
 		}
 	}
+
+	.woo_shop_page {
+		@extend .container;
+	}
+
+	.wsb-button {
+		@extend .button;
+		@extend ._gradientpink;
+		.buttom + &, .buttom + p & {
+			display: block;
+			margin-left: auto;
+		}
+	}
+	.product-item.virtual {
+		.item-inner {
+			.details {
+				&+p {
+					margin-bottom: 0;
+				}
+				.buttom {
+					&+p {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+	}
+  .product.purchasable {
+  	.summary {
+  		.cart {
+  			.single_add_to_cart_button {
+  				display: none;
+  			}
+  		}
+  	}
+  }

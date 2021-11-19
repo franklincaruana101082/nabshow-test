@@ -38,10 +38,10 @@ if ( $user ) {
 <p>Welcome to NAB Amplify. You now have access to: </p>
 	<ul>
 		<li>Fresh <a href="https://amplify.nabshow.com/?s&v=content">content</a> online and delivered to your inbox via the weekly NAB Amplify Newsletter</li>
-		<li>VOD from the recent <a href="https://amplify.nabshow.com/catch-up-rewatch-and-start-the-countdown/">NAB Show Premiere</a> online event</li>
+		<li>VOD for online events</li>
 		<li>1,600+ <a href="https://amplify.nabshow.com/?s&v=company">companies</a> featuring hundreds of <a href="https://amplify.nabshow.com/?s=&v=product">products</a></li>
 		<li>Thousands of people waiting to connect with you</li>
-		<li>And you took the first step in registering for NAB’s October in-person events – NAB Show, Radio Show and SMTE [If you haven’t yet, <a href="https://amplify.nabshow.com/sign-up/?r=maritz&marketing_code=AMP01">continue registering here</a>]</li>
+		<li>And you took the first step in registering for NAB Show [If you haven’t yet, <a href="https://amplify.nabshow.com/nab-show-sign-up/?r=maritz">continue registering here</a>]</li>
 	</ul>
 	<p>To take full advantage of the community platform, we encourage you to <a href="https://amplify.nabshow.com/my-account/edit-account/">build out your profile</a>, connect with others, search upcoming events, review companies, discover new innovations and engage with articles and videos.</p>
 	<p>Plus, we want to hear your ideas and feedback on how we can improve NAB Amplify. Please help us learn and grow by clicking on the lightbulb in the top right corner of the navigation bar and submitting notes on your experience.</p>

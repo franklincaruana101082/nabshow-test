@@ -15,6 +15,22 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 	$preregistered = false;
 }
 
+$hide_videos = get_field('hide_video');
+
+if($hide_videos) {
+
+  $show_time = get_field('session_date');
+  $show_time = new DateTime($show_time);
+  $current_time = new DateTime("now");
+  $current_time->setTimezone(new DateTimeZone('America/New_York'));
+  $current_time_string = $current_time->format('Y-m-d H:i:s');
+  $current_time_adjusted = new DateTime($current_time_string);
+
+  if($show_time < $current_time_adjusted) {
+    $hide_videos = false;
+  }  
+}
+
 ?>
 
 	<main id="primary" class="site-main single_php">
@@ -37,105 +53,111 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 			$date_start    = gmdate('F j, Y', strtotime($session_start));
 			$time_end      = str_replace(array(':00', 'am', 'pm'), array('', 'a.m.', 'p.m.'), gmdate('g:i a', strtotime($session_end)));
 
+			$session_status = get_field( 'session_status' );
+
 			?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="intro">
 					<div class="container">
 					<?php
 						the_title( '<h1 class="intro__title">', '</h1>' );
+						if ($session_status != "VOD") {
 					?>
 					<div class="intro__time introtext">
-								<p>
-									<?php echo esc_html($date_start); ?><br />
-									<?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET
-								</p>
-							</div>
-							<?php
-								$company =  get_field( 'company' );
-								$speakers = get_field( 'speakers' );
-								if (! empty( $speakers) || ! empty($company)) {
-								?>
-								<div class="event__hosts">
-								<?php
-								// list company host
-								if ( ! empty( $company ) ) {
-								?>
-									<a href="<?php echo esc_url( get_the_permalink($company) ); ?>" class="event__host _company">
-										<?php if(nab_amplify_get_featured_image( $company, false ) != '') { ?>
-										<img src="<?php echo esc_url(nab_amplify_get_featured_image( $company, false )); ?>" class="event__host-photo"/>
-										<?php } ?>
-										<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
-									</a>
-								<?php 
-								}
+						<p>
+							<?php echo esc_html($date_start); ?><br />
+							<?php echo esc_html($time_start); ?> - <?php echo esc_html($time_end); ?> ET
+						</p>
+					</div>
+					<?php
+						}
+						$company =  get_field( 'company' );
+						$speakers = get_field( 'speakers' );
+						if (! empty( $speakers) || ! empty($company)) {
+						?>
+						<div class="event__hosts">
+						<?php
+						// list company host
+						if ( ! empty( $company ) ) {
+						?>
+							<a href="<?php echo esc_url( get_the_permalink($company) ); ?>" class="event__host _company">
+								<?php if(nab_amplify_get_featured_image( $company, false ) != '') { ?>
+								<img src="<?php echo esc_url(nab_amplify_get_featured_image( $company, false )); ?>" class="event__host-photo"/>
+								<?php } ?>
+								<div class="event__host-name">Hosted by<br><?php echo get_the_title($company);?></div>
+							</a>
+						<?php 
+						}
+						
+						// list session speaker
+						if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
+							// loop throught the speakers.
+							foreach ( $speakers as $speaker_id ) {
 								
-								// list session speaker
-								if ( ! empty( $speakers ) && is_array( $speakers ) && count( $speakers ) > 0 ) {
-									// loop throught the speakers.
-									foreach ( $speakers as $speaker_id ) {
+								$first_name         = get_field( 'first_name', $speaker_id );
+								$last_name          = get_field( 'last_name', $speaker_id );
+								$title              = get_field( 'title', $speaker_id );
+								$speaker_company    = get_field( 'company', $speaker_id );
+								$headshot           = get_field( 'headshot', $speaker_id );
+								$amplify_user       = get_field( 'amplify_user', $speaker_id );
+								$user_profile_url   = '';
+								
+								if ( ! empty( $amplify_user ) ) {
+									$user_profile_url = bp_core_get_user_domain( $amplify_user );
+								}
+								?>
+								<div class="author event__host">
+									<?php
+									if ( ! empty( $headshot ) ) {
 										
-										$first_name         = get_field( 'first_name', $speaker_id );
-										$last_name          = get_field( 'last_name', $speaker_id );
-										$title              = get_field( 'title', $speaker_id );
-										$speaker_company    = get_field( 'company', $speaker_id );
-										$headshot           = get_field( 'headshot', $speaker_id );
-										$amplify_user       = get_field( 'amplify_user', $speaker_id );
-										$user_profile_url   = '';
-										
-										if ( ! empty( $amplify_user ) ) {
-											$user_profile_url = bp_core_get_user_domain( $amplify_user );
-										}
 										?>
-										<div class="author event__host">
+										<div class="author__photo event__host-photo-wrap">
 											<?php
-											if ( ! empty( $headshot ) ) {
-												
+											if ( ! empty( $user_profile_url ) ) {
 												?>
-												<div class="author__photo event__host-photo-wrap">
-													<?php
-													if ( ! empty( $user_profile_url ) ) {
-														?>
-														<a href="<?php echo esc_url( $user_profile_url ); ?>">
-															<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-														</a>
-														<?php
-													} else {
-														?>
-														<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
-														<?php
-													}
-													?>
-												</div>
+												<a href="<?php echo esc_url( $user_profile_url ); ?>">
+													<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
+												</a>
+												<?php
+											} else {
+												?>
+												<img class="event__host-photo" src="<?php echo esc_url( $headshot['url'] ); ?>" alt="<?php echo esc_attr( $headshot['alt'] ); ?>" />
 												<?php
 											}
 											?>
-											<div class="event__host-info">
-												<h3 class="event__host-name">
-													<?php
-													if ( ! empty( $user_profile_url ) ) {
-														?>
-														<a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></a>
-														<?php
-													} else {
-														echo esc_html( $first_name . ' ' . $last_name );
-													}
-													?>
-												</h3>
-												<span class="event__host-company"><?php echo esc_html( $speaker_company ); ?></span>
-												<span class="event__host-title"><?php echo esc_html( $title ); ?></span>
-											</div>
 										</div>
 										<?php
 									}
-								}
-								?>
+									?>
+									<div class="event__host-info">
+										<h3 class="event__host-name">
+											<?php
+											if ( ! empty( $user_profile_url ) ) {
+												?>
+												<a href="<?php echo esc_url( $user_profile_url ); ?>"><?php echo esc_html( $first_name . ' ' . $last_name ); ?></a>
+												<?php
+											} else {
+												echo esc_html( $first_name . ' ' . $last_name );
+											}
+											?>
+										</h3>
+										<span class="event__host-company"><?php echo esc_html( $speaker_company ); ?></span>
+										<span class="event__host-title"><?php echo esc_html( $title ); ?></span>
+									</div>
 								</div>
-							<?php } 
+								<?php
+							}
+						}
+						?>
+						</div>
+					<?php } 
 
-							$session_status = get_field( 'session_status' );
 							$registered_show = 0;
 							$registration_required = (int)get_field('require_registration');
 							$using_optin = (get_field('show_opt_inout_modal') ? "1" : "0");
+							$content_protected = (int)get_field('make_opt_in_required');
+							//set using_optin to true if optin is required
+							if($content_protected && !$using_optin) { $using_optin = "1";}
 							if($using_optin) {
 								$optin_complete = '0';
 							} else {
@@ -164,8 +186,6 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 
 
 								$show_content = true;
-						
-								$content_protected = (int)get_field('make_opt_in_required');
 								
 								$cookieName = 'nab_optin';
 								if(isset($_COOKIE[$cookieName])) {
@@ -260,6 +280,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					
 					if($show_content) {
 
+					if ( Woocommerce_Pay_Per_Post_Helper::has_access() ):
 					if($session_status == "pre-event") {
 						if($pre_event_registration_id != '') {
 					?>
@@ -294,14 +315,18 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							<div class="intro-feature__media">
 							<div class="container">
 								<div class="embed-group _video_and_chat">
-									<?php if($video_embed != '') { ?>
+									<?php if($video_embed != '' && !$hide_videos) { ?>
 									<div class="embed-group__item _video">
 										<div class="embed-wrapper _video">
 											<?php echo $video_embed; ?>
 										</div>
 									</div>
 									<?php 
-										}
+										} else if($video_embed != '' && $hide_videos) { ?>
+									<div class="section container teaser__section">
+										<div class="teaser__soon">This content will be available for streaming on <?php echo esc_html($date_start) . ' at ' . esc_html($time_start); ?></div>
+									</div>
+									<?php }
 										if($chat_room_id != '') { 
 									?>
 									<div class="embed-wrapper _chat">
@@ -330,16 +355,20 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							</div>
 							</div>
 						</div>
-					<?php } elseif($session_status == "post-event") { ?>
+					<?php } elseif($session_status == "post-event" || $session_status == "VOD") { ?>
 						<div class="session__post">
 							<div class="intro-feature">
 							<div class="intro-feature__media">
 							<div class="container">
-								<?php if($video_embed != '') { ?>
+								<?php if($video_embed != '' && !$hide_videos) { ?>
 								<div class="embed-group _video">
 									<div class="embed-wrapper _video">
 										<?php echo $video_embed; ?>
 									</div>
+								</div>
+								<?php } else if($video_embed != '' && $hide_videos) { ?>
+								<div class="section container teaser__section">
+									<div class="teaser__soon">This content will be available for streaming on <?php echo esc_html($date_start) . ' at ' . esc_html($time_start); ?></div>
 								</div>
 								<?php }
 								if ($post_event_survey_id != '') { ?>
@@ -353,6 +382,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 							</div>
 						</div>
 					<?php } //end session status if statement 
+						endif; //end pay for post access if
 						} //end opt in hide_content if
 					?>
 					
@@ -382,14 +412,21 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 								)
 							);
 							
-							if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show) {
+							if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show && !$hide_videos) {
+								if ( Woocommerce_Pay_Per_Post_Helper::has_access() ):
 							?>
 								<div class="session__prevideo">
 									<div class="embed-wrapper _video">
 										<?php echo $video_embed; ?>
 									</div>
 								</div>	
-							<?php } ?>
+							<?php 
+								endif; //pay for post acess
+							} else if($session_status == 'pre-event' && $video_embed != '' && $show_content && $registered_show && $hide_videos) { ?>
+								<div class="section container teaser__section">
+									<div class="teaser__soon">This content will be available for streaming on <?php echo esc_html($date_start) . ' at ' . esc_html($time_start); ?></div>
+								</div>
+								<?php } ?>
 							</div>
 						</div>
 					</div>
@@ -415,6 +452,7 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 									?>
 									<li class="related__item">
 										<a href="<?php echo esc_url( get_the_permalink($event_id) ); ?>" class="event">
+											<?php if ($session_status != "VOD") { ?>
 											<div class="event__date">
 												<div class="event__month"><?php echo esc_html($rel_month); ?></div>
 												<div class="event__day text-gradient _blue"><?php echo esc_html($rel_day); ?></div>
@@ -423,6 +461,11 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 												<div class="event__link link _plus">Learn More</div>
 												<!-- <img class="event__image" src="square-image" /> -->
 											</div>
+											<?php } else { ?>
+											<div class="event__date _hidden"></div>
+											<div class="event__photo _hidden"></div>
+											<?php } ?>
+											
 											<div class="event__info">
 												<h4 class="event__title"><?php echo esc_html( get_the_title($event_id) ); ?></h4>
 												<div class="event__time"><?php echo esc_html($rel_time_start); ?> - <?php echo esc_html($rel_time_end); ?> ET</div>
@@ -451,12 +494,14 @@ if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
 					<?php } //end related if ?>
 
 					<?php //opt in modal
-					if (get_field('show_opt_inout_modal')) {
+					$using_optin = (int)get_field('show_opt_inout_modal');
+					$opt_in_required = (int)get_field('make_opt_in_required');
+					if($opt_in_required && !$using_optin) { $using_optin = 1; }
+					if ($using_optin) { 
 						//we need these defined here because they may change depending on the template we're adding this to
 						$user_id = $user_id;
 						$company_id = $company;
 						$company_name = $session_company_name;
-						$opt_in_required = (int)get_field('make_opt_in_required');
 						$occurred_at_type = 'session';
 						$displayInline = false;
 						//use this instead of get_template_part so the partial can access the above php vars from here

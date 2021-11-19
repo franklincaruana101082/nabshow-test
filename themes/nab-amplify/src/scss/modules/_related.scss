@@ -1,10 +1,12 @@
 .related {
-	@include bp-768 {
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: space-between;
-		&._events {
-			display: block;
+	&:not(.products) {
+		@include bp-768 {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			&._events {
+				display: block;
+			}
 		}
 	}
 

@@ -63,6 +63,37 @@
   &__meta {
 
   }
+    &__sharing {
+      .addthis_toolbox {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: rem(45) !important;
+          height: rem(45);
+          margin: 0 rem(2);
+          border-radius: 50%;
+          background-color: $color__gray-dark;
+          transition: background-color .3s ease-in-out;
+          img {
+            filter: brightness(0) invert(1);
+            opacity: .545;
+            transition: filter .3s ease-in-out, opacity .3s ease-in-out;
+          }
+
+          &:hover, &:active, &:focus {
+            background-color: $color__gray;
+            img {
+              filter: brightness(1) invert(0);
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
   &__hero-image {
     width: 100%;
   }

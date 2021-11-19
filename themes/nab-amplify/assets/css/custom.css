@@ -615,7 +615,7 @@ table.shop_table_responsive tr td.product-remove a{font-size:22px}
 .single-product div.product .woocommerce-product-gallery{width:65%;display:-webkit-box;display:-ms-flexbox;display:flex;position:relative;margin-top:50px;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}
 .single-product div.product{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .single-product div.product .summary{width:35%;margin:0;padding:40px 0 0 45px;position:relative;z-index:2}
-.single-product div.product .related.products{width:100%;padding:0;margin:0 auto}
+.single-product div.product .related.products{width:100%;padding:0;margin:0 auto; position:relative;}
 .single-product div.product .related.products .bx-wrapper{width:90%;margin:0 auto}
 .single-product div.product .related.products .bx-wrapper .bx-viewport{padding:0 0 10px}
 .single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger{position:absolute;top:0;right:0;padding:9px}
@@ -1281,7 +1281,7 @@ body .is_friend .remove::before{font-size:22px}
 .tribe-events-page-template .tribe-common--breakpoint-medium.tribe-common .tribe-common-h3{cursor:auto}
 .tribe-events-page-template .tribe-common--breakpoint-medium.tribe-common .tribe-common-h3:hover{color:#fff;opacity:1}
 .tribe-events-page-template .tribe-events .tribe-events-c-top-bar__datepicker-button::after{content:"\f107";font-family:'fontawesome', Arial, sans-serif;background:no-repeat;color:#fff;vertical-align:middle;height:auto!important;display:none}
-.tribe-events-page-template .nab-ad-block, .single_php .nab-ad-block{margin:40px 0;text-align:center}
+.tribe-events-page-template .nab-ad-block, .single_php .nab-ad-block{padding:40px 0;text-align:center}
 .tribe-events-page-template .tribe-events .tribe-events-c-view-selector__list-item--active .tribe-events-c-view-selector__list-item-link{background-color:#999}
 .tribe-events-page-template .tribe-events .tribe-events-c-events-bar__search-button-icon{-webkit-filter:invert(100%);filter:invert(100%)}
 .tribe-events-page-template .tribe-common .tribe-common-svgicon--list, .tribe-events-page-template .tribe-common .tribe-common-svgicon--month, .tribe-events-page-template .tribe-common .tribe-common-svgicon--day{-webkit-filter:invert(100%);filter:invert(100%)}

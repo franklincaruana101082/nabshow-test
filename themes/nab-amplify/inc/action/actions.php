@@ -21,6 +21,10 @@ add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
 
 add_shortcode( 'nab_display_author', 'nab_amplify_display_author' );
 
+add_shortcode( 'email_signup', 'display_newsletter_signup' );
+
+add_shortcode( 'rate_content', 'display_content_rating' );
+
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
@@ -239,3 +243,7 @@ add_action( 'woocommerce_register_form_end', 'nab_sign_loader_with_text' );
 add_action( 'woocommerce_login_form_end', 'nab_sign_loader_with_text' );
 
 add_action( 'init', 'nab_register_show_video_post_type_and_taxonomy', 9999 );
+
+
+add_action( 'admin_head-post.php', 'session_excerpt_count_js');
+add_action( 'admin_head-post-new.php', 'session_excerpt_count_js');

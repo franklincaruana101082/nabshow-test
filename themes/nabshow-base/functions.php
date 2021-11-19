@@ -752,6 +752,8 @@ add_action( 'wp_ajax_nab_2021_session_filter', 'nabshow_lv_2021_session_filter' 
 add_action( 'wp_ajax_nopriv_nab_2021_session_filter', 'nabshow_lv_2021_session_filter' );
 
 
+//this fixes the issue with ACF fields not displaying at all on post previews
+//solution from here: https://support.advancedcustomfields.com/forums/topic/preview-solution/page/3/#post-134967
 function fix_post_id_on_preview($null, $post_id) {
     if (is_preview()) {
         return get_the_ID();
