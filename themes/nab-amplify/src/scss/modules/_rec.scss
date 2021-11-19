@@ -1,0 +1,80 @@
+.rec {
+	&__featured {
+		@include bp-604 {
+			padding: rem(20) rem(16);
+		}
+		@include bp-1024 {
+			display: flex;
+			flex-flow: row nowrap;
+			.textimage, .rec__desc {
+				flex: 0 1 50%;
+				width: 50%;
+				&:first-child {
+					padding-right: rem(22);
+				}
+				&:last-child {
+					padding-left: rem(22);
+				}
+			}
+			.textimage__image {
+				height: 100%;
+				&:after {
+					display: none;
+				}
+				.textimage__img {
+					height: 100%;
+					object-fit: cover;
+					object-position: center center;
+				}
+			}
+		}
+		@include bp-1280 {
+			padding: rem(34) rem(26);
+			.textimage, .rec__desc {
+				&:first-child {
+					padding-right: rem(32);
+				}
+				&:last-child {
+					padding-left: rem(32);
+				}	
+			}
+		}
+		@include bp-1440 {
+			padding: rem(48) rem(36);
+		}
+	}
+
+
+	&__title {
+		a {
+			text-decoration: none;
+			color: $color__white;
+
+			&:hover, &:focus, &:active {
+				color: $color__blue;
+			}
+		}
+	}
+
+
+	&__grid {
+		@include bp-768 {
+			display: grid;
+			grid-template-columns: repeat(2, 50%);
+			grid-gap: rem(30);
+		}
+		.weekly__feature {
+			margin: rem(60) 0;
+			@include bp-768 {
+				margin: 0;
+			}
+		}
+		.weekly__headline {
+			margin-top: rem(20);
+			@include bp-768 {
+				margin-top: rem(30);
+			}
+		}
+	}
+
+}
