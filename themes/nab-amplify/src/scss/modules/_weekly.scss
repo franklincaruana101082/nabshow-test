@@ -36,9 +36,10 @@
 		position: relative;
 		text-align: center;
 		background-size: cover;
+		background-position: center center;
 		background-color: $color__gray-dark;
 		background-blend-mode: multiply;
-		//backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
 
 		img {
 			display: block;
