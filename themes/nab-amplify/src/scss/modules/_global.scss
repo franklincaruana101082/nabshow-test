@@ -116,7 +116,7 @@ figure {
 	}
 	}
 	
-	.site-content {
+.site-content {
 	position: relative;
 	background-color: $color__gray-darker;
 	padding: rem(54) 0 0;
@@ -130,7 +130,11 @@ figure {
 		height: rem(54);
 		background: linear-gradient($color__gray-darkest, rgba($color__gray-darkest, 0));
 	}
+	.page-template-page-recommendation & {
+		background-color: $color__gray-dark;
 	}
+}
+
 
 	.link {
 	&._back {
