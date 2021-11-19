@@ -29,13 +29,13 @@
 					$header_cta_text = get_field('header_cta_text');
 					$header_cta_url = get_field('header_cta_url');
 					$header_cta_target = get_field('header_cta_target');
-					if(!empty($header_cta_text) && !empty($header_cta_url)): ?>				
+					if(!empty($header_cta_text) && !empty($header_cta_url)): ?>
 					<a href="<?php echo esc_url($header_cta_url); ?>" target="<?php echo $header_cta_target; ?>" class="button _solid _cta"><?php echo $header_cta_text; ?></a>
 				<?php endif; ?>
 				</div>
 
 				<?php
-				$header_image = get_field('header_image'); 
+				$header_image = get_field('header_image');
 				if(!empty($header_image)):
 				?>
 					<div class="resource-intro-image figure">
@@ -77,8 +77,8 @@
 	<?php endif; ?>
 </div>
 
-<?php if(have_rows('opportunities')) : 
-	while( have_rows('opportunities') ): the_row(); 
+<?php if(have_rows('opportunities')) :
+	while( have_rows('opportunities') ): the_row();
 		if ( get_sub_field('opportunities_title') || get_sub_field('opportunities_copy') || have_rows('opportunities_items') ) :
 	?>
 	<div class="section opportunities">
@@ -97,14 +97,14 @@
 				<div class="cards">
 					<?php while(have_rows('opportunities_items')): the_row(); ?>
 					<div class="card">
-						<?php 
-						$url = get_sub_field('opportunity_url'); 
+						<?php
+						$url = get_sub_field('opportunity_url');
 						if( !empty($url)):
 						?>
 						<a href="<?php echo esc_url($url); ?>">
-						<?php 
+						<?php
 						endif;
-						$img = get_sub_field('opportunity_image'); 
+						$img = get_sub_field('opportunity_image');
 						if( !empty($img)):
 						?>
 						<img class="card__image" src="<?php echo esc_url($img['url']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" />
@@ -142,9 +142,9 @@
 	</div>
 <?php endif; ?>
 
-<?php if(have_rows('additional_sections')): 
+<?php if(have_rows('additional_sections')):
 		while (have_rows('additional_sections')): the_row();
-		
+
 			$hide_team = get_sub_field('hide_team_section');
 			$hide_sign_up = get_sub_field('hide_sign_up_form');
 
@@ -160,7 +160,7 @@
 			<div class="feature__cta">
 				<ul class="button-group">
 					<li><a href="https://nabshow.com/2021/wp-content/uploads/sites/4/2021/05/21LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
-					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Explore More Details</a></li>
+					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Contact Sales</a></li>
 				</ul>
 			</div>
 		</div>
