@@ -506,6 +506,14 @@
     }
   }
 }
+.stat__link {
+  color: $color__white;
+  transition: color .25s ease-in-out;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    color: $color__pink;
+  }
+}
 .stat__label {
   display: block;
   @include primary-black-15-15-20;
