@@ -47,10 +47,23 @@
 			<?php if(have_rows('stats')): ?>
 			<div class="resource-intro-stats">
 				<ul class="stats">
-					<?php while(have_rows('stats')) : the_row(); ?>
+					<?php while(have_rows('stats')) : the_row(); 
+						$stat_link = [];
+						if(get_sub_field('stat_link')) {
+							$stat_link = get_sub_field('stat_link');
+							$stat_link_url = $stat_link['url'];
+							$stat_link_target = $stat_link['target'] ? $stat_link['target'] : '_self';
+						}
+					?>
 								<li class="stat">
+									<?php if( !empty($stat_link)) {
+										?><a class="stat__link" href="<?php echo esc_url($stat_link_url); ?>" target="<?php echo esc_attr($stat_link_target); ?>">
+									<?php } ?>
 									<span class="stat__label"><?php the_sub_field('stat_title');?></span>
 										<span class="stat__number"><?php the_sub_field('stat');?></span>
+									<?php if( !empty($stat_link)) {
+										?></a>
+									<?php } ?>
 								</li>
 								<?php endwhile; ?>
 							</ul>
@@ -96,6 +109,7 @@
 			<div class="cards-wrapper">
 				<div class="cards">
 					<?php while(have_rows('opportunities_items')): the_row(); 
+
 						if(!get_sub_field('hide_opportunity')) :
 					?>
 					<div class="card">

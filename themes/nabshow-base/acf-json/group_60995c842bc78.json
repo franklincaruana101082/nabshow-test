@@ -175,6 +175,21 @@
                     "prepend": "",
                     "append": "",
                     "maxlength": ""
+                },
+                {
+                    "key": "field_61981fd17fa21",
+                    "label": "Stat Link",
+                    "name": "stat_link",
+                    "type": "link",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array"
                 }
             ]
         },
@@ -347,8 +362,8 @@
                             "message": "",
                             "default_value": 0,
                             "ui": 1,
-                            "ui_on_text": "",
-                            "ui_off_text": ""
+                            "ui_on_text": "Hide",
+                            "ui_off_text": "Show"
                         },
                         {
                             "key": "field_60995e8659191",
@@ -494,7 +509,8 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "active": 1,
+    "active": true,
     "description": "",
-    "modified": 1637277367
+    "show_in_rest": 0,
+    "modified": 1637359638
 }
