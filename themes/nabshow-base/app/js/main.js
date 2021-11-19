@@ -97,13 +97,24 @@ jQuery(function($) {
 	});
 
 	$('.cards').slick({
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		dots: true,
-		arrows: false,
-		infinite: false,
-		centerMode: true,
-		centerPadding: '20px',
+		responsive: [
+			{
+				breakpoint: 100000,
+				settings: 'unslick'
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					dots: true,
+					arrows: false,
+					infinite: false,
+					centerMode: true,
+					centerPadding: '20px',
+				}
+			}
+		]
 	});
 
 	$('.attending-panels').slick({
