@@ -1269,6 +1269,12 @@ function amplify_register_api_endpoints()
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
     ));
+
+    register_rest_route('wp', '/v2/user-reactions', array(
+        'methods'             => 'GET',
+        'callback'            => 'nab_get_user_reactions',
+        'permission_callback' => '__return_true',
+    ));
 }
 
 /**
@@ -5170,4 +5176,43 @@ function display_content_rating() {
         $newsletter_signup = ob_get_clean();
     
     return $newsletter_signup;
+}
+
+/**
+ * Get all user reaction.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function nab_get_user_reactions(WP_REST_Request $request){
+    global $wpdb;
+   
+    $per_page = $request->get_param('per_page');
+    $per_page = isset( $per_page ) && !empty($per_page) ? $per_page : 10; 
+    
+    $page = $request->get_param('page');
+    $page = isset( $page ) && !empty($page) ? $page : 1; 
+    
+
+    $offset = ($page-1) * $per_page; 
+
+    $table_name     = $wpdb->prefix . 'nab_user_reations';
+    $prepare_sql    = $wpdb->prepare( "SELECT * FROM `$table_name` ORDER BY id DESC LIMIT %d, %d", $offset, $per_page );
+
+    $react_results  = $wpdb->get_results( $prepare_sql );
+
+    $result = array();
+    if (!empty($react_results)) {
+       foreach( $react_results as $key => $val ){
+        $result[$key]['post_id'] = $val->post_id;
+        $result[$key]['post_type'] = $val->post_type;
+        $result[$key]['user_id'] =  $val->user_id;
+        $result[$key]['reaction_id'] = $val->reaction_id;
+        $result[$key]['reaction_time'] = $val->reaction_time;
+       }
+    }
+    return new WP_REST_Response($result, 200);
 }
