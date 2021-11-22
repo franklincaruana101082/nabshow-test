@@ -124,10 +124,13 @@ add_action( 'init', 'nabshow_lv_register_mega_menu_post_type' );
 // action to add the Mega Menu post type.
 add_action( 'init', 'nabshow_lv_register_forms_data_post_type' );
 
-// Action to add default blocks on new page
-add_action( 'admin_init', 'nabshow_lv_page_type_template' );
-
 // Action to enable robots.txt in multisite.
 add_action( 'init', function() {
 	add_rewrite_rule( '^robots\.txt$', 'index.php?robots=1', 'top' );
 } );
+
+// Action to register landing page custom post type
+add_action( 'init', 'nabshow_lv_register_landing_page_post_type' );
+
+// Action to set preloaded bock in the landing page post type 
+add_action( 'admin_init', 'nabshow_lv_set_preloaded_block_in_new_landing_page' );

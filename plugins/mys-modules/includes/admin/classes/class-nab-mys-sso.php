@@ -39,8 +39,10 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
             add_action( 'woocommerce_register_form_end', array( $this, 'nab_mys_add_mys_url_hidden_field' ) );
             add_action( 'woocommerce_login_form_end', array( $this, 'nab_mys_add_mys_url_hidden_field' ) );
 
+            // Redirect user to mys.
             add_filter( 'woocommerce_login_redirect', array( $this, 'nab_mys_login_redirect_to_mys' ), 999999, 2 );
             add_filter( 'woocommerce_registration_redirect', array( $this, 'nab_mys_register_redirect_to_mys' ), 9999, 1 );
+            add_action( 'template_redirect', array( $this, 'nab_mys_template_redirect_to_mys' ), 999 );
 
         }
 
@@ -75,36 +77,19 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
 
             if ( isset( $mys_url ) && ! empty( $mys_url ) ) {
 
-                $guid = $this->nab_mys_create_guid( $user->user_email );
-                
-                if ( ! $guid ) {
-                    
-                    $registrant_id  = $this->nab_mys_get_registrant_id( $user->user_email );
-                    $user_data      = $this->nab_mys_user_data( $user );
-                    
-                    $user_data['altRegID'] = $registrant_id;
-
-                    $success = $this->nab_mys_create_mys_user( $user_data );
-
-                    if ( $success ) {
-
-                        $guid = $this->nab_mys_create_guid( $user->user_email );
-                    }
-                }
-                
-                if ( $guid && ! empty( $guid ) ) {
-
-                    $redirect_params    = array( 'userGuid' => $guid, 'emailAddress' => $user->user_email );
-                    $redirect           = add_query_arg( $redirect_params, $mys_url );
-
-                    wp_redirect( $redirect );
-                    exit();
-                }
+                $this->nab_mys_redirect_user_to_mys( $mys_url, $user );
             }
 
             return $redirect;
         }
 
+        /**
+         * Woocomerce register redirect.
+         *
+         * @param  string $redirect         
+         *
+         * @return string
+         */
         public function nab_mys_register_redirect_to_mys( $redirect_url ) {
 
             $mys_url = filter_input( INPUT_POST, 'mysUrl', FILTER_SANITIZE_STRING );
@@ -112,6 +97,37 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
             if ( isset( $mys_url ) && ! empty( $mys_url ) ) {
 
                 $current_user = wp_get_current_user();
+            
+                $this->nab_mys_redirect_user_to_mys( $mys_url, $current_user );
+            }
+
+            return $redirect_url;
+        }
+
+        /**
+         * Redirect user to MYS if user logged in and contain mysUrl parameter in the URL.
+         */
+        public function nab_mys_template_redirect_to_mys() {
+
+            $mys_url = filter_input( INPUT_GET, 'mysUrl', FILTER_SANITIZE_STRING );
+
+            if ( isset( $mys_url ) && ! empty( $mys_url ) && is_user_logged_in() ) {
+
+                $current_user = wp_get_current_user();
+            
+                $this->nab_mys_redirect_user_to_mys( $mys_url, $current_user );
+            }
+        }
+
+        /**
+         * Redirect user to MYS page.
+         * 
+         * @param string $mys_url
+         * @param object $current_user
+         */
+        private function nab_mys_redirect_user_to_mys( $mys_url, $current_user ) {
+
+            if ( isset( $mys_url ) && ! empty( $mys_url ) ) {
             
                 $guid = $this->nab_mys_create_guid( $current_user->user_email );
                 
@@ -139,8 +155,6 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
                     exit();
                 }
             }
-
-            return $redirect_url;
         }
 
         /**
@@ -173,8 +187,8 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
                 );
 
                 $guid_api_url   = add_query_arg( $args, $guid_api_url );
-                $response       = vip_safe_wp_remote_get( $guid_api_url, false, 10, 5, 20, $request );
-
+                $response       = vip_safe_wp_remote_get( $guid_api_url, false, 10, 15, 20, $request );
+                
                 if ( ! is_wp_error( $response ) ) {
 
                     $response_body  = json_decode( $response['body'] );
@@ -241,7 +255,7 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
 		 */
         private function nab_mys_user_data( $current_user = false ) {
 
-            $current_user       = false === $current_user ? wp_get_current_user() : $current_user;            
+            $current_user       = false === $current_user ? wp_get_current_user() : $current_user;         
             $current_user_id    = $current_user->ID;
             $first_name         = get_user_meta( $current_user_id, 'first_name', true );
             $last_name          = get_user_meta( $current_user_id, 'last_name', true );
@@ -265,10 +279,10 @@ if ( ! class_exists( 'NAB_MYS_SSO' ) ) {
                 $params['lastName'] = $last_name;
             }
             if ( ! empty( $company ) ) {
-                $params['company'] = $company;
+                $params['company'] = urlencode( $company );
             }
             if ( ! empty( $title ) ) {
-                $params['title'] = $title;
+                $params['title'] = urlencode( $title );
             }
             if ( ! empty( $city ) ) {
                 $params['city'] = $city;

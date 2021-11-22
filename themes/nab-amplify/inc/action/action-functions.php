@@ -7,18 +7,20 @@
  *
  * @return \WP_Error
  */
-function nab_confirm_password_matches_checkout($errors, $username, $email) {
+function nab_confirm_password_matches_checkout($errors, $username, $email) {    
 
-    $first_name     = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
-    $last_name      = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
-    $password2      = filter_input( INPUT_POST, 'password2', FILTER_SANITIZE_STRING );
-    $password       = filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
-    $privacy_policy = filter_input( INPUT_POST, 'privacy_policy_reg', FILTER_SANITIZE_STRING );
-    $user_title     = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
-    $user_company   = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
-    $user_country   = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
-    $user_state     = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
-    $user_city      = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );    
+    $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+    $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+    $password2              = filter_input( INPUT_POST, 'password2', FILTER_SANITIZE_STRING );
+    $password               = filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
+    $privacy_policy         = filter_input( INPUT_POST, 'privacy_policy_reg', FILTER_SANITIZE_STRING );
+    $user_title             = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+    $user_company           = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+    $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+    $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+    $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    
 
     if ( isset( $_POST['g-recaptcha-response'] ) ) {
         $captcha = $_POST['g-recaptcha-response'];
@@ -71,6 +73,10 @@ function nab_confirm_password_matches_checkout($errors, $username, $email) {
 
     if ( ! isset( $user_city ) || empty( $user_city ) ) {
         return new WP_Error('registration-error', __('Please enter City.', 'woocommerce'));
+    }
+
+    if ( is_null( $amplify_communications ) ) {
+        return new WP_Error('registration-error', __('NAB Amplify communications field is required.', 'woocommerce'));
     }
 
     return $errors;
@@ -4766,6 +4772,22 @@ function nab_change_bp_from_email_address( $email_type, $email_obj ) {
 }
 
 /**
+ * Loader with Text Html for sign up and sign in.
+ */
+function nab_sign_loader_with_text(){
+    ?>
+    <div class="loader-with-text">
+        <div class="loader-inner">
+            <div class="loader-content">
+                <img src="<?php echo get_template_directory_uri() . '/assets/images/spinner-2x.svg'; ?>" alt="loading">
+                <p>Thank you for your patience while we sign you in.</p>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+/**
  * Register show video post type and category.
  */
 function nab_register_show_video_post_type_and_taxonomy() {
@@ -4798,7 +4820,7 @@ function nab_register_show_video_post_type_and_taxonomy() {
         'show_in_admin_bar'   => true,
         'can_export'          => true,
         'has_archive'         => true,
-        'exclude_from_search' => true,
+        'exclude_from_search' => false,
         'publicly_queryable'  => true,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
@@ -4833,7 +4855,7 @@ function nab_register_show_video_post_type_and_taxonomy() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-		'rewrite'           => array( 'slug' => 'video-library' ),
+        'rewrite'           => array('slug' => 'video-library'),
 	);
 
 	register_taxonomy( 'video-library', array( 'show-video' ), $category_args );

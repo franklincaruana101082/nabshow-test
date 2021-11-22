@@ -7,12 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
     
-    class Segment_Event_Tracking {
-
-        /**
-         * @var string $success
-         */
-        public $success = false;
+    class Segment_Event_Tracking extends Segment_Event_DB {
 
         /**
          * @var string $post_type
@@ -29,27 +24,9 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          */
         public function __construct() {
             
-            add_action( 'wp_loaded', array( $this, 'st_setup_segment_tracking' ) );
             add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );
-        }
 
-        /**
-         * Initial setup segment tracking.
-         */
-        public function st_setup_segment_tracking() {
-
-            $segment_api_key = get_option( 'segment_tracking_api_key' );
-
-            if ( ! empty( $segment_api_key ) ) {
-                
-                require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
-
-                class_alias( 'Segment', 'Analytics' );
-                Segment::init( $segment_api_key );
-
-                $this->success = true;
-                $this->st_init_hooks_for_segement_track();
-            }
+            $this->st_init_hooks_for_segement_track();
         }
 
         /**
@@ -57,51 +34,50 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          */
         public function st_init_hooks_for_segement_track() {
 
-            if ( $this->success ) {
+            add_action( 'wp_enqueue_scripts', array( $this, 'st_enqueue_script' ) );
+            add_action( 'wp_login', array( $this, 'st_logged_in_event' ), 10 , 2 );
+            add_action( 'wp_logout', array( $this, 'st_logout_event' ), 10 , 1 );
+            add_action( 'user_register', array( $this, 'st_user_register_event' ), 99, 1 );
+            add_action( 'woocommerce_save_account_details', array( $this, 'st_user_interest_event' ), 5, 1 );
+            add_action( 'woocommerce_save_account_details', array( $this, 'st_user_profile_update' ), 11, 1);
+            add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
+            add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
+            //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
+            //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );
+            add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
+            add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
+            add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
+            add_action( 'friends_friendship_rejected', array( $this, 'st_conection_request_rejected' ), 10, 2 );
+            add_action( 'messages_message_sent', array( $this, 'st_message_sent' ), 10, 1 );
+            add_action( 'woocommerce_customer_save_address', array( $this, 'st_user_billing_address_updated' ), 10, 2 );
+            add_action( 'nab_company_profile_update', array( $this, 'st_company_profile_updated' ), 10, 1 );
+            add_action( 'nab_company_profile_image_update', array( $this, 'st_company_profile_image_updated' ), 10, 1 );
+            add_action( 'nab_company_product_action', array( $this, 'st_company_product_action' ), 10, 3 );
+            add_action( 'nab_featured_block_added', array( $this, 'st_featured_block_added' ), 10, 3 );
+            add_action( 'nab_company_admin_added_through_link', array( $this, 'st_company_admin_added_through_link' ), 10, 1 );
+            add_action( 'nab_company_admin_add_remove', array( $this, 'st_company_admin_add_remove' ), 10, 2 );
 
-                add_action( 'wp_enqueue_scripts', array( $this, 'st_enqueue_script' ) );
-                add_action( 'wp_login', array( $this, 'st_logged_in_event' ), 10 , 2 );
-                add_action( 'wp_logout', array( $this, 'st_logout_event' ), 10 , 1 );
-                add_action( 'user_register', array( $this, 'st_user_register_event' ), 99, 1 );
-                add_action( 'woocommerce_save_account_details', array( $this, 'st_user_interest_event' ), 5, 1 );
-                add_action( 'woocommerce_save_account_details', array( $this, 'st_user_profile_update' ), 11, 1);
-                add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
-                add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
-                //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
-                //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );
-                add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
-                add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
-                add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
-                add_action( 'friends_friendship_rejected', array( $this, 'st_conection_request_rejected' ), 10, 2 );
-                add_action( 'messages_message_sent', array( $this, 'st_message_sent' ), 10, 1 );
-                add_action( 'woocommerce_customer_save_address', array( $this, 'st_user_billing_address_updated' ), 10, 2 );
-                add_action( 'nab_company_profile_update', array( $this, 'st_company_profile_updated' ), 10, 1 );
-                add_action( 'nab_company_profile_image_update', array( $this, 'st_company_profile_image_updated' ), 10, 1 );
-                add_action( 'nab_company_product_action', array( $this, 'st_company_product_action' ), 10, 3 );
-                add_action( 'nab_featured_block_added', array( $this, 'st_featured_block_added' ), 10, 3 );
-                add_action( 'nab_company_admin_added_through_link', array( $this, 'st_company_admin_added_through_link' ), 10, 1 );
-                add_action( 'nab_company_admin_add_remove', array( $this, 'st_company_admin_add_remove' ), 10, 2 );
+            add_action( 'wp_ajax_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
+            add_action( 'wp_ajax_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );                
+            add_action( 'wp_ajax_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
+            add_action( 'wp_ajax_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
+            add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
+            add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
+            add_action( 'wp_ajax_st_track_session_registration', array( $this, 'st_track_session_registration' ) );
+            add_action( 'wp_ajax_st_track_opt_in_out', array( $this, 'st_track_opt_in_out' ) );
 
-                add_action( 'wp_ajax_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_track_site_feedback', array( $this, 'st_track_site_feedback_callback' ) );
-                add_action( 'wp_ajax_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_track_taxonomy_click', array( $this, 'st_track_taxonomy_click_callback' ) );                
-                add_action( 'wp_ajax_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_media_kit_download', array( $this, 'st_media_kit_download_callback' ) );
-                add_action( 'wp_ajax_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_external_link_click', array( $this, 'st_external_link_click_callback' ) );
-                add_action( 'wp_ajax_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
-                add_action( 'wp_ajax_nopriv_st_track_pdf_downloaded', array( $this, 'st_track_pdf_downloaded_callback' ) );
-
-                add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
-                add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
-                add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
-                add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
-                add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
-                add_action( 'transition_post_status', array( $this, 'st_track_mys_post_creation' ), 10, 3 );
-                add_action( 'save_post', array( $this, 'st_track_mys_post_update' ), 10, 3 );
-                add_action( 'delete_post', array( $this, 'st_track_mys_post_delete' ), 10, 2 );
-            }
+            add_filter( 'woocommerce_segmentio_connector_event_data', array( $this, 'st_add_page_view_properties_to_wc_segmentio' ) );
+            add_action( 'nab_content_submission', array( $this, 'st_track_content_submission' ), 10, 2 );
+            add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
+            add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
+            add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
+            add_action( 'transition_post_status', array( $this, 'st_track_mys_post_creation' ), 10, 3 );
+            add_action( 'save_post', array( $this, 'st_track_mys_post_update' ), 10, 3 );
+            add_action( 'delete_post', array( $this, 'st_track_mys_post_delete' ), 10, 2 );
         }
 
         public function st_track_mys_post_creation( $new_status, $old_status, $post ) {
@@ -272,12 +248,15 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     $tracking_details['anonymousId'] = uniqid();
                 }
             }
-            Segment::track( $tracking_details );
+            $tracking_details = wp_json_encode( $tracking_details );
+
+            $this->st_insert_event( 'track', $tracking_details );
         }
 
         public function st_identity_event( $identity_details = array() ) {
 
-            Segment::identify( $identity_details );
+            $identity_details = wp_json_encode( $identity_details );
+            $this->st_insert_event( 'identify', $identity_details );
         }
 
         public function st_logged_in_event( $user_login, $user ) {
@@ -330,10 +309,11 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 )
             );
 
-            $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
-            $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
-            $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-            $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+            $first_name               = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+            $last_name                = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+            $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+            $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+            $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
             if ( isset( $first_name ) && ! empty( $first_name ) ) {
                 
@@ -353,9 +333,15 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $track_event['properties']['Interest']    = $user_interest;
                 $track_identity['traits']['Interest']     = $user_interest; 
             }
-                
+
             $track_event['properties']['Amplify_Communications']    = $amplify_communications;
             $track_identity['traits']['Amplify_Communications']     = $amplify_communications;
+
+            if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
+                
+                $track_event['properties']['Amplify_Hide_From_Search']    = $amplify_hide_from_search;
+                $track_identity['traits']['Amplify_Hide_From_Search']     = $amplify_hide_from_search; 
+            }
 
             $this->st_track_event( $track_event );
             $this->st_identity_event( $track_identity );
@@ -661,6 +647,111 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $company_properties['Document_Name']        = html_entity_decode( get_the_title( $pdf_id ) );
 
             $track_event['properties'] = array_merge( $company_properties, $user_properties );
+
+            $this->st_track_event( $track_event );
+
+            wp_send_json_success( array(
+                    'feedback' => 'Event Track Successfully',
+                    'type'     => 'success',
+                )
+            );
+        }
+
+        public function st_track_session_registration() {
+
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            $session_id = filter_input( INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT );
+            $session_name = filter_input( INPUT_POST, 'session_name', FILTER_SANITIZE_STRING );
+            $session_company_id = filter_input( INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT );
+            $session_company_name = filter_input( INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING );
+            $user_email = filter_input( INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL );
+            $user_firstname = filter_input( INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING );
+            $user_lastname = filter_input( INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING );
+            $user_city = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+            $user_state = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+            $user_country_code = filter_input( INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING );
+            $user_company = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+            $user_title = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+            $user_ip = filter_input( INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING );
+
+            $track_event     = array(
+                'event'      => 'Session_User_Registered',
+                'userId'     => $user_id,
+                'properties' => array(
+                    'session_id'            => $session_id,
+                    'session_name'          => $session_name,
+                    'session_company_id'    => $session_company_id,
+                    'session_company_name'  => $session_company_name,
+                    'user_email'            => $user_email,
+                    'user_first_name'       => $user_firstname,
+                    'user_last_name'        => $user_lastname,
+                    'user_city'             => $user_city,
+                    'user_state'            => $user_state,
+                    'user_country'          => $user_country_code,
+                    'user_company'          => $user_company,
+                    'user_title'            => $user_title,
+                    'user_ip'               => $user_ip,
+                ),
+            );
+
+            $this->st_track_event( $track_event );
+
+            wp_send_json_success( array(
+                    'feedback' => 'Event Track Successfully',
+                    'type'     => 'success',
+                )
+            );
+        }
+
+        public function st_track_opt_in_out() {
+
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+
+            $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+            $company_name = filter_input(INPUT_POST, 'company_name', FILTER_SANITIZE_STRING);
+            $opted_in = filter_input(INPUT_POST, 'opted_in', FILTER_VALIDATE_BOOLEAN);
+            $user_firstname = filter_input(INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING);
+            $user_lastname = filter_input(INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING);
+            $user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
+            $user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
+            $user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+            $user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
+            $user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+            $user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
+            $user_country_code = filter_input(INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING);
+            $opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
+            $opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
+            $occurred_at_type = filter_input(INPUT_POST, 'occurred_at_type', FILTER_SANITIZE_STRING);
+
+            if($opted_in) {
+                $event_track = 'Company_User_Opted_In';
+            } else {
+                $event_track = 'Company_User_Opted_Out';
+            }
+
+            $track_event     = array(
+                'event'      => $event_track,
+                'userId'     => $user_id,
+                'properties' => array(
+                    'company_id'            => $company_id,
+                    'company_name'          => $company_name,
+                    'user_email'            => $user_email,
+                    'user_first_name'       => $user_firstname,
+                    'user_last_name'        => $user_lastname,
+                    'user_city'             => $user_city,
+                    'user_state'            => $user_state,
+                    'user_country'          => $user_country_code,
+                    'user_company'          => $user_company,
+                    'user_title'            => $user_title,
+                    'user_ip'               => $user_ip,
+                    'occurred_at_id'        => $opt_in_occurred_at_id,
+                    'occurred_at_url'       => $opt_in_occurred_at_url,
+                    'occurred_at_type'      => $occurred_at_type,
+                ),
+            );
 
             $this->st_track_event( $track_event );
 
@@ -1886,7 +1977,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'manage_options',
                 'segment_event_settings',
                 array( $this, 'st_segment_setting_page_callback' )
-            );            
+            );
         }
 
         /**
@@ -1902,7 +1993,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 <div class="notice notice-success is-dismissible"> 
                     <p><strong>Settings saved.</strong></p>
                 </div>
-                <?php
+                <?php                
             } else {
                 $segment_api_key = get_option( 'segment_tracking_api_key' );
             }

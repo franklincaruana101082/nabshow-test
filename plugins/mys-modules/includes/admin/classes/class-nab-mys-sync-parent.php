@@ -204,7 +204,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 				'Authorization' => $authorization,
 				'Accept'        => 'application/json;ver=1.0',
 				'Content-Type'  => 'application/json; charset=UTF-8',
-				//'Host'          => 'api.mapyourshow.com'
+				'Host'          => 'api.mapyourshow.com'
 			);
 			$request = array(
 				'headers' => $headers,
@@ -216,7 +216,7 @@ if ( ! class_exists( 'NAB_MYS_Sync_Parent' ) ) {
 			} else {
 				$request['body'] = wp_json_encode( $args );
 			}
-
+			
 			//An Actual Call
 			$mys_response = vip_safe_wp_remote_get( $mys_request_url, false, 10, 5, 20, $request );
 

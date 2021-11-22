@@ -28,17 +28,6 @@
 		})(window,document,'script','dataLayer','GTM-MQKPWN');
 	</script>
 	<!-- End Google Tag Manager -->
-	<!-- Hotjar Tracking Code for https://nabshow-com-develop.go-vip.net/2020/ -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:2042457,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
 	<script>
 		"use strict";
 
@@ -76,7 +65,7 @@
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
 		?>
     </a>
-
+    
     <?php do_action( 'nab_global_header' ); ?>
 
     <header id="masthead" class="site-header dark-header">

@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Sign Up
+ * Template Name: Sign Up NAB Show
  */
 
 if ( is_user_logged_in() ) {
@@ -8,7 +8,7 @@ if ( is_user_logged_in() ) {
 	exit;
 }
 
-get_header();
+get_header('nabshow');
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
@@ -56,6 +56,20 @@ while ( have_posts() ) :
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<div class="signup-wrapper">
 			<div class="container">
+				<div class="signup-logos">
+					<div class="signup-logo-amplify">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
+					</div>
+					<div class="signup-logo-show">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
+					</div>
+					<div class="signup-logo-radio">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">
+					</div>
+					<div class="signup-logo-smte">
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-smte.png" alt="NAB SMTE Logo">
+					</div>
+				</div>
 				<?php
 				do_action( 'woocommerce_before_customer_login_form' );
 				?>
@@ -66,14 +80,14 @@ while ( have_posts() ) :
 					<div class="signup__titles">
 						<h2><?php the_title(); ?></h2>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
-							$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
+							$my_account_url = add_query_arg( 'r', $redirect_url, get_site_url(12, '/nab-show-sign-in/') );
 							if ( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 								$my_account_url = add_query_arg( 'marketing_code', $marketing_code, $my_account_url);
 							}
 						} else {
-							$my_account_url = wc_get_page_permalink( 'myaccount' );
+							$my_account_url = get_site_url(12, '/nab-show-sign-in/');
 						} ?>
-						<a class="js-signupLink" href="<?php echo esc_url( $my_account_url ); ?>"><b><?php esc_html_e( 'Already have an account?' ); ?> <?php esc_html_e( 'Sign In', 'woocommerce' ); ?></b></a>
+						<a class="js-signupLink" href="<?php echo esc_url( $my_account_url ); ?>"><b><?php esc_html_e( 'Already on NAB Amplify?' ); ?> <?php esc_html_e( 'Sign In', 'woocommerce' ); ?></b></a>
 					</div>
 					<div class="signup__text">
 						<div class="introtext"><?php the_content(); ?></div>
@@ -93,18 +107,18 @@ while ( have_posts() ) :
 							<p class="field__error" style="display: none;">Last name is Required</p>
 						</div>
 						<div class="field">
-							<label class="field__label" for="email"><?php esc_html_e( 'Email Address*', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<label class="field__label" for="email"><?php esc_html_e( 'Email Address', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<input type="email" class="field__input" name="email" id="reg_email" autocomplete="email"
 								value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>"/>
 							<p class="field__error" style="display: none;">Email is Required</p>
 						</div>
 						<div class="field">
-							<label class="field__label" for="password"><?php esc_html_e( 'Password*', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<label class="field__label" for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<input type="password" class="field__input" name="password" id="reg_password" autocomplete="new-password"/>
 							<p class="field__error" style="display: none;">Password is Required</p>
 						</div>  
 						<div class="field">
-							<label class="field__label" for="password2"><?php esc_html_e( 'Confirm Password*', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
+							<label class="field__label" for="password2"><?php esc_html_e( 'Confirm Password', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<input type="password" class="field__input" name="password2" id="reg_password2" autocomplete="new-password"/>
 							<p class="field__error" style="display: none;">Confirm Password is Required</p>
 						</div>
@@ -134,7 +148,7 @@ while ( have_posts() ) :
 								<?php
 								foreach ( $countries as $abbr => $country ) {
 									?>
-									<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $default_country ); ?>><?php echo esc_html( $country ); ?></option>
+									<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $_POST['user_country'] ); ?>><?php echo esc_html( $country ); ?></option>
 									<?php
 								}
 								?>
@@ -145,7 +159,6 @@ while ( have_posts() ) :
 						<div class="field select-dark <?php if(is_array( $default_county_states )) {echo('');}else{echo('_hidden');}?>">
 							<label class="field__label" for="user_state"><?php esc_html_e( 'State', 'woocommerce' ); ?> <span class="field__required" aria-label="Required">*</span></label>
 							<?php
-							$default_state = !empty($_POST['user_state']) ? $_POST['user_state'] : '';
 							if ( is_array( $default_county_states ) ) {
 								?>
 								<select name="user_state" class="user-state-select" id="user_state">
@@ -153,7 +166,7 @@ while ( have_posts() ) :
 									<?php
 									foreach ( $default_county_states as $abbr => $state) {
 										?>
-										<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $default_state ); ?>><?php echo esc_html( $state ); ?></option>
+										<option value="<?php echo esc_attr( $abbr ); ?>" <?php selected( $abbr, $_POST['user_state'] ); ?>><?php echo esc_html( $state ); ?></option>
 										<?php
 									}
 									?>
@@ -217,7 +230,7 @@ while ( have_posts() ) :
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) { ?>
 							<input type="hidden" name="checkout_redirect" value="<?php echo $redirect_url; ?>">
 						<?php } ?>
-						<?php dynamic_sidebar('sign-up-terms'); ?>
+						<?php dynamic_sidebar('sign-up-terms-nabshow'); ?>
 						<ul class="field__list">
 							<li>
 								<?php do_action( 'woocommerce_register_form' ); ?>
@@ -235,27 +248,25 @@ while ( have_posts() ) :
 							<li>
 								<label class="field__list-input" for="signup-amplify-hide-from-search">
 									<input class="field__input" value="1" type="checkbox" id="signup-amplify-hide-from-search" name="amplify_hide_from_search" /> 
-									<?php esc_html_e('Hide my profile from Amplify search.');?>
-								</label>
-							</li>
-							<li>
-								<label class="field__list-input" for="signup-press-member">
-									<input class="field__input" value="1" type="checkbox" id="signup-press-member" name="press_member" /> 
-									<?php esc_html_e('Are you a member of the press?');?>
+									<?php esc_html_e('Hide my profile on NAB Amplify.');?>
 								</label>
 							</li>
 						</ul>
 					</div>
 					<div class="signup__captcha">
 						<div class="captcha">
-							<div class="g-recaptcha" data-sitekey="6Le0LsoaAAAAAFWj6G8dWfqnRNMU_G-oW6znXEjq"></div>
+							<div class="g-recaptcha" data-sitekey="6LdvDNIaAAAAAKV0Yr1FzY9c7oQLRkrr1qJ3yWH8"></div>
 							<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 						</div>
 					</div>
 					<div class="signup__cta">
 						<input type="hidden" name="privacy_policy" class="signup-privacy-policy" id="signup-privacy-policy" value="1">
 						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Sign Up', 'woocommerce' ); ?></button>
+						<button type="submit" name="register" class="button _gradientpink" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Continue Registration', 'woocommerce' ); ?></button>
+					</div>
+
+					<div class="signup__sponsor">
+						<?php the_field('sponsor_section');?>
 					</div>
 
 					<?php do_action( 'woocommerce_register_form_end' ); ?>
@@ -274,16 +285,16 @@ endwhile; // End of the loop.
 
 	</main><!-- #main -->
 	<div id="modal-member-press" class="nab-modal">
-	    <div class="nab-modal-inner">
-	        <div class="modal-content">
-	            <span class="nab-modal-close fa fa-times"></span>
-	            <div class="modal-content-wrap">
-	            	<?php dynamic_sidebar('member-press-modal'); ?>
-	            </div>
-	        </div>
-	    </div>
+			<div class="nab-modal-inner">
+					<div class="modal-content">
+							<span class="nab-modal-close fa fa-times"></span>
+							<div class="modal-content-wrap">
+								<?php dynamic_sidebar('member-press-modal'); ?>
+							</div>
+					</div>
+			</div>
 	</div>
 	<!-- END legacy-template -->
 <?php
 
-get_footer();
+get_footer('nabshow');

@@ -1547,3 +1547,10 @@ body .is_friend .remove::before{font-size:22px}
 #nab-amp-cookie-consent button[aria-label="Close"]{background-color:#e10189;color:#fff;display:inline-block;padding:0;right:20px;border-radius:50%;width:30px;height:30px;}
 #nab-amp-cookie-consent p{display:inline;vertical-align:middle;margin:0 5px 0 0;}
 #nab-amp-cookie-consent p, #nab-amp-cookie-consent span{color:#000;font-size:16px;}
+
+/* loader with text */
+.loader-with-text{display:none;}
+.loader-with-text.active{display:block;}
+.loader-with-text .loader-inner{display:flex;justify-content:center;align-items:center;width:100%;height:100%;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:99;}
+.loader-with-text .loader-content{text-align:center;padding:0 10px;}
+.loader-with-text .loader-content p{margin:0;font-size:22px;font-family:proxima-nova,sans-serif;}

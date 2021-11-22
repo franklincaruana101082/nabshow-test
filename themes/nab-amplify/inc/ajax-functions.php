@@ -1452,6 +1452,13 @@ function nab_company_product_search_filter_callback()
 
 			$company_prod_args['_tax_search'] = $category_search_array;
 		}
+
+		$company_product_ids = nab_get_search_company_product_ids( $search_term, $category_search_array );
+
+		if ( is_array( $company_product_ids ) && count( $company_product_ids ) > 0 && 'date' === $orderby ) {
+			$company_prod_args['post__in']	= $company_product_ids;
+			$company_prod_args['orderby']	= 'post__in';
+		}
 	}
 
 	if (!empty($product_category)) {
@@ -3689,6 +3696,9 @@ function nab_downloadable_pdf_callback() {
 		}
 
 		$msg = 'Downloadable PDF added successfully.';
+
+		update_field( 'show_opt_inout_modal', 1, $pdf_id );
+		update_field( 'make_opt_in_required', 1, $pdf_id );
 
 		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'add' );
 

@@ -487,3 +487,97 @@ function nabshow_lv_register_forms_data_post_type() {
 
 	register_taxonomy( 'forms-category', array( 'forms-data' ), $args );
 }
+
+/**
+ * Register landing page post type.
+ */
+function nabshow_lv_register_landing_page_post_type() {
+
+    $labels = array(
+        'name'                  => _x('Landing Pages', 'Post Type General Name', 'nabshow-lv'),
+        'singular_name'         => _x('Landing page', 'Post Type Singular Name', 'nabshow-lv'),
+        'menu_name'             => __('Landing Pages', 'nabshow-lv'),
+        'name_admin_bar'        => __('Landing Pages', 'nabshow-lv'),
+        'parent_item_colon'     => __('Parent Landing Page:', 'nabshow-lv'),
+        'all_items'             => __('All Landing Pages', 'nabshow-lv'),
+        'add_new_item'          => __('Add New Landing Page', 'nabshow-lv'),
+        'add_new'               => __('Add New', 'nabshow-lv'),
+        'new_item'              => __('New Landing Page', 'nabshow-lv'),
+        'edit_item'             => __('Edit Landing Page', 'nabshow-lv'),
+        'update_item'           => __('Update Landing Page', 'nabshow-lv'),
+        'view_item'             => __('View Landing Page', 'nabshow-lv'),
+        'view_items'            => __('View Landing Pages', 'nabshow-lv'),
+        'search_items'          => __('Search Landing Pages', 'nabshow-lv'),
+        'not_found'             => __('Not found', 'nabshow-lv'),
+        'not_found_in_trash'    => __('Not found in Trash', 'nabshow-lv'),
+        'featured_image'        => __('Featured Image', 'nabshow-lv'),
+        'set_featured_image'    => __('Set featured image', 'nabshow-lv'),
+        'remove_featured_image' => __('Remove featured image', 'nabshow-lv'),
+        'use_featured_image'    => __('Use as featured image', 'nabshow-lv'),
+        'insert_into_item'      => __('Insert into Landing Page', 'nabshow-lv'),
+        'uploaded_to_this_item' => __('Uploaded to this item', 'nabshow-lv'),
+        'items_list'            => __('Items list', 'nabshow-lv'),
+        'items_list_navigation' => __('Items list navigation', 'nabshow-lv'),
+        'filter_items_list'     => __('Filter items list', 'nabshow-lv'),
+    );
+    $args = array(
+        'label'                 => __('Landing Pages', 'nabshow-lv'),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'author', 'comments', 'trackbacks', 'revisions', 'custom-fields', 'post-formats', 'excerpt'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'menu_icon'             => 'dashicons-text-page',
+        'show_in_rest'          => true,
+    );
+    register_post_type('landing-page', $args);
+}
+
+/**
+ * Set preloaded resusable block in the landing page when create new page from the backend.
+ */
+function nabshow_lv_set_preloaded_block_in_new_landing_page() {
+
+    global $pagenow;
+
+    $current_post_type = filter_input(INPUT_GET, 'post_type', FILTER_SANITIZE_STRING);
+
+    if ('post-new.php' === $pagenow && 'landing-page' === $current_post_type) {
+
+        $block_ids = array(83974);
+
+        $query_args = array(
+            'post_type' => 'wp_block',
+            'fields'    => 'ids',
+            'post__in'  => $block_ids,
+            'orderby'   => 'post__in'
+        );
+
+        $block_query = new WP_Query($query_args);
+
+        if ($block_query->have_posts()) {
+
+            $block_ids = $block_query->posts;
+
+            if (is_array($block_ids) && count($block_ids) > 0) {
+
+                $block_template = array();
+
+                foreach ($block_ids as $block_id) {
+                    $block_template[] = ['core/block', ['ref' => $block_id]];
+                }
+
+                $article_object                = get_post_type_object('landing-page');
+                $article_object->template    = $block_template;
+            }
+        }
+    }
+}

@@ -217,6 +217,10 @@ function nab_mys_sessions_post_type() {
 		),
 	);
 
+	if ( 'nabshow-lv-child-2021' === get_option( 'stylesheet' ) ) {
+		$args['publicly_queryable'] = true;
+	}
+
 	// change post type slug for amplify site.
 	$session_slug = MYS_IS_AMPLIFY_VERSION ? 'mys-sessions' : 'sessions';
 
