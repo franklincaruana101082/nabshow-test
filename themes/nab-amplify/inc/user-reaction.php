@@ -496,6 +496,7 @@ function get_individual_reaction_count( $post_id, $reaction_id ) {
 
 	$table_name           = $wpdb->prefix . 'nab_user_reations';
 	$prepare_sql          = $wpdb->prepare( "SELECT COUNT(*) FROM `$table_name` WHERE post_id = %d AND reaction_id = %d", $post_id, $reaction_id );
+	
 	$individual_reactions = $wpdb->get_var( $prepare_sql );
 
 	return $individual_reactions;

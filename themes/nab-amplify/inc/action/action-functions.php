@@ -1284,6 +1284,7 @@ function amplify_register_api_endpoints()
             'get_callback'    => 'nab_article_wp_api_callback',
         )
     );
+   
 }
 
 
@@ -5232,16 +5233,19 @@ function nab_get_user_reactions(WP_REST_Request $request){
  */
 function nab_article_wp_api_callback( $object ) {
     if( !empty($object) && isset($_GET['x-api-key']) ){
-        $post_id  = isset( $object->id );
-        $reactions_count = nab_get_total_reactions( $post_id );
-        if( isset( $object['meta'] ) ){
-            $object['meta']['reactions_count'] = $reactions_count;
-            $object['meta']['reactions_like_count'] = get_individual_reaction_count( $post_id, 1 );
-            $object['meta']['reactions_insightful_count'] = get_individual_reaction_count( $post_id, 2 );
-            $object['meta']['reactions_good_idea_count'] = get_individual_reaction_count( $post_id, 3 );
-            $object['meta']['reactions_wow_count'] = get_individual_reaction_count( $post_id, 4 );
-            $object['meta']['reactions_celebrate_count'] = get_individual_reaction_count( $post_id, 5 );
-        }
+        $article_id  = isset( $object['id'] ) ?  $object['id'] : '';
+       if( !empty ( $article_id  ) ){
+            $reactions_count = nab_get_total_reactions( $article_id );
+            
+            if( isset( $object['meta'] ) ){
+                $object['meta']['reactions_count'] = $reactions_count;
+                $object['meta']['reactions_like_count'] = get_individual_reaction_count( $article_id, 1 );
+                $object['meta']['reactions_insightful_count'] = get_individual_reaction_count( $article_id, 2 );
+                $object['meta']['reactions_good_idea_count'] = get_individual_reaction_count( $article_id, 3 );
+                $object['meta']['reactions_wow_count'] = get_individual_reaction_count( $article_id, 4 );
+                $object['meta']['reactions_celebrate_count'] = get_individual_reaction_count( $article_id, 5 );
+            }
+       }
     }
     return $object;
 }
