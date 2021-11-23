@@ -1275,7 +1275,17 @@ function amplify_register_api_endpoints()
         'callback'            => 'nab_get_user_reactions',
         'permission_callback' => '__return_true',
     ));
+
+     // Add the plaintext content to GET requests for individual posts
+     register_rest_field(
+        'articles',
+        'plaintext',
+        array(
+            'get_callback'    => 'nab_article_wp_api_callback',
+        )
+    );
 }
+
 
 /**
  * Get user images.
@@ -5215,4 +5225,23 @@ function nab_get_user_reactions(WP_REST_Request $request){
        }
     }
     return new WP_REST_Response($result, 200);
+}
+
+/**
+ * Add reaction count on article meta data in rest endpoints.
+ */
+function nab_article_wp_api_callback( $object ) {
+    if( !empty($object) && isset($_GET['x-api-key']) ){
+        $post_id  = isset( $object->id );
+        $reactions_count = nab_get_total_reactions( $post_id );
+        if( isset( $object['meta'] ) ){
+            $object['meta']['reactions_count'] = $reactions_count;
+            $object['meta']['reactions_like_count'] = get_individual_reaction_count( $post_id, 1 );
+            $object['meta']['reactions_insightful_count'] = get_individual_reaction_count( $post_id, 2 );
+            $object['meta']['reactions_good_idea_count'] = get_individual_reaction_count( $post_id, 3 );
+            $object['meta']['reactions_wow_count'] = get_individual_reaction_count( $post_id, 4 );
+            $object['meta']['reactions_celebrate_count'] = get_individual_reaction_count( $post_id, 5 );
+        }
+    }
+    return $object;
 }
