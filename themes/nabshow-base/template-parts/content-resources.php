@@ -47,7 +47,7 @@
 			<?php if(have_rows('stats')): ?>
 			<div class="resource-intro-stats">
 				<ul class="stats">
-					<?php while(have_rows('stats')) : the_row(); 
+					<?php while(have_rows('stats')) : the_row();
 						$stat_link = [];
 						if(get_sub_field('stat_link')) {
 							$stat_link = get_sub_field('stat_link');
@@ -108,7 +108,7 @@
 			 if(have_rows('opportunities_items')) : ?>
 			<div class="cards-wrapper">
 				<div class="cards">
-					<?php while(have_rows('opportunities_items')): the_row(); 
+					<?php while(have_rows('opportunities_items')): the_row();
 						if(!get_sub_field('hide_opportunity')) :
 					?>
 					<div class="card">
@@ -174,7 +174,7 @@
 			<?php dynamic_sidebar('Team'); ?>
 			<div class="feature__cta">
 				<ul class="button-group">
-					<li><a href="https://nabshow.com/2021/wp-content/uploads/sites/4/2021/05/21LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
+					<li><a href="https://nabshow.com/2022/wp-content/uploads/sites/16/2021/11/22LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
 					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Contact Sales</a></li>
 				</ul>
 			</div>
