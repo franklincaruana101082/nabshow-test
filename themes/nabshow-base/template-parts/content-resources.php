@@ -159,7 +159,7 @@
 			<?php dynamic_sidebar('Team'); ?>
 			<div class="feature__cta">
 				<ul class="button-group">
-					<li><a href="https://nabshow.com/2021/wp-content/uploads/sites/4/2021/05/21LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
+					<li><a href="https://nabshow.com/2022/wp-content/uploads/sites/16/2021/11/22LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
 					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Contact Sales</a></li>
 				</ul>
 			</div>
