@@ -894,10 +894,20 @@
   @include bp-768 {
     display: grid;
     grid-gap: rem(40);
-    grid-template-columns: rem(280) auto;
+    &.featured_all {
+      grid-template-columns: rem(280) auto;
+    }
+    &.featured_sessions, &.featured_speakers {
+      grid-template-columns: auto;
+    }
   }
   @include bp-1024 {
-    grid-template-columns: rem(360) auto;
+    &.featured_all {
+      grid-template-columns: rem(360) auto;
+    }
+    &.featured_sessions, &.featured_speakers {
+      grid-template-columns: auto;
+    }
   }
 }
 .conference-sessions-speakers {
@@ -905,6 +915,13 @@
   max-width: rem(340);
   @include bp-768 {
     margin: 0;
+    .featured_speakers & {
+      margin: 0 auto;
+      &.slick-slider {
+        //margin: 0;
+        max-width: rem(500);
+      }
+    }
   }
   .slick-dots {
     display: none !important;
@@ -953,10 +970,20 @@
     }
   }
 }
+.conference-sessions-speaker-image-wrap {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+  margin-bottom: rem(26);
+}
 .conference-sessions-speaker-image {
   border-radius: 50%;
   display: block;
-  margin-bottom: rem(26);
+  position: absolute;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 .conference-sessions-speaker-label {
   @include primary-medium-12-12-20;
@@ -1010,6 +1037,10 @@
     @include background-image("decorative-vert-line-dots.png");
     background-repeat: repeat-y;
     padding-left: rem(67);
+    .featured_sessions & {
+      grid-template-columns: 1fr 1fr;
+      background-position: 50% 0;
+    }
   }
   @include bp-1280 {
     position: relative;
@@ -1027,6 +1058,13 @@
       background-position: 0 0;
       @include background-image("decorative-vert-line-dots.png");
       background-repeat: repeat-y;
+    }
+    .featured_sessions & {
+      grid-template-columns: 1fr 1fr 1fr;
+      background-position: 66.666% 20%;
+      &::before {
+        left: 33.333%;
+      }
     }
   }
 }
