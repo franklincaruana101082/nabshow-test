@@ -1,821 +1,844 @@
 {
-  "key": "group_60e6d7e0bfef4",
-  "title": "Conference Details",
-  "fields": [
-    {
-      "key": "field_60e6d8179b0a2",
-      "label": "Logo",
-      "name": "logo",
-      "type": "image",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "return_format": "array",
-      "preview_size": "medium",
-      "library": "all",
-      "min_width": "",
-      "min_height": "",
-      "min_size": "",
-      "max_width": "",
-      "max_height": "",
-      "max_size": "",
-      "mime_types": ""
-    },
-    {
-      "key": "field_60e6d8739b0a3",
-      "label": "Description",
-      "name": "description",
-      "type": "wysiwyg",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "tabs": "all",
-      "toolbar": "full",
-      "media_upload": 1,
-      "delay": 0
-    },
-    {
-      "key": "field_60e6d8d49b0a4",
-      "label": "Short Description",
-      "name": "short_description",
-      "type": "wysiwyg",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "tabs": "all",
-      "toolbar": "basic",
-      "media_upload": 0,
-      "delay": 0
-    },
-    {
-      "key": "field_60e6d91d9b0a5",
-      "label": "Location",
-      "name": "location",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": "",
-      "maxlength": ""
-    },
-    {
-      "key": "field_60e6d9349b0a6",
-      "label": "Featured Video",
-      "name": "featured_video",
-      "type": "wysiwyg",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "tabs": "text",
-      "media_upload": 0,
-      "toolbar": "full",
-      "delay": 0
-    },
-    {
-      "key": "field_60e6d96b9b0a7",
-      "label": "Start Date",
-      "name": "start_date",
-      "type": "date_picker",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "display_format": "F j, Y",
-      "return_format": "F j, Y",
-      "first_day": 1
-    },
-    {
-      "key": "field_60e6d9bb9b0a8",
-      "label": "End Date",
-      "name": "end_date",
-      "type": "date_picker",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "display_format": "F j, Y",
-      "return_format": "F j, Y",
-      "first_day": 1
-    },
-    {
-      "key": "field_60e6d9fb9b0a9",
-      "label": "Rate Information",
-      "name": "rate_information",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": "",
-      "maxlength": ""
-    },
-    {
-      "key": "field_60e6da129b0aa",
-      "label": "Register URL",
-      "name": "register_url",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "maxlength": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": ""
-    },
-    {
-      "key": "field_60e6da469b0ab",
-      "label": "Partner Sponsors",
-      "name": "partner_sponsors",
-      "type": "repeater",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "collapsed": "",
-      "min": 0,
-      "max": 0,
-      "layout": "table",
-      "button_label": "",
-      "sub_fields": [
+    "key": "group_60e6d7e0bfef4",
+    "title": "Conference Details",
+    "fields": [
         {
-          "key": "field_60e6dc2a9b0b0",
-          "label": "Name",
-          "name": "name",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
+            "key": "field_60e6d8179b0a2",
+            "label": "Logo",
+            "name": "logo",
+            "type": "image",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
         },
         {
-          "key": "field_60e6dc4f9b0b1",
-          "label": "Logo",
-          "name": "logo",
-          "type": "image",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "return_format": "array",
-          "preview_size": "medium",
-          "library": "all",
-          "min_width": "",
-          "min_height": "",
-          "min_size": "",
-          "max_width": "",
-          "max_height": "",
-          "max_size": "",
-          "mime_types": ""
+            "key": "field_60e6d8739b0a3",
+            "label": "Description",
+            "name": "description",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
         },
         {
-          "key": "field_60e6dc6c9b0b2",
-          "label": "URL",
-          "name": "url",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
+            "key": "field_60e6d8d49b0a4",
+            "label": "Short Description",
+            "name": "short_description",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "basic",
+            "media_upload": 0,
+            "delay": 0
+        },
+        {
+            "key": "field_60e6d91d9b0a5",
+            "label": "Location",
+            "name": "location",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_60e6d9349b0a6",
+            "label": "Featured Video",
+            "name": "featured_video",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "text",
+            "media_upload": 0,
+            "toolbar": "full",
+            "delay": 0
+        },
+        {
+            "key": "field_60e6d96b9b0a7",
+            "label": "Start Date",
+            "name": "start_date",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
+            "first_day": 1
+        },
+        {
+            "key": "field_60e6d9bb9b0a8",
+            "label": "End Date",
+            "name": "end_date",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
+            "first_day": 1
+        },
+        {
+            "key": "field_60e6d9fb9b0a9",
+            "label": "Rate Information",
+            "name": "rate_information",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_60e6da129b0aa",
+            "label": "Register URL",
+            "name": "register_url",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_60e6da469b0ab",
+            "label": "Partner Sponsors",
+            "name": "partner_sponsors",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_60e6dc2a9b0b0",
+                    "label": "Name",
+                    "name": "name",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60e6dc4f9b0b1",
+                    "label": "Logo",
+                    "name": "logo",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": ""
+                },
+                {
+                    "key": "field_60e6dc6c9b0b2",
+                    "label": "URL",
+                    "name": "url",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                }
+            ]
+        },
+        {
+            "key": "field_60e6dd223c831",
+            "label": "Sponsors",
+            "name": "sponsors",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_60e6dd433c832",
+                    "label": "Name",
+                    "name": "name",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60e6dd513c833",
+                    "label": "Sponsor Type",
+                    "name": "sponsor_type",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60e6dd743c834",
+                    "label": "Logo",
+                    "name": "logo",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": ""
+                },
+                {
+                    "key": "field_60e6dd9a3c835",
+                    "label": "URL",
+                    "name": "url",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                }
+            ]
+        },
+        {
+            "key": "field_60e6ddd23c836",
+            "label": "Display Speakers and Sessions",
+            "name": "display_speakers_and_sessions",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_60e6de323c837",
+            "label": "Featured Speakers",
+            "name": "featured_speakers",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_60e6de5d3c838",
+                    "label": "Speaker Name",
+                    "name": "speaker_name",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60e6de723c839",
+                    "label": "Speaker Description",
+                    "name": "speaker_description",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "maxlength": "",
+                    "rows": 5,
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_60e6dea53c83a",
+                    "label": "Dates",
+                    "name": "dates",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60e6dee53c83b",
+                    "label": "Image",
+                    "name": "image",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": ""
+                },
+                {
+                    "key": "field_61032ed32e9ad",
+                    "label": "Speaker Link",
+                    "name": "speaker_link",
+                    "type": "link",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array"
+                }
+            ]
+        },
+        {
+            "key": "field_60e6df263c83c",
+            "label": "Featured Sessions",
+            "name": "featured_sessions",
+            "type": "repeater",
+            "instructions": "If a session is selected, title, date and description will be pulled from there, or you can override them here.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_60f756af4d6e5",
+                    "label": "Session",
+                    "name": "session",
+                    "type": "post_object",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "sessions"
+                    ],
+                    "taxonomy": "",
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "id",
+                    "ui": 1
+                },
+                {
+                    "key": "field_60e6df563c83d",
+                    "label": "Session Title",
+                    "name": "session_title",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60e6df7a3c83e",
+                    "label": "Dates",
+                    "name": "dates",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_60f7607a59de9",
+                    "label": "Description",
+                    "name": "description",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "maxlength": "",
+                    "rows": "",
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_60f88250cce96",
+                    "label": "Session Link",
+                    "name": "session_link",
+                    "type": "link",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array"
+                }
+            ]
+        },
+        {
+            "key": "field_60e6df8d3c83f",
+            "label": "Display CTA Block",
+            "name": "display_cta_block",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_60e6dfb63c840",
+            "label": "CTA Title",
+            "name": "cta_title",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60e6df8d3c83f",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_60e6e0293c841",
+            "label": "CTA Body",
+            "name": "cta_body",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60e6df8d3c83f",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_60e6e07a3c842",
+            "label": "CTA Button Text",
+            "name": "cta_button_text",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60e6df8d3c83f",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_60e6e0b63c843",
+            "label": "CTA Button URL",
+            "name": "cta_button_url",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60e6df8d3c83f",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_60e6e0d93c844",
+            "label": "CTA Image",
+            "name": "cta_image",
+            "type": "image",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_60e6df8d3c83f",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_60e6e1013c845",
+            "label": "Ad Code",
+            "name": "ad_code",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_60e6e1293c846",
+            "label": "Display Mailing List Block",
+            "name": "display_mailing_list_block",
+            "type": "true_false",
+            "instructions": "Turn on to display a mailing list sign up module on the bottom of the page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
         }
-      ]
-    },
-    {
-      "key": "field_60e6dd223c831",
-      "label": "Sponsors",
-      "name": "sponsors",
-      "type": "repeater",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "collapsed": "",
-      "min": 0,
-      "max": 0,
-      "layout": "table",
-      "button_label": "",
-      "sub_fields": [
-        {
-          "key": "field_60e6dd433c832",
-          "label": "Name",
-          "name": "name",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_60e6dd513c833",
-          "label": "Sponsor Type",
-          "name": "sponsor_type",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_60e6dd743c834",
-          "label": "Logo",
-          "name": "logo",
-          "type": "image",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "return_format": "array",
-          "preview_size": "medium",
-          "library": "all",
-          "min_width": "",
-          "min_height": "",
-          "min_size": "",
-          "max_width": "",
-          "max_height": "",
-          "max_size": "",
-          "mime_types": ""
-        },
-        {
-          "key": "field_60e6dd9a3c835",
-          "label": "URL",
-          "name": "url",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        }
-      ]
-    },
-    {
-      "key": "field_60e6ddd23c836",
-      "label": "Display Speakers and Sessions",
-      "name": "display_speakers_and_sessions",
-      "type": "true_false",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "message": "",
-      "default_value": 0,
-      "ui": 1,
-      "ui_on_text": "",
-      "ui_off_text": ""
-    },
-    {
-      "key": "field_60e6de323c837",
-      "label": "Featured Speakers",
-      "name": "featured_speakers",
-      "type": "repeater",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "collapsed": "",
-      "min": 0,
-      "max": 0,
-      "layout": "table",
-      "button_label": "",
-      "sub_fields": [
-        {
-          "key": "field_60e6de5d3c838",
-          "label": "Speaker Name",
-          "name": "speaker_name",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_60e6de723c839",
-          "label": "Speaker Description",
-          "name": "speaker_description",
-          "type": "textarea",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "maxlength": "",
-          "rows": 5,
-          "new_lines": ""
-        },
-        {
-          "key": "field_60e6dea53c83a",
-          "label": "Dates",
-          "name": "dates",
-          "type": "text",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_60e6dee53c83b",
-          "label": "Image",
-          "name": "image",
-          "type": "image",
-          "instructions": "",
-          "required": 1,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "return_format": "array",
-          "preview_size": "medium",
-          "library": "all",
-          "min_width": "",
-          "min_height": "",
-          "min_size": "",
-          "max_width": "",
-          "max_height": "",
-          "max_size": "",
-          "mime_types": ""
-        },
-        {
-          "key": "field_6109697d1783b",
-          "label": "Speaker Link",
-          "name": "speaker_link",
-          "type": "link",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "return_format": "array"
-        }
-      ]
-    },
-    {
-      "key": "field_60e6df263c83c",
-      "label": "Featured Sessions",
-      "name": "featured_sessions",
-      "type": "repeater",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "collapsed": "",
-      "min": 0,
-      "max": 0,
-      "layout": "table",
-      "button_label": "",
-      "sub_fields": [
-        {
-          "key": "field_60fef547c43eb",
-          "label": "Session",
-          "name": "session",
-          "type": "post_object",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "post_type": ["sessions"],
-          "taxonomy": "",
-          "allow_null": 0,
-          "multiple": 0,
-          "return_format": "id",
-          "ui": 1
-        },
-        {
-          "key": "field_60e6df563c83d",
-          "label": "Session Title",
-          "name": "session_title",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_60e6df7a3c83e",
-          "label": "Dates",
-          "name": "dates",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_60fef56cc43ec",
-          "label": "Description",
-          "name": "description",
-          "type": "textarea",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "maxlength": "",
-          "rows": "",
-          "new_lines": ""
-        },
-        {
-          "key": "field_60fef578c43ed",
-          "label": "Session Link",
-          "name": "session_link",
-          "type": "link",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "return_format": "array"
-        }
-      ]
-    },
-    {
-      "key": "field_60e6df8d3c83f",
-      "label": "Display CTA Block",
-      "name": "display_cta_block",
-      "type": "true_false",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "message": "",
-      "default_value": 0,
-      "ui": 1,
-      "ui_on_text": "",
-      "ui_off_text": ""
-    },
-    {
-      "key": "field_60e6dfb63c840",
-      "label": "CTA Title",
-      "name": "cta_title",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": [
-        [
-          {
-            "field": "field_60e6df8d3c83f",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ],
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": "",
-      "maxlength": ""
-    },
-    {
-      "key": "field_60e6e0293c841",
-      "label": "CTA Body",
-      "name": "cta_body",
-      "type": "wysiwyg",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": [
-        [
-          {
-            "field": "field_60e6df8d3c83f",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ],
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "tabs": "all",
-      "toolbar": "full",
-      "media_upload": 1,
-      "delay": 0
-    },
-    {
-      "key": "field_60e6e07a3c842",
-      "label": "CTA Button Text",
-      "name": "cta_button_text",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": [
-        [
-          {
-            "field": "field_60e6df8d3c83f",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ],
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": "",
-      "maxlength": ""
-    },
-    {
-      "key": "field_60e6e0b63c843",
-      "label": "CTA Button URL",
-      "name": "cta_button_url",
-      "type": "text",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": [
-        [
-          {
-            "field": "field_60e6df8d3c83f",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ],
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "default_value": "",
-      "placeholder": "",
-      "prepend": "",
-      "append": "",
-      "maxlength": ""
-    },
-    {
-      "key": "field_60e6e0d93c844",
-      "label": "CTA Image",
-      "name": "cta_image",
-      "type": "image",
-      "instructions": "",
-      "required": 1,
-      "conditional_logic": [
-        [
-          {
-            "field": "field_60e6df8d3c83f",
-            "operator": "==",
-            "value": "1"
-          }
-        ]
-      ],
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "return_format": "array",
-      "preview_size": "medium",
-      "library": "all",
-      "min_width": "",
-      "min_height": "",
-      "min_size": "",
-      "max_width": "",
-      "max_height": "",
-      "max_size": "",
-      "mime_types": ""
-    },
-    {
-      "key": "field_60e6e1293c846",
-      "label": "Display Mailing List Block",
-      "name": "display_mailing_list_block",
-      "type": "true_false",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "message": "",
-      "default_value": 0,
-      "ui": 1,
-      "ui_on_text": "",
-      "ui_off_text": ""
-    }
-  ],
-  "location": [
-    [
-      {
-        "param": "post_type",
-        "operator": "==",
-        "value": "conference"
-      }
     ],
-    [
-      {
-        "param": "post_type",
-        "operator": "==",
-        "value": "destinations"
-      }
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "conference"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "destinations"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "networking"
+            }
+        ]
     ],
-    [
-      {
-        "param": "post_type",
-        "operator": "==",
-        "value": "networking"
-      }
-    ]
-  ],
-  "menu_order": 0,
-  "position": "acf_after_title",
-  "style": "default",
-  "label_placement": "top",
-  "instruction_placement": "label",
-  "hide_on_screen": "",
-  "active": true,
-  "description": ""
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1638317398
 }
