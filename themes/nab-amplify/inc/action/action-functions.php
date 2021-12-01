@@ -1269,7 +1269,24 @@ function amplify_register_api_endpoints()
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
     ));
+
+    register_rest_route('wp', '/v2/user-reactions', array(
+        'methods'             => 'GET',
+        'callback'            => 'nab_get_user_reactions',
+        'permission_callback' => '__return_true',
+    ));
+
+     // Add the plaintext content to GET requests for individual posts
+     register_rest_field(
+        'articles',
+        'plaintext',
+        array(
+            'get_callback'    => 'nab_article_wp_api_callback',
+        )
+    );
+   
 }
+
 
 /**
  * Get user images.
@@ -5113,4 +5130,122 @@ function session_excerpt_count_js() {
             });
         });</script>';
     }
+}
+
+
+function display_newsletter_signup() {
+    ob_start();
+    $nl_post_id = get_the_ID();
+    $nl_user_id = get_current_user_id();
+    ?>
+    <div class="newsletter force-full-width">
+        <div class="container">
+            <h2 class="newsletter__title"><span class="highlight">Sign up</span> for more content like this sent directly to your inbox:</h2>
+            <form class="newsletter__form">
+                <input type="hidden" name="postID" value="<?php echo($nl_post_id); ?>">
+                <input type="hidden" name="userID" value="<?php echo($nl_user_id); ?>">
+                <fieldset class="newsletter__input">
+                    <label for="emailsignup">Email Address<span class="required">*</span></label>
+                    <input type="email" name="emailsignup" />
+                </fieldset>
+                <fieldset class="newsletter__submit">
+                    <button class="button _gradientpink" type="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <?php
+        $newsletter_signup = ob_get_clean();
+    
+    return $newsletter_signup;
+}
+
+
+function display_content_rating() {
+    ob_start();
+    $cr_post_id = get_the_ID();
+    $cr_user_id = get_current_user_id();
+    ?>
+    <div class="rate force-full-width">
+        <div class="container">
+            <h2 class="rate__title">Did you like this article?</h2>
+            <form class="rate__form">
+                <input type="hidden" name="postID" value="<?php echo($nl_post_id); ?>">
+                <input type="hidden" name="userID" value="<?php echo($nl_user_id); ?>">
+                <label for="rateLike" class="rate__like">
+                    <input type="radio" name="rate" id="rateLike" value="+1" />
+                    <span class="rate__symbol">👍</span>
+                </label>
+                <label for="rateDislike" class="rate__dislike">
+                    <input type="radio" name="rate" id="rateDislike" value="-1" />
+                    <span class="rate__symbol">👎</span>
+                </label>
+            </form>
+        </div>
+    </div>
+    <?php
+        $newsletter_signup = ob_get_clean();
+    
+    return $newsletter_signup;
+}
+
+/**
+ * Get all user reaction.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function nab_get_user_reactions(WP_REST_Request $request){
+    global $wpdb;
+   
+    $per_page = $request->get_param('per_page');
+    $per_page = isset( $per_page ) && !empty($per_page) ? $per_page : 10; 
+    
+    $page = $request->get_param('page');
+    $page = isset( $page ) && !empty($page) ? $page : 1; 
+    
+
+    $offset = ($page-1) * $per_page; 
+
+    $table_name     = $wpdb->prefix . 'nab_user_reations';
+    $prepare_sql    = $wpdb->prepare( "SELECT * FROM `$table_name` ORDER BY id DESC LIMIT %d, %d", $offset, $per_page );
+
+    $react_results  = $wpdb->get_results( $prepare_sql );
+
+    $result = array();
+    if (!empty($react_results)) {
+       foreach( $react_results as $key => $val ){
+        $result[$key]['post_id'] = $val->post_id;
+        $result[$key]['post_type'] = $val->post_type;
+        $result[$key]['user_id'] =  $val->user_id;
+        $result[$key]['reaction_id'] = $val->reaction_id;
+        $result[$key]['reaction_time'] = $val->reaction_time;
+       }
+    }
+    return new WP_REST_Response($result, 200);
+}
+
+/**
+ * Add reaction count on article meta data in rest endpoints.
+ */
+function nab_article_wp_api_callback( $object ) {
+    if( !empty($object) && isset($_GET['x-api-key']) ){
+        $article_id  = isset( $object['id'] ) ?  $object['id'] : '';
+       if( !empty ( $article_id  ) ){
+            $reactions_count = nab_get_total_reactions( $article_id );
+            
+            if( isset( $object['meta'] ) ){
+                $object['meta']['reactions_count'] = $reactions_count;
+                $object['meta']['reactions_like_count'] = get_individual_reaction_count( $article_id, 1 );
+                $object['meta']['reactions_insightful_count'] = get_individual_reaction_count( $article_id, 2 );
+                $object['meta']['reactions_good_idea_count'] = get_individual_reaction_count( $article_id, 3 );
+                $object['meta']['reactions_wow_count'] = get_individual_reaction_count( $article_id, 4 );
+                $object['meta']['reactions_celebrate_count'] = get_individual_reaction_count( $article_id, 5 );
+            }
+       }
+    }
+    return $object;
 }

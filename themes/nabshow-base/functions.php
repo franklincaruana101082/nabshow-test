@@ -134,10 +134,9 @@ if( function_exists('acf_add_options_page') ) {
 
 function nabshow_base_enqueue_styles() {
 	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
-    wp_enqueue_style( 'nabshow-base', 
+    wp_enqueue_style( 'nabshow-lv-child-2021', 
     	get_template_directory_uri().'/assets/css/styles.min.css'
     );
-    wp_enqueue_style( 'nabshow-style', get_stylesheet_uri(), array(), $theme_version );
     wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
 
     //wp_enqueue_script( 'nabshow-2021-jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array(), '1.0', true );
@@ -751,3 +750,23 @@ function nabshow_lv_2021_session_filter() {
 }
 add_action( 'wp_ajax_nab_2021_session_filter', 'nabshow_lv_2021_session_filter' );
 add_action( 'wp_ajax_nopriv_nab_2021_session_filter', 'nabshow_lv_2021_session_filter' );
+
+
+//this fixes the issue with ACF fields not displaying at all on post previews
+//solution from here: https://support.advancedcustomfields.com/forums/topic/preview-solution/page/3/#post-134967
+function fix_post_id_on_preview($null, $post_id) {
+    if (is_preview()) {
+        return get_the_ID();
+    }
+    else {
+        $acf_post_id = isset($post_id->ID) ? $post_id->ID : $post_id;
+
+        if (!empty($acf_post_id)) {
+            return $acf_post_id;
+        }
+        else {
+            return $null;
+        }
+    }
+}
+add_filter( 'acf/pre_load_post_id', 'fix_post_id_on_preview', 10, 2 );

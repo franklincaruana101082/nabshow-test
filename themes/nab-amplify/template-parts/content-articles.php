@@ -51,30 +51,41 @@ if(isset($_COOKIE[$cookieName])) {
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<div class="container">
-	    <header class="intro">
-
-			<?php
-			the_title( '<h1 class="intro__title entry-title">', '</h1>' );
-			echo do_shortcode( '[bookmark]' );
-			?>
-
-
-			<div class="intro__reactions post-action-wrap">
-				<div class="post-action-reaction">
-					<?php echo do_shortcode( '[reaction_button]' ); ?>
-				</div>
-			</div>
-	    </header><!-- .entry-header -->
-
-
-	</div>
-
-	<div class="main _contentborder <?=$articleTypeClass;?>">
+	<div class="titlecolor">
 		<div class="container">
+			<header class="intro">
+
+				<?php
+				the_title( '<h1 class="intro__title entry-title">', '</h1>' );
+				//echo do_shortcode( '[bookmark]' );
+				?>
+
+
+				<div class="intro__meta">
+					<div class="intro__reactions post-action-wrap">
+						<div class="post-action-reaction">
+							<?php echo do_shortcode( '[reaction_button]' ); ?>
+						</div>
+					</div>
+					<div class="intro__sharing">
+						<div class="addthis_toolbox">
+							<a class="addthis_button_instagram"><img src="/wp-content/themes/nab-amplify/assets/images/icon-ig.svg" /></a>
+							<a class="addthis_button_linkedin"><img src="/wp-content/themes/nab-amplify/assets/images/icon-li.svg" /></a>
+							<a class="addthis_button_facebook"><img src="/wp-content/themes/nab-amplify/assets/images/icon-fb.svg" /></a>
+							<a class="addthis_button_twitter"><img src="/wp-content/themes/nab-amplify/assets/images/icon-tw.svg" /></a>
+							<a class="addthis_button_email"><img src="/wp-content/themes/nab-amplify/assets/images/icon-email.svg" /></a>
+							<!-- <a class="addthis_button_compact"></a> -->
+						</div>
+					</div>
+				</div>
+			</header><!-- .entry-header -->
 			<div class="post-action-author">
 				<?php echo do_shortcode( '[nab_display_author]' ); ?>
 			</div>
+		</div>
+	</div>
+	<div class="main _contentborder <?=$articleTypeClass;?>">
+		<div class="container">
 			<?php
 			$content_accessible = get_post_meta( $post->ID, 'content_accessible', true);
 			if (!$content_accessible) {
@@ -128,7 +139,7 @@ if(isset($_COOKIE[$cookieName])) {
 			</div>
 		<?php } ?>
 		</div>
-	</div><!-- .entry-content -->
+	</div><!-- .main -->
 	<?php
 	if(is_user_logged_in()) {
 		//opt in modal

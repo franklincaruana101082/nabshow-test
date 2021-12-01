@@ -143,3 +143,9 @@ add_action( 'init', 'nabshow_lv_resource_page' );
 
 // Action to add the schedule post type.
 add_action( 'init', 'nabshow_lv_schedule_page' );
+
+// Action to add the schedule item post type.
+add_action( 'init', 'nabshow_lv_schedule_item' );
+
+// Action to add the schedule table post type.
+add_action( 'init', 'nabshow_lv_schedule_table' );

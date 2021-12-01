@@ -36,21 +36,10 @@
 .cards {
   list-style-type: none;
   @include bp-768 {
-    .slick-list {
-      padding: 0 !important;
-      transform: translate3d(0, 0, 0) !important;
-    }
-    .slick-list .slick-track {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(rem(264), 1fr));
-      grid-gap: rem(40) rem(20);
-      width: auto !important;
-      transform: translate3d(0, 0, 0) !important;
-      &::before,
-      &::after {
-        display: none;
-      }
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(rem(264), 1fr));
+    grid-gap: rem(40) rem(36);
+    width: auto !important;
   }
 }
 
