@@ -135,13 +135,28 @@ if ( $display_speakers_and_sessions ) {
 
     $featured_speakers = get_field( 'featured_speakers' );
     $featured_sessions = get_field( 'featured_sessions' );
-    if( $featured_speakers && $featured_sessions ) {
+
+    $featured_speakers_amount = array();
+    foreach( $featured_speakers as $i => $row ) {
+        if(!$row['hide_this_speaker']):
+            $featured_speakers_amount[$i] = $i;
+        endif;
+    }
+
+    $featured_sessions_amount = array();
+    foreach( $featured_sessions as $i => $row ) {
+        if(!$row['hide_this_session']):
+            $featured_sessions_amount[$i] = $i;
+        endif;
+    }
+
+    if( !empty($featured_speakers_amount) && !empty($featured_sessions_amount) ) {
         $fss_title = "Featured Speakers<br/>&amp; Sessions";
         $fss_class = "featured_all";
-    } else if ( $featured_speakers && !$featured_sessions ) {
+    } else if ( !empty($featured_speakers_amount) && empty($featured_sessions_amount) ) {
         $fss_title = "Featured Speakers";
         $fss_class = "featured_speakers";
-    } else if ( !$featured_speakers && $featured_sessions ) {
+    } else if ( empty($featured_speakers_amount) && !empty($featured_sessions_amount) ) {
         $fss_title = "Featured Sessions";
         $fss_class = "featured_sessions";
     }
@@ -153,7 +168,7 @@ if ( $display_speakers_and_sessions ) {
                     <h3 class="conference-sessions-title"><?php echo($fss_title); ?></h3>
                 </div>
                 <div class="conference-sessions-content <?php echo($fss_class); ?>">
-                    <?php if ( $featured_speakers ) { ?>
+                    <?php if ( !empty($featured_speakers_amount) ) { ?>
                     <div class="conference-sessions-speakers">
                         <?php
                         foreach ( $featured_speakers as $row ) {
@@ -167,6 +182,7 @@ if ( $display_speakers_and_sessions ) {
                                 $speaker_link_url       = $row['speaker_link']['url'];
                                 //$speaker_link_target    = $row['speaker_link']['target'] ? $row['speaker_link']['target'] : '_self';
                             endif;
+                            if(!$row['hide_this_speaker']):
                             ?>                                
                             <div class="conference-sessions-speaker">
                                 <?php if($speaker_link_url): ?>
@@ -191,15 +207,17 @@ if ( $display_speakers_and_sessions ) {
                                 <div class="conference-sessions-speaker-progress"></div>
                             </div>                                
                             <?php
+                            endif;
                         } ?>
                     </div>
                     <?php } 
 
-                    if ( have_rows('featured_sessions') ) {
+                    if ( !empty($featured_sessions_amount) ) {
                     ?>
                     <div class="conference-sessions-sessions">
                         <?php
                         while ( have_rows('featured_sessions') ) : the_row();
+                            if(!get_sub_field('hide_this_session')):
                             if (get_sub_field('session')) {
                                 $session_id = get_sub_field('session');
                                 $session_link = get_field('cta', $session_id);
@@ -225,6 +243,7 @@ if ( $display_speakers_and_sessions ) {
                             <?php else : ?>
                             </div>
                             <?php endif; 
+                            endif;
 
                             //clear all vars for next iteration otherwise empty vars there will get previously assigned values
                             $session_id = '';
