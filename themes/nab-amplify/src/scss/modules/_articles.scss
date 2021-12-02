@@ -79,6 +79,20 @@
 				&:active, &:focus, &:hover {
 					color: $color__blurple !important;
 				}
+				&.wsb-button {
+					text-decoration: none !important;
+					color: $color__white !important;
+					&:active, &:focus, &:hover {
+						color: $color__white !important;
+					}	
+				}
+			}
+			.buttom {
+				& + a.wsb-button {
+					display: inline-block;
+					float: right;
+					margin-bottom: rem(15);
+				}
 			}
 		}
 		.comment-form a, .comment-form p {
