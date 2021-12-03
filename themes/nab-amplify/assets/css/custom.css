@@ -399,20 +399,10 @@ span.user-bookmark-action{cursor:pointer}
 .woocommerce-cart .woocommerce{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .woocommerce-cart .woocommerce .woocommerce-cart-form{width:80%;width:calc(100% - 300px);padding-right:40px}
 .woocommerce-cart .woocommerce .cart-collaterals{width:300px}
-.woocommerce-cart .woocommerce .woocommerce-cart-form table{border-right:1px solid #e0e0e0;border-spacing:0}
-.woocommerce-cart .woocommerce .woocommerce-cart-form table td, .woocommerce-cart .woocommerce .woocommerce-cart-form table th{padding:10px 10px;border-left:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;text-transform:capitalize}
-.woocommerce-cart .woocommerce .woocommerce-cart-form table th{background:#666666;color:#fff}
-.woocommerce-cart .woocommerce .woocommerce-cart-form table tr{border-bottom:1px solid #ccc}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions .coupon{display:inline-block;width:80%;width:calc(100% - 190px);text-align:left}
-.woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions button.button{display:inline-block;background:#e5018b;color:#fff;font-size:18px;text-transform:uppercase;cursor:pointer;border-radius:10px;padding:12px 20px;border:none!important;outline:none;width:180px}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions .coupon #coupon_code{background:#f2f2f2;width:300px;height:45px;margin-right:10px;padding:0 10px;border:none;outline:none}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions .coupon label{display:none}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals{border:1px solid #e0e0e0}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals h2{padding:12px 20px;margin:0;font-size:15px;line-height:15px;background:#666666;color:#fff}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals table{margin:0;border-spacing:0}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals .wc-proceed-to-checkout{padding:20px 20px;text-align:center}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals .wc-proceed-to-checkout a, form.checkout.woocommerce-checkout div#order_review button#place_order, .checkout_coupon.woocommerce-form-coupon button.button{display:inline-block;background:#e5018b;color:#fff;font-size:16px;text-transform:uppercase;cursor:pointer;border-radius:10px;padding:12px 20px;border:none!important;outline:none}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals table tr td, .woocommerce-cart .woocommerce .cart-collaterals .cart_totals table tr th{border-bottom:1px solid #e0e0e0;padding:20px 20px;text-transform:capitalize}
+.checkout_coupon.woocommerce-form-coupon button.button{display:inline-block;background:#e5018b;color:#fff;font-size:16px;text-transform:uppercase;cursor:pointer;border-radius:10px;padding:12px 20px;border:none!important;outline:none}
 .woocommerce-cart .woocommerce .cart-collaterals .cart_totals table tr td:last-child{text-align:right}
 .woocommerce-cart .woocommerce .woocommerce-notices-wrapper{width:100%}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table .product-thumbnail{width:20%;text-align:center}
@@ -423,8 +413,8 @@ span.user-bookmark-action{cursor:pointer}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table .product-subtotal{width:15%;text-align:center}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table .product-quantity .quantity input{width:80px}
 .woocommerce-cart .woocommerce .woocommerce-cart-form table tr td.actions button.button[aria-disabled="true"]{opacity:0.5;cursor:not-allowed}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals .wc-proceed-to-checkout a:hover, .woocommerce .woocommerce-cart-form table tr td.actions button.button:hover, form.checkout.woocommerce-checkout div#order_review button#place_order:hover, .checkout_coupon.woocommerce-form-coupon button.button:hover{background:#6363df}
-.woocommerce-cart .woocommerce .cart-collaterals .cart_totals .wc-proceed-to-checkout a:focus, .woocommerce .woocommerce-cart-form table tr td.actions button.button:focus, form.checkout.woocommerce-checkout div#order_review button#place_order:focus, .checkout_coupon.woocommerce-form-coupon button.button:focus{background:#666666}
+.woocommerce .woocommerce-cart-form table tr td.actions button.button:hover, .checkout_coupon.woocommerce-form-coupon button.button:hover{background:#6363df}
+.woocommerce .woocommerce-cart-form table tr td.actions button.button:focus, .checkout_coupon.woocommerce-form-coupon button.button:focus{background:#666666}
 form.checkout.woocommerce-checkout{display:-webkit-box;display:-ms-flexbox;display:flex;position:relative;margin-top:40px;-ms-flex-wrap:wrap;flex-wrap:wrap;clear:both}
 form.checkout.woocommerce-checkout #customer_details{width:70%;padding-right:50px}
 form.checkout.woocommerce-checkout div#order_review{width:30%;padding-top:50px}
@@ -442,7 +432,6 @@ form.checkout.woocommerce-checkout #customer_details textarea{width:100%;height:
 .woocommerce-info, .woocommerce-noreviews, p.no-comments{background:none;padding:0;margin-bottom:0!important;color:#000;border:none}
 .woocommerce-info .button, .woocommerce-noreviews .button, p.no-comments .button{margin-right:5px}
 form.checkout.woocommerce-checkout div#order_review ul{margin:0 0 30px 0}
-form.checkout.woocommerce-checkout div#order_review #payment .form-row.place-order{text-align:center}
 form.checkout.woocommerce-checkout .woocommerce-NoticeGroup{width:100%}
 form.checkout.woocommerce-checkout .woocommerce-NoticeGroup ul{display:inline-block}
 .checkout_coupon.woocommerce-form-coupon{width:500px;background:none;border:1px solid #d2d3d5;padding:10px 30px;margin-top:20px;max-width:100%;display:inline-block}
