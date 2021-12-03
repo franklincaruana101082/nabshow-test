@@ -774,3 +774,123 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
   		}
   	}
   }
+
+.woocommerce-cart {
+	.woocommerce {
+		.woocommerce-cart-form {
+			table {
+				border-spacing: 0;
+				border-collapse: collapse;
+				thead tr {
+					border-bottom:1px solid $color__blurple;
+					border-image: linear-gradient(90deg, $color__blurple, $color__blue) 1;
+					border-width: 0;
+					border-bottom-width: 1px;
+				}
+				tr {
+					
+				}
+				td, th {
+					padding:rem(10);
+					text-transform:capitalize;
+					border-bottom:1px solid $color__gray-light;
+				}
+				th {
+					background:$color__gray-darkest;
+					color:$color__white;
+					border-bottom: 0;
+				}
+				td.actions {
+					border-bottom: 0;
+				}
+			}
+		}
+		.cart-collaterals {
+			.cart_totals {
+				border-left:4px solid $color__blurple;
+				border-image: linear-gradient(0deg, $color__blurple, $color__blue) 4;
+				border-width: 0;
+				border-left-width: 4px;
+				background-color: $color__black;
+				padding: rem(20) rem(10);
+				h2 {
+					padding:12px 20px;
+					margin:0;
+					font-size:15px;
+					line-height:15px;
+					color: $color__white;
+					text-transform: uppercase;
+				}
+				table {
+					margin:0;
+					border-spacing:0;
+					width: 100%;
+					padding: 0 rem(20);
+					tr {
+						td, th {
+							border-bottom:1px solid $color__gray-light;;
+							padding: rem(20);
+							text-transform:capitalize;
+						}
+						th {
+							padding-left: 0
+						}
+						td {
+							padding-right: 0;
+						}
+					}
+				}
+				.wc-proceed-to-checkout {
+					padding: rem(20);
+					text-align: right;
+					a.checkout-button {
+						background: linear-gradient(90deg, $color__purple, $color__pink);
+						opacity: 1;
+						transition: opacity .25s ease-in-out;
+						&:hover, &:active, &:focus {
+							opacity: .8;
+						}
+						// &:hover{background:#6363df}
+						// &:focus{background:#666666}
+					}
+				}
+			}
+		}
+	}
+}
+form.checkout.woocommerce-checkout {
+	div#order_review {
+		width: 30%;
+		padding-top:rem(50);
+		display: flex;
+		flex-flow: column nowrap;
+
+		.cartlink {
+			 padding: rem(20) 0;
+			 order: 1;
+			 text-align: right;
+		}
+		.shop_table {
+			order: 0;
+		}
+		.woocommerce-checkout-payment {
+			order: 2;
+		}
+		#payment {
+			.form-row.place-order {
+				text-align: center;
+				@include bp-1024 {
+					text-align: right;
+				}
+			}
+		}
+		button#place_order {
+			background: linear-gradient(90deg, $color__purple, $color__pink);
+			opacity: 1;
+			transition: opacity .25s ease-in-out;
+			&:hover, &:active, &:focus {
+				opacity: .8;
+			}
+		}
+	}
+}
