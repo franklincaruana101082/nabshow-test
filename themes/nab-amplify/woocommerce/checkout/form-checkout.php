@@ -271,6 +271,9 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 	<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
 
 	<div id="order_review" class="woocommerce-checkout-review-order">
+		<div class="cartlink">
+			<a href="/cart" class="button">Edit my Cart</a>
+		</div>
 		<?php do_action( 'woocommerce_checkout_order_review' ); ?>
 	</div>
 

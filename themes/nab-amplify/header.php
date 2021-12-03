@@ -13,6 +13,7 @@
 
  $post_id = get_the_id();
  $post_type = get_post_type( $post_id );
+ $cart_count = WC()->cart->get_cart_contents_count();
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -58,12 +59,13 @@
 				?>
 				
 			</a>
-			
-			<?php /*<div class="cart">
+			<?php if ($cart_count): ?>
+			<div class="cart">
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>">Cart</a>
 				<?php $header_cart_class = WC()->cart->get_cart_contents_count() > 0 ? '' : 'has-no-product'; ?>
-				<span class="cart__count  <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-			</div>*/?>
+				<span class="cart__count  <?php echo esc_attr( $header_cart_class ) ?>"><?php echo $cart_count; ?></span>
+			</div>
+			<?php endif; ?>
 			<div class="header__mobile-toggle js-mobile-toggle">
 				<div class="header__menu-icon"></div>
 			</div>
@@ -138,12 +140,13 @@
 							<a class="menu__link _login" href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
 						</li>
 					<?php } ?>
-					<?php /*
+					<?php if ($cart_count): ?>
 					<li class="cart">
 						<a href="<?php echo esc_url( wc_get_cart_url() ); ?>">Cart</a>
-						<span class="cart__count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+						<span class="cart__count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo $cart_count; ?></span>
 					</li>
-					*/?>
+					<?php endif; ?>
+					
 				</ul>
 			</nav>
 			
