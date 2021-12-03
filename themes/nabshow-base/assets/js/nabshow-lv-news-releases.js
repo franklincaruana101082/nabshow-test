@@ -1,6 +1,6 @@
 (function ($) {
 
-    $(document).on('click', '#news-release-archive #load-more-news a', function () {
+    $(document).on('click', '#news-release-archive + #load-more-news a', function () {
         let pageNumber = $(this).attr('data-page-number');
         $('#loader_container').show();
         $.ajax({

@@ -44,17 +44,21 @@ $posts_per_page = get_option( 'posts_per_page' );
 	                        get_template_part( 'template-parts/content', 'news-releases' );
 	                    }
 	                }
-
-	                if ( $total_posts > $posts_per_page ) {
-	                    ?>
-
-	                    <div class="loadMoreArticles text-center" id="load-more-news">
-	                        <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>
-	                    </div>
-	                    <?php
-	                }
 	                ?>
+	                <div class="news-releases-main-ad">
+		                <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+		            </div>
 	            </div>
+	            <?php if ( $total_posts > $posts_per_page ) {
+                    ?>
+                    <div class="loadMoreArticles text-center" id="load-more-news">
+                        <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>
+                    </div>
+                    <?php
+                } ?>
+	        </div>
+	        <div class="container">
+	        	<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	        </div>
 		</div><!-- #primary -->
 	</div>
