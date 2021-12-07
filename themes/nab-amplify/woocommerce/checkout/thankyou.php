@@ -55,7 +55,7 @@ defined( 'ABSPATH' ) || exit;
 			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">If you need to make changes to your list of attendees after uploading, please contact <a href="mailto:register@nab.org">register@nab.org</a></p>
 
 		<?php } else { ?>
-			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">You’re all set! Access to the online 75th annual Broadcast Engineering & IT (BEIT) Conference VOD presentations is now available <a href="https://amplify.nabshow.com/beit-online-2021/">here</a>. A link to the BEIT Conference Proceedings pdf will be emailed to you shortly. </p>
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">You’re all set!</p>
 		<?php } ?>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">To view and/or add items to your registration or make changes to your NAB Amplify account, simply Log In. Have questions? Contact us at <a href="mailto:support@nabamplify.zendesk.com">support@nabamplify.zendesk.com</a>.</p>
