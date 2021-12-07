@@ -56,7 +56,6 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 		<div class="col2-set" id="customer_details">
 			<div class="col-1">
 				<?php if ( false === $is_bulk_order ) { ?>
-					<h2><?php esc_html_e( 'BEIT Online 2021 Access', 'nab-amplify' ); ?></h2>
 					<div class="nab-event-reg-wrap">
 						<h3><?php esc_html_e( 'Your Information', 'nab-amplify' ); ?></h3>
 
