@@ -6,8 +6,6 @@ do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
 	<p><?php printf( esc_html__( 'Dear %1s %2s,', 'woocommerce' ), esc_html( $order->get_billing_first_name() ), esc_html( $order->get_billing_last_name() ) ); ?></p>
 	<p>You’re all set!</p>
-	<p>Access to the online 75th annual Broadcast Engineering & IT (BEIT) Conference VOD presentations is now available <a href="https://amplify.nabshow.com/beit-online-2021/">here</a>. A link to the BEIT Conference Proceedings pdf will be emailed to you shortly.</p>
-
 
 <?php
 
