@@ -25,5 +25,8 @@
 	}
 	&._arrow {
 		border-width: 0;
+		&:hover, &:focus, &:active {
+			background-color: transparent;
+		}
 	}
 }
