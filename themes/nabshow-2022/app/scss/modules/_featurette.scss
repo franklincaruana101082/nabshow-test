@@ -1,9 +1,16 @@
 .featurette {
 	padding: rem(50) 0;
-	// background-image: url('#{$theme_path}/assets/images/home_featurette_bg.png');
-	// background-repeat: no-repeat;
+	background-color: $color__purple-dark;
+	background-image: url('#{$theme_path}/assets/images/home_featurette_bg.png');
+	background-repeat: no-repeat;
+	background-blend-mode: screen;
+	background-position: 30% 160%;
+	@include bp-768 {
+		background-position: 60% 20%;
+	}
 	@include bp-1024 {
 		padding: rem(100) 0 rem(130);
+		background-position: 0% 70%;
 	}
 	&__title {
 		font-family: $font__primary;
