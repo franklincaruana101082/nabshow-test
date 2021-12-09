@@ -13,7 +13,7 @@ $video= get_field('banner_video_embed');
 $logo = get_field('banner_logo_image');
 $cta1 = get_field('banner_main_cta');
 $cta2 = get_field('banner_secondary_cta');
-//print_r($cta1);
+
 ?>
 
 <main id="main" class="new">
@@ -26,7 +26,7 @@ $cta2 = get_field('banner_secondary_cta');
       </div>
     </div>
   </div>
-  
+  <div class="home__lighting1">
 <?php
 
 $quick_links          = get_field( 'quick_links' );
@@ -104,6 +104,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   <div class="section container">
     <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
+  </div><?php // close .home__lighting1 ?>
 <?php
 
 if( have_rows('featured_topics') ): ?>
@@ -135,6 +136,7 @@ if( have_rows('featured_topics') ): ?>
       endwhile;
     ?>
     </ul>
+    <?php /* <div class="home__lighting2"></div> */ ?>
   </div>
 <?php 
 endif; 
