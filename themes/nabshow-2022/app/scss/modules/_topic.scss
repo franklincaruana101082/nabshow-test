@@ -8,20 +8,20 @@
 	@include scrimGradient(rgba($c__black,0.8), rgba($c__black, 0.3),  '90deg');
 
 	@include bp-768 {
-		padding: 0 rem(60);
+		padding: rem(80) rem(60) rem(30);
 	}
 	@include bp-1024 {
 		max-width: 70%;
-		padding: 0 rem(130) 0 rem(60);
+		padding: rem(80) rem(130) rem(30) rem(60);
 		@include scrimGradient(rgba($c__black,0.8), rgba($c__black, 0),  '90deg');
 	}
 	@include bp-1280 {
 		max-width: 60%;
-		padding: 0 rem(130) 0 rem(90);
+		padding: rem(80) rem(130) rem(30) rem(90);
 	}
 	@include bp-1440 {
 		max-width: 56%;
-		padding: 0 rem(130) 0 calc(((100vw - #{rem(1440)}) / 2) + #{rem(187)});
+		padding: rem(80) rem(130) rem(30) calc(((100vw - #{rem(1440)}) / 2) + #{rem(187)});
 	}
 
 	&__lede, &__title, &__copy {
@@ -134,4 +134,9 @@
 			}
 		}
 	}
+		&__item {
+			background-position: center center;
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
 }

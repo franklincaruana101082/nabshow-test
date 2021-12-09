@@ -5,6 +5,8 @@
 	&__intro {
 		text-align: center;
 		font-family: $font__primary;
+		font-size: rem(16);
+		line-height: 1.43;
 	}
 }
 
@@ -22,6 +24,9 @@
 			object-fit: scale-down;
 		}
 	}
+		&__medialink {
+			display: inline;
+		}
 
 
 	&__body {
