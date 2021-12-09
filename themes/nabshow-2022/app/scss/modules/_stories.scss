@@ -1,0 +1,47 @@
+.stories {
+	@include bp-1024 {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+	&__intro {
+		text-align: center;
+		font-family: $font__primary;
+	}
+}
+
+.story {
+	text-align: center;
+
+	@include bp-768 {
+		display: block;
+	}
+
+	&__media {
+
+		img {
+			max-height: rem(219);
+			object-fit: scale-down;
+		}
+	}
+
+
+	&__body {
+
+		p {
+			font-style: normal;
+			font-family: $font__primary;
+			font-size: rem(16);
+		}	
+	}
+		&__title {
+			text-transform: uppercase;
+			font-size: rem(36);
+		}
+
+		&__button {
+			margin-top: rem(20);
+			font-size: rem(12);
+			font-weight: 600;
+			line-height: 1.43;
+			letter-spacing: .2em;
+		}
+}
