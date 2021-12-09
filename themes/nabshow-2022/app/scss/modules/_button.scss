@@ -1,0 +1,29 @@
+.button {
+	background-color: rgba($c__white, .1);
+	border-width: rem(3);
+	border-style: solid;
+	border-color: $c__blue-light;
+	border-radius: rem(10);
+	padding: rem(16) rem(58);
+	text-transform: uppercase;
+	color: $color__white;
+	font-family: $font__primary;
+	transition: background-color .25s ease-in-out, border-color .25s ease-in-out;
+	&:hover, &:focus {
+		background-color: rgba($c__blue-light, .5);
+		text-decoration: none;
+		color: $color__white;
+	}
+	&:active {
+		background-color: rgba($c__blue-light, 1);
+		text-decoration: none;
+		color: $color__white;
+	}
+	&[disabled] {
+		opacity: .6;
+		border-color: $color__gray--medium;
+	}
+	&._arrow {
+		border-width: 0;
+	}
+}

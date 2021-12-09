@@ -35,9 +35,11 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
      width: 15.4375rem;
  }
  }
+ /*
  .nabshow_2021 blockquote, .nabshow_2021 h1, .nabshow_2021 h2, .nabshow_2021 h3, .nabshow_2021 h4, .nabshow_2021 h5, .nabshow_2021 h6  {
      font-family: open sans,sans-serif;
  }
+ */
  @media only screen and (min-width: 48em) { h2.intro__title {
      font-size: 3.875rem;
      line-height: 3.875rem;
