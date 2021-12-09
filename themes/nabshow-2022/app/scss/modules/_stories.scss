@@ -1,4 +1,4 @@
-.stories {
+.page-template-page-home-2022 .stories {
 	@include bp-1024 {
 		grid-template-columns: 1fr 1fr 1fr;
 	}
@@ -10,7 +10,7 @@
 	}
 }
 
-.story {
+.page-template-page-home-2022 .story {
 	text-align: center;
 
 	@include bp-768 {
