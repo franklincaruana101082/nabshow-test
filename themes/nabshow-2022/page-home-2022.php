@@ -116,10 +116,29 @@ if( have_rows('featured_topics') ): ?>
         <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
         <?php
       endwhile;
+      while( have_rows('featured_topics') ): the_row(); 
+        ?>
+        <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
+        <?php
+      endwhile;
     ?>
     </ul>
     <ul class="topics__main">
     <?php 
+      while( have_rows('featured_topics') ): the_row(); 
+        $background = get_sub_field('background_image');
+        $link = get_sub_field('link');
+        ?>
+        <li class="topics__item" style="background-image: url('<?php echo esc_url($background['url']); ?>');">
+          <div class="topic">
+            <h5 class="topic__lede"><?php the_sub_field('small_title'); ?></h5>
+            <h2 class="topic__title"><?php the_sub_field('big_title'); ?></h2>
+            <div class="topic__copy"><?php the_sub_field('copy'); ?></div>
+            <a class="topic__button button" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>"><?php echo $link['title']; ?></a>
+          </div>
+        </li>
+        <?php
+      endwhile;
       while( have_rows('featured_topics') ): the_row(); 
         $background = get_sub_field('background_image');
         $link = get_sub_field('link');
@@ -141,11 +160,14 @@ if( have_rows('featured_topics') ): ?>
 <?php 
 endif; 
 
-if( have_rows('closing_featurette') ) : ?>
+
+
+if( have_rows('closing_featurette') ) : 
+  while( have_rows('closing_featurette') ): the_row();
+    if(get_sub_field('closing_title')):
+  ?>
   <div class="section featurette">
     <div class="container">
-    <?php while( have_rows('closing_featurette') ): the_row();
-      ?>
       <h2 class="featurette__title"><?php the_sub_field('closing_title'); ?></h2>
       <div class="featurette__copy"><?php the_sub_field('closing_copy'); ?></div>
       <?php if( have_rows('closing_Items') ) : ?>
@@ -167,12 +189,13 @@ if( have_rows('closing_featurette') ) : ?>
         <?php endwhile; ?>
         </ul>
       <?php endif; ?>
-    <?php endwhile; ?>
 
     <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
     </div>
   </div>
 <?php
+  endif;
+ endwhile; 
 endif;
 ?>
 
