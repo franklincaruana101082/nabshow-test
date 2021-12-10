@@ -13,11 +13,7 @@ get_header('nabshow');
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
-}
-@media (min-width: 37.75em) {
-    .email-verify-logos {
-        margin-top: 1.25rem;
-    }
+    margin: 3rem 0;
 }
 .email-verify-logos > div {
     display: block;
