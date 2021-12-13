@@ -21,9 +21,11 @@ $cta2 = get_field('banner_secondary_cta');
     <div class="showinfo">
       <div class="showinfo__when"><?php the_field('banner_date'); ?> | <?php the_field('banner_location'); ?></div>
       <img src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" class="showinfo__logo" width="<?php echo( $logo['width'] ); ?>"height="<?php echo( $logo['height'] ); ?>" />
+      <?php if( !empty($cta1) ): ?>
       <div class="showinfo__cta">
         <a href="<?php echo esc_url( $cta1['url'] ); ?>" class="button" target="<?php echo esc_attr( $cta1['target'] ); ?>"><?php echo( $cta1['title'] ); ?></a>
       </div>
+      <?php endif; ?>
     </div>
   </div>
   <div class="home__lighting1">
@@ -39,7 +41,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   ?>
   <div class="container">
     <div class="jump-links">
-      <h2 class="jump-links__label">Resources For:</h2>
+      <h2 class="jump-links__label"><?php the_field('quick_links_title'); ?></h2>
       <ul class="jump-links__menu">
         <?php
         foreach ( $quick_links as $link ) {
@@ -89,7 +91,9 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
           <p>
             <?php the_sub_field('story_teaser_copy'); ?>
           </p>
+          <?php if( !empty($link) ): ?>
           <a class="story__button button" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>"><?php echo $link['title']; ?></a>
+          <?php endif; ?>
         </div>
       </div>
       <?php endwhile; ?>
@@ -109,6 +113,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
 
 if( have_rows('featured_topics') ): ?>
   <div class="section topics">
+    <?php if(have_rows('featured_topics') > 1): ?>
     <ul class="topics__nav">
     <?php 
       while( have_rows('featured_topics') ): the_row(); 
@@ -116,6 +121,7 @@ if( have_rows('featured_topics') ): ?>
         <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
         <?php
       endwhile;
+      
       while( have_rows('featured_topics') ): the_row(); 
         ?>
         <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
@@ -123,6 +129,7 @@ if( have_rows('featured_topics') ): ?>
       endwhile;
     ?>
     </ul>
+    <?php endif; ?>
     <ul class="topics__main">
     <?php 
       while( have_rows('featured_topics') ): the_row(); 
@@ -134,11 +141,14 @@ if( have_rows('featured_topics') ): ?>
             <h5 class="topic__lede"><?php the_sub_field('small_title'); ?></h5>
             <h2 class="topic__title"><?php the_sub_field('big_title'); ?></h2>
             <div class="topic__copy"><?php the_sub_field('copy'); ?></div>
+            <?php if( !empty($link) ): ?>
             <a class="topic__button button" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>"><?php echo $link['title']; ?></a>
+            <?php endif; ?>
           </div>
         </li>
         <?php
       endwhile;
+      if(have_rows('featured_topics') > 1):
       while( have_rows('featured_topics') ): the_row(); 
         $background = get_sub_field('background_image');
         $link = get_sub_field('link');
@@ -148,11 +158,14 @@ if( have_rows('featured_topics') ): ?>
             <h5 class="topic__lede"><?php the_sub_field('small_title'); ?></h5>
             <h2 class="topic__title"><?php the_sub_field('big_title'); ?></h2>
             <div class="topic__copy"><?php the_sub_field('copy'); ?></div>
+            <?php if( !empty($link) ): ?>
             <a class="topic__button button" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>"><?php echo $link['title']; ?></a>
+            <?php endif; ?>
           </div>
         </li>
         <?php
       endwhile;
+      endif;
     ?>
     </ul>
     <?php /* <div class="home__lighting2"></div> */ ?>
@@ -177,14 +190,20 @@ if( have_rows('closing_featurette') ) :
           $featurette_link = get_sub_field('link');
         ?>
           <li class="featurette__item">
+            <?php if( !empty($featurette_link) ): ?>
             <a class="featurette__link" href="<?php echo esc_url($featurette_link['url']); ?>" target="<?php echo esc_attr($featurette_link['target'] ? $featurette_link['target'] : '_self'); ?>">
+              <?php else: ?><div class="featurette__link">
+            <?php endif; ?>
               <img class="featurette__img" src="<?php echo esc_url($featurette_image['url']); ?>" alt="<?php echo esc_attr($featurette_image['alt']); ?>" />
               <div class="featurette__itemcontent">
                 <h3 class="featurette__itemtitle"><?php the_sub_field('title'); ?></h3>
                 <div class="featurette__itemcopy"><?php the_sub_field('copy'); ?></div>
-                <div class="featurette__linktext"><?php echo($featurette_link['title']); ?></div>
+                <div class="featurette__linktext"><?php if( !empty($featurette_link) ) echo($featurette_link['title']); ?></div>
               </div>
+            <?php if( !empty($featurette_link) ): ?>
             </a>
+            <?php else: ?></div>
+            <?php endif; ?>
           </li>
         <?php endwhile; ?>
         </ul>
