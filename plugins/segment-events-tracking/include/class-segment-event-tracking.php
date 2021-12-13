@@ -484,6 +484,22 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                 $this->st_track_event( $track_event );
             }            
+
+            if ( is_page( 'email-verification-success' ) ) {
+                
+                $email_address = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_STRING );
+
+                $track_event = array(                    
+                    'event' => 'Verified Legacy Email',
+                );
+
+                if ( isset( $email_address ) && ! empty( $email_address ) ) {
+                    $track_event['properties'] = array ( 'email' => $email_address );
+                }
+
+                $this->st_track_event( $track_event );
+            }            
+
         }
 
         public function st_company_profile_updated( $company_id, $img_updated = false ) {
