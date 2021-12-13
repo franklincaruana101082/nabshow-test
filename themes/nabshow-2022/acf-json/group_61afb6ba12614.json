@@ -104,6 +104,25 @@
             "return_format": "array"
         },
         {
+            "key": "field_61b7c0a140deb",
+            "label": "Quick Links title",
+            "name": "quick_links_title",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Resources for:",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
             "key": "field_61afb6ba189e2",
             "label": "Quick Links",
             "name": "quick_links",
@@ -747,5 +766,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1639177914
+    "modified": 1639432483
 }
