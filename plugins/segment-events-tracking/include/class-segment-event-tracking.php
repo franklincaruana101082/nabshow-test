@@ -44,6 +44,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
             //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
             add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 3 );
+            add_action( 'wp_head', array( $this, 'st_track_specific_page' ) );
             add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
             add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
             add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
@@ -465,6 +466,40 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $track_event['properties']          = $properties;
 
             $this->st_track_event( $track_event );
+        }
+
+        public function st_track_specific_page() {
+
+            if ( is_page( 'nab-show-premiere' ) ) {
+                
+                $email_address = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_STRING );
+
+                $track_event = array(                    
+                    'event' => 'Visited NAB Show Premier Page',
+                );
+
+                if ( isset( $email_address ) && ! empty( $email_address ) ) {
+                    $track_event['properties'] = array ( 'email' => $email_address );
+                }
+
+                $this->st_track_event( $track_event );
+            }            
+
+            if ( is_page( 'email-verification-success' ) ) {
+                
+                $email_address = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_STRING );
+
+                $track_event = array(                    
+                    'event' => 'Verified Legacy Email',
+                );
+
+                if ( isset( $email_address ) && ! empty( $email_address ) ) {
+                    $track_event['properties'] = array ( 'email' => $email_address );
+                }
+
+                $this->st_track_event( $track_event );
+            }            
+
         }
 
         public function st_company_profile_updated( $company_id, $img_updated = false ) {

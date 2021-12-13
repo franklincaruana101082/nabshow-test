@@ -1,0 +1,20 @@
+.page-template-page-home-2022 .jump-links {
+	margin-top: rem(30);
+	@include bp-1024 {
+		margin-top: rem(50);
+	}
+	@include bp-1440 {
+		margin-top: rem(60);
+	}
+
+	&__item {
+		._arrow._full {
+			font-size: rem(16);
+			border-bottom: 1px solid rgba($c__white, .5);
+			&:hover, &:focus, &:active {
+				border-bottom: 1px solid rgba($c__white, 1);
+			}
+		}
+
+	}
+}
