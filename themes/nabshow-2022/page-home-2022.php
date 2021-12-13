@@ -110,10 +110,11 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   </div>
   </div><?php // close .home__lighting1 ?>
 <?php
+$numrows = count( get_field( 'featured_topics' ) );
 
 if( have_rows('featured_topics') ): ?>
   <div class="section topics">
-    <?php if(have_rows('featured_topics') > 1): ?>
+    <?php if($numrows > 1): ?>
     <ul class="topics__nav">
     <?php 
       while( have_rows('featured_topics') ): the_row(); 
@@ -148,7 +149,7 @@ if( have_rows('featured_topics') ): ?>
         </li>
         <?php
       endwhile;
-      if(have_rows('featured_topics') > 1):
+      if($numrows > 1):
       while( have_rows('featured_topics') ): the_row(); 
         $background = get_sub_field('background_image');
         $link = get_sub_field('link');
