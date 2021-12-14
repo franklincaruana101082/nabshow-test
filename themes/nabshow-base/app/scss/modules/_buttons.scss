@@ -16,7 +16,7 @@ input[type="button"].button,
   &._arrow, &.with-arrow {
     background-color: transparent;
     padding: rem(10) 0;
-    border-bottom: rem(1) solid rgba($color__white, 0.5);
+    border-bottom: rem(1) solid rgba($colorhex__white, 0.5);
     color: $color__white;
     text-transform: uppercase;
     display: inline-flex;
@@ -25,7 +25,7 @@ input[type="button"].button,
     border-radius: 0;
     &._alt, &.title {
       border-bottom: none;
-      border-top: rem(1) solid rgba($color__white, 0.5);
+      border-top: rem(1) solid rgba($colorhex__white, 0.5);
       padding: rem(12) 0 rem(10);
     }
     &._nob {
