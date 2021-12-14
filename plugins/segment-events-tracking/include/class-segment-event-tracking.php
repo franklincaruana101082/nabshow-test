@@ -492,16 +492,10 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $track_event = array(                    
                     'event' => 'Verified Legacy Email',
                 );
-                $track_identity = array(
-                    'traits'    => array()
-                );
     
                 if ( isset( $email_address ) && ! empty( $email_address ) ) {
                     $track_event['properties'] = array ( 'email' => $email_address );
-                    $track_identity['traits']['email'] = $email_address; 
-                    $this->st_identity_event( $track_identity );
                 }
-
 
                 $this->st_track_event( $track_event );
             }            
