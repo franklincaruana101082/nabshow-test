@@ -610,7 +610,7 @@
 .new .testimonial {
   display: block;
   padding: rem(40);
-  border: 1px solid rgba($color__white, 0.1);
+  border: 1px solid rgba($colorhex__white, 0.1);
 
   @include bp-604 {
     margin: 0 rem(9);
@@ -1919,7 +1919,7 @@
   background-image: linear-gradient(
     360deg,
     $color__purple -65%,
-    rgba($color__purple-lightish, 0) 175%
+    rgba($colorhex__purple-lightish, 0) 175%
   );
   font-size: rem(12);
   font-style: normal;
@@ -2001,7 +2001,7 @@
   }
 
   &__stats {
-    border-top: 1px solid rgba($color__white, 0.15);
+    border-top: 1px solid rgba($colorhex__white, 0.15);
     padding: rem(40) 0;
     margin: rem(40) 0 0;
     list-style: none;

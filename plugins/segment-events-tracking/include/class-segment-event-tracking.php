@@ -499,9 +499,6 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 if ( isset( $email_address ) && ! empty( $email_address ) ) {
                     $track_event['properties'] = array ( 'email' => $email_address );
                     $track_identity['traits']['email'] = $email_address; 
-                    if ( is_user_logged_in() ) {
-                        $track_identity['userId'] = get_current_user_id(); 
-                    }
                     $this->st_identity_event( $track_identity );
                 }
 

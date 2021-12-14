@@ -257,7 +257,7 @@ html._header-is-open {
     padding: 0 rem(32) rem(8);
     margin-bottom: rem(16);
     .menu-item {
-      border-bottom: rem(1) solid rgba($color__white, 0.5);
+      border-bottom: rem(1) solid rgba($colorhex__white, 0.5);
       &:last-child {
         border: none;
       }
@@ -272,7 +272,7 @@ html._header-is-open {
       border: none;
     }
     .menu-item {
-      border-bottom: rem(1) solid rgba($color__white, 0.5);
+      border-bottom: rem(1) solid rgba($colorhex__white, 0.5);
       &:last-child {
         border: none;
       }
@@ -354,7 +354,7 @@ html._header-is-open {
     justify-content: space-between;
     align-items: center;
     padding-bottom: rem(16);
-    border-bottom: rem(1) solid rgba($color__white, 0.5);
+    border-bottom: rem(1) solid rgba($colorhex__white, 0.5);
     margin-bottom: rem(16);
   }
 }
@@ -421,8 +421,8 @@ html._header-is-open {
 .header__utilitynav {
   margin: 0 rem(-32) rem(20);
   padding: rem(6) 0;
-  border-top: rem(1) solid rgba($color__white, 0.5);
-  border-bottom: rem(1) solid rgba($color__white, 0.5);
+  border-top: rem(1) solid rgba($colorhex__white, 0.5);
+  border-bottom: rem(1) solid rgba($colorhex__white, 0.5);
   @include bp-768 {
     border: none;
     margin: 0;
@@ -436,7 +436,7 @@ html._header-is-open {
     .menu__item {
       flex: 1;
       &:first-child {
-        border-right: rem(1) solid rgba($color__white, 0.5);
+        border-right: rem(1) solid rgba($colorhex__white, 0.5);
       }
     }
     .menu__link {
@@ -495,7 +495,7 @@ html._header-is-open {
   line-height: 1.14;
   box-sizing: content-box;
   box-shadow: none;
-  background: rgba($color__white, .1) 8px 8px no-repeat url('data:image/svg+xml;utf8,<svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33579 17.1398C13.9395 17.1398 17.6716 13.5268 17.6716 9.06991C17.6716 4.61302 13.9395 1 9.33579 1C4.73206 1 1 4.61302 1 9.06991C1 13.5268 4.73206 17.1398 9.33579 17.1398Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/><line y1="-0.75" x2="8.7296" y2="-0.75" transform="matrix(0.739365 0.673304 -0.696866 0.717201 14.5459 15.1223)" stroke="white" stroke-width="1.5"/></svg>') !important;
+  background: rgba($colorhex__white, .1) 8px 8px no-repeat url('data:image/svg+xml;utf8,<svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.33579 17.1398C13.9395 17.1398 17.6716 13.5268 17.6716 9.06991C17.6716 4.61302 13.9395 1 9.33579 1C4.73206 1 1 4.61302 1 9.06991C1 13.5268 4.73206 17.1398 9.33579 17.1398Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/><line y1="-0.75" x2="8.7296" y2="-0.75" transform="matrix(0.739365 0.673304 -0.696866 0.717201 14.5459 15.1223)" stroke="white" stroke-width="1.5"/></svg>') !important;
   opacity: 0;
   transition: opacity .25s ease-in-out;
   &:focus {
