@@ -100,8 +100,8 @@
 @mixin gradient-black {
   background: linear-gradient(
       180deg,
-      rgba($color__white, 0) 0%,
-      rgba($color__black, 0.5) 100%
+      rgba($colorhex__white, 0) 0%,
+      rgba($colorhex__black, 0.5) 100%
     ),
     $color__black;
 }
@@ -113,10 +113,10 @@
 @mixin gradient-purple {
   background: linear-gradient(
     0deg,
-    rgba($color__purple-dark, 1) 0%,
-    rgba($color__purple, 1) 28%,
-    rgba($color__purple, 1) 52%,
-    rgba($color__purple-dark, 1) 100%
+    rgba($colorhex__purple-dark, 1) 0%,
+    rgba($colorhex__purple, 1) 28%,
+    rgba($colorhex__purple, 1) 52%,
+    rgba($colorhex__purple-dark, 1) 100%
   );
 }
 .gradient__purple {
@@ -135,7 +135,7 @@
 @mixin gradient-purple-orange-corners {
   background: linear-gradient(
       306.61deg,
-      rgba($color__purple-light, 0) 71.61%,
+      rgba($colorhex__purple-light, 0) 71.61%,
       $color__purple-light 167.25%
     ),
     linear-gradient(
@@ -152,7 +152,7 @@
 @mixin gradient-orange-orange-corners {
   background: linear-gradient(
       306.61deg,
-      rgba($color__purple-light, 0) 71.61%,
+      rgba($colorhex__purple-light, 0) 71.61%,
       $color__purple-light 167.25%
     ),
     linear-gradient(
@@ -170,18 +170,18 @@
 @mixin gradient-purple-blue-corners-dark {
   background: linear-gradient(
       256.59deg,
-      rgba($color__purple-light, 0) 81.26%,
+      rgba($colorhex__purple-light, 0) 81.26%,
       $color__purple-light 139.5%
     ),
     linear-gradient(
       243.87deg,
-      rgba($color__blue-light, 0.6) -13.36%,
-      rgba($color__blue, 0.12) 31.04%
+      rgba($colorhex__blue-light, 0.6) -13.36%,
+      rgba($colorhex__blue, 0.12) 31.04%
     ),
     linear-gradient(
       180deg,
-      rgba($color__black, 0.4) 15.56%,
-      rgba($color__black, 0.72) 92.4%
+      rgba($colorhex__black, 0.4) 15.56%,
+      rgba($colorhex__black, 0.72) 92.4%
     );
 }
 .gradient-purple-blue-corners-dark {
@@ -192,7 +192,7 @@
 @mixin gradient-orange-purple-dark {
   background: linear-gradient(
       306.61deg,
-      rgba($color__purple-light, 0) 71.61%,
+      rgba($colorhex__purple-light, 0) 71.61%,
       $color__purple-light 167.25%
     ),
     linear-gradient(
@@ -210,7 +210,7 @@
 @mixin gradient-purple-orange-corners-dark {
   background: linear-gradient(
       306.61deg,
-      rgba($color__purple-light, 0) 71.61%,
+      rgba($colorhex__purple-light, 0) 71.61%,
       $color__purple-light 167.25%
     ),
     linear-gradient(
@@ -229,13 +229,13 @@
 @mixin gradient-purple-blue {
   background: linear-gradient(
       256.59deg,
-      rgba($color__purple-light, 0) 81.26%,
-      rgba($color__purple-light, 0.5) 139.5%
+      rgba($colorhex__purple-light, 0) 81.26%,
+      rgba($colorhex__purple-light, 0.5) 139.5%
     ),
     linear-gradient(
       243.87deg,
-      rgba($color__blue-light, 0.5) -13.36%,
-      rgba($color__blue, 0.12) 31.04%
+      rgba($colorhex__blue-light, 0.5) -13.36%,
+      rgba($colorhex__blue, 0.12) 31.04%
     );
 }
 .gradient__purple-blue {
@@ -245,10 +245,10 @@
 @mixin gradient-purple-blue-slant {
   background: linear-gradient(
     45deg,
-    rgba($color__purple-dark, 1) 0%,
-    rgba($color__purple, 1) 28%,
-    rgba($color__purple, 1) 52%,
-    rgba($color__blue-dark, 1) 100%
+    rgba($colorhex__purple-dark, 1) 0%,
+    rgba($colorhex__purple, 1) 28%,
+    rgba($colorhex__purple, 1) 52%,
+    rgba($colorhex__blue-dark, 1) 100%
   );
 }
 .gradient__purple-blue-slant {
