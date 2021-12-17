@@ -123,7 +123,7 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
  247.83deg,rgba(234,12,159,.6) -7.26%,rgba(253,216,15,0) 16.65%),#000;
      padding: 2.1875rem 0;
  }
- .intro._lightlines-strip:before {
+/* .intro._lightlines-strip:before {
      content: "";
      position: absolute;
      top: 0;
@@ -132,13 +132,13 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
      height: 1.25rem;
      background-image: url(https://nabshow.com/2022/wp-content/uploads/sites/16/2021/10/lightlines-13.png);
      background-size: cover;
- }
- .opportunities {
+ }*/
+/* .opportunities {
     background: linear-gradient(
  256.59deg,rgba(16,63,106,0) 81.26%,rgba(16,63,106,.5) 139.5%),linear-gradient(
  243.87deg,rgba(12,165,234,.5) -13.36%,rgba(8,17,49,.12) 31.04%);
      padding-bottom: 3.4375rem;
- }
+ }*/
  .story-steps-wrapper {
      background: linear-gradient(
  256.59deg,rgba(158,69,147,0) 81.26%,rgba(158,69,147,.5) 139.5%),linear-gradient(

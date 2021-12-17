@@ -1,0 +1,101 @@
+//lightlines and other lighting effect styles
+
+.intro._lightlines-strip {
+	&:before {
+		background-image: url('#{$theme_path}/assets/images/intro-thinwide-banner-lights.png');
+	}
+	.schedule-template-default & {
+		padding-top: rem(35);
+		&:before {
+			background-image: url('#{$theme_path}/assets/images/light effect_05.png');
+			height: 100%;
+			background-position: 100% 70%;
+			background-size: 985px 810px;
+			background-repeat: no-repeat;
+			mix-blend-mode: screen;
+		}
+		
+
+	}
+}
+
+.opportunities {
+	background: linear-gradient(256.59deg, rgba(158, 69, 147, 0) 81.26%, #9E4593 139.5%), linear-gradient(243.87deg, rgba(12, 165, 234, 0.6) -13.36%, rgba(47, 93, 171, 0.12) 31.04%);
+	position: relative;
+	z-index: 1;
+}
+
+.decorative {
+	&._lightlines-footer-corner {
+		padding:0;
+		margin-bottom: rem(-120);
+		._amp-signup + &,
+		._team + .container + & {
+			padding-bottom: rem(120);
+		}
+		&:before {
+			padding:0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+			//height: rem(620);
+			background-color: $color__purple-dark;
+			background-image: url('#{$theme_path}/assets/images/home_featurette_bg.png');
+			background-repeat: no-repeat;
+			background-blend-mode: screen;
+			background-position: 30% 160%;
+			
+
+			._amp-signup + & {
+				height: rem(620);
+			}
+			._team + .container + & {
+				height: rem(525);
+			}
+			.opportunities + .container + &,
+			.decorative._lightlines-bottom-right + .container + & {
+				height: rem(700);
+				background-color: transparent;
+				mix-blend-mode: screen;
+			}
+
+			@include bp-768 {
+				background-position: 60% 20%;
+			}
+			@include bp-1024 {
+				background-position: 0% 70%;
+			}
+		}
+	}
+	&._lightlines-bottom-right {
+		background-color: #040621;
+		background-image: url('#{$theme_path}/assets/images/light effect_10_edge_right.png');
+		background-repeat: no-repeat;
+		background-blend-mode: screen;
+		background-position: right 0%;
+	}
+
+	&._blur {
+		&:before {
+			background-image: url('#{$theme_path}/assets/images/light effect_03.png');
+			background-size: 739px 1268px;
+			top: auto;
+			bottom: rem(-400);
+			transform: none;
+			mix-blend-mode: screen;
+		}
+		&:after {
+			background-image: url('#{$theme_path}/assets/images/light effect_10_edge_right.png');
+			background-position: top right;
+			bottom: auto;
+			top: 0;
+			mix-blend-mode: screen;
+		}
+	}
+	&._lightlines-footer-strip {
+		&:before {
+			background-image: url('#{$theme_path}/assets/images/intro-thinwide-banner-lights.png');		
+		}
+	}
+}
