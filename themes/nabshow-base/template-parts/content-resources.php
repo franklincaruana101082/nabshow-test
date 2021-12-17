@@ -169,7 +169,7 @@
 
 ?>
 <?php if (!$hide_team): ?>
-	<div class="container section _toplarge">
+	<div class="container section _toplarge _team">
 		<div class="feature">
 			<?php dynamic_sidebar('Team'); ?>
 			<div class="feature__cta">
@@ -188,7 +188,7 @@
 	</div>
 
 <?php if (!$hide_sign_up): ?>
-	<div class="section">
+	<div class="section _amp-signup">
 		<div class="container">
 			<div class="amp-signup">
 				<div class="amp-signup__content">
