@@ -97,6 +97,7 @@
 		&:before {
 			width: rem(280);
 			height: rem(650);
+			top: rem(-350);
 			background-image: url('#{$theme_path}/assets/images/light_effect_02_edge.png');
 			background-size: auto;
 			background-position: 0 rem(-90);
