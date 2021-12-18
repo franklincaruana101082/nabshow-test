@@ -93,9 +93,26 @@
 			mix-blend-mode: screen;
 		}
 	}
+	&._lightlines-left-side {
+		&:before {
+			width: rem(280);
+			height: rem(650);
+			background-image: url('#{$theme_path}/assets/images/light_effect_02_edge.png');
+			background-size: auto;
+			background-position: 0 rem(-90);
+			mix-blend-mode: screen;
+		}
+	}
 	&._lightlines-footer-strip {
 		&:before {
 			background-image: url('#{$theme_path}/assets/images/intro-thinwide-banner-lights.png');		
 		}
+	}
+}
+
+.feature {
+	&:before {
+		background-image: url('#{$theme_path}/assets/images/home_featurette_bg1.png');
+		mix-blend-mode: screen;
 	}
 }
