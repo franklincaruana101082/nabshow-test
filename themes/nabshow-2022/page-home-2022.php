@@ -16,8 +16,6 @@ $cta2 = get_field('banner_secondary_cta');
 
 ?>
 
-<meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
-
 <main id="main" class="new">
   <div class="hero-banner" style="background-image: url('<?php echo esc_url($hero); ?>');">
     <div class="showinfo">
