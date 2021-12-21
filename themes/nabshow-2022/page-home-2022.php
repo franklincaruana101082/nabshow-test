@@ -16,6 +16,8 @@ $cta2 = get_field('banner_secondary_cta');
 
 ?>
 
+<meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
+
 <main id="main" class="new">
   <div class="hero-banner" style="background-image: url('<?php echo esc_url($hero); ?>');">
     <div class="showinfo">
@@ -70,7 +72,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
     </div>
 
     <div class="stories">
-      <?php 
+      <?php
         while( have_rows('story_items')): the_row();
           $image = get_sub_field('story_image');
           $link = get_sub_field('story_link');
@@ -82,10 +84,10 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
               <a class="story__medialink" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>">
                 <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
               </a>
-            </div>              
+            </div>
           </figure>
         </div>
-      
+
         <div class="story__body">
           <h4 class="story__title"><?php the_sub_field('story_title'); ?></h4>
           <p>
@@ -100,7 +102,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
     </div>
   </div>
   <?php
-      endif; 
+      endif;
     endwhile;
   endif;
   ?>
@@ -116,14 +118,14 @@ if( have_rows('featured_topics') ): ?>
   <div class="section topics">
     <?php if($numrows > 1): ?>
     <ul class="topics__nav">
-    <?php 
-      while( have_rows('featured_topics') ): the_row(); 
+    <?php
+      while( have_rows('featured_topics') ): the_row();
         ?>
         <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
         <?php
       endwhile;
-      
-      while( have_rows('featured_topics') ): the_row(); 
+
+      while( have_rows('featured_topics') ): the_row();
         ?>
         <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
         <?php
@@ -132,8 +134,8 @@ if( have_rows('featured_topics') ): ?>
     </ul>
     <?php endif; ?>
     <ul class="topics__main">
-    <?php 
-      while( have_rows('featured_topics') ): the_row(); 
+    <?php
+      while( have_rows('featured_topics') ): the_row();
         $background = get_sub_field('background_image');
         $link = get_sub_field('link');
         ?>
@@ -150,7 +152,7 @@ if( have_rows('featured_topics') ): ?>
         <?php
       endwhile;
       if($numrows > 1):
-      while( have_rows('featured_topics') ): the_row(); 
+      while( have_rows('featured_topics') ): the_row();
         $background = get_sub_field('background_image');
         $link = get_sub_field('link');
         ?>
@@ -171,12 +173,12 @@ if( have_rows('featured_topics') ): ?>
     </ul>
     <?php /* <div class="home__lighting2"></div> */ ?>
   </div>
-<?php 
-endif; 
+<?php
+endif;
 
 
 
-if( have_rows('closing_featurette') ) : 
+if( have_rows('closing_featurette') ) :
   while( have_rows('closing_featurette') ): the_row();
     if(get_sub_field('closing_title')):
   ?>
@@ -186,7 +188,7 @@ if( have_rows('closing_featurette') ) :
       <div class="featurette__copy"><?php the_sub_field('closing_copy'); ?></div>
       <?php if( have_rows('closing_Items') ) : ?>
         <ul class="featurette__list">
-        <?php while( have_rows('closing_Items') ): the_row(); 
+        <?php while( have_rows('closing_Items') ): the_row();
           $featurette_image = get_sub_field('image');
           $featurette_link = get_sub_field('link');
         ?>
@@ -215,7 +217,7 @@ if( have_rows('closing_featurette') ) :
   </div>
 <?php
   endif;
- endwhile; 
+ endwhile;
 endif;
 ?>
 
