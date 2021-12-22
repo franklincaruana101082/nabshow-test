@@ -127,11 +127,14 @@ function nabshow_render_schedule($schedule_id) {
                                 <?php
                                 if ( isset( $schedule_detail['event_dates'] ) && is_array( $schedule_detail['event_dates'] ) ) {
                                     
-                                    foreach ( $schedule_detail['event_dates'] as $current_event ) {
+                                    $scheduled_dates = array_column($schedule_detail['event_dates'], 'date');
+                                    $event_dates = array_column($featured_event['featured_event_schedule'], 'event_date');
+                                    
+                                    //foreach ( $schedule_detail['event_dates'] as $current_event ) {
+                                    foreach ( $event_dates as $featured_event_date ) {
                                         
-                                        if ( isset( $current_event['date'] ) && ! empty( $current_event['date'] ) )  {
-                                            
-                                            $schedule_create_date   = date_create( $current_event['date'] );
+                                        if( in_array($featured_event_date, $scheduled_dates)) {
+                                            $schedule_create_date   = date_create( $featured_event_date );
                                             $final_schedule_date    = date_format( $schedule_create_date, 'l, F d' );
                                             ?>
                                             <td class="row-date"><span><?php echo esc_html( $final_schedule_date ); ?></span></td>
@@ -140,13 +143,14 @@ function nabshow_render_schedule($schedule_id) {
                                             ?>
                                             <td class="row-date"></td>
                                             <?php
-                                        }                                               
+                                        }
+
                                     }
                                 }                                       
                                 ?>                                      
                             </tr>
                             <?php
-                        }                               
+                        }
                     }
                     ?>                          
                 </table>
