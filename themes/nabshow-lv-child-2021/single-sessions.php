@@ -7,6 +7,7 @@
  * @package NABShow_LV
  */
 get_header();
+
 ?>
     <div class="decorative _lightlines-strip"></div>
     <div class="section container">
@@ -113,6 +114,7 @@ get_header();
                     <!-- END cta -->
                     
                 </div>
+                <a href="../" class="button _solid _compact" style="margin-top: 2rem;">See All Sessions</a>
                 <?php
             }
             ?>
