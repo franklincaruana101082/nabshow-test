@@ -25,7 +25,8 @@
 		</div>
 		<?php 
 		 if(get_field('schedule_table')){
-		 	nabshow_render_schedule(get_field('schedule_table'));
+		 	get_template_part( 'template-parts/partial', 'schedule-table', array('schedule_id' => get_field('schedule_table')) );
+		 	//nabshow_render_schedule(get_field('schedule_table'));
 		 }
 		/*
 		<div class="decorative _blur _blur-middle">
