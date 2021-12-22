@@ -113,6 +113,7 @@ get_header();
                     <!-- END cta -->
                     
                 </div>
+                <a href="../" class="button _solid _compact" style="margin-top: 2rem;">See All Sessions</a>
                 <?php
             }
             ?>
