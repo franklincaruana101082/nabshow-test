@@ -23,6 +23,11 @@
 		<div class="section _bottom-only container">
 			<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 		</div>
+		<?php 
+		 if(get_field('schedule_table')){
+		 	nabshow_render_schedule(get_field('schedule_table'));
+		 }
+		/*
 		<div class="decorative _blur _blur-middle">
 			<div class="schedule-table-container">
 				<div class="schedule-table">
@@ -127,6 +132,7 @@
 				</div>
 			</div>
 		</div>
+		*/ ?>
 		<div class="section container">
 			<?php dynamic_sidebar('broadstreet-ros-middle'); ?>
 		</div>

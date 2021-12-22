@@ -58,6 +58,10 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 ?>
     <div class="decorative _lightlines-strip"></div>
 
+    <div class="container">
+        <?php dynamic_sidebar('broadstreet-internal-top'); ?>
+    </div>
+
     <div class="section decorative _lightlines-top-left-angle">
         <div class="container">
 
@@ -473,6 +477,7 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                             }
                             ?>
                         </div>
+                        <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
                     </div>
                     <!-- .filter-column -->
                 </div>
