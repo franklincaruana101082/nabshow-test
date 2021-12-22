@@ -19,6 +19,23 @@
 				color: $color__white;
 			}
 		}
+		.related {
+			h2, h3, h4, h5, h6, p, li {
+				color: $color__white;
+			}
+			h4.related__linkTitle {
+				color: $color__white;
+				&:hover, &:active, &:focus {
+					color: $color__yellow;
+				}
+			}
+			h5.relatedlink__category {
+				color: $color__yellow;
+			}
+			h4.relatedlink__title {
+				color: $color__gray-lightest;
+			}
+		}
 		.wp-block-pullquote blockquote, .wp-block-quote {
 			//display: inline-block; 
 			background: linear-gradient(90deg, $color__blurple, $color__blue);
