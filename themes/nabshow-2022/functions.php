@@ -38,7 +38,7 @@ function nabshow_render_schedule($schedule_id) {
 ?>
 <div class="decorative _blur _blur-middle">
     <div class="schedule-table-container">
-        <div class="schedule-table" data-schedule-id="<?php echo esc_attr($schedule_id); ?>">
+        <div class="schedule-table">
             <div class="schedule-table-intro">
                 <h2 class="h-xl"><?php echo esc_html( get_field( 'schedule_table_title', $schedule_id ) );?></h2>
             </div>
