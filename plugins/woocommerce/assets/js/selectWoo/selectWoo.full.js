@@ -1,5 +1,5 @@
 /*!
- * SelectWoo 1.0.9
+ * SelectWoo 1.0.6
  * https://github.com/woocommerce/selectWoo
  *
  * Released under the MIT license
@@ -755,8 +755,8 @@ S2.define('select2/utils',[
     });
   };
 
-  Utils.entityDecode = function (html) {
-    var txt = document.createElement('textarea');
+  Utils.entityDecode = function(html) {
+    var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
   }
@@ -1430,7 +1430,7 @@ S2.define('select2/selection/base',[
       // This needs to be delayed as the active element is the body when the
       // key is pressed.
       window.setTimeout(function () {
-        self.$selection.trigger( 'focus' );
+        self.$selection.focus();
       }, 1);
 
       self._detachCloseHandler(container);
@@ -1486,8 +1486,8 @@ S2.define('select2/selection/base',[
         // Remove any focus when dropdown is closed by clicking outside the select area.
         // Timeout of 1 required for close to finish wrapping up.
         setTimeout(function(){
-         $this.find('*:focus').trigger( 'blur' );
-         $target.trigger( 'focus' );
+         $this.find('*:focus').blur();
+         $target.focus();
         }, 1);
       });
     });
@@ -1551,14 +1551,7 @@ S2.define('select2/selection/single',[
       .attr('id', id)
       .attr('role', 'textbox')
       .attr('aria-readonly', 'true');
-
-    var label = this.options.get( 'label' );
-
-    if ( typeof( label ) === 'string' ) {
-      this.$selection.attr( 'aria-label', label );
-    } else {
-      this.$selection.attr( 'aria-labelledby', id );
-    }
+    this.$selection.attr('aria-labelledby', id);
 
     // This makes single non-search selects work in screen readers. If it causes problems elsewhere, remove.
     this.$selection.attr('role', 'combobox');
@@ -1591,7 +1584,7 @@ S2.define('select2/selection/single',[
 
     container.on('focus', function (evt) {
       if (!container.isOpen()) {
-        self.$selection.trigger( 'focus' );
+        self.$selection.focus();
       }
     });
 
@@ -1737,7 +1730,7 @@ S2.define('select2/selection/multiple',[
         // This gets reset automatically when focus is triggered.
         self._keyUpPrevented = true;
 
-        self.$search.trigger( 'focus' );
+        self.$search.focus();
       }, 1);
     }
   }
@@ -2109,7 +2102,7 @@ S2.define('select2/selection/search',[
 
     this.resizeSearch();
     if (searchHadFocus) {
-      this.$search.trigger( 'focus' );
+      this.$search.focus();
     }
   };
 
@@ -3547,7 +3540,7 @@ S2.define('select2/data/ajax',[
 
     if (this._request != null) {
       // JSONP requests cannot always be aborted
-      if ('function' === typeof this._request.abort) {
+      if ($.isFunction(this._request.abort)) {
         this._request.abort();
       }
 
@@ -3572,7 +3565,7 @@ S2.define('select2/data/ajax',[
 
         if (self.options.get('debug') && window.console && console.error) {
           // Check to make sure that the response included a `results` key.
-          if (!results || !results.results || !Array.isArray(results.results)) {
+          if (!results || !results.results || !$.isArray(results.results)) {
             console.error(
               'Select2: The AJAX results did not return an array in the ' +
               '`results` key of the response.'
@@ -3631,7 +3624,7 @@ S2.define('select2/data/tags',[
 
     decorated.call(this, $element, options);
 
-    if (Array.isArray(tags)) {
+    if ($.isArray(tags)) {
       for (var t = 0; t < tags.length; t++) {
         var tag = tags[t];
         var item = this._normalizeItem(tag);
@@ -3707,7 +3700,7 @@ S2.define('select2/data/tags',[
   };
 
   Tags.prototype.createTag = function (decorated, params) {
-    var term = ( params.term || 0 == params.term ) ? params.term.toString().trim() : '';
+    var term = $.trim(params.term);
 
     if (term === '') {
       return null;
@@ -3800,7 +3793,7 @@ S2.define('select2/data/tokenizer',[
       // Replace the search term if we have the search box
       if (this.$search.length) {
         this.$search.val(tokenData.term);
-        this.$search.trigger( 'focus' );
+        this.$search.focus();
       }
 
       params.term = tokenData.term;
@@ -4047,10 +4040,10 @@ S2.define('select2/dropdown/search',[
     container.on('open', function () {
       self.$search.attr('tabindex', 0);
       self.$search.attr('aria-owns', resultsId);
-      self.$search.trigger( 'focus' );
+      self.$search.focus();
 
       window.setTimeout(function () {
-        self.$search.trigger( 'focus' );
+        self.$search.focus();
       }, 0);
     });
 
@@ -4063,7 +4056,7 @@ S2.define('select2/dropdown/search',[
 
     container.on('focus', function () {
       if (!container.isOpen()) {
-        self.$search.trigger( 'focus' );
+        self.$search.focus();
       }
     });
 
@@ -4878,7 +4871,7 @@ S2.define('select2/defaults',[
       }
     }
 
-    if (Array.isArray(options.language)) {
+    if ($.isArray(options.language)) {
       var languages = new Translation();
       options.language.push('en');
 
@@ -4941,7 +4934,7 @@ S2.define('select2/defaults',[
 
     function matcher (params, data) {
       // Always return the object if there is nothing to compare
-      if ( params.term == null || params.term.toString().trim() === '' ) {
+      if ($.trim(params.term) === '') {
         return data;
       }
 
@@ -5513,7 +5506,7 @@ S2.define('select2/core',[
             self.focusOnActiveElement();
         } else {
           // Focus on the search if user starts typing.
-          $searchField.trigger( 'focus' );
+          $searchField.focus();
           // Focus back to active selection when finished typing.
           // Small delay so typed character can be read by screen reader.
           setTimeout(function(){
@@ -5533,7 +5526,7 @@ S2.define('select2/core',[
   Select2.prototype.focusOnActiveElement = function () {
     // Don't mess with the focus on touchscreens because it causes havoc with on-screen keyboards.
     if (this.isOpen() && ! Utils.isTouchscreen()) {
-      this.$results.find('li.select2-results__option--highlighted').trigger( 'focus' );
+      this.$results.find('li.select2-results__option--highlighted').focus();
     }
   };
 
@@ -5724,7 +5717,7 @@ S2.define('select2/core',[
 
     var newVal = args[0];
 
-    if (Array.isArray(newVal)) {
+    if ($.isArray(newVal)) {
       newVal = $.map(newVal, function (obj) {
         return obj.toString();
       });
@@ -5801,7 +5794,7 @@ S2.define('select2/compat/utils',[
   function syncCssClasses ($dest, $src, adapter) {
     var classes, replacements = [], adapted;
 
-    classes = ( $dest.attr('class') || 0 == $dest.attr('class') ) ? $dest.attr('class').toString().trim() : '';
+    classes = $.trim($dest.attr('class'));
 
     if (classes) {
       classes = '' + classes; // for IE which returns object
@@ -5814,7 +5807,7 @@ S2.define('select2/compat/utils',[
       });
     }
 
-    classes = ( $src.attr('class') || 0 == $src.attr('class') ) ? $src.attr('class').toString().trim() : '';
+    classes = $.trim($src.attr('class'));
 
     if (classes) {
       classes = '' + classes; // for IE which returns object
@@ -5855,7 +5848,7 @@ S2.define('select2/compat/containerCss',[
 
     var containerCssClass = this.options.get('containerCssClass') || '';
 
-    if ('function' === typeof containerCssClass) {
+    if ($.isFunction(containerCssClass)) {
       containerCssClass = containerCssClass(this.$element);
     }
 
@@ -5881,7 +5874,7 @@ S2.define('select2/compat/containerCss',[
 
     var containerCss = this.options.get('containerCss') || {};
 
-    if ('function' === typeof containerCss) {
+    if ($.isFunction(containerCss)) {
       containerCss = containerCss(this.$element);
     }
 
@@ -5912,7 +5905,7 @@ S2.define('select2/compat/dropdownCss',[
 
     var dropdownCssClass = this.options.get('dropdownCssClass') || '';
 
-    if ('function' === typeof dropdownCssClass) {
+    if ($.isFunction(dropdownCssClass)) {
       dropdownCssClass = dropdownCssClass(this.$element);
     }
 
@@ -5938,7 +5931,7 @@ S2.define('select2/compat/dropdownCss',[
 
     var dropdownCss = this.options.get('dropdownCss') || {};
 
-    if ('function' === typeof dropdownCss) {
+    if ($.isFunction(dropdownCss)) {
       dropdownCss = dropdownCss(this.$element);
     }
 
@@ -5985,7 +5978,7 @@ S2.define('select2/compat/initSelection',[
     this.initSelection.call(null, this.$element, function (data) {
       self._isInitialized = true;
 
-      if (!Array.isArray(data)) {
+      if (!$.isArray(data)) {
         data = [data];
       }
 
@@ -6131,7 +6124,7 @@ S2.define('select2/compat/matcher',[
     function wrappedMatcher (params, data) {
       var match = $.extend(true, {}, data);
 
-      if ( params.term == null || params.term.trim() === '' ) {
+      if (params.term == null || $.trim(params.term) === '') {
         return match;
       }
 
@@ -6374,11 +6367,11 @@ S2.define('select2/selection/stopPropagation',[
 
     $.fn.extend({
         mousewheel: function(fn) {
-            return fn ? this.on('mousewheel', fn) : this.trigger('mousewheel');
+            return fn ? this.bind('mousewheel', fn) : this.trigger('mousewheel');
         },
 
         unmousewheel: function(fn) {
-            return this.off('mousewheel', fn);
+            return this.unbind('mousewheel', fn);
         }
     });
 

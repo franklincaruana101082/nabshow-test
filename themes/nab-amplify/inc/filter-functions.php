@@ -337,7 +337,7 @@ function nab_add_login_link_on_checkout_page()
 			$sign_up_page_url = 'javascript:void(0)';
 		}
 ?>
-		<p>You’ll need to have an NAB Amplify account to access content and register for NAB Show New York, Radio Show and SMTE.</p>
+		<p>You’ll need to have an NAB Amplify account to access content, register for NAB Show, and more.</p>
 		<div class="nab_checkout_links">
 			<p>Don't have an account? <strong><a class="checkout-signup-link" href="<?php echo esc_url($sign_up_page_url); ?>">Sign up</a></strong></p>
 			<p>Already have an account? <strong><a class="checkout-signin-link" href="<?php echo esc_url($sign_in_url); ?>">Sign In</a></strong></p>
@@ -780,7 +780,7 @@ function nab_title_order_received($title, $id)
 {
 
 	if (is_order_received_page() && get_the_ID() === $id) {
-		$title = "Registration Confirmation";
+		$title = "Purchase Confirmation";
 	}
 
 	return $title;
@@ -1233,7 +1233,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 {
 
 	$tax_search			= $query_object->get('_tax_search');
-	$meta_company_term	= $query_object->get('_meta_company_term');	
+	$meta_company_term	= $query_object->get('_meta_company_term');
 
 	if (isset($tax_search) && !empty($tax_search) && is_array($tax_search)) {
 
@@ -1247,7 +1247,7 @@ function nab_moified_join_groupby_for_meta_search($clauses, $query_object)
 
 		$clauses['join'] 		= " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
 		$clauses['groupby']		= " {$wpdb->posts}.ID";
-		
+
 	}
 
 	return $clauses;
@@ -1265,20 +1265,20 @@ function nabamplify_tiny_mce_before_init($initArray)
     var content = ed.getContent().replace(/(<[a-zA-Z\/][^<>]*>|\[([^\]]+)\])|(\s+)/ig,'');
     var max = 2000;
     var len = content.length;
-	var diff = max - len;  
-	 count++;     
+	var diff = max - len;
+	 count++;
 
     if (diff < 1) {
 		if(tinyMCE.activeEditor.id == 'nab_product_copy'){
 			document.getElementById("character-count-copy").innerHTML =  "Maximum Characters Limit exeeds!";
 		}
 		if(tinyMCE.activeEditor.id == 'nab_product_specs'){
-			document.getElementById("character-count-specs").innerHTML =  "Maximum Characters Limit exeeds!";  
+			document.getElementById("character-count-specs").innerHTML =  "Maximum Characters Limit exeeds!";
 		}
-		
-		 
+
+
 		return false
-		
+
     }else{
 		if(tinyMCE.activeEditor.id == 'nab_product_copy'){
 		document.getElementById("character-count-copy").innerHTML = diff+ " Characters Remaining";
@@ -1288,7 +1288,7 @@ function nabamplify_tiny_mce_before_init($initArray)
 		}
 	}
 
-	
+
 	}
 } );
 
@@ -1508,12 +1508,11 @@ function custom_search_query($query)
 }
 add_filter("pre_get_posts", "custom_search_query");
 
-
 /**
- * Allow special character in the post title for all user roles. 
+ * Allow special character in the post title for all user roles.
  *
  * @param  array $data
- * 
+ *
  * @return array $data
  */
 function nab_update_spcial_character_post_title( $data ) {
@@ -1521,6 +1520,51 @@ function nab_update_spcial_character_post_title( $data ) {
     if ( isset( $data['post_title'] ) && strpos( $data['post_title'], '&amp;' ) ) {
         $data['post_title'] = str_replace( '&amp;', '&', $data['post_title'] );
     }
-    
+
     return $data;
+}
+
+/**
+ * Filters the column headers for the customer export
+ *
+ * @param array $column_headers {
+ *     column headers in key => name format
+ * }
+ * @return array column headers in column_key => column_name format
+ */
+function nab_woocommerce_report_orders_export_columns( $column_headers ) {
+	$export_columns = array(
+		'date_created'        => __( 'Date', 'woocommerce' ),
+		'order_number'        => __( 'Order #', 'woocommerce' ),
+		'status'              => __( 'Status', 'woocommerce' ),
+		'customer_type'       => __( 'Customer', 'woocommerce' ),
+		'customer_id'         => 'Customer ID',
+		'customer_email'      => 'Customer Email',
+		'customer_first_name' => 'Customer First Name',
+		'customer_last_name'  => 'Customer Last Name',
+		'products'            => __( 'Product(s)', 'woocommerce' ),
+		'num_items_sold'      => __( 'Items Sold', 'woocommerce' ),
+		'coupons'             => __( 'Coupon(s)', 'woocommerce' ),
+		'net_total'           => __( 'N. Revenue', 'woocommerce' ),
+	);
+
+
+	return $export_columns;
+}
+
+/**
+ * Filters the individual row data for the customer export
+ *
+ * @param array $customer_data {
+ *     order data in key => value format
+ *     to modify the row data, ensure the key matches any of the header keys and set your own value
+ * }
+ * @param $item WooCommerce Order object
+ * @return array customer data in the format key => content
+ */
+function nab_woocommerce_report_orders_prepare_export_item( $customer_data, $item ) {
+	$customer_email = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['email'] : null;
+	$customer_first_name = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['first_name'] : null;
+	$customer_last_name = isset( $item['extended_info']['customer'] ) ? $item['extended_info']['customer']['last_name'] : null;
+	return array_merge( array( 'customer_id' => $item['customer_id'], 'customer_email' => $customer_email, 'customer_first_name' => $customer_first_name, 'customer_last_name' => $customer_last_name ), $customer_data );
 }

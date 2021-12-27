@@ -8,8 +8,8 @@ if(is_null($batch)) {
 $percentage = $batch->get_percentage();
 ?>
 
-<h1><?php echo esc_html( $batch->title ); ?></a></h1>
-<a href="<?php echo esc_url( get_template_directory_uri() . '/assets/Companies-Sample-Template.csv' ); ?>" download>Download CSV Template</a>
+<h1><?php echo $batch->title; ?></a></h1>
+<a href="<?php echo get_template_directory_uri() . '/assets/Companies-Sample-Template.csv'; ?>" download>Download CSV Template</a>
 <div class="batch-process">
 	<div class="batch-process-main">
 	<form class="companies-export-form" method="post" enctype="multipart/form-data">
@@ -30,8 +30,10 @@ $percentage = $batch->get_percentage();
 		</div>
 	</div>
 	<div class="batch-process-actions">
-        <button class="button-primary" id="batch-process-start">Import</button>
-        <button class="button" id="batch-process-stop">Stop</button>
+		<?php //if(!$batch->is_finished()): ?>
+			<button class="button-primary" id="batch-process-start">Import</button>
+			<button class="button" id="batch-process-stop">Stop</button>
+		<?php //endif; ?>
 	</div>
 </div>
 

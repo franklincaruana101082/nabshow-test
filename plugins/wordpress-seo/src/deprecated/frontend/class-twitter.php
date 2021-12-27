@@ -17,7 +17,7 @@ class WPSEO_Twitter {
 	/**
 	 * Instance of this class.
 	 *
-	 * @var WPSEO_Twitter
+	 * @var object
 	 */
 	public static $instance;
 
@@ -54,7 +54,7 @@ class WPSEO_Twitter {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @return object|null
+	 * @return object
 	 */
 	public static function get_instance() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

@@ -1,10 +1,11 @@
 === Sprout Invoices - Client Invoicing & Estimates ===
-Contributors: dancameron, sproutapps
+Contributors: dancameron, sproutapps, elanasparkle
 Donate link: https://sproutinvoices.com/
 Tags: invoicing, estimates, payments, web invoice, bill, paypal, invoice, pay, online payment, send invoice, bill clients, credit cards, stripe, freshbooks, harvest, wp-invoice
-Requires at least: 4.5
-Tested up to: 5.5
-Stable tag: 19.9.2.4
+Requires at least: 5.1
+Tested up to: 5.7
+Requires PHP: 7.2
+Stable tag: 19.9.3.5
 
 == Description ==
 
@@ -22,6 +23,18 @@ The plugin should already be installed at this point. If you still need help che
 **Please visit the [FAQ at Sprout Invoices](https://sproutinvoices.com/support/knowledgebase/sprout-invoices/faqs/).**
 
 == Changelog ==
+
+= 19.9.3.5 =
+
+Release date: March 8th, 2021
+
+* Bug fix: Notice: Trying to access array offset on value of type bool in controllers/admin/Settings.php on line 254 [#382](https://github.com/BoldGrid/sprout-invoices/issues/382)
+* Bug fix: WP 5.7 CSS Fixes [395](https://github.com/BoldGrid/sprout-invoices/pull/395)
+* Bug fix: Invoice Code was updated but not Estimate [#394](https://github.com/BoldGrid/sprout-invoices/pull/394)
+* Bug fix: JavaScript Variable Changes[#392](https://github.com/BoldGrid/sprout-invoices/pull/392)
+* Bug fix: JavaScript Variable Changes[#391](https://github.com/BoldGrid/sprout-invoices/pull/391)
+* Bug fix: Rename Square Cash to Cash App [#390](https://github.com/BoldGrid/sprout-invoices/pull/390)
+* Enhancment: Add Zelle Payment Processor [#393](https://github.com/BoldGrid/sprout-invoices/pull/393)
 
 = 19.9.2.4 =
 

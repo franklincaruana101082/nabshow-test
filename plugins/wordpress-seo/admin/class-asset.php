@@ -207,7 +207,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns the asset version.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	public function get_version() {
 		if ( ! empty( $this->version ) ) {
@@ -229,7 +229,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns whether a script asset should be loaded in the footer of the page.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function is_in_footer() {
 		return $this->in_footer;
@@ -238,7 +238,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns whether this CSS has a RTL counterpart.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function has_rtl() {
 		return $this->rtl;

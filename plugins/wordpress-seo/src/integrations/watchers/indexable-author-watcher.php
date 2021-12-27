@@ -27,9 +27,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	protected $builder;
 
 	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @return array
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -47,9 +45,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'user_register', [ $this, 'build_indexable' ], \PHP_INT_MAX );

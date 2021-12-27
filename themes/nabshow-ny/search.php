@@ -152,7 +152,7 @@ $show_code    = isset( $nab_mys_urls[ 'show_code' ] ) ? $nab_mys_urls[ 'show_cod
 														
 														?>
 														<a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo esc_html( get_the_title() ); ?></a>
-														<?php
+														<?php													
 													} else {
 														?>
 														<a href="<?php echo esc_url( get_the_permalink( $current_post_id ) ); ?>"><?php echo esc_html( get_the_title() ); ?></a>

@@ -3,15 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { FormStep } from '@woocommerce/base-components/cart-checkout';
-import { useCheckoutSubmit } from '@woocommerce/base-context/hooks';
+import { useCheckoutContext } from '@woocommerce/base-context';
 import PropTypes from 'prop-types';
 
 const BillingFieldsStep = ( { children } ) => {
-	const { isDisabled } = useCheckoutSubmit();
+	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
+
 	return (
 		<FormStep
 			id="billing-fields"
-			disabled={ isDisabled }
+			disabled={ checkoutIsProcessing }
 			className="wc-block-checkout__billing-fields"
 			title={ __( 'Billing address', 'woocommerce' ) }
 			description={ __(

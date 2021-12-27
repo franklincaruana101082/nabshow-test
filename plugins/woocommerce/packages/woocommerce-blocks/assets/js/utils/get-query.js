@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { min } from 'lodash';
-import { getSetting } from '@woocommerce/settings';
+import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
 
 export default function getQuery( blockAttributes, name ) {
 	const {
@@ -15,9 +15,8 @@ export default function getQuery( blockAttributes, name ) {
 		orderby,
 		products,
 	} = blockAttributes;
-	const columns =
-		blockAttributes.columns || getSetting( 'default_columns', 3 );
-	const rows = blockAttributes.rows || getSetting( 'default_rows', 3 );
+	const columns = blockAttributes.columns || DEFAULT_COLUMNS;
+	const rows = blockAttributes.rows || DEFAULT_ROWS;
 	const apiMax = Math.floor( 100 / columns ) * columns; // Prevent uneven final row.
 
 	const query = {

@@ -92,6 +92,16 @@ $(function() {
         nabAjaxForDateSession(false, pageNumber);
       });
 
+      $(document).on('change', '.session-date-list-filter #session-format', function () {
+        pageNumber = 1;
+        nabAjaxForDateSession(false, pageNumber);
+      });
+  
+      $(document).on('change', '.session-date-list-filter #session-community', function () {
+        pageNumber = 1;
+        nabAjaxForDateSession(false, pageNumber);
+      });
+
       $(document).on('change', '.session-date-list-filter #session-date', function () {
         pageNumber = 1;
         nabAjaxForDateSession(false, pageNumber);
@@ -271,10 +281,13 @@ $(function() {
 function nabAjaxForDateSession( loadMore, pageNumber ) {
   let channel = '';
   let sessionDate = '';
-  let postPerPage = jQuery('#load-more-date-sessions a').attr('data-post-limit') ? parseInt(jQuery('#load-more-date-sessions a').attr('data-post-limit')) : 10;
+  let sessionFormat = '';
+  let community = '';
+  let postPerPage = 0 < jQuery('.session-date-list .filter-post-limit').length ? parseInt(jQuery('.session-date-list .filter-post-limit').val()) : 10;
   let postSearch = 0 < jQuery('.session-date-list-filter .search-item .search').length ? jQuery('.session-date-list-filter .search-item .search').val() : '';  
   let displayOrder = 0 < jQuery('.session-date-list .order-type').length ? jQuery('.session-date-list .order-type').val() : 'ASC';
   let channelList = 0 < jQuery('.session-date-list .filter-channels').length ? jQuery('.session-date-list .filter-channels').val() : '';
+  let upcomingFirst = 0 < jQuery('#session-date-list-wrapper[data-upcoming]').length ? jQuery('#session-date-list-wrapper').attr('data-upcoming') : 'no';
 
   if ( 0 < jQuery('.session-date-list-filter .channel-box #session-channel').length ) {
     channel = 0 === jQuery('.session-date-list-filter .channel-box #session-channel')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .channel-box #session-channel').val();
@@ -284,11 +297,19 @@ function nabAjaxForDateSession( loadMore, pageNumber ) {
     sessionDate =  0 === jQuery('.session-date-list-filter .date-box #session-date')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .date-box #session-date').val();
   }
 
+  if ( 0 < jQuery('.session-date-list-filter .session-format-box #session-format').length ) {
+    sessionFormat = 0 === jQuery('.session-date-list-filter .session-format-box #session-format')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .session-format-box #session-format').val();
+  }
+
+  if ( 0 < jQuery('.session-date-list-filter .session-community-box #session-community').length ) {
+    community = 0 === jQuery('.session-date-list-filter .session-community-box #session-community')[0].selectedIndex ? '' : jQuery('.session-date-list-filter .session-community-box #session-community').val();
+  }
+
   jQuery('.session-date-list').addClass('popup-loader');   
 
   jQuery.ajax({
     type: 'GET',
-    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList,
+    data: 'action=sessions_date_list_filter&page_number=' + pageNumber + '&post_limit=' + postPerPage + '&post_search=' + postSearch + '&session_date=' + sessionDate + '&channel=' + channel + '&display_order=' + displayOrder + '&channel_list=' + channelList + '&format=' + sessionFormat + '&community=' + community + '&upcoming=' + upcomingFirst,
     url: nabshowLvCustom.ajax_url,
     success: function (sessionData) {
 

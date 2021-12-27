@@ -32,7 +32,7 @@ if ( ! empty( $include_speaker ) ) {
 }
 
 if ( 'rand' === $order_by ) {
-    $query_args[ 'posts_per_page' ]       = 100;
+    $query_args[ 'posts_per_page' ]       = 200;
     $query_args[ 'fields' ]               = 'ids';
     $query_args[ 'no_found_rows' ]        = true;
     $query_args[ 'ignore_sticky_posts' ]  = true;

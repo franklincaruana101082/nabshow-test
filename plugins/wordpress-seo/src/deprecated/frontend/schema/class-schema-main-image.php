@@ -10,19 +10,20 @@ use Yoast\WP\SEO\Generators\Schema\Main_Image;
 /**
  * Returns ImageObject schema data.
  *
- * @since      11.5
- * @deprecated 14.0
  * @codeCoverageIgnore
+ * @deprecated 14.0
+ *
+ * @since 11.5
  */
 class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_WebPage constructor.
 	 *
-	 * @deprecated 14.0
-	 * @codeCoverageIgnore
-	 *
 	 * @param null $context The context. No longer used but present for BC.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( Main_Image::class );
@@ -31,8 +32,8 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Gets the post's first usable content image. Null if none is available.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param int $post_id The post id.
 	 *
@@ -47,8 +48,8 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Generates image schema from the attachment id.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param string $image_id The image schema id.
 	 *
@@ -57,14 +58,14 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	protected function generate_image_schema_from_attachment_id( $image_id ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'YoastSEO()->helpers->schema->image->generate_from_attachment_id' );
 
-		return $this->helpers->schema->image->generate_from_attachment_id( $image_id, get_post_thumbnail_id() );
+		return $this->helpers->schema->image->generate_from_attachment_id( $image_id, \get_post_thumbnail_id() );
 	}
 
 	/**
 	 * Generates image schema from the url.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param string $image_id  The image schema id.
 	 * @param string $image_url The image URL.

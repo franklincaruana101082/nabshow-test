@@ -7,7 +7,8 @@ import {
 	BlockControls,
 	InnerBlocks,
 	InspectorControls,
-	MediaReplaceFlow,
+	MediaUpload,
+	MediaUploadCheck,
 	PanelColorSettings,
 	withColors,
 	RichText,
@@ -16,21 +17,22 @@ import { withSelect } from '@wordpress/data';
 import {
 	Button,
 	FocalPointPicker,
+	IconButton,
 	PanelBody,
 	Placeholder,
 	RangeControl,
 	ResizableBox,
 	Spinner,
 	ToggleControl,
-	ToolbarGroup,
+	Toolbar,
 	withSpokenMessages,
 } from '@wordpress/components';
 import classnames from 'classnames';
-import { Component } from '@wordpress/element';
+import { Fragment, Component } from '@wordpress/element';
 import { compose, createHigherOrderComponent } from '@wordpress/compose';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { getSetting } from '@woocommerce/settings';
+import { MIN_HEIGHT } from '@woocommerce/block-settings';
 import ProductControl from '@woocommerce/editor-components/product-control';
 import ErrorPlaceholder from '@woocommerce/editor-components/error-placeholder';
 import { withProduct } from '@woocommerce/block-hocs';
@@ -59,7 +61,7 @@ import {
  * @param {Object} props.product Product object.
  * @param {function(any):any} props.setAttributes Setter for attributes.
  * @param {function(any):any} props.setOverlayColor Setter for overlay color.
- * @param {function():any} props.triggerUrlUpdate Function for triggering a url update for product.
+ * @param {function(any):any} props.triggerUrlUpdate Function for triggering a url update for product.
  */
 const FeaturedProduct = ( {
 	attributes,
@@ -95,7 +97,7 @@ const FeaturedProduct = ( {
 		};
 
 		return (
-			<>
+			<Fragment>
 				{ getBlockControls() }
 				<Placeholder
 					icon={ <Icon srcElement={ star } /> }
@@ -128,12 +130,12 @@ const FeaturedProduct = ( {
 						</Button>
 					</div>
 				</Placeholder>
-			</>
+			</Fragment>
 		);
 	};
 
 	const getBlockControls = () => {
-		const { contentAlign, editMode, mediaSrc } = attributes;
+		const { contentAlign, editMode } = attributes;
 		const mediaId = attributes.mediaId || getImageIdFromProduct( product );
 
 		return (
@@ -144,20 +146,30 @@ const FeaturedProduct = ( {
 						setAttributes( { contentAlign: nextAlign } );
 					} }
 				/>
-				<MediaReplaceFlow
-					mediaId={ mediaId }
-					mediaURL={ mediaSrc }
-					accept="image/*"
-					onSelect={ ( media ) => {
-						setAttributes( {
-							mediaId: media.id,
-							mediaSrc: media.url,
-						} );
-					} }
-					allowedTypes={ [ 'image' ] }
-				/>
-
-				<ToolbarGroup
+				<MediaUploadCheck>
+					<Toolbar>
+						<MediaUpload
+							onSelect={ ( media ) => {
+								setAttributes( {
+									mediaId: media.id,
+									mediaSrc: media.url,
+								} );
+							} }
+							allowedTypes={ [ 'image' ] }
+							value={ mediaId }
+							render={ ( { open } ) => (
+								<IconButton
+									className="components-toolbar__control"
+									label={ __( 'Edit media' ) }
+									icon="format-image"
+									onClick={ open }
+									disabled={ ! product }
+								/>
+							) }
+						/>
+					</Toolbar>
+				</MediaUploadCheck>
+				<Toolbar
 					controls={ [
 						{
 							icon: 'edit',
@@ -221,7 +233,7 @@ const FeaturedProduct = ( {
 					] }
 				>
 					{ !! url && (
-						<>
+						<Fragment>
 							<RangeControl
 								label={ __(
 									'Background Opacity',
@@ -245,7 +257,7 @@ const FeaturedProduct = ( {
 									}
 								/>
 							) }
-						</>
+						</Fragment>
 					) }
 				</PanelColorSettings>
 			</InspectorControls>
@@ -296,7 +308,7 @@ const FeaturedProduct = ( {
 			<ResizableBox
 				className={ classes }
 				size={ { height } }
-				minHeight={ getSetting( 'min_height', 500 ) }
+				minHeight={ MIN_HEIGHT }
 				enable={ { bottom: true } }
 				onResizeStop={ onResizeStop }
 				style={ style }
@@ -409,11 +421,11 @@ const FeaturedProduct = ( {
 	}
 
 	return (
-		<>
+		<Fragment>
 			{ getBlockControls() }
 			{ getInspectorControls() }
 			{ product ? renderProduct() : renderNoProduct() }
-		</>
+		</Fragment>
 	);
 };
 

@@ -7,6 +7,10 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
+	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
+	echo '<br/>';
+}
 echo '<div id="breadcrumbsinfo">';
 
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
@@ -45,16 +49,16 @@ if ( is_array( $post_types ) && $post_types !== [] ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 		if ( is_array( $taxonomies ) && $taxonomies !== [] ) {
 			$values = [ 0 => __( 'None', 'wordpress-seo' ) ];
-			foreach ( $taxonomies as $yoast_seo_taxonomy ) {
-				if ( ! $yoast_seo_taxonomy->public ) {
+			foreach ( $taxonomies as $tax ) {
+				if ( ! $tax->public ) {
 					continue;
 				}
 
-				$values[ $yoast_seo_taxonomy->name ] = $yoast_seo_taxonomy->labels->singular_name;
+				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
 			$label = $pt->labels->name . ' (<code>' . $pt->name . '</code>)';
 			$yform->select( 'post_types-' . $pt->name . '-maintax', $label, $values );
-			unset( $values, $yoast_seo_taxonomy );
+			unset( $values, $tax );
 		}
 		unset( $taxonomies );
 	}
@@ -71,7 +75,7 @@ $taxonomies = get_taxonomies(
 
 if ( is_array( $taxonomies ) && $taxonomies !== [] ) {
 	echo '<h2>' . esc_html__( 'Content type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
-	foreach ( $taxonomies as $yoast_seo_taxonomy ) {
+	foreach ( $taxonomies as $tax ) {
 		$values = [ 0 => __( 'None', 'wordpress-seo' ) ];
 		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
 			$values['post'] = __( 'Blog', 'wordpress-seo' );
@@ -85,9 +89,9 @@ if ( is_array( $taxonomies ) && $taxonomies !== [] ) {
 			}
 			unset( $pt );
 		}
-		$label = $yoast_seo_taxonomy->labels->singular_name . ' (<code>' . $yoast_seo_taxonomy->name . '</code>)';
-		$yform->select( 'taxonomy-' . $yoast_seo_taxonomy->name . '-ptparent', $label, $values );
-		unset( $values, $yoast_seo_taxonomy );
+		$label = $tax->labels->singular_name . ' (<code>' . $tax->name . '</code>)';
+		$yform->select( 'taxonomy-' . $tax->name . '-ptparent', $label, $values );
+		unset( $values, $tax );
 	}
 }
 unset( $taxonomies, $post_types );
@@ -96,20 +100,13 @@ unset( $taxonomies, $post_types );
 <br class="clear"/>
 </div>
 <h2><?php esc_html_e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h2>
-<?php
-echo '<p>';
-printf(
-	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-	esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
-	'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
-	'</a>'
-);
-echo '</p>';
-if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
-	echo '<p>';
-	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-	echo esc_html_e( 'Note: You can always choose to enable / disable them for your theme below. This setting will not apply to breadcrumbs inserted through a widget, a block or a shortcode.', 'wordpress-seo' );
-	echo '</p>';
-
-	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs for your theme', 'wordpress-seo' ) );
-}
+<p>
+	<?php
+	printf(
+		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+		esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
+		'</a>'
+	);
+	?>
+</p>

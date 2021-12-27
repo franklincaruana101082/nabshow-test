@@ -6,6 +6,10 @@
  * @package WooCommerce\Interface
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * WC Order Refund Data Store Interface
  *

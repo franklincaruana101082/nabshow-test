@@ -1,5 +1,14 @@
 // HERO
 
+.hero-banner {
+  position: relative;
+  z-index: 1;
+  img {
+    max-height: 42rem;
+    object-fit: cover;
+  }
+}
+
 .hero {
   position: relative;
   z-index: 1;
@@ -23,6 +32,9 @@
     }
     padding: rem(120) 0;
     background-size: cover;
+    .new & {
+      padding: 0;
+    }
   }
 }
 

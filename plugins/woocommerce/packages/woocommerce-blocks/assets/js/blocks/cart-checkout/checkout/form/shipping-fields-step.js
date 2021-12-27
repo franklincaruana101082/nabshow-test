@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { FormStep } from '@woocommerce/base-components/cart-checkout';
 import CheckboxControl from '@woocommerce/base-components/checkbox-control';
-import { useCheckoutSubmit } from '@woocommerce/base-context/hooks';
+import { useCheckoutContext } from '@woocommerce/base-context';
 import PropTypes from 'prop-types';
 
 const ShippingFieldsStep = ( {
@@ -12,12 +12,12 @@ const ShippingFieldsStep = ( {
 	setShippingAsBilling,
 	children,
 } ) => {
-	const { isDisabled } = useCheckoutSubmit();
+	const { isProcessing: checkoutIsProcessing } = useCheckoutContext();
 
 	return (
 		<FormStep
 			id="shipping-fields"
-			disabled={ isDisabled }
+			disabled={ checkoutIsProcessing }
 			className="wc-block-checkout__shipping-fields"
 			title={ __( 'Shipping address', 'woocommerce' ) }
 			description={ __(

@@ -20,7 +20,6 @@ class Factories {
 		if ( ! isset( self::$factories ) ) {
 			self::$factories = apply_filters( 'automatewoo/factories', [
 				'guest' => 'AutomateWoo\Guest_Factory',
-				'unsubscribe' => 'AutomateWoo\Unsubscribe_Factory',
 				'queue' => 'AutomateWoo\Queued_Event_Factory',
 				'log' => 'AutomateWoo\Log_Factory',
 				'cart' => 'AutomateWoo\Cart_Factory',

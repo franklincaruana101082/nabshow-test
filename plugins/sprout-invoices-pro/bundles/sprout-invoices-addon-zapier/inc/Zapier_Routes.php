@@ -41,7 +41,7 @@ class Zapier_Routes extends Zapier_Controller {
 		header( 'Cache-Control: no-cache, must-revalidate' );
 		header( 'Pragma: no-cache' );
 
-		$data = json_decode( file_get_contents( 'php://input' ) );
+		$data = json_decode( file_get_contents( 'php://input' ), true );
 
 		switch ( $_REQUEST[ self::API_QUERY_VAR ] ) {
 			case 'ping':
@@ -209,6 +209,7 @@ class Zapier_Routes extends Zapier_Controller {
 	}
 
 	public static function create_estimate( $data = array() ) {
+		$data['line_items'] = array( $data['line_items'] );
 		$estimate_id = SI_Estimate::create_estimate( $data );
 		$estimate = SI_Estimate::get_instance( $estimate_id );
 		if ( ! is_a( $estimate, 'SI_Estimate' ) ) {

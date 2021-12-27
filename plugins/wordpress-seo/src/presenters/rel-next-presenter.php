@@ -10,18 +10,11 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * The tag key name.
-	 *
-	 * @var string
-	 */
-	protected $key = 'next';
-
-	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = self::LINK_REL_HREF;
+	protected $tag_format = '<link rel="next" href="%s" />';
 
 	/**
 	 * The method of escaping to use.
@@ -53,7 +46,7 @@ class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the canonical content through the `wpseo_adjacent_rel_url` filter.
 	 *
-	 * @return string The filtered adjacent link.
+	 * @return string $rel_next The filtered adjacent link.
 	 */
 	public function get() {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {

@@ -15,7 +15,7 @@ interface WPSEO_Sitemap_Provider {
 	 *
 	 * @param string $type Type string to check for.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function handles_type( $type );
 

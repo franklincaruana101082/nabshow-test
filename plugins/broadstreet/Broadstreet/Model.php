@@ -1,6 +1,6 @@
 <?php
-/* 
- * 
+/*
+ *
  *
  * @author Broadstreet Ads <labs@broadstreetads.com>
  */
@@ -50,7 +50,7 @@ class Broadstreet_Model
     public static function getPublishedPostCount()
     {
         global $wpdb;
-        
+
         $table = self::getTableName('posts');
 
         $sql = "SELECT COUNT(*) AS 'count'
@@ -73,7 +73,7 @@ class Broadstreet_Model
                 FROM $table
                 WHERE comment_approved = '1'
                 AND comment_post_ID = '$post_id'";
-                
+
         if($page && $per_page)
         {
             $start = $page * $per_page;
@@ -82,11 +82,11 @@ class Broadstreet_Model
 
         return $wpdb->get_results($sql);
     }
-    
+
     public static function getPostMeta($post_ids = array(), $defaults = array())
     {
         if(count($post_ids) == 0) return array();
-        
+
         global $wpdb;
 
         $table = self::getTableName('postmeta');
@@ -97,17 +97,17 @@ class Broadstreet_Model
                 WHERE post_id IN (".implode(',', $post_ids).")";
 
         $results = $wpdb->get_results($sql);
-        
+
         $meta = array();
-        
+
         foreach($results as $result)
         {
             if(isset($meta[$result->post_id]) && !is_array($meta[$result->post_id]))
                 $meta[$result->post_id] = $defaults;
-            
+
             $meta[$result->post_id][$result->meta_key] = $result->meta_value;
         }
-        
+
         return $meta;
     }
 

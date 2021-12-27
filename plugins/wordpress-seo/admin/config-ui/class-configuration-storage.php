@@ -101,7 +101,7 @@ class WPSEO_Configuration_Storage {
 	/**
 	 * Retrieve the registered fields.
 	 *
-	 * @return array List of settings.
+	 * @returns array List of settings.
 	 */
 	public function retrieve() {
 		$output = [];

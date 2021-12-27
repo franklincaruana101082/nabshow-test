@@ -25,8 +25,8 @@ global $post;
  */
 $day      = tribe_events_get_current_month_day();
 $event_id = "{$post->ID}-{$day['date']}";
-//$link     = tribe_get_event_link( $post );
-$e_title    = get_the_title( $post );
+$link     = tribe_get_event_link( $post );
+$title    = get_the_title( $post );
 $event_url = tribe_get_event_meta( $event_id, '_EventURL', true );
 /**
  * How to Use the Javascript Templating System in this View
@@ -194,6 +194,6 @@ $event_url = tribe_get_event_meta( $event_id, '_EventURL', true );
 ?>
 
 <div id="tribe-events-event-<?php echo esc_attr( $event_id ); ?>" class="<?php tribe_events_event_classes() ?>" data-tribejson='<?php echo esc_attr( tribe_events_template_data( $post ) ); ?>'>
-	<h3 class="tribe-events-month-event-title"><a href="<?php echo esc_url( $event_url ); ?>" class="url"><?php echo esc_html( $e_title ) ?></a></h3>
+	<h3 class="tribe-events-month-event-title"><a href="<?php echo esc_url( $event_url ); ?>" class="url"><?php echo $title ?></a></h3>
 </div><!-- #tribe-events-event-# -->
 

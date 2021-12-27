@@ -43,22 +43,17 @@ class DataSourcePoller {
 	 * @return bool Whether any specs were read.
 	 */
 	public static function read_specs_from_data_sources() {
-		$specs        = array();
-		$data_sources = apply_filters( 'woocommerce_admin_remote_inbox_data_sources', self::DATA_SOURCES );
+		$specs = array();
 
 		// Note that this merges the specs from the data sources based on the
 		// slug - last one wins.
-		foreach ( $data_sources as $url ) {
+		foreach ( self::DATA_SOURCES as $url ) {
 			$specs_from_data_source = self::read_data_source( $url, $specs );
 			self::merge_specs( $specs_from_data_source, $specs, $url );
 		}
 
 		// Persist the specs as an option.
-		update_option(
-			RemoteInboxNotificationsEngine::SPECS_OPTION_NAME,
-			$specs,
-			false
-		);
+		update_option( RemoteInboxNotificationsEngine::SPECS_OPTION_NAME, $specs );
 
 		return 0 !== count( $specs );
 	}

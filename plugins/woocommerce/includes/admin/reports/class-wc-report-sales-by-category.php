@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WC_Report_Sales_By_Category
  *
+ * @author      WooThemes
+ * @category    Admin
  * @package     WooCommerce\Admin\Reports
  * @version     2.1.0
  */
@@ -169,11 +171,11 @@ class WC_Report_Sales_By_Category extends WC_Admin_Report {
 
 					switch ( $this->chart_groupby ) {
 						case 'day':
-							$time = strtotime( gmdate( 'Ymd', strtotime( $order_item->post_date ) ) ) * 1000;
+							$time = strtotime( date( 'Ymd', strtotime( $order_item->post_date ) ) ) * 1000;
 							break;
 						case 'month':
 						default:
-							$time = strtotime( gmdate( 'Ym', strtotime( $order_item->post_date ) ) . '01' ) * 1000;
+							$time = strtotime( date( 'Ym', strtotime( $order_item->post_date ) ) . '01' ) * 1000;
 							break;
 					}
 
@@ -242,13 +244,13 @@ class WC_Report_Sales_By_Category extends WC_Admin_Report {
 					// Select all/None
 					jQuery( '.chart-widget' ).on( 'click', '.select_all', function() {
 						jQuery(this).closest( 'div' ).find( 'select option' ).attr( 'selected', 'selected' );
-						jQuery(this).closest( 'div' ).find('select').trigger( 'change' );
+						jQuery(this).closest( 'div' ).find('select').change();
 						return false;
 					});
 
 					jQuery( '.chart-widget').on( 'click', '.select_none', function() {
-						jQuery(this).closest( 'div' ).find( 'select option' ).prop( 'selected', false );
-						jQuery(this).closest( 'div' ).find('select').trigger( 'change' );
+						jQuery(this).closest( 'div' ).find( 'select option' ).removeAttr( 'selected' );
+						jQuery(this).closest( 'div' ).find('select').change();
 						return false;
 					});
 				});
@@ -305,11 +307,11 @@ class WC_Report_Sales_By_Category extends WC_Admin_Report {
 
 					switch ( $this->chart_groupby ) {
 						case 'day':
-							$time = strtotime( gmdate( 'Ymd', strtotime( "+{$i} DAY", $this->start_date ) ) ) * 1000;
+							$time = strtotime( date( 'Ymd', strtotime( "+{$i} DAY", $this->start_date ) ) ) * 1000;
 							break;
 						case 'month':
 						default:
-							$time = strtotime( gmdate( 'Ym', strtotime( "+{$i} MONTH", $this->start_date ) ) . '01' ) * 1000;
+							$time = strtotime( date( 'Ym', strtotime( "+{$i} MONTH", $this->start_date ) ) . '01' ) * 1000;
 							break;
 					}
 
@@ -428,16 +430,16 @@ class WC_Report_Sales_By_Category extends WC_Admin_Report {
 							}
 						);
 
-						jQuery('.chart-placeholder').trigger( 'resize' );
+						jQuery('.chart-placeholder').resize();
 
 					}
 
 					drawGraph();
 
-					jQuery('.highlight_series').on( 'mouseenter',
+					jQuery('.highlight_series').hover(
 						function() {
 							drawGraph( jQuery(this).data('series') );
-						} ).on( 'mouseleave',
+						},
 						function() {
 							drawGraph();
 						}

@@ -434,17 +434,17 @@ class SI_Sliced_Invoices_Import extends SI_Importer {
 	/*
 	 * Singleton Design Pattern
 	 * ------------------------------------------------------------- */
-	protected function __clone() {
+	public function __clone() {
 		// cannot be cloned
 		trigger_error( __CLASS__.' may not be cloned', E_USER_ERROR );
 	}
 
-	protected function __sleep() {
+	public function __sleep() {
 		// cannot be serialized
 		trigger_error( __CLASS__.' may not be serialized', E_USER_ERROR );
 	}
 
-	protected function __construct() {
+	public function __construct() {
 		//
 	}
 

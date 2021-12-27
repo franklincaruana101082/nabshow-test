@@ -1,0 +1,7 @@
+= 1.0 =
+
+* Initial Release
+
+= 2.0 = 
+
+* changed name from square cash to cash app

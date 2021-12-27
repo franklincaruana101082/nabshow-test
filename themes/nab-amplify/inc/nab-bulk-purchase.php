@@ -39,7 +39,7 @@ if ( isset( $get_qty ) && ! empty( $get_qty ) ) {
 					<option value=""><?php esc_html_e( '---', 'nab-amplify' ); ?></option>
 					<?php
 					for ( $i = 2; $i <= 50; $i ++ ) { ?>
-						<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $i, $nab_qty ); ?>><?php echo esc_html( $i ); ?></option>
+						<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $i, $nab_qty ); ?>><?php echo $i; ?></option>
 					<?php } ?>
 				</select>
 			</div>

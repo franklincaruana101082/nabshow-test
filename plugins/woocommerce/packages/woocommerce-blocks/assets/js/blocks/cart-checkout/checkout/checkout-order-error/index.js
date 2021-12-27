@@ -34,13 +34,7 @@ const cartItemErrorCodes = [
  * checkout block.
  */
 const CheckoutOrderError = () => {
-	const preloadedApiRequests = getSetting( 'preloadedApiRequests', {} );
-	const checkoutData = {
-		code: '',
-		message: '',
-		...( preloadedApiRequests[ '/wc/store/checkout' ]?.body || {} ),
-	};
-
+	const checkoutData = getSetting( 'checkoutData', {} );
 	const errorData = {
 		code: checkoutData.code || 'unknown',
 		message:

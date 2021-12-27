@@ -21,6 +21,10 @@ add_action( 'wp_enqueue_scripts', 'amplify_block_front_assets' );
 
 add_shortcode( 'nab_display_author', 'nab_amplify_display_author' );
 
+add_shortcode( 'email_signup', 'display_newsletter_signup' );
+
+add_shortcode( 'rate_content', 'display_content_rating' );
+
 /*Enqueue Javascripts admin side.*/
 add_action( 'admin_enqueue_scripts', 'amplify_admin_scripts' );
 
@@ -92,7 +96,7 @@ add_action( 'wp_head', 'nab_header_scripts' );
 
 add_action( 'woocommerce_created_customer', 'nab_user_registration_sync', 10, 3 );
 
-add_action( 'woocommerce_after_cart', 'nab_bulk_purchase_cart' );
+//add_action( 'woocommerce_after_cart', 'nab_bulk_purchase_cart' );
 
 add_action( 'init', 'nab_create_attendee_table' );
 
@@ -227,7 +231,6 @@ add_action( 'acf/save_post', 'nab_update_company_member_level_meta_num', 20 );
 add_action( 'save_post_company', 'nab_update_company_member_level_meta_num', 10, 1 );
 
 add_action( 'woocommerce_save_account_details_errors','nab_validate_edit_account_fields', 10, 1 );
-add_action( 'wp_footer', 'nab_enqueue_third_party_script_to_footer' );
 
 add_action( 'wp', 'nab_update_wc_edit_account_email_on_save', 20 );
 
@@ -240,3 +243,7 @@ add_action( 'woocommerce_register_form_end', 'nab_sign_loader_with_text' );
 add_action( 'woocommerce_login_form_end', 'nab_sign_loader_with_text' );
 
 add_action( 'init', 'nab_register_show_video_post_type_and_taxonomy', 9999 );
+
+
+add_action( 'admin_head-post.php', 'session_excerpt_count_js');
+add_action( 'admin_head-post-new.php', 'session_excerpt_count_js');

@@ -7,12 +7,9 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
-import ProductList from './product-list';
+import ProductList from './index';
 
-const ProductListContainer = ( {
-	attributes,
-	hideOutOfStockItems = false,
-} ) => {
+const ProductListContainer = ( { attributes } ) => {
 	const [ currentPage, setPage ] = useState( 1 );
 	const [ currentSort, setSort ] = useState( attributes.orderby );
 	useEffect( () => {
@@ -31,7 +28,6 @@ const ProductListContainer = ( {
 	return (
 		<ProductList
 			attributes={ attributes }
-			hideOutOfStockItems={ hideOutOfStockItems }
 			currentPage={ currentPage }
 			onPageChange={ onPageChange }
 			onSortChange={ onSortChange }
@@ -42,7 +38,6 @@ const ProductListContainer = ( {
 
 ProductListContainer.propTypes = {
 	attributes: PropTypes.object.isRequired,
-	hideOutOfStockItems: PropTypes.bool,
 };
 
 export default ProductListContainer;

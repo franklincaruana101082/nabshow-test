@@ -1,4 +1,4 @@
-<div class="quick_status_update">
+<div class="quick_status_update" style="position:relative">
 	<?php do_action( 'si_start_status_change_drop', $id ) ?>
 	<span id="status_<?php echo (int) $id ?>">
 		<span class="status_change" data-dropdown="#status_change_<?php echo (int) $id ?>">

@@ -534,12 +534,12 @@ body {
       .panel .inner input[type="email"].half {
         width: 50%; }
         @media (max-width: 480px) {
-          .panel .inner input[type="text"].half,,
-          .panel .inner input[type="input"].half
+          .panel .inner input[type="text"].half,
+          .panel .inner input[type="input"].half,
           .panel .inner input[type="email"].half {
             width: 100%; } }
-      .panel .inner input[type="text"].whole,,
-      .panel .inner input[type="input"].whole
+      .panel .inner input[type="text"].whole,
+      .panel .inner input[type="input"].whole,
       .panel .inner input[type="email"].whole {
         width: 100%; }
     .panel .inner .toggle {
@@ -829,7 +829,7 @@ body > .service_fee_message { display: none !important; }
   display: none
 }
 .spinner {
-    background: url(../../../../../resources/front-end/img/spinner.gif) no-repeat;
+    background: url(../../../../resources/front-end/img/spinner.gif) no-repeat;
     -webkit-background-size: 20px 20px;
     background-size: 20px 20px;
     display: none;

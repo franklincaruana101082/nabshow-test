@@ -137,7 +137,10 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                             $cart_url   = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'cart/' : '#';
                             $my_account = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'my-account/' : '#';
                             $sign_up = ( ! empty( $parent_url ) ) ? trailingslashit( $parent_url ) . 'sign-up/' : '#';
+
+                            $current_site_id = get_current_blog_id();
                             ?>
+
                             <nav class="nab-sec-navigation">
                                 <!-- <div class="nab-header-cart">
                                     <a href="<?php // echo esc_url( $cart_url ); ?>"><i class="fa fa-shopping-cart"></i>Cart</a>
@@ -145,31 +148,48 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                 </div> -->
                                 <div class="nab-profile-menu">
                                 <?php
-                                    if ( is_user_logged_in() ) {
-                                        $current_user    = wp_get_current_user();
-                                        $user_thumb      = get_avatar_url( $current_user->ID );
-                                        $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
-                                        ?>
-                                        <ul class="nab-profile nab-logged-in">
-                                            <li>
-                                                <a href="<?php echo esc_url( $edit_my_profile ); ?>">
-                                                    <div class="nab-avatar-wrp">
-                                                        <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
-                                                        <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    <?php } else { ?>
-                                        <ul class="nab-profile">
-                                            <li>
-                                                <a class="amplifySignUp" href="<?php echo esc_url( $sign_up ); ?>"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a>
-                                            </li>
-                                            <li>
-                                                <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
-                                            </li>
-                                        </ul>
-                                    <?php } ?>
+                                    //if site is using nabshow-base or a child of it show swiftype search, 
+                                    //otherwise show login/sign up or profile links
+
+                                        $theme_info = wp_get_theme();
+                                        $theme_template = $theme_info->get('Template');
+                                        $theme_textdomain = $theme_info->get('TextDomain');
+
+                                        if($theme_textdomain == 'nabshow-base' || $theme_template == 'nabshow-base' || $current_site_id == 4) {
+                                            //show swiftype search on NABShow.com
+                                            ?>
+                                            <input type="text" class="st-default-search-input header__search">
+                                            <?php
+                                        } else {
+                                            if ( is_user_logged_in() ) {
+                                            $current_user    = wp_get_current_user();
+                                            $user_images        = $this->ep_get_user_images( $current_user->ID );
+                                            $user_thumb         = isset( $user_images['profile_picture'] ) ? $user_images['profile_picture'] : get_avatar_url( $current_user->ID );
+                                            $edit_my_profile = ( ! empty( $parent_url ) ) ? $my_account . 'edit-my-profile/' : '#';
+                                            ?>
+                                            <ul class="nab-profile nab-logged-in">
+                                                <li>
+                                                    <a href="<?php echo esc_url( $edit_my_profile ); ?>">
+                                                        <div class="nab-avatar-wrp">
+                                                            <div class="nab-avatar"><img src="<?php echo esc_url( $user_thumb ); ?>"></div>
+                                                            <span class="nab-profile-name"><?php echo $current_user->display_name; ?></span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        <?php } else { ?>
+                                            <ul class="nab-profile">
+                                                <li>
+                                                    <a class="amplifySignUp" href="<?php echo esc_url( $sign_up ); ?>"><?php esc_html_e( 'Sign Up', 'nab-amplify' ); ?></a>
+                                                </li>
+                                                <li>
+                                                    <a class="amplifyGuestSignIn" href="<?php echo esc_url( $my_account ); ?>"><?php esc_html_e( 'Sign In', 'nab-amplify' ); ?></a>
+                                                </li>
+                                            </ul>
+                                        <?php
+                                        }
+                                    } 
+                                ?>
                                 </div>
                             </nav><!-- #site-navigation -->
                         </div>
@@ -233,6 +253,32 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
 
             return $sorted_logos;
 
+        }
+
+        /**
+         * Returns the global header logos added in Amplify
+         *
+         * @return array|string
+         */
+	    public function ep_get_user_images( $user_id ) {
+
+            $api_base_url = get_option( 'ep_parent_site_url' );
+
+            if( empty( $api_base_url ) ) {
+              return '';
+            }
+
+            $api_url         = $api_base_url . 'wp-json/nab/request/get-user-images?user_id=' . $user_id;
+            $get_user_images = wp_remote_get( $api_url );
+            $response        = wp_remote_retrieve_body( $get_user_images );
+
+            if( isset( $response ) && ! empty( $response ) ) {
+              $user_images = json_decode( $response, true );
+            } else {
+              return '';
+            }
+
+            return $user_images;
         }
 
         /**

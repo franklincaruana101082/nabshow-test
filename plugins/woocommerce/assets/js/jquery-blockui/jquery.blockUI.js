@@ -25,7 +25,7 @@
 		var msie = /MSIE/.test(navigator.userAgent);
 		var ie6  = /MSIE 6.0/.test(navigator.userAgent) && ! /MSIE 8.0/.test(navigator.userAgent);
 		var mode = document.documentMode || 0;
-		var setExpr = 'function' === typeof document.createElement('div').style.setExpression ? document.createElement('div').style.setExpression : false;
+		var setExpr = $.isFunction( document.createElement('div').style.setExpression );
 
 		// global $ methods for blocking/unblocking the entire page
 		$.blockUI   = function(opts) { install(window, opts); };
@@ -56,7 +56,7 @@
 
 			callBlock();
 			var nonmousedOpacity = $m.css('opacity');
-			$m.on( 'mouseover', function() {
+			$m.mouseover(function() {
 				callBlock({
 					fadeIn: 0,
 					timeout: 30000
@@ -65,7 +65,7 @@
 				var displayBlock = $('.blockMsg');
 				displayBlock.stop(); // cancel fadeout if it has started
 				displayBlock.fadeTo(300, 1); // make it easier to read the message by removing transparency
-			}).on( 'mouseout', function() {
+			}).mouseout(function() {
 				$('.blockMsg').fadeOut(1000);
 			});
 			// End konapun additions
@@ -550,9 +550,9 @@
 			// bind anchors and inputs for mouse and key events
 			var events = 'mousedown mouseup keydown keypress keyup touchstart touchend touchmove';
 			if (b)
-				$(document).on(events, opts, handler);
+				$(document).bind(events, opts, handler);
 			else
-				$(document).off(events, handler);
+				$(document).unbind(events, handler);
 
 		// former impl...
 		//		var $e = $('a,:input');
@@ -591,7 +591,7 @@
 				return;
 			var e = pageBlockEls[back===true ? pageBlockEls.length-1 : 0];
 			if (e)
-				e.trigger( 'focus' );
+				e.focus();
 		}
 
 		function center(el, x, y) {

@@ -1,13 +1,13 @@
 <?php
 
 use AutomateWoo\Frontend_Endpoints\Login_Redirect;
+use AutomateWoo\LegacyClassLoader;
 use AutomateWoo\Options;
 use AutomateWoo\Usage_Tracking\Initializer as UsageTrackingInitializer;
+use AutomateWoo\Jobs\DeleteExpiredCoupons;
+use AutomateWoo\Jobs\DeleteFailedQueuedWorkflows;
 
 defined( 'ABSPATH' ) || exit;
-
-require_once 'automatewoo-legacy.php';
-
 
 /**
  * AutomateWoo plugin singleton.
@@ -74,7 +74,6 @@ final class AutomateWoo extends AutomateWoo_Legacy {
 		$this->plugin_basename = plugin_basename( AUTOMATEWOO_FILE );
 		$this->plugin_slug     = AUTOMATEWOO_SLUG;
 		require_once $this->path() . '/includes/helpers.php';
-		require_once $this->path() . '/includes/autoloader.php';
 		add_action( 'woocommerce_init', [ $this, 'init' ], 20 );
 	}
 
@@ -82,6 +81,8 @@ final class AutomateWoo extends AutomateWoo_Legacy {
 	 * Init
 	 */
 	public function init() {
+
+		( new LegacyClassLoader() )->register();
 
 		$this->includes();
 
@@ -110,6 +111,7 @@ final class AutomateWoo extends AutomateWoo_Legacy {
 			$this->admin = new AutomateWoo\Admin();
 			AutomateWoo\Admin::init();
 			AutomateWoo\Updater::init();
+			AutomateWoo\UpdateNoticeManager::init();
 			AutomateWoo\Installer::init();
 		}
 
@@ -140,6 +142,12 @@ final class AutomateWoo extends AutomateWoo_Legacy {
 			AutomateWoo\Background_Processes::get_all();
 			// Load async request
 			AutomateWoo\Events::get_event_runner_async_request();
+
+			// Init jobs
+			( new DeleteFailedQueuedWorkflows() )->init();
+			if ( AW()->options()->clean_expired_coupons ) {
+				( new DeleteExpiredCoupons() )->init();
+			}
 		}
 
 		if ( $this->is_request( 'frontend' ) ) {
@@ -174,7 +182,6 @@ final class AutomateWoo extends AutomateWoo_Legacy {
 	public function includes() {
 		require_once $this->path() . '/includes/customer-functions.php';
 		require_once $this->path() . '/includes/product-functions.php';
-		require_once $this->path() . '/includes/hooks.php';
 
 		if ( ! class_exists( 'Easy_User_Tags' ) ) {
 			new AutomateWoo\User_Tags();
@@ -291,7 +298,7 @@ final class AutomateWoo extends AutomateWoo_Legacy {
 	 * @return string
 	 */
 	public function lib_path( $end = '' ) {
-		return $this->path( '/includes/libraries' . $end );
+		return $this->path( '/libraries' . $end );
 	}
 
 	/**
@@ -341,5 +348,3 @@ function AutomateWoo() {
 function AW() {
 	return AutomateWoo::instance();
 }
-
-AW();

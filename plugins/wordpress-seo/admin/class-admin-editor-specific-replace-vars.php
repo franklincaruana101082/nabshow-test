@@ -27,7 +27,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars {
 		// Taxonomies.
 		'category'                 => [ 'term_title', 'term_description', 'category_description', 'parent_title', 'term_hierarchy' ],
 		'post_tag'                 => [ 'term_title', 'term_description', 'tag_description' ],
-		'post_format'              => [ 'term_title' ],
+		'post_format'              => [],
 		// Custom taxonomy.
 		'term-in-custom-taxonomy'  => [ 'term_title', 'term_description', 'category_description', 'parent_title', 'term_hierarchy' ],
 

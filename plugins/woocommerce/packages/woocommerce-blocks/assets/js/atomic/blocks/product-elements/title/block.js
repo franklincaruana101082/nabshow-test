@@ -3,6 +3,7 @@
  */
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { decodeEntities } from '@wordpress/html-entities';
 import {
 	useInnerBlockLayoutContext,
 	useProductDataContext,
@@ -11,8 +12,6 @@ import { getColorClassName, getFontSizeClass } from '@wordpress/block-editor';
 import { isFeaturePluginBuild } from '@woocommerce/block-settings';
 import { gatedStyledText } from '@woocommerce/atomic-utils';
 import { withProductDataContext } from '@woocommerce/shared-hocs';
-import ProductName from '@woocommerce/base-components/product-name';
-import { useStoreEvents } from '@woocommerce/base-context/hooks';
 
 /**
  * Internal dependencies
@@ -46,7 +45,6 @@ export const Block = ( {
 } ) => {
 	const { parentClassName } = useInnerBlockLayoutContext();
 	const { product } = useProductDataContext();
-	const { dispatchStoreEvent } = useStoreEvents();
 	const TagName = `h${ headingLevel }`;
 
 	const colorClass = getColorClassName( 'color', color );
@@ -81,6 +79,8 @@ export const Block = ( {
 		);
 	}
 
+	const productName = decodeEntities( product.name );
+
 	return (
 		// @ts-ignore
 		<TagName
@@ -94,24 +94,33 @@ export const Block = ( {
 				}
 			) }
 		>
-			<ProductName
-				className={ classnames( {
-					[ titleClasses ]: isFeaturePluginBuild(),
-				} ) }
-				disabled={ ! productLink }
-				name={ product.name }
-				permalink={ product.permalink }
-				rel={ productLink ? 'nofollow' : null }
-				style={ gatedStyledText( {
-					color: customColor,
-					fontSize: customFontSize,
-				} ) }
-				onClick={ () => {
-					dispatchStoreEvent( 'product-view-link', {
-						product,
-					} );
-				} }
-			/>
+			{ productLink ? (
+				<a
+					href={ product.permalink }
+					rel="nofollow"
+					className={ classnames( {
+						[ titleClasses ]: isFeaturePluginBuild(),
+					} ) }
+					style={ gatedStyledText( {
+						color: customColor,
+						fontSize: customFontSize,
+					} ) }
+				>
+					{ productName }
+				</a>
+			) : (
+				<span
+					className={ classnames( {
+						[ titleClasses ]: isFeaturePluginBuild(),
+					} ) }
+					style={ gatedStyledText( {
+						color: customColor,
+						fontSize: customFontSize,
+					} ) }
+				>
+					{ productName }
+				</span>
+			) }
 		</TagName>
 	);
 };

@@ -74,9 +74,9 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 		$args = array(
-			'type'     => $request->get_param( 'type' ),
-			'status'   => $request->get_param( 'status' ),
-			'per_page' => $request->get_param( 'per_page' ),
+			'type'     => $request['type'],
+			'status'   => $request['status'],
+			'per_page' => $request['per_page'],
 		);
 
 		/**
@@ -167,8 +167,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 			)
 		);
 
-		// The `get_items` endpoint can be used by BP Blocks to check whether some component's features are active or not.
-		if ( bp_current_user_can( 'manage_options' ) || ( 'active' === $request->get_param( 'status' ) && current_user_can( 'publish_posts' ) ) ) {
+		if ( bp_current_user_can( 'manage_options' ) ) {
 			$retval = true;
 		}
 
@@ -192,7 +191,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		$component = $request->get_param( 'name' );
+		$component = $request['name'];
 
 		if ( ! $this->component_exists( $component ) ) {
 			return new WP_Error(
@@ -204,7 +203,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 			);
 		}
 
-		if ( 'activate' === $request->get_param( 'action' ) ) {
+		if ( 'activate' === $request['action'] ) {
 			if ( bp_is_active( $component ) ) {
 				return new WP_Error(
 					'bp_rest_component_already_active',
@@ -294,7 +293,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function prepare_item_for_response( $component, $request ) {
-		$context  = ! empty( $request->get_param( 'context' ) ) ? $request->get_param( 'context' ) : 'view';
+		$context  = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data     = $this->add_additional_fields_to_object( $component, $request );
 		$data     = $this->filter_response_by_context( $data, $context );
 		$response = rest_ensure_response( $data );
@@ -315,34 +314,16 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * Verify Component Status.
 	 *
 	 * @since 5.0.0
-	 * @since 9.0.0 Adds the `$return_type` parameter.
 	 *
-	 * @param string $name        Component name.
-	 * @param string $return_type Use `string` to get the l10n string. Default.
-	 *                            Use `bool` to get whether the component is active or not.
-	 *                            Use `array` to get both information.
-	 * @return string|bool|array By default a l10n string is returned.
-	 *                           True if the component is active, false otherwise when 'bool' is requested.
-	 *                           An array containing both information when 'array' is requested.
+	 * @param string $name Component name.
+	 * @return string
 	 */
-	protected function verify_component_status( $name, $return_type = 'string' ) {
-		$retval = array(
-			'string' => __( 'inactive', 'buddypress' ),
-			'bool'   => false,
-		);
-
+	protected function verify_component_status( $name ) {
 		if ( 'core' === $name || bp_is_active( $name ) ) {
-			$retval = array(
-				'string' => __( 'active', 'buddypress' ),
-				'bool'   => true,
-			);
+			return __( 'active', 'buddypress' );
 		}
 
-		if ( isset( $retval[ $return_type ] ) ) {
-			return $retval[ $return_type ];
-		}
-
-		return $retval;
+		return __( 'inactive', 'buddypress' );
 	}
 
 	/**
@@ -402,7 +383,6 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * Get component info helper.
 	 *
 	 * @since 5.0.0
-	 * @since 9.0.0 Adds a `features` property to component's info.
 	 *
 	 * @param string $component Component id.
 	 * @return array
@@ -413,85 +393,19 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		$components = bp_core_get_components();
 
 		// Get specific component info.
-		$data = $components[ $component ];
+		$info = $components[ $component ];
 
 		// Return empty early.
-		if ( empty( $data ) ) {
+		if ( empty( $info ) ) {
 			return array();
 		}
 
-		// Get BuddyPress main instance.
-		$bp = buddypress();
-
-		// Get status data.
-		$status = $this->verify_component_status( $component, 'array' );
-
-		// Set component's basic information.
-		$info = array(
+		return array(
 			'name'        => $component,
-			'status'      => $status['string'],
-			'is_active'   => $status['bool'],
-			'title'       => $data['title'],
-			'description' => $data['description'],
-			'features'    => array(),
+			'status'      => $this->verify_component_status( $component ),
+			'title'       => $info['title'],
+			'description' => $info['description'],
 		);
-
-		// Set component's features.
-		if ( $status['bool'] ) {
-			// @todo check the features list is exhaustive.
-			switch ( $component ) {
-				case 'groups':
-					$features = array(
-						'avatar'         => $bp->avatar && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads(),
-						'cover'          => bp_is_active( 'groups', 'cover_image' ),
-						'group_creation' => bp_restrict_group_creation() ? 'adminsonly' : 'members',
-					);
-					break;
-				case 'members':
-					$features = array(
-						'account_deletion' => ! bp_disable_account_deletion(),
-						'avatar'           => $bp->avatar && $bp->avatar->show_avatars,
-						'cover'            => bp_is_active( 'members', 'cover_image' ),
-						'invitations'      => bp_get_members_invitations_allowed(),
-					);
-					break;
-				case 'activity':
-					$features = array(
-						'auto_refresh' => bp_is_activity_heartbeat_active(),
-						'embeds'       => bp_is_active( 'activity', 'embeds' ),
-						'favorite'     => bp_activity_can_favorite(),
-						'mentions'     => bp_activity_do_mentions(),
-						'types'        => bp_activity_get_types_list(),
-					);
-					break;
-				case 'blogs':
-					$features = array(
-						'site_icon' => bp_is_active( 'blogs', 'site-icon' ),
-					);
-					break;
-				case 'messages':
-					$features = array(
-						'star' => bp_is_active( 'messages', 'star' ),
-					);
-					break;
-				default:
-					$features = array();
-					break;
-			}
-
-			/**
-			 * Filter here to edit component's features.
-			 *
-			 * The dynamic portion of the filter is filled with the component's ID.
-			 *
-			 * @since 9.0.0
-			 *
-			 * @param array $features The component's features.
-			 */
-			$info['features'] = apply_filters( 'bp_rest_' . $component . '_component_features', $features );
-		}
-
-		return $info;
 	}
 
 	/**
@@ -514,59 +428,41 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	 * @return array
 	 */
 	public function get_item_schema() {
-		if ( is_null( $this->schema ) ) {
-			$this->schema = array(
-				'$schema'    => 'http://json-schema.org/draft-04/schema#',
-				'title'      => 'bp_components',
-				'type'       => 'object',
-				'properties' => array(
-					'name'        => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'Name of the object.', 'buddypress' ),
-						'type'        => 'string',
-					),
-					'is_active'   => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'Whether the component is active or not.', 'buddypress' ),
-						'type'        => 'boolean',
-						'default'     => false,
-					),
-					'status'      => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'Whether the object is active or inactive.', 'buddypress' ),
-						'type'        => 'string',
-						// We need to use what returns `$this->verify_component_status()` by default here.
-						'enum'        => array(
-							__( 'active', 'buddypress' ),
-							__( 'inactive', 'buddypress' ),
-						),
-					),
-					'title'       => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'HTML title of the object.', 'buddypress' ),
-						'type'        => 'string',
-					),
-					'description' => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'HTML description of the object.', 'buddypress' ),
-						'type'        => 'string',
-					),
-					'features'    => array(
-						'description' => __( 'Information about active features for the component.', 'buddypress' ),
-						'type'        => 'array',
-						'context'     => array( 'view', 'edit' ),
-						'default'     => array(),
-					),
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'bp_components',
+			'type'       => 'object',
+			'properties' => array(
+				'name'        => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'Name of the object.', 'buddypress' ),
+					'type'        => 'string',
 				),
-			);
-		}
+				'status'      => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'Whether the object is active or inactive.', 'buddypress' ),
+					'type'        => 'string',
+					'enum'        => array( 'active', 'inactive' ),
+				),
+				'title'       => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'HTML title of the object.', 'buddypress' ),
+					'type'        => 'string',
+				),
+				'description' => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'HTML description of the object.', 'buddypress' ),
+					'type'        => 'string',
+				),
+			),
+		);
 
 		/**
 		 * Filters the components schema.
 		 *
-		 * @param array $schema The endpoint schema.
+		 * @param string $schema The endpoint schema.
 		 */
-		return apply_filters( 'bp_rest_components_schema', $this->add_additional_fields_schema( $this->schema ) );
+		return apply_filters( 'bp_rest_components_schema', $this->add_additional_fields_schema( $schema ) );
 	}
 
 	/**

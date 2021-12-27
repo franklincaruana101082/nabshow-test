@@ -34,15 +34,15 @@ $content_copy	= nab_get_wp_editor( '', 'nab_content_copy', array('media_buttons'
 							<div class="form-row common-img-wrapper" id="content_media_wrapper"></div>
 							<div class="form-row">
 								<label for="content-copy">Copy</label>
-								<textarea name="content_copy" id="content-copy"><?php echo isset( $content_copy ) ? esc_html( $content_copy ) : ''; ?></textarea>
+								<textarea name="content_copy" id="content-copy"><?php echo isset( $content_copy ) ? $content_copy : ''; ?></textarea>
 							</div>
 							<p class="form-field-error global-notice" style="display: none;"></p>
 							<div class="form-row">
 								<input type="button" id="nab-add-content-submit" class="btn btn-submit" value="Submit">
-								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? esc_attr( $company_id ) : 0; ?>" />
+								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? $company_id : 0; ?>" />
 							</div>
 						</form>
-						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo esc_url( site_url() ); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>

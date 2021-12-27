@@ -8,7 +8,7 @@
 /**
  * Multisite utility class for network admin functionality.
  */
-class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_WordPress_Integration {
+class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPress_AJAX_Integration {
 
 	/**
 	 * Action identifier for updating plugin network options.
@@ -189,7 +189,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'network-admin' );
+		$asset_manager->enqueue_script( 'network-admin-script' );
 
 		$translations = [
 			/* translators: %s: success message */
@@ -198,7 +198,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
 		];
 		$asset_manager->localize_script(
-			'network-admin',
+			'network-admin-script',
 			'wpseoNetworkAdminGlobalL10n',
 			$translations
 		);

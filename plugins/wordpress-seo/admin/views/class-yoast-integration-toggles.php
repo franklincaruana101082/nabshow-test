@@ -63,13 +63,13 @@ class Yoast_Integration_Toggles {
 	protected function load_toggles() {
 		$integration_toggles = [
 			(object) [
-				/* translators: %s: 'Semrush' */
-				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Semrush' ),
+				/* translators: %s: 'SEMrush' */
+				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'SEMrush' ),
 				'setting'         => 'semrush_integration_active',
 				'label'           => sprintf(
-					/* translators: %s: 'Semrush' */
+					/* translators: %s: 'SEMrush' */
 					__( 'The %s integration offers suggestions and insights for keywords related to the entered focus keyphrase.', 'wordpress-seo' ),
-					'Semrush'
+					'SEMrush'
 				),
 				'order'           => 10,
 			],
@@ -86,36 +86,7 @@ class Yoast_Integration_Toggles {
 				/* translators: %s: Ryte */
 				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 				'read_more_url'   => 'https://yoa.st/2an',
-				'order'           => 15,
-			],
-			(object) [
-				/* translators: %s: Zapier. */
-				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Zapier' ),
-				'premium'         => true,
-				'setting'         => 'zapier_integration_active',
-				'label'           => \sprintf(
-				/* translators: 1: Yoast SEO, 2: Zapier. */
-					\__( 'Set up automated actions when you publish or update your content. By connecting %1$s with %2$s, you can easily send out your published posts to any of its 2000+ destinations, such as Twitter, Facebook and more.', 'wordpress-seo' ),
-					'Yoast SEO',
-					'Zapier'
-				),
-				/* translators: %s: Zapier. */
-				'read_more_label' => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Zapier' ),
-				'read_more_url'   => 'https://yoa.st/4et',
-				'premium_url'     => 'https://yoa.st/46o',
 				'order'           => 20,
-			],
-			(object) [
-				/* translators: %s: Algolia. */
-				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Algolia' ),
-				'premium'         => true,
-				'setting'         => 'algolia_integration_active',
-				'label'           => __( 'Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results.', 'wordpress-seo' ),
-				/* translators: %s: Algolia. */
-				'read_more_label' => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Algolia' ),
-				'read_more_url'   => 'https://yoa.st/4eu',
-				'premium_url'     => 'https://yoa.st/4ex',
-				'order'           => 25,
 			],
 		];
 
@@ -155,16 +126,12 @@ class Yoast_Integration_Toggles {
 	/**
 	 * Callback for sorting integration toggles by their order.
 	 *
-	 * {@internal Once the minimum PHP version goes up to PHP 7.0, the logic in the function
-	 * can be replaced with the spaceship operator `<=>`.}
-	 *
 	 * @param Yoast_Feature_Toggle $feature_a Feature A.
 	 * @param Yoast_Feature_Toggle $feature_b Feature B.
 	 *
-	 * @return int An integer less than, equal to, or greater than zero indicating respectively
-	 *             that feature A is considered to be less than, equal to, or greater than feature B.
+	 * @return bool Whether order for feature A is bigger than for feature B.
 	 */
 	protected function sort_toggles_callback( Yoast_Feature_Toggle $feature_a, Yoast_Feature_Toggle $feature_b ) {
-		return ( $feature_a->order - $feature_b->order );
+		return ( $feature_a->order > $feature_b->order );
 	}
 }

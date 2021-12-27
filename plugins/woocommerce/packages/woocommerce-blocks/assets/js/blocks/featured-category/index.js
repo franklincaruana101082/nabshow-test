@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { getSetting } from '@woocommerce/settings';
+import { DEFAULT_HEIGHT } from '@woocommerce/block-settings';
 import { Icon, folderStarred } from '@woocommerce/icons';
 
 /**
@@ -72,7 +72,7 @@ registerBlockType( 'woocommerce/featured-category', {
 		 */
 		height: {
 			type: 'number',
-			default: getSetting( 'default_height', 500 ),
+			default: DEFAULT_HEIGHT,
 		},
 
 		/**

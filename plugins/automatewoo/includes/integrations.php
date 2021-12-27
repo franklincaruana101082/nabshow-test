@@ -33,7 +33,7 @@ class Integrations {
 	 *
 	 * @return bool
 	 */
-	static function is_subscriptions_active( $min_version = '2.2' ) {
+	static function is_subscriptions_active( $min_version = '2.5' ) {
 		if ( ! class_exists( '\WC_Subscriptions' ) ) {
 			return false;
 		}

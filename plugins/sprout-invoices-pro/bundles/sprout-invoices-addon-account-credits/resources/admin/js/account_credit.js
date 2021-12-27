@@ -195,7 +195,7 @@
 		// Update client dropdown if not other client is selected.
 		// This will cause the dropdown to default to the first client.
 		if ( $info_client_select.val() < 1 ) {
-			$info_client_select.val( client_id );
+			$info_client_select.val( $client_id );
 			$info_client_span.text( $select.find('option:selected').text() );
 		};
 	};
@@ -236,7 +236,7 @@
 	 */
 	si.creditEntries.init = function() {
 		// Save credit entry
-		$( '#create_credit_entry' ).on( 'click', function( e ) {
+		$(document).on( 'click', '#create_credit_entry', function( e ) {
 			e.stopPropagation();
 			e.preventDefault();
 			var data = {
@@ -254,7 +254,7 @@
 
 
 		// Save credit credit_type
-		$( '#create_credit_credit_type' ).on( 'click', function( e ) {
+		$(document).on( 'click','#create_credit_credit_type', function( e ) {
 			e.stopPropagation();
 			e.preventDefault();
 
@@ -272,7 +272,7 @@
 
 
 		// Remove credit entry
-		$( '.credit_entry_deletion' ).on( 'click', function( e ) {
+		$(document).on( 'click','.credit_entry_deletion', function( e ) {
 			var data = {
 					client_id: $(this).data('client-id'),
 					id: $(this).data('id'),
@@ -283,42 +283,42 @@
 		} );
 
 		// Dynamically insert the credit creation form.
-		$( '#show_credit_type_creation_modal' ).on( 'click', function( e ) {
+		$(document).on( 'click', '#show_credit_type_creation_modal', function( e ) {
 			si.creditEntries.creditCreationModal();
 		} );
 
 		// Dynamically add the credit tracking form.
-		$( '.credit_tracker_popup' ).on( 'click', function( e ) {
+		$(document).on( 'click','.credit_tracker_popup' , function( e ) {
 			si.creditEntries.creditTrackerModal();
 		} );
 
 		// Credit importing
-		$('#credit_import_question_answer').on( 'click', function(e) {
+		$(document).on( 'click','#credit_import_question_answer', function(e) {
 			e.preventDefault();
 			si.creditEntries.creditImportingButton( this );
 		});
 
 		// Credit importing
-		$('#credit_payment_question_answer').on( 'click', function(e) {
+		$(document).on( 'click','#credit_payment_question_answer', function(e) {
 			e.preventDefault();
 			si.creditEntries.creditPaymentButton( this );
 		});
 
 		// Credit importing
-		$('#credit_importing_project_selection select').on( 'change', function(e) {
+		$(document).on( 'change','#credit_importing_project_selection select', function(e) {
 			e.preventDefault();
 			si.creditEntries.creditImportingProjectSelected( this );
 		});
 
 		// Credit importing
-		$('#credit_payment_client_selection select').on( 'change', function(e) {
+		$(document).on( 'change','#credit_payment_client_selection select', function(e) {
 			e.preventDefault();
 			si.creditEntries.creditPaymentClientSelected( this );
 		});
 
 
 		// Remove credit credit_type
-		$( '.credit_credit_type_deletion' ).on( 'click', function( e ) {
+		$(document).on( 'click','.credit_credit_type_deletion', function( e ) {
 			var data = {
 					id: $(this).data('id'),
 					nonce: $(this).data('nonce')

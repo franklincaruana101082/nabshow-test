@@ -43,7 +43,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             add_action( 'nab_user_profile_image_updated', array( $this, 'st_user_profile_image_updated' ) );
             add_action( 'nab_message_send', array( $this, 'st_company_rep_message_sent' ), 10, 3 );
             //add_action( 'nab_bookmark_added', array( $this, 'st_bookmark_added' ), 10, 2 );
-            //add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 2 );
+            add_action( 'nab_post_reacted', array( $this, 'st_post_reacted' ), 10, 3 );
+            add_action( 'wp_head', array( $this, 'st_track_specific_page' ) );
             add_action( 'wp_insert_comment', array( $this, 'st_comment_posted' ), 10, 2 );
             add_action( 'friends_friendship_requested', array( $this, 'st_connection_request' ), 10, 3 );
             add_action( 'friends_friendship_accepted', array( $this, 'st_connection_accepted' ), 10, 3 );
@@ -446,38 +447,59 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $this->st_track_event( $track_event );
         }
 
-        public function st_post_reacted( $post_id, $current_user_id ) {
+        public function st_post_reacted( $post_id, $current_user_id, $reaction_id ) {
             
             $track_event = array(
                 'userId'    => $current_user_id,
-                'event'     => 'Content_Reacted_To',
+                'event'     => 'Reaction_Created',
             );
 
-            $properties = array();
-
-            $current_post_type          = get_post_type( $post_id );
-            $post_type_taxonomy_func = array (                        
-                'articles'          => 'st_add_article_taxonomy_properties',
-                'page'              => 'st_add_page_taxonomy_properties',
-                'company'           => 'st_add_company_taxonomy_properties',
-                'company-products'  => 'st_add_company_products_taxonomy_properties',
-                'product'           => 'st_add_product_taxonomy_properties',
-            );
-            
-            if ( isset( $post_type_taxonomy_func[ $current_post_type ] ) ) {
-
-                $properties = $this->{$post_type_taxonomy_func[ $current_post_type ]}( $properties, $post_id );
-            }
-
+            $properties                         = array();
+            $current_post_type                  = get_post_type( $post_id );
             $post_type_obj                      = get_post_type_object( $current_post_type );
             $post_type_name                     = isset( $post_type_obj->labels->singular_name ) && ! empty( $post_type_obj->labels->singular_name ) ?  $post_type_obj->labels->singular_name : $current_post_type;
             $properties['Post_ID']              = $post_id;
             $properties['Post_Type']            = $post_type_name;
+            $properties['Reaction_ID']          = $reaction_id;
             $properties['URL']                  = get_the_permalink( $post_id );
-            $properties['Post_Name']            = get_the_title( $post_id );            
+            $properties['Post_Name']            = get_the_title( $post_id );
             $track_event['properties']          = $properties;
 
             $this->st_track_event( $track_event );
+        }
+
+        public function st_track_specific_page() {
+
+            if ( is_page( 'nab-show-premiere' ) ) {
+                
+                $email_address = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_STRING );
+
+                $track_event = array(                    
+                    'event' => 'Visited NAB Show Premier Page',
+                );
+
+                if ( isset( $email_address ) && ! empty( $email_address ) ) {
+                    $track_event['properties'] = array ( 'email' => $email_address );
+                }
+
+                $this->st_track_event( $track_event );
+            }            
+
+            if ( is_page( 'email-verification-success' ) ) {
+                
+                $email_address = filter_input( INPUT_GET, 'email', FILTER_SANITIZE_STRING );
+
+                $track_event = array(                    
+                    'event' => 'Verified Legacy Email',
+                );
+    
+                if ( isset( $email_address ) && ! empty( $email_address ) ) {
+                    $track_event['properties'] = array ( 'email' => $email_address );
+                }
+
+                $this->st_track_event( $track_event );
+            }            
+
         }
 
         public function st_company_profile_updated( $company_id, $img_updated = false ) {
@@ -1977,7 +1999,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'manage_options',
                 'segment_event_settings',
                 array( $this, 'st_segment_setting_page_callback' )
-            );
+            );            
         }
 
         /**

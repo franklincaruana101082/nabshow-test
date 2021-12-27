@@ -21,17 +21,10 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * Returns the Organization Schema data.
 	 *
-	 * @return array The Organization schema.
+	 * @return array $data The Organization schema.
 	 */
 	public function generate() {
 		$logo_schema_id = $this->context->site_url . Schema_IDs::ORGANIZATION_LOGO_HASH;
-
-		if ( $this->context->company_logo_meta ) {
-			$logo = $this->helpers->schema->image->generate_from_attachment_meta( $logo_schema_id, $this->context->company_logo_meta, $this->context->company_name );
-		}
-		else {
-			$logo = $this->helpers->schema->image->generate_from_attachment_id( $logo_schema_id, $this->context->company_logo_id, $this->context->company_name );
-		}
 
 		return [
 			'@type'  => 'Organization',
@@ -39,7 +32,7 @@ class Organization extends Abstract_Schema_Piece {
 			'name'   => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
 			'url'    => $this->context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
-			'logo'   => $logo,
+			'logo'   => $this->helpers->schema->image->generate_from_attachment_id( $logo_schema_id, $this->context->company_logo_id, $this->context->company_name ),
 			'image'  => [ '@id' => $logo_schema_id ],
 		];
 	}
@@ -47,7 +40,7 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * Retrieve the social profiles to display in the organization schema.
 	 *
-	 * @return array An array of social profiles.
+	 * @return array $profiles An array of social profiles.
 	 */
 	private function fetch_social_profiles() {
 		$profiles        = [];

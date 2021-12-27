@@ -27,7 +27,6 @@ class WPSEO_MyYoast_Api_Request {
 		'timeout'   => 5,
 		'headers'   => [
 			'Accept-Encoding' => '*',
-			'Expect'          => '',
 		],
 	];
 

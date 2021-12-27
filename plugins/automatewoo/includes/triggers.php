@@ -3,6 +3,8 @@
 
 namespace AutomateWoo;
 
+use AutomateWoo\Triggers\ManualInterface;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -37,16 +39,14 @@ class Triggers extends Registry {
 			'order_refunded' => 'AutomateWoo\Trigger_Order_Refunded',
 			'order_pending' => 'AutomateWoo\Trigger_Order_Pending',
 			'order_note_added' => 'AutomateWoo\Trigger_Order_Note_Added',
+			'order_note_added_each_line_item' => Triggers\OrderNoteAddedEachLineItem::class,
 
 			'user_new_account' => 'AutomateWoo\Trigger_Customer_New_Account',
 			'user_absent' => 'AutomateWoo\Trigger_Customer_Win_Back',
 			'users_total_spend' => 'AutomateWoo\Trigger_Customer_Total_Spend_Reaches',
 			'users_order_count_reaches' => 'AutomateWoo\Trigger_Customer_Order_Count_Reaches',
 
-			'user_purchases_from_category' => 'AutomateWoo\Trigger_User_Purchases_From_Category',
-			'user_purchases_from_tag' => 'AutomateWoo\Trigger_User_Purchases_From_Tag',
 			'user_purchases_from_taxonomy_term' => 'AutomateWoo\Trigger_User_Purchases_From_Taxonomy_Term',
-			'user_purchases_specific_product' => 'AutomateWoo\Trigger_User_Purchases_Specific_Product',
 			'user_purchases_product_variation_with_attribute' => 'AutomateWoo\Trigger_User_Purchases_Product_Variation_With_Attribute'
 		];
 
@@ -77,6 +77,7 @@ class Triggers extends Registry {
 			$includes[ 'subscription_order_created' ] = 'AutomateWoo\Triggers\Subscription_Order_Created';
 			$includes[ 'subscription_order_paid' ] = 'AutomateWoo\Triggers\Subscription_Order_Paid';
 			$includes[ 'subscription_order_status_changes' ] = 'AutomateWoo\Triggers\Subscription_Order_Status_Changes';
+			$includes[ 'subscription_manual' ] = Triggers\SubscriptionManual::class;
 		}
 
 		if ( Integrations::is_memberships_enabled() ) {
@@ -100,6 +101,8 @@ class Triggers extends Registry {
 		$includes[ 'workflow_times_run_reaches' ] = 'AutomateWoo\Trigger_Workflow_Times_Run_Reaches';
 
 		$includes[ 'guest_created' ] = 'AutomateWoo\Trigger_Guest_Created';
+
+		$includes[ 'order_manual' ] = Triggers\OrderManual::class;
 
 		return apply_filters( 'automatewoo/triggers', $includes );
 	}
@@ -197,6 +200,23 @@ class Triggers extends Registry {
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * Return manual triggers.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return Trigger[]|ManualInterface[]
+	 */
+	public static function get_manual_triggers() {
+		return array_filter(
+			self::get_all(),
+			function ( $trigger ) {
+				return $trigger instanceof ManualInterface;
+			}
+		);
+
 	}
 
 }

@@ -173,12 +173,21 @@ class SA_Init_Addon_Processors extends SI_Controller {
 			}
 		}
 
-		if ( ! class_exists( 'SA_Square_Cash' ) ) {
-			if ( file_exists( SI_PATH.'/bundles/sprout-invoices-payments-square-cash/inc/SA_Square_Cash.php' ) ) {
-				if ( ! defined( 'SA_ADDON_SQUARECASH_URL' ) ) {
-					define( 'SA_ADDON_SQUARECASH_URL', plugins_url( '/sprout-invoices-payments-square-cash', __FILE__ ) );
+		if ( ! class_exists( 'SA_Cash_App' ) ) {
+			if ( file_exists( SI_PATH.'/bundles/sprout-invoices-payments-cash-app/inc/SA_Cash_App.php' ) ) {
+				if ( ! defined( 'SA_ADDON_CASH_APP_URL' ) ) {
+					define( 'SA_ADDON_CASH_APP_URL', plugins_url( '/sprout-invoices-payments-cash-app', __FILE__ ) );
 				}
-				require_once SI_PATH.'/bundles/sprout-invoices-payments-square-cash/inc/SA_Square_Cash.php';
+				require_once SI_PATH.'/bundles/sprout-invoices-payments-cash-app/inc/SA_Cash_App.php';
+			}
+		}
+
+		if ( ! class_exists( 'SA_Zelle' ) ) {
+			if ( file_exists( SI_PATH.'/bundles/sprout-invoices-payments-zelle/inc/SA_Zelle.php' ) ) {
+				if ( ! defined( 'SA_ADDON_ZELLE_URL' ) ) {
+					define( 'SA_ADDON_ZELLE_URL', plugins_url( '/sprout-invoices-payments-zelle', __FILE__ ) );
+				}
+				require_once SI_PATH.'/bundles/sprout-invoices-payments-zelle/inc/SA_Zelle.php';
 			}
 		}
 	}

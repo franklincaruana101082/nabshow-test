@@ -66,7 +66,7 @@ class InstalledExtensions {
 			'mailchimp-for-woocommerce',
 			'creative-mail-by-constant-contact',
 			'facebook-for-woocommerce',
-			'google-listings-and-ads',
+			'kliken-marketing-for-google',
 			'hubspot-for-woocommerce',
 			'woocommerce-amazon-ebay-integration',
 		];
@@ -158,7 +158,7 @@ class InstalledExtensions {
 	 * @return array|bool
 	 */
 	protected static function get_google_extension_data() {
-		$slug = 'google-listings-and-ads';
+		$slug = 'kliken-marketing-for-google';
 
 		if ( ! PluginsHelper::is_plugin_installed( $slug ) ) {
 			return false;
@@ -167,18 +167,17 @@ class InstalledExtensions {
 		$data         = self::get_extension_base_data( $slug );
 		$data['icon'] = plugins_url( 'images/marketing/google.svg', WC_ADMIN_PLUGIN_FILE );
 
-		if ( 'activated' === $data['status'] && function_exists( 'woogle_get_container' ) && class_exists( '\Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterService' ) ) {
+		if ( 'activated' === $data['status'] && function_exists( 'kk_wc_plugin' ) && class_exists( '\Kliken\WcPlugin\Helper' ) ) {
 
-			$merchant_center = woogle_get_container()->get( \Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterService::class );
+			$kliken_settings = \Kliken\WcPlugin\Helper::get_plugin_options();
 
-			if ( $merchant_center->is_setup_complete() ) {
-				$data['status']      = 'configured';
-				$data['settingsUrl'] = admin_url( 'admin.php?page=wc-admin&path=/google/settings' );
-			} else {
-				$data['settingsUrl'] = admin_url( 'admin.php?page=wc-admin&path=/google/start' );
+			// Use same check as the Kliken Get Started Page.
+			if ( \Kliken\WcPlugin\Helper::is_valid_account_id( $kliken_settings['account_id'] ) ) {
+				$data['status'] = 'configured';
 			}
 
-			$data['docsUrl'] = 'https://docs.woocommerce.com/document/google-listings-and-ads/';
+			$data['settingsUrl'] = admin_url( 'admin.php?page=wc-settings&tab=integration&section=kk_wcintegration' );
+			$data['docsUrl']     = 'https://docs.woocommerce.com/document/google-ads/';
 		}
 
 		return $data;

@@ -18,21 +18,12 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 	protected $plugin_file;
 
 	/**
-	 * Whether or not to add the file suffix to the asset.
-	 *
-	 * @var boolean
-	 */
-	protected $add_suffix = true;
-
-	/**
 	 * The plugin file to base the asset location upon.
 	 *
-	 * @param string  $plugin_file The plugin file string.
-	 * @param boolean $add_suffix  Optional. Whether or not a file suffix should be added.
+	 * @param string $plugin_file The plugin file string.
 	 */
-	public function __construct( $plugin_file, $add_suffix = true ) {
+	public function __construct( $plugin_file ) {
 		$this->plugin_file = $plugin_file;
-		$this->add_suffix  = $add_suffix;
 	}
 
 	/**
@@ -66,10 +57,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 
 		switch ( $type ) {
 			case WPSEO_Admin_Asset::TYPE_JS:
-				$relative_path = 'js/dist/' . $asset->get_src();
-				if ( $this->add_suffix ) {
-					$relative_path = $relative_path . $asset->get_suffix() . '.js';
-				}
+				$relative_path = 'js/dist/' . $asset->get_src() . $asset->get_suffix() . '.js';
 				break;
 
 			case WPSEO_Admin_Asset::TYPE_CSS:

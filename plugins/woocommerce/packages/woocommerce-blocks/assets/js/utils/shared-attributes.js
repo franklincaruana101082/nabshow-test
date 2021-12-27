@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { getSetting } from '@woocommerce/settings';
+import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
 
 export const sharedAttributeBlockTypes = [
 	'woocommerce/product-best-sellers',
@@ -17,7 +17,7 @@ export default {
 	 */
 	columns: {
 		type: 'number',
-		default: getSetting( 'default_columns', 3 ),
+		default: DEFAULT_COLUMNS,
 	},
 
 	/**
@@ -25,7 +25,7 @@ export default {
 	 */
 	rows: {
 		type: 'number',
-		default: getSetting( 'default_rows', 3 ),
+		default: DEFAULT_ROWS,
 	},
 
 	/**

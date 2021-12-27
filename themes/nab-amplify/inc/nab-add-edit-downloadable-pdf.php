@@ -18,9 +18,9 @@ $pdf_attachment_id 	= isset( $post_data->ID ) ? get_field( 'pdf_file', $post_dat
 						<form method="post" id="nab-add-edit-pdf-form" enctype="multipart/form-data">
 							<div class="form-row">
 								<label for="pdf-document-name">Document Name</label>
-								<input type="text" required maxlength="60" class="input-text" name="document_name" id="pdf-document-name" value="<?php echo esc_attr( isset( $post_data->post_title ) ? $post_data->post_title : ''); ?>">
-							</div>
-							<div class="form-row">
+								<input type="text" required maxlength="60" class="input-text" name="document_name" id="pdf-document-name" value="<?php echo esc_attr( isset( $post_data->post_title ) ? $post_data->post_title : ''); ?>">								
+							</div>														
+							<div class="form-row">								
 								<label for="pdf-featured-image">Featured Image <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable File Types: .jpeg. .jpg, .png. Ideal photo size is 1200x630"></i></label>
 								<div class="form-control">
 									<div class="file-input">
@@ -30,8 +30,8 @@ $pdf_attachment_id 	= isset( $post_data->ID ) ? get_field( 'pdf_file', $post_dat
 										<div class="nab-action-row">
 											<i class="action-add fa fa-plus"></i>
 										</div>
-									</div>
-								</div>
+									</div>									
+								</div>								
 							</div>
 							<div class="form-row" id="pdf_media_wrapper">
 								<?php
@@ -50,7 +50,7 @@ $pdf_attachment_id 	= isset( $post_data->ID ) ? get_field( 'pdf_file', $post_dat
 								<textarea name="pdf_desc" id="pdf-description" maxlength="200"><?php echo esc_html( $pdf_dsc ); ?></textarea>
 								<span class="info-msg"><span id="pdf-desc-count">200 Characters Remaining</span></span>
 							</div>
-							<div class="form-row">
+							<div class="form-row">								
 								<label for="pdf-document">Document Upload <i class="fa fa-info-circle" aria-hidden="true" data-bp-tooltip="Acceptable Document Type: .pdf."></i></label>
 								<div class="form-control">
 									<div class="file-input">
@@ -60,8 +60,8 @@ $pdf_attachment_id 	= isset( $post_data->ID ) ? get_field( 'pdf_file', $post_dat
 										<div class="nab-action-row">
 											<i class="action-add fa fa-plus"></i>
 										</div>
-									</div>
-								</div>
+									</div>									
+								</div>								
 							</div>
 							<div class="form-row" id="pdf_document_wrapper">
 								<?php
@@ -78,14 +78,14 @@ $pdf_attachment_id 	= isset( $post_data->ID ) ? get_field( 'pdf_file', $post_dat
 							<p class="form-field-error global-notice" style="display: none;"></p>
 							<div class="form-row">
 								<?php
-								$publish_button_text = isset( $post_data->ID ) ? "Update" : "Publish";
+								$publish_button_text = isset( $post_data->ID ) ? "Update" : "Publish";	
 								?>
-								<input type="button" id="nab-edit-pdf-submit" class="btn btn-submit" data-status="<?php echo esc_attr( strtolower( $publish_button_text ) ); ?>" value="<?php echo esc_attr( $publish_button_text ) ?>">
-								<input type="hidden" name="pdf_id" id="pdf_id" value="<?php echo isset( $post_data->ID ) ? esc_attr( $post_data->ID ) : 0;?>" />
-								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? esc_attr( $company_id ) : 0; ?>" />
+								<input type="button" id="nab-edit-pdf-submit" class="btn btn-submit" data-status="<?php echo esc_attr( strtolower( $publish_button_text ) ); ?>" value="<?php echo esc_attr( $publish_button_text ) ?>">															
+								<input type="hidden" name="pdf_id" id="pdf_id" value="<?php echo isset( $post_data->ID ) ? $post_data->ID : 0;?>" />
+								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? $company_id : 0; ?>" />
 							</div>
 						</form>
-						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo esc_url( site_url() ); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>

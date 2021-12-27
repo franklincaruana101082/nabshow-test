@@ -48,6 +48,14 @@
 	}
 }
 
+img {
+	max-width: 100%;
+	height: auto;
+}
+figure {
+	max-width: 100%;
+}
+
 // Reusuable classes
 
 .container {
@@ -58,6 +66,8 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 	@include cf;
+
+
 	@include bp-480 {
 		padding-left: rem(22);
 		padding-right: rem(22);
@@ -81,6 +91,20 @@
 	@include bp-1440 {
 		max-width: 85rem;
 	}
+	.articles & {
+		max-width: 100%;
+		@include bp-1024 {
+			max-width: 63rem;
+		}
+		
+		@include bp-1280 {
+			max-width: 75rem;
+		}
+		
+		@include bp-1440 {
+			max-width: 85rem;
+		}
+	}
 	
 	&._rel {
 		position: relative;
@@ -92,7 +116,7 @@
 	}
 	}
 	
-	.site-content {
+.site-content {
 	position: relative;
 	background-color: $color__gray-darker;
 	padding: rem(54) 0 0;
@@ -106,7 +130,11 @@
 		height: rem(54);
 		background: linear-gradient($color__gray-darkest, rgba($color__gray-darkest, 0));
 	}
+	.page-template-page-recommendation & {
+		background-color: $color__gray-dark;
 	}
+}
+
 
 	.link {
 	&._back {
@@ -292,14 +320,18 @@
 		padding: rem(85);
 		margin: rem(40) 0;
 	}
-	p {
+	>h3 {
+		color: $color__white !important;
+	}
+	>p {
 		font-size: rem(18);
 		line-height: rem(26);
-		color: $color__gray-lightest;
+		color: $color__gray-lightest !important;
+		> a {
+			color: $color__white !important;
+		}
 	}
-	a {
-		color: $color__white;
-	}
+	
 }
 
 
@@ -320,6 +352,13 @@ input[type="button"].button {
 	transition: background-color .25s ease-in-out;
 	&:hover, &:active, &:focus {
 		background-color: $color__gray-lightish;
+	}
+	&[disabled] {
+		background: $color__gray;
+		cursor: default;
+		&:hover, &:active, &:focus {
+			background-color: $color__gray;
+		}
 	}
 	
 	&._gradientpink {
@@ -506,7 +545,11 @@ input[type="button"].button {
 broadstreet-zone-container {
 	padding-top: rem(20);
 	padding-bottom: rem(20);
-	broadstreet-zone div span {
+	broadstreet-zone div > span {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		
 		&:before {
 			content: "Advertisement";
 			display: block;
@@ -517,9 +560,25 @@ broadstreet-zone-container {
 			line-height: 1;
 			padding-bottom: rem(4);
 		}
+		// >[onmouseover^="typeof(broadstreet)"] {
+		// 	margin-left: auto;
+		// 	margin-right: auto;
+		// }
 	}
 	&._hidden {
 		display: none;
+	}
+	.ad._footer & {
+		padding-top: 0;
+		padding-bottom: 0;
+		broadstreet-zone div {
+			height: 0;
+			& > span {
+				&:before {
+					display: none;
+				}
+			}
+		}
 	}
 }
 .ad {
@@ -595,6 +654,41 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 }
 
 
+.section-heading {
+  padding-top: rem(30);
+  padding-bottom: rem(30);
+  text-align: center;
+  &._centered {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: rem(380);
+  }
+  h1,
+  h2,
+  h3 {
+    text-transform: uppercase;
+    padding-bottom: 0 !important;
+  }
+  @include bp-768 {
+    //margin-bottom: rem(80);
+    text-align: left;
+    &._centered {
+      text-align: center;
+      max-width: rem(820);
+    }
+  }
+}
+
+.force-full-width {
+	width: 100vw;
+	position: relative;
+	left: 50%;
+	right: 50%;
+	margin-left: -50vw;
+	margin-right: -50vw;
+}
+
+
 //woocommerce stuff {
 .woocommerce {
 	margin: rem(40) 0 rem(60);
@@ -644,3 +738,159 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 			}
 		}
 	}
+
+	.woo_shop_page {
+		@extend .container;
+	}
+
+	.wsb-button {
+		@extend .button;
+		@extend ._gradientpink;
+		.buttom + &, .buttom + p & {
+			display: block;
+			margin-left: auto;
+		}
+	}
+	.product-item.virtual {
+		.item-inner {
+			.details {
+				&+p {
+					margin-bottom: 0;
+				}
+				.buttom {
+					&+p {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+	}
+  .product.purchasable {
+  	.summary {
+  		.cart {
+  			.single_add_to_cart_button {
+  				display: none;
+  			}
+  		}
+  	}
+  }
+
+.woocommerce-cart {
+	.woocommerce {
+		.woocommerce-cart-form {
+			table {
+				border-spacing: 0;
+				border-collapse: collapse;
+				thead tr {
+					border-bottom:1px solid $color__blurple;
+					border-image: linear-gradient(90deg, $color__blurple, $color__blue) 1;
+					border-width: 0;
+					border-bottom-width: 1px;
+				}
+				tr {
+					
+				}
+				td, th {
+					padding:rem(10);
+					text-transform:capitalize;
+					border-bottom:1px solid $color__gray-light;
+				}
+				th {
+					background:$color__gray-darkest;
+					color:$color__white;
+					border-bottom: 0;
+				}
+				td.actions {
+					border-bottom: 0;
+				}
+			}
+		}
+		.cart-collaterals {
+			.cart_totals {
+				border-left:4px solid $color__blurple;
+				border-image: linear-gradient(0deg, $color__blurple, $color__blue) 4;
+				border-width: 0;
+				border-left-width: 4px;
+				background-color: $color__black;
+				padding: rem(20) rem(10);
+				h2 {
+					padding:12px 20px;
+					margin:0;
+					font-size:15px;
+					line-height:15px;
+					color: $color__white;
+					text-transform: uppercase;
+				}
+				table {
+					margin:0;
+					border-spacing:0;
+					width: 100%;
+					padding: 0 rem(20);
+					tr {
+						td, th {
+							border-bottom:1px solid $color__gray-light;;
+							padding: rem(20);
+							text-transform:capitalize;
+						}
+						th {
+							padding-left: 0
+						}
+						td {
+							padding-right: 0;
+						}
+					}
+				}
+				.wc-proceed-to-checkout {
+					padding: rem(20);
+					text-align: right;
+					a.checkout-button {
+						background: linear-gradient(90deg, $color__purple, $color__pink);
+						opacity: 1;
+						transition: opacity .25s ease-in-out;
+						&:hover, &:active, &:focus {
+							opacity: .8;
+						}
+						// &:hover{background:#6363df}
+						// &:focus{background:#666666}
+					}
+				}
+			}
+		}
+	}
+}
+form.checkout.woocommerce-checkout {
+	div#order_review {
+		width: 30%;
+		padding-top:rem(50);
+		display: flex;
+		flex-flow: column nowrap;
+
+		.cartlink {
+			 padding: rem(20) 0;
+			 order: 1;
+			 text-align: right;
+		}
+		.shop_table {
+			order: 0;
+		}
+		.woocommerce-checkout-payment {
+			order: 2;
+		}
+		#payment {
+			.form-row.place-order {
+				text-align: center;
+				@include bp-1024 {
+					text-align: right;
+				}
+			}
+		}
+		button#place_order {
+			background: linear-gradient(90deg, $color__purple, $color__pink);
+			opacity: 1;
+			transition: opacity .25s ease-in-out;
+			&:hover, &:active, &:focus {
+				opacity: .8;
+			}
+		}
+	}
+}

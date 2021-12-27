@@ -31,8 +31,9 @@
 	}
 }
 
-//for signup page
-.page-template-sign-up-template {
+//for signup page and checkout page
+ 
+.page-template-sign-up-template, .woocommerce-checkout {
 	.select2-dropdown {
 		background-color: $color__gray-dark;
 		border: 1px solid $color__pink;
@@ -45,3 +46,19 @@
 	}
 }
 
+
+.woocommerce-checkout {
+	.select2-container .select2-selection--single {
+		height: rem(50);
+		border-radius: 0;
+	}
+	.select2-container--default .select2-selection--single .select2-selection__rendered {
+		line-height: rem(50);
+	}
+	.select2-container--default .select2-selection--single .select2-selection__arrow {
+		height: rem(50);
+	}
+	.woocommerce-info{
+		color: $color__white;
+	}
+}

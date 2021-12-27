@@ -176,17 +176,17 @@ class SI_Importer extends SI_Controller {
 	/*
 	 * Singleton Design Pattern
 	 * ------------------------------------------------------------- */
-	protected function __clone() {
+	public function __clone() {
 		// Cannot be cloned!
 		trigger_error( __CLASS__.' may not be cloned', E_USER_ERROR );
 	}
 
-	protected function __sleep() {
+	public function __sleep() {
 		// cannot be serialized
 		trigger_error( __CLASS__.' may not be serialized', E_USER_ERROR );
 	}
 
-	protected function __construct() {
+	public function __construct() {
 	}
 
 	////////////////

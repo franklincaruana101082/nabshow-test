@@ -43,7 +43,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	 * @deprecated 14.4
 	 * @codeCoverageIgnore
 	 *
-	 * @param int $paged The page.
+	 * @param integer $paged The page.
 	 *
 	 * @return array
 	 */

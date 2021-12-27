@@ -37,7 +37,7 @@ class SI_Client_Categories extends SI_Controller {
 
 	public static function set_client_type( $client_id, $type = '' ) {
 		$term = get_term_by( 'slug', $type, self::TAXONOMY );
-		wp_set_post_terms( $client_id, array( $term->term_id ), self::TAXONOMY );
+		wp_set_post_terms( $client_id, array( isset($term->term_id )), self::TAXONOMY );
 		return $term;
 	}
 

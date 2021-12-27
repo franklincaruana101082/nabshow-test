@@ -29,11 +29,11 @@ class RuleEvaluator {
 	 * rule evaluates to false.
 	 *
 	 * @param array|object $rules        The rule or rules being processed.
-	 * @param object|null  $stored_state Stored state.
+	 * @param object       $stored_state Stored state.
 	 *
 	 * @return bool The result of the operation.
 	 */
-	public function evaluate( $rules, $stored_state = null ) {
+	public function evaluate( $rules, $stored_state ) {
 		if ( ! is_array( $rules ) ) {
 			$rules = array( $rules );
 		}

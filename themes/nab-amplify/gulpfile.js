@@ -117,7 +117,7 @@ const images = () =>
 // Watches all .scss, .js and .html changes and executes the corresponding task
 function watchFiles() {
   browserSync.init({
-    proxy: "nabshow.test",
+    proxy: "https://one.wordpress.test",
     // server: {
     //   baseDir: './'
     // },

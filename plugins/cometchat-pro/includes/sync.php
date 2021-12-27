@@ -50,12 +50,11 @@ function addUserToCometChatPro($id)
             'users',
             [
                 'uid' => $id,
-                'name' => $username,
-                'avatar' => $avatar,
+                'name' => $username
             ]
         );
-        $result = json_decode(wp_remote_retrieve_body($result));
 
+        $result = json_decode(wp_remote_retrieve_body($result));
         if (!empty($result)) {
             if (property_exists($result, 'data')) {
                 add_user_meta($id, 'registered_in_cometchat_pro_'.$appid, true);
@@ -89,8 +88,7 @@ function updateUserInCometChatPro($id)
         $result = callCometChatProAPI(
             'users/' . $id,
             [
-                'name' => $username,
-                'avatar' => $avatar,
+                'name' => $username
             ],
             'PUT'
         );

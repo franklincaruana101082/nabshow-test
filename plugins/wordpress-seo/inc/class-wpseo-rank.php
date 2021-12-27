@@ -216,7 +216,7 @@ class WPSEO_Rank {
 	 */
 	public function get_starting_score() {
 		// No index does not have a starting score.
-		if ( $this->rank === self::NO_INDEX ) {
+		if ( self::NO_INDEX === $this->rank ) {
 			return -1;
 		}
 
@@ -230,7 +230,7 @@ class WPSEO_Rank {
 	 */
 	public function get_end_score() {
 		// No index does not have an end score.
-		if ( $this->rank === self::NO_INDEX ) {
+		if ( self::NO_INDEX === $this->rank ) {
 			return -1;
 		}
 

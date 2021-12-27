@@ -1,0 +1,231 @@
+
+.js-navlinks_desktop, img.o-show_header {display: block;}
+.js-navlinks_mobile_wrapper, img.o-ShowLogo.dn {display: none;}
+
+@media screen and (max-width: 768px) {
+
+.js-navlinks_desktop, img.o-show_header {display: none;}
+.js-navlinks_mobile_wrapper, img.o-ShowLogo.dn {display: block;}
+
+}
+
+
+.l-wrapper {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+}
+.l-header {
+    background-color: #000000;
+}
+.l-header {
+    min-height: auto !important;
+}
+header, nav {
+    display: block;
+}
+header, nav {
+    box-sizing: border-box;
+}
+.center {
+    margin-right: auto;
+    margin-left: auto;
+}
+.items-center {
+    -webkit-box-align: center;
+    align-items: center;
+}
+.flex {
+    display: -webkit-box;
+    display: flex;
+}
+.ma0 {
+    margin: 0;
+}
+.mw9 {
+    max-width: 160rem;
+}
+.bb-0 {
+    border-bottom-width: 0;
+}
+.tc {
+    text-align: center;
+}
+.db {
+    display: block;
+}
+.dib {
+    display: inline-block;
+}
+.o-show_header {
+    max-width: 100%;
+    height: auto;
+}
+a {
+    color: #1791d5;
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+nav ol, nav ul {
+    list-style: none;
+}
+ul.js-navlinks_desktop li {
+    display: inline-block;
+}
+.l-nav {
+	background-color:#000000;
+	background-image:none
+ 	text-rendering: optimizeLegibility;
+ }
+.l-nav {
+    position: relative;
+}
+.l-nav li {
+    margin: 0 0 0 -4px;
+}
+.show-date,.show-location {
+	color:white;
+	font-size:13px;
+	max-width:none
+}
+
+// Tweakpoint - hide show dates and location (760px) when they are too close to hamburger nav
+@media screen and (max-width: 47.500em) {
+
+    .l-nav_show_info {
+        display: none;
+    }
+    }
+
+.l-header {
+	background-color:#0068BA
+}
+
+.js-navlinks_desktop .l-nav_link a,.js-navlinks_desktop .l-nav_link span,.js-navlinks_desktop .l-nav_link a:hover,.js-navlinks_desktop .l-nav_link span:hover {
+	color:white;
+	font-size:.875rem;
+	text-shadow:none;
+	text-transform:uppercase
+}
+.l-nav .js-navlinks_container a {
+    -webkit-transition: background-color 0.15s ease-in;
+    transition: background-color 0.15s ease-in;
+}
+.js-navlinks_container a {
+    font-weight: bold;
+    padding: 1rem;
+}
+
+.search-main {
+	background-color:#93d6f5;
+	background-position:center;
+	background-size:cover;
+	border-bottom:1px solid #efefef
+}
+.js-navlinks_desktop .l-nav_link span:before {
+    background-color: var(--color-nav);
+    content: '';
+    height: 2px;
+    left: 0;
+    position: absolute;
+    top: 25px;
+    -webkit-transition: width 0.3s;
+    transition: width 0.3s;
+    width: 0;
+}
+.js-navlinks_desktop .l-nav_link span:before {
+    background-color: #0cacd0 !important;
+}
+
+.l-nav_show_info.ttu {
+	text-transform:none
+}
+.accent {
+	color:#e5242e;
+	fill:#e5242e
+}
+.js-navlinks_desktop .l-nav_link span:before {
+	background-color: #0cacd0 !important;
+}
+
+
+
+.l-hamburger-menu_container {
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: .5rem;
+    box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.15);
+    cursor: pointer;
+    padding: 0.625rem 1.25rem;
+}
+.l-mobile-menu_btn {
+    color: #186faf;
+}
+.l-mobile-menu_btn {
+    font-size: 1rem;
+    margin-right: 12px;
+    text-align: right;
+    vertical-align: middle;
+}
+.l-hamburger_wrapper {
+    width: auto;
+}
+.hamburger_bar {
+    display: block;
+    height: 3px;
+    width: 30px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+}
+.middle_bar {
+    margin: 0 auto;
+}
+.justify-between {
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+.o-ShowLogo {
+    height: auto;
+    max-height: 70px;
+    max-width: 200px;
+    width: auto;
+}
+.o-ShowLogo {
+    flex-shrink: 0;
+}
+
+
+@media screen and (min-width: 768px) {
+.l-nav_content_wrapper {
+    margin: 0 auto;
+    max-width: 160rem;
+    text-align: center;
+}
+}
+
+
+
+
+@media screen and (min-width: 30.063em) {
+.o-recommendations_widget_menubutton_wrapper {
+    right: 120px;
+}
+}

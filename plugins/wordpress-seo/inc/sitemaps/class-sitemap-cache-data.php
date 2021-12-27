@@ -8,7 +8,7 @@
 /**
  * Sitemap Cache Data object, manages sitemap data stored in cache.
  */
-class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data_Interface {
+class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Serializable {
 
 	/**
 	 * Sitemap XML data.
@@ -57,13 +57,13 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 */
 	public function set_status( $valid ) {
 
-		if ( $valid === self::OK ) {
+		if ( self::OK === $valid ) {
 			$this->status = self::OK;
 
 			return;
 		}
 
-		if ( $valid === self::ERROR ) {
+		if ( self::ERROR === $valid ) {
 			$this->status  = self::ERROR;
 			$this->sitemap = '';
 
@@ -80,7 +80,7 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 */
 	public function is_usable() {
 
-		return $this->status === self::OK;
+		return self::OK === $this->status;
 	}
 
 	/**

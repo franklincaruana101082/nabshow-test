@@ -51,7 +51,7 @@ class Rules extends Registry {
 			'customer_account_created_date' => 'AutomateWoo\Rules\Customer_Account_Created_Date',
 
 			'order_status'                 => 'AutomateWoo\Rules\Order_Status',
-			'order_total'                  => 'AW_Rule_Order_Total',
+			'order_total'                  => Rules\OrderTotal::class,
 			'order_items'                  => 'AutomateWoo\Rules\Order_Items',
 			'order_item_categories'        => 'AutomateWoo\Rule_Order_Item_Categories',
 			'order_item_tags'              => 'AutomateWoo\Rule_Order_Item_Tags',
@@ -62,14 +62,14 @@ class Rules extends Registry {
 			'order_coupons_text_match'     => 'AutomateWoo\Rules\Order_Coupons_Text_Match',
 			'order_coupon_count'           => 'AutomateWoo\Rules\Order_Coupon_Count',
 			'order_payment_gateway'        => 'AutomateWoo\Rule_Order_Payment_Gateway',
-			'order_shipping_country'       => 'AW_Rule_Order_Shipping_Country',
+			'order_shipping_country'       => Rules\OrderShippingCountry::class,
 			'order_billing_country'        => 'AutomateWoo\Rules\Order_Billing_Country',
 			'order_shipping_method'        => 'AutomateWoo\Rules\Order_Shipping_Method',
-			'order_shipping_method_string' => 'AW_Rule_Order_Shipping_Method_String',
+			'order_shipping_method_string' => Rules\OrderShippingMethodString::class,
 			'order_created_via'            => 'AutomateWoo\Rules\Order_Created_Via',
 			'order_meta'                   => 'AutomateWoo\Rules\Order_Meta',
-			'order_has_cross_sells'        => 'AW_Rule_Order_Has_Cross_Sells',
-			'order_is_customers_first'     => 'AW_Rule_Order_Is_Customers_First',
+			'order_has_cross_sells'        => Rules\OrderHasCrossSells::class,
+			'order_is_customers_first'     => Rules\OrderIsCustomersFirst::class,
 			'order_is_guest_order'         => 'AutomateWoo\Rules\Order_Is_Guest_Order',
 			'order_customer_provided_note' => 'AutomateWoo\Rules\Order_Customer_Provided_Note',
 			'order_paid_date'              => 'AutomateWoo\Rules\Order_Paid_Date',
@@ -87,21 +87,21 @@ class Rules extends Registry {
 			'order_item_tax_total' => 'AutomateWoo\Rules\Order_Item_Tax_Total',
 			'order_item_meta'      => 'AutomateWoo\Rules\Order_Item_Meta',
 
-			'cart_total'           => 'AW_Rule_Cart_Total',
-			'cart_count'           => 'AW_Rule_Cart_Count',
+			'cart_total'           => Rules\CartTotal::class,
+			'cart_count'           => Rules\CartItemCount::class,
 			'cart_items'           => 'AutomateWoo\Rules\Cart_Items',
 			'cart_item_categories' => 'AutomateWoo\Rules\Cart_Item_Categories',
 			'cart_item_tags'       => 'AutomateWoo\Rules\Cart_Item_Tags',
 			'cart_coupons'         => 'AutomateWoo\Rules\Cart_Coupons',
 			'cart_created_date'    => 'AutomateWoo\Rules\Cart_Created_Date',
 
-			'guest_email'       => 'AW_Rule_Guest_Email',
-			'guest_order_count' => 'AW_Rule_Guest_Order_Count',
+			'guest_email'       => Rules\GuestEmail::class,
+			'guest_order_count' => Rules\GuestOrderCount::class,
 
 			'customer_run_count'              => 'AutomateWoo\Rules\Customer_Run_Count',
 			'workflow_last_customer_run_date' => 'AutomateWoo\Rules\Workflow_Last_Customer_Run_Date',
-			'order_run_count'                 => 'AW_Rule_Order_Run_Count',
-			'guest_run_count'                 => 'AW_Rule_Guest_Run_Count',
+			'order_run_count'                 => Rules\OrderRunCount::class,
+			'guest_run_count'                 => Rules\GuestRunCount::class,
 
 		];
 
@@ -116,7 +116,7 @@ class Rules extends Registry {
 			}
 
 			$includes['subscription_status']             = 'AutomateWoo\Rules\Subscription_Status';
-			$includes['subscription_payment_count']      = 'AW_Rule_Subscription_Payment_Count';
+			$includes['subscription_payment_count']      = Rules\SubscriptionPaymentCount::class;
 			$includes['subscription_payment_method']     = 'AutomateWoo\Rules\Subscription_Payment_Method';
 			$includes['subscription_meta']               = 'AutomateWoo\Rules\Subscription_Meta';
 			$includes['subscription_items']              = 'AutomateWoo\Rules\Subscription_Items';
@@ -129,6 +129,7 @@ class Rules extends Registry {
 			$includes['subscription_created_date']       = 'AutomateWoo\Rules\Subscription_Created_Date';
 			$includes['subscription_trial_end_date']     = 'AutomateWoo\Rules\Subscription_Trial_End_Date';
 			$includes['subscription_end_date']           = 'AutomateWoo\Rules\Subscription_End_Date';
+			$includes['subscription_run_count']           = Rules\Subscription_Run_Count::class;
 
 			/**
 			 * @since 4.5.0
@@ -149,11 +150,11 @@ class Rules extends Registry {
 		}
 
 		if ( Integrations::is_woo_pos() ) {
-			$includes['order_is_pos'] = 'AW_Rule_Order_Is_POS';
+			$includes['order_is_pos'] = Rules\OrderIsPos::class;
 		}
 
 		if ( Options::mailchimp_enabled() ) {
-			$includes['customer_is_mailchimp_subscriber'] = 'AutomateWoo\Rules\Customer_Is_MailChimp_Subscriber';
+			$includes['customer_is_mailchimp_subscriber'] = 'AutomateWoo\Rules\Customer_Is_Mailchimp_Subscriber';
 		}
 
 		return apply_filters( 'automatewoo/rules/includes', $includes );
@@ -174,17 +175,6 @@ class Rules extends Registry {
 	 */
 	static function get( $rule_name ) {
 		return parent::get( $rule_name );
-	}
-
-
-	/**
-	 * @param $rule_name
-	 *
-	 * @return bool
-	 */
-	static function load( $rule_name ) {
-		require_once AW()->path( '/includes/rules/deprecated.php' );
-		return parent::load( $rule_name );
 	}
 
 

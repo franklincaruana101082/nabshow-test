@@ -63,10 +63,9 @@ function wc_get_screen_ids() {
  * @param string $page_title (default: '') Title for the new page.
  * @param string $page_content (default: '') Content for the new page.
  * @param int    $post_parent (default: 0) Parent for the new page.
- * @param string $post_status (default: publish) The post status of the new page.
  * @return int page ID.
  */
-function wc_create_page( $slug, $option = '', $page_title = '', $page_content = '', $post_parent = 0, $post_status = 'publish' ) {
+function wc_create_page( $slug, $option = '', $page_title = '', $page_content = '', $post_parent = 0 ) {
 	global $wpdb;
 
 	$option_value = get_option( $option );
@@ -111,12 +110,12 @@ function wc_create_page( $slug, $option = '', $page_title = '', $page_content = 
 		$page_id   = $trashed_page_found;
 		$page_data = array(
 			'ID'          => $page_id,
-			'post_status' => $post_status,
+			'post_status' => 'publish',
 		);
 		wp_update_post( $page_data );
 	} else {
 		$page_data = array(
-			'post_status'    => $post_status,
+			'post_status'    => 'publish',
 			'post_type'      => 'page',
 			'post_author'    => 1,
 			'post_name'      => $slug,
@@ -126,8 +125,6 @@ function wc_create_page( $slug, $option = '', $page_title = '', $page_content = 
 			'comment_status' => 'closed',
 		);
 		$page_id   = wp_insert_post( $page_data );
-
-		do_action( 'woocommerce_page_created', $page_id, $page_data );
 	}
 
 	if ( $option ) {
@@ -209,19 +206,17 @@ function wc_maybe_adjust_line_item_product_stock( $item, $item_quantity = -1 ) {
 		return false;
 	}
 
-	$product = $item->get_product();
+	$product               = $item->get_product();
+	$item_quantity         = wc_stock_amount( $item_quantity >= 0 ? $item_quantity : $item->get_quantity() );
+	$already_reduced_stock = wc_stock_amount( $item->get_meta( '_reduced_stock', true ) );
 
 	if ( ! $product || ! $product->managing_stock() ) {
 		return false;
 	}
 
-	$item_quantity          = wc_stock_amount( $item_quantity >= 0 ? $item_quantity : $item->get_quantity() );
-	$already_reduced_stock  = wc_stock_amount( $item->get_meta( '_reduced_stock', true ) );
-	$restock_refunded_items = wc_stock_amount( $item->get_meta( '_restock_refunded_items', true ) );
 	$order                  = $item->get_order();
 	$refunded_item_quantity = $order->get_qty_refunded_for_item( $item->get_id() );
-
-	$diff = $item_quantity - $restock_refunded_items - $already_reduced_stock;
+	$diff                   = $item_quantity + $refunded_item_quantity - $already_reduced_stock;
 
 	/*
 	 * 0 as $item_quantity usually indicates we're deleting the order item.
@@ -243,7 +238,7 @@ function wc_maybe_adjust_line_item_product_stock( $item, $item_quantity = -1 ) {
 		return $new_stock;
 	}
 
-	$item->update_meta_data( '_reduced_stock', $item_quantity - $restock_refunded_items );
+	$item->update_meta_data( '_reduced_stock', $item_quantity + $refunded_item_quantity );
 	$item->save();
 
 	if ( $item_quantity > 0 ) {

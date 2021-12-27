@@ -35,6 +35,7 @@ get_header();
         <div class="nab-ad-block footer_ad">
             <broadstreet-zone zone-id="82836"></broadstreet-zone>
         </div>
+        <?php /*echo do_shortcode('[rate_content]');*/ ?>
 	</main><!-- #main -->
 	<!-- END legacy-template -->
 <?php

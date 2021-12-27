@@ -208,8 +208,6 @@ $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibi
 
                     	if ( $slider_active ) {
                             ?>
-                            <!--<a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $exhibitor_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">-->
-                           <!-- <a href="<?php echo esc_url( $exh_url ); ?>">-->
                             <?php
                         }
                         ?>
@@ -217,14 +215,11 @@ $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibi
                         <?php
                         if ( $slider_active ) {
                             ?>
-                           <!-- </a>-->
                             <?php
                         }
 
                     } elseif ( $slider_active && $display_name ) {
                         ?>
-                        <!-- <h4 class="exhibitor-title"><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
-                            <!--<h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo get_the_title() ?></a></h4>-->
                             <h4><?php echo get_the_title() ?></h4>
                         <?php
                     }
@@ -234,8 +229,6 @@ $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibi
 
                         if ( $display_name ) {
                             ?>
-                            <!--<h4><?php $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, get_the_title() ); ?></h4>-->
-                            <!--<h4><a href="<?php echo esc_url( $exh_url ); ?>" target="_blank"><?php echo get_the_title() ?></a></h4>-->
                             <h4><?php echo get_the_title() ?></h4>
                             <?php
                         }
@@ -254,7 +247,6 @@ $exh_url      = 'https://' . $show_code . '.mapyourshow.com/8_0/exhibitor/exhibi
                         	<p>
 	                        <?php
 	                            echo esc_html( get_the_excerpt() );
-	                            // $this->mysgb_generate_popup_link( $exhibitor_id, $block_post_type, 'Read More', 'read-more-popup');
 	                        ?>
 	                        </p>
                         	<?php

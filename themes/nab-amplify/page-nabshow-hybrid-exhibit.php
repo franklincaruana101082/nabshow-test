@@ -4,7 +4,7 @@
 * Template Name: NABShow Hybrid Exhibit
 */
 
-get_header('nabshow');
+get_header('hybrid');
 
 
 
@@ -32,6 +32,7 @@ $popular_exhibits         = get_field( 'popular_exhibits' );
 $featured_exhibits_title  = get_field( 'featured_exhibits_title' );
 $featured_exhibits        = get_field( 'featured_exhibits' );
 $banner                   = get_field( 'banner' );
+$ad_code                  = get_field( 'ad_code' );
 ?>
 
 <main id="primary" class="site-main">
@@ -215,6 +216,7 @@ $banner                   = get_field( 'banner' );
           <?php
         }
         ?>
+      </div>
     </div>
     <?php
   }
@@ -232,12 +234,15 @@ $banner                   = get_field( 'banner' );
   }
   ?>
 
-  <!-- ad_code - Leave this alone for now - will eventually be replaced with Broadstreet code -->
-  <div class="ad _banner">
-    <a href="#"><img src="/assets/images/ad-banner.jpg" alt="" /></a>
-  </div>
-  <!-- END ad_code -->
-
+  <?php
+  if ( ! empty( $ad_code ) ) {
+  ?>
+    <div class="ad _banner">
+        <?php echo do_shortcode( $ad_code ); ?>
+    </div>
+  <?php
+  }
+  ?>
   
   <!-- INCLUDE template_parts/content-upcoming-mys-sessions.php -->
   <?php get_template_part( 'template-parts/content', 'upcoming-mys-sessions' ); ?> 
@@ -245,4 +250,4 @@ $banner                   = get_field( 'banner' );
   <div class="decorative _lightlines-footer-strip"></div>
 </main><!-- #main -->
 
-<?php get_footer('nabshow');
+<?php get_footer('hybrid');

@@ -58,7 +58,7 @@ class eSignature_Controller extends SI_Controller {
 
 						// scroll to signature
 						$('html, body').animate({
-							scrollTop: $("#ctlSignature_Container").offset().top-150
+							scrollTop: $("#ctlSignature_Container").offset().top
 						}, 1000);
 						
 					});
@@ -96,7 +96,7 @@ class eSignature_Controller extends SI_Controller {
 									
 									// scroll to the top
 									$('html, body').animate({
-										scrollTop: $("#outer_doc_wrap").offset().top-150
+										//scrollTop: $("#outer_doc_wrap").offset().top
 									}, 500);
 								}
 								else {

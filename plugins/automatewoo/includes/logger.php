@@ -23,7 +23,7 @@ class Logger {
 	 */
 	protected static function get_wc_logger() {
 		if ( empty( self::$wc_logger ) ) {
-			self::$wc_logger = new \WC_Logger();
+			self::$wc_logger = wc_get_logger();
 		}
 		return self::$wc_logger;
 	}

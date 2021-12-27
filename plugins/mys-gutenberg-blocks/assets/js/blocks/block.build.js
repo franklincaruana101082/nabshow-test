@@ -4531,7 +4531,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     wp.element.createElement(RangeControl, {
                         value: itemToFetch,
                         min: 1,
-                        max: 100,
+                        max: 200,
                         onChange: function onChange(item) {
                             setAttributes({ itemToFetch: parseInt(item) });_this5.setState({ bxinit: true, isDisable: true });
                         }
@@ -7208,7 +7208,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     displayOrder = attributes.displayOrder,
                     sessionTime = attributes.sessionTime,
                     sessionChannel = attributes.sessionChannel,
-                    sessionButton = attributes.sessionButton;
+                    sessionButton = attributes.sessionButton,
+                    upcomingFirst = attributes.upcomingFirst;
 
                 return wp.element.createElement(
                     Fragment,
@@ -7237,12 +7238,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                 wp.element.createElement(RangeControl, {
                                     value: itemToFetch,
                                     min: 1,
-                                    max: 100,
+                                    max: 200,
                                     onChange: function onChange(item) {
                                         return setAttributes({ itemToFetch: parseInt(item) });
                                     }
                                 })
                             ),
+                            wp.element.createElement(ToggleControl, {
+                                label: __('Upcoming First'),
+                                checked: upcomingFirst,
+                                onChange: function onChange() {
+                                    return setAttributes({ upcomingFirst: !upcomingFirst });
+                                }
+                            }),
                             wp.element.createElement(SelectControl, {
                                 label: __('Display Order'),
                                 value: displayOrder,
@@ -7369,7 +7377,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     ),
                     wp.element.createElement(ServerSideRender, {
                         block: "mys/session-date-list",
-                        attributes: { itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder, sessionTime: sessionTime, sessionChannel: sessionChannel, sessionButton: sessionButton }
+                        attributes: { itemToFetch: itemToFetch, channels: channels, filterType: filterType, keywordFilter: keywordFilter, channelFilter: channelFilter, dateFilter: dateFilter, isOpenTo: isOpenTo, sessionDetails: sessionDetails, sessionDate: sessionDate, channelSelector: channelSelector, displayOrder: displayOrder, sessionTime: sessionTime, sessionChannel: sessionChannel, sessionButton: sessionButton, upcomingFirst: upcomingFirst }
                     })
                 );
             }
@@ -7386,6 +7394,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         channels: {
             type: 'array',
             default: []
+        },
+        upcomingFirst: {
+            type: 'boolean',
+            default: false
         },
         filterType: {
             type: 'boolean',
@@ -8156,7 +8168,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         },
         blockTitle: {
             type: 'string',
-            default: 'Featured Speakers'
+            default: 'Speaker Lineup'
         }
     };
 

@@ -1,0 +1,27 @@
+//global 2022 styles
+
+.page-template-page-home-2022 {
+	.home__lighting1 {
+		padding: 1px 0;
+		background-color: $color__purple-dark;
+		background-image: url('#{$theme_path}/assets/images/home_featurette_bg1.png'), url('#{$theme_path}/assets/images/light_effect_04_dim.png');
+		background-repeat: no-repeat, no-repeat;
+		background-blend-mode: screen, screen;
+		background-position: 100% 0, rem(-300) 100%;
+	}
+	.home__lighting2 {
+		position: absolute;
+		width: 100%;
+		height: 0;
+		padding-top: 210.86%;
+		background-color: $color__purple-dark;
+		background-image: url('#{$theme_path}/assets/images/light_effect_02_edge.png');
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-blend-mode: screen;
+		mix-blend-mode: screen;
+	}
+	.footer {
+		margin-top: 0;
+	}
+}

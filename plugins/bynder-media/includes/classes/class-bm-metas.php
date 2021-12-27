@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'Bynder_Media_Metas' ) ) {
 
-
 	class Bynder_Media_Metas {
 
 		/**

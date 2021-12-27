@@ -74,7 +74,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @since 3.2
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function is_enabled() {
 
@@ -94,7 +94,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
 	 *
-	 * @return string|bool
+	 * @return string|boolean
 	 */
 	public function get_sitemap( $type, $page ) {
 
@@ -112,7 +112,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
 	 *
-	 * @return WPSEO_Sitemap_Cache_Data|null Null on no cache found otherwise object containing sitemap and meta data.
+	 * @return null|WPSEO_Sitemap_Cache_Data Null on no cache found otherwise object containing sitemap and meta data.
 	 */
 	public function get_sitemap_data( $type, $page ) {
 

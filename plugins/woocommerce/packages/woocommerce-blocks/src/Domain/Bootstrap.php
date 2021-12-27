@@ -1,10 +1,11 @@
 <?php
 namespace Automattic\WooCommerce\Blocks\Domain;
 
-use Automattic\WooCommerce\Blocks\AssetsController as AssetsController;
+use Automattic\WooCommerce\Blocks\Assets as BlockAssets;
 use Automattic\WooCommerce\Blocks\Assets\Api as AssetApi;
 use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
-use Automattic\WooCommerce\Blocks\BlockTypesController;
+use Automattic\WooCommerce\Blocks\Assets\BackCompatAssetDataRegistry;
+use Automattic\WooCommerce\Blocks\Library;
 use Automattic\WooCommerce\Blocks\Installer;
 use Automattic\WooCommerce\Blocks\Registry\Container;
 use Automattic\WooCommerce\Blocks\RestApi;
@@ -24,9 +25,6 @@ use Automattic\WooCommerce\Blocks\StoreApi\Formatters;
 use Automattic\WooCommerce\Blocks\StoreApi\Formatters\MoneyFormatter;
 use Automattic\WooCommerce\Blocks\StoreApi\Formatters\HtmlFormatter;
 use Automattic\WooCommerce\Blocks\StoreApi\Formatters\CurrencyFormatter;
-use Automattic\WooCommerce\Blocks\StoreApi\RoutesController;
-use Automattic\WooCommerce\Blocks\StoreApi\SchemaController;
-use Automattic\WooCommerce\Blocks\Domain\Services\GoogleAnalytics;
 
 /**
  * Takes care of bootstrapping the plugin.
@@ -81,17 +79,14 @@ class Bootstrap {
 			$this->add_build_notice();
 			$this->container->get( AssetDataRegistry::class );
 			$this->container->get( Installer::class );
-			$this->container->get( AssetsController::class );
+			BlockAssets::init();
 		}
 		$this->container->get( DraftOrders::class )->init();
 		$this->container->get( CreateAccount::class )->init();
 		$this->container->get( ExtendRestApi::class );
+		$this->container->get( PaymentsApi::class );
 		$this->container->get( RestApi::class );
-		$this->container->get( GoogleAnalytics::class );
-		$this->container->get( BlockTypesController::class );
-		if ( $this->package->feature()->is_feature_plugin_build() ) {
-			$this->container->get( PaymentsApi::class );
-		}
+		Library::init();
 	}
 
 	/**
@@ -126,7 +121,7 @@ class Bootstrap {
 			function() {
 				echo '<div class="error"><p>';
 				printf(
-					/* translators: %1$s is the install command, %2$s is the build command, %3$s is the watch command. */
+					/* Translators: %1$s is the install command, %2$s is the build command, %3$s is the watch command. */
 					esc_html__( 'WooCommerce Blocks development mode requires files to be built. From the plugin directory, run %1$s to install dependencies, %2$s to build the files or %3$s to build the files and watch for changes.', 'woocommerce' ),
 					'<code>npm install</code>',
 					'<code>npm run build</code>',
@@ -156,13 +151,12 @@ class Bootstrap {
 		$this->container->register(
 			AssetDataRegistry::class,
 			function( Container $container ) {
-				return new AssetDataRegistry( $container->get( AssetApi::class ) );
-			}
-		);
-		$this->container->register(
-			AssetsController::class,
-			function( Container $container ) {
-				return new AssetsController( $container->get( AssetApi::class ) );
+				$asset_api        = $container->get( AssetApi::class );
+				$load_back_compat = defined( 'WC_ADMIN_VERSION_NUMBER' )
+					&& version_compare( WC_ADMIN_VERSION_NUMBER, '0.19.0', '<=' );
+				return $load_back_compat
+					? new BackCompatAssetDataRegistry( $asset_api )
+					: new AssetDataRegistry( $asset_api );
 			}
 		);
 		$this->container->register(
@@ -172,23 +166,23 @@ class Bootstrap {
 			}
 		);
 		$this->container->register(
+			PaymentsApi::class,
+			function ( Container $container ) {
+				$payment_method_registry = $container->get( PaymentMethodRegistry::class );
+				$asset_data_registry     = $container->get( AssetDataRegistry::class );
+				return new PaymentsApi( $payment_method_registry, $asset_data_registry );
+			}
+		);
+		$this->container->register(
 			RestApi::class,
 			function ( Container $container ) {
-				return new RestApi( $container->get( RoutesController::class ) );
+				return new RestApi( $container->get( ExtendRestApi::class ) );
 			}
 		);
 		$this->container->register(
 			Installer::class,
 			function ( Container $container ) {
 				return new Installer();
-			}
-		);
-		$this->container->register(
-			BlockTypesController::class,
-			function ( Container $container ) {
-				$asset_api           = $container->get( AssetApi::class );
-				$asset_data_registry = $container->get( AssetDataRegistry::class );
-				return new BlockTypesController( $asset_api, $asset_data_registry );
 			}
 		);
 		$this->container->register(
@@ -214,44 +208,11 @@ class Bootstrap {
 			}
 		);
 		$this->container->register(
-			SchemaController::class,
-			function( Container $container ) {
-				return new SchemaController( $container->get( ExtendRestApi::class ) );
-			}
-		);
-		$this->container->register(
-			RoutesController::class,
-			function( Container $container ) {
-				return new RoutesController( $container->get( SchemaController::class ) );
-			}
-		);
-		$this->container->register(
 			ExtendRestApi::class,
 			function( Container $container ) {
 				return new ExtendRestApi( $container->get( Package::class ), $container->get( Formatters::class ) );
 			}
 		);
-		$this->container->register(
-			GoogleAnalytics::class,
-			function( Container $container ) {
-				// Require Google Analytics Integration to be activated.
-				if ( ! class_exists( 'WC_Google_Analytics_Integration' ) ) {
-					return;
-				}
-				$asset_api = $container->get( AssetApi::class );
-				return new GoogleAnalytics( $asset_api );
-			}
-		);
-		if ( $this->package->feature()->is_feature_plugin_build() ) {
-			$this->container->register(
-				PaymentsApi::class,
-				function ( Container $container ) {
-					$payment_method_registry = $container->get( PaymentMethodRegistry::class );
-					$asset_data_registry     = $container->get( AssetDataRegistry::class );
-					return new PaymentsApi( $payment_method_registry, $asset_data_registry );
-				}
-			);
-		}
 	}
 
 	/**

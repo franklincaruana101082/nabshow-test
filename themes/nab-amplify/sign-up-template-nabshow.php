@@ -47,7 +47,7 @@ if ( empty( $redirect_url ) ) {
 ?>
 
 <!-- START legacy-template: sign-up-template -->
-<main id="primary" class="site-main">
+<main id="primary" class="site-main nabshow_signup">
 
 <?php
 while ( have_posts() ) :

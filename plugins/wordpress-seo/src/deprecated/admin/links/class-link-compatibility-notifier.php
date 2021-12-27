@@ -39,7 +39,7 @@ class WPSEO_Link_Compatibility_Notifier {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return Yoast_Notification|null The notification.
+	 * @return Yoast_Notification The notification.
 	 */
 	protected function get_notification() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.1' );

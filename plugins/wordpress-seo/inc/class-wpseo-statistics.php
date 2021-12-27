@@ -20,7 +20,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_post_count( $rank ) {
-		if ( $rank->get_rank() === WPSEO_Rank::NO_FOCUS ) {
+		if ( WPSEO_Rank::NO_FOCUS === $rank->get_rank() ) {
 			$posts = [
 				'meta_query' => [
 					'relation' => 'OR',
@@ -32,7 +32,7 @@ class WPSEO_Statistics {
 				],
 			];
 		}
-		elseif ( $rank->get_rank() === WPSEO_Rank::NO_INDEX ) {
+		elseif ( WPSEO_Rank::NO_INDEX === $rank->get_rank() ) {
 			$posts = [
 				'meta_key'   => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'meta_value' => '1',

@@ -31,6 +31,10 @@
 				min-width: rem(126);
 			}
 		}
+		&._hidden {
+			min-height: 0;
+			height: 0;
+		}
 	}
 		&__month {
 			font-size: rem(20);
@@ -69,6 +73,10 @@
 			._wide & {
 				grid-row: 1 / 3;
 			}
+		}
+		&._hidden {
+			min-height: 0;
+			height: 0;
 		}
 	}
 		&__link {
@@ -224,7 +232,13 @@
 					transition: color .25s ease-in-out;
 					.event__host-info & {
 						padding-left: 0;
-					}	
+					}
+					.event__host & {
+						padding-left: 0;
+					}
+					.event__host .event__host-photo + & {
+						padding-left: rem(14);
+					}
 				}
 		&__link {
 			font-weight: 600;
@@ -274,4 +288,241 @@
 		padding-top: rem(40);
 		padding-bottom: rem(30);
 	}
+}
+
+// Events List
+// ==================================================
+.events-list {
+	@include bp-1024 {
+		padding-top: rem(80);
+		padding-left: rem(40);
+		padding-right: rem(40);
+		display: grid;
+		grid-template-columns: 1fr rem(256);
+		grid-gap: rem(80);
+	}
+	@include bp-1280 {
+		grid-gap: rem(146);
+	}
+	.events-list__events {
+		padding-bottom: rem(32);
+		@include bp-1024 {
+		}
+	}
+	.events-list__nav {
+		display: none;
+		position: relative;
+		padding-bottom: rem(24);
+		@include bp-1024 {
+			display: block;
+			width: rem(256);
+			h3 {
+				font-family: $font__secondary;
+				color: $color__gray-lightest;
+				font-size: rem(13);
+				margin-bottom: rem(28);
+			}
+			h4 {
+				color: $color__white;
+				font-size: rem(14);
+				margin-bottom: rem(8);
+			}
+			ul {
+				list-style-type: none;
+				padding: 0;
+				margin: 0 0 rem(32);
+			}
+			li {
+				border-bottom: 1px solid $color__gray-dark;
+			}
+			a {
+				font-family: $font__secondary;
+				color: $color__gray-lightest;
+				font-size: rem(13);
+				display: block;
+				padding: rem(12) 0;
+				&:hover,
+				&:focus {
+					color: $color__yellow;
+				}
+			}
+			.events-list__nav__wrapper {
+				position: -webkit-sticky;
+				position: sticky;
+				top: 20px;
+			}
+		}
+	}
+	.events-list__event {
+		position: relative;
+		&:nth-child(1) .events-list__event__card {
+			@include bp-1024 {
+				border: none;
+				padding-top: rem(0);
+				margin-top: rem(0);
+			}
+		}
+		@include bp-1024 {
+			padding-left: rem(120);
+		}
+		.events-list__event__card {
+			display: grid;
+			grid-template-columns: rem(32) 1fr;
+			grid-gap: rem(36);
+			border-top: 3px solid $color__purple;
+			border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
+			padding-top: rem(25);
+			margin-top: rem(35);
+		}
+		.events-list__event__datetime {
+			font-size: rem(12);
+			line-height: rem(15);
+			white-space: nowrap;
+		}
+		.events-list__event__main {
+			@include bp-1024 {
+				position: relative;
+				margin-right: rem(160);
+			}
+		}
+		.events-list__event__title {
+			font-size: rem(15);
+			line-height: rem(23);
+		}
+		.events-list__event__text {
+			font-size: rem(12);
+			line-height: rem(21);
+		}
+	}
+	.events-list__date {
+		display: block;
+		padding: rem(32) 0 0;
+		.event__month {
+			font-size: rem(14.24);
+			color: $color__white;
+		}
+		.event__day {
+			font-size: rem(78.31);
+		}
+		@include bp-1024 {
+			position: absolute;
+			left: 0;
+			top: rem(-78);
+			padding: rem(32) 0 0 0;
+		}
+	}
+	.events-list__host {
+	}
+	.events-list__host-leadin {
+		font-family: $font__primary;
+		color: $color__yellow;
+		font-size: rem(12);
+		text-transform: uppercase;
+		font-weight: 600;
+		line-height: 1;
+		
+	}
+	.events-list__host-photo {
+		width: rem(20);
+		height: rem(20);
+		margin-left: rem(12);
+		margin-right: rem(6);
+	}
+	.events-list__host-name {
+		font-family: $font__primary;
+		color: $color__white;
+		font-size: rem(12);
+		text-transform: uppercase;
+		font-weight: 600;
+		line-height: 1;
+		padding-left: rem(6);
+		padding-right: rem(18);
+	}
+}
+
+// Add to calendar
+// ==================================================
+
+// wrapper for placement
+.events-list__event__add {
+	@include bp-1024 {
+		position: absolute;
+		//z-index: 100;
+		left: 100%;
+		margin-left: rem(16);
+		top: 0;
+		width: rem(144);
+	}
+}
+.events-list__event-link {
+	text-decoration: none;
+	&:hover, &:active &:focus {
+		text-decoration: underline;
+	}
+}
+// component
+.add-to-calendar {
+}
+
+// label for the checkbox, main text
+label.add-to-calendar-checkbox {
+	color: $color__yellow;
+	font-weight: 600;
+	font-size: rem(15);
+	line-height: rem(23);
+	display: block;
+	padding-bottom: rem(4);
+	cursor: pointer;
+}
+
+// checkbox input
+input.add-to-calendar-checkbox {
+	position: absolute;
+	opacity: 0;
+}
+
+// each link
+.add-to-calendar a {
+	color: $color__white;
+	background: $color__black;
+	padding: rem(10) rem(16) rem(10) rem(46);
+	background-repeat: no-repeat;
+	background-position: rem(16) 50%;
+	background-size: rem(16) rem(16);
+	&:hover,
+	&:focus {
+		color: $color__yellow;
+	}
+	&:first-of-type {
+		border-top: rem(10) solid $color__black;
+	}
+	&:last-of-type {
+		border-bottom: rem(10) solid $color__black;
+	}
+}
+
+// NOTE: I'm including background-image urls for both static and wp
+//       uncomment static for prod
+.add-to-calendar a.icon-google {
+	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-google.svg");
+}
+.add-to-calendar a.icon-yahoo {
+	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-yahoo.svg");
+}
+.add-to-calendar a.icon-ical {
+	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-apple.svg");
+}
+.add-to-calendar a.icon-outlook {
+	background-image: url("/wp-content/themes/nab-amplify/assets/images/calendar-icon-outlook.svg");
+}
+
+//
+.add-to-calendar-checkbox ~ a {
+	display: none;
+}
+
+input.add-to-calendar-checkbox:checked ~ a {
+	display: block;
+	position: relative;
+	z-index: 1;
 }

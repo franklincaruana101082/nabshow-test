@@ -51,4 +51,5 @@ get_header();
 	<!-- END legacy-template -->
 
 <?php
+get_sidebar();
 get_footer();

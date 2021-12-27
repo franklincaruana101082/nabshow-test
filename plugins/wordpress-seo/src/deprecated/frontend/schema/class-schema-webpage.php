@@ -10,8 +10,9 @@ use Yoast\WP\SEO\Generators\Schema\WebPage;
 /**
  * Returns schema WebPage data.
  *
- * @since      10.2
  * @deprecated 14.0
+ *
+ * @since 10.2
  */
 class WPSEO_Schema_WebPage extends WPSEO_Deprecated_Graph_Piece {
 
@@ -25,10 +26,10 @@ class WPSEO_Schema_WebPage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_WebPage constructor.
 	 *
-	 * @deprecated 14.0
-	 * @codeCoverageIgnore
-	 *
 	 * @param null $context The context. No longer used but present for BC.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( WebPage::class );
@@ -39,8 +40,8 @@ class WPSEO_Schema_WebPage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param array   $data The WebPage schema.
 	 * @param WP_Post $post The post the context is representing.
@@ -56,8 +57,8 @@ class WPSEO_Schema_WebPage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * If we have an image, make it the primary image of the page.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param array $data WebPage schema data.
 	 */

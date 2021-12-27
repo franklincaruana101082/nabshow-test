@@ -8,12 +8,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * General reindexing action for indexables.
  */
-class Indexable_General_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
-
-	/**
-	 * The transient cache key.
-	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_general_items';
+class Indexable_General_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
 	 * Represents the indexables repository.
@@ -37,29 +32,9 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
-		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
 		$indexables_to_create = $this->query();
 
-		$result = \count( $indexables_to_create );
-
-		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
-
-		return $result;
-	}
-
-	/**
-	 * Returns a limited number of unindexed posts.
-	 *
-	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
-	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
-	 */
-	public function get_limited_unindexed_count( $limit ) {
-		return $this->get_total_unindexed();
+		return \count( $indexables_to_create );
 	}
 
 	/**
@@ -85,8 +60,6 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 		if ( isset( $indexables_to_create['home_page'] ) ) {
 			$indexables[] = $this->indexable_repository->find_for_home_page();
 		}
-
-		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, 0, \DAY_IN_SECONDS );
 
 		return $indexables;
 	}

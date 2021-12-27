@@ -12,6 +12,7 @@ get_header();
 
 $redirect_url = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 $marketing_code = filter_input( INPUT_GET, 'marketing_code', FILTER_SANITIZE_STRING );
+$show_code = filter_input( INPUT_GET, 'show_code', FILTER_SANITIZE_STRING );
 
 if ( empty( $redirect_url ) ) {
 
@@ -69,6 +70,10 @@ while ( have_posts() ) :
 							$my_account_url = add_query_arg( 'r', $redirect_url, wc_get_page_permalink( 'myaccount' ) );
 							if ( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 								$my_account_url = add_query_arg( 'marketing_code', $marketing_code, $my_account_url);
+							}
+
+							if ( isset( $show_code ) && ! empty( $show_code ) ) {
+								$my_account_url = add_query_arg( 'show_code', $show_code, $my_account_url);
 							}
 						} else {
 							$my_account_url = wc_get_page_permalink( 'myaccount' );
@@ -225,9 +230,9 @@ while ( have_posts() ) :
 							<li>
 								<label class="field__list-select" for="signup-amplify-communications">									
 									<select name="amplify_communications" id="signup-amplify-communications" class="field__select">
-										<option value="" disabled selected></option>
+										<option value="" disabled selected></option>	
 										<option value="0">No</option>
-										<option value="1">Yes</option>										
+										<option value="1">Yes</option>
 									</select>
 									<?php esc_html_e('I would like to receive the NAB Amplify editorial newsletter and other communications from NAB Amplify.');?>
 								</label>
@@ -248,7 +253,7 @@ while ( have_posts() ) :
 					</div>
 					<div class="signup__captcha">
 						<div class="captcha">
-							<div class="g-recaptcha" data-sitekey="6Le0LsoaAAAAAFWj6G8dWfqnRNMU_G-oW6znXEjq"></div>
+							<div class="g-recaptcha" data-sitekey="6LdvDNIaAAAAAKV0Yr1FzY9c7oQLRkrr1qJ3yWH8"></div>
 							<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 						</div>
 					</div>

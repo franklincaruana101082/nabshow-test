@@ -64,10 +64,6 @@ class WPSEO_Admin_Pages {
 		if ( $page === 'wpseo_titles' ) {
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 		}
-
-		if ( $page === 'wpseo_social' || $page === 'wpseo_licenses' ) {
-			$this->asset_manager->enqueue_style( 'monorepo' );
-		}
 	}
 
 	/**
@@ -78,12 +74,8 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
-		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
-
 		$script_data = [
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'dismissedAlerts'  => $dismissed_alerts,
 		];
 
 		$page = filter_input( INPUT_GET, 'page' );
@@ -131,12 +123,7 @@ class WPSEO_Admin_Pages {
 			$this->enqueue_tools_scripts();
 		}
 
-		if ( $page === 'wpseo_social' ) {
-			$script_data['social'] = true;
-		}
-
 		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );
-		$this->asset_manager->enqueue_user_language_script();
 	}
 
 	/**
@@ -168,7 +155,9 @@ class WPSEO_Admin_Pages {
 	 * @return bool Whether the Local SEO upsell should be shown.
 	 */
 	private function should_show_local_seo_upsell() {
-		return ! YoastSEO()->helpers->product->is_premium()
+		$addon_manager = new WPSEO_Addon_Manager();
+
+		return ! WPSEO_Utils::is_yoast_seo_premium()
 			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
 	}
 

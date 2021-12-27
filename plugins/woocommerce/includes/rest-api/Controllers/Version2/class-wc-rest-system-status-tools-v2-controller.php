@@ -143,7 +143,7 @@ class WC_REST_System_Status_Tools_V2_Controller extends WC_REST_Controller {
 				'button' => __( 'Clean up download permissions', 'woocommerce' ),
 				'desc'   => __( 'This tool will delete expired download permissions and permissions with 0 remaining downloads.', 'woocommerce' ),
 			),
-			'regenerate_product_lookup_tables'   => array(
+			'regenerate_product_lookup_tables' => array(
 				'name'   => __( 'Product lookup tables', 'woocommerce' ),
 				'button' => __( 'Regenerate', 'woocommerce' ),
 				'desc'   => __( 'This tool will regenerate product lookup table data. This process may take a while.', 'woocommerce' ),
@@ -504,7 +504,22 @@ class WC_REST_System_Status_Tools_V2_Controller extends WC_REST_Controller {
 				break;
 
 			case 'recount_terms':
-				wc_recount_all_terms();
+				$product_cats = get_terms(
+					'product_cat',
+					array(
+						'hide_empty' => false,
+						'fields'     => 'id=>parent',
+					)
+				);
+				_wc_term_recount( $product_cats, get_taxonomy( 'product_cat' ), true, false );
+				$product_tags = get_terms(
+					'product_tag',
+					array(
+						'hide_empty' => false,
+						'fields'     => 'id=>parent',
+					)
+				);
+				_wc_term_recount( $product_tags, get_taxonomy( 'product_tag' ), true, false );
 				$message = __( 'Terms successfully recounted', 'woocommerce' );
 				break;
 
@@ -552,14 +567,14 @@ class WC_REST_System_Status_Tools_V2_Controller extends WC_REST_Controller {
 					$message = __( 'Template cache cleared.', 'woocommerce' );
 				} else {
 					$message = __( 'The active version of WooCommerce does not support template cache clearing.', 'woocommerce' );
-					$ran     = false;
+					$ran = false;
 				}
 				break;
 
 			case 'verify_db_tables':
 				if ( ! method_exists( 'WC_Install', 'verify_base_tables' ) ) {
 					$message = __( 'You need WooCommerce 4.2 or newer to run this tool.', 'woocommerce' );
-					$ran     = false;
+					$ran = false;
 					break;
 				}
 				// Try to manually create table again.
@@ -567,9 +582,9 @@ class WC_REST_System_Status_Tools_V2_Controller extends WC_REST_Controller {
 				if ( 0 === count( $missing_tables ) ) {
 					$message = __( 'Database verified successfully.', 'woocommerce' );
 				} else {
-					$message  = __( 'Verifying database... One or more tables are still missing: ', 'woocommerce' );
+					$message = __( 'Verifying database... One or more tables are still missing: ', 'woocommerce' );
 					$message .= implode( ', ', $missing_tables );
-					$ran      = false;
+					$ran = false;
 				}
 				break;
 
@@ -577,35 +592,11 @@ class WC_REST_System_Status_Tools_V2_Controller extends WC_REST_Controller {
 				$tools = $this->get_tools();
 				if ( isset( $tools[ $tool ]['callback'] ) ) {
 					$callback = $tools[ $tool ]['callback'];
-					try {
-						$return = call_user_func( $callback );
-					} catch ( Exception $exception ) {
-						$return = $exception;
-					}
-					if ( is_a( $return, Exception::class ) ) {
-						$callback_string = $this->get_printable_callback_name( $callback, $tool );
-						$ran             = false;
-						/* translators: %1$s: callback string, %2$s: error message */
-						$message = sprintf( __( 'There was an error calling %1$s: %2$s', 'woocommerce' ), $callback_string, $return->getMessage() );
-
-						$logger = wc_get_logger();
-						$logger->error(
-							sprintf(
-								'Error running debug tool %s: %s',
-								$tool,
-								$return->getMessage()
-							),
-							array(
-								'source'   => 'run-debug-tool',
-								'tool'     => $tool,
-								'callback' => $callback,
-								'error'    => $return,
-							)
-						);
-					} elseif ( is_string( $return ) ) {
+					$return   = call_user_func( $callback );
+					if ( is_string( $return ) ) {
 						$message = $return;
 					} elseif ( false === $return ) {
-						$callback_string = $this->get_printable_callback_name( $callback, $tool );
+						$callback_string = is_array( $callback ) ? get_class( $callback[0] ) . '::' . $callback[1] : $callback;
 						$ran             = false;
 						/* translators: %s: callback string */
 						$message = sprintf( __( 'There was an error calling %s', 'woocommerce' ), $callback_string );
@@ -623,23 +614,5 @@ class WC_REST_System_Status_Tools_V2_Controller extends WC_REST_Controller {
 			'success' => $ran,
 			'message' => $message,
 		);
-	}
-
-	/**
-	 * Get a printable name for a callback.
-	 *
-	 * @param mixed  $callback The callback to get a name for.
-	 * @param string $default The default name, to be returned when the callback is an inline function.
-	 * @return string A printable name for the callback.
-	 */
-	private function get_printable_callback_name( $callback, $default ) {
-		if ( is_array( $callback ) ) {
-			return get_class( $callback[0] ) . '::' . $callback[1];
-		}
-		if ( is_string( $callback ) ) {
-			return $callback;
-		}
-
-		return $default;
 	}
 }

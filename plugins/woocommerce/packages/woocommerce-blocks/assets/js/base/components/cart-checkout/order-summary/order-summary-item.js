@@ -2,111 +2,44 @@
  * External dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
+import { getCurrency } from '@woocommerce/base-utils';
 import Label from '@woocommerce/base-components/label';
 import ProductPrice from '@woocommerce/base-components/product-price';
-import ProductName from '@woocommerce/base-components/product-name';
-import { getCurrencyFromPriceResponse } from '@woocommerce/price-format';
 import {
-	__experimentalApplyCheckoutFilter,
-	mustContain,
-} from '@woocommerce/blocks-checkout';
+	ProductBackorderBadge,
+	ProductImage,
+	ProductLowStockBadge,
+	ProductMetadata,
+	ProductName,
+} from '@woocommerce/base-components/cart-checkout';
 import PropTypes from 'prop-types';
 import Dinero from 'dinero.js';
-import { getSetting } from '@woocommerce/settings';
-import { useCallback, useMemo } from '@wordpress/element';
-import { useStoreCart } from '@woocommerce/base-context/hooks';
-
-/**
- * Internal dependencies
- */
-import ProductBackorderBadge from '../product-backorder-badge';
-import ProductImage from '../product-image';
-import ProductLowStockBadge from '../product-low-stock-badge';
-import ProductMetadata from '../product-metadata';
 
 const OrderSummaryItem = ( { cartItem } ) => {
 	const {
 		images,
+		catalog_visibility: catalogVisibility = '',
 		low_stock_remaining: lowStockRemaining = null,
 		show_backorder_badge: showBackorderBadge = false,
-		name: initialName,
+		name,
 		permalink,
 		prices,
 		quantity,
 		short_description: shortDescription,
 		description: fullDescription,
-		item_data: itemData = [],
 		variation,
-		totals,
-		extensions = {},
 	} = cartItem;
 
-	// Prepare props to pass to the __experimentalApplyCheckoutFilter filter.
-	// We need to pluck out receiveCart.
-	// eslint-disable-next-line no-unused-vars
-	const { receiveCart, ...cart } = useStoreCart();
-
-	const productPriceValidation = useCallback(
-		( value ) => mustContain( value, '<price/>' ),
-		[]
-	);
-
-	const arg = useMemo(
-		() => ( {
-			context: 'summary',
-			cartItem,
-			cart,
-		} ),
-		[ cartItem, cart ]
-	);
-
-	const priceCurrency = getCurrencyFromPriceResponse( prices );
-
-	const name = __experimentalApplyCheckoutFilter( {
-		filterName: 'itemName',
-		defaultValue: initialName,
-		extensions,
-		arg,
-	} );
-
-	const regularPriceSingle = Dinero( {
-		amount: parseInt( prices.raw_prices.regular_price, 10 ),
-		precision: parseInt( prices.raw_prices.precision, 10 ),
-	} )
-		.convertPrecision( priceCurrency.minorUnit )
-		.getAmount();
-	const priceSingle = Dinero( {
+	const currency = getCurrency( prices );
+	const linePrice = Dinero( {
 		amount: parseInt( prices.raw_prices.price, 10 ),
 		precision: parseInt( prices.raw_prices.precision, 10 ),
 	} )
-		.convertPrecision( priceCurrency.minorUnit )
+		.multiply( quantity )
+		.convertPrecision( currency.minorUnit )
 		.getAmount();
-	const totalsCurrency = getCurrencyFromPriceResponse( totals );
-
-	let lineSubtotal = parseInt( totals.line_subtotal, 10 );
-	if ( getSetting( 'displayCartPricesIncludingTax', false ) ) {
-		lineSubtotal += parseInt( totals.line_subtotal_tax, 10 );
-	}
-	const subtotalPrice = Dinero( {
-		amount: lineSubtotal,
-		precision: totalsCurrency.minorUnit,
-	} ).getAmount();
-	const subtotalPriceFormat = __experimentalApplyCheckoutFilter( {
-		filterName: 'subtotalPriceFormat',
-		defaultValue: '<price/>',
-		extensions,
-		arg,
-		validation: productPriceValidation,
-	} );
-
-	// Allow extensions to filter how the price is displayed. Ie: prepending or appending some values.
-	const productPriceFormat = __experimentalApplyCheckoutFilter( {
-		filterName: 'cartItemPrice',
-		defaultValue: '<price/>',
-		extensions,
-		arg,
-		validation: productPriceValidation,
-	} );
+	const isProductHiddenFromCatalog =
+		catalogVisibility === 'hidden' || catalogVisibility === 'search';
 
 	return (
 		<div className="wc-block-components-order-summary-item">
@@ -124,20 +57,18 @@ const OrderSummaryItem = ( { cartItem } ) => {
 				<ProductImage image={ images.length ? images[ 0 ] : {} } />
 			</div>
 			<div className="wc-block-components-order-summary-item__description">
-				<ProductName
-					disabled={ true }
-					name={ name }
-					permalink={ permalink }
-				/>
-				<ProductPrice
-					currency={ priceCurrency }
-					price={ priceSingle }
-					regularPrice={ regularPriceSingle }
-					className="wc-block-components-order-summary-item__individual-prices"
-					priceClassName="wc-block-components-order-summary-item__individual-price"
-					regularPriceClassName="wc-block-components-order-summary-item__regular-individual-price"
-					format={ subtotalPriceFormat }
-				/>
+				<div className="wc-block-components-order-summary-item__header">
+					<ProductName
+						disabled={ isProductHiddenFromCatalog }
+						permalink={ permalink }
+						name={ name }
+					/>
+					<ProductPrice
+						currency={ currency }
+						price={ linePrice }
+						priceClassName="wc-block-components-order-summary-item__total-price"
+					/>
+				</div>
 				{ showBackorderBadge ? (
 					<ProductBackorderBadge />
 				) : (
@@ -150,15 +81,7 @@ const OrderSummaryItem = ( { cartItem } ) => {
 				<ProductMetadata
 					shortDescription={ shortDescription }
 					fullDescription={ fullDescription }
-					itemData={ itemData }
 					variation={ variation }
-				/>
-			</div>
-			<div className="wc-block-components-order-summary-item__total-price">
-				<ProductPrice
-					currency={ totalsCurrency }
-					format={ productPriceFormat }
-					price={ subtotalPrice }
 				/>
 			</div>
 		</div>

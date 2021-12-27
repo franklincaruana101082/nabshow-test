@@ -54,7 +54,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 					'on'  => __( 'Allow Control', 'wordpress-seo' ),
 					'off' => __( 'Disable', 'wordpress-seo' ),
 				],
-				$integration->name,
+				'<strong>' . $integration->name . '</strong>',
 				$feature_help->get_button_html() . $feature_help->get_panel_html()
 			);
 		}

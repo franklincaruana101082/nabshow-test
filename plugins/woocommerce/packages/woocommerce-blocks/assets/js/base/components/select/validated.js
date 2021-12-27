@@ -3,19 +3,17 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useEffect } from 'react';
+import { useValidationContext } from '@woocommerce/base-context';
 import { useShallowEqual } from '@woocommerce/base-hooks';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withInstanceId } from '@woocommerce/base-hocs/with-instance-id';
-import {
-	ValidationInputError,
-	useValidationContext,
-} from '@woocommerce/base-context';
 
 /**
  * Internal dependencies
  */
-import Select from './select';
+import { ValidationInputError } from '../validation';
+import Select from './index';
 import './style.scss';
 
 const ValidatedSelect = ( {

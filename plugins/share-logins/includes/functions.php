@@ -343,7 +343,6 @@ function cx_validation_report( $remote_site ) {
     );
 
     return $report;
-    
 }
 
 function cx_validate_message( $report, $site_type, $direction, $action ) {

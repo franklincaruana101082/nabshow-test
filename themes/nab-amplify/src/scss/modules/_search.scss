@@ -203,9 +203,9 @@
 	}
 }
 
-  .result {
-  	position: relative;
-  	display: block;
+.result {
+	position: relative;
+	display: block;
 	border-top: 3px solid $color__purple;
 	border-image: linear-gradient(90deg, $color__purple, $color__pink) 3;
 	border-width: 0;
@@ -276,11 +276,21 @@
 	  	 	margin-bottom: 0;
 	  	 	overflow: hidden;
 	  	 	max-height: rem(105);
+	  	 	background:
+	  	 		linear-gradient(to top, $color__gray-darkest #{rem(26)}, rgba($color__gray-darkest, 0) #{rem(32)}),
+	  	 		url('/wp-content/themes/nab-amplify/assets/images/ellipsis.min.svg');
+	  	 	background-repeat: no-repeat;
+	  	 	background-size: 100% 100%, rem(16) auto;
+	  	 	background-position: 0 0, calc(100% - #{rem(5)}) calc(100% - #{rem(7)});
+	  	 	background-attachment: local, scroll;
 	  }
 	  // ._content:hover &, ._content:focus &, ._content:active & {
 	  // 	color: $color__yellow;
 	  // }
 
+	}
+	&__desc {
+		padding: rem(24) rem(18) 0;
 	}
 	&__button {
 	  margin-bottom: rem(27);

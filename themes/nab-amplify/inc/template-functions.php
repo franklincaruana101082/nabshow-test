@@ -540,6 +540,7 @@ function nab_get_search_post_types()
 	unset($all_post_types['tribe_venue']);
 	unset($all_post_types['downloadable-pdfs']);
 	unset($all_post_types['page']);
+	unset($all_post_types['sessions']);
 	unset($all_post_types['show-video']);
 
 	$all_post_types = array_keys($all_post_types);
@@ -561,7 +562,7 @@ function nab_get_search_result_ad()
 	<div class="nab-ad-wrap">
 		<div class="nab-ad-inner">
 			<div class="nab-ad-block body_ad">
-				<broadstreet-zone zone-id="82836"></broadstreet-zone>
+				<broadstreet-zone zone-id="83512"></broadstreet-zone>
 			</div>
 		</div>
 	</div>
@@ -1082,11 +1083,24 @@ function nab_maritz_redirect_url( $user_id ) {
 		return;
 	}
 
+	// Default to '21 LV Registration
+	$experient_production_url = 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/';
+	$experient_qa_url = 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+
+	$show_code = filter_input( INPUT_GET, 'show_code', FILTER_SANITIZE_STRING );
+	if ( isset( $show_code ) && ! empty( $show_code ) ) {
+		// If show_code parameter is set, check for matches
+		if ( $show_code === 'shownab221') {
+			$experient_production_url = 'https://registration.experientevent.com/shownab221/';
+			$experient_qa_url = 'https://qawebreg.experientevent.com/shownab221/';
+		}
+    }
+
 	$url_parse = wp_parse_url( get_site_url() );
 
-	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/' : 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+	$url = isset( $url_parse['host'] ) && 'amplify.nabshow.com' === $url_parse['host'] ? $experient_production_url : $experient_qa_url;
 
-	$params		= array( 'user_id' => $user_id );
+	$params		= array( 'user_id' => $user_id, 'registration_flow_id' => wp_generate_uuid4() );
 	$first_name	= get_user_meta( $user_id, 'first_name', true );
 	$last_name	= get_user_meta( $user_id, 'last_name', true );
 	$company	= get_user_meta( $user_id, 'attendee_company', true );
@@ -1111,7 +1125,12 @@ function nab_maritz_redirect_url( $user_id ) {
 	if( isset( $marketing_code ) && ! empty( $marketing_code ) ) {
 		$params['marketing_code'] = $marketing_code;
     }
-
+	if ( is_page( 'sign-up' ) ) {
+		$params['source'] = 'amplify';
+	}
+	if ( is_page( 'nab-show-sign-up' ) ) {
+		$params['source'] = 'nabshow';
+	}
 	return add_query_arg( $params, $url );
 }
 
@@ -1251,7 +1270,6 @@ function nab_event_time_dropdown_options( $selected = '' ) {
 	}
 }
 
-
 /**
  * Get hide from search users id.
  *
@@ -1259,7 +1277,7 @@ function nab_event_time_dropdown_options( $selected = '' ) {
  */
 function nab_get_hide_from_search_users() {
 
-	$user_query = new WP_User_Query( array( 
+	$user_query = new WP_User_Query( array(
 			'fields' 		=> 'ID',
 			'meta_query'	=> array(
 				array(
@@ -1277,10 +1295,10 @@ function nab_get_hide_from_search_users() {
 
 /**
  * Get company name matched search keyword product ids first and then after other products ids.
- * 
+ *
  * @param string $keyword
  * @param array $category_search_array
- * 
+ *
  * @return array
  */
 function nab_get_search_company_product_ids( $keyword, $category_search_array ) {
@@ -1288,17 +1306,17 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 	$product_ids = array();
 
 	if ( ! empty( $keyword ) ) {
-		
+
 		$company = get_page_by_title( $keyword, OBJECT, 'company' );
 
 		if ( ! empty( $company ) ) {
-			
+
 			$company_id = $company->ID;
 
 			$query_args = array(
 				'post_type'			=> 'company-products',
 				'post_status'		=> 'publish',
-				'posts_per_page'	=> -1,				
+				'posts_per_page'	=> -1,
 				'fields'			=> 'ids',
 				'meta_key'			=> 'nab_selected_company_id',
 				'meta_value'		=> $company_id,
@@ -1306,7 +1324,7 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 
 			$query_result	= new WP_Query( $query_args );
 			$product_ids	= $query_result->posts;
-			
+
 			wp_reset_postdata();
 
 			if ( is_array( $product_ids ) && count( $product_ids ) > 0 ) {
@@ -1319,11 +1337,11 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 					'fields'			=> 'ids',
 					'post__not_in'		=> $product_ids,
 				);
-	
+
 				if ( is_array( $category_search_array ) && count( $category_search_array ) > 0 ) {
 					$query_args['_tax_search'] = $category_search_array;
 				}
-	
+
 				$query_result		= new WP_Query( $query_args );
 				$other_product_ids	= $query_result->posts;
 

@@ -899,9 +899,6 @@ class mo_openid_login_wid extends WP_Widget {
                     if($query_var){
                         $sign_up_redirect_url = $query_var; 
                         setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
-                    }else{
-                        $sign_up_redirect_url = rtrim( get_site_url(), '/' ) . '/welcome/'; 
-                        setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
                     }
                     
                 }

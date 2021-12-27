@@ -80,9 +80,13 @@ class MarketingOverview extends \WC_REST_Data_Controller {
 	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function activate_plugin( $request ) {
-		$plugin_slug = $request->get_param( 'plugin' );
+		$allowed_plugins = InstalledExtensions::get_allowed_plugins();
+		$plugin_slug     = $request->get_param( 'plugin' );
 
-		if ( ! PluginsHelper::is_plugin_installed( $plugin_slug ) ) {
+		if (
+			! PluginsHelper::is_plugin_installed( $plugin_slug ) ||
+			! in_array( $plugin_slug, $allowed_plugins, true )
+		) {
 			return new \WP_Error( 'woocommerce_rest_invalid_plugin', __( 'Invalid plugin.', 'woocommerce' ), 404 );
 		}
 

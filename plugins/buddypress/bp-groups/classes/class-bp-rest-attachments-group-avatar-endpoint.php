@@ -119,8 +119,8 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 					'object'  => $this->object,
 					'type'    => $type,
 					'item_id' => (int) $this->group->id,
-					'html'    => (bool) $request->get_param( 'html' ),
-					'alt'     => $request->get_param( 'alt' ),
+					'html'    => (bool) $request['html'],
+					'alt'     => $request['alt'],
 				)
 			);
 		}
@@ -403,7 +403,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 			'thumb' => $avatar->thumb,
 		);
 
-		$context  = ! empty( $request->get_param( 'context' ) ) ? $request->get_param( 'context' ) : 'view';
+		$context  = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data     = $this->add_additional_fields_to_object( $data, $request );
 		$data     = $this->filter_response_by_context( $data, $context );
 		$response = rest_ensure_response( $data );
@@ -428,36 +428,32 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	 * @return array
 	 */
 	public function get_item_schema() {
-		if ( is_null( $this->schema ) ) {
-			$this->schema = array(
-				'$schema'    => 'http://json-schema.org/draft-04/schema#',
-				'title'      => 'bp_attachments_group_avatar',
-				'type'       => 'object',
-				'properties' => array(
-					'full'  => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'Full size of the image file.', 'buddypress' ),
-						'type'        => 'string',
-						'format'      => 'uri',
-						'readonly'    => true,
-					),
-					'thumb' => array(
-						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'Thumb size of the image file.', 'buddypress' ),
-						'type'        => 'string',
-						'format'      => 'uri',
-						'readonly'    => true,
-					),
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'bp_attachments_group_avatar',
+			'type'       => 'object',
+			'properties' => array(
+				'full'  => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'Full size of the image file.', 'buddypress' ),
+					'type'        => 'string',
+					'readonly'    => true,
 				),
-			);
-		}
+				'thumb' => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'Thumb size of the image file.', 'buddypress' ),
+					'type'        => 'string',
+					'readonly'    => true,
+				),
+			),
+		);
 
 		/**
-		 * Filters the attachments group avatar schema.
+		 * Filters the group avatar schema.
 		 *
-		 * @param array $schema The endpoint schema.
+		 * @param string $schema The endpoint schema.
 		 */
-		return apply_filters( 'bp_rest_attachments_group_avatar_schema', $this->add_additional_fields_schema( $this->schema ) );
+		return apply_filters( 'bp_rest_attachments_group_avatar_schema', $this->add_additional_fields_schema( $schema ) );
 	}
 
 	/**

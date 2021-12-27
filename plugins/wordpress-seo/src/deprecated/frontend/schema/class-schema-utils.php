@@ -8,16 +8,17 @@
 /**
  * Schema utility functions.
  *
- * @since      11.6
  * @deprecated 14.0
+ *
+ * @since 11.6
  */
 class WPSEO_Schema_Utils {
 
 	/**
 	 * Retrieves a user's Schema ID.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param int                  $user_id The ID of the User you need a Schema ID for.
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
@@ -32,8 +33,8 @@ class WPSEO_Schema_Utils {
 	/**
 	 * Retrieves the post title with fallback to `No title`.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param int $post_id Optional. Post ID.
 	 *
@@ -51,8 +52,8 @@ class WPSEO_Schema_Utils {
 	 * language tag syntax is made of one or more subtags separated by a hyphen
 	 * e.g. "en", "en-US", "zh-Hant-CN".
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param array $data The Schema piece data.
 	 *

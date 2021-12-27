@@ -149,7 +149,7 @@
     var self = this;
 
     // Delegate the touch handlers to the widget's element
-    self.element.on({
+    self.element.bind({
       touchstart: $.proxy(self, '_touchStart'),
       touchmove: $.proxy(self, '_touchMove'),
       touchend: $.proxy(self, '_touchEnd')
@@ -167,7 +167,7 @@
     var self = this;
 
     // Delegate the touch handlers to the widget's element
-    self.element.off({
+    self.element.unbind({
       touchstart: $.proxy(self, '_touchStart'),
       touchmove: $.proxy(self, '_touchMove'),
       touchend: $.proxy(self, '_touchEnd')

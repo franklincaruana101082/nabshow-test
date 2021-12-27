@@ -10,8 +10,9 @@ use Yoast\WP\SEO\Generators\Schema\HowTo;
 /**
  * Returns schema FAQ data.
  *
- * @since      11.5
  * @deprecated 14.0
+ *
+ * @since 11.5
  */
 class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 
@@ -25,10 +26,10 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_FAQ constructor.
 	 *
-	 * @deprecated 14.0
-	 * @codeCoverageIgnore
-	 *
 	 * @param null $context The context. No longer used but present for BC.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( HowTo::class );
@@ -37,8 +38,8 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Renders the How-To block into our graph.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param array $graph Our Schema data.
 	 * @param array $block The How-To block content.
@@ -90,7 +91,7 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	 */
 	private function add_steps( &$data, $steps ) {
 		foreach ( $steps as $step ) {
-			$schema_id   = $this->stable->context->canonical . '#' . esc_attr( $step['id'] );
+			$schema_id   = $this->stable->context->canonical . '#' . \esc_attr( $step['id'] );
 			$schema_step = [
 				'@type' => 'HowToStep',
 				'url'   => $schema_id,
@@ -160,15 +161,15 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 		$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
 		if ( ( $days + $hours + $minutes ) > 0 ) {
-			$data['totalTime'] = esc_attr( 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M' );
+			$data['totalTime'] = \esc_attr( 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M' );
 		}
 	}
 
 	/**
 	 * Determines whether we're part of an article or a webpage.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @return string A reference URL.
 	 */
@@ -201,8 +202,8 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	 */
 	private function add_step_image( &$schema_step, $step ) {
 		foreach ( $step['text'] as $line ) {
-			if ( is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
-				$schema_step['image'] = $this->get_image_schema( esc_url( $line['props']['src'] ) );
+			if ( \is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
+				$schema_step['image'] = $this->get_image_schema( \esc_url( $line['props']['src'] ) );
 			}
 		}
 	}
@@ -210,17 +211,19 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Generates the image schema from the attachment $url.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param string $url Attachment url.
 	 *
 	 * @return array Image schema.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $url ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::get_image_schema' );
 
-		$schema_id = $this->stable->context->canonical . '#schema-image-' . md5( $url );
+		$schema_id = $this->stable->context->canonical . '#schema-image-' . \md5( $url );
 
 		return $this->helpers->schema->image->generate_from_url( $schema_id, $url );
 	}

@@ -2,8 +2,9 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { getSetting } from '@woocommerce/settings';
+import { REVIEW_RATINGS_ENABLED } from '@woocommerce/block-settings';
 import LoadMoreButton from '@woocommerce/base-components/load-more-button';
 import {
 	ReviewList,
@@ -34,11 +35,9 @@ const FrontendBlock = ( {
 		return null;
 	}
 
-	const reviewRatingsEnabled = getSetting( 'reviewRatingsEnabled', true );
-
 	return (
-		<>
-			{ attributes.showOrderby !== 'false' && reviewRatingsEnabled && (
+		<Fragment>
+			{ attributes.showOrderby !== 'false' && REVIEW_RATINGS_ENABLED && (
 				<ReviewSortSelect
 					defaultValue={ orderby }
 					onChange={ onChangeOrderby }
@@ -55,7 +54,7 @@ const FrontendBlock = ( {
 						) }
 					/>
 				) }
-		</>
+		</Fragment>
 	);
 };
 

@@ -11,8 +11,9 @@ use Yoast\WP\SEO\Generators\Schema\Person;
 /**
  * Returns schema Person data.
  *
- * @since      10.2
  * @deprecated 14.0
+ *
+ * @since 10.2
  */
 class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 
@@ -44,10 +45,10 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Person constructor.
 	 *
-	 * @deprecated 14.0
-	 * @codeCoverageIgnore
-	 *
 	 * @param null $context The context. No longer used but present for BC.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( Person::class );
@@ -56,8 +57,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determines a User ID for the Person data.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */
@@ -70,12 +71,12 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Retrieve a list of social profile URLs for Person.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param int $user_id User ID.
 	 *
-	 * @return string[] A list of social profiles.
+	 * @return string[] $output A list of social profiles.
 	 */
 	protected function get_social_profiles( $user_id ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::get_social_profiles' );
@@ -88,17 +89,17 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 		 * @api string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field
 		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
 		 */
-		$social_profiles = apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
+		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
 		$output          = [];
 
 		// We can only handle an array.
-		if ( ! is_array( $social_profiles ) ) {
+		if ( ! \is_array( $social_profiles ) ) {
 			return $output;
 		}
 
 		foreach ( $social_profiles as $profile ) {
 			// Skip non-string values.
-			if ( ! is_string( $profile ) ) {
+			if ( ! \is_string( $profile ) ) {
 				continue;
 			}
 
@@ -114,8 +115,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Builds our array of Schema Person data for a given user ID.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param int $user_id The user ID to use.
 	 *
@@ -130,13 +131,13 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Returns an ImageObject for the persons avatar.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
-	 * @param array   $data      The Person schema.
-	 * @param WP_User $user_data User data.
+	 * @param array    $data      The Person schema.
+	 * @param \WP_User $user_data User data.
 	 *
-	 * @return array The Person schema.
+	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::add_image' );
@@ -147,8 +148,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Returns an author's social site URL.
 	 *
-	 * @deprecated 14.0
 	 * @codeCoverageIgnore
+	 * @deprecated 14.0
 	 *
 	 * @param string $social_site The social site to retrieve the URL for.
 	 * @param mixed  $user_id     The user ID to use function outside of the loop.
@@ -158,7 +159,7 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	protected function url_social_site( $social_site, $user_id = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::url_social_site' );
 
-		$url = get_the_author_meta( $social_site, $user_id );
+		$url = \get_the_author_meta( $social_site, $user_id );
 
 		if ( ! empty( $url ) && $social_site === 'twitter' ) {
 			$url = 'https://twitter.com/' . $url;

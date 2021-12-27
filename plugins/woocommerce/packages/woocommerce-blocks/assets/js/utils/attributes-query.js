@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { sortBy } from 'lodash';
+import { sortBy, map } from 'lodash';
 
 /**
  * Given a query object, removes an attribute filter by a single slug.
@@ -75,7 +75,7 @@ export const updateAttributeFilter = (
 		returnQuery.push( {
 			attribute: attribute.taxonomy,
 			operator,
-			slug: attributeTerms.map( ( { slug } ) => slug ).sort(),
+			slug: map( attributeTerms, 'slug' ).sort(),
 		} );
 		setQuery( sortBy( returnQuery, 'attribute' ) );
 	}

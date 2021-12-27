@@ -3,7 +3,6 @@
  */
 import { getValidBlockAttributes } from '@woocommerce/base-utils';
 import {
-	getBlockMap,
 	renderParentBlock,
 	renderStandaloneBlocks,
 } from '@woocommerce/atomic-utils';
@@ -26,7 +25,6 @@ renderParentBlock( {
 	blockName: BLOCK_NAME,
 	selector: '.wp-block-woocommerce-single-product',
 	getProps,
-	blockMap: getBlockMap( BLOCK_NAME ),
 } );
 
 renderStandaloneBlocks();

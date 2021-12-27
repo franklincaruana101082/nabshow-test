@@ -20,7 +20,7 @@ if ( ! $event->thumbnail->exists ) {
 	return;
 }
 ?>
-<div class="ne-check02 tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
+<div class="tribe-events-calendar-month__calendar-event-tooltip-featured-image-wrapper">
 	<a
 		href="<?php echo esc_url( $event->permalink ); ?>"
 		title="<?php echo esc_attr( $event->title ); ?>"

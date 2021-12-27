@@ -111,11 +111,11 @@ if ( ! empty( $event_end_date ) ) {
 								$publish_button_text = isset( $post_data->ID ) ? "Update" : "Publish";
 								?>
 								<input type="button" id="nab-edit-event-submit" class="btn btn-submit" value="<?php echo esc_attr( $publish_button_text ) ?>">
-								<input type="hidden" name="event_id" id="event_id" value="<?php echo isset( $post_data->ID ) ? esc_attr( $post_data->ID ) : 0;?>" />
-								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? esc_attr( $company_id ) : 0; ?>" />
+								<input type="hidden" name="event_id" id="event_id" value="<?php echo isset( $post_data->ID ) ? $post_data->ID : 0;?>" />
+								<input type="hidden" name="nab_company_id" id="nab_company_id" value="<?php echo isset( $company_id ) ? $company_id : 0; ?>" />
 							</div>
 						</form>
-						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo esc_url( site_url() ); ?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
+						<p>NAB Amplify reserves the right to remove any content that is deemed inappropriate. See the <a class="btn-link" href="<?php echo site_url();?>/nab-virtual-events-code-of-conduct/">Code of Conduct</a> for details.</p>
 					</div>
 				</div>
 			</div>

@@ -1,0 +1,67 @@
+{
+  "key": "group_5db2be82e4116",
+  "title": "Education Partner",
+  "fields": [
+    {
+      "key": "field_5db2be9e34a7b",
+      "label": "Education Partner",
+      "name": "education_partner",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "Select Partner": "Select Partner",
+        "ace": "ACE",
+        "ais": "AIS",
+        "aws": "AWS",
+        "bpl": "BPL",
+        "bts": "BTS",
+        "dan-rayburn": "Dan Rayburn",
+        "etc": "ETC",
+        "fmc": "FMC",
+        "icg-600": "ICG 600",
+        "industry-affairs": "Industry Affairs",
+        "naba": "NABA",
+        "pilot": "PILOT",
+        "rab": "RAB",
+        "sbe": "SBE",
+        "schramm": "Schramm",
+        "sprockit": "SPROCKIT",
+        "storytech": "Storytech",
+        "sympte": "SYMPTE",
+        "tech": "Tech",
+        "variety": "Variety"
+      },
+      "default_value": [],
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "value",
+      "ajax": 0,
+      "placeholder": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "side",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}

@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Models\Indexable;
  * Formats the term meta to indexable format.
  */
 class Indexable_Term_Builder {
-
 	use Indexable_Social_Image_Trait;
 
 	/**
@@ -126,7 +125,7 @@ class Indexable_Term_Builder {
 	 * @param string $keyword The focus keyword that is set.
 	 * @param int    $score   The score saved on the meta data.
 	 *
-	 * @return int|null Score to use.
+	 * @return null|int Score to use.
 	 */
 	protected function get_keyword_score( $keyword, $score ) {
 		if ( empty( $keyword ) ) {
@@ -166,7 +165,7 @@ class Indexable_Term_Builder {
 	 * @param string $meta_key  The key to extract.
 	 * @param array  $term_meta The meta data.
 	 *
-	 * @return string|null The meta value.
+	 * @return null|string The meta value.
 	 */
 	protected function get_meta_value( $meta_key, $term_meta ) {
 		if ( ! $term_meta || ! \array_key_exists( $meta_key, $term_meta ) ) {

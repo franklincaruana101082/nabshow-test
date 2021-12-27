@@ -17,166 +17,166 @@ class Variables {
 
 	/** @var array */
 	private static $included_variables = [
-		'customer' => [
-			'email',
-			'first_name',
-			'last_name',
-			'full_name',
-			'order_count',
-			'total_spent',
-			'address_line_1',
-			'address_line_2',
-			'country',
-			'state',
-			'city',
-			'postcode',
-			'phone',
-			'company',
-			'generate_coupon',
-			'meta',
-			'user_id',
-			'username',
-			'tags',
-			'unsubscribe_url',
+		'customer'          => [
+			'email'           => Variable_Customer_Email::class,
+			'first_name'      => Variable_Customer_First_Name::class,
+			'last_name'       => Variable_Customer_Last_Name::class,
+			'full_name'       => Variable_Customer_Full_Name::class,
+			'order_count'     => Variable_Customer_Order_Count::class,
+			'total_spent'     => Variable_Customer_Total_Spent::class,
+			'address_line_1'  => Variable_Customer_Address_Line_1::class,
+			'address_line_2'  => Variable_Customer_Address_Line_2::class,
+			'country'         => Variable_Customer_Country::class,
+			'state'           => Variable_Customer_State::class,
+			'city'            => Variable_Customer_City::class,
+			'postcode'        => Variable_Customer_Postcode::class,
+			'phone'           => Variable_Customer_Phone::class,
+			'company'         => Variable_Customer_Company::class,
+			'generate_coupon' => Variable_Customer_Generate_Coupon::class,
+			'meta'            => Variable_Customer_Meta::class,
+			'user_id'         => Variable_Customer_User_ID::class,
+			'username'        => Variable_Customer_Username::class,
+			'tags'            => Variable_Customer_Tags::class,
+			'unsubscribe_url' => Variable_Customer_Unsubscribe_URL::class,
 		],
-		'user' => [],
-		'order' => [
-			'id',
-			'number',
-			'status',
-			'date',
-			'date_paid',
-			'date_completed',
-			'subtotal',
-			'total',
-			'itemscount',
-			'items',
-			'cross_sells',
-			'related_products',
-			'billing_phone',
-			'billing_address',
-			'shipping_address',
-			'view_url',
-			'payment_url',
-			'reorder_url',
-			'shipping_method',
-			'payment_method',
-			'customer_note',
-			'customer_details',
-			'shipping_first_name',
-			'shipping_last_name',
-			'shipping_address_line_1',
-			'shipping_address_line_2',
-			'shipping_city',
-			'shipping_country',
-			'shipping_state',
-			'shipping_postcode',
-			'shipping_company_name',
-			'meta',
-			'meta_date',
-			'admin_url',
+		'user'              => [],
+		'order'             => [
+			'id'                      => Variable_Order_ID::class,
+			'number'                  => Variable_Order_Number::class,
+			'status'                  => Variable_Order_Status::class,
+			'date'                    => Variable_Order_Date::class,
+			'date_paid'               => Variables\Order_Date_Paid::class,
+			'date_completed'          => Variables\Order_Date_Completed::class,
+			'subtotal'                => Variable_Order_Subtotal::class,
+			'total'                   => Variable_Order_Total::class,
+			'itemscount'              => Variable_Order_Itemscount::class,
+			'items'                   => Variable_Order_Items::class,
+			'cross_sells'             => Variable_Order_Cross_Sells::class,
+			'related_products'        => Variable_Order_Related_Products::class,
+			'billing_phone'           => Variable_Order_Billing_Phone::class,
+			'billing_address'         => Variable_Order_Billing_Address::class,
+			'shipping_address'        => Variable_Order_Shipping_Address::class,
+			'view_url'                => Variable_Order_View_Url::class,
+			'payment_url'             => Variable_Order_Payment_Url::class,
+			'reorder_url'             => Variable_Order_Reorder_Url::class,
+			'shipping_method'         => Variable_Order_Shipping_Method::class,
+			'payment_method'          => Variable_Order_Payment_Method::class,
+			'customer_note'           => Variable_Order_Customer_Note::class,
+			'customer_details'        => Variable_Order_Customer_Details::class,
+			'shipping_first_name'     => Variable_Order_Shipping_First_Name::class,
+			'shipping_last_name'      => Variable_Order_Shipping_Last_Name::class,
+			'shipping_address_line_1' => Variable_Order_Shipping_Address_Line_1::class,
+			'shipping_address_line_2' => Variable_Order_Shipping_Address_Line_2::class,
+			'shipping_city'           => Variable_Order_Shipping_City::class,
+			'shipping_country'        => Variable_Order_Shipping_Country::class,
+			'shipping_state'          => Variable_Order_Shipping_State::class,
+			'shipping_postcode'       => Variable_Order_Shipping_Postcode::class,
+			'shipping_company_name'   => Variable_Order_Shipping_Company_Name::class,
+			'meta'                    => Variable_Order_Meta::class,
+			'meta_date'               => Variable_Order_Meta_Date::class,
+			'admin_url'               => Variable_Order_Admin_Url::class,
 		],
-		'order_item' => [
-			'attribute',
-			'meta',
-			'quantity'
+		'order_item'        => [
+			'attribute' => Variable_Order_Item_Attribute::class,
+			'meta'      => Variable_Order_Item_Meta::class,
+			'quantity'  => Variable_Order_Item_Quantity::class,
 		],
-		'order_note' => [
-			'content'
+		'order_note'        => [
+			'content' => Variable_Order_Note_Content::class,
 		],
-		'guest' => [
-			'email',
-			'generate_coupon',
-			'first_name',
-			'last_name'
+		'guest'             => [
+			'email'           => Variable_Guest_Email::class,
+			'generate_coupon' => Variable_Guest_Generate_Coupon::class,
+			'first_name'      => Variable_Guest_First_Name::class,
+			'last_name'       => Variable_Guest_Last_Name::class,
 		],
-		'review' => [
-			'content',
-			'rating'
+		'review'            => [
+			'content' => Variable_Review_Content::class,
+			'rating'  => Variable_Review_Rating::class,
 		],
-		'comment' => [
-			'id',
-			'author_name',
-			'author_ip',
-			'content'
+		'comment'           => [
+			'id'          => Variable_Comment_ID::class,
+			'author_name' => Variables\CommentAuthorName::class,
+			'author_ip'   => Variable_Comment_Author_IP::class,
+			'content'     => Variable_Comment_Content::class,
 		],
-		'product' => [
-			'id',
-			'title',
-			'current_price',
-			'regular_price',
-			'featured_image',
-			'permalink',
-			'add_to_cart_url',
-			'sku',
-			'parent_sku',
-			'short_description',
-			'description',
-			'meta',
-			'meta_date',
+		'product'           => [
+			'id'                => Variable_Product_ID::class,
+			'title'             => Variable_Product_Title::class,
+			'current_price'     => Variable_Product_Current_Price::class,
+			'regular_price'     => Variable_Product_Regular_Price::class,
+			'featured_image'    => Variable_Product_Featured_Image::class,
+			'permalink'         => Variable_Product_Permalink::class,
+			'add_to_cart_url'   => Variable_Product_Add_To_Cart_Url::class,
+			'sku'               => Variable_Product_Sku::class,
+			'parent_sku'        => Variable_Product_Parent_Sku::class,
+			'short_description' => Variable_Product_Short_Description::class,
+			'description'       => Variable_Product_Description::class,
+			'meta'              => Variable_Product_Meta::class,
+			'meta_date'         => Variable_Product_Meta_Date::class,
 		],
-		'category' => [
-			'id',
-			'title',
-			'permalink'
+		'category'          => [
+			'id'        => Variable_Category_ID::class,
+			'title'     => Variable_Category_Title::class,
+			'permalink' => Variable_Category_Permalink::class,
 		],
-		'wishlist' => [
-			'items',
-			'view_link',
-			'itemscount'
+		'wishlist'          => [
+			'items'      => Variable_Wishlist_Items::class,
+			'view_link'  => Variable_Wishlist_View_Link::class,
+			'itemscount' => Variable_Wishlist_Itemscount::class,
 		],
-		'cart' => [
-			'link',
-			'items',
-			'item_count',
-			'total',
+		'cart'              => [
+			'link'       => Variable_Cart_Link::class,
+			'items'      => Variable_Cart_Items::class,
+			'item_count' => Variable_Cart_Item_Count::class,
+			'total'      => Variable_Cart_Total::class,
 		],
-		'subscription' => [
-			'id',
-			'status',
-			'payment_method',
-			'payment_count',
-			'total',
-			'view_order_url',
-			'start_date',
-			'next_payment_date',
-			'trial_end_date',
-			'end_date',
-			'last_payment_date',
-			'items',
-			'billing_address',
-			'shipping_address',
-			'meta',
-			'admin_url',
+		'subscription'      => [
+			'id'                => Variable_Subscription_ID::class,
+			'status'            => Variable_Subscription_Status::class,
+			'payment_method'    => Variable_Subscription_Payment_Method::class,
+			'payment_count'     => Variables\Subscription_Payment_Count::class,
+			'total'             => Variable_Subscription_Total::class,
+			'view_order_url'    => Variable_Subscription_View_Order_Url::class,
+			'start_date'        => Variable_Subscription_Start_Date::class,
+			'next_payment_date' => Variable_Subscription_Next_Payment_Date::class,
+			'trial_end_date'    => Variable_Subscription_Trial_End_Date::class,
+			'end_date'          => Variable_Subscription_End_Date::class,
+			'last_payment_date' => Variable_Subscription_Last_Payment_Date::class,
+			'items'             => Variable_Subscription_Items::class,
+			'billing_address'   => Variable_Subscription_Billing_Address::class,
+			'shipping_address'  => Variable_Subscription_Shipping_Address::class,
+			'meta'              => Variable_Subscription_Meta::class,
+			'admin_url'         => Variable_Subscription_Admin_Url::class,
 		],
 		'subscription_item' => [
-			'attribute',
-			'meta',
-			'quantity',
+			'attribute' => Variables\Subscription_Item_Attribute::class,
+			'meta'      => Variables\Subscription_Item_Meta::class,
+			'quantity'  => Variables\Subscription_Item_Quantity::class,
 		],
-		'membership' => [
-			'id',
-			'plan_id',
-			'plan_name',
-			'status',
-			'date_started',
-			'date_expires',
-			'renewal_url',
-			'meta',
+		'membership'        => [
+			'id'           => Variable_Membership_ID::class,
+			'plan_id'      => Variable_Membership_Plan_ID::class,
+			'plan_name'    => Variable_Membership_Plan_Name::class,
+			'status'       => Variable_Membership_Status::class,
+			'date_started' => Variable_Membership_Date_Started::class,
+			'date_expires' => Variable_Membership_Date_Expires::class,
+			'renewal_url'  => Variable_Membership_Renewal_URL::class,
+			'meta'         => Variable_Membership_Meta::class,
 		],
-		'card' => [
-			'type',
-			'expiry_month',
-			'expiry_year',
-			'last_four'
+		'card'              => [
+			'type'         => Variable_Card_Type::class,
+			'expiry_month' => Variable_Card_Expiry_Month::class,
+			'expiry_year'  => Variable_Card_Expiry_Year::class,
+			'last_four'    => Variable_Card_Last4::class,
 		],
-		'shop' => [
-			'title',
-			'tagline',
-			'url',
-			'admin_email',
-			'current_datetime',
-			'products'
+		'shop'              => [
+			'title'            => Variable_Shop_Title::class,
+			'tagline'          => Variable_Shop_Tagline::class,
+			'url'              => Variable_Shop_Url::class,
+			'admin_email'      => Variable_Shop_Admin_Email::class,
+			'current_datetime' => Variable_Shop_Current_Datetime::class,
+			'products'         => Variable_Shop_Products::class,
 		],
 	];
 
@@ -190,35 +190,28 @@ class Variables {
 			return self::$variables_list;
 		}
 
-		$variables = [];
-		$included_variables = self::$included_variables;
+		$variables = self::$included_variables;
 
 		if ( Integrations::is_subscriptions_active( '2.5' ) ) {
-			$included_variables[ 'subscription' ][] = 'change_payment_method_url';
+			$variables['subscription']['change_payment_method_url'] =
+				Variable_Subscription_Change_Payment_Method_Url::class;
 		}
 
 		if ( class_exists( 'WC_Shipment_Tracking' ) ) {
-			$included_variables['order'][] = 'tracking_number';
-			$included_variables['order'][] = 'tracking_url';
-			$included_variables['order'][] = 'date_shipped';
-			$included_variables['order'][] = 'shipping_provider';
+			$variables['order']['tracking_number']   = Variable_Order_Tracking_Number::class;
+			$variables['order']['tracking_url']      = Variable_Order_Tracking_Url::class;
+			$variables['order']['date_shipped']      = Variable_Order_Date_Shipped::class;
+			$variables['order']['shipping_provider'] = Variable_Order_Shipping_Provider::class;
 		}
 
 		/**
 		 * @since 4.5.0
 		 */
-		if ( Integrations::is_subscriptions_active( '2.3' ) &&
-		     class_exists( 'WCS_Early_Renewal_Manager' ) &&
-		     \WCS_Early_Renewal_Manager::is_early_renewal_enabled() ) {
-			$included_variables['subscription'][] = 'early_renewal_url';
-		}
-
-		// generate paths to included variables
-		foreach ( $included_variables as $data_type => $fields ) {
-			foreach ( $fields as $field ) {
-				$filename = str_replace( '_', '-', $data_type ) . '-' . str_replace( '_', '-', $field ) . '.php';
-				$variables[$data_type][$field] = AW()->path("/includes/variables/$filename");
-			}
+		if ( Integrations::is_subscriptions_active( '2.3' )
+		     && class_exists( 'WCS_Early_Renewal_Manager' )
+		     && \WCS_Early_Renewal_Manager::is_early_renewal_enabled()
+		) {
+			$variables['subscription']['early_renewal_url'] = Variable_Subscription_Early_Renewal_Url::class;
 		}
 
 		self::$variables_list = apply_filters( 'automatewoo/variables', $variables );
@@ -228,12 +221,15 @@ class Variables {
 
 
 	/**
-	 * @param $data_type
-	 * @param $data_field
+	 * Gets the classname for a variable but could also return a file.
+	 *
+	 * Files were used in the past. Started using class names in 5.0.0.
+	 *
+	 * @param string $data_type
+	 * @param string $data_field
 	 * @return false|string
 	 */
-	static function get_path_to_variable( $data_type, $data_field ) {
-
+	protected static function get_variable_classname_or_file( $data_type, $data_field ) {
 		$list = self::get_list();
 
 		if ( isset( $list[$data_type][$data_field] ) ) {
@@ -249,30 +245,34 @@ class Variables {
 	 * @return Variable|false
 	 */
 	static function get_variable( $variable_name ) {
-
 		if ( isset( self::$loaded_variables[$variable_name] ) ) {
 			return self::$loaded_variables[$variable_name];
 		}
 
 		list( $data_type, $data_field ) = explode( '.', $variable_name );
 
-		$path = self::get_path_to_variable( $data_type, $data_field );
+		$classname_or_file = self::get_variable_classname_or_file( $data_type, $data_field );
 
-		if ( ! file_exists( $path ) ) {
+		if ( stristr( $classname_or_file, '.php' ) ) {
+			// Load as file
+			$file = $classname_or_file;
 
-			// backwards compat user with customer
-			if ( $data_type === 'customer' ) {
-				$path = self::get_path_to_variable( 'user', $data_field );
-			}
-
-			if ( ! file_exists( $path ) ) {
+			if ( ! file_exists( $file ) ) {
 				return false;
 			}
-		}
 
-		/** @var Variable $class */
-		if ( ! $class = require_once $path ) {
-			return false;
+			/** @var Variable $class */
+			$class = require_once $file;
+
+			if ( ! $class ) {
+				return false;
+			}
+		} else {
+			// Load as classname
+			if ( ! $classname_or_file ) {
+				return false;
+			}
+			$class = new $classname_or_file;
 		}
 
 		$class->setup( $variable_name );

@@ -119,6 +119,20 @@
 						}
 					}
 				}
+				&._hashtag {
+					display: block;
+					a {
+						font-family: $font__primary;
+						font-size: rem(16);
+						font-weight: bold;
+						text-indent: 0;
+						text-transform: uppercase;
+						text-decoration: none;
+						letter-spacing: 0.02em;
+						width: auto;
+						padding-top: rem(6);
+					}
+				}
 			}
 		}
 		&._brand {

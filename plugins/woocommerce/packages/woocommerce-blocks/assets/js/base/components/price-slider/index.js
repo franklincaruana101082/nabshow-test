@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import {
+	Fragment,
 	useState,
 	useEffect,
 	useCallback,
@@ -12,7 +13,6 @@ import {
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import FormattedMonetaryAmount from '@woocommerce/base-components/formatted-monetary-amount';
-import { isObject } from '@woocommerce/types';
 
 /**
  * Internal dependencies
@@ -242,13 +242,10 @@ const PriceSlider = ( {
 		! hasValidConstraints && 'is-disabled'
 	);
 
-	const activeElement = isObject( minRange.current )
-		? minRange.current.ownerDocument.activeElement
-		: undefined;
 	const minRangeStep =
-		activeElement && activeElement === minRange.current ? stepValue : 1;
+		minRange && document.activeElement === minRange.current ? stepValue : 1;
 	const maxRangeStep =
-		activeElement && activeElement === maxRange.current ? stepValue : 1;
+		maxRange && document.activeElement === maxRange.current ? stepValue : 1;
 
 	return (
 		<div className={ classes }>
@@ -308,7 +305,7 @@ const PriceSlider = ( {
 			</div>
 			<div className="wc-block-price-filter__controls wc-block-components-price-slider__controls">
 				{ showInputFields && (
-					<>
+					<Fragment>
 						<FormattedMonetaryAmount
 							currency={ currency }
 							displayType="input"
@@ -345,7 +342,7 @@ const PriceSlider = ( {
 							disabled={ isLoading || ! hasValidConstraints }
 							value={ maxPriceInput }
 						/>
-					</>
+					</Fragment>
 				) }
 				{ ! showInputFields &&
 					! isLoading &&
@@ -356,11 +353,13 @@ const PriceSlider = ( {
 							: &nbsp;
 							<FormattedMonetaryAmount
 								currency={ currency }
+								displayType="text"
 								value={ minPrice }
 							/>
 							&nbsp;&ndash;&nbsp;
 							<FormattedMonetaryAmount
 								currency={ currency }
+								displayType="text"
 								value={ maxPrice }
 							/>
 						</div>

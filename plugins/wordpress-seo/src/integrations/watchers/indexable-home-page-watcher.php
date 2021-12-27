@@ -11,8 +11,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Home page watcher to save the meta data to an Indexable.
  *
  * Watches the home page options to save the meta information when updated.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Indexable_Home_Page_Watcher implements Integration_Interface {
 
@@ -31,16 +29,14 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	protected $builder;
 
 	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @return array
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
 	}
 
 	/**
-	 * Indexable_Home_Page_Watcher constructor.
+	 * Indexable_Author_Watcher constructor.
 	 *
 	 * @param Indexable_Repository $repository The repository to use.
 	 * @param Indexable_Builder    $builder    The post builder to use.
@@ -51,9 +47,7 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 15, 3 );
@@ -73,14 +67,8 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	 */
 	public function check_option( $old_value, $new_value, $option ) {
 		$relevant_keys = [
-			'wpseo_titles' => [
-				'title-home-wpseo',
-				'breadcrumbs-home',
-				'metadesc-home-wpseo',
-				'open_graph_frontpage_title',
-				'open_graph_frontpage_desc',
-				'open_graph_frontpage_image',
-			],
+			'wpseo_titles' => [ 'title-home-wpseo', 'breadcrumbs-home', 'metadesc-home-wpseo' ],
+			'wpseo_social' => [ 'og_frontpage_title', 'og_frontpage_desc', 'og_frontpage_image' ],
 		];
 
 		if ( ! isset( $relevant_keys[ $option ] ) ) {

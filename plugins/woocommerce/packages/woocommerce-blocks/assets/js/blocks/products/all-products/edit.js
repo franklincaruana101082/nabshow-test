@@ -14,7 +14,8 @@ import {
 	withSpokenMessages,
 	Placeholder,
 	Button,
-	ToolbarGroup,
+	IconButton,
+	Toolbar,
 	Disabled,
 	Tip,
 } from '@wordpress/components';
@@ -23,14 +24,13 @@ import { compose } from '@wordpress/compose';
 import PropTypes from 'prop-types';
 import { Icon, grid } from '@woocommerce/icons';
 import GridLayoutControl from '@woocommerce/editor-components/grid-layout-control';
+import { HAS_PRODUCTS } from '@woocommerce/block-settings';
 import {
 	InnerBlockLayoutContextProvider,
 	ProductDataContextProvider,
 } from '@woocommerce/shared-context';
 import { getBlockMap } from '@woocommerce/atomic-utils';
 import { previewProducts } from '@woocommerce/resource-previews';
-import { getSetting } from '@woocommerce/settings';
-import { blocksConfig } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
@@ -46,7 +46,6 @@ import {
 } from '../base-utils';
 import { getSharedContentControls, getSharedListControls } from '../edit';
 import Block from './block';
-import './editor.scss';
 
 /**
  * Component to handle edit mode of "All Products".
@@ -120,10 +119,6 @@ class Editor extends Component {
 						rows={ rows }
 						alignButtons={ alignButtons }
 						setAttributes={ setAttributes }
-						minColumns={ getSetting( 'min_columns', 1 ) }
-						maxColumns={ getSetting( 'max_columns', 6 ) }
-						minRows={ getSetting( 'min_rows', 1 ) }
-						maxRows={ getSetting( 'max_rows', 6 ) }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -144,7 +139,7 @@ class Editor extends Component {
 
 		return (
 			<BlockControls>
-				<ToolbarGroup
+				<Toolbar
 					controls={ [
 						{
 							icon: 'edit',
@@ -240,7 +235,7 @@ class Editor extends Component {
 						>
 							{ __( 'Cancel', 'woocommerce' ) }
 						</Button>
-						<Button
+						<IconButton
 							className="wc-block-all-products__reset-button"
 							icon={ <Icon srcElement={ grid } /> }
 							label={ __(
@@ -253,7 +248,7 @@ class Editor extends Component {
 								'Reset Layout',
 								'woocommerce'
 							) }
-						</Button>
+						</IconButton>
 					</div>
 				</div>
 			</Placeholder>
@@ -284,7 +279,7 @@ class Editor extends Component {
 		const blockTitle = this.getTitle();
 		const blockIcon = this.getIcon();
 
-		if ( blocksConfig.productCount === 0 ) {
+		if ( ! HAS_PRODUCTS ) {
 			return renderNoProductsPlaceholder( blockTitle, blockIcon );
 		}
 

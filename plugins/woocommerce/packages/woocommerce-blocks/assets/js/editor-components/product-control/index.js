@@ -2,23 +2,39 @@
  * External dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { isEmpty } from 'lodash';
+import { escapeRegExp, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { SearchListControl, SearchListItem } from '@woocommerce/components';
-import { withInstanceId } from '@wordpress/compose';
+import { Spinner, MenuItem } from '@wordpress/components';
+import classnames from 'classnames';
 import {
 	withProductVariations,
 	withSearchedProducts,
 	withTransformSingleSelectToMultipleSelect,
 } from '@woocommerce/block-hocs';
+import { Icon, radioSelected, radioUnselected } from '@woocommerce/icons';
 import ErrorMessage from '@woocommerce/editor-components/error-placeholder/error-message.js';
-import classNames from 'classnames';
-import ExpandableSearchListItem from '@woocommerce/editor-components/expandable-search-list-item/expandable-search-list-item.tsx';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
+
+function getHighlightedName( name, search ) {
+	if ( ! search ) {
+		return name;
+	}
+	const re = new RegExp( escapeRegExp( search ), 'ig' );
+	return name.replace( re, '<strong>$&</strong>' );
+}
+
+const getInteractionIcon = ( isSelected = false ) => {
+	return isSelected ? (
+		<Icon srcElement={ radioSelected } />
+	) : (
+		<Icon srcElement={ radioUnselected } />
+	);
+};
 
 const messages = {
 	list: __( 'Products', 'woocommerce' ),
@@ -39,8 +55,6 @@ const messages = {
 const ProductControl = ( {
 	expandedProduct,
 	error,
-	instanceId,
-	isCompact,
 	isLoading,
 	onChange,
 	onSearch,
@@ -57,11 +71,10 @@ const ProductControl = ( {
 			item.variations && Array.isArray( item.variations )
 				? item.variations.length
 				: 0;
-		const classes = classNames(
+		const classes = classnames(
 			'woocommerce-search-product__item',
 			'woocommerce-search-list__item',
 			`depth-${ depth }`,
-			'has-count',
 			{
 				'is-searching': search.length > 0,
 				'is-skip-level': depth === 0 && item.parent !== 0,
@@ -69,66 +82,89 @@ const ProductControl = ( {
 			}
 		);
 
-		// Top level items custom rendering based on SearchListItem.
-		if ( ! item.breadcrumbs.length ) {
-			return (
-				<ExpandableSearchListItem
-					{ ...args }
-					className={ classNames( classes, {
-						'is-selected': isSelected,
-					} ) }
-					isSelected={ isSelected }
-					item={ item }
-					onSelect={ () => {
-						return () => {
-							onSelect( item )();
-						};
-					} }
-					isLoading={ isLoading || variationsLoading }
-					countLabel={
-						item.variations.length > 0
-							? sprintf(
-									/* translators: %1$d is the number of variations of a product product. */
-									__(
-										'%1$d variations',
-										'woocommerce'
-									),
-									item.variations.length
-							  )
-							: null
-					}
-					name={ `products-${ instanceId }` }
-					aria-label={ sprintf(
-						/* translators: %1$s is the product name, %2$d is the number of variations of that product. */
-						_n(
-							'%1$s, has %2$d variation',
-							'%1$s, has %2$d variations',
-							item.variations.length,
-							'woocommerce'
-						),
-						item.name,
-						item.variations.length
-					) }
-				/>
-			);
+		const itemArgs = Object.assign( {}, args );
+		delete itemArgs.isSingle;
+
+		const a11yProps = {
+			role: 'menuitemradio',
+		};
+
+		if ( item.breadcrumbs.length ) {
+			a11yProps[
+				'aria-label'
+			] = `${ item.breadcrumbs[ 0 ] }: ${ item.name }`;
 		}
 
-		const itemArgs = isEmpty( item.variation )
-			? args
-			: {
-					...args,
-					item: {
-						...args.item,
-						name: item.variation,
-					},
-					'aria-label': `${ item.breadcrumbs[ 0 ] }: ${ item.variation }`,
-			  };
+		if ( variationsCount ) {
+			a11yProps[ 'aria-expanded' ] = item.id === expandedProduct;
+		}
+
+		// Top level items custom rendering based on SearchListItem.
+		if ( ! item.breadcrumbs.length ) {
+			return [
+				<MenuItem
+					key={ `product-${ item.id }` }
+					isSelected={ isSelected }
+					{ ...itemArgs }
+					{ ...a11yProps }
+					className={ classes }
+					onClick={ () => {
+						onSelect( item )();
+					} }
+				>
+					<span className="woocommerce-search-list__item-state">
+						{ getInteractionIcon( isSelected ) }
+					</span>
+
+					<span className="woocommerce-search-list__item-label">
+						<span
+							className="woocommerce-search-list__item-name"
+							dangerouslySetInnerHTML={ {
+								__html: getHighlightedName( item.name, search ),
+							} }
+						/>
+					</span>
+
+					{ variationsCount ? (
+						<span className="woocommerce-search-list__item-variation-count">
+							{ sprintf(
+								// Translators: %d is the count of variations.
+								_n(
+									'%d variation',
+									'%d variations',
+									variationsCount,
+									'woocommerce'
+								),
+								variationsCount
+							) }
+						</span>
+					) : null }
+				</MenuItem>,
+				expandedProduct === item.id &&
+					variationsCount > 0 &&
+					variationsLoading && (
+						<div
+							key="loading"
+							className={
+								'woocommerce-search-list__item woocommerce-search-product__item' +
+								'depth-1 is-loading is-not-active'
+							}
+						>
+							<Spinner />
+						</div>
+					),
+			];
+		}
+
+		if ( ! isEmpty( item.variation ) ) {
+			item.name = item.variation;
+		}
 
 		return (
 			<SearchListItem
-				{ ...itemArgs }
 				className={ classes }
-				name={ `variations-${ instanceId }` }
+				{ ...args }
+				{ ...a11yProps }
 			/>
 		);
 	};
@@ -156,7 +192,6 @@ const ProductControl = ( {
 		<SearchListControl
 			className="woocommerce-products"
 			list={ currentList }
-			isCompact={ isCompact }
 			isLoading={ isLoading }
 			isSingle
 			selected={ currentList.filter( ( { id } ) =>
@@ -176,7 +211,6 @@ ProductControl.propTypes = {
 	 * Callback to update the selected products.
 	 */
 	onChange: PropTypes.func.isRequired,
-	isCompact: PropTypes.bool,
 	/**
 	 * The ID of the currently expanded product.
 	 */
@@ -204,14 +238,11 @@ ProductControl.propTypes = {
 };
 
 ProductControl.defaultProps = {
-	isCompact: false,
 	expandedProduct: null,
 	selected: [],
 	showVariations: false,
 };
 
 export default withTransformSingleSelectToMultipleSelect(
-	withSearchedProducts(
-		withProductVariations( withInstanceId( ProductControl ) )
-	)
+	withSearchedProducts( withProductVariations( ProductControl ) )
 );

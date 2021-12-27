@@ -7,27 +7,18 @@
  *
  * @return \WP_Error
  */
-function nab_confirm_password_matches_checkout($errors, $username, $email) {    
-
-    $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
-    $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
-    $password2              = filter_input( INPUT_POST, 'password2', FILTER_SANITIZE_STRING );
-    $password               = filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
-    $privacy_policy         = filter_input( INPUT_POST, 'privacy_policy_reg', FILTER_SANITIZE_STRING );
-    $user_title             = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
-    $user_company           = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
-    $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
-    $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
-    $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
-    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
-    
+function nab_confirm_password_matches_checkout($errors, $username, $email)
+{
 
     if ( isset( $_POST['g-recaptcha-response'] ) ) {
         $captcha = $_POST['g-recaptcha-response'];
     }
+    
     if ( ! $captcha ) {
         return new WP_Error('registration-error', __('Please check the captcha form.', 'woocommerce'));        
     }
+
+    extract($_POST);
 
     if (isset($first_name) && empty($first_name)) {
         return new WP_Error('registration-error', __('Please enter First Name.', 'woocommerce'));
@@ -50,7 +41,7 @@ function nab_confirm_password_matches_checkout($errors, $username, $email) {
     }
 
     if ( ! isset( $privacy_policy ) || empty( $privacy_policy ) ) {
-        return new WP_Error('registration-error', __('NAB Amplify Privacy Policy consent is required.', 'woocommerce'));
+        return new WP_Error('registration-error', __('Term of Service must be accepted', 'woocommerce'));
     }
 
     if ( ! isset( $user_title ) || empty( $user_title ) ) {
@@ -65,7 +56,7 @@ function nab_confirm_password_matches_checkout($errors, $username, $email) {
         return new WP_Error('registration-error', __('Please select Country.', 'woocommerce'));
     }
 
-    if ( 'US' === $user_country || 'CA' === $user_country ) {
+    if ( $user_country == 'US' || $user_country == 'CA') {
         if ( ! isset( $user_state ) || empty( $user_state ) ) {
             return new WP_Error('registration-error', __('Please enter State.', 'woocommerce'));
         }
@@ -221,7 +212,9 @@ function nab_amplify_edit_product()
 
     $post_id      = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_NUMBER_INT);
     $post_data    = get_post($post_id);
-    
+
+
+    $taxonomies    = get_object_taxonomies('nab-product');
     $taxonomy_data = wp_get_object_terms($post_id, 'company-product-category', array('fields' => 'slugs'));
     $tag_data      = wp_get_object_terms($post_id, 'company-product-tag', array('fields' => 'slugs'));
 
@@ -240,7 +233,10 @@ function nab_amplify_edit_product()
     $post_data->nab_product_learn_more_url = get_field('product_learn_more_url', $post_id);
 
 	$post_data->product_media = nab_amplify_get_bynder_products( $post_id );
-    
+
+    $terms = get_terms('company-product-category', array(
+        'hide_empty' => false,
+    ));
     require_once get_template_directory() . '/inc/nab-edit-product.php';
 
     wp_die();
@@ -318,11 +314,9 @@ function save_product_video_text($post_id)
 /**
  * Registration Success Message
  */
-function nab_reg_message() {
-
-    $registration_complete = filter_input( INPUT_GET, 'nab_registration_complete', FILTER_SANITIZE_STRING );
-    
-    if ( ! is_user_logged_in() && is_account_page() && isset( $registration_complete ) && 'true' === $registration_complete ) {
+function nab_reg_message()
+{
+    if (!is_user_logged_in() && is_account_page() && isset($_GET['nab_registration_complete']) && 'true' === $_GET['nab_registration_complete']) {
         wc_add_notice('You have successfully created your account . Please login to continue.');
     }
 }
@@ -341,11 +335,9 @@ function nab_remove_password_strength()
  * @param $errors
  * @param $user
  */
-function nab_reset_password_validation( $errors, $user ) {
-    
-    $password_1 = filter_input( INPUT_POST, 'password_1', FILTER_SANITIZE_STRING );
-
-    if ( ! empty( $password_1 ) && 8 > strlen( $password_1 ) ) {
+function nab_reset_password_validation($errors, $user)
+{
+    if (!empty($_POST['password_1']) && 8 > strlen($_POST['password_1'])) {
         wc_add_notice(__('Password must be 8 characters long.', 'woocommerce'), 'error');
     }
 }
@@ -658,7 +650,7 @@ function nab_amplify_register_post_types()
         'can_export'          => true,
         'has_archive'         => false,
         'exclude_from_search' => false,
-        'publicly_queryable'  => false,
+        'publicly_queryable'  => true,
         'menu_icon'           => 'dashicons-pdf',
         'capability_type'     => 'post',
         'show_in_rest'        => true,
@@ -668,6 +660,47 @@ function nab_amplify_register_post_types()
 
     // Registering your Custom Post Type
     register_post_type('downloadable-pdfs', $args);
+
+    $labels = array(
+        'name'               => _x('Session Registrations', 'Post Type General Name', 'nab-amplify'),
+        'singular_name'      => _x('Session Registration', 'Post Type Singular Name', 'nab-amplify'),
+        'menu_name'          => __('Session Registrations', 'nab-amplify'),
+        'parent_item_colon'  => __('Parent Session Registrations', 'nab-amplify'),
+        'all_items'          => __('All Session Registrations', 'nab-amplify'),
+        'view_item'          => __('View Session Registration', 'nab-amplify'),
+        'add_new_item'       => __('Add New Session Registration', 'nab-amplify'),
+        'add_new'            => __('Add New', 'nab-amplify'),
+        'edit_item'          => __('Edit Session Registrations', 'nab-amplify'),
+        'update_item'        => __('Update Session Registrations', 'nab-amplify'),
+        'search_items'       => __('Search Session Registrations', 'nab-amplify'),
+        'not_found'          => __('Not Found', 'nab-amplify'),
+        'not_found_in_trash' => __('Not found in Trash', 'nab-amplify'),
+    );
+
+    $args = array(
+        'label'               => __('Session Registrations', 'nab-amplify'),
+        'labels'              => $labels,
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 100,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => true,
+        'publicly_queryable'  => false,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'rewrite'             => false,
+        'delete_with_user'    => false,
+        'supports'            => array('title', 'author', 'revisions', 'custom-fields'),
+
+    );
+
+    // Registering your Custom Post Type
+    register_post_type('session-registration', $args);
 }
 
 // Hooking up our function to theme setup
@@ -715,18 +748,19 @@ add_action('init', 'nab_amplify_session_categories');
  *
  * @param $customer_id
  */
-function nab_save_name_fields( $customer_id ) {
+function nab_save_name_fields($customer_id) {
 
-    $first_name             = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
-    $last_name              = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
-    $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $press_member           = filter_input( INPUT_POST, 'press_member', FILTER_SANITIZE_STRING );
-    $user_title             = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
-    $user_company           = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
-    $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
-    $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
-    $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
-    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );    
+    $first_name               = filter_input( INPUT_POST, 'first_name', FILTER_SANITIZE_STRING );
+    $last_name                = filter_input( INPUT_POST, 'last_name', FILTER_SANITIZE_STRING );
+    $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $press_member             = filter_input( INPUT_POST, 'press_member', FILTER_SANITIZE_STRING );
+    $user_title               = filter_input( INPUT_POST, 'user_title', FILTER_SANITIZE_STRING );
+    $user_company             = filter_input( INPUT_POST, 'user_company', FILTER_SANITIZE_STRING );
+    $user_country             = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+    $user_state               = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+    $user_city                = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+    $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
     if ( isset( $first_name ) ) {
         update_user_meta( $customer_id, 'billing_first_name', $first_name );
@@ -757,6 +791,10 @@ function nab_save_name_fields( $customer_id ) {
     if ( isset( $user_city ) && ! empty( $user_city ) ) {
         update_user_meta( $customer_id, 'user_city', $user_city );
     }
+    
+    if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
+        update_user_meta( $customer_id, 'amplify_hide_from_search', $amplify_hide_from_search );
+    }
 
     update_user_meta( $customer_id, 'amplify_communications', $amplify_communications );
 }
@@ -772,53 +810,42 @@ function nab_attendee_field_process()
         return;
     }
 
-    if ( false === nab_is_bulk_order() ) {
+    if (false === nab_is_bulk_order()) {
 
-        $attendee_first_name    = filter_input( INPUT_POST, 'attendee_first_name', FILTER_SANITIZE_STRING );
-        $attendee_last_name     = filter_input( INPUT_POST, 'attendee_last_name', FILTER_SANITIZE_STRING );
-        $attendee_email         = filter_input( INPUT_POST, 'attendee_email', FILTER_SANITIZE_STRING );
-        $attendee_company       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
-        $attendee_title         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
-        $attendee_country       = filter_input( INPUT_POST, 'attendee_country', FILTER_SANITIZE_STRING );
-
-        if ( ! isset( $attendee_first_name ) || empty( $attendee_first_name ) ) {
+        if (!isset($_POST['attendee_first_name']) || empty($_POST['attendee_first_name'])) {
             wc_add_notice(__('Please enter Attendee First Name.'), 'error');
         }
 
-        if ( ! isset( $attendee_last_name ) || empty( $attendee_last_name ) ) {
+        if (!isset($_POST['attendee_last_name']) || empty($_POST['attendee_last_name'])) {
             wc_add_notice(__('Please enter Attendee Last Name.'), 'error');
         }
 
-        if ( ! isset( $attendee_email ) || empty( $attendee_email ) ) {
+        if (!isset($_POST['attendee_email']) || empty($_POST['attendee_email'])) {
             wc_add_notice(__('Please enter Attendee Email.'), 'error');
         }
 
-        if ( ! isset( $attendee_company ) || empty( $attendee_company ) ) {
+        if (!isset($_POST['attendee_company']) || empty($_POST['attendee_company'])) {
             wc_add_notice(__('Please enter Attendee Company.'), 'error');
         }
 
-        if ( ! isset( $attendee_title ) || empty( $attendee_title ) ) {
+        if (!isset($_POST['attendee_title']) || empty($_POST['attendee_title'])) {
             wc_add_notice(__('Please enter Attendee Title.'), 'error');
         }
 
-        if ( ! isset( $attendee_country ) || empty( $attendee_country ) ) {
+        if (!isset($_POST['attendee_country']) || empty($_POST['attendee_country'])) {
             wc_add_notice(__('Please enter Attendee Country.'), 'error');
         }
     }
 
-    $attendee_partner_opt_in                = filter_input( INPUT_POST, 'attendee_partner_opt_in', FILTER_SANITIZE_STRING );
-    $attendee_exhibition_sponsors_opt_in    = filter_input( INPUT_POST, 'attendee_exhibition_sponsors_opt_in', FILTER_SANITIZE_STRING );
-    $attendee_tos_agree                     = filter_input( INPUT_POST, 'attendee_tos_agree', FILTER_SANITIZE_STRING );
-
-    if ( ! isset( $attendee_partner_opt_in ) || empty( $attendee_partner_opt_in ) ) {
+    if (!isset($_POST['attendee_partner_opt_in']) || empty($_POST['attendee_partner_opt_in'])) {
         wc_add_notice(__('Please choose your preference for Partner Communications opt in.'), 'error');
     }
 
-    if ( ! isset( $attendee_exhibition_sponsors_opt_in ) || empty( $attendee_exhibition_sponsors_opt_in ) ) {
+    if (!isset($_POST['attendee_exhibition_sponsors_opt_in']) || empty($_POST['attendee_exhibition_sponsors_opt_in'])) {
         wc_add_notice(__('Please choose your preference for Exhibitor/Sponsor Communications opt in.'), 'error');
     }
 
-    if ( ! isset( $attendee_tos_agree ) || 'yes' !== $attendee_tos_agree ) {
+    if (!isset($_POST['attendee_tos_agree']) || 'yes' !== $_POST['attendee_tos_agree']) {
         wc_add_notice(__('You must agree with Terms and Privacy Policy.'), 'error');
     }
 }
@@ -846,58 +873,38 @@ function nab_save_event_fields($order_id)
     } else {
         $user_id = get_current_user_id();
 
-        $attendee_first_name                    = filter_input( INPUT_POST, 'attendee_first_name', FILTER_SANITIZE_STRING );
-        $attendee_last_name                     = filter_input( INPUT_POST, 'attendee_last_name', FILTER_SANITIZE_STRING );
-        $attendee_email                         = filter_input( INPUT_POST, 'attendee_email', FILTER_SANITIZE_STRING );
-        $attendee_company                       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
-        $attendee_title                         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
-        $attendee_country                       = filter_input( INPUT_POST, 'attendee_country', FILTER_SANITIZE_STRING );
-        $attendee_city                          = filter_input( INPUT_POST, 'attendee_city', FILTER_SANITIZE_STRING );
-        $attendee_state                         = filter_input( INPUT_POST, 'attendee_state', FILTER_SANITIZE_STRING );
-        $attendee_zip                           = filter_input( INPUT_POST, 'attendee_zip', FILTER_SANITIZE_STRING );
-        $attendee_affiliation                   = filter_input( INPUT_POST, 'attendee_affiliation', FILTER_SANITIZE_STRING );
-        $attendee_partner_opt_in                = filter_input( INPUT_POST, 'attendee_partner_opt_in', FILTER_SANITIZE_STRING );
-        $attendee_exhibition_sponsors_opt_in    = filter_input( INPUT_POST, 'attendee_exhibition_sponsors_opt_in', FILTER_SANITIZE_STRING );
-        $attendee_discover                      = filter_input( INPUT_POST, 'attendee_discover', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $attendee_meet                          = filter_input( INPUT_POST, 'attendee_meet', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $other_interest                         = filter_input( INPUT_POST, 'other_interest', FILTER_SANITIZE_STRING );
-        $billing_phone                          = filter_input( INPUT_POST, 'billing_phone', FILTER_SANITIZE_STRING );
-        $attendee_interest                      = filter_input( INPUT_POST, 'attendee_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $attendee_other_interest                = filter_input( INPUT_POST, 'attendee_other_interest', FILTER_SANITIZE_STRING );
-
         $event_data = array(
-            'attendee_first_name'                 => ( isset( $attendee_first_name ) && ! empty( $attendee_first_name ) ) ? $attendee_first_name : '',
-            'attendee_last_name'                  => ( isset( $attendee_last_name ) && ! empty( $attendee_last_name ) ) ? $attendee_last_name : '',
-            'attendee_email'                      => ( isset( $attendee_email ) && ! empty( $attendee_email ) ) ? $attendee_email : '',
-            'attendee_company'                    => ( isset( $attendee_company ) && ! empty( $attendee_company ) ) ? $attendee_company : '',
-            'attendee_title'                      => ( isset( $attendee_title ) && ! empty( $attendee_title ) ) ? $attendee_title : '',
-            'attendee_country'                    => ( isset( $attendee_country ) && ! empty( $attendee_country ) ) ? $attendee_country : '',
-            'attendee_city'                       => ( isset( $attendee_city ) && ! empty( $attendee_city ) ) ? $attendee_city : '',
-            'attendee_state'                      => ( isset( $attendee_state ) && ! empty( $attendee_state ) ) ? $attendee_state : '',
-            'attendee_zip'                        => ( isset( $attendee_zip ) && ! empty( $attendee_zip ) ) ? $attendee_zip : '',
-            'attendee_affiliation'                => ( isset( $attendee_affiliation ) && ! empty( $attendee_affiliation ) ) ? $attendee_affiliation : '',
-            'attendee_partner_opt_in'             => ( isset( $attendee_partner_opt_in ) && ! empty( $attendee_partner_opt_in ) ) ? $attendee_partner_opt_in : '',
-            'attendee_exhibition_sponsors_opt_in' => ( isset( $attendee_exhibition_sponsors_opt_in ) && ! empty( $attendee_exhibition_sponsors_opt_in ) ) ? $attendee_exhibition_sponsors_opt_in : '',
-            'attendee_discover'                   => ( isset( $attendee_discover ) && ! empty( $attendee_discover ) ) ? wp_unslash( $attendee_discover ) : [],
-            'attendee_meet'                       => ( isset( $attendee_meet ) && ! empty( $attendee_meet ) ) ? wp_unslash( $attendee_meet ) : [],
-            'other_interest'                      => ( isset( $other_interest ) && ! empty( $other_interest ) ) ? $other_interest : '',
-            'billing_phone'                       => ( isset( $billing_phone ) && ! empty( $billing_phone ) ) ? $billing_phone : '',
+            'attendee_first_name'                 => (isset($_POST['attendee_first_name']) && !empty($_POST['attendee_first_name'])) ? sanitize_text_field($_POST['attendee_first_name']) : '',
+            'attendee_last_name'                  => (isset($_POST['attendee_last_name']) && !empty($_POST['attendee_last_name'])) ? sanitize_text_field($_POST['attendee_last_name']) : '',
+            'attendee_email'                      => (isset($_POST['attendee_email']) && !empty($_POST['attendee_email'])) ? sanitize_email($_POST['attendee_email']) : '',
+            'attendee_company'                    => (isset($_POST['attendee_company']) && !empty($_POST['attendee_company'])) ? sanitize_text_field($_POST['attendee_company']) : '',
+            'attendee_title'                      => (isset($_POST['attendee_title']) && !empty($_POST['attendee_title'])) ? sanitize_text_field($_POST['attendee_title']) : '',
+            'attendee_country'                    => (isset($_POST['attendee_country']) && !empty($_POST['attendee_country'])) ? sanitize_text_field($_POST['attendee_country']) : '',
+            'attendee_city'                       => (isset($_POST['attendee_city']) && !empty($_POST['attendee_city'])) ? sanitize_text_field($_POST['attendee_city']) : '',
+            'attendee_state'                      => (isset($_POST['attendee_state']) && !empty($_POST['attendee_state'])) ? sanitize_text_field($_POST['attendee_state']) : '',
+            'attendee_zip'                        => (isset($_POST['attendee_zip']) && !empty($_POST['attendee_zip'])) ? sanitize_text_field($_POST['attendee_zip']) : '',
+            'attendee_affiliation'                => (isset($_POST['attendee_affiliation']) && !empty($_POST['attendee_affiliation'])) ? sanitize_text_field($_POST['attendee_affiliation']) : '',
+            'attendee_partner_opt_in'             => (isset($_POST['attendee_partner_opt_in']) && !empty($_POST['attendee_partner_opt_in'])) ? sanitize_text_field($_POST['attendee_partner_opt_in']) : '',
+            'attendee_exhibition_sponsors_opt_in' => (isset($_POST['attendee_exhibition_sponsors_opt_in']) && !empty($_POST['attendee_exhibition_sponsors_opt_in'])) ? sanitize_text_field($_POST['attendee_exhibition_sponsors_opt_in']) : '',
+            'attendee_discover'                   => (isset($_POST['attendee_discover']) && !empty($_POST['attendee_discover'])) ? wp_unslash($_POST['attendee_discover']) : [],
+            'attendee_meet'                       => (isset($_POST['attendee_meet']) && !empty($_POST['attendee_meet'])) ? wp_unslash($_POST['attendee_meet']) : [],
+            'other_interest'                      => (isset($_POST['other_interest']) && !empty($_POST['other_interest'])) ? $_POST['other_interest'] : '',
+            'billing_phone'                       => (isset($_POST['billing_phone']) && !empty($_POST['billing_phone'])) ? sanitize_text_field($_POST['billing_phone']) : '',
         );
 
-        $event_data['attendee_interest'] = isset( $attendee_interest ) ? $attendee_interest : [];
-        if ( isset( $other_interest ) && isset( $attendee_other_interest ) && ! empty( $attendee_other_interest ) ) {
-            $event_data['attendee_other_interest'] = $attendee_other_interest;
+        $event_data['attendee_interest'] = isset($_POST['attendee_interest']) ? $_POST['attendee_interest'] : [];
+        if (isset($_POST['other_interest']) && isset($_POST['attendee_other_interest']) && !empty($_POST['attendee_other_interest'])) {
+            $event_data['attendee_other_interest'] = sanitize_text_field($_POST['attendee_other_interest']);
         }
 
         // Save details to user meta
-        foreach ( $event_data as $key => $val ) {
-            update_user_meta( $user_id, $key, $val );
+        foreach ($event_data as $key => $val) {
+            update_user_meta($user_id, $key, $val);
         }
     }
 
-    $nab_additional_email = filter_input( INPUT_POST, 'nab_additional_email', FILTER_SANITIZE_STRING );
-    if ( isset( $nab_additional_email ) && ! empty( $nab_additional_email ) ) {
-        update_post_meta( $order_id, 'nab_additional_email', $nab_additional_email );
+    if (isset($_POST['nab_additional_email']) && !empty($_POST['nab_additional_email'])) {
+        update_post_meta($order_id, 'nab_additional_email', filter_input(INPUT_POST, 'nab_additional_email'));
     }
 }
 
@@ -924,7 +931,7 @@ function nab_amplify_template_redirect()
 
         $page_param = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
 
-        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
+        if ( ( ( 'my-account' === end( $request ) && is_account_page() ) || is_page( 'sign-up' ) || is_page( 'nab-show-sign-up' ) ) && isset( $page_param ) && 'maritz' === $page_param ) {
 
             $maritz_url = nab_maritz_redirect_url( $current_user_id );
 
@@ -973,7 +980,7 @@ function nab_amplify_template_redirect()
     ) {
         /* If user is logged in and try to access another Buddypress Member's messages section. */
         $redirect_url = $my_profile_url;
-    } else if ($user_logged_in && is_account_page() && in_array( end( $request ), array('my-connections', 'my-events', 'my-bookmarks'), true ) ) {
+    } else if ($user_logged_in && is_account_page() && in_array(end($request), array('my-connections', 'my-events', 'my-bookmarks'))) {
 
         $member_id = filter_input(INPUT_GET, 'user_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -1024,7 +1031,7 @@ function nab_amplify_completed_zero_order($order_id)
     }
     $order = wc_get_order($order_id);
 
-    if ( '0.00' === (string) $order->get_total() && 'processing' === $order->get_status()) {
+    if ('0.00' == $order->get_total() && 'processing' === $order->get_status()) {
         $order->update_status('completed');
     }
 }
@@ -1261,8 +1268,25 @@ function amplify_register_api_endpoints()
         'methods'             => 'GET',
         'callback'            => 'nab_amplify_get_company_category',
         'permission_callback' => '__return_true',
-    ));	
+    ));
+
+    register_rest_route('wp', '/v2/user-reactions', array(
+        'methods'             => 'GET',
+        'callback'            => 'nab_get_user_reactions',
+        'permission_callback' => '__return_true',
+    ));
+
+     // Add the plaintext content to GET requests for individual posts
+     register_rest_field(
+        'articles',
+        'plaintext',
+        array(
+            'get_callback'    => 'nab_article_wp_api_callback',
+        )
+    );
+   
 }
+
 
 /**
  * Get user images.
@@ -1669,8 +1693,8 @@ function amplify_is_product_in_cart($product_id)
         if (isset(WC()->cart->cart_contents) && is_array(WC()->cart->cart_contents)) {
             foreach (WC()->cart->cart_contents as $cart_item_key => $cart_item_data) {
                 if (
-                    ( isset( $cart_item_data['product_id'] ) && $product_id === (int) $cart_item_data['product_id'] ) ||
-                    (isset($cart_item_data['variation_id']) && $product_id === (int) $cart_item_data['variation_id'])
+                    (isset($cart_item_data['product_id']) && $product_id == $cart_item_data['product_id']) ||
+                    (isset($cart_item_data['variation_id']) && $product_id == $cart_item_data['variation_id'])
                 ) {
                     return true;
                 }
@@ -1742,7 +1766,9 @@ function nab_load_cart_action_cookie()
     }
 
     $cart_key      = trim(wp_unslash($_COOKIE['nabCartKey']));
-    $override_cart = false; // Override the cart by default.    
+    $override_cart = false; // Override the cart by default.
+
+    // wc_nocache_headers();
 
     // Get the cart in the database.
     $stored_cart = nab_cocart_get_cart($cart_key);
@@ -2415,45 +2441,46 @@ function nab_edit_acount_additional_form_fields() {
 
     if ( ( isset( $account_action ) && 'save_account_details' === $account_action ) && ( isset( $account_nonce ) && ! empty( $account_nonce ) ) ) {
         
-        $member_visibility      = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
-        $member_restriction     = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
-        $attendee_title         = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
-        $attendee_company       = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
-        $social_twitter         = filter_input( INPUT_POST, 'social_twitter', FILTER_SANITIZE_STRING );
-        $social_linkedin        = filter_input( INPUT_POST, 'social_linkedin', FILTER_SANITIZE_STRING );
-        $social_facebook        = filter_input( INPUT_POST, 'social_facebook', FILTER_SANITIZE_STRING );
-        $social_instagram       = filter_input( INPUT_POST, 'social_instagram', FILTER_SANITIZE_STRING );
-        $social_website         = filter_input( INPUT_POST, 'social_website', FILTER_SANITIZE_STRING );
-        $social_youtube         = filter_input( INPUT_POST, 'social_youtube', FILTER_SANITIZE_STRING );
-        $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $user_job_role          = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $user_industry          = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-        $user_country           = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
-        $user_state             = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
-        $user_city              = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
-        $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+        $member_visibility        = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+        $member_restriction       = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+        $attendee_title           = filter_input( INPUT_POST, 'attendee_title', FILTER_SANITIZE_STRING );
+        $attendee_company         = filter_input( INPUT_POST, 'attendee_company', FILTER_SANITIZE_STRING );
+        $social_twitter           = filter_input( INPUT_POST, 'social_twitter', FILTER_SANITIZE_STRING );
+        $social_linkedin          = filter_input( INPUT_POST, 'social_linkedin', FILTER_SANITIZE_STRING );
+        $social_facebook          = filter_input( INPUT_POST, 'social_facebook', FILTER_SANITIZE_STRING );
+        $social_instagram         = filter_input( INPUT_POST, 'social_instagram', FILTER_SANITIZE_STRING );
+        $social_website           = filter_input( INPUT_POST, 'social_website', FILTER_SANITIZE_STRING );
+        $social_youtube           = filter_input( INPUT_POST, 'social_youtube', FILTER_SANITIZE_STRING );
+        $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_job_role            = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_industry            = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+        $user_country             = filter_input( INPUT_POST, 'user_country', FILTER_SANITIZE_STRING );
+        $user_state               = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
+        $user_city                = filter_input( INPUT_POST, 'user_city', FILTER_SANITIZE_STRING );
+        $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+        $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
     } else {
-
-        $current_user           = wp_get_current_user();
-        $current_user_id        = $current_user->ID;
-        $member_visibility      = get_user_meta( $current_user_id, 'nab_member_visibility', true );
-        $member_restriction     = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
-        $attendee_title         = get_user_meta( $current_user_id, 'attendee_title', true );
-        $attendee_company       = get_user_meta( $current_user_id, 'attendee_company', true );
-        $social_twitter         = get_user_meta( $current_user_id, 'social_twitter', true );
-        $social_linkedin        = get_user_meta( $current_user_id, 'social_linkedin', true );
-        $social_facebook        = get_user_meta( $current_user_id, 'social_facebook', true );
-        $social_instagram       = get_user_meta( $current_user_id, 'social_instagram', true );
-        $social_website         = get_user_meta( $current_user_id, 'social_website', true );
-        $social_youtube         = get_user_meta( $current_user_id, 'social_youtube', true );
-        $user_interest          = get_user_meta( $current_user_id, 'user_interest', true  );
-        $user_job_role          = get_user_meta( $current_user_id, 'user_job_role', true  );
-        $user_industry          = get_user_meta( $current_user_id, 'user_industry', true  );
-        $user_country           = get_user_meta( $current_user_id, 'user_country', true  );
-        $user_state             = get_user_meta( $current_user_id, 'user_state', true  );
-        $user_city              = get_user_meta( $current_user_id, 'user_city', true  );
-        $amplify_communications = get_user_meta( $current_user_id, 'amplify_communications', true  );
+        $current_user             = wp_get_current_user();
+        $current_user_id          = $current_user->ID;
+        $member_visibility        = get_user_meta( $current_user_id, 'nab_member_visibility', true );
+        $member_restriction       = get_user_meta( $current_user_id, 'nab_member_restrict_connection', true );
+        $attendee_title           = get_user_meta( $current_user_id, 'attendee_title', true );
+        $attendee_company         = get_user_meta( $current_user_id, 'attendee_company', true );
+        $social_twitter           = get_user_meta( $current_user_id, 'social_twitter', true );
+        $social_linkedin          = get_user_meta( $current_user_id, 'social_linkedin', true );
+        $social_facebook          = get_user_meta( $current_user_id, 'social_facebook', true );
+        $social_instagram         = get_user_meta( $current_user_id, 'social_instagram', true );
+        $social_website           = get_user_meta( $current_user_id, 'social_website', true );
+        $social_youtube           = get_user_meta( $current_user_id, 'social_youtube', true );
+        $user_interest            = get_user_meta( $current_user_id, 'user_interest', true  );
+        $user_job_role            = get_user_meta( $current_user_id, 'user_job_role', true  );
+        $user_industry            = get_user_meta( $current_user_id, 'user_industry', true  );
+        $user_country             = get_user_meta( $current_user_id, 'user_country', true  );
+        $user_state               = get_user_meta( $current_user_id, 'user_state', true  );
+        $user_city                = get_user_meta( $current_user_id, 'user_city', true  );
+        $amplify_communications   = get_user_meta( $current_user_id, 'amplify_communications', true  );
+        $amplify_hide_from_search = get_user_meta( $current_user_id, 'amplify_hide_from_search', true  );
     }    
 
     $member_visibility  = !empty($member_visibility) ? $member_visibility : 'yes';
@@ -2743,6 +2770,13 @@ function nab_edit_acount_additional_form_fields() {
             <option value="0" <?php selected( $amplify_communications, '0' ); ?>>No</option>
         </select>
     </div>
+    <div class="checkbox-item amp-check-container">
+        <div class="amp-check-wrp">
+            <input type="checkbox" name="amplify_hide_from_search" value="1" id="amplify-hide-from-search"  <?php checked( $amplify_hide_from_search, '1' ); ?> />
+            <span class="amp-check"></span>
+        </div>
+        <label for="amplify-hide-from-search">Hide my profile from Amplify search.</label>
+    </div>
 <?php
 }
 
@@ -2754,12 +2788,13 @@ function nab_edit_acount_additional_form_fields() {
 function nab_save_edit_account_additional_form_fields($user_id)
 {
 
-    $member_visibility      = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
-    $member_restriction     = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
-    $user_interest          = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_job_role          = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $user_industry          = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-    $amplify_communications = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $member_visibility        = filter_input( INPUT_POST, 'member_visibility', FILTER_SANITIZE_STRING );
+    $member_restriction       = filter_input( INPUT_POST, 'member_restrict_connection', FILTER_SANITIZE_STRING );
+    $user_interest            = filter_input( INPUT_POST, 'user_interest', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_job_role            = filter_input( INPUT_POST, 'user_job_role', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $user_industry            = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+    $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
+    $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2785,6 +2820,12 @@ function nab_save_edit_account_additional_form_fields($user_id)
         update_user_meta( $user_id, 'user_industry', $user_industry );
     } else {
         delete_user_meta( $user_id, 'user_industry' );
+    }
+
+    if ( isset( $amplify_hide_from_search ) && ! empty( $amplify_hide_from_search ) ) {
+        update_user_meta( $user_id, 'amplify_hide_from_search', $amplify_hide_from_search );
+    } else {
+        delete_user_meta( $user_id, 'amplify_hide_from_search' );
     }
 
     $user_fields = array(
@@ -4392,7 +4433,9 @@ function nab_generate_company_export_csv_file()
     if ('edit.php' === $pagenow && 'amplify_company_export' === $comment_page  && !empty($submit)) {
         // CSV header row fields titles
         $csv_fields   = array();
+        $csv_fields[] = 'Wordpress ID';
         $csv_fields[] = 'Company Name';
+        $csv_fields[] = 'Member Level';
         $csv_fields[] = 'Claimed Status';
         $csv_fields[] = 'Admin URL';
         $csv_fields[] = 'Salesforce ID';
@@ -4421,6 +4464,7 @@ function nab_generate_company_export_csv_file()
         foreach ($company_result as $company) {
 
             $company_admins     = get_field( 'company_user_id', $company->ID );
+            $member_level       = get_field( 'member_level', $company->ID );
             $admin_add_string   = get_field( 'admin_add_string', $company->ID );
             $admin_user_ids     = get_field( 'company_user_id', $company->ID );
 
@@ -4453,7 +4497,9 @@ function nab_generate_company_export_csv_file()
 
             if ($company->post_title != '') {
                 $dynamic_fields = array();
+                $dynamic_fields[] = $company->ID;
                 $dynamic_fields[] = $company->post_title;
+                $dynamic_fields[] = $member_level;
                 $dynamic_fields[] = $claim_status;
                 $dynamic_fields[] = $admin_url;
                 $dynamic_fields[] = $salesforce_id;
@@ -4668,11 +4714,6 @@ function book_sortable_columns( $columns ) {
 	return $columns;
 }
 
-/**
- * Validate custom added field in the edit account.
- *
- * @param  mixed $args
- */
 function nab_validate_edit_account_fields( $args ) {
     
     if ( isset( $_POST['attendee_title'] ) && empty( $_POST['attendee_title'] ) ) {        
@@ -4693,15 +4734,229 @@ function nab_validate_edit_account_fields( $args ) {
     
 }
 
-/**
- * Enqueue third party script to the footer.
- */
-function nab_enqueue_third_party_script_to_footer() {
 
-    wp_enqueue_script( 'nab-add-this-widget-js','//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668', array(), null, true );
-    wp_enqueue_script( 'nab-slick-js','//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array(), null, true );
-    wp_enqueue_script( 'nab-app-js', get_template_directory_uri() . '/js/app.min.js', array(), null, true );
+//check against a passed api-key whether to display the opt-in sensitive info in the JSON API
+if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
+    $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => true,
+    );
+    $array_meta_args = array(
+        'single'       => true,
+        'type'         => 'array',
+        'show_in_rest' => array(
+            'schema' => array(
+                'type'  => 'array',
+                'items' => array(
+                    'type' => 'string',
+                ),
+            ),
+        ),
+    );
+} else {
+    $optin_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => false,
+    );
+    $array_meta_args = array(
+        'type' => 'string',
+        'description' => 'A meta key associated with a meta value',
+        'single' => true,
+        'show_in_rest' => false,
+    );
 }
+// Specific to Session Details ACF
+register_meta( 'post', 'company', $optin_meta_args );
+register_meta( 'post', 'video_embed', $optin_meta_args );
+register_meta( 'post', 'session_date', $optin_meta_args );
+register_meta( 'post', 'session_end_time', $optin_meta_args );
+register_meta( 'post', 'session_status', $optin_meta_args );
+register_meta( 'post', 'nab_selected_company_id', $optin_meta_args );
+register_meta( 'post', 'article_type', $optin_meta_args );
+register_meta( 'post', 'community', $array_meta_args );
+register_meta( 'post', 'personas', $array_meta_args );
+register_meta( 'post', 'content_pillars', $array_meta_args );
+register_meta( 'post', 'content_scope', $optin_meta_args );
+register_meta( 'post', 'content_format', $array_meta_args );
+register_meta( 'post', 'content_subject', $array_meta_args );
+register_meta( 'post', 'acquisition_sub', $array_meta_args );
+register_meta( 'post', 'distribution_sub', $array_meta_args );
+register_meta( 'post', 'management_sub', $array_meta_args );
+register_meta( 'post', 'radio_sub', $array_meta_args );
+register_meta( 'post', 'display_sub', $array_meta_args );
+register_meta( 'post', 'industry_sub', $array_meta_args );
+register_meta( 'post', 'content_sub', $array_meta_args );
+register_meta( 'post', 'production_sub', $array_meta_args );
+
+// Specific to Opt ins ACF
+register_meta( 'post', 'company_id', $optin_meta_args );
+register_meta( 'post', 'company_name', $optin_meta_args );
+register_meta( 'post', 'opted_in', $optin_meta_args );
+register_meta( 'post', 'user_first_name', $optin_meta_args );
+register_meta( 'post', 'user_last_name', $optin_meta_args );
+register_meta( 'post', 'user_email', $optin_meta_args );
+register_meta( 'post', 'user_ip', $optin_meta_args );
+register_meta( 'post', 'user_title', $optin_meta_args );
+register_meta( 'post', 'user_company', $optin_meta_args );
+register_meta( 'post', 'user_city', $optin_meta_args );
+register_meta( 'post', 'user_state', $optin_meta_args );
+register_meta( 'post', 'user_country', $optin_meta_args );
+register_meta( 'post', 'opt_in_occurred_at_id', $optin_meta_args );
+register_meta( 'post', 'opt_in_occurred_at_url', $optin_meta_args );
+
+function optins_add_meta_info($posts) {
+    if (isset($_GET['x-api-key']) && $_GET['x-api-key'] == get_field('segment_api_key', 'option')) {
+        if( $posts ) {
+            foreach ($posts as $i => $post) {
+                $posts[$i]->meta = array(
+                    'company_id' => get_field('company_id', $post->ID),
+                    'company_name' => get_field('company_name', $post->ID),
+                    'opted_in' => get_field('opted_in', $post->ID),
+                    'user_first_name' => get_field('user_first_name', $post->ID),
+                    'user_last_name' => get_field('user_last_name', $post->ID),
+                    'user_email' => get_field('user_email', $post->ID),
+                    'user_ip' => get_field('user_ip', $post->ID),
+                    'user_title' => get_field('user_title', $post->ID),
+                    'user_company' => get_field('user_company', $post->ID),
+                    'user_city' => get_field('user_city', $post->ID),
+                    'user_state' => get_field('user_state', $post->ID),
+                    'user_country' => get_field('user_country', $post->ID),
+                    'opt_in_occurred_at_id' => get_field('opt_in_occurred_at_id', $post->ID),
+                    'opt_in_occurred_at_url' => get_field('opt_in_occurred_at_url', $post->ID),
+                );
+            }
+        }
+    }
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+function optins_return_by_company($data) {
+    $posts = get_posts( array(
+        'posts_per_page' => -1,
+        'post_type' => 'opt-in',
+        'meta_query' => array(
+            array(
+                'key' => 'company_id',
+                'compare' => '==',
+                'value' => $data['id'],
+                'type' => 'INT'
+            ),
+        )
+    ));
+    optins_add_meta_info($posts);
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'optins/v1', '/company/(?P<id>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'optins_return_by_company',
+        'args' => array(
+            'id' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+        ),
+        'permission_callback' => '__return_true',
+    ));
+});
+
+
+function optins_return_by_company_in($data) {
+    $posts = get_posts( array(
+        'posts_per_page' => -1,
+        'post_type' => 'opt-in',
+        'meta_query' => array(
+            array(
+                'key' => 'company_id',
+                'compare' => '==',
+                'value' => $data['id'],
+                'type' => 'INT'
+            ),
+            array(
+                'key' => 'opted_in',
+                'compare' => '==',
+                'value' => 1,
+                'type' => 'INT'
+            ),
+        )
+    ));
+    optins_add_meta_info($posts);
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'optins/v1', '/company/(?P<id>\d+)/in', array(
+        'methods' => 'GET',
+        'callback' => 'optins_return_by_company_in',
+        'args' => array(
+            'id' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+        ),
+        'permission_callback' => '__return_true',
+    ));
+});
+
+
+function optins_return_by_company_user($data) {
+    $posts = get_posts( array(
+        'posts_per_page' => -1,
+        'post_type' => 'opt-in',
+        'author' => $data['uid'],
+        'meta_query' => array(
+            array(
+                'key' => 'company_id',
+                'compare' => '==',
+                'value' => $data['cid'],
+                'type' => 'INT'
+            ),
+        )
+    ));
+    optins_add_meta_info($posts);
+    if ( empty( $posts )) {
+        return null;
+    }
+    return $posts;
+}
+
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'optins/v1', '/company/(?P<cid>\d+)/user/(?P<uid>\d+)', array(
+        'methods' => 'GET',
+        'callback' => 'optins_return_by_company_user',
+        'args' => array(
+            'cid' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+            'uid' => array(
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                }
+            ),
+        ),
+        'permission_callback' => '__return_true',
+    ));
+});
 
 /**
  * Updated woocommerce save account email in the POST from the DB
@@ -4855,8 +5110,142 @@ function nab_register_show_video_post_type_and_taxonomy() {
 		'show_ui'           => true,
 		'show_admin_column' => true,
 		'query_var'         => true,
-        'rewrite'           => array('slug' => 'video-library'),
+		'rewrite'           => array( 'slug' => 'video-library' ),
 	);
 
 	register_taxonomy( 'video-library', array( 'show-video' ), $category_args );
+}
+
+
+function session_excerpt_count_js() {
+    if ('sessions' == get_post_type()) {
+        echo '<script>jQuery(document).ready(function() {
+            jQuery("#postexcerpt .handlediv").after("<div style=\"position:absolute;top:12px;right:94px;color:#666;\"><small>Excerpt length: </small><span id=\"excerpt_counter\"></span><span style=\"font-weight:bold;padding-left:7px;\">/ 250</span><small><span style=\"font-weight: bold; padding-left:7px;\">character(s).</span></small></div>");
+            jQuery("span#excerpt_counter").text(jQuery("#excerpt").val().length);
+            jQuery("#excerpt").keyup( function() {
+                if(jQuery(this).val().length > 500) {
+                    jQuery(this).val(jQuery(this).val().substr(0,250));
+                }
+                jQuery("span#excerpt_counter").text(jQuery("#excerpt").val().length);
+            });
+        });</script>';
+    }
+}
+
+
+function display_newsletter_signup() {
+    ob_start();
+    $nl_post_id = get_the_ID();
+    $nl_user_id = get_current_user_id();
+    ?>
+    <div class="newsletter force-full-width">
+        <div class="container">
+            <h2 class="newsletter__title"><span class="highlight">Sign up</span> for more content like this sent directly to your inbox:</h2>
+            <form class="newsletter__form">
+                <input type="hidden" name="postID" value="<?php echo($nl_post_id); ?>">
+                <input type="hidden" name="userID" value="<?php echo($nl_user_id); ?>">
+                <fieldset class="newsletter__input">
+                    <label for="emailsignup">Email Address<span class="required">*</span></label>
+                    <input type="email" name="emailsignup" />
+                </fieldset>
+                <fieldset class="newsletter__submit">
+                    <button class="button _gradientpink" type="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <?php
+        $newsletter_signup = ob_get_clean();
+    
+    return $newsletter_signup;
+}
+
+
+function display_content_rating() {
+    ob_start();
+    $cr_post_id = get_the_ID();
+    $cr_user_id = get_current_user_id();
+    ?>
+    <div class="rate force-full-width">
+        <div class="container">
+            <h2 class="rate__title">Did you like this article?</h2>
+            <form class="rate__form">
+                <input type="hidden" name="postID" value="<?php echo($nl_post_id); ?>">
+                <input type="hidden" name="userID" value="<?php echo($nl_user_id); ?>">
+                <label for="rateLike" class="rate__like">
+                    <input type="radio" name="rate" id="rateLike" value="+1" />
+                    <span class="rate__symbol">👍</span>
+                </label>
+                <label for="rateDislike" class="rate__dislike">
+                    <input type="radio" name="rate" id="rateDislike" value="-1" />
+                    <span class="rate__symbol">👎</span>
+                </label>
+            </form>
+        </div>
+    </div>
+    <?php
+        $newsletter_signup = ob_get_clean();
+    
+    return $newsletter_signup;
+}
+
+/**
+ * Get all user reaction.
+ *
+ * @param WP_REST_Request $request
+ *
+ * @return WP_REST_Response
+ *
+ * @since 1.0.0
+ */
+function nab_get_user_reactions(WP_REST_Request $request){
+    global $wpdb;
+   
+    $per_page = $request->get_param('per_page');
+    $per_page = isset( $per_page ) && !empty($per_page) ? $per_page : 10; 
+    
+    $page = $request->get_param('page');
+    $page = isset( $page ) && !empty($page) ? $page : 1; 
+    
+
+    $offset = ($page-1) * $per_page; 
+
+    $table_name     = $wpdb->prefix . 'nab_user_reations';
+    $prepare_sql    = $wpdb->prepare( "SELECT * FROM `$table_name` ORDER BY id DESC LIMIT %d, %d", $offset, $per_page );
+
+    $react_results  = $wpdb->get_results( $prepare_sql );
+
+    $result = array();
+    if (!empty($react_results)) {
+       foreach( $react_results as $key => $val ){
+        $result[$key]['post_id'] = $val->post_id;
+        $result[$key]['post_type'] = $val->post_type;
+        $result[$key]['user_id'] =  $val->user_id;
+        $result[$key]['reaction_id'] = $val->reaction_id;
+        $result[$key]['reaction_time'] = $val->reaction_time;
+       }
+    }
+    return new WP_REST_Response($result, 200);
+}
+
+/**
+ * Add reaction count on article meta data in rest endpoints.
+ */
+function nab_article_wp_api_callback( $object ) {
+    if( !empty($object) && isset($_GET['x-api-key']) ){
+        $article_id  = isset( $object['id'] ) ?  $object['id'] : '';
+       if( !empty ( $article_id  ) ){
+            $reactions_count = nab_get_total_reactions( $article_id );
+            
+            if( isset( $object['meta'] ) ){
+                $object['meta']['reactions_count'] = $reactions_count;
+                $object['meta']['reactions_like_count'] = get_individual_reaction_count( $article_id, 1 );
+                $object['meta']['reactions_insightful_count'] = get_individual_reaction_count( $article_id, 2 );
+                $object['meta']['reactions_good_idea_count'] = get_individual_reaction_count( $article_id, 3 );
+                $object['meta']['reactions_wow_count'] = get_individual_reaction_count( $article_id, 4 );
+                $object['meta']['reactions_celebrate_count'] = get_individual_reaction_count( $article_id, 5 );
+            }
+       }
+    }
+    return $object;
 }

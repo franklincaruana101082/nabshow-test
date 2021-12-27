@@ -45,12 +45,12 @@ jQuery( function( $ ) {
 	 */
 	WCOrdersTable.prototype.onPreview = function() {
 		var $previewButton    = $( this ),
-			$order_id         = $previewButton.data( 'orderId' );
+			$order_id         = $previewButton.data( 'order-id' );
 
 		if ( $previewButton.data( 'order-data' ) ) {
 			$( this ).WCBackboneModal({
 				template: 'wc-modal-view-order',
-				variable : $previewButton.data( 'orderData' )
+				variable : $previewButton.data( 'order-data' )
 			});
 		} else {
 			$previewButton.addClass( 'disabled' );
@@ -67,7 +67,7 @@ jQuery( function( $ ) {
 					$( '.order-preview' ).removeClass( 'disabled' );
 
 					if ( response.success ) {
-						$previewButton.data( 'orderData', response.data );
+						$previewButton.data( 'order-data', response.data );
 
 						$( this ).WCBackboneModal({
 							template: 'wc-modal-view-order',

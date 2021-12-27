@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
@@ -11,7 +10,6 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  * Presentation object for indexables.
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
-
 	use Archive_Adjacent;
 
 	/**
@@ -22,23 +20,14 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $post_type;
 
 	/**
-	 * Holds the author archive helper instance.
-	 *
-	 * @var Author_Archive_Helper
-	 */
-	protected $author_archive;
-
-	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @param Post_Type_Helper $post_type The post type helper.
 	 *
-	 * @param Post_Type_Helper      $post_type      The post type helper.
-	 * @param Author_Archive_Helper $author_archive The author archive helper.
+	 * @codeCoverageIgnore
 	 */
-	public function __construct( Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
-		$this->post_type      = $post_type;
-		$this->author_archive = $author_archive;
+	public function __construct( Post_Type_Helper $post_type ) {
+		$this->post_type = $post_type;
 	}
 
 	/**
@@ -125,10 +114,10 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $this->filter_robots( $robots );
 		}
 
-		$author_archive_post_types = $this->author_archive->get_author_archive_post_types();
+		$public_post_types = $this->post_type->get_public_post_types();
 
 		// Global option: "Show archives for authors without posts in search results".
-		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $author_archive_post_types ) === 0 ) {
+		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
 			$robots['index'] = 'noindex';
 			return $this->filter_robots( $robots );
 		}
@@ -149,19 +138,6 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_open_graph_type() {
 		return 'profile';
-	}
-
-	/**
-	 * Generates the open graph images.
-	 *
-	 * @return array The open graph images.
-	 */
-	public function generate_open_graph_images() {
-		if ( $this->context->open_graph_enabled === false ) {
-			return [];
-		}
-
-		return $this->open_graph_image_generator->generate_for_author_archive( $this->context );
 	}
 
 	/**

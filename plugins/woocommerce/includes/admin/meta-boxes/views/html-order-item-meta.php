@@ -17,7 +17,6 @@ $hidden_order_itemmeta = apply_filters(
 		'method_id',
 		'cost',
 		'_reduced_stock',
-		'_restock_refunded_items',
 	)
 );
 ?><div class="view">

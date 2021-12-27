@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WP_Post;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
@@ -20,9 +19,9 @@ class Current_Page_Helper {
 	/**
 	 * Current_Page_Helper constructor.
 	 *
-	 * @codeCoverageIgnore It only sets dependencies.
-	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper
@@ -227,14 +226,11 @@ class Current_Page_Helper {
 	 * @return bool Whether or not the current page is a static posts page.
 	 */
 	public function is_static_posts_page() {
-		$wp_query       = $this->wp_query_wrapper->get_main_query();
-		$queried_object = $wp_query->get_queried_object();
+		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return (
-			$wp_query->is_posts_page &&
-			\is_a( $queried_object, WP_Post::class ) &&
-			$queried_object->post_type === 'page'
-		);
+		$page_for_posts = (int) \get_option( 'page_for_posts' );
+
+		return ( $page_for_posts > 0 && $page_for_posts === $wp_query->get_queried_object_id() );
 	}
 
 	/**

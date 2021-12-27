@@ -32,7 +32,7 @@ class MigrateFromShopify {
 
 		// We want to show the note after two days.
 		$two_days = 2 * DAY_IN_SECONDS;
-		if ( ! self::is_wc_admin_active_in_date_range( 'week-1', $two_days ) ) {
+		if ( ! self::wc_admin_active_for( $two_days ) ) {
 			return;
 		}
 

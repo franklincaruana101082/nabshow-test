@@ -43,7 +43,7 @@ class WPSEO_OpenGraph {
 	 * @param string $property Property attribute value.
 	 * @param string $content  Content attribute value.
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function og_tag( $property, $content ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -68,7 +68,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function url() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -86,7 +86,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
-	 * @return string|bool
+	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -102,7 +102,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param bool $echo Whether to echo or return the description.
 	 *
-	 * @return string
+	 * @return string $ogdesc
 	 */
 	public function description( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -119,7 +119,7 @@ class WPSEO_OpenGraph {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function article_author_facebook() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -136,7 +136,7 @@ class WPSEO_OpenGraph {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function website_facebook() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -150,9 +150,9 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @param bool $echo Whether to echo or return the type.
+	 * @param boolean $echo Whether to echo or return the type.
 	 *
-	 * @return string
+	 * @return string $type
 	 */
 	public function type( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -173,7 +173,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param bool $echo Whether to echo or return the locale.
 	 *
-	 * @return string
+	 * @return string $locale
 	 */
 	public function locale( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -189,7 +189,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param array $meta_tags The array to fix.
 	 *
-	 * @return array
+	 * @return array $meta_tags
 	 */
 	public function facebook_filter( $meta_tags ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -217,7 +217,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return bool ;
+	 * @return boolean;
 	 */
 	public function publish_date() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -259,7 +259,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function tags() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -275,7 +275,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return bool ;
+	 * @return boolean;
 	 */
 	public function category() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

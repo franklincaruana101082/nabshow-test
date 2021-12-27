@@ -12,14 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-
 /**
  * @package Plugin
  * @subpackage Request
  * @author Nazmul Ahsan <n.mukto@gmail.com>
  */
 class Request extends Hooks {
-
 
     /**
      * Constructor function

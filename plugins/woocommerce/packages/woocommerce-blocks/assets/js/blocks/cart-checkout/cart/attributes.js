@@ -1,7 +1,10 @@
 /**
  * External dependencies
  */
-import { getSetting } from '@woocommerce/settings';
+import {
+	IS_SHIPPING_CALCULATOR_ENABLED,
+	HAS_DARK_EDITOR_STYLE_SUPPORT,
+} from '@woocommerce/block-settings';
 
 const blockAttributes = {
 	isPreview: {
@@ -11,7 +14,7 @@ const blockAttributes = {
 	},
 	isShippingCalculatorEnabled: {
 		type: 'boolean',
-		default: getSetting( 'isShippingCalculatorEnabled', true ),
+		default: IS_SHIPPING_CALCULATOR_ENABLED,
 	},
 	checkoutPageId: {
 		type: 'number',
@@ -19,11 +22,7 @@ const blockAttributes = {
 	},
 	hasDarkControls: {
 		type: 'boolean',
-		default: getSetting( 'hasDarkEditorStyleSupport', false ),
-	},
-	showRateAfterTaxName: {
-		type: 'boolean',
-		default: true,
+		default: HAS_DARK_EDITOR_STYLE_SUPPORT,
 	},
 };
 

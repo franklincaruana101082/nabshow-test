@@ -1,0 +1,113 @@
+.articles-template-default.single-articles {
+	.site-main, .main {
+		background-color: $color__gray-lightester;
+		@media (prefers-color-scheme: dark) {
+			background-color: $color__gray-darker;
+		}
+		.nab-ad-block.header_ad, .titlecolor {
+			background-color: $color__gray-darker;
+		}
+	}
+	.content {
+		padding-top: rem(40);
+		h2, h3, h4, h5, h6, p, li {
+			color: $color__gray-darker;
+			@media (prefers-color-scheme: dark) {
+				color: $color__gray-lightest;
+			}
+			&.newsletter__title {
+				color: $color__white;
+			}
+		}
+		.wp-block-pullquote blockquote, .wp-block-quote {
+			//display: inline-block; 
+			background: linear-gradient(90deg, $color__blurple, $color__blue);
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+			text-fill-color: transparent;
+			
+			p {
+				font-weight: 600;
+				font-size: rem(40);
+				line-height: 1.16667;
+				@include bp-1024 {
+					font-size: rem(45);
+				}
+				@include bp-1280 {
+					font-size: rem(50);
+				}
+				@include bp-1440 {
+					font-size: rem(60);
+				}
+			}
+			cite {
+				background-color: $color__black;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				text-fill-color: transparent;
+				font-style: normal;
+				font-size: rem(18);
+				letter-spacing: -0.04em;
+				@include bp-1024 {
+					font-size: rem(20);
+				}
+				@include bp-1280 {
+					font-size: rem(22);
+				}
+				@include bp-1440 {
+					font-size: rem(24);
+				}	
+			}
+			
+		}
+
+		figure {
+			figcaption {
+				color: $color__gray-lightish !important;
+			}
+		}
+		
+		a {
+			color: $color__blue !important;
+			&:active, &:focus, &:hover {
+				color: $color__blurple !important;
+			}
+		}
+		.article-content {
+			a {
+				color: $color__blue !important;
+				&:active, &:focus, &:hover {
+					color: $color__blurple !important;
+				}
+				&.wsb-button {
+					text-decoration: none !important;
+					color: $color__white !important;
+					&:active, &:focus, &:hover {
+						color: $color__white !important;
+					}	
+				}
+			}
+			.buttom {
+				& + a.wsb-button {
+					display: inline-block;
+					float: right;
+					margin-bottom: rem(15);
+				}
+			}
+		}
+		.comment-form a, .comment-form p {
+			color: $color__gray-light;
+		}
+		.comment-form a {
+			&:active, &:focus, &:hover {
+				color: $color__blurple;
+			}
+		}
+		.amp-tag-main .amp-tag-list li .btn {
+			color: $color__white !important;
+			&:active, &:focus, &:hover {
+				color: $color__gray-lightester;
+			}
+		}
+	}
+}

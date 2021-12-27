@@ -2,12 +2,10 @@
 
 namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
 
-use Exception;
-
 /**
  * Class Empty_Property_Exception
  */
-class Empty_Property_Exception extends Exception {
+class Empty_Property_Exception extends \Exception {
 
 	/**
 	 * Empty_Property_Exception constructor.

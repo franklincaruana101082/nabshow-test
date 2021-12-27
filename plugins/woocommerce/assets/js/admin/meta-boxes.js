@@ -17,19 +17,7 @@ jQuery( function ( $ ) {
 	runTipTip();
 
 	$( '.wc-metaboxes-wrapper' ).on( 'click', '.wc-metabox > h3', function() {
-		var metabox = $( this ).parent( '.wc-metabox' );
-
-		if ( metabox.hasClass( 'closed' ) ) {
-			metabox.removeClass( 'closed' );
-		} else {
-			metabox.addClass( 'closed' );
-		}
-
-		if ( metabox.hasClass( 'open' ) ) {
-			metabox.removeClass( 'open' );
-		} else {
-			metabox.addClass( 'open' );
-		}
+		$( this ).parent( '.wc-metabox' ).toggleClass( 'closed' ).toggleClass( 'open' );
 	});
 
 	// Tabbed Panels
@@ -44,7 +32,7 @@ jQuery( function ( $ ) {
 			$( $( this ).attr( 'href' ) ).show();
 		});
 		$( 'div.panel-wrap' ).each( function() {
-			$( this ).find( 'ul.wc-tabs li' ).eq( 0 ).find( 'a' ).trigger( 'click' );
+			$( this ).find( 'ul.wc-tabs li' ).eq( 0 ).find( 'a' ).click();
 		});
 	}).trigger( 'wc-init-tabbed-panels' );
 

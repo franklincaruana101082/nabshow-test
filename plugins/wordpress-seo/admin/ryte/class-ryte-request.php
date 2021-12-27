@@ -36,10 +36,7 @@ class WPSEO_Ryte_Request {
 
 		$parameters = array_merge( $defaults, $parameters );
 		$url        = add_query_arg( $parameters, $this->ryte_endpoint );
-
-		// Decrease a chance of "cURL 28 (timeout)" errors by increasing the timeout to 10 seconds.
-		$args     = [ 'timeout' => 10 ];
-		$response = wp_remote_get( $url, $args );
+		$response   = wp_remote_get( $url );
 
 		return $this->process_response( $response );
 	}

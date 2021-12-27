@@ -6,7 +6,6 @@ namespace Yoast\WP\SEO\Config;
  * Class Schema_IDs.
  */
 class Schema_IDs {
-
 	/**
 	 * Hash used for the Author `@id`.
 	 */

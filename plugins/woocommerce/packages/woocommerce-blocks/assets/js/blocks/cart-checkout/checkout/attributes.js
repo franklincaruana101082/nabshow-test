@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { getSetting } from '@woocommerce/settings';
+import { HAS_DARK_EDITOR_STYLE_SUPPORT } from '@woocommerce/block-settings';
 
 const blockAttributes = {
 	isPreview: {
@@ -51,11 +51,7 @@ const blockAttributes = {
 	},
 	hasDarkControls: {
 		type: 'boolean',
-		default: getSetting( 'hasDarkEditorStyleSupport', false ),
-	},
-	showRateAfterTaxName: {
-		type: 'boolean',
-		default: getSetting( 'displayCartPricesIncludingTax', false ),
+		default: HAS_DARK_EDITOR_STYLE_SUPPORT,
 	},
 };
 

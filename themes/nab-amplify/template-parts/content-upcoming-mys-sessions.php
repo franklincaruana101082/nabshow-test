@@ -72,4 +72,3 @@ if ( $query_result->have_posts() ) {
   </div>
   <?php
 }
-wp_reset_postdata();

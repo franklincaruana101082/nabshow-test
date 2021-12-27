@@ -55,10 +55,9 @@ function nab_db_add_attendee_callback()
 	$response       = [];
 	$err            = 0;
 	$parent_user_id = get_current_user_id();
-	$order_id       = filter_input( INPUT_POST, 'attendeeOrderID', FILTER_SANITIZE_NUMBER_INT );
-	$nab_nonce		= filter_input( INPUT_POST, 'nabNonce', FILTER_SANITIZE_STRING );
+	$order_id       = filter_input(INPUT_POST, 'attendeeOrderID');
 
-	if ( ! isset( $nab_nonce ) || false === wp_verify_nonce( $nab_nonce, 'nab-ajax-nonce' ) ) {
+	if (!isset($_POST['nabNonce']) || false === wp_verify_nonce($_POST['nabNonce'], 'nab-ajax-nonce')) {
 		$response['err']     = 1;
 		$response['message'] = 'Authentication failed. Please reload the page and try again.';
 
@@ -106,9 +105,10 @@ function nab_db_add_attendee_callback()
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		);
 
-		if ( isset( $_FILES['file']['name'] ) && isset( $_FILES['file']['type'] ) && in_array( $_FILES['file']['type'], $file_mimes, true ) ) {
+		if (isset($_FILES['file']['name']) && in_array($_FILES['file']['type'], $file_mimes)) {
 
-			$input_file      = isset( $_FILES['file']['tmp_name'] ) ? $_FILES['file']['tmp_name'] : '';			
+			$input_file      = $_FILES['file']['tmp_name'];
+			$input_file_name = $_FILES['file']['name'];
 
 			$input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($input_file);
 
@@ -123,7 +123,11 @@ function nab_db_add_attendee_callback()
 
 			$sheet_data    = $spreadsheet->getActiveSheet()->toArray();
 			$sheet_records = count($sheet_data) - 1;
-			$inserted_records = 0;			
+			$inserted_records = 0;
+
+			/*if ( $sheet_records < $new_attendee_count ) {
+				$new_attendee_count = $sheet_records;
+			}*/
 
 			if (!empty($sheet_data)) {
 
@@ -199,8 +203,9 @@ function insert_new_attendee_callback()
 	global $wpdb;
 
 	$res              = [];
-	$order_id         = filter_input(INPUT_POST, 'attendeeOrderID', FILTER_SANITIZE_NUMBER_INT );
-	$current_index    = filter_input(INPUT_POST, 'currentIndex', FILTER_SANITIZE_NUMBER_INT);	
+	$order_id         = filter_input(INPUT_POST, 'attendeeOrderID');
+	$current_index    = filter_input(INPUT_POST, 'currentIndex');
+	$offset           = (isset($current_index)) ? 10 * $current_index : 0;
 	$failed           = [];
 	$skipped          = 0;
 	$skipped_msg      = [];
@@ -331,9 +336,7 @@ function insert_new_attendee_callback()
 	$res['skipped_msg']    = $skipped_msg;
 	$res['added_attendee'] = $added_attendee;
 
-	$is_last = filter_input( INPUT_POST, 'isLast', FILTER_SANITIZE_STRING );
-
-	if ( isset( $is_last ) && 'yes' === $is_last ) {
+	if (isset($_POST['isLast']) && 'yes' === $_POST['isLast']) {
 		$res['totalAddedAttendees'] = nab_get_attendee_count($order_id);
 	}
 
@@ -347,17 +350,15 @@ function get_order_attendees_callback()
 {
 	global $wpdb;
 
-	$res      	= [];
-	$nab_nonce	= filter_input( INPUT_GET, 'nabNonce', FILTER_SANITIZE_STRING );
-
-	if ( ! isset( $nab_nonce ) || false === wp_verify_nonce( $nab_nonce, 'nab-ajax-nonce' ) ) {
+	$res      = [];
+	if (!isset($_GET['nabNonce']) || false === wp_verify_nonce($_GET['nabNonce'], 'nab-ajax-nonce')) {
 		$res['err']     = 1;
 		$res['message'] = 'Authentication failed. Please reload the page and try again.';
 
 		wp_send_json($res, 200);
 	}
 
-	$order_id = filter_input( INPUT_GET, 'orderId', FILTER_SANITIZE_NUMBER_INT );
+	$order_id = filter_input(INPUT_GET, 'orderId');
 
 	if (!isset($order_id) || empty($order_id)) {
 		$res['err']     = 1;
@@ -396,16 +397,11 @@ add_action('wp_ajax_nopriv_nab_custom_update_cart', 'nab_custom_update_cart_cb')
 function nab_custom_update_cart_cb()
 {
 
-	$res			= [];
-	$input_is_bulk 	= filter_input( INPUT_POST, 'is_bulk', FILTER_SANITIZE_STRING );
-
-	if ( isset( $input_is_bulk ) && 'yes' === $input_is_bulk ) {
-
-		$input_qty	= filter_input( INPUT_POST, 'qty', FILTER_SANITIZE_NUMBER_INT );
-
-		if ( isset( $input_qty ) && ! empty( $input_qty ) ) {
-			$qty 		= $input_qty;
-			$is_bulk	= 'yes';
+	$res = [];
+	if (isset($_POST['is_bulk']) && 'yes' === filter_input(INPUT_POST, 'is_bulk')) {
+		if (isset($_POST['qty']) && !empty($_POST['qty'])) {
+			$qty = filter_input(INPUT_POST, 'qty');
+			$is_bulk = 'yes';
 		} else {
 			$qty = 1;
 			$is_bulk = 'no';
@@ -451,19 +447,17 @@ function nab_remove_attendee()
 {
 	global $wpdb;
 
-	$res		= [];
-	$nab_nonce	= filter_input( INPUT_POST, 'nabNonce', FILTER_SANITIZE_STRING );
-
-	if ( ! isset( $nab_nonce ) || false === wp_verify_nonce( $nab_nonce, 'nab-ajax-nonce' ) ) {
+	$res      = [];
+	if (!isset($_POST['nabNonce']) || false === wp_verify_nonce($_POST['nabNonce'], 'nab-ajax-nonce')) {
 		$res['err']     = 1;
 		$res['message'] = 'Authentication failed. Please reload the page and try again.';
 
 		wp_send_json($res, 200);
 	}
 
-	$primary_id 		= filter_input( INPUT_POST, 'pID', FILTER_SANITIZE_NUMBER_INT );
-	$order_id   		= filter_input( INPUT_POST, 'oID', FILTER_SANITIZE_NUMBER_INT );
-	$parent_order_id 	= filter_input( INPUT_POST, 'parentOrderId', FILTER_SANITIZE_NUMBER_INT );
+	$primary_id 		= filter_input(INPUT_POST, 'pID');
+	$order_id   		= filter_input(INPUT_POST, 'oID');
+	$parent_order_id 	= filter_input(INPUT_POST, 'parentOrderId', FILTER_SANITIZE_NUMBER_INT);
 
 	if (!isset($primary_id) || empty($primary_id) || !isset($order_id) || empty($order_id)) {
 		$res['err']     = 1;
@@ -1056,9 +1050,12 @@ function nab_member_search_filter_callback()
 	$city			= filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
 	$orderby		= filter_input(INPUT_POST, 'orderby', FILTER_SANITIZE_STRING);
 
+	$user_logged_in = false;
 	$logged_user_id	= 0;
 
-	if (is_user_logged_in()) {		
+	if (is_user_logged_in()) {
+
+		$user_logged_in = true;
 		$logged_user_id = get_current_user_id();
 	}
 
@@ -1141,6 +1138,12 @@ function nab_member_search_filter_callback()
 		}
 	}
 
+	// if (!empty($company)) {
+
+	// 	$members_filter['meta_key'] 	= 'attendee_company';
+	// 	$members_filter['meta_value']	= $company;
+	// }
+
 	$user_excluded = false;
 
 	if (!empty($connected) && 'yes' === $connected) {
@@ -1149,14 +1152,13 @@ function nab_member_search_filter_callback()
 	} else if (!empty($connected) && 'no' === $connected) {
 
 		$friend_list_ids = friends_get_friend_user_ids($logged_user_id);
-		
+
 		if ( is_array( $hide_users ) && count( $hide_users ) > 0 ) {
 			$friend_list_ids 	= array_unique( array_merge( $friend_list_ids, $hide_users ) );
 			$user_excluded		= true;
-		}		
-
+		}
 		if (is_array($friend_list_ids) && count($friend_list_ids) > 0) {
-			$members_filter['exclude']	= $friend_list_ids;			
+			$members_filter['exclude']	= $friend_list_ids;
 		}
 	}
 
@@ -1170,7 +1172,7 @@ function nab_member_search_filter_callback()
 	}
 
 	$total_users 	= 0;
-	$total_pages	= 0;	
+	$total_pages	= 0;
 
 	if ( $meta_result ) {
 
@@ -1331,6 +1333,8 @@ function nab_company_search_filter_callback()
 		$cnt 					= 0;
 		$default_company_cover 	= get_template_directory_uri() . '/assets/images/search-box-cover.png';
 		$user_logged_in			= is_user_logged_in();
+		$current_user_id		= $user_logged_in ? get_current_user_id() : '';
+		$default_company_pic	= get_template_directory_uri() . '/assets/images/amplify-featured.png';
 
 		while ($company_query->have_posts()) {
 
@@ -1354,7 +1358,7 @@ function nab_company_search_filter_callback()
 
 			ob_start();
 
-			?>
+?>
 			<a href="<?php echo esc_url($company_url); ?>" class="button result__button">View Now</a>
 			<?php
 			if ($company_poc !== '' && !empty($company_poc)) {
@@ -1363,13 +1367,12 @@ function nab_company_search_filter_callback()
 					<div id="send-private-message" class="generic-button poc-msg-btn">
 						<a href="javascript:void(0);" class="link _plus result__message" data-comp-id="<?php echo esc_attr(get_the_ID()); ?>">Message Rep</a>
 					</div>
-		   			<?php
+		   <?php
 				} else {
 					$current_url = home_url(add_query_arg(null, null));
-					$current_url = str_replace('amplify/amplify', 'amplify', $current_url);
-					?>
-					<a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="link _plus result__message">Message Rep</a>
-	   				<?php
+					$current_url = str_replace('amplify/amplify', 'amplify', $current_url); ?>
+				<a href="<?php echo esc_url(add_query_arg(array( 'r' => $current_url ), wc_get_page_permalink('myaccount'))); ?>" class="link _plus result__message">Message Rep</a>
+	   <?php
 				}
 			}
 
@@ -1691,14 +1694,14 @@ function nab_event_search_filter_callback()
 	$event_type		= filter_input(INPUT_POST, 'event_type', FILTER_SANITIZE_STRING);
 
 	$event_args		= array(
-		'post_type'			=> 'tribe_events',
+		'post_type'			=> array('tribe_events','sessions'),
 		'posts_per_page'	=> $post_limit,
 		'paged'				=> $page_number,
 		'post_status'		=> 'publish',
 		's'					=> $search_term,
-		'meta_key'			=> '_EventStartDate',
 		'orderby'			=> 'meta_value',
-		'order'				=> 'ASC'
+		'order'				=> 'ASC',
+		'tribe_suppress_query_filters' => true,
 	);
 
 	if ('previous' === $event_type || 'upcoming' === $event_type) {
@@ -1709,8 +1712,21 @@ function nab_event_search_filter_callback()
 		$event_args['meta_query'] = array(
 
 			array(
-				'key' 		=> '_EventEndDate',
+				'key' 		=> array('_EventEndDate','session_end_time'),
 				'value'		=> $current_date,
+				'compare'	=> $compare,
+				'type'		=> 'DATE'
+			)
+		);
+	}
+	if ('all' === $event_type) {
+
+		$compare		= 'EXISTS';
+
+		$event_args['meta_query'] = array(
+
+			array(
+				'key' 		=> array('_EventStartDate','session_date'),
 				'compare'	=> $compare,
 				'type'		=> 'DATE'
 			)
@@ -1732,9 +1748,17 @@ function nab_event_search_filter_callback()
 			$event_query->the_post();
 
 			$event_post_id		= get_the_ID();
+			$event_post_type	= get_post_type( $event_post_id );
 			$thumbnail_url      = nab_amplify_get_featured_image( $event_post_id, true, nab_product_company_placeholder_img() );
-			$event_start_date   = get_post_meta($event_post_id, '_EventStartDate', true);
-			$event_end_date     = get_post_meta($event_post_id, '_EventEndDate', true);
+			if ( $event_post_type == 'tribe_events') {
+				$event_start_date   = get_post_meta( $event_post_id, '_EventStartDate', true) ;
+				$event_end_date     = get_post_meta( $event_post_id, '_EventEndDate', true) ;
+				$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
+			} else {
+				$event_start_date   = get_post_meta( $event_post_id, 'session_date', true) ;
+				$event_end_date     = get_post_meta( $event_post_id, 'session_end_time', true) ;
+				$company_id			= get_field( 'company', $event_post_id );
+			}
 			$website_link 		= get_post_meta(get_the_ID(), '_EventURL', true);
 			$website_link		= !empty($website_link) ? trim($website_link) : get_the_permalink();
 			$target				= 0 === strpos($website_link, $current_site_url) ? '_self' : '_blank';
@@ -1744,8 +1768,7 @@ function nab_event_search_filter_callback()
 			$final_date         = $event_start_date;
 			$start_time         = '';
 			$end_time           = '';
-			$company_id			= get_field( 'nab_selected_company_id', $event_post_id );
-			$event_content      = wp_strip_all_tags( get_the_content() );
+			$event_content      = wp_trim_words( wp_strip_all_tags( get_the_content() ), 10);
 
 			if (!empty($event_start_date) && !empty($event_end_date)) {
 
@@ -2085,10 +2108,8 @@ function nab_update_member_bookmark_callback()
 		} else if ('remove' === strtolower($bm_action)) {
 
 			if (!empty($bookmark_products) && is_array($bookmark_products) && in_array($item_id, $bookmark_products, true)) {
-				
-				$key = array_search( $item_id, $bookmark_products, true );
 
-				if ( false !== $key ) {
+				if (($key = array_search($item_id, $bookmark_products)) !== false) {
 
 					unset($bookmark_products[$key]);
 
@@ -2369,6 +2390,32 @@ function nab_bp_message_request_popup()
 
 	ob_start();
 
+	$company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$post_type = filter_input(INPUT_POST, 'post_type', FILTER_SANITIZE_STRING);
+	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+	$member_id = filter_input(INPUT_POST, 'member_id', FILTER_SANITIZE_NUMBER_INT);
+	$action = 'poc';
+	$message_html = nab_get_wp_editor('', 'nab-xconnection-message', array('media_buttons' => true,'teeny' => true, 'quicktags' => false, 'tinymce' => array('toolbar1' => 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink', 'content_css' => get_template_directory_uri() . '/assets/css/nab-front-tinymce.css')));
+
+	if ($post_type === 'company-products') {
+		$point_of_contact   = get_field('product_point_of_contact', $post_id);
+	} else {
+		$point_of_contact   = get_field('point_of_contact', $company_id);
+	}
+
+	if ($member_id) {
+		$point_of_contact = $member_id;
+		$action = 'mmu';
+	}
+
+	$user_fullname = nab_get_author_fullname($point_of_contact);
+
+
+	$user_images = nab_amplify_get_user_images($point_of_contact);
+
+	$user_job_title = get_user_meta($point_of_contact, 'attendee_title', true);
+
+
 	require_once get_template_directory() . '/inc/nab-message-popup.php';
 
 	$popup_html = ob_get_clean();
@@ -2386,20 +2433,24 @@ add_action("wp_ajax_nopriv_nab_bp_send_message", "nab_bp_send_message");
 /**
  * Ajax to send message.
  */
-function nab_bp_send_message() {
-
+function nab_bp_send_message()
+{
+	global $bp;
 	check_ajax_referer('nab-ajax-nonce', 'nabNonce');
 
-	$post_id			= filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_STRING);
-	$message			= filter_input(INPUT_POST, 'message', FILTER_UNSAFE_RAW);
-	$recipient  		= filter_input(INPUT_POST, 'send_to', FILTER_SANITIZE_STRING);
-	$subject 			= 'Private message';
-	$current_user_id 	= get_current_user_id();
+	$post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_STRING);
+	$message = filter_input(INPUT_POST, 'message', FILTER_UNSAFE_RAW);
+	$recipient  = filter_input(INPUT_POST, 'send_to', FILTER_SANITIZE_STRING);
+	$subject = 'Private message';
+	$current_user_id = get_current_user_id();
+
 
 	$response = array(
 		'feedback' => __('Your message could not be sent. Please try again.', 'buddypress'),
 		'type'     => 'error',
 	);
+
+
 
 	// Validate subject and message content
 	if (empty($message)) {
@@ -2414,6 +2465,7 @@ function nab_bp_send_message() {
 		$response['feedback'] = __('Please login to send a message', 'buddypress');
 		wp_send_json_error($response);
 	}
+
 
 	// Attempt to send the message.
 	$send = messages_new_message(array(
@@ -2479,19 +2531,18 @@ function nab_edit_feature_block_popup() {
 add_action("wp_ajax_nab_edit_feature_block", "nab_edit_feature_block");
 add_action("wp_ajax_nopriv_nab_edit_feature_block", "nab_edit_feature_block");
 
-function nab_edit_feature_block()
-{
+function nab_edit_feature_block() {
 	$response								= array();
-	$company_id								= filter_input( INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT );
-	$company_admins							= get_field( 'company_user_id', $company_id );
+	$company_id								= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_admins							= get_field('company_user_id', $company_id);
 	$current_logged_user					= get_current_user_id();
 	$nab_featured_block_headline			= 'Featured';
-	$feature_background_image				= wp_strip_all_tags( filter_input( INPUT_POST, 'feature_background_image', FILTER_SANITIZE_STRING ) ); /* Bynder_Featured_Company */
-	$nab_featured_block_title				= wp_strip_all_tags( filter_input( INPUT_POST, 'nab_featured_block_title', FILTER_SANITIZE_STRING ) );
-	$nab_featured_block_posted_by			= wp_strip_all_tags( filter_input( INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING ) );
-	$nab_featured_block_description			= wp_strip_all_tags( filter_input( INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING ) );
-	$nab_featured_block_button_label		= wp_strip_all_tags( filter_input( INPUT_POST, 'nab_featured_block_button_label', FILTER_SANITIZE_STRING ) );
-	$nab_featured_block_button_link			= wp_strip_all_tags( filter_input( INPUT_POST, 'nab_featured_block_button_link', FILTER_SANITIZE_STRING ) );
+	$feature_background_image				= strip_tags(filter_input(INPUT_POST, 'feature_background_image', FILTER_SANITIZE_STRING)); /* Bynder_Featured_Company */
+	$nab_featured_block_title				= strip_tags(filter_input(INPUT_POST, 'nab_featured_block_title', FILTER_SANITIZE_STRING));
+	$nab_featured_block_posted_by			= strip_tags(filter_input(INPUT_POST, 'nab_featured_block_posted_by', FILTER_SANITIZE_STRING));
+	$nab_featured_block_description			= strip_tags(filter_input(INPUT_POST, 'nab_featured_block_description', FILTER_SANITIZE_STRING));
+	$nab_featured_block_button_label		= strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_label', FILTER_SANITIZE_STRING));
+	$nab_featured_block_button_link			= strip_tags(filter_input(INPUT_POST, 'nab_featured_block_button_link', FILTER_SANITIZE_STRING));
 	$nab_featured_bg_color					= '#000000';
 	$nab_featured_status_color				= '#e5018b';
 	$nab_featured_title_color				= '#ffffff';
@@ -2501,10 +2552,9 @@ function nab_edit_feature_block()
 	$nab_feature_block_reaction				= 1;
 	$nab_feature_block_button				= 1;
 	$nab_feature_block_link_target			= 1;
-	$nab_featured_block_remove_attachment	= explode( ',', filter_input( INPUT_POST, 'nab_featured_block_remove_attachment', FILTER_SANITIZE_STRING ) );
-	
+	$nab_featured_block_remove_attachment	= explode(',', filter_input(INPUT_POST, 'nab_featured_block_remove_attachment', FILTER_SANITIZE_STRING));
 	/*Check if current user is company admin */
-	if ( 'company' === get_post_type( $company_id ) && ! in_array( $current_logged_user, $company_admins, true ) ) {
+	if (get_post_type($company_id) == 'company' && !in_array($current_logged_user, $company_admins)) {
 		$response['feedback'] = 'Sorry! You dont have permission!';
 		wp_send_json_error($response);
 	}
@@ -2532,12 +2582,12 @@ function nab_edit_feature_block()
 	update_field('feature_enable_button', $nab_feature_block_button, $company_id);
 	update_field('feature_button_target', $nab_feature_block_link_target, $company_id);
 
-	if ( ! empty( $nab_featured_block_remove_attachment ) ) {
-		if ( in_array( 'play_image', $nab_featured_block_remove_attachment, true ) ) {
-			update_field( 'feature_icon_image', 0, $company_id );
+	if (!empty($nab_featured_block_remove_attachment)) {
+		if (in_array('play_image', $nab_featured_block_remove_attachment)) {
+			update_field('feature_icon_image', 0, $company_id);
 		}
-		if ( in_array( 'bg_image', $nab_featured_block_remove_attachment, true ) ) {
-			update_field( 'feature_background_image', 0, $company_id );
+		if (in_array('bg_image', $nab_featured_block_remove_attachment)) {
+			update_field('feature_background_image', 0, $company_id);
 			update_post_meta( $company_id, '_bynder_feature_background_image', '' );
 		}
 	}
@@ -2575,11 +2625,6 @@ function nab_edit_feature_block()
 		'feedback' => __('Featured Block Updated!', 'buddypress'),
 		'type'     => 'success',
 	));
-
-
-
-
-
 
 	wp_die();
 }
@@ -2719,15 +2764,20 @@ add_action("wp_ajax_nopriv_nab_add_company_admin_popup", "nab_add_company_admin_
 /**
  * Ajax to show connection request popup.
  */
-function nab_add_company_admin_popup() {
-	
+function nab_add_company_admin_popup()
+{
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_title   = get_the_title($company_id);
+
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-company-admin-url-popup.php';
 
 	$popup_html = ob_get_clean();
 
-	wp_send_json( $popup_html, 200 );
+	wp_send_json($popup_html, 200);
 
 	wp_die();
 }
@@ -2735,8 +2785,10 @@ function nab_add_company_admin_popup() {
 add_action('wp_ajax_upload_temp_csv', 'upload_temp_csv');
 add_action('wp_ajax_nopriv_upload_temp_csv', 'upload_temp_csv');
 
-function upload_temp_csv() {
-	
+function upload_temp_csv()
+{
+
+	$temp = get_temp_dir();
 
 	$upload_dir = wp_get_upload_dir()['basedir'];
 
@@ -2744,13 +2796,13 @@ function upload_temp_csv() {
 
 	$file_path = $upload_dir . '/csv_import/nab_import_company.csv';
 
-	$csv_content = isset( $_FILES[0]['tmp_name'] ) ? file_get_contents( $_FILES[0]['tmp_name'] ) : '';
+	$csv_content = file_get_contents($_FILES[0]['tmp_name']);
 
 	file_put_contents($file_path, $csv_content);
 
-	if ( isset( $_FILES[0]['name'] ) ) {
+	if (isset($_FILES[0]['name'])) {
 
-		if ( isset( $_FILES[0]['error'] ) && 0 < $_FILES[0]['error'] ) {
+		if (0 < $_FILES[0]['error']) {
 			wp_send_json_success(array(
 				'feedback' => __('Error during file upload' . $_FILES[0]['error'], 'buddypress'),
 				'type'     => 'error',
@@ -2807,7 +2859,8 @@ if (class_exists('WP_Batch')) {
 			if (file_exists($csv_path)) {
 
 
-				// Add the CSV data in the processing queue				
+				// Add the CSV data in the processing queue
+				$rows   = array_map('str_getcsv', file($csv_path));
 
 				$input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($csv_path);
 
@@ -2935,7 +2988,7 @@ if (class_exists('WP_Batch')) {
 
 					$term = term_exists($cat, 'company-product-category');
 
-					if ( 0 === $term && null === $term ) {
+					if ($term == 0 && $term == null) {
 						$term = wp_insert_term(
 							$cat,   // the term
 							'company-product-category' // the taxonomy
@@ -3044,8 +3097,13 @@ function nab_reset_csv_processed()
 add_action("wp_ajax_nab_get_error_popup", "nab_get_error_popup");
 add_action("wp_ajax_nopriv_nab_get_error_popup", "nab_get_error_popup");
 
-function nab_get_error_popup() {
-	
+function nab_get_error_popup()
+{
+	$message      = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+	$confirm      = filter_input(INPUT_POST, 'confirm', FILTER_SANITIZE_NUMBER_INT);
+	$address_id   = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_confirm     = filter_input(INPUT_POST, 'employee_remove', FILTER_SANITIZE_NUMBER_INT);
 	ob_start();
 
 	require_once get_template_directory() . '/inc/nab-error-popup.php';
@@ -3064,7 +3122,21 @@ add_action("wp_ajax_nopriv_nab_amplify_add_address", "nab_amplify_add_address");
 /**
  * Ajax to show address popup.
  */
-function nab_amplify_add_address() {	
+function nab_amplify_add_address()
+{
+
+
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+
+	$address_number = array(
+		'1' => 'one',
+		'2' => 'two',
+		'3' => 'three',
+		'4' => 'four'
+	);
+	$address_data = get_field('regional_address_' . $address_number[$address_id], $company_id);
+	$country_list = nab_get_countries();
 
 	ob_start();
 
@@ -3072,7 +3144,7 @@ function nab_amplify_add_address() {
 
 	$popup_html = ob_get_clean();
 
-	wp_send_json( $popup_html, 200 );
+	wp_send_json($popup_html, 200);
 
 	wp_die();
 }
@@ -3081,17 +3153,16 @@ function nab_amplify_add_address() {
 add_action('wp_ajax_nab_amplify_submit_address', 'nab_amplify_submit_address');
 add_action('wp_ajax_nopriv_nab_amplify_submit_address', 'nab_amplify_submit_address');
 
-function nab_amplify_submit_address() {
-	
-	$company_id		= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	$address_id		= filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
-	$street_line_1	= filter_input(INPUT_POST, 'street_line_1', FILTER_SANITIZE_STRING);
-	$street_line_2	= filter_input(INPUT_POST, 'street_line_2', FILTER_SANITIZE_STRING);
-	$city			= filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
-	$state			= filter_input(INPUT_POST, 'state', FILTER_SANITIZE_STRING);
-	$country		= filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
-	$zip			= filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_STRING);
-	$final_result	= array();
+function nab_amplify_submit_address()
+{
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$street_line_1      = filter_input(INPUT_POST, 'street_line_1', FILTER_SANITIZE_STRING);
+	$street_line_2      = filter_input(INPUT_POST, 'street_line_2', FILTER_SANITIZE_STRING);
+	$city      = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
+	$state      = filter_input(INPUT_POST, 'state', FILTER_SANITIZE_STRING);
+	$country      = filter_input(INPUT_POST, 'country', FILTER_SANITIZE_STRING);
+	$zip      = filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_STRING);
 
 	switch ($address_id) {
 		case "1":
@@ -3164,11 +3235,10 @@ function nab_amplify_submit_address() {
 add_action('wp_ajax_nab_amplify_remove_address', 'nab_amplify_remove_address');
 add_action('wp_ajax_nopriv_nab_amplify_remove_address', 'nab_amplify_remove_address');
 
-function nab_amplify_remove_address() {
-
-	$company_id		= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	$address_id		= filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
-	$final_result	= array();
+function nab_amplify_remove_address()
+{
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
 
 	switch ($address_id) {
 		case "1":
@@ -3252,21 +3322,25 @@ function nab_amplify_banner_image_remove()
 add_action("wp_ajax_nab_amplify_state_filter", "nab_amplify_state_filter");
 add_action("wp_ajax_nopriv_nab_amplify_state_filter", "nab_amplify_state_filter");
 
-function nab_amplify_state_filter() {
+function nab_amplify_state_filter()
+{
 
-	$country_code		= filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
-	$filtered_states	= array();
-	$states				= nab_get_states();
+	$company_id      = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$address_id      = filter_input(INPUT_POST, 'address_id', FILTER_SANITIZE_NUMBER_INT);
+	$country_code    = filter_input(INPUT_POST, 'country_code', FILTER_SANITIZE_STRING);
+	$filtered_states = array();
+	$states          = nab_get_states();
+
 
 	foreach ($states as $state) {
 
-		if ( $state['Country'] === $country_code ) {
+		if ($state['Country'] == $country_code) {
 
 			$filtered_states[] = $state;
 		}
 	}
 
-	wp_send_json( $filtered_states, 200 );
+	wp_send_json($filtered_states, 200);
 }
 
 add_action("wp_ajax_nab_check_for_opt_in", "nab_check_for_opt_in");
@@ -3312,8 +3386,36 @@ function nab_create_update_opt_in_out() {
 	$user_last_name = filter_input(INPUT_POST, 'user_last_name', FILTER_SANITIZE_STRING);
 	$user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
 	$user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
+	$user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+	$user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
+	$user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+	$user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
+	$user_country = filter_input(INPUT_POST, 'user_country', FILTER_SANITIZE_STRING);
 	$opt_in_occurred_at_id = filter_input(INPUT_POST, 'opt_in_occurred_at_id', FILTER_SANITIZE_NUMBER_INT);
 	$opt_in_occurred_at_url = filter_input(INPUT_POST, 'opt_in_occurred_at_url', FILTER_SANITIZE_URL);
+
+	if($opted_in == null) { $opted_in = 0; }
+
+	if(!$post_id) {
+		//check to see if a record exists
+		$posts = get_posts(array(
+			'posts_per_page' => -1,
+			'post_type' => 'opt-in',
+			'author' => $post_author,
+			'meta_query' => array(
+				array(
+					'key' => 'company_id',
+					'compare' => '==',
+					'value' => $company_id,
+					'type' => 'INT'
+				),
+			)
+		));
+		if($posts) {
+			//set post_id to most recent matched post ID
+			$post_id = $posts[0]->ID;
+		}
+	}
 
 	if($post_id) {
 		$update_post = array(
@@ -3329,6 +3431,11 @@ function nab_create_update_opt_in_out() {
 				'user_last_name' => $user_last_name,
 				'user_email' => $user_email,
 				'user_ip' => $user_ip,
+				'user_title' => $user_title,
+				'user_company' => $user_company,
+				'user_city' => $user_city,
+				'user_state' => $user_state,
+				'user_country' => $user_country,
 				'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
 				'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
 			)
@@ -3348,6 +3455,11 @@ function nab_create_update_opt_in_out() {
 				'user_first_name' => $user_first_name,
 				'user_last_name' => $user_last_name,
 				'user_email' => $user_email,
+				'user_title' => $user_title,
+				'user_company' => $user_company,
+				'user_city' => $user_city,
+				'user_state' => $user_state,
+				'user_country' => $user_country,
 				'user_ip' => $user_ip,
 				'opt_in_occurred_at_id' => $opt_in_occurred_at_id,
 				'opt_in_occurred_at_url' => $opt_in_occurred_at_url,
@@ -3366,7 +3478,19 @@ function nab_create_update_opt_in_out() {
 add_action("wp_ajax_nab_amplify_add_employee", "nab_amplify_add_employee");
 add_action("wp_ajax_nopriv_nab_amplify_add_employee", "nab_amplify_add_employee");
 
-function nab_amplify_add_employee() {	
+function nab_amplify_add_employee()
+{
+
+	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$company_data['company_employees'] = get_field('company_employees', $company_id);
+	$company_data['ID'] = $company_id;
+	$member_level = get_field('member_level', $company_id);
+
+	if ($member_level === 'Plus') {
+		$limit_employees_str = '4 TOTAL';
+	} elseif ($member_level === 'Premium') {
+		$limit_employees_str = 'UNLIMITED';
+	}
 
 	ob_start();
 
@@ -3374,7 +3498,7 @@ function nab_amplify_add_employee() {
 
 	$popup_html = ob_get_clean();
 
-	wp_send_json( $popup_html, 200 );
+	wp_send_json($popup_html, 200);
 
 	wp_die();
 }
@@ -3383,13 +3507,15 @@ function nab_amplify_add_employee() {
 add_action('wp_ajax_nab_amplify_submit_employee', 'nab_amplify_submit_employee');
 add_action('wp_ajax_nopriv_nab_amplify_submit_employee', 'nab_amplify_submit_employee');
 
-function nab_amplify_submit_employee() {
+function nab_amplify_submit_employee()
+{
 
 	$company_id			= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
 	$company_employees	= filter_input(INPUT_POST, 'company_employees', FILTER_SANITIZE_STRING);
 	$company_employees	= explode(',', $company_employees);
-	$member_level		= get_field('member_level', $company_id);	
-	$final_result		= array();	
+	$member_level		= get_field('member_level', $company_id);
+	$existing_employees = get_field('company_employees', $company_id);
+	$total_employees	= count($existing_employees);
 
 	if ( $member_level === 'Plus' && is_array( $company_employees ) && count( $company_employees ) > 4 ) {
 		$final_result['success'] = false;
@@ -3400,7 +3526,7 @@ function nab_amplify_submit_employee() {
 		$final_result['content'] = '';
 	}
 
-	wp_send_json( $final_result, 200 );
+	wp_send_json($final_result, 200);
 	wp_die();
 }
 
@@ -3411,13 +3537,10 @@ add_action('wp_ajax_nopriv_nab_amplify_remove_employee', 'nab_amplify_remove_emp
 
 function nab_amplify_remove_employee()
 {
-	$company_id			= filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
-	$employee_id		= filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
-	$existing_employees	= get_field('company_employees', $company_id);
-	$key 				= array_search( $employee_id, $existing_employees, true );
-	$final_result		= array();
-
-	if ( false !== $key ) {
+	$company_id   = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
+	$employee_id   = filter_input(INPUT_POST, 'employee_id', FILTER_SANITIZE_NUMBER_INT);
+	$existing_employees  = get_field('company_employees', $company_id);
+	if (($key = array_search($employee_id, $existing_employees)) !== false) {
 		unset($existing_employees[$key]);
 	}
 
@@ -3476,6 +3599,8 @@ function nab_content_submission_callback() {
 
 	if (  'premium' === $member_level && $total_content >= $submit_limit ) {
 
+		$result['success'] = false;
+
 		wp_send_json_error( array( 'msg' => 'You have used up your allotted three submissions, but additional sponsored articles can be purchased a la carte. Contact your sales rep for details.' ) );
 	}
 
@@ -3492,11 +3617,11 @@ function nab_content_submission_callback() {
 	}
 
 	$content_post_data = array(
-        'post_title'   => $content_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'content-submission',
+		'post_title'   => $content_title,
+		'post_status'  => 'publish',
+		'post_type'    => 'content-submission',
 		'post_content' => $content_copy,
-    );
+	);
 
 	$content_id 	= wp_insert_post( $content_post_data );
 	$attachment_id	= '';
@@ -3603,7 +3728,7 @@ function nab_content_submission_callback() {
 					?>
 					<p><strong>Copy:</strong></p>
 					<?php
-					echo wp_kses_post( $content_copy );
+					echo $content_copy;
 				}
 				?>
 			</body>
@@ -3682,10 +3807,10 @@ function nab_downloadable_pdf_callback() {
 	}
 
 	$pdf_post_data = array(
-        'post_title'   => $pdf_title,
-        'post_status'  => 'publish',
-        'post_type'    => 'downloadable-pdfs'
-    );
+		'post_title'   => $pdf_title,
+		'post_status'  => 'publish',
+		'post_type'    => 'downloadable-pdfs'
+	);
 
 	if ( empty( $pdf_id ) || 0 === (int) $pdf_id ) {
 
@@ -3704,8 +3829,8 @@ function nab_downloadable_pdf_callback() {
 
 	} else {
 
-        $pdf_post_data['ID']	= $pdf_id;
-        $pdf_id					= wp_update_post( $pdf_post_data );
+		$pdf_post_data['ID']	= $pdf_id;
+		$pdf_id					= wp_update_post( $pdf_post_data );
 		$msg 					= 'Downloadable PDF updated successfully.';
 
 		do_action( 'nab_downloadable_pdf_action', $company_id, $pdf_title, 'update' );
@@ -3819,6 +3944,8 @@ function nab_pdf_search_filter_callback()
 			$company_id			= get_field( 'nab_selected_company_id', $pdf_id );
 			$pdf_url            = ! empty( $attached_pdf_id ) ? wp_get_attachment_url( $attached_pdf_id ) : '';
 			$pdf_content        = wp_strip_all_tags( get_field( 'description', $pdf_id ) );
+			$pdf_link			= get_the_permalink( $pdf_id );
+			$pdf_desc           = wp_trim_words( $pdf_content, 10, '&hellip;' );
 			$company_name		= get_the_title( $company_id );
 			$company_link		= get_the_permalink( $company_id );
 
@@ -3827,16 +3954,18 @@ function nab_pdf_search_filter_callback()
 			$result_post[$cnt]['title'] 		= html_entity_decode( get_the_title() );
 			$result_post[$cnt]['company'] 		= html_entity_decode( $company_name );
 			$result_post[$cnt]['company_url']	= html_entity_decode( $company_link );
-			$result_post[$cnt]['thumbnail']		= $thumbnail_url;
+			$result_post[$cnt]['thumbnail'] 	= $thumbnail_url;
 			$result_post[$cnt]['company_id']	= $company_id;
+			$result_post[$cnt]['pdf_link']	= $pdf_link;
+			$result_post[$cnt]['pdf_desc']	= $pdf_desc;
 
 			if ( ! empty( $pdf_content ) ) {
 				$result_post[$cnt]['content'] = $pdf_content;
 			}
 
-			if ( 0 === $page_number % 2 && ( 4 === $cnt + 1 || 12 === $cnt + 1 ) ) {
+			if ( 0 === $page_number % 2 && ( 5 === $cnt + 1 || 15 === $cnt + 1 ) ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
-			} else if ( 0 !== $page_number % 2 && 8 === $cnt + 1 ) {
+			} else if ( 0 !== $page_number % 2 && 10 === $cnt + 1 ) {
 				$result_post[$cnt]['banner'] = nab_get_search_result_ad();
 			}
 
@@ -3905,13 +4034,13 @@ function nab_company_events_callback() {
 		$max_limit = 3;
 
 		$query_args = array(
-            'post_type'         => 'tribe_events',
-            'post_status'       => 'publish',
-            'posts_per_page'    => -1,
-            'meta_key'          => 'nab_selected_company_id',
-            'meta_value'        => $company_id,
-            'fields'            => 'ids',
-        );
+			'post_type'         => 'tribe_events',
+			'post_status'       => 'publish',
+			'posts_per_page'    => -1,
+			'meta_key'          => 'nab_selected_company_id',
+			'meta_value'        => $company_id,
+			'fields'            => 'ids',
+		);
 
 		$event_query 	= new WP_Query( $query_args );
 		$total_event	= count( $event_query->posts );
@@ -3921,6 +4050,8 @@ function nab_company_events_callback() {
 		}
 
 		if ( $total_event > $max_limit ) {
+
+			$result['success'] = false;
 
 			wp_send_json_error( array( 'msg' => 'With the Plus Package you are limited to three event listings at a time. Please delete one or contact your sales rep to upgrade to the Premium Package for unlimited events.' ) );
 		}
@@ -3948,11 +4079,11 @@ function nab_company_events_callback() {
 	}
 
 	$event_data = array(
-        'post_title'   => $event_name,
-        'post_status'  => 'publish',
-        'post_type'    => 'tribe_events',
+		'post_title'   => $event_name,
+		'post_status'  => 'publish',
+		'post_type'    => 'tribe_events',
 		'post_content' => $event_desc,
-    );
+	);
 
 	if ( empty( $event_id ) || 0 === (int) $event_id ) {
 
@@ -3970,8 +4101,8 @@ function nab_company_events_callback() {
 
 	} else {
 
-        $event_data['ID']		= $event_id;
-        $event_id				= wp_update_post( $event_data );
+		$event_data['ID']		= $event_id;
+		$event_id				= wp_update_post( $event_data );
 		$msg 					= 'Event updated successfully.';
 
 		do_action( 'nab_company_event_action', $company_id, $event_id, 'update' );
@@ -4052,4 +4183,64 @@ function nab_remove_company_event_callback() {
 	}
 
 	wp_send_json_success( array( 'msg' => 'Event removed successfully.' ) );
+}
+
+add_action("wp_ajax_nab_register_session", "nab_register_session");
+
+function nab_register_session() {
+	$newTZ = wp_timezone();
+	$now = new DateTime(gmdate('Y-m-d H:i:s'));
+	$now->setTimezone($newTZ);
+	$post_date = $now->format('Y-m-d H:i:s');
+
+	$post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_STRING);
+	$post_status = filter_input(INPUT_POST, 'post_status', FILTER_SANITIZE_STRING);
+	$post_author = filter_input(INPUT_POST, 'post_author', FILTER_SANITIZE_NUMBER_INT);
+	$post_type = filter_input(INPUT_POST, 'post_type', FILTER_SANITIZE_STRING);
+	$session_id = filter_input(INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT);
+	$session_name = filter_input(INPUT_POST, 'session_name', FILTER_SANITIZE_STRING);
+	$session_company_id = filter_input(INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT);
+	$session_company_name = filter_input(INPUT_POST, 'session_company_name', FILTER_SANITIZE_STRING);
+	$user_email = filter_input(INPUT_POST, 'user_email', FILTER_SANITIZE_EMAIL);
+	$user_firstname = filter_input(INPUT_POST, 'user_firstname', FILTER_SANITIZE_STRING);
+	$user_lastname = filter_input(INPUT_POST, 'user_lastname', FILTER_SANITIZE_STRING);
+	$user_city = filter_input(INPUT_POST, 'user_city', FILTER_SANITIZE_STRING);
+	$user_state = filter_input(INPUT_POST, 'user_state', FILTER_SANITIZE_STRING);
+	$user_country_code = filter_input(INPUT_POST, 'user_country_code', FILTER_SANITIZE_STRING);
+	$user_company = filter_input(INPUT_POST, 'user_company', FILTER_SANITIZE_STRING);
+	$user_title = filter_input(INPUT_POST, 'user_title', FILTER_SANITIZE_STRING);
+	$user_ip = filter_input(INPUT_POST, 'user_ip', FILTER_SANITIZE_STRING);
+		
+
+	$new_post = array(
+		'post_title' => $post_title,
+		'post_status' => $post_status,
+		'post_date' => $post_date,
+		'post_author' => $post_author,
+		'post_type' => $post_type,
+		'meta_input' => array(
+			'session_id' => $session_id,
+			'session_name' => $session_name,
+			'session_company_id' => $session_company_id,
+			'session_company_name' => $session_company_name,
+			'registered_at' => $post_date,
+			'user_email' => $user_email,
+			'user_firstname' => $user_firstname,
+			'user_lastname' => $user_lastname,
+			'user_city' => $user_city,
+			'user_state' => $user_state,
+			'user_country_code' => $user_country_code,
+			'user_company' => $user_company,
+			'user_title' => $user_title,
+			'user_ip' => $user_ip,
+		)
+	);
+	$registration_post = wp_insert_post($new_post);
+	
+	
+	if($registration_post) {
+		wp_send_json_success($registration_post);
+	} else {
+		wp_send_json_error();
+	}
 }

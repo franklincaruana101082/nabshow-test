@@ -54,15 +54,7 @@ class Clean {
 			$decimal_places = wc_get_price_decimals();
 		}
 
-		$price = wc_format_decimal( $price, $decimal_places );
-
-		// Minor fix to number formatting for WC < 3.3
-		// TODO: remove when WC 3.3 support is dropped
-		if ( 0 === $decimal_places && version_compare( WC()->version, '3.3', '<' ) ) {
-			$price = number_format( floatval( $price ), 0, '.', '' );
-		}
-
-		return $price;
+		return wc_format_decimal( $price, $decimal_places );
 	}
 
 	/**

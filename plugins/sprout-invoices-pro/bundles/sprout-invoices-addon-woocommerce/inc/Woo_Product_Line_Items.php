@@ -111,6 +111,22 @@ class Woo_Product_Line_Items extends SI_Controller {
 		wp_send_json_success( $response );
 	}
 
+      ///////////////////////////
+	 //updated deprecated code//
+	///////////////////////////
+	public function get_post_data() {
+		wc_deprecated_function( 'WC_Product::get_post_data', '3.0', 'get_post' );
+	
+		// In order to keep backwards compatibility it's required to use the parent data for variations.
+		if ( $this->is_type( 'variation' ) ) {
+		  $post_data = get_post( $this->get_parent_id() );
+		} else {
+		  $post_data = get_post( $this->get_id() );
+		}
+	
+		return $post_data;
+	  }
+	 
 
 	/////////////
 	// Utility //

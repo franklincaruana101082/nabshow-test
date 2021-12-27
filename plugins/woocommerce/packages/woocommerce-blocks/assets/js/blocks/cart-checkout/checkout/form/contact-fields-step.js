@@ -3,10 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { FormStep } from '@woocommerce/base-components/cart-checkout';
-import { ValidatedTextInput } from '@woocommerce/base-components/text-input';
+import { DebouncedValidatedTextInput } from '@woocommerce/base-components/text-input';
 import { useCheckoutContext } from '@woocommerce/base-context';
-import { useCheckoutSubmit } from '@woocommerce/base-context/hooks';
-import { getSetting } from '@woocommerce/settings';
+import {
+	CHECKOUT_ALLOWS_GUEST,
+	CHECKOUT_ALLOWS_SIGNUP,
+} from '@woocommerce/block-settings';
 import CheckboxControl from '@woocommerce/base-components/checkbox-control';
 
 /**
@@ -19,16 +21,16 @@ const ContactFieldsStep = ( {
 	allowCreateAccount,
 } ) => {
 	const {
+		isProcessing: checkoutIsProcessing,
 		customerId,
 		shouldCreateAccount,
 		setShouldCreateAccount,
 	} = useCheckoutContext();
-	const { isDisabled } = useCheckoutSubmit();
 
 	const createAccountUI = ! customerId &&
 		allowCreateAccount &&
-		getSetting( 'checkoutAllowsGuest', false ) &&
-		getSetting( 'checkoutAllowsSignup', false ) && (
+		CHECKOUT_ALLOWS_GUEST &&
+		CHECKOUT_ALLOWS_SIGNUP && (
 			<CheckboxControl
 				className="wc-block-checkout__create-account"
 				label={ __(
@@ -39,11 +41,10 @@ const ContactFieldsStep = ( {
 				onChange={ ( value ) => setShouldCreateAccount( value ) }
 			/>
 		);
-
 	return (
 		<FormStep
 			id="contact-fields"
-			disabled={ isDisabled }
+			disabled={ checkoutIsProcessing }
 			className="wc-block-checkout__contact-fields"
 			title={ __(
 				'Contact information',
@@ -55,7 +56,7 @@ const ContactFieldsStep = ( {
 			) }
 			stepHeadingContent={ () => <LoginPrompt /> }
 		>
-			<ValidatedTextInput
+			<DebouncedValidatedTextInput
 				id="email"
 				type="email"
 				label={ __( 'Email address', 'woocommerce' ) }

@@ -73,6 +73,8 @@ class Table {
 	 * @param array   $options The options.
 	 *
 	 * @throws Exception If invalid arguments are passed.
+	 *
+	 * @return Table
 	 */
 	public function __construct( $adapter, $name, $options = [] ) {
 		// Sanity checks.
@@ -172,11 +174,10 @@ class Table {
 	/**
 	 * Table definition
 	 *
-	 * @param bool $wants_sql Whether or not to return SQL or execute the query. Defaults to false.
-	 *
-	 * @return bool|string
+	 * @param boolean $wants_sql Whether or not to return SQL or execute the query. Defaults to false.
 	 *
 	 * @throws Exception If the table definition has not been intialized.
+	 * @return boolean | string
 	 */
 	public function finish( $wants_sql = false ) {
 		if ( ! $this->initialized ) {
@@ -231,7 +232,7 @@ class Table {
 			$c        = $this->columns[ $i ];
 			$fields[] = $c->__toString();
 		}
-		return \implode( ",\n", $fields );
+		return \join( ",\n", $fields );
 	}
 
 	/**

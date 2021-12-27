@@ -292,12 +292,12 @@ abstract class SI_Post_Type extends Sprout_Invoices {
 	/*
 	 * Multiton Design Pattern
 	 * ------------------------------------------------------------- */
-	final protected function __clone() {
+	final public function __clone() {
 		// cannot be cloned
 		trigger_error( __CLASS__.' may not be cloned', E_USER_ERROR );
 	}
 
-	final protected function __sleep() {
+	final public function __sleep() {
 		// cannot be serialized
 		trigger_error( __CLASS__.' may not be serialized', E_USER_ERROR );
 	}

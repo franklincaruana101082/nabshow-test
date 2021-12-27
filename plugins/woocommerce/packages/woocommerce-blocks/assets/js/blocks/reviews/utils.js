@@ -3,12 +3,10 @@
  */
 import apiFetch from '@wordpress/api-fetch';
 import classNames from 'classnames';
-import { getSetting } from '@woocommerce/settings';
+import { REVIEW_RATINGS_ENABLED } from '@woocommerce/block-settings';
 
 export const getSortArgs = ( sortValue ) => {
-	const reviewRatingsEnabled = getSetting( 'reviewRatingsEnabled', true );
-
-	if ( reviewRatingsEnabled ) {
+	if ( REVIEW_RATINGS_ENABLED ) {
 		if ( sortValue === 'lowest-rating' ) {
 			return {
 				order: 'asc',

@@ -183,7 +183,7 @@
 	 */
 	si.expenseEntries.init = function() {
 		// Save expense entry
-		$( '#create_expense_entry' ).on( 'click', function( e ) {
+		$(document).on( 'click', '#create_expense_entry', function( e ) {
 			e.stopPropagation();
 			e.preventDefault();
 
@@ -209,7 +209,7 @@
 
 
 		// Save expense category
-		$( '#create_expense_category' ).on( 'click', function( e ) {
+		$(document).on( 'click', '#create_expense_category',  function( e ) {
 			e.stopPropagation();
 			e.preventDefault();
 
@@ -231,7 +231,7 @@
 
 
 		// Remove expense entry
-		$( '.expense_entry_deletion' ).on( 'click', function( e ) {
+		$(document).on( 'click', '.expense_entry_deletion' , function( e ) {
 			var data = {
 					project_id: $(this).data('project-id'),
 					id: $(this).data('id'),
@@ -242,18 +242,18 @@
 		} );
 
 		// Dynamically insert the expense creation form.
-		$( '#show_expense_creation_modal' ).on( 'click', function( e ) {
+		$(document).on( 'click','#show_expense_creation_modal',  function( e ) {
 			si.expenseEntries.expenseCreationModal();
 		} );
 
 		// Dynamically add the expense tracking form.
-		$( '.expense_tracker_popup' ).on( 'click', function( e ) {
+		$(document).on( 'click','.expense_tracker_popup', function( e ) {
 			si.expenseEntries.expenseTrackerModal();
 		} );
 
 
 		// Remove expense category
-		$( '.expense_category_deletion' ).on( 'click', function( e ) {
+		$(document).on( 'click','.expense_category_deletion', function( e ) {
 			var data = {
 					id: $(this).data('id'),
 					nonce: $(this).data('nonce')
@@ -264,13 +264,13 @@
 
 		var expense_attachment_frame;
 
-        $('#add-expense-atachments').on( 'click', function(e) {
+        $(document).on( 'click','#add-expense-atachments', function(e) {
             e.stopPropagation();
             e.preventDefault();
             si.expenseEntries.MediaWindow( this, expense_attachment_frame );
         });
 
-         $('.remove_exp_media_item').on( 'click', function(e) {
+         $(document).on( 'click','.remove_exp_media_item', function(e) {
             var $id = $(this).data('id')
             si.expenseEntries.removeMedia( $id );
         });

@@ -40,6 +40,8 @@ class WPSEO_Replacement_Variable {
 	 * @param string $variable    The variable that is replaced.
 	 * @param string $label       The label of the replacement variable.
 	 * @param string $description The description of the replacement variable.
+	 *
+	 * @return \WPSEO_Replacement_Variable
 	 */
 	public function __construct( $variable, $label, $description ) {
 		$this->variable    = $variable;
