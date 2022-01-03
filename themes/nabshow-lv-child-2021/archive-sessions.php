@@ -57,7 +57,9 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 }
 ?>
     <div class="decorative _lightlines-strip"></div>
-
+    <div class="container">
+        <?php dynamic_sidebar('broadstreet-internal-top'); ?>
+    </div>
     <div class="section decorative _lightlines-top-left-angle">
         <div class="container">
 
@@ -340,7 +342,7 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                                 $speaker_planner_url    = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/speaker-details.cfm?speakerid=';
                                 $location_url           = 'https://' . $show_code . '.mapyourshow.com/8_0/floorplan/';
                                 $program_planner_url    = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/#/searchtype/sessiontrack/search/';
-
+                                $session_count          = 1;
                                 while ( have_posts() ) {
 
                                     the_post();
@@ -439,6 +441,10 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 
                                     </div>
                                     <?php
+                                    if($session_count == 5){
+                                        dynamic_sidebar('broadstreet-ros-middle');
+                                    }
+                                    $session_count++;
                                 }
                             }
                             ?>
@@ -473,6 +479,9 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
                             }
                             ?>
                         </div>
+                        
+                        <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+                        
                     </div>
                     <!-- .filter-column -->
                 </div>

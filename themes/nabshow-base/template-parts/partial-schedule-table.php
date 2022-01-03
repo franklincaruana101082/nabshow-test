@@ -1,54 +1,13 @@
 <?php
 /**
- * Functions which enhance the theme by hooking into WordPress
- *
- * @package NABShow_LV
+ * Template part for displaying schedule table
+ * 
+ * @package NABShow-Base
+ * 
  */
 
-/**
- * Adds custom classes to the array of body classes.
- *
- * @param array $classes Classes for the body element.
- * @return array
- *
- * @since 1.0.0
- */
-function nabshow_lv_body_classes( $classes ) {
-
-	// Adds a class of hfeed to non-singular pages.
-	if ( ! is_singular() ) {
-		$classes[] = 'hfeed';
-	}
-
-	// Adds a class of no-sidebar when there is no sidebar present.
-	if ( ! is_active_sidebar( 'sidebar-1' ) ) {
-		$classes[] = 'no-sidebar';
-	}
-
-	return $classes;
-}
-
-add_filter( 'body_class', 'nabshow_lv_body_classes' );
-
-/**
- * Add a pingback url auto-discovery header for single posts, pages, or attachments.
- *
- * @return string
- *
- * @since 1.0.0
- */
-function nabshow_lv_pingback_header() {
-
-	if ( is_singular() && pings_open() ) {
-		printf( '<link rel="pingback" href="%s">', esc_url( get_bloginfo( 'pingback_url' ) ) );
-	}
-}
-
-add_action( 'wp_head', 'nabshow_lv_pingback_header' );
-
-
-function nabshow_render_schedule($schedule_id) {
-    if($schedule_id) {
+if( isset($args['schedule_id']) ){
+	$schedule_id = $args['schedule_id'];
 ?>
 <div class="decorative _blur _blur-middle">
     <div class="schedule-table-container">
@@ -159,5 +118,3 @@ function nabshow_render_schedule($schedule_id) {
     </div>
 </div>
 <?php }
-
-}

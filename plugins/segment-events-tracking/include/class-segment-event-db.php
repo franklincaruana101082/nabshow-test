@@ -112,7 +112,7 @@ if ( ! class_exists( 'Segment_Event_DB' ) ) {
                             } else {
                                 Segment::track( $data );
                             }
-
+                            Segment::flush();
                             $this->st_remove_event( $result->id );
                         }
                     }
