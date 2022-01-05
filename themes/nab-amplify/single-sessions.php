@@ -515,7 +515,12 @@ if($hide_videos) {
 					<div class="container">
 						<div class="session__notsignedin nabblock">
 
-							<?php dynamic_sidebar('session-not-logged-in'); ?>
+							<?php //dynamic_sidebar('session-not-logged-in'); ?>
+							<section class="introtext widget widget_text">
+								<h3 class="intro__title">Become an official NAB Amplify Member</h3>			
+								<div class="textwidget"><p>You need to be logged in to NAB Amplify to register for this session.<br>Scroll down to read more information about the event.</p></div>
+							</section>
+							
 							
 							<div class="intro__cta">
 								<?php
