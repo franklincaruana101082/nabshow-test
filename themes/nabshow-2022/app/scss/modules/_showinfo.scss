@@ -19,9 +19,10 @@
 		padding: 0;
 	}
 	&__logo {
-		max-width: rem(390);
+		max-width: rem(430);
 		height: auto;
 		display: block;
-		margin: rem(70) auto rem(36);
+		margin: rem(70) auto rem(36);	
+		padding: 0 rem(20);
 	}
 }
