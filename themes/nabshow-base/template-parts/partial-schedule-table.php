@@ -21,7 +21,7 @@ if( isset($args['schedule_id']) ){
                 $schedule_event_details = get_field( 'schedule_event_details', $schedule_id );
                 ?>
                 <table>
-                    <caption><?php echo esc_html( get_field( 'schedule_table_caption', $schedule_id ) );?></caption>
+                    <caption><?php echo esc_html( get_field( 'schedule_table_title', $schedule_id ) );?></caption>
                     <thead>
                         <?php
                         if ( $featured_event && is_array( $featured_event ) ) {                                 
