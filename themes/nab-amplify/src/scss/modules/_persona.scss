@@ -66,6 +66,18 @@
 			color: $color__white;
 			font-size: rem(18);
 			line-height: 1.33;
+			@include bp-1024 {
+				padding-right: rem(70);
+			}
+			@include bp-1024 {
+				padding-right: rem(120);
+			}
+			@include bp-1280 {
+				padding-right: rem(160);
+			}
+			@include bp-1440 {
+				padding-right: rem(250);
+			}
 			p {
 				color: $color__white;
 				font-size: rem(18);
