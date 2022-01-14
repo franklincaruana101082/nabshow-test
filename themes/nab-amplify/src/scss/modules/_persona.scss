@@ -129,4 +129,47 @@
 					}
 				}
 			}
+
+	&__logos {
+		margin-top: rem(30);
+		order: 0;
+		text-align: center;
+		@include bp-768 {
+			order: 1;
+			align-self: center;
+			margin-top: 0;
+		}
+	}
+		&__logo {
+			
+			&:first-child {
+				padding: rem(6) rem(20) rem(2) 0;
+				border-right: 1px solid $color__white;
+				max-width: rem(112);
+			}
+			&:last-child {
+				padding: 0 0 0 rem(20);
+				position: relative;
+				max-width: rem(140);
+				top: rem(-7);
+			}
+		}
+}
+
+
+._persona {
+	.post-action-author {
+		display: flex;
+		flex-flow: column nowrap;
+		@include bp-768 {
+			flex-flow: row nowrap;
+			justify-content: space-between;
+		}
+		.author {
+			order: 1;
+			@include bp-768 {
+				order: 0;
+			}
+		}
+	}
 }

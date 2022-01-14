@@ -119,6 +119,12 @@ if ($persona != 'none' && $persona != '') {
 			<?php } ?>
 			<div class="post-action-author">
 				<?php echo do_shortcode( '[nab_display_author]' ); ?>
+				<?php if($do_persona) { ?>
+					<div class="persona__logos">
+						<img class="persona__logo" src="<?php echo esc_url(get_stylesheet_directory_uri().'/assets/images/logo-nabshow-no-tag-white.png'); ?>" alt="NAB Show Logo" />
+						<img class="persona__logo" src="<?php echo esc_url(get_stylesheet_directory_uri().'/assets/images/logo-amplify-no-tag.png'); ?>" alt="Amplify Logo" />
+					</div>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
