@@ -1356,3 +1356,17 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 
 	return $product_ids;
 }
+
+
+function get_nab_persona_by_slug($slug, $array) {
+	foreach ($array as $key => $val) {
+		if ($val['slug'] === $slug) {
+			$resultSet['title'] = $val['title'];
+			$resultSet['description'] = $val['description'];
+			$resultSet['icon'] = $val['icon'];
+			$resultSet['button'] = $val['button'];
+			return $resultSet;
+		}
+	}
+	return null;
+}

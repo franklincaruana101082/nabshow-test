@@ -78,6 +78,9 @@
           border-radius: 50%;
           background-color: $color__gray-dark;
           transition: background-color .3s ease-in-out;
+          ._persona & {
+            mix-blend-mode: screen;
+          }
           img {
             filter: brightness(0) invert(1);
             opacity: .545;
