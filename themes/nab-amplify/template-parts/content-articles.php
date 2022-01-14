@@ -48,10 +48,23 @@ if(isset($_COOKIE[$cookieName])) {
 }
 
 
+
+$personaClass = '';
+$do_persona = false;
+$persona = get_field('nab_show_promo_persona');
+if ($persona != 'none' && $persona != '') {
+	$personaClass = "_".$persona;
+	$do_persona = true;
+	$persona_content = get_field('persona_info', 'option');
+}
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<div class="titlecolor">
+	<div class="titlecolor <?php if($do_persona) { echo "_persona ".$personaClass; }?>">
+		<div class="nab-ad-block header_ad">
+            <broadstreet-zone zone-id="82835"></broadstreet-zone>
+        </div>
 		<div class="container">
 			<header class="intro">
 
@@ -79,6 +92,31 @@ if(isset($_COOKIE[$cookieName])) {
 					</div>
 				</div>
 			</header><!-- .entry-header -->
+			<?php if($do_persona) { 
+				$persona_intro = get_nab_persona_by_slug($persona, $persona_content);
+			?>
+			<div class="persona__intro">
+				<?php if($persona_intro['icon']) { ?>
+				<div class="persona__iconWrap">
+					<img class="persona__icon" src="<?php echo esc_url($persona_intro['icon']['url']); ?>" alt="<?php echo esc_attr($persona_intro['icon']['alt']); ?>" />
+				</div>
+				<?php } ?>
+				<?php if($persona_intro['title']) {?>
+					<h2 class="persona__title"><?php echo $persona_intro['title']; ?></h2>
+				<?php } ?>
+				<?php if($persona_intro['description']) {?>
+					<div class="persona__desc"><?php echo $persona_intro['description']; ?></div>
+				<?php } ?>
+				<?php if($persona_intro['button']) { 
+					$target = '';
+					if($persona_intro['button']['target'] == "_blank") { $target = 'target="_blank"';} 
+				?>
+				<div class="persona__buttonWrap">
+					<a class="persona__button button" <?php echo $target; ?> href="<?php echo esc_url($persona_intro['button']['url']); ?>"><?php echo $persona_intro['button']['title']; ?></a>
+				</div>
+				<?php } ?>
+			</div>
+			<?php } ?>
 			<div class="post-action-author">
 				<?php echo do_shortcode( '[nab_display_author]' ); ?>
 			</div>
