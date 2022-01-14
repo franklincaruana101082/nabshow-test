@@ -96,7 +96,7 @@ if ($persona != 'none' && $persona != '') {
 				$persona_intro = get_nab_persona_by_slug($persona, $persona_content);
 			?>
 			<div class="persona__intro">
-				<?php if($persona_intro['icon']['url']) { ?>
+				<?php if($persona_intro['icon']) { ?>
 				<div class="persona__iconWrap">
 					<img class="persona__icon" src="<?php echo esc_url($persona_intro['icon']['url']); ?>" alt="<?php echo esc_attr($persona_intro['icon']['alt']); ?>" />
 				</div>
