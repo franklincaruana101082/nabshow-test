@@ -2036,9 +2036,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 </form>
                 <table>
                     <?php                    
-                    $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
-
-                    $wpdb->query( "TRUNCATE TABLE {$table_name}" );                    
+                    $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';                                   
                     $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 500" );
                     $cnt = 1;
                     if ( $query_results && ! empty( $query_results ) ) {
