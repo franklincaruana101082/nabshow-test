@@ -2052,7 +2052,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                             ?>
                             <tr>
-                                <td><?php echo esc_html( $cnt ); ?></td>
+                                <td><?php echo esc_html( $result->id ); ?></td>
                                 <td><?php echo $result->eventData; ?></td>
                             </tr>
                             <?php
