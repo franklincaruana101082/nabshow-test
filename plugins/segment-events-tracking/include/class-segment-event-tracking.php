@@ -2019,6 +2019,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             } else {
                 $segment_api_key = get_option( 'segment_tracking_api_key' );
             }
+            global $wpdb;
             ?>
             <div class="search-settings">
                 <h2>Segment Settings</h2>
@@ -2033,6 +2034,27 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     </table>
                     <?php submit_button("Save Changes"); ?>
                 </form>
+                <table>
+                    <?php
+                    $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
+                    $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 10" );
+        
+                    if ( $query_results && ! empty( $query_results ) ) {
+        
+                        foreach ( $query_results as $result ) {
+
+                            ?>
+                            <tr>
+                                <td><?php echo $result->eventData; ?></td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <tr>
+                        <td>
+                    </tr>
+                </table>
             </div>
             <?php
         }
