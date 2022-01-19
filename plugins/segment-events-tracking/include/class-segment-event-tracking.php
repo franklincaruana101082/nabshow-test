@@ -2036,6 +2036,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 </form>
                 <?php
                 $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
+                $wpdb->query( "DELETE FROM {$table_name} WHERE id=56522" );
                 $total_query    = $wpdb->get_col( "SELECT COUNT(*) as totalItem FROM {$table_name}" ); 
                 $session_query  = $wpdb->get_col( "SELECT COUNT(*) as totalItem FROM {$table_name} WHERE eventData LIKE '%Session_User_Registered%'" );
                 $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 500" );
