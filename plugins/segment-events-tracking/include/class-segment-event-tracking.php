@@ -2037,17 +2037,19 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 <table>
                     <?php
                     $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
-                    $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 10" );
-        
+                    $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 500" );
+                    $cnt = 1;
                     if ( $query_results && ! empty( $query_results ) ) {
         
                         foreach ( $query_results as $result ) {
 
                             ?>
                             <tr>
+                                <td><?php echo esc_html( $cnt ); ?><td>
                                 <td><?php echo $result->eventData; ?></td>
                             </tr>
                             <?php
+                            $cnt++;
                         }
                     }
                     ?>
