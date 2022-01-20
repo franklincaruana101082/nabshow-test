@@ -256,6 +256,15 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
         public function st_identity_event( $identity_details = array() ) {
 
+            if ( ! isset( $identity_details['userId'] ) || empty( $identity_details['userId'] ) ) {
+
+                if ( is_user_logged_in() ) {
+                    $identity_details['userId'] = get_current_user_id(); 
+                } else {
+                    $identity_details['anonymousId'] = uniqid();
+                }
+            }
+
             $identity_details = wp_json_encode( $identity_details );
             $this->st_insert_event( 'identify', $identity_details );
         }
