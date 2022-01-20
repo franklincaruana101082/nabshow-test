@@ -1,0 +1,65 @@
+// Scss variables (colours etc...)
+
+// WP Theme
+
+$theme_path: "/wp-content/themes/nabshow-2022";
+
+// Colors
+$colorhex__black: #000000;
+$colorhex__gray-dark: #333333;
+$colorhex__gray: #404040;
+$colorhex__gray--medium: #707277;
+$colorhex__gray-light: #c4c4c4;
+$colorhex__gray-medium-light: #9e9e9e;
+$colorhex__white: #ffffff;
+
+$colorhex__pink: #cd8ec4;
+$colorhex__blue: #2f5dab;
+$colorhex__blue-light: #0ca5ea;
+$colorhex__blue-dark: #020a39;
+$colorhex__purple-slate: #817a89;
+$colorhex__purple-slate-dark: #2d2930;
+$colorhex__purple-lighter: #cd8ec4;
+$colorhex__purple-light: #9e4593;
+$colorhex__purple-lightish: #6b3b99;
+$colorhex__purple: #2a173c;
+$colorhex__purple-dark: #030621;
+
+
+//using css vars
+
+$color__black: var(--black, #000000);
+$color__gray-dark: var(--gray-dark, #333333);
+$color__gray: var(--gray, #404040);
+$color__gray--medium: var(--gray-medium, #707277);
+$color__gray-light: var(--gray-light, #c4c4c4);
+$color__gray-medium-light: var(--gray-medium-light, #9e9e9e);
+$color__white: var(--white, #ffffff);
+
+
+$color__purple: var(--primary-color, #2a173c);				   	//rgb(42,23,60)
+$color__blue: var(--secondary-color, #2f5dab);				   	//rgb(47,93,171)
+$color__blue-light: var(--secondary-light, #0ca5ea);			//rgb(12, 165, 234)
+$color__blue-dark: var(--secondary-dark, #020a39);				//rgb(23,35,87)
+$color__pink: var(--tertiary-color, #cd8ec4);				   	//rgb(244,178,236)
+$color__purple-slate: var(--primary-slate, #817a89); 		   	//rgb(129,122,137)
+$color__purple-slate-dark: var(--primary-slate-dark, #2d2930); 	//rgb(45,41,48)
+$color__purple-lighter: var(--primary-lighter, #cd8ec4); 	   	//rgb(205,142,196)
+$color__purple-light: var(--primary-light, #9e4593);			//rgb(158,69,147)
+$color__purple-lightish: var(--primary-lightish, #6b3b99); 		//rgb(107,59,153)
+$color__purple-dark: var(--primary-dark, #030621); 				//rgb(3,6,33)
+
+
+:root {
+	--primary-color:  $colorhex__purple;
+	--secondary-color: $colorhex__blue;
+	--tertiary-color: $colorhex__pink;
+	--primary-slate:  $colorhex__purple-slate;
+	--primary-slate-dark: $colorhex__purple-slate-dark;
+	--primary-lighter: $colorhex__purple-lighter;
+	--primary-light: $colorhex__purple-light;
+	--primary-lightish: $colorhex__purple-lightish;
+	--primary-dark: $colorhex__purple-dark;
+	--secondary-light: $colorhex__blue-light;
+	--secondary-dark: $colorhex__blue-dark
+}
