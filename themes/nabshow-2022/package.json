@@ -1,21 +1,52 @@
 {
+  "name": "nab-amplify",
+  "version": "1.0.0",
+  "description": "Front End build for Wordpress theme",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp watch",
+    "build": "gulp",
+    "clean": "gulp clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasWinkler/gulp-boilerplate.git"
+  },
+  "boilerplate": {
+    "version": "1.0.0",
+    "author": "Lucas Winkler",
+    "url": "https://lucaswinkler.dev/",
+    "repo": "https://github.com/LucasWinkler/gulp-boilerplate/issues"
+  },
+  "keywords": [
+    "gulp",
+    "gulp-v4",
+    "boilerplate",
+    "front-end"
+  ],
+  "author": "Matt Spaanem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crushlovely/nab-demo-days/issues"
+  },
+  "homepage": "https://github.com/crushlovely/nab-demo-days#readme",
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.8",
-    "autoprefixer": "^10.4.2",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "autoprefixer": "^9.7.4",
+    "browser-sync": "^2.26.7",
+    "cssnano": "^4.1.10",
+    "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^7.1.0",
-    "gulp-postcss": "^9.0.1",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^8.0.0",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-terser": "^2.1.0",
-    "sass": "^1.47.0"
-  },
-  "dependencies": {
-    "browser-sync": "^2.27.7"
+    "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-terser": "^1.2.0"
   }
 }

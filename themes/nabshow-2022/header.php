@@ -29,7 +29,7 @@
 	<!-- End Dynamic Schema -->
 
 	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
+  <meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
 </head>
 
 <body <?php body_class(); ?>>
@@ -41,6 +41,7 @@
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
 		?>
     </a>
+
 
   <header class="header">
 
