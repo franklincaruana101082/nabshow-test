@@ -106,9 +106,11 @@ add_filter( 'woocommerce_my_account_get_addresses', 'nab_remove_shipping_address
 
 add_filter( 'woocommerce_single_product_image_thumbnail_html', 'nab_add_bookmark_icon_in_product', 10, 2 );
 
-// Modify the socail shared og image.
+// Yoast / WPSEO: Modify the social shared og image.
 add_filter( 'wpseo_opengraph_image', 'nab_amplify_update_og_image' );
 add_filter( 'wpseo_twitter_image', 'nab_amplify_update_og_image' );
+// Yoast / WPSEO: Disable JSON-LD data. This will be handled via wp-parsely plugin instead.
+add_filter( 'wpseo_json_ld_output', '__return_false' );
 
 // Mofified search query to search in the meta
 add_filter( 'posts_search', 'nab_modified_search_query_to_include_meta_search', 10, 2 );
