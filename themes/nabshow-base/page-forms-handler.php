@@ -268,24 +268,24 @@ get_header();
                         <div class="form-confirmation">
                             <!--<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>-->
 							<h2 style="color:white">Thank you for your interest. We'll connect with you soon.</h2>
-							<p>Click on the images below to download the 2022 NAB Show Media Kit, NAB Show Prospectus, Amplify Media Kit and/or NAB Show Preview Inventory:</p>
-<div>
-	<div style="width:30%; float:left;">
-		<h3>2022 NAB Show Media Kit</h3>
-		<div data-bynder-widget="media-item" data-media-id="D23DB2C0-29DB-4739-B8680D94DFE46CBC" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
-	</div>
-	<div style="width:30%; float:left;">
-		<h3>NAB Show Prospectus</h3>
-		<div data-bynder-widget="media-item" data-media-id="0324E68A-D2E0-4BA0-82F49FC44CE3DAB9" data-title="false" data-lightbox="true" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
-	</div>
-	<div style="width:30%; float:left;">
-		<h3>Amplify Media Kit</h3>
-		<div data-bynder-widget="media-item" data-media-id="E75350F5-DD77-47AC-902BEF2880C05C7C" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
-	</div>
-	<div style="width:30%; float:left;">
-		<h3>NAB Show Preview Inventory</h3>
-		<div data-bynder-widget="media-item" data-media-id="7F80E632-7F8A-4C72-956916C904FEBE8C" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
-	</div>
+                            <p>Click on the images below to download the 2022 NAB Show Media Kit, <!--NAB Show Prospectus, -->NAB Amplify Media Kit and/or NAB Show Preview Inventory:</p>
+							<div>
+								<div style="width:30%; float:left;">
+									<h4>2022 NAB Show Media Kit</h4>
+									<div data-bynder-widget="media-item" data-media-id="D23DB2C0-29DB-4739-B8680D94DFE46CBC" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
+								</div>
+								<!--<div style="width:30%; float:left;">
+									<h4>NAB Show Prospectus</h4>
+                  <div data-bynder-widget="media-item" data-media-id="0324E68A-D2E0-4BA0-82F49FC44CE3DAB9" data-title="false" data-lightbox="true" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
+                </div>-->
+								<div style="width:30%; float:left;">
+									<h4>NAB Amplify Media Kit</h4>
+									<div data-bynder-widget="media-item" data-media-id="E75350F5-DD77-47AC-902BEF2880C05C7C" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
+								</div>
+								<div style="width:30%; float:left;">
+									<h4>NAB Show Preview Inventory</h4>
+									<div data-bynder-widget="media-item" data-media-id="7F80E632-7F8A-4C72-956916C904FEBE8C" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
+								</div>
                             </div>
                             <div style="clear:both"></div>
                             <p><a href="<?php echo esc_url( $form_page_url ); ?>">Return to the Form</a></p>
