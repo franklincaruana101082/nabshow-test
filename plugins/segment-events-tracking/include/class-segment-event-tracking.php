@@ -264,7 +264,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     $identity_details['anonymousId'] = uniqid();
                 }
             }
-
+            
             $identity_details = wp_json_encode( $identity_details );
             $this->st_insert_event( 'identify', $identity_details );
         }
@@ -2041,7 +2041,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                         </tr>                        
                     </table>
                     <?php submit_button("Save Changes"); ?>
-                </form>
+                </form>                
             </div>
             <?php
         }

@@ -29,6 +29,7 @@
 	<!-- End Dynamic Schema -->
 
 	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
 </head>
 
 <body <?php body_class(); ?>>
@@ -40,7 +41,6 @@
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
 		?>
     </a>
-    
 
   <header class="header">
 
@@ -66,14 +66,14 @@
       <div class="header__mobile-cart cart">
         <a class="cart__link" href="https://amplify.nabshow.com/cart/">Cart</a>
         <span class="cart__count">0</span>
-      </div>  
-      */ ?>    
+      </div>
+      */ ?>
     </nav>
 
     <div class="header__navwrapper">
-      
+
       <nav class="header__mainnav">
-        
+
         <a href="<?php echo esc_url( get_site_url() ); ?>" class="header__mainnav-logo-link">
             <?php
             // check if show global menu option is selected
@@ -93,5 +93,5 @@
       <?php /* call global header shortcode from ecommerce passes plugin */
             do_action( 'nab_global_header' ); ?>
     </div>
-  </header>  
+  </header>
 <div data-swiftype-name="body" data-swiftype-type="text">
