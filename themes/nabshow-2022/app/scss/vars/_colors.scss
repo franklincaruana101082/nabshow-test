@@ -1,0 +1,59 @@
+// Colors
+$c__black: #000000;
+$c__gray-dark: #333333;
+$c__gray: #404040;
+$c__gray--medium: #707277;
+$c__gray-light: #c4c4c4;
+$c__gray-medium-light: #9e9e9e;
+$c__white: #ffffff;
+
+$c__pink: #cd8ec4;
+$c__blue: #2f5dab;
+$c__blue-light: #0ca5ea;
+$c__blue-dark: #020a39;
+$c__purple-slate: #817a89;
+$c__purple-slate-dark: #2d2930;
+$c__purple-lighter: #cd8ec4;
+$c__purple-light: #9e4593;
+$c__purple-lightish: #6b3b99;
+$c__purple: #2a173c;
+$c__purple-dark: #030621;
+
+
+//using css vars
+
+$color__black: var(--black, $c__black);
+$color__gray-dark: var(--gray-dark, $c__gray-dark);
+$color__gray: var(--gray, $c__gray);
+$color__gray--medium: var(--gray-medium, $c__gray--medium);
+$color__gray-light: var(--gray-light, $c__gray-light);
+$color__gray-medium-light: var(--gray-medium-light, $c__gray-medium-light);
+$color__white: var(--white, $c__white);
+
+
+$color__purple: var(--primary-color, $c__purple);
+$color__blue: var(--secondary-color, $c__blue);
+$color__blue-light: var(--secondary-light, $c__blue-light);
+$color__blue-dark: var(--secondary-dark, $c__blue-dark);
+$color__pink: var(--tertiary-color, $c__pink);
+$color__purple-slate: var(--primary-slate, $c__purple-slate);
+$color__purple-slate-dark: var(--primary-slate-dark, $c__purple-slate-dark);
+$color__purple-lighter: var(--primary-lighter, $c__purple-lighter);
+$color__purple-light: var(--primary-light, $c__purple-light);
+$color__purple-lightish: var(--primary-lightish, $c__purple-lightish);
+$color__purple-dark: var(--primary-dark, $c__purple-dark);
+
+
+:root {
+	--primary-color:  $c__purple;
+	--secondary-color: $c__blue;
+	--tertiary-color: $c__pink;
+	--primary-slate:  $c__purple-slate;
+	--primary-slate-dark: $c__purple-slate-dark;
+	--primary-lighter: $c__purple-lighter;
+	--primary-light: $c__purple-light;
+	--primary-lightish: $c__purple-lightish;
+	--primary-dark: $c__purple-dark;
+	--secondary-light: $c__blue-light;
+	--secondary-dark: $c__blue-dark
+}
