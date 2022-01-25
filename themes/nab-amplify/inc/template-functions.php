@@ -1370,3 +1370,96 @@ function get_nab_persona_by_slug($slug, $array) {
 	}
 	return null;
 }
+
+
+add_filter( 'wp_parsely_metadata', 'filter_parsely_metadata', 10, 3 );
+function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
+	$post_type = get_post_type($post->ID);
+
+	//global
+    $parsely_metadata['post_type'] = $post_type;
+
+    //post specific
+	if($post_type === 'articles') {
+		$parsely_metadata['related_company'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+		$parsely_metadata['article_type'] =					get_field('article_type', $post->ID);
+		$parsely_metadata['community'] =					get_field('community', $post->ID);
+		$parsely_metadata['content_pillars'] =				get_field('content_pillars', $post->ID);
+		$parsely_metadata['personas'] =						get_field('personas', $post->ID);
+		$parsely_metadata['content_scope'] =				get_field('content_scope', $post->ID);
+		$parsely_metadata['content_format'] =				get_field('content_format', $post->ID);
+		$parsely_metadata['content_subject'] =				get_field('content_subject', $post->ID);
+		$parsely_metadata['acquisition_sub'] =				get_field('acquisition_sub', $post->ID);
+		$parsely_metadata['distribution_sub'] =				get_field('distribution_sub', $post->ID);
+		$parsely_metadata['management_sub'] =				get_field('management_sub', $post->ID);
+		$parsely_metadata['radio_sub'] =					get_field('radio_sub', $post->ID);
+		$parsely_metadata['display_sub'] =					get_field('display_sub', $post->ID);
+		$parsely_metadata['industry_sub'] =					get_field('industry_sub', $post->ID);
+		$parsely_metadata['content_sub'] =					get_field('content_sub', $post->ID);
+		$parsely_metadata['production_sub'] =				get_field('production_sub', $post->ID);
+		$parsely_metadata['content-category'] =				array_column( wp_get_post_terms($post->ID, 'content-category'), 'name');
+    }
+
+    if($post_type === 'sessions') {
+		$speakers = get_field('speakers');
+		$speaker_names = [];
+		if(!empty($speakers)) {
+			foreach($speakers as $speaker_id) {
+				$speaker_name = get_field( 'first_name', $speaker_id ) . ' ' . get_field( 'last_name', $speaker_id );
+				array_push($speaker_names, $speaker_name);
+			}
+		}
+    	$parsely_metadata['related_company'] =				get_the_title(get_field('company', $post->ID));
+    	$parsely_metadata['speakers'] =						$speaker_names;
+    	$parsely_metadata['status'] =						get_field('session_status');
+    	$parsely_metadata['session_categories'] =			array_column( wp_get_post_terms($post->ID, 'session_categories'), 'name');
+    }
+
+    if($post_type === 'tribe_events') {
+    	$parsely_metadata['related_company'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+    	$parsely_metadata['tribe_events_cat'] = 			array_column( wp_get_post_terms($post->ID, 'tribe_events_cat'), 'name');
+    	$parsely_metadata['company-category'] = 			array_column( wp_get_post_terms($post->ID, 'company-category'), 'name');
+    }
+
+    if($post_type === 'downloadable-pdfs') {
+    	$parsely_metadata['related_company'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+    }
+
+    if($post_type === 'product') {
+    	$parsely_metadata['product_cat'] = 					array_column( wp_get_post_terms($post->ID, 'product_cat'), 'name');
+    }
+
+    if($post_type === 'company') {
+		$product_categories = get_field('product_categories', $post->ID);
+		$product_category_names = [];
+		if(!empty($product_categories)) {
+			foreach($product_categories as $product_category_id) {
+				$term = get_term( $product_category_id );
+				if ( false !== $term ) {
+					$product_category_name = $term->taxonomy;
+				}
+				array_push($product_category_names, $product_category_name);
+			}
+		}
+
+		$search_product_categories = get_field('search_product_categories', $post->ID);
+		$search_product_category_names = [];
+		if(!empty($search_product_categories)) {
+			foreach($search_product_categories as $search_product_category_id) {
+				$term = get_term( $search_product_category_id );
+				if ( false !== $term ) {
+					$search_product_category_name = $term->taxonomy;
+				}
+				array_push($search_product_category_names, $search_product_category_name);
+			}
+		}
+
+		$parsely_metadata['about_company'] =				get_field('about_company', $post->ID);
+		$parsely_metadata['product_categories'] =			$product_category_names;
+		$parsely_metadata['search_product_categories'] =	$search_product_category_names;
+		$parsely_metadata['member_level'] =					get_field('member_level', $post->ID);
+    }
+
+
+    return $parsely_metadata;
+}
