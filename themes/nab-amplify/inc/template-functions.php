@@ -1370,3 +1370,153 @@ function get_nab_persona_by_slug($slug, $array) {
 	}
 	return null;
 }
+
+
+add_filter( 'wp_parsely_metadata', 'filter_parsely_metadata', 10, 3 );
+function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
+	$post_type = get_post_type($post->ID);
+
+	//global
+    $parsely_metadata['post_type'] = $post_type;
+
+    //post specific
+	if($post_type === 'articles') {
+		$parsely_metadata['@type'] = 						"Article";
+		$contentPillars = get_field('content_pillars', $post->ID);
+		$parsely_metadata['articleSection'] =				empty($contentPillars) ? "Uncategorized" : $contentPillars[0];
+		$parsely_metadata['contentPillars'] =				$contentPillars;
+
+		$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+		$parsely_metadata['articleType'] =					get_field('article_type', $post->ID);
+		$parsely_metadata['community'] =					get_field('community', $post->ID);
+		$parsely_metadata['personas'] =						get_field('personas', $post->ID);
+		$parsely_metadata['contentScope'] =					get_field('content_scope', $post->ID);
+		$parsely_metadata['contentFormat'] =				get_field('content_format', $post->ID);
+		$parsely_metadata['contentSubject'] =				get_field('content_subject', $post->ID);
+		$parsely_metadata['acquisitionSub'] =				get_field('acquisition_sub', $post->ID);
+		$parsely_metadata['distributionSub'] =				get_field('distribution_sub', $post->ID);
+		$parsely_metadata['managementSub'] =				get_field('management_sub', $post->ID);
+		$parsely_metadata['radioSub'] =						get_field('radio_sub', $post->ID);
+		$parsely_metadata['displaySub'] =					get_field('display_sub', $post->ID);
+		$parsely_metadata['industrySub'] =					get_field('industry_sub', $post->ID);
+		$parsely_metadata['contentSub'] =					get_field('content_sub', $post->ID);
+		$parsely_metadata['productionSub'] =				get_field('production_sub', $post->ID);
+		$parsely_metadata['contentCategory'] =				array_column( wp_get_post_terms($post->ID, 'content-category'), 'name');
+		$keywords = array();
+		if (!empty($parsely_metadata['articleType'])) {
+			array_push($keywords, array($parsely_metadata['articleType']));
+		}
+		if (!empty($parsely_metadata['community'])) {
+			array_push($keywords, $parsely_metadata['community']);
+		}
+		if (!empty($parsely_metadata['personas'])) {
+			array_push($keywords, $parsely_metadata['personas']);
+		}
+		if (!empty($parsely_metadata['contentScope'])) {
+			array_push($keywords, array($parsely_metadata['contentScope']));
+		}
+		if (!empty($parsely_metadata['contentFormat'])) {
+			array_push($keywords, $parsely_metadata['contentFormat']);
+		}
+		if (!empty($parsely_metadata['contentSubject'])) {
+			array_push($keywords, $parsely_metadata['contentSubject']);
+		}
+		if (!empty($parsely_metadata['acquisitionSub'])) {
+			array_push($keywords, $parsely_metadata['acquisitionSub']);
+		}
+		if (!empty($parsely_metadata['distributionSub'])) {
+			array_push($keywords, $parsely_metadata['distributionSub']);
+		}
+		if (!empty($parsely_metadata['managementSub'])) {
+			array_push($keywords, $parsely_metadata['managementSub']);
+		}
+		if (!empty($parsely_metadata['radioSub'])) {
+			array_push($keywords, $parsely_metadata['radioSub']);
+		}
+		if (!empty($parsely_metadata['displaySub'])) {
+			array_push($keywords, $parsely_metadata['displaySub']);
+		}
+		if (!empty($parsely_metadata['industrySub'])) {
+			array_push($keywords, $parsely_metadata['industrySub']);
+		}
+		if (!empty($parsely_metadata['contentSub'])) {
+			array_push($keywords, $parsely_metadata['contentSub']);
+		}
+		if (!empty($parsely_metadata['productionSub'])) {
+			array_push($keywords, $parsely_metadata['productionSub']);
+		}
+		$allKeywords = array_merge(...array_values($keywords));
+		$parsely_metadata['keywords'] = $allKeywords;
+	}
+
+    if($post_type === 'sessions') {
+		$parsely_metadata['@type'] = "Event";
+		$speakers = get_field('speakers');
+		$speaker_names = [];
+		if(!empty($speakers)) {
+			foreach($speakers as $speaker_id) {
+				$speaker_name = get_field( 'first_name', $speaker_id ) . ' ' . get_field( 'last_name', $speaker_id );
+				array_push($speaker_names, $speaker_name);
+			}
+		}
+    	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('company', $post->ID));
+    	$parsely_metadata['speakers'] =						$speaker_names;
+    	$parsely_metadata['status'] =						get_field('session_status');
+    	$parsely_metadata['sessionCategories'] =			array_column( wp_get_post_terms($post->ID, 'session_categories'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['sessionCategories']) ? "Uncategorized" : $parsely_metadata['sessionCategories'][0];
+	}
+
+    if($post_type === 'tribe_events') {
+		$parsely_metadata['@type'] = "Event";
+    	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+    	$parsely_metadata['companyCategory'] = 			array_column( wp_get_post_terms($post->ID, 'company-category'), 'name');
+    	$parsely_metadata['eventCategories'] = 			array_column( wp_get_post_terms($post->ID, 'tribe_events_cat'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['eventCategories']) ? "Uncategorized" : $parsely_metadata['eventCategories'][0];
+    }
+
+    if($post_type === 'downloadable-pdfs') {
+		$parsely_metadata['@type'] = "Report";
+    	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+    }
+
+    if($post_type === 'product') {
+		$parsely_metadata['@type'] = "WebPage";
+    	$parsely_metadata['productCategories'] = 					array_column( wp_get_post_terms($post->ID, 'product_cat'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['productCategories']) ? "Uncategorized" : $parsely_metadata['productCategories'][0];
+    }
+
+    if($post_type === 'company') {
+		$parsely_metadata['@type'] = "WebPage";
+		$product_categories = get_field('product_categories', $post->ID);
+		$product_category_names = [];
+		if(!empty($product_categories)) {
+			foreach($product_categories as $product_category_id) {
+				$term = get_term_by('ID', $product_category_id, 'company-product-category' );
+				if ( false !== $term ) {
+					$product_category_name = $term->name;
+				}
+				array_push($product_category_names, $product_category_name);
+			}
+		}
+
+		$search_product_categories = get_field('search_product_categories', $post->ID);
+		$search_product_category_names = [];
+		if(!empty($search_product_categories)) {
+			foreach($search_product_categories as $search_product_category_id) {
+				$term = get_term_by('ID', $search_product_category_id, 'company-product-category' );
+				if ( false !== $term ) {
+					$search_product_category_name = $term->name;
+				}
+				array_push($search_product_category_names, $search_product_category_name);
+			}
+		}
+
+		$parsely_metadata['aboutCompany'] =				get_field('about_company', $post->ID);
+		$parsely_metadata['productCategories'] =			$product_category_names;
+		$parsely_metadata['searchProductCategories'] =	$search_product_category_names;
+		$parsely_metadata['memberLevel'] =					get_field('member_level', $post->ID);
+    }
+
+
+    return $parsely_metadata;
+}
