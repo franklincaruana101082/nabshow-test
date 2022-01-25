@@ -1434,9 +1434,9 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
 		$product_category_names = [];
 		if(!empty($product_categories)) {
 			foreach($product_categories as $product_category_id) {
-				$term = get_term( $product_category_id );
+				$term = get_term_by('ID', $product_category_id, 'company-product-category' );
 				if ( false !== $term ) {
-					$product_category_name = $term->taxonomy;
+					$product_category_name = $term->name;
 				}
 				array_push($product_category_names, $product_category_name);
 			}
@@ -1446,9 +1446,9 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
 		$search_product_category_names = [];
 		if(!empty($search_product_categories)) {
 			foreach($search_product_categories as $search_product_category_id) {
-				$term = get_term( $search_product_category_id );
+				$term = get_term_by('ID', $search_product_category_id, 'company-product-category' );
 				if ( false !== $term ) {
-					$search_product_category_name = $term->taxonomy;
+					$search_product_category_name = $term->name;
 				}
 				array_push($search_product_category_names, $search_product_category_name);
 			}
