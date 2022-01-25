@@ -1463,13 +1463,15 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
     	$parsely_metadata['speakers'] =						$speaker_names;
     	$parsely_metadata['status'] =						get_field('session_status');
     	$parsely_metadata['sessionCategories'] =			array_column( wp_get_post_terms($post->ID, 'session_categories'), 'name');
-    }
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['sessionCategories']) ? "Uncategorized" : $parsely_metadata['sessionCategories'][0];
+	}
 
     if($post_type === 'tribe_events') {
 		$parsely_metadata['@type'] = "Event";
     	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
-    	$parsely_metadata['eventCategories'] = 			array_column( wp_get_post_terms($post->ID, 'tribe_events_cat'), 'name');
     	$parsely_metadata['companyCategory'] = 			array_column( wp_get_post_terms($post->ID, 'company-category'), 'name');
+    	$parsely_metadata['eventCategories'] = 			array_column( wp_get_post_terms($post->ID, 'tribe_events_cat'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['eventCategories']) ? "Uncategorized" : $parsely_metadata['eventCategories'][0];
     }
 
     if($post_type === 'downloadable-pdfs') {
@@ -1480,6 +1482,7 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
     if($post_type === 'product') {
 		$parsely_metadata['@type'] = "WebPage";
     	$parsely_metadata['productCategories'] = 					array_column( wp_get_post_terms($post->ID, 'product_cat'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['productCategories']) ? "Uncategorized" : $parsely_metadata['productCategories'][0];
     }
 
     if($post_type === 'company') {
