@@ -20,3 +20,4 @@
  */
 
 add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
+add_filter( 'wpvip_parsely_load_mu', '__return_true' );
