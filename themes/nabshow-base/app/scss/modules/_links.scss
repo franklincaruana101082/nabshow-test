@@ -93,7 +93,7 @@
   }
 }
 .friendship-button.add {
-  @extend .link._plus;
+  @extend .link, ._plus;
 }
 
 // Info Link
