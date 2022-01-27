@@ -8,7 +8,13 @@
  *
  * @package NABShow_LV
  */
-
+if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
+    // This code only runs on production
+    $envclass = '';
+} else {
+    // This code runs everywhere except production
+    $envclass = 'not_prod';
+}
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -34,7 +40,7 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<div id="page" class="site nabshow_2021">
+<div id="page" class="site nabshow_2021 <?php echo($envclass); ?>">
     <a class="skip-link screen-reader-text" href="#content">
 		<?php
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
