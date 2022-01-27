@@ -18,7 +18,7 @@ $display_ad_section         = get_field( 'display_ad_section' );
         <h2 class="intro__title"><?php echo esc_html( $page_subtitle ); ?></h2>
     </div>
 </div>
-<div class="container">
+<div class="section container">
     <?php dynamic_sidebar('broadstreet-internal-top'); ?>
 </div>
 <?php
@@ -27,10 +27,13 @@ if ( $display_feature_text_block ) {
     $feature_text_title = get_field( 'feature_text_title' );
     $feature_text_body  = get_field( 'feature_text_body' );
     ?>
-    <div class="section container">
+    <div class="section container feature-text__wrap">
         <div class="feature-text wysiwyg-typography">
             <h2><?php echo esc_html( $feature_text_title ); ?></h2>
             <?php echo wp_kses_post( $feature_text_body ); ?>
+        </div>
+        <div class="feature-text__ad">
+            <?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
         </div>
     </div>
     <?php
@@ -168,7 +171,7 @@ if ( $display_ad_section ) {
 </div>
 <?php endif; ?>
 
-<div class="container">
+<div class="section container">
     <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 </div>
 <?php

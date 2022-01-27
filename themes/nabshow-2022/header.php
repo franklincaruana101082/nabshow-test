@@ -9,6 +9,14 @@
  * @package NABShow_LV
  */
 
+
+if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
+    // This code only runs on production
+    $envclass = '';
+} else {
+    // This code runs everywhere except production
+    $envclass = 'not_prod';
+}
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -32,7 +40,7 @@
   <meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class( $envclass ); ?>>
 <?php wp_body_open(); ?>
 
 <div id="page" class="site nabshow_2021">
