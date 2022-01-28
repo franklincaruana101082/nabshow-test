@@ -36,14 +36,20 @@
 
 .not_prod .ad {
 	background-color: hotpink;
-	text-align: center;
+	// text-align: center;
 	margin-left: auto;
 	margin-right: auto;
+	position: relative;
 	&:before, &:after {
 		content: "BROADSTREET AD";
 		color: $color__white;
 		font-size: rem(18);
 		font-weight: bold;
+		position: absolute;
+		left: rem(5);
+	}
+	&:after {
+		top: rem(24);
 	}
 	&._970x90 {
 		width: rem(970);

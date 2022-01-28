@@ -110,7 +110,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   ?>
 
   <div class="section container">
-    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
+    <?php //dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
   </div><?php // close .home__lighting1 ?>
 <?php
