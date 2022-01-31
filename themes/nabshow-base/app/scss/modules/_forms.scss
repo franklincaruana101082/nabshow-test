@@ -260,8 +260,8 @@
 }
 .nabshow_2021 .mktoForm .mktoButtonWrap.mktoBlueBox button.mktoButton {
   @extend .button;
-  @extend .button._arrow;
-  @extend .button._arrow._small;
+  @extend .button, ._arrow;
+  @extend .button, ._arrow, ._small;
   //overrides :/
   background-color: transparent !important;
   font-weight: 900 !important;

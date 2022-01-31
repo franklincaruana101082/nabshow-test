@@ -1,3 +1,4 @@
+@use "sass:math";
 // Scss mixins
 @mixin cf() {
   *zoom: 1;
@@ -144,7 +145,7 @@
   $stops: ();
 
   @each $colorStop, $mixPercent in $scrimCoordinates {
-    $stop: mix($startColor, $endColor, percentage($mixPercent)) percentage($colorStop/100);
+    $stop: mix($startColor, $endColor, percentage($mixPercent)) percentage(math.div($colorStop, 100));
     $stops: append($stops, $stop, comma);
   }
 

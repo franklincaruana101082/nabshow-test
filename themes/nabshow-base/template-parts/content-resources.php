@@ -183,7 +183,7 @@
 <?php endif; ?>
 
 
-	<div class="container">
+	<div class="section container">
 		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
 

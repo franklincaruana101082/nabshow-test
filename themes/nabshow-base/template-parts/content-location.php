@@ -28,7 +28,7 @@ $display_mailing_list_block     = get_field( 'display_mailing_list_block' );
     </div>
 </div>
 
-<div class="container">
+<div class="section container">
     <?php dynamic_sidebar('broadstreet-internal-top'); ?>
 </div>
 
@@ -103,9 +103,7 @@ if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
     </div>
 </div>
 
-<div class="section container">
-    <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
-</div>
+
 <?php
 if ( $sponsors ) {
     ?>
@@ -126,6 +124,9 @@ if ( $sponsors ) {
                 <?php
             }
             ?>
+            <div class="">
+                <?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
+            </div>
         </div>
     </div>
     <?php
@@ -259,6 +260,9 @@ if ( $display_speakers_and_sessions ) {
             </div>
         </div>
     </div>
+    <div class="section container">
+        <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+    </div>
     <?php
 }
 
@@ -362,9 +366,7 @@ if ( ! empty( $ad_code ) ) {
     <?php
 }
 ?>
-<div class="container">
-    <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
-</div>
+
 <?php
 if ( $display_mailing_list_block ) {
     ?>
@@ -380,4 +382,7 @@ if ( $display_mailing_list_block ) {
     <?php
 }
 ?>
+<div class="section container">
+    <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+</div>
 <div class="decorative _lightlines-footer-strip"></div>
