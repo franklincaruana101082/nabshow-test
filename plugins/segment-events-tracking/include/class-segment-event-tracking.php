@@ -2041,9 +2041,37 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                         </tr>                        
                     </table>
                     <?php submit_button("Save Changes"); ?>
-                </form>                                
+                </form>
+                <?php
+                global $wpdb;
+                $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
+                $total_query    = $wpdb->get_col( "SELECT COUNT(*) as totalItem FROM {$table_name}" ); 
+                $session_query  = $wpdb->get_col( "SELECT COUNT(*) as totalItem FROM {$table_name} WHERE eventData LIKE '%Session_User_Registered%'" );
+                $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 500" );
+                ?>
+                <h2>Total Records = <?php echo esc_html( $total_query[0] ); ?></h2>
+                <h2>Total Session Records = <?php echo esc_html( $session_query[0] ); ?></h2>
+                <table>                    
+                    <?php
+                    if ( $query_results && ! empty( $query_results ) ) {
+                        
+                        $cnt = 1;
+
+                        foreach ( $query_results as $result ) {
+
+                            ?>
+                            <tr>
+                                <td><?php echo esc_html( $cnt ); ?></td>
+                                <td><?php echo $result->eventData; ?></td>
+                            </tr>
+                            <?php
+                            $cnt++;
+                        }
+                    }
+                    ?>
+                </table>
             </div>
-            <?php
+            <?php            
         }
     }
 
