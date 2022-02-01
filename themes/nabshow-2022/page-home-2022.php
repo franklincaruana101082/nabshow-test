@@ -5,7 +5,6 @@
  *
  */
 
-
 get_header();
 
 $hero = get_field('banner_background_image');
@@ -227,6 +226,8 @@ endif;
   <?php //<div class="decorative _lightlines-footer-corner _pulled"></div> ?>
 </main><!-- #main -->
 
-
 <?php
+
+dynamic_sidebar('broadstreet-prestitial'); 
+
 get_footer();

@@ -151,7 +151,7 @@
 <?php if($post->post_content): ?>
 	<div class="decorative _lightlines-left-side">
 		<div class="section container generic">
-			<?php dynamic_sidebar('broadstreet-ros-middle-tall'); ?>
+			<?php //dynamic_sidebar('broadstreet-ros-middle-tall'); ?>
 			<?php the_content(); ?>
 		</div>
 	</div>
