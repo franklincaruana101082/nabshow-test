@@ -30,7 +30,8 @@
 		padding:0;
 		margin-bottom: rem(-120);
 		._amp-signup + &,
-		._team + .container + & {
+		._team + .container + &,
+		.decorative + .container + & {
 			padding-bottom: rem(120);
 		}
 		&:before {
@@ -50,7 +51,8 @@
 			._amp-signup + & {
 				height: rem(620);
 			}
-			._team + .container + & {
+			._team + .container + &,
+			.decorative + .container + & {
 				height: rem(525);
 			}
 			.opportunities + .container + &,

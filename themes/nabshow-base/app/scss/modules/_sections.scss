@@ -539,11 +539,14 @@
   }
   .intro-body-text {
     @include bp-1280 {
-      min-height: rem(190);
+      min-height: rem(250);
     }
     h2.h-xl {
       text-transform: uppercase;
     }
+  }
+  &__ad {
+    padding-bottom: rem(20);
   }
 }
 
