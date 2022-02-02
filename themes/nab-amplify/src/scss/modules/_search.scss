@@ -170,7 +170,7 @@
 	margin-top: rem(20);
 	text-align: center;
 	a {
-		@extend .link._back;
+		@extend .link, ._back;
 		color: $color__yellow;
 		font-weight: 600;
 	}
