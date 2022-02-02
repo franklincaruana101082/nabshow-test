@@ -23,8 +23,8 @@ if(get_field('header_lighting_effects')) {
         <div class="grouping__promo">
             <?php while(have_rows('header_promo_section')) : the_row(); 
                 $link_url = get_sub_field('link');
-                $link_id = url_to_postid( $link_url );
-                $author_id = get_post_field ('post_author', $link_id);
+                $link_wp_id = url_to_postid( $link_url );
+                $author_id = get_post_field ('post_author', $link_wp_id);
                 $author_name = get_the_author_meta('first_name', $author_id) . ' ' . get_the_author_meta('last_name', $author_id);
                 $image = get_sub_field('image');
                 $title = get_sub_field('title');
@@ -84,10 +84,10 @@ if(get_field('header_lighting_effects')) {
             <div class="nabcard__content grouping__list">
                 <?php while(have_rows('link_list')) : the_row(); 
                     $link_url = get_sub_field('link');
-                    $link_id = url_to_postid( $link_url );
-                    $author_id = get_post_field ('post_author', $link_id);
+                    $link_wp_id = url_to_postid( $link_url );
+                    $author_id = get_post_field ('post_author', $link_wp_id);
                     $author_name = get_the_author_meta('first_name', $author_id) . ' ' . get_the_author_meta('last_name', $author_id);
-                    $article_date = get_the_date('', $link_id);
+                    $article_date = get_the_date('', $link_wp_id);
                     $image = get_sub_field('image');
                     $title = get_sub_field('title');
                     $lede = get_sub_field('lede');
