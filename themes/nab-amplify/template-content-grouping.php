@@ -121,7 +121,7 @@ if(get_field('header_lighting_effects')) {
             if($listAd) {
         ?>
         <div class="nab-ad-inner">
-            <div class="nab-ad-block body_ad"><?php do_shortcode($listAd); ?></div>
+            <div class="nab-ad-block body_ad"><?php echo do_shortcode($listAd); ?></div>
         </div>
         <?php }
             endwhile;
