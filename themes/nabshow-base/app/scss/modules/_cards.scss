@@ -47,7 +47,7 @@
   border-radius: rem(10);
   overflow: hidden;
   margin: 0 rem(8);
-  height: rem(512) !important;
+  //height: rem(512) !important;
   color: $color__white;
   text-decoration: none;
   @include gradient-purple;
@@ -80,7 +80,7 @@
 }
 
 .card__body {
-  padding: rem(30) rem(30) rem(60) rem(30);
+  padding: rem(30) rem(30) rem(40) rem(30);
   ul {
     padding-left: rem(16);
   }
@@ -96,7 +96,7 @@
     }
   }
   @include bp-768 {
-    padding: rem(30) rem(30) rem(116) rem(30);
+    padding: rem(30) rem(30) rem(50) rem(30);
     p {
       @include primary-medium-italic-16-24;
     }
