@@ -14,6 +14,7 @@
 		&._lighting {
 			position: relative;
 			top: rem(-54);
+			padding-top: rem(54);
 			z-index: 0;
 			background-color: $color__gray-darker;
 			background-image:url('#{$theme_path}/assets/images/light_effect_grouping_1.png');

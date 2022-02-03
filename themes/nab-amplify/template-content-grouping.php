@@ -14,6 +14,11 @@ if(get_field('header_lighting_effects')) {
 
 <main id="primary" class="site-main grouping content-grouping_php">
 <header class="intro grouping__intro <?php echo esc_attr($introClass); ?>">
+    <?php if(get_field('above_content_lists_ad_shortcode')) { ?>
+    <div class="nab-ad-block header_ad">
+        <?php echo do_shortcode(get_field('header_ad_shortcode')); ?>
+    </div>
+    <?php } ?>
     <div class="container">
         <?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
         <?php 
@@ -62,7 +67,11 @@ if(get_field('header_lighting_effects')) {
 </header><!-- .page-header -->
 <div class="main">
     <div class="container">
-        <?php dynamic_sidebar('broadstreet-internal-top'); ?>
+        <?php if(get_field('above_content_lists_ad_shortcode')) { ?>
+        <div class="nab-ad-block">
+            <?php echo do_shortcode(get_field('above_content_lists_ad_shortcode')); ?>
+        </div>
+        <?php } ?>
         <?php if(have_rows('content_lists')): 
             while(have_rows('content_lists')) : the_row(); 
                 $listTitle = get_sub_field('list_title');
