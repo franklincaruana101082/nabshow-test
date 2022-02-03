@@ -61,6 +61,14 @@
 		@include bp-1440 {
 			grid-template-columns: 50% 1fr;
 		}
+		.relatedlink {
+			&__headline {
+				margin-top: rem(30);
+			}
+			&__category + .relatedlink__headline {
+				margin-top: 0;
+			}
+		}
 	}
 
 
@@ -95,16 +103,16 @@
 			border-image: none;
 			display: grid;
 			grid-template-columns: rem(284) 1fr;
-			grid-template-rows: auto auto auto;
-			grid-template-areas:
-				"img cat"
-				"img title"
-				"img author";
+			// grid-template-rows: auto auto auto;
+			// grid-template-areas:
+			// 	"img cat"
+			// 	"img title"
+			// 	"img author";
 			grid-gap: rem(20) rem(40);
 			align-items: start;
 
 			.relatedlink__image {
-				grid-area: img;
+				//grid-area: img;
 				border-top: 2px solid $color__purple;
 				border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
 				border-width: 0;
@@ -116,18 +124,21 @@
 
 				}
 			}
-			.relatedlink__category {
-				grid-area: cat;
-				margin: 0;
+			.relatedlink__copy {
+
 			}
-			.relatedlink__headline {
-				grid-area: title;
-				margin: 0;
-			}
-			.relatedlink__author {
-				grid-area: author;
-				margin: 0;
-			}
+				.relatedlink__category {
+					//grid-area: cat;
+					margin: 0 0 rem(20);
+				}
+				.relatedlink__headline {
+					//grid-area: title;
+					margin: 0 0 rem(20);
+				}
+				.relatedlink__author {
+					//grid-area: author;
+					margin: 0;
+				}
 		}
 		@include bp-1024 {
 			grid-template-columns: rem(213) 1fr;
@@ -141,12 +152,12 @@
 		margin-bottom: rem(80);
 		.relatedlink._minor {
 			@include bp-768 {
-				grid-template-rows: auto auto auto auto;
-				grid-template-areas:
-					"img cat"
-					"img title"
-					"img lede"
-					"img author";
+				// grid-template-rows: auto auto auto auto;
+				// grid-template-areas:
+				// 	"img cat"
+				// 	"img title"
+				// 	"img lede"
+				// 	"img author";
 				padding-bottom: rem(30);
 				border-bottom: rem(1) solid $color__gray;
 				margin-bottom: rem(30);
@@ -158,11 +169,6 @@
 				&:last-child {
 					padding-bottom: 0;
 					border-bottom: 0;
-				}
-
-				.relatedlink__lede {
-					grid-area: lede;
-					margin: 0;
 				}
 			}
 			@include bp-1024 {
@@ -180,6 +186,9 @@
 				&:first-child {
 					margin-top: rem(60);
 				}
+			}
+			.relatedlink__lede {
+				margin: 0 0 rem(20);
 			}
 		}	
 	}

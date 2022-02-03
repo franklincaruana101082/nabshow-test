@@ -43,6 +43,7 @@ if(get_field('header_lighting_effects')) {
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
                     <?php } ?>
+                    <div class="relatedlink__copy">
                     <?php if(!empty($category)) { ?>
                         <h5 class="relatedlink__category"><?php echo esc_html($category); ?></h5>
                     <?php } ?>
@@ -55,6 +56,7 @@ if(get_field('header_lighting_effects')) {
                     <?php if(!empty($author_name)) { ?>
                         <div class="relatedlink__author"><?php echo esc_html($author_name); ?></div>
                     <?php } ?>
+                    </div>
                 </a>
             <?php } 
             $count++;
@@ -108,6 +110,7 @@ if(get_field('header_lighting_effects')) {
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
                     <?php } ?>
+                    <div class="relatedlink__copy">
                     <?php if(!empty($article_date)) { ?>
                         <div class="relatedlink__category"><?php echo esc_html($article_date); ?></div>
                     <?php } ?>
@@ -120,6 +123,7 @@ if(get_field('header_lighting_effects')) {
                     <?php if(!empty($author_name)) { ?>
                         <div class="relatedlink__author"><?php echo esc_html($author_name); ?></div>
                     <?php } ?>
+                    </div>
                 </a>
                 <?php } 
                 endwhile; ?>
