@@ -1,0 +1,195 @@
+.grouping {
+	&__intro {
+		.intro__title {
+			text-align: center;
+			padding: rem(60) 0 rem(40);
+			@include bp-1024 {
+				padding: rem(80) 0 rem(60);
+			}
+			@include bp-1280 {
+				padding: rem(100) 0 rem(80);
+			}
+		}
+
+		&._lighting {
+			position: relative;
+			top: rem(-54);
+			padding-top: rem(54);
+			z-index: 0;
+			background-color: $color__gray-darker;
+			background-image:url('#{$theme_path}/assets/images/light_effect_grouping_1.png');
+			background-position: 0 rem(-240);
+			background-blend-mode: screen;
+			background-repeat: no-repeat;
+			@include bp-1024 {
+				background-image:url('#{$theme_path}/assets/images/light_effect_grouping_1.png'),
+								 url('#{$theme_path}/assets/images/light_effect_grouping_2.png');
+				background-position: 0 rem(-240), 100% rem(-240);
+				background-blend-mode: screen, screen;
+				background-repeat: no-repeat, no-repeat;
+			}
+			
+		}
+	}
+	&__promo {
+
+		@include bp-1024 {
+			display: grid;
+			grid-template-columns: 40% 1fr;
+			grid-template-rows: auto auto auto;
+			grid-template-areas:
+				"one two"
+				"one three"
+				"one four";
+			grid-gap: rem(20) rem(40);
+			.relatedlink:nth-child(1) {
+				grid-area: one;
+			}
+			.relatedlink:nth-child(2) {
+				grid-area: two;
+			}
+			.relatedlink:nth-child(3) {
+				grid-area: three;
+			}
+			.relatedlink:nth-child(4) {
+				grid-area: four;
+			}
+		}
+		@include bp-1280 {
+			grid-template-columns: 45% 1fr;
+		}
+		@include bp-1440 {
+			grid-template-columns: 50% 1fr;
+		}
+		.relatedlink {
+			&__headline {
+				margin-top: rem(30);
+			}
+			&__category + .relatedlink__headline {
+				margin-top: 0;
+			}
+		}
+	}
+
+
+	&__listTitle {
+		text-align: center;
+		margin: rem(50);
+	}
+	&__listSubtitle {
+		@extend .introtext;
+		font-size: rem(20);
+		line-height: 1.3;
+		text-align: center;
+		max-width: rem(900);
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: rem(20);
+		@include bp-768 {
+			margin-bottom: rem(30);
+		}
+		@include bp-1024 {
+			margin-bottom: rem(50);
+		}
+		@include bp-1440 {
+			margin-bottom: rem(70);
+		}
+	}
+
+	
+	.relatedlink._minor {
+		@include bp-768 {
+			border-top-width: 0;
+			border-image: none;
+			display: grid;
+			grid-template-columns: rem(284) 1fr;
+			// grid-template-rows: auto auto auto;
+			// grid-template-areas:
+			// 	"img cat"
+			// 	"img title"
+			// 	"img author";
+			grid-gap: rem(20) rem(40);
+			align-items: start;
+
+			.relatedlink__image {
+				//grid-area: img;
+				border-top: 2px solid $color__purple;
+				border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
+				border-width: 0;
+				border-top-width: 2px;
+				img {
+					object-fit: cover;
+					object-position: center center;
+					width: 100%;
+
+				}
+			}
+			.relatedlink__copy {
+
+			}
+				.relatedlink__category {
+					//grid-area: cat;
+					margin: 0 0 rem(20);
+				}
+				.relatedlink__headline {
+					//grid-area: title;
+					margin: 0 0 rem(20);
+				}
+				.relatedlink__author {
+					//grid-area: author;
+					margin: 0;
+				}
+		}
+		@include bp-1024 {
+			grid-template-columns: rem(213) 1fr;
+		}
+		@include bp-1440 {
+			grid-template-columns: rem(284) 1fr;
+		}
+	}
+
+	&__list {
+		margin-bottom: rem(80);
+		.relatedlink._minor {
+			@include bp-768 {
+				// grid-template-rows: auto auto auto auto;
+				// grid-template-areas:
+				// 	"img cat"
+				// 	"img title"
+				// 	"img lede"
+				// 	"img author";
+				padding-bottom: rem(30);
+				border-bottom: rem(1) solid $color__gray;
+				margin-bottom: rem(30);
+
+				&:first-child {
+					margin-top: rem(30);
+				}
+
+				&:last-child {
+					padding-bottom: 0;
+					border-bottom: 0;
+				}
+			}
+			@include bp-1024 {
+				grid-template-columns: rem(300) 1fr;
+				padding-bottom: rem(45);
+				margin-bottom: rem(45);
+				&:first-child {
+					margin-top: rem(45);
+				}
+			}
+			@include bp-1440 {
+				grid-template-columns: rem(300) 1fr;
+				padding-bottom: rem(60);
+				margin-bottom: rem(60);
+				&:first-child {
+					margin-top: rem(60);
+				}
+			}
+			.relatedlink__lede {
+				margin: 0 0 rem(20);
+			}
+		}	
+	}
+}
