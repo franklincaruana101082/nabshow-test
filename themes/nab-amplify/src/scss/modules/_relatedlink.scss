@@ -54,6 +54,9 @@
 	&__title, &__lede {
 		@extend .introtext;
 	}
+	&__lede {
+		margin-bottom: rem(20);
+	}
 
 	&__headline {
 		color: $color__white;
