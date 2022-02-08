@@ -199,7 +199,7 @@
 
 		$cart_page_url = wc_get_cart_url();
 	?>
-	<div class="site-content">
+	<div class="site-content" data-swiftype-name="body" data-swiftype-type="text">
         <?php
         // If NOT in My account dashboard pages
 		if ( ( is_account_page() && is_user_logged_in() ) || bp_current_component() ) {
