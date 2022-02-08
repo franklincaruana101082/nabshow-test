@@ -1710,6 +1710,7 @@ function swiftype_tags() {
 		if(!empty($companyCategory)) {
 			foreach($companyCategory as $companyCategoryItem) { ?>
 			<meta class="swiftype" name="company_categories" data-type="string" content="<?php echo($companyCategoryItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($companyCategoryItem); ?>" />
 		<?php } }
 
 		if(!empty($eventCategories)) {
