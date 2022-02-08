@@ -1386,7 +1386,7 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
 		$parsely_metadata['articleSection'] =				empty($contentPillars) ? "Uncategorized" : $contentPillars[0];
 		$parsely_metadata['contentPillars'] =				$contentPillars;
 
-		$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+		$parsely_metadata['relatedCompany'] =				(!empty(get_field('nab_selected_company_id', $post->ID))) ? get_the_title(get_field('nab_selected_company_id', $post->ID)) : '';
 		$parsely_metadata['articleType'] =					get_field('article_type', $post->ID);
 		$parsely_metadata['community'] =					get_field('community', $post->ID);
 		$parsely_metadata['personas'] =						get_field('personas', $post->ID);
@@ -1459,7 +1459,7 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
 				array_push($speaker_names, $speaker_name);
 			}
 		}
-    	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('company', $post->ID));
+    	$parsely_metadata['relatedCompany'] =				(!empty(get_field('company', $post->ID))) ? get_the_title(get_field('company', $post->ID)) : '';
     	$parsely_metadata['speakers'] =						$speaker_names;
     	$parsely_metadata['status'] =						get_field('session_status');
     	$parsely_metadata['sessionCategories'] =			array_column( wp_get_post_terms($post->ID, 'session_categories'), 'name');
@@ -1468,7 +1468,7 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
 
     if($post_type === 'tribe_events') {
 		$parsely_metadata['@type'] = "Event";
-    	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+    	$parsely_metadata['relatedCompany'] =				(!empty(get_field('nab_selected_company_id', $post->ID))) ? get_the_title(get_field('nab_selected_company_id', $post->ID)) : '';
     	$parsely_metadata['companyCategory'] = 			array_column( wp_get_post_terms($post->ID, 'company-category'), 'name');
     	$parsely_metadata['eventCategories'] = 			array_column( wp_get_post_terms($post->ID, 'tribe_events_cat'), 'name');
 		$parsely_metadata['articleSection'] =				empty($parsely_metadata['eventCategories']) ? "Uncategorized" : $parsely_metadata['eventCategories'][0];
@@ -1476,7 +1476,7 @@ function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
 
     if($post_type === 'downloadable-pdfs') {
 		$parsely_metadata['@type'] = "Report";
-    	$parsely_metadata['relatedCompany'] =				get_the_title(get_field('nab_selected_company_id', $post->ID));
+    	$parsely_metadata['relatedCompany'] =				(!empty(get_field('nab_selected_company_id', $post->ID))) ? get_the_title(get_field('nab_selected_company_id', $post->ID)) : '';
     }
 
     if($post_type === 'product') {
