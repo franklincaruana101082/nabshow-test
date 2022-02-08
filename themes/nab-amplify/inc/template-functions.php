@@ -1530,7 +1530,7 @@ function swiftype_tags() {
     	$st_post_type = 				"Article";
 		$contentPillars =				get_field('content_pillars', $st_id);
 		$articleSection =				empty($contentPillars) ? "Uncategorized" : $contentPillars[0];
-		$relatedCompany =				get_the_title(get_field('nab_selected_company_id', $st_id));
+		$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
 		$articleType =					get_field('article_type', $st_id);
 		$community =					get_field('community', $st_id);
 		$personas =						get_field('personas', $st_id);
@@ -1645,7 +1645,7 @@ function swiftype_tags() {
 				array_push($speaker_names, $speaker_name);
 			}
 		}
-    	$relatedCompany =				get_the_title(get_field('company', $st_id));
+    	$relatedCompany =				(!empty(get_field('company', $st_id))) ? get_the_title(get_field('company', $st_id)) : '';
     	$speakers =						$speaker_names;
     	$status =						get_field('session_status');
     	$sessionCategories =			array_column( wp_get_post_terms($st_id, 'session_categories'), 'name');
@@ -1677,7 +1677,7 @@ function swiftype_tags() {
 
     if($post_type === 'tribe_events') {
 		$st_post_type = "Event";
-    	$relatedCompany =				get_the_title(get_field('nab_selected_company_id', $st_id));
+    	$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
     	$companyCategory = 				array_column( wp_get_post_terms($st_id, 'company-category'), 'name');
     	$eventCategories = 				array_column( wp_get_post_terms($st_id, 'tribe_events_cat'), 'name');
 		$articleSection =				empty($eventCategories) ? "Uncategorized" : $eventCategories[0];
@@ -1703,7 +1703,7 @@ function swiftype_tags() {
 
     if($post_type === 'downloadable-pdfs') {
 		$st_post_type = "Report";
-    	$relatedCompany =				get_the_title(get_field('nab_selected_company_id', $st_id));
+    	$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
     	if(!empty($relatedCompany)) { ?>
 			<meta class="swiftype" name="relatedCompany" data-type="string" content="<?php echo($relatedCompany); ?>" />
 		<?php }
