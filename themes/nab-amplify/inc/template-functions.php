@@ -1549,88 +1549,104 @@ function swiftype_tags() {
 
 		if(!empty($contentPillars)) {
 			foreach($contentPillars as $contentPillar) { ?>
-			<meta class="swiftype" name="contentPillars" data-type="string" content="<?php echo($contentPillar); ?>" />
+			<meta class="swiftype" name="content_pillars" data-type="string" content="<?php echo($contentPillar); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentPillar); ?>" />
 		<?php } }
 
 		if(!empty($articleSection)) { ?>
-			<meta class="swiftype" name="articleSection" data-type="string" content="<?php echo($articleSection); ?>" />
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
 		<?php }
 
 		if(!empty($relatedCompany)) { ?>
-			<meta class="swiftype" name="relatedCompany" data-type="string" content="<?php echo($relatedCompany); ?>" />
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
 		<?php }
 
 		if(!empty($articleType)) { ?>
-			<meta class="swiftype" name="articleType" data-type="string" content="<?php echo($articleType); ?>" />
+			<meta class="swiftype" name="article_type" data-type="string" content="<?php echo($articleType); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($articleType); ?>" />
 		<?php }
 
 		if(!empty($community)) {
 			foreach($community as $communityItem) { ?>
-			<meta class="swiftype" name="community" data-type="string" content="<?php echo($communityItem); ?>" />
+			<meta class="swiftype" name="communities" data-type="string" content="<?php echo($communityItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($communityItem); ?>" />
 		<?php } }
 
 		if(!empty($personas)) {
 			foreach($personas as $personasItem) { ?>
 			<meta class="swiftype" name="personas" data-type="string" content="<?php echo($personasItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($personasItem); ?>" />
 		<?php } }
 
 		if(!empty($contentScope)) { ?>
-			<meta class="swiftype" name="contentScope" data-type="string" content="<?php echo($contentScope); ?>" />
+			<meta class="swiftype" name="content_scope" data-type="string" content="<?php echo($contentScope); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentScope); ?>" />
 		<?php } 
 
 		if(!empty($contentFormat)) {
 			foreach($contentFormat as $contentFormatItem) { ?>
-			<meta class="swiftype" name="contentFormat" data-type="string" content="<?php echo($contentFormatItem); ?>" />
+			<meta class="swiftype" name="content_formats" data-type="string" content="<?php echo($contentFormatItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentFormatItem); ?>" />
 		<?php } }
 
 		if(!empty($contentSubject)) {
 			foreach($contentSubject as $contentSubjectItem) { ?>
-			<meta class="swiftype" name="contentSubject" data-type="string" content="<?php echo($contentSubjectItem); ?>" />
+			<meta class="swiftype" name="content_subjects" data-type="string" content="<?php echo($contentSubjectItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentSubjectItem); ?>" />
 		<?php } }
 
 		if(!empty($acquisitionSub)) {
 			foreach($acquisitionSub as $acquisitionSubItem) { ?>
-			<meta class="swiftype" name="acquisitionSub" data-type="string" content="<?php echo($acquisitionSubItem); ?>" />
+			<meta class="swiftype" name="acquisition_and_production_subjects" data-type="string" content="<?php echo($acquisitionSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($acquisitionSubItem); ?>" />
 		<?php } }
 
 		if(!empty($distributionSub)) {
 			foreach($distributionSub as $distributionSubItem) { ?>
-			<meta class="swiftype" name="distributionSub" data-type="string" content="<?php echo($distributionSubItem); ?>" />
+			<meta class="swiftype" name="distribution_and_delivery_subjects" data-type="string" content="<?php echo($distributionSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($distributionSubItem); ?>" />
 		<?php } }
 
 		if(!empty($managementSub)) {
 			foreach($managementSub as $managementSubItem) { ?>
-			<meta class="swiftype" name="managementSub" data-type="string" content="<?php echo($managementSubItem); ?>" />
+			<meta class="swiftype" name="management_and_systems_subjects" data-type="string" content="<?php echo($managementSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($managementSubItem); ?>" />
 		<?php } }
 
 		if(!empty($radioSub)) {
 			foreach($radioSub as $radioSubItem) { ?>
-			<meta class="swiftype" name="radioSub" data-type="string" content="<?php echo($radioSubItem); ?>" />
+			<meta class="swiftype" name="radio_subjects" data-type="string" content="<?php echo($radioSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($radioSubItem); ?>" />
 		<?php } }
 
 		if(!empty($displaySub)) {
 			foreach($displaySub as $displaySubItem) { ?>
-			<meta class="swiftype" name="displaySub" data-type="string" content="<?php echo($displaySubItem); ?>" />
+			<meta class="swiftype" name="display_systems_subjects" data-type="string" content="<?php echo($displaySubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($displaySubItem); ?>" />
 		<?php } }
 
 		if(!empty($industrySub)) {
 			foreach($industrySub as $industrySubItem) { ?>
-			<meta class="swiftype" name="industrySub" data-type="string" content="<?php echo($industrySubItem); ?>" />
+			<meta class="swiftype" name="industry_resources_subjects" data-type="string" content="<?php echo($industrySubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($industrySubItem); ?>" />
 		<?php } }
 
 		if(!empty($contentSub)) {
 			foreach($contentSub as $contentSubItem) { ?>
-			<meta class="swiftype" name="contentSub" data-type="string" content="<?php echo($contentSubItem); ?>" />
+			<meta class="swiftype" name="media_content_subjects" data-type="string" content="<?php echo($contentSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentSubItem); ?>" />
 		<?php } }
 
 		if(!empty($productionSub)) {
 			foreach($productionSub as $productionSubItem) { ?>
-			<meta class="swiftype" name="productionSub" data-type="string" content="<?php echo($productionSubItem); ?>" />
+			<meta class="swiftype" name="post_production_subjects" data-type="string" content="<?php echo($productionSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productionSubItem); ?>" />
 		<?php } }
 
 		if(!empty($contentCategory)) {
 			foreach($contentCategory as $contentCategoryItem) { ?>
-			<meta class="swiftype" name="contentCategory" data-type="string" content="<?php echo($contentCategoryItem); ?>" />
+			<meta class="swiftype" name="content_categories" data-type="string" content="<?php echo($contentCategoryItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentCategoryItem); ?>" />
 		<?php } }
 
 	}
@@ -1652,7 +1668,7 @@ function swiftype_tags() {
 		$articleSection =				empty($sessionCategories) ? "Uncategorized" : $sessionCategories[0];
 
 		if(!empty($relatedCompany)) { ?>
-			<meta class="swiftype" name="relatedCompany" data-type="string" content="<?php echo($relatedCompany); ?>" />
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
 		<?php }
 
 		if(!empty($speakers)) {
@@ -1666,11 +1682,12 @@ function swiftype_tags() {
 
 		if(!empty($sessionCategories)) {
 			foreach($sessionCategories as $sessionCategoriesItem) { ?>
-			<meta class="swiftype" name="sessionCategories" data-type="string" content="<?php echo($sessionCategoriesItem); ?>" />
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($sessionCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($sessionCategoriesItem); ?>" />
 		<?php } }
 
 		if(!empty($articleSection)) { ?>
-			<meta class="swiftype" name="articleSection" data-type="string" content="<?php echo($articleSection); ?>" />
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
 		<?php }
 
 	}
@@ -1683,21 +1700,22 @@ function swiftype_tags() {
 		$articleSection =				empty($eventCategories) ? "Uncategorized" : $eventCategories[0];
 
 		if(!empty($relatedCompany)) { ?>
-			<meta class="swiftype" name="relatedCompany" data-type="string" content="<?php echo($relatedCompany); ?>" />
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
 		<?php }
 
 		if(!empty($articleSection)) { ?>
-			<meta class="swiftype" name="articleSection" data-type="string" content="<?php echo($articleSection); ?>" />
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
 		<?php }
 
 		if(!empty($companyCategory)) {
 			foreach($companyCategory as $companyCategoryItem) { ?>
-			<meta class="swiftype" name="companyCategory" data-type="string" content="<?php echo($companyCategoryItem); ?>" />
+			<meta class="swiftype" name="company_categories" data-type="string" content="<?php echo($companyCategoryItem); ?>" />
 		<?php } }
 
 		if(!empty($eventCategories)) {
 			foreach($eventCategories as $eventCategoriesItem) { ?>
-			<meta class="swiftype" name="eventCategories" data-type="string" content="<?php echo($eventCategoriesItem); ?>" />
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($eventCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($eventCategoriesItem); ?>" />
 		<?php } }
     }
 
@@ -1705,7 +1723,7 @@ function swiftype_tags() {
 		$st_post_type = "Report";
     	$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
     	if(!empty($relatedCompany)) { ?>
-			<meta class="swiftype" name="relatedCompany" data-type="string" content="<?php echo($relatedCompany); ?>" />
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
 		<?php }
     }
 
@@ -1716,11 +1734,12 @@ function swiftype_tags() {
 
 		if(!empty($productCategories)) {
 			foreach($productCategories as $productCategoriesItem) { ?>
-			<meta class="swiftype" name="productCategories" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
 		<?php } }
 
 		if(!empty($articleSection)) { ?>
-			<meta class="swiftype" name="articleSection" data-type="string" content="<?php echo($articleSection); ?>" />
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
 		<?php }
     }
 
@@ -1739,38 +1758,28 @@ function swiftype_tags() {
 		}
 
 		$search_product_categories = get_field('search_product_categories', $st_id);
-		$search_product_category_names = [];
 		if(!empty($search_product_categories)) {
 			foreach($search_product_categories as $search_product_category_id) {
 				$term = get_term_by('ID', $search_product_category_id, 'company-product-category' );
 				if ( false !== $term ) {
 					$search_product_category_name = $term->name;
 				}
-				array_push($search_product_category_names, $search_product_category_name);
+				array_push($product_category_names, $search_product_category_name);
 			}
 		}
 
 		$aboutCompany =				get_field('about_company', $st_id);
 		$productCategories =		$product_category_names;
-		$searchProductCategories =	$search_product_category_names;
 		$memberLevel =				get_field('member_level', $st_id);
 
 		if(!empty($productCategoryNames)) {
 			foreach($productCategoryNames as $productCategoryNamesItem) { ?>
-			<meta class="swiftype" name="productCategoryNames" data-type="string" content="<?php echo($productCategoryNamesItem); ?>" />
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($productCategoryNamesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productCategoryNamesItem); ?>" />
 		<?php } }
-
-		if(!empty($searchProductCategories)) {
-			foreach($searchProductCategories as $searchProductCategoriesItem) { ?>
-			<meta class="swiftype" name="searchProductCategories" data-type="string" content="<?php echo($searchProductCategoriesItem); ?>" />
-		<?php } }
-
-		if(!empty($aboutCompany)) { ?>
-			<meta class="swiftype" name="aboutCompany" data-type="string" content="<?php echo($aboutCompany); ?>" />
-		<?php }
 
 		if(!empty($memberLevel)) { ?>
-			<meta class="swiftype" name="memberLevel" data-type="string" content="<?php echo($memberLevel); ?>" />
+			<meta class="swiftype" name="member_level" data-type="string" content="<?php echo($memberLevel); ?>" />
 		<?php }
 
     }
