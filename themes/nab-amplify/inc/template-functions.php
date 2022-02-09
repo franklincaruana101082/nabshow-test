@@ -1744,6 +1744,41 @@ function swiftype_tags() {
 		<?php }
     }
 
+    	if($post_type === 'company-products') {
+		$st_post_type = "WebPage";
+		$productCategories =			array_column( wp_get_post_terms($st_id, 'company-product-category'), 'name');
+		$categories =					array_column( wp_get_post_terms($st_id, 'content-category'), 'name');
+		$productTags =					array_column( wp_get_post_terms($st_id, 'company-product-tag'), 'name');
+		$articleSection =				empty($productCategories) ? "Uncategorized" : $productCategories[0];
+		$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
+
+		if(!empty($relatedCompany)) { ?>
+
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
+		<?php }
+
+		if(!empty($productCategories)) {
+			foreach($productCategories as $productCategoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+		<?php } }
+
+		if(!empty($categories)) {
+			foreach($categories as $categoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($categoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($categoriesItem); ?>" />
+		<?php } }
+
+		if(!empty($productTags)) {
+			foreach($productTags as $productTagsItem) { ?>
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productTagsItem); ?>" />
+		<?php } }
+
+		if(!empty($articleSection)) { ?>
+			<meta class="swiftype" name="articleSection" data-type="string" content="<?php echo($articleSection); ?>" />
+		<?php }
+	}
+
     if($post_type === 'company') {
 		$st_post_type = "WebPage";
 		$product_categories = get_field('product_categories', $st_id);
