@@ -226,6 +226,7 @@
                 <div className="sort-button">
                     <Button
                       className="components-button button button-large button-primary"
+                      style={ { maxWidth: '100%' } }
                       onClick={ () => {
                         let tempProduct = [...products];
                         tempProduct.sort( function( val1, val2 ){

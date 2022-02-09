@@ -6953,6 +6953,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     Button,
                     {
                       className: "components-button button button-large button-primary",
+                      style: { maxWidth: '100%' },
                       onClick: function onClick() {
                         var tempProduct = [].concat(_toConsumableArray(products));
                         tempProduct.sort(function (val1, val2) {
