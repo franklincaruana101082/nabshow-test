@@ -100,7 +100,6 @@
       };
 
       const productsList = products
-        .sort((a, b) => a.index - b.index)
         .map((product, index) => {
           return (
             <div className="box-item">
@@ -126,19 +125,11 @@
                 </span>
                 <div className="media-img">
                   <MediaUpload
-                    onSelect={media => {
-                      const newObject = Object.assign({}, product, {
-                        media: media.url,
-                        mediaAlt: media.alt
-                      });
-                      setAttributes({
-                        products: [
-                          ...products.filter(
-                            item => item.index != product.index
-                          ),
-                          newObject
-                        ]
-                      });
+                    onSelect={media => {                      
+                      let tempProducts = [...products];
+                      tempProducts[index].media = media.url;
+                      tempProducts[index].mediaAlt = media.alt;
+                      setAttributes({ products: tempProducts});
                     }}
                     type="image"
                     value={attributes.imageID}
@@ -146,18 +137,10 @@
                   />
                   <MediaUpload
                     onSelect={media => {
-                      const newObject = Object.assign({}, product, {
-                        media: media.url,
-                        mediaAlt: media.alt
-                      });
-                      setAttributes({
-                        products: [
-                          ...products.filter(
-                            item => item.index != product.index
-                          ),
-                          newObject
-                        ]
-                      });
+                      let tempProducts = [...products];
+                      tempProducts[index].media = media.url;
+                      tempProducts[index].mediaAlt = media.alt;
+                      setAttributes({ products: tempProducts});                      
                     }}
                     type="image"
                     value={attributes.imageID}
@@ -170,18 +153,10 @@
                   value={product.title}
                   keepPlaceholderOnFocus="true"
                   className="title"
-                  onChange={title => {
-                    const newObject = Object.assign({}, product, {
-                      title: title
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
+                  onChange={title => {                    
+                    let tempProducts = [...products];
+                    tempProducts[index].title = title;
+                    setAttributes({ products: tempProducts});
                   }}
                 />
                 <RichText
@@ -191,17 +166,9 @@
                   keepPlaceholderOnFocus="true"
                   value={product.companyName}
                   onChange={companyName => {
-                    const newObject = Object.assign({}, product, {
-                      companyName: companyName
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
+                    let tempProducts = [...products];
+                    tempProducts[index].companyName = companyName;
+                    setAttributes({ products: tempProducts});
                   }}
                 />
                 <RichText
@@ -211,17 +178,9 @@
                   value={product.type}
                   keepPlaceholderOnFocus="true"
                   onChange={type => {
-                    const newObject = Object.assign({}, product, {
-                      type: type
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
+                    let tempProducts = [...products];
+                    tempProducts[index].type = type;
+                    setAttributes({ products: tempProducts});
                   }}
                 />
                 <RichText
@@ -231,17 +190,9 @@
                   value={product.description}
                   keepPlaceholderOnFocus="true"
                   onChange={description => {
-                    const newObject = Object.assign({}, product, {
-                      description: description
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
+                    let tempProducts = [...products];
+                    tempProducts[index].description = description;
+                    setAttributes({ products: tempProducts});
                   }}
                 />
                 <TextControl
@@ -250,17 +201,9 @@
                   value={product.email}
                   placeholder="Email"
                   onChange={email => {
-                    const newObject = Object.assign({}, product, {
-                      email: email
-                    });
-                    setAttributes({
-                      products: [
-                        ...products.filter(
-                          item => item.index != product.index
-                        ),
-                        newObject
-                      ]
-                    });
+                    let tempProducts = [...products];
+                    tempProducts[index].email = email;
+                    setAttributes({ products: tempProducts});
                   }}
                 />
               </div>
@@ -278,6 +221,24 @@
                   checked={showFilter}
                   onChange={() => setAttributes({ showFilter: ! showFilter })}
                 />
+              </PanelRow>
+              <PanelRow>
+                <div className="sort-button">
+                    <Button
+                      className="components-button button button-large button-primary"
+                      onClick={ () => {
+                        let tempProduct = [...products];
+                        tempProduct.sort( function( val1, val2 ){
+                          if (val1.title.toLowerCase() < val2.title.toLowerCase() ) {return -1;}
+                          if (val1.title.toLowerCase() > val2.title.toLowerCase() ) {return 1;}
+                          return 0;
+                        });
+                        setAttributes({ products: tempProduct});
+                      }}
+                    >
+                    Sort Cards Alphabetically
+                    </Button>
+                </div>
               </PanelRow>
             </PanelBody>
           </InspectorControls>
