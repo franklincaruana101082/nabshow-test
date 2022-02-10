@@ -191,11 +191,11 @@
 		*/ ?>
 	</header><!-- #masthead -->
 	<?php
-		if ( ! is_search() ) {
+		//if ( ! is_search() ) {
 			?>
 				<?php get_search_form(); ?>
 			<?php
-		}
+		//}
 
 		$cart_page_url = wc_get_cart_url();
 	?>
