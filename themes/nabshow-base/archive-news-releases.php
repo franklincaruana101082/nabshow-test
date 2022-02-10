@@ -27,7 +27,7 @@ $posts_per_page = get_option( 'posts_per_page' );
 	                echo do_shortcode('[nab_yoast_breadcumb]');
 	            ?>
 	        </div>
-	        <div class="container">
+	        <div class="container opportunities__ad">
 				<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 			</div>
 	        <div class="news-releases-main">	           
@@ -54,16 +54,14 @@ $posts_per_page = get_option( 'posts_per_page' );
                     <div class="loadMoreArticles text-center" id="load-more-news">
                         <a href="javascript:void(0);" class="btn-default" data-page-number="2" data-total-page="<?php echo absint( $wp_query->max_num_pages ); ?>">Load More</a>
                     </div>
+                    <div class="container news_bottom_ad">
+						<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+					</div>
                     <?php
                 } ?>
 	        </div>
-	        <div class="container">
-	        	<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
-	        </div>
 		</div><!-- #primary -->
 	</div>
-<div class="container">
-	<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
-</div>
+
 <?php
 get_footer();

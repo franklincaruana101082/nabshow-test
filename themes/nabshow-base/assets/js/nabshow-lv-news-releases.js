@@ -43,6 +43,7 @@
 
                 $('#load-more-news a').attr('data-page-number', newsObj.next_page_number);
 
+                $('#load-more-news + .news_bottom_ad').show();
                 if ( newsObj.next_page_number > newsObj.total_page) {
                     $('#load-more-news').hide();
                 } else {
