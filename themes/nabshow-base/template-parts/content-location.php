@@ -213,77 +213,74 @@ if ( $display_speakers_and_sessions ) {
                     </div>
                     <?php } 
 
-                    if ( !empty($featured_sessions_amount) ) {
-                                            
-                        $session_tracks     = get_field( 'session_tracks' );
-                        $session_categories = get_field( 'session_categories' );
+                    $session_tracks     = get_field( 'session_tracks' );
+                    $session_categories = get_field( 'session_categories' );
 
-                        if ( ( $session_tracks && count( $session_tracks ) > 0 ) || ( $session_categories && count( $session_categories ) > 0 ) ) {
-                            
-                            $session_query_args = array(
-                                'post_type'      => 'sessions',
-                                'posts_per_page' => 10,
-                                'post_status'    => 'publish',
-                                'meta_key'       => 'starttime',
-                                'orderby'        => 'meta_value',
-                                'order'          => 'ASC',
+                    if ( ( $session_tracks && count( $session_tracks ) > 0 ) || ( $session_categories && count( $session_categories ) > 0 ) ) {
+                        
+                        $session_query_args = array(
+                            'post_type'      => 'sessions',
+                            'posts_per_page' => 10,
+                            'post_status'    => 'publish',
+                            'meta_key'       => 'starttime',
+                            'orderby'        => 'meta_value',
+                            'order'          => 'ASC',
+                        );
+
+                        $tax_query_args = array( 'relation' => 'OR' );
+
+                        if ( $session_tracks && count( $session_tracks ) > 0 ) {
+                            $tax_query_args[] = array(
+                                'taxonomy' => 'tracks',
+                                'field'    => 'term_id',
+                                'terms'    => $session_tracks,
                             );
+                        }
 
-                            $tax_query_args = array( 'relation' => 'OR' );
+                        if ( $session_categories && count( $session_categories ) > 0 ) {
+                            $tax_query_args[] = array(
+                                'taxonomy' => 'session-categories',
+                                'field'    => 'term_id',
+                                'terms'    => $session_categories,
+                            );
+                        }
 
-                            if ( $session_tracks && count( $session_tracks ) > 0 ) {
-                                $tax_query_args[] = array(
-                                    'taxonomy' => 'tracks',
-                                    'field'    => 'term_id',
-                                    'terms'    => $session_tracks,
-                                );
-                            }
+                        $session_query_args['tax_query'] = $tax_query_args;
 
-                            if ( $session_categories && count( $session_categories ) > 0 ) {
-                                $tax_query_args[] = array(
-                                    'taxonomy' => 'session-categories',
-                                    'field'    => 'term_id',
-                                    'terms'    => $session_categories,
-                                );
-                            }
+                        $session_query = new WP_Query( $session_query_args );
 
-                            $session_query_args['tax_query'] = $tax_query_args;
-
-                            $session_query = new WP_Query( $session_query_args );
-
-                            if ( $session_query->have_posts() ) {
-                                ?>
-                                <div class="conference-sessions-sessions">
-                                    <?php
-                                    while ( $session_query->have_posts() ) :
-                                        
-                                        $session_query->the_post();
-
-                                        $mys_session_id         = get_the_ID();
-                                        $session_schedule_id    = get_post_meta( $mys_session_id, 'scheduleid', true );
-                                        $mys_session_start_date = get_post_meta( $mys_session_id, 'starttime', true );
-                                        $mys_session_summary    = get_post_meta( $mys_session_id, 'abstract', true );
-                                        $formatted_session_date = '';
-
-                                        if ( ! empty( $mys_session_start_date ) ) {
-                                            $formatted_session_date = date_format( date_create( $mys_session_start_date ), 'F j, Y g:i a' );
-                                        }
-
-                                        $mys_session_link = 'https://nab22.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $session_schedule_id;
-                                        ?>
-                                        <a href="<?php echo esc_url( $mys_session_link );?>" target="_blank" class="conference-sessions-session _link">
-                                            <p class="conference-sessions-session-title"><?php echo esc_html( get_the_title() ); ?></p>
-                                            <h6 class="datetime-small icon-calendar"><?php echo esc_html( $formatted_session_date ); ?></h6>
-                                            <div class="conference-sessions-session-desc"><?php echo wp_kses_post( $mys_session_summary ); ?></div>
-                                        </a>
-                                        <?php
-
-                                    endwhile;
-                                    ?>                        
-                                </div>
+                        if ( $session_query->have_posts() ) {
+                            ?>
+                            <div class="conference-sessions-sessions">
                                 <?php
-                                wp_reset_postdata();
-                            }
+                                while ( $session_query->have_posts() ) :
+                                    
+                                    $session_query->the_post();
+
+                                    $mys_session_id         = get_the_ID();
+                                    $session_schedule_id    = get_post_meta( $mys_session_id, 'scheduleid', true );
+                                    $mys_session_start_date = get_post_meta( $mys_session_id, 'starttime', true );
+                                    $mys_session_summary    = get_post_meta( $mys_session_id, 'abstract', true );
+                                    $formatted_session_date = '';
+
+                                    if ( ! empty( $mys_session_start_date ) ) {
+                                        $formatted_session_date = date_format( date_create( $mys_session_start_date ), 'F j, Y g:i a' );
+                                    }
+
+                                    $mys_session_link = 'https://nab22.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $session_schedule_id;
+                                    ?>
+                                    <a href="<?php echo esc_url( $mys_session_link );?>" target="_blank" class="conference-sessions-session _link">
+                                        <p class="conference-sessions-session-title"><?php echo esc_html( get_the_title() ); ?></p>
+                                        <h6 class="datetime-small icon-calendar"><?php echo esc_html( $formatted_session_date ); ?></h6>
+                                        <div class="conference-sessions-session-desc"><?php echo wp_kses_post( $mys_session_summary ); ?></div>
+                                    </a>
+                                    <?php
+
+                                endwhile;
+                                ?>                        
+                            </div>
+                            <?php
+                            wp_reset_postdata();
                         }
                     }
                     ?>
