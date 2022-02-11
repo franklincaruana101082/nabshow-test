@@ -4725,7 +4725,7 @@ function nab_validate_edit_account_fields( $args ) {
     if ( isset( $_POST['user_country'] ) && empty( $_POST['user_country'] ) ) {        
         $args->add( 'error', __( 'Country is Required', 'woocommerce' ), '');
     }
-    if ( isset( $_POST['user_state'] ) && empty( $_POST['user_state'] ) ) {        
+    if ( ( isset( $_POST['user_country'] ) && 'US' === $_POST['user_country'] ) && ( isset( $_POST['user_state'] ) && empty( $_POST['user_state'] ) ) ) {        
         $args->add( 'error', __( 'State is Required', 'woocommerce' ), '');
     }
     if ( isset( $_POST['user_city'] ) && empty( $_POST['user_city'] ) ) {        
