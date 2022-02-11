@@ -2795,6 +2795,7 @@ function nab_save_edit_account_additional_form_fields($user_id)
     $user_industry            = filter_input( INPUT_POST, 'user_industry', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
     $amplify_communications   = filter_input( INPUT_POST, 'amplify_communications', FILTER_SANITIZE_STRING );
     $amplify_hide_from_search = filter_input( INPUT_POST, 'amplify_hide_from_search', FILTER_SANITIZE_STRING );
+    $user_state               = filter_input( INPUT_POST, 'user_state', FILTER_SANITIZE_STRING );
 
     if (isset($member_visibility) && !empty($member_visibility)) {
         update_user_meta($user_id, 'nab_member_visibility', $member_visibility);
@@ -2828,6 +2829,12 @@ function nab_save_edit_account_additional_form_fields($user_id)
         delete_user_meta( $user_id, 'amplify_hide_from_search' );
     }
 
+    if ( isset( $user_state ) && ! empty( $user_state ) ) {
+        update_user_meta( $user_id, 'user_state', $user_state );
+    } else {
+        delete_user_meta( $user_id, 'user_state' );
+    }
+
     $user_fields = array(
         'attendee_title',
         'attendee_company',
@@ -2838,7 +2845,6 @@ function nab_save_edit_account_additional_form_fields($user_id)
         'social_website',
         'social_youtube',
         'user_country',
-        'user_state',
         'user_city',
         'amplify_communications'
     );
@@ -4725,7 +4731,7 @@ function nab_validate_edit_account_fields( $args ) {
     if ( isset( $_POST['user_country'] ) && empty( $_POST['user_country'] ) ) {        
         $args->add( 'error', __( 'Country is Required', 'woocommerce' ), '');
     }
-    if ( ( isset( $_POST['user_country'] ) && 'US' === $_POST['user_country'] ) && ( isset( $_POST['user_state'] ) && empty( $_POST['user_state'] ) ) ) {        
+    if ( ( isset( $_POST['user_country'] ) && 'US' === $_POST['user_country'] ) && ( ! isset( $_POST['user_state'] ) || ( isset( $_POST['user_state'] ) && empty( $_POST['user_state'] )  ) ) ) {
         $args->add( 'error', __( 'State is Required', 'woocommerce' ), '');
     }
     if ( isset( $_POST['user_city'] ) && empty( $_POST['user_city'] ) ) {        
