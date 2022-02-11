@@ -264,7 +264,7 @@ if ( $display_speakers_and_sessions ) {
                                 endwhile;
                                 foreach ( $manual_sessions as $row ) {
                                 ?>                        
-                                    <a href="<?php echo esc_url( $row['link'] );?>" target="_blank" class="conference-sessions-session _link">
+                                    <a href="<?php echo esc_url( $row['link']['url'] );?>" target="_blank" class="conference-sessions-session _link">
                                         <p class="conference-sessions-session-title"><?php echo esc_html( $row['title'] ); ?></p>
                                         <h6 class="datetime-small icon-calendar"><?php echo esc_html( $row['dates'] ); ?></h6>
                                         <div class="conference-sessions-session-desc"><?php echo wp_kses_post( $row['description'] ); ?></div>
