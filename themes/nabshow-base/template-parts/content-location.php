@@ -267,7 +267,7 @@ if ( $display_speakers_and_sessions ) {
                                     <a href="<?php echo esc_url( $row['link']['url'] );?>" target="_blank" class="conference-sessions-session _link">
                                         <p class="conference-sessions-session-title"><?php echo esc_html( $row['title'] ); ?></p>
                                         <h6 class="datetime-small icon-calendar"><?php echo esc_html( $row['dates'] ); ?></h6>
-                                        <div class="conference-sessions-session-desc"><?php echo wp_kses_post( $row['description'] ); ?></div>
+                                        <div class="conference-sessions-session-desc"><p><?php echo wp_kses_post( $row['description'] ); ?></p></div>
                                     </a>
                                 <?php } ?>
                             </div>
