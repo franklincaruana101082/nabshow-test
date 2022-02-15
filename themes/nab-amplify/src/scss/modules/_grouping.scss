@@ -2,12 +2,12 @@
 	&__intro {
 		.intro__title {
 			text-align: center;
-			padding: rem(60) 0 rem(40);
+			padding: rem(60) 0 rem(20);
 			@include bp-1024 {
-				padding: rem(80) 0 rem(60);
+				padding: rem(80) 0 rem(30);
 			}
 			@include bp-1280 {
-				padding: rem(100) 0 rem(80);
+				padding: rem(100) 0 rem(40);
 			}
 		}
 
@@ -32,8 +32,9 @@
 		}
 	}
 	&__promo {
-
+		padding: rem(20) 0;
 		@include bp-1024 {
+			padding: rem(30) 0;
 			display: grid;
 			grid-template-columns: 40% 1fr;
 			grid-template-rows: auto auto auto;
@@ -54,12 +55,28 @@
 			.relatedlink:nth-child(4) {
 				grid-area: four;
 			}
+
+			//this isn't working with the addition of ads inbetween sections
+			// &:nth-of-type(even) {
+			// 	grid-template-columns: 1fr 40%;
+			// 	grid-template-areas:
+			// 	"two one"
+			// 	"three one"
+			// 	"four one";
+			// }
 		}
 		@include bp-1280 {
+			padding: rem(40) 0;
 			grid-template-columns: 45% 1fr;
+			// &:nth-of-type(even) {
+			// 	grid-template-columns: 1fr 45%;
+			// }
 		}
 		@include bp-1440 {
 			grid-template-columns: 50% 1fr;
+			// &:nth-of-type(even) {
+			// 	grid-template-columns: 1fr 50%;
+			// }
 		}
 		.relatedlink {
 			&__headline {
@@ -69,6 +86,10 @@
 				margin-top: 0;
 			}
 		}
+	}
+
+	&__promoad {
+		//padding-bottom: rem(30);
 	}
 
 
