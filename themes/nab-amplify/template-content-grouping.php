@@ -152,6 +152,8 @@ if(get_field('header_lighting_effects')) {
                     <div class="relatedlink__image" style="background-image: url('<?php echo esc_url($image['url']); ?>');">
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
+                    <?php } else { ?>
+                        <div class="relatedlink__image"></div>
                     <?php } ?>
                     <div class="relatedlink__copy">
                     <?php if(!empty($article_date)) { ?>
