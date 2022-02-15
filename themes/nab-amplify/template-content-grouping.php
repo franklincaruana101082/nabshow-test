@@ -51,7 +51,7 @@ if(get_field('header_lighting_effects')) {
                 $category = get_sub_field('category');
                 $lede = get_sub_field('lede');
                 if(empty($lede)) {
-                    $lede = get_the_excerpt($link_wp_id);
+                    $lede = wp_trim_words( get_the_excerpt($link_wp_id) );
                 }
                 if(!empty($link_url)) {
             ?>
@@ -143,7 +143,7 @@ if(get_field('header_lighting_effects')) {
                     }
                     $lede = get_sub_field('lede');
                     if(empty($lede)) {
-                        $lede = get_the_excerpt($link_wp_id);
+                        $lede = wp_trim_words( get_the_excerpt($link_wp_id) );
                     }
                     if(!empty($link_url)) {
                 ?>
