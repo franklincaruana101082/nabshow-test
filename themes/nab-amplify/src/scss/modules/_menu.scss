@@ -106,9 +106,10 @@
 					color: $color__white;
 					font-size: 18px;
 					font-weight: 600;
-					line-height: 42px;
+					//line-height: 42px;
 					text-decoration: none;
-					padding: 0 1.75rem;
+					text-align: center;
+					padding: rem(9.5) 1.75rem;
 					border-radius: 21px;
 					transition: background-color .25s ease-in-out;
 
@@ -118,28 +119,28 @@
 					}
 				}
 			}
-			@include bp-1280 {
-				.menu__link, & > a {
-					&:before, &:after {
-						position: absolute;
-						right: rem(-2);
-						text-align: right;
-						color: $color__white;
-						width: calc(100% + #{rem(168)});
-						padding-right: calc(100% + #{rem(18)});
-					}
-					&:before {
-						content: "April 23, 2022";
-						font-weight: bold;
-						bottom: rem(10);
-					}
-					&:after {
-						content: "Las Vegas";
-						font-weight: 400;
-						top: rem(10);
-					}
-				}
-			}
+			// @include bp-1280 {
+			// 	.menu__link, & > a {
+			// 		&:before, &:after {
+			// 			position: absolute;
+			// 			right: rem(-2);
+			// 			text-align: right;
+			// 			color: $color__white;
+			// 			width: calc(100% + #{rem(168)});
+			// 			padding-right: calc(100% + #{rem(18)});
+			// 		}
+			// 		&:before {
+			// 			content: "April 23, 2022";
+			// 			font-weight: bold;
+			// 			bottom: rem(10);
+			// 		}
+			// 		&:after {
+			// 			content: "Las Vegas";
+			// 			font-weight: 400;
+			// 			top: rem(10);
+			// 		}
+			// 	}
+			// }
 		}
 		.header__utilitynav & {
 			@include bp-1024 {
