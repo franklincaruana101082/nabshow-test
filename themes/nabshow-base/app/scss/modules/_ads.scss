@@ -3,7 +3,41 @@ broadstreet-zone-container {
   div {
     text-align: center;
   }
+  broadstreet-zone div > span {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    
+    &:before {
+      content: "Advertisement";
+      display: block;
+      font-family: $font__secondary;
+      font-size: rem(12);
+      color: $color__gray-medium-light;
+      text-align: center;
+      line-height: 1;
+      padding-bottom: rem(4);
+    }
+  }
+  &._hidden {
+    display: none;
+  }
+  .ad._footer & {
+    padding-top: 0;
+    padding-bottom: 0;
+    broadstreet-zone div {
+      height: 0;
+      & > span {
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
 }
+
+  
+
 .ad {
   &._banner {
     margin: rem(60) auto;
