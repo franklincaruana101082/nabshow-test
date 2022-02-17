@@ -151,7 +151,7 @@
 <?php if($post->post_content): ?>
 	<div class="decorative _lightlines-left-side">
 		<div class="section container generic">
-			<?php dynamic_sidebar('broadstreet-ros-middle-tall'); ?>
+			<?php //dynamic_sidebar('broadstreet-ros-middle-tall'); ?>
 			<?php the_content(); ?>
 		</div>
 	</div>
@@ -169,12 +169,12 @@
 
 ?>
 <?php if (!$hide_team): ?>
-	<div class="container section _toplarge">
+	<div class="container section _toplarge _team">
 		<div class="feature">
 			<?php dynamic_sidebar('Team'); ?>
 			<div class="feature__cta">
 				<ul class="button-group">
-					<li><a href="https://nabshow.com/2022/wp-content/uploads/sites/16/2021/11/22LV_Meet-the-Sales-Team.pdf" class="button _solid">Meet The Team</a></li>
+					<li><a href="/exhibit/meet-the-team/" class="button _solid">Meet The Team</a></li>
 					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Contact Sales</a></li>
 				</ul>
 			</div>
@@ -183,12 +183,12 @@
 <?php endif; ?>
 
 
-	<div class="container">
+	<div class="section container">
 		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
 
 <?php if (!$hide_sign_up): ?>
-	<div class="section">
+	<div class="section _amp-signup">
 		<div class="container">
 			<div class="amp-signup">
 				<div class="amp-signup__content">

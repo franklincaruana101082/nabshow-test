@@ -176,9 +176,6 @@ ul.woocommerce-error {
   padding-left: rem(40);
   > li {
     color: $color__white;
-    a {
-      color: $color__pink;
-    }
   }
 }
 
@@ -232,23 +229,3 @@ body.is-loading {
     z-index: 999;
   }
 }
-
-//hybrid style overrides
-
-#page.nab_hybrid {
-  padding-top: 0;
-  .logged-in & {
-    padding-top: 0;
-  }
-  [hidden] {
-    display: none !important;
-  }
-  .site-main {
-    padding: 0;
-  }
-  .social-list li {
-    width:auto;
-    height:auto;
-  }
-}
-

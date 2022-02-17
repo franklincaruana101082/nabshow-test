@@ -7,6 +7,88 @@
 		.nab-ad-block.header_ad, .titlecolor {
 			background-color: $color__gray-darker;
 		}
+		.titlecolor._persona {
+			background-color: $color__darkblue;
+			background-repeat: no-repeat;
+			.nab-ad-block.header_ad {
+				background-color: transparent;
+			}
+			&._create {
+				background-image:	url("#{$img_path}light_effect_06_top_left.png"),
+									url("#{$img_path}light_effect_04_bottom_edge.png"),
+									url("#{$img_path}light_effect_06_right_edge.png")
+									;
+				background-position: 	top left,
+										bottom right,
+										top right
+										;
+				background-size: 	cover, 
+									auto, 
+									cover
+									;
+				background-blend-mode: screen;
+			}
+			&._connect {
+				background-image:	url("#{$img_path}connect_light_effect_top_left.png"),
+									url("#{$img_path}connect_light_effect_bottom.png"),
+									url("#{$img_path}connect_light_effect_top_right.png")
+									;
+				background-position: 	top left,
+										bottom right,
+										top right
+										;
+				background-size: 	cover, 
+									auto, 
+									cover
+									;
+				background-blend-mode: screen;
+			}
+			&._capitalize {
+				background-image:	url("#{$img_path}capitalize_light_effect_top_left.png"),
+									url("#{$img_path}capitalize_light_effect_bottom_right.png"),
+									url("#{$img_path}capitalize_light_effect_top_right.png")
+									;
+				background-position: 	top left,
+										bottom right,
+										top right
+										;
+				background-size: 	cover, 
+									cover, 
+									cover
+									;
+				background-blend-mode: screen;
+			}
+			&._content {
+				background-image:	url("#{$img_path}content_lighting_effects_bottom_left.png"),
+									url("#{$img_path}content_lighting_effects_top_right.png")
+									;
+				background-position: 	bottom left,
+										top right
+										;
+				background-size: 	auto, 
+									auto
+									;
+				background-blend-mode: screen;
+			}
+			&._generic {
+				background-image:	url("#{$img_path}generic_light_effect_top_left.png"),
+									url("#{$img_path}generic_light_effect_bottom_left.png"),
+									url("#{$img_path}generic_light_effect_bottom_right.png"),
+									url("#{$img_path}generic_light_effect_top_right.png")
+									;
+				background-position: 	top left,
+										bottom left,
+										bottom right,
+										top right
+										;
+				background-size: 	cover, 
+									cover, 
+									cover,
+									cover
+									;
+				background-blend-mode: screen;
+			}
+		}
 	}
 	.content {
 		padding-top: rem(40);
@@ -17,6 +99,23 @@
 			}
 			&.newsletter__title {
 				color: $color__white;
+			}
+		}
+		.related {
+			h2, h3, h4, h5, h6, p, li {
+				color: $color__white;
+			}
+			h4.related__linkTitle {
+				color: $color__white;
+				&:hover, &:active, &:focus {
+					color: $color__yellow;
+				}
+			}
+			h5.relatedlink__category {
+				color: $color__yellow;
+			}
+			h4.relatedlink__title {
+				color: $color__gray-lightest;
 			}
 		}
 		.wp-block-pullquote blockquote, .wp-block-quote {

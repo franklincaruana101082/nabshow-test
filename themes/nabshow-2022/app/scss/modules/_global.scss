@@ -4,10 +4,18 @@
 	.home__lighting1 {
 		padding: 1px 0;
 		background-color: $color__purple-dark;
-		background-image: url('#{$theme_path}/assets/images/home_featurette_bg1.png'), url('#{$theme_path}/assets/images/light_effect_04_dim.png');
-		background-repeat: no-repeat, no-repeat;
-		background-blend-mode: screen, screen;
-		background-position: 100% 0, rem(-300) 100%;
+		background-image: 
+			url('#{$theme_path}/assets/images/light_effect_03_top_left.png'), 
+			url('#{$theme_path}/assets/images/light_effect_06_left_edge.png'),
+			url('#{$theme_path}/assets/images/light_effect_10_bottom_left.png'),
+			url('#{$theme_path}/assets/images/light_effect_07_right_edge.png');
+		background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+		background-blend-mode: screen, screen, screen, screen;
+		background-position: 
+			top left, 
+			center left,
+			bottom left,
+			center right;
 	}
 	.home__lighting2 {
 		position: absolute;
@@ -22,6 +30,61 @@
 		mix-blend-mode: screen;
 	}
 	.footer {
+		margin-top: 0;
+	}
+}
+
+.not_prod .ad {
+	background-color: hotpink;
+	// text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	&:before, &:after {
+		content: "BROADSTREET AD";
+		color: $color__white;
+		font-size: rem(18);
+		font-weight: bold;
+		position: absolute;
+		left: rem(5);
+	}
+	&:after {
+		top: rem(24);
+	}
+	&._970x90 {
+		width: rem(970);
+		height: rem(90);
+		&:after {
+			content: "970x90";
+		}
+	}
+	&._300x250 {
+		width: rem(300);
+		height: rem(250);
+		&:after {
+			content: "300x250";
+		}
+	}
+	&._tall {
+		width: rem(160);
+		height: rem(600);
+		&:after {
+			content: "160x600";
+		}
+	}
+	&._728x90 {
+		width: rem(728);
+		height: rem(90);
+		&:after {
+			content: "728x90";
+		}	
+	}
+	&._prestitial {
+		&:before, &:after {
+			display: none;
+		}
+	}
+	&._bottom broadstreet-zone-container div span {
 		margin-top: 0;
 	}
 }

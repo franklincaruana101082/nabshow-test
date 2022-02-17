@@ -229,7 +229,7 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
 
-    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '6.7' );
+    wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '6.6' );
 
     wp_enqueue_style( 'nabshow-lv-media-style', get_template_directory_uri() . '/assets/css/media.css', array(), '6.5' );
 
@@ -244,7 +244,7 @@ function nabshow_lv_scripts() {
 
     wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
     wp_enqueue_script( 'nabshow-lv-iframe-resize', get_template_directory_uri() . '/assets/js/iframeResizer.min.js', array( 'jquery' ), '6.0', true );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '6.1', true );
+    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '6.4.5', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
@@ -288,39 +288,4 @@ function nabshow_lv_scripts() {
 	wp_add_inline_script( 'nabshow-lv-marketo', 'MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1033);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1091);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1099);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1111);');
 
 	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
-}
-
-
-/**
- * Register Settings.
- *
- * @since 1.0.0
- */
-function nabshow_lv_register_settings() {
-	$args = array(
-		'type' => 'html',
-	);
-	register_setting(
-		'general',
-		'dymanic_schema',
-		$args
-	);
-	add_settings_field(
-		'dymanic_schema',
-		'Enter Schema',
-		'nabshow_lv_register_schema_field',
-		'general'
-	);
-}
-
-/*
- * Print schema setting field.
- *
- * @since 1.0.0
- */
-function nabshow_lv_register_schema_field() {
-
-	$dymanic_schema = get_option( 'dymanic_schema' );
-	echo "<textarea id='dymanic_schema_string' name='dymanic_schema' rows='7' cols='50' type='textarea'>{$dymanic_schema}</textarea>";
-
 }

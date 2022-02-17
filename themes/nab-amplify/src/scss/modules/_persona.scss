@@ -1,0 +1,187 @@
+.persona {
+	&__intro {
+		display: grid;
+		grid-template-columns: rem(40) 1fr;
+		grid-template-rows: auto auto auto;
+		grid-template-areas:
+			"icon title"
+			"desc desc"
+			"button button";
+		grid-gap: rem(30) rem(20);
+		margin-top: rem(30);
+		._create & {
+			grid-template-columns: rem(40) 1fr;
+		}
+		._connect & {
+			grid-template-columns: rem(60) 1fr;
+		}
+		._capitalize & {
+			grid-template-columns: rem(40) 1fr;
+		}
+		._content & {
+			grid-template-columns: rem(55) 1fr;
+		}
+		._generic & {
+			grid-template-columns: rem(25) 1fr;
+		}
+		@include bp-768 {
+			grid-template-columns: rem(40) 1fr rem(250);
+			grid-template-rows: auto auto;
+			grid-template-areas:
+				"icon title title"
+				"desc desc button";
+			._create & {
+				grid-template-columns: rem(40) 1fr rem(250);
+			}
+			._connect & {
+				grid-template-columns: rem(60) 1fr rem(250);
+			}
+			._capitalize & {
+				grid-template-columns: rem(40) 1fr rem(250);
+			}
+			._content & {
+				grid-template-columns: rem(55) 1fr rem(250);
+			}
+			._generic & {
+				grid-template-columns: rem(25) 1fr rem(250);
+			}
+		}
+		
+	}
+
+		&__iconWrap {
+			grid-area: icon-start / icon-start / icon-end / icon-end;
+			align-self: center;
+		}
+		&__title {
+			grid-area: title-start / title-start / title-end / title-end;
+			text-transform: uppercase;
+			font-weight: bold;
+			line-height: 1.22;
+			align-self: center;
+			margin-bottom: 0;
+		}
+		&__desc {
+			grid-area: desc-start / desc-start / desc-end / desc-end;
+			color: $color__white;
+			font-size: rem(18);
+			line-height: 1.33;
+			@include bp-1024 {
+				padding-right: rem(70);
+			}
+			@include bp-1024 {
+				padding-right: rem(120);
+			}
+			@include bp-1280 {
+				padding-right: rem(160);
+			}
+			@include bp-1440 {
+				padding-right: rem(250);
+			}
+			p {
+				color: $color__white;
+				font-size: rem(18);
+				line-height: 1.33;
+				margin-bottom: 0;
+			}
+		}
+		&__buttonWrap {
+			grid-area: button-start / button-start / button-end / button-end;
+			justify-self: right;
+			@include bp-768 {
+				justify-self: center;
+				align-self: center;
+			}
+		}
+			&__button {
+				background-color: rgba($color__white, .1);
+				border-width: rem(3);
+				border-style: solid;
+				border-color: #0CA5EA;
+				border-radius: rem(10);
+				padding: rem(12) rem(34);
+				text-transform: uppercase;
+				color: $color__white;
+				font-family: $font__primary;
+				line-height: 1.42;
+				transition: background-color .25s ease-in-out, border-color .25s ease-in-out;
+				._create & {
+					border-color: #BB4B90;
+				}
+				._connect & {
+					border-color: #57CF63;
+				}
+				// ._capitalize & {
+				// 	border-color: #0CA5EA;
+				// }
+				// ._content & {
+				// 	border-color: #0CA5EA;
+				// }
+				// ._generic & {
+				// 	border-color: #0CA5EA;
+				// }
+				&:hover, &:focus {
+					background-color: rgba(#0ca5ea, .5);
+					text-decoration: none;
+					color: $color__white;
+				}
+				&:active {
+					background-color: rgba(#0ca5ea, 1);
+					text-decoration: none;
+					color: $color__white;
+				}
+				&[disabled] {
+					opacity: .6;
+					border-color: $color__gray;
+				}
+				&._arrow {
+					border-width: 0;
+					&:hover, &:focus, &:active {
+						background-color: transparent;
+					}
+				}
+			}
+
+	&__logos {
+		margin-top: rem(30);
+		order: 0;
+		text-align: center;
+		@include bp-768 {
+			order: 1;
+			align-self: center;
+			margin-top: 0;
+		}
+	}
+		&__logo {
+			
+			&:first-child {
+				padding: rem(6) rem(20) rem(2) 0;
+				border-right: 1px solid $color__white;
+				max-width: rem(112);
+			}
+			&:last-child {
+				padding: 0 0 0 rem(20);
+				position: relative;
+				max-width: rem(140);
+				top: rem(-7);
+			}
+		}
+}
+
+
+._persona {
+	.post-action-author {
+		display: flex;
+		flex-flow: column nowrap;
+		@include bp-768 {
+			flex-flow: row nowrap;
+			justify-content: space-between;
+		}
+		.author {
+			order: 1;
+			@include bp-768 {
+				order: 0;
+			}
+		}
+	}
+}

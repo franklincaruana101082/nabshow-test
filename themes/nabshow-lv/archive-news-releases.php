@@ -15,7 +15,7 @@ $total_posts    = wp_count_posts( 'news-releases' )->publish;
 $posts_per_page = get_option( 'posts_per_page' );
 
 ?>
-	<div class="news-release-head">
+	<div class="news-release-head">		
 		<div class="custom-rainbow-banner-main has-full">
 			<div class="wp-block-nab-multipurpose-gutenberg-block has-fixed">
 				<h1>News Releases</h1>

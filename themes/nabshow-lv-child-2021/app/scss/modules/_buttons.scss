@@ -34,9 +34,6 @@ input[type="button"].button,
     &._wide {
       min-width: rem(200);
     }
-    &._full {
-      display: flex;
-    }
     @include primary-black-12-12-20;
     @include bp-768 {
       @include primary-black-16-16-20;
@@ -106,20 +103,6 @@ input[type="button"].button,
     }
     &._compact {
       padding: rem(14) rem(32);
-    }
-  }
-
-  &._plus {
-    background: none;
-    @include primary-black-14-14-20;
-    text-transform: uppercase;
-    color: $color__purple-lighter;
-    &::before {
-      content: "+ ";
-    }
-    &:hover,
-    &:focus {
-      opacity: 0.8;
     }
   }
 }

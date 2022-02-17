@@ -322,8 +322,8 @@ html._header-is-open {
   margin: rem(16) 0 rem(32);
   &.menu-item > a {
     @extend .button;
-    @extend .button._solid;
-    @extend .button._compact;
+    @extend .button, ._solid;
+    @extend .button, ._compact;
     display: inline-block;
     padding: rem(12) rem(32);
     color: $color__blue;

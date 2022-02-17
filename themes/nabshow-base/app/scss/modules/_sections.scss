@@ -539,11 +539,14 @@
   }
   .intro-body-text {
     @include bp-1280 {
-      min-height: rem(190);
+      min-height: rem(250);
     }
     h2.h-xl {
       text-transform: uppercase;
     }
+  }
+  &__ad {
+    padding-bottom: rem(20);
   }
 }
 
@@ -1261,6 +1264,17 @@
       rgba(47, 93, 171, 0.06) 31.04%
     );
   border-radius: rem(10);
+  @include bp-1024 {
+    width: calc( 100% - #{rem(350)});
+    &__wrap {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+    &__ad {
+      
+    }
+  }
   p {
     @include primary-regular-17-31;
     @include bp-768 {

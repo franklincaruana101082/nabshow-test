@@ -56,7 +56,6 @@ $to_email = get_query_var('form_email' );
 			<p class="captcha-error" style="display: none; color:red;">Please check the recaptcha</p>
 		</div>
 		<?php wp_nonce_field( 'nabshow_forms', 'form_details_nonce' ); ?>
-		<input class="form-control form-text" type="text" id="contact-security-check" name="security_check" style="display: none">
 		<input type="hidden" name="form_type" value="contact-us">
 		<input type="hidden" name="to_email" value="<?php echo esc_attr( $to_email ); ?>" />
 		<div class="form-actions">

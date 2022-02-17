@@ -72,6 +72,7 @@
         committee: [
           ...committee,
           {
+            index: committee.length,
             name: '',
             company: '',
             areas: '',
@@ -90,11 +91,12 @@
     moveParentItem(currentIndex, newIndex) {
       const { setAttributes, attributes } = this.props;
       const { committee } = attributes;
+      let allData = [...committee];
 
-      let withoutCurrent = committee.filter((data, index) => index !== currentIndex);
-      withoutCurrent.splice(newIndex, 0, committee[currentIndex]);
+      allData[currentIndex].index = newIndex;
+      allData[newIndex].index = currentIndex;
 
-      setAttributes({ committee: withoutCurrent });
+      setAttributes({ committee: allData });
     }
 
     duplicate(currentIndex) {
@@ -102,7 +104,19 @@
       const { committee } = attributes;
       let allData = [...committee];
 
-      allData.splice(currentIndex, 0, committee[currentIndex]);
+      allData.splice(currentIndex + 1, 0, {
+        index: (parseInt(allData[currentIndex].index) + 1),
+        name: allData[currentIndex].name,
+        company: allData[currentIndex].company,
+        areas: allData[currentIndex].areas,
+        boothSize: allData[currentIndex].boothSize,
+        address: allData[currentIndex].address,
+        phone: allData[currentIndex].phone,
+        emailAdd: allData[currentIndex].emailAdd,
+        media: allData[currentIndex].media,
+        mediaAlt: allData[currentIndex].mediaAlt,
+        international: allData[currentIndex].international
+    });
 
       setAttributes({ committee: allData });
     }
@@ -115,10 +129,7 @@
       const getImageButton = (openEvent, index) => {
         if (committee[index].media) {
           return (
-            <Fragment>
-              <span onClick={openEvent} className="dashicons dashicons-edit"></span>
-              <img src={committee[index].media} alt={committee[index].alt} className="img" />
-            </Fragment>
+            <img src={committee[index].media} alt={committee[index].alt} className="img" />
           );
         } else {
           return (
@@ -141,174 +152,201 @@
             </PanelBody>
           </InspectorControls>
           {showFilter &&
-          <div className="box-main-filter main-filter new-this-year-filter committee-filter">
-            <div className="ov-filter">
-              <div className="category"><label>Location</label>
-                <div className="box-main-select"><select id="box-main-category" className="select-opt">
-                  <option>Select a Location</option>
-                </select></div>
+            <div className="box-main-filter main-filter new-this-year-filter committee-filter">
+              <div className="ov-filter">
+                <div className="category"><label>Location</label>
+                  <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                    <option>Select a Location</option>
+                  </select></div>
+                </div>
+                <div className="category"><label>Booth Size</label>
+                  <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
+                    <option>Select a Booth Size</option>
+                  </select></div>
+                </div>
+                <div className="badgeslist"><a>International</a></div>
               </div>
-              <div className="category"><label>Booth Size</label>
-                <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
-                  <option>Select a Booth Size</option>
-                </select></div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
               </div>
-              <div className="badgeslist"><a>International</a></div>
             </div>
-            <div className="search-box"><label>Keyword</label>
-              <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
-            </div>
-          </div>
           }
           <div className="exhibitor-committee">
             <div className="box-main two-grid">
               {0 < committee.length &&
-              committee.map((member, index) => {
-                return (
-                  <div className={`box-item ${member.international ? 'International' : ''} `}>
+                committee.sort((a, b) => a.index - b.index).map((member, index) => {
+                  return (
+                    <div className={`box-item ${member.international ? 'International' : ''} `}>
 
-                    <div className="move-item">
-                      {(0 !== index) && (
-                        <Tooltip text="Move UP">
+                      <div className="move-item">
+                        {(0 !== index) && (
+                          <Tooltip text="Move UP">
+                            <i
+                              onClick={() => this.moveParentItem(index, index - 1)}
+                              className="fa fa-chevron-up"
+                            ></i>
+                          </Tooltip>
+                        )}
+                        <Tooltip text="Move Down">
                           <i
-                            onClick={() => this.moveParentItem(index, index - 1)}
-                            className="fa fa-chevron-up"
+                            onClick={() => this.moveParentItem(index, index + 1)}
+                            className="fa fa-chevron-down"
                           ></i>
                         </Tooltip>
-                      )}
-                      <Tooltip text="Move Down">
-                        <i
-                          onClick={() => this.moveParentItem(index, index + 1)}
-                          className="fa fa-chevron-down"
-                        ></i>
-                      </Tooltip>
-                      <Tooltip text="Duplicate">
-                        <i
-                          onClick={() => this.duplicate(index)}
-                          className="fa fa-clone"
-                        ></i>
-                      </Tooltip>
-                      <Tooltip text="Remove">
-                        <i
-                          onClick={() => {
-                            let tempcommittee = [...committee];
-                            tempcommittee.splice(index, 1);
-                            setAttributes({ committee: tempcommittee });
-                          }}
-                          className="fa fa-times"
-                        ></i>
-                      </Tooltip>
-                    </div>
-
-                    <div className='box-inner'>
-                      <div className="info-box">
-                        <RichText
-                          tagName="h2"
-                          placeholder={__('Member Name')}
-                          value={member.name}
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].name = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <RichText
-                          tagName="h4"
-                          placeholder={__('Company')}
-                          value={member.company}
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].company = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <RichText
-                          tagName="p"
-                          placeholder={__('Areas')}
-                          value={member.areas}
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].areas = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <RichText
-                          tagName="p"
-                          placeholder={__('Booth Size')}
-                          value={member.boothSize}
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].boothSize = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <RichText
-                          tagName="p"
-                          placeholder={__('Address')}
-                          value={member.address}
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].address = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <RichText
-                          tagName="p"
-                          placeholder={__('Phone')}
-                          value={member.phone}
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].phone = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <TextControl
-                          type="text"
-                          className="email"
-                          value={member.email}
-                          placeholder="Email Address"
-                          onChange={value => {
-                            let tempDataArray = [...committee];
-                            tempDataArray[index].email = value;
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
-                        <CheckboxControl
-                          className="in-checkbox"
-                          label="International"
-                          checked={member.international}
-                          onChange={isChecked => {
-                            let tempDataArray = [...committee];
-                            if (isChecked) {
-                              tempDataArray[index].international = true;
-                            }
-                            else {
-                              tempDataArray[index].international = false;
-                            }
-                            setAttributes({ committee: tempDataArray });
-                          }}
-                        />
+                        <Tooltip text="Duplicate">
+                          <i
+                            onClick={() => this.duplicate(index)}
+                            className="fa fa-clone"
+                          ></i>
+                        </Tooltip>
+                        <Tooltip text="Remove">
+                          <i
+                            onClick={() => {
+                              let tempcommittee = [...committee];
+                              tempcommittee.splice(index, 1);
+                              setAttributes({ committee: tempcommittee });
+                            }}
+                            className="fa fa-times"
+                          ></i>
+                        </Tooltip>
                       </div>
-                      <div className="media-box">
-                        <div className="media-img">
-                          <MediaUpload
-                            onSelect={media => {
+
+                      <div className='box-inner'>
+                        <div className="info-box">
+                          <RichText
+                            tagName="h2"
+                            placeholder={__('Member Name')}
+                            value={member.name}
+                            onChange={value => {
                               let tempDataArray = [...committee];
-                              tempDataArray[index].media = media.url;
-                              tempDataArray[index].mediaAlt = media.alt;
+                              tempDataArray[index].name = value;
                               setAttributes({ committee: tempDataArray });
                             }}
-                            type="image"
-                            value={attributes.imageID}
-                            render={({ open }) => getImageButton(open, index)}
+                          />
+                          <RichText
+                            tagName="h4"
+                            placeholder={__('Company')}
+                            value={member.company}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].company = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Areas')}
+                            value={member.areas}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].areas = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Booth Size')}
+                            value={member.boothSize}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].boothSize = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Address')}
+                            value={member.address}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].address = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <RichText
+                            tagName="p"
+                            placeholder={__('Phone')}
+                            value={member.phone}
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].phone = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <TextControl
+                            type="text"
+                            className="email"
+                            value={member.email}
+                            placeholder="Email Address"
+                            onChange={value => {
+                              let tempDataArray = [...committee];
+                              tempDataArray[index].email = value;
+                              setAttributes({ committee: tempDataArray });
+                            }}
+                          />
+                          <CheckboxControl
+                            className="in-checkbox"
+                            label="International"
+                            checked={member.international}
+                            onChange={isChecked => {
+                              let tempDataArray = [...committee];
+                              if (isChecked) {
+                                tempDataArray[index].international = true;
+                              }
+                              else {
+                                tempDataArray[index].international = false;
+                              }
+                              setAttributes({ committee: tempDataArray });
+                            }}
                           />
                         </div>
+                        <div className="media-box">
+                          <div className="media-img">
+                            <MediaUpload
+                              onSelect={media => {
+                                const newObject = Object.assign({}, member, {
+                                  media: media.url,
+                                  mediaAlt: media.alt
+                                });
+                                setAttributes({
+                                  committee: [
+                                    ...committee.filter(
+                                      item => item.index != member.index
+                                    ),
+                                    newObject
+                                  ]
+                                });
+                              }}
+                              type="image"
+                              value={attributes.imageID}
+                              render={({ open }) => <span onClick={open} className="dashicons dashicons-edit"></span>}
+                            />
+                            <MediaUpload
+                              onSelect={media => {
+                                const newObject = Object.assign({}, member, {
+                                  media: media.url,
+                                  mediaAlt: media.alt
+                                });
+                                setAttributes({
+                                  committee: [
+                                    ...committee.filter(
+                                      item => item.index != member.index
+                                    ),
+                                    newObject
+                                  ]
+                                });
+                              }}
+                              type="image"
+                              value={attributes.imageID}
+                              render={({ open }) => getImageButton(open, index)}
+                            />
+                          </div>
 
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
+                  );
+                })
               }
               <div className="box-item additem">
                 <button
@@ -318,6 +356,7 @@
                       committee: [
                         ...committee,
                         {
+                          index: committee.length,
                           name: '',
                           company: '',
                           areas: '',
@@ -369,96 +408,97 @@
       return (
         <Fragment>
           {showFilter &&
-          <div className="box-main-filter main-filter new-this-year-filter committee-filter">
-            <div className="ov-filter">
-              <div className="category"><label>Location</label>
-                <div className="box-main-select"><select id="box-main-category" className="select-opt">
-                  <option>Select a Location</option>
-                </select></div>
+            <div className="box-main-filter main-filter new-this-year-filter committee-filter">
+              <div className="ov-filter">
+                <div className="category"><label>Location</label>
+                  <div className="box-main-select"><select id="box-main-category" className="select-opt">
+                    <option>Select a Location</option>
+                  </select></div>
+                </div>
+                <div className="category"><label>Booth Size</label>
+                  <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
+                    <option>Select a Booth Size</option>
+                  </select></div>
+                </div>
+                <div className="badgeslist"><a>International</a></div>
               </div>
-              <div className="category"><label>Booth Size</label>
-                <div className="box-main-select"><select id="box-main-category-booth" className="select-opt">
-                  <option>Select a Booth Size</option>
-                </select></div>
+              <div className="search-box"><label>Keyword</label>
+                <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
               </div>
-              <div className="badgeslist"><a>International</a></div>
             </div>
-            <div className="search-box"><label>Keyword</label>
-              <div className="search-item icon-right"><input id="box-main-search" className="search" name="box-main-search" type="text" placeholder="Filter by keyword..." /></div>
-            </div>
-          </div>
           }
           <div className="exhibitor-committee">
             <div className="box-main two-grid">
               {committee
+                .sort((a, b) => a.index - b.index)
                 .map((member, index) => (
-                  <Fragment>
-                    {
-                      member.name && (
-                        <div className={`box-item ${member.international ? 'International' : ''} `}>
-                          <div className='box-inner'>
-                            <div className="info-box">
-                              {member.name && (
-                                <RichText.Content
-                                  tagName="h2"
-                                  value={member.name}
-                                  className="title"
-                                />
-                              )}
-                              {member.company && (
-                                <RichText.Content
-                                  tagName="h4"
-                                  value={member.company}
-                                  className="company"
-                                />
-                              )}
-                              {member.areas && (
-                                <RichText.Content
-                                  tagName="p"
-                                  value={member.areas}
-                                  className="areas"
-                                />
-                              )}
-                              {member.boothSize && (
-                                <RichText.Content
-                                  tagName="p"
-                                  value={member.boothSize}
-                                  className="boothSize"
-                                />
-                              )}
-                              {member.address && (
-                                <RichText.Content
-                                  tagName="p"
-                                  value={member.address}
-                                  className="address"
-                                />
-                              )}
-                              {member.phone && (
-                                <RichText.Content
-                                  tagName="p"
-                                  value={member.phone}
-                                  className="phone"
-                                />
-                              )}
-                              {member.email && (
-                                <a className="email" href={`mailto:${member.email}`}>{member.email}</a>
-                              )}
-                            </div>
-                            <div className="media-box">
-                              <div className="media-img">
-                                {member.media ? (
-                                  <img src={member.media} alt={member.alt} className="img" />
-                                ) : (
+                <Fragment>
+                  {
+                    member.name && (
+                      <div className={`box-item ${member.international ? 'International' : ''} `}>
+                        <div className='box-inner'>
+                          <div className="info-box">
+                            {member.name && (
+                              <RichText.Content
+                                tagName="h2"
+                                value={member.name}
+                                className="title"
+                              />
+                            )}
+                            {member.company && (
+                              <RichText.Content
+                                tagName="h4"
+                                value={member.company}
+                                className="company"
+                              />
+                            )}
+                            {member.areas && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.areas}
+                                className="areas"
+                              />
+                            )}
+                            {member.boothSize && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.boothSize}
+                                className="boothSize"
+                              />
+                            )}
+                            {member.address && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.address}
+                                className="address"
+                              />
+                            )}
+                            {member.phone && (
+                              <RichText.Content
+                                tagName="p"
+                                value={member.phone}
+                                className="phone"
+                              />
+                            )}
+                            {member.email && (
+                              <a className="email" href={`mailto:${member.email}`}>{member.email}</a>
+                            )}
+                          </div>
+                          <div className="media-box">
+                            <div className="media-img">
+                              {member.media ? (
+                                <img src={member.media} alt={member.alt} className="img" />
+                              ) : (
                                   <div className="no-image">No Image</div>
                                 )}
-                              </div>
                             </div>
                           </div>
                         </div>
-                      )
-                    }
-                  </Fragment>
-                ))}
+                      </div>
+                    )
+                  }
+                </Fragment>
+              ))}
             </div>
           </div>
         </Fragment>

@@ -9,7 +9,6 @@
 get_header();
 
 $hero = get_field('banner_background_image');
-$video= get_field('banner_video_embed');
 $logo = get_field('banner_logo_image');
 $cta1 = get_field('banner_main_cta');
 $cta2 = get_field('banner_secondary_cta');
@@ -68,109 +67,14 @@ $cta2 = get_field('banner_secondary_cta');
     <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
 
-  <div class="section _bottom attending-section">
-    <div class="container">
-      <div class="attending">
-        <h2 class="h-xl attending-title">Who’s Attending This Year</h2>
-        <div class="attending-panels">
-          <div class="attending-panel">
-            <span class="attending-item">
-              <b class="attending-item-name">ABC</b>
-            </span>
-            <?php /*<span class="attending-item">
-              <b class="attending-item-name">Apple</b>
-            </span>*/?>
-            <span class="attending-item">
-              <b class="attending-item-name">CBS</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Dallas Cowboys</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Department of Defense</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Discovery Channel</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Disney Streaming Services</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Dreamworks</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Epic Games</b>
-            </span>
-          </div>
-          <div class="attending-panel">            
-            <span class="attending-item">
-              <b class="attending-item-name">ESPN</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Facebook</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">FIFA</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Formula 1</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Fox</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Google</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">HULU</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">iHeartMedia</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Jaguar Land Rover</b>
-            </span>
-          </div>
-          <div class="attending-panel">
-            <span class="attending-item">
-              <b class="attending-item-name">Los Angeles Police Department</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Lululemon</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">NBC</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Netflix</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Paramount Studios</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">ROKU</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Spotify</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Utah Jazz</b>
-            </span>
-            <span class="attending-item">
-              <b class="attending-item-name">Youtube</b>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <?php
     $midbanner = get_field('mid_page_wide_angle_image');
     if(!empty($midbanner)):
   ?>
-  <div class="banner">
-    <img src="<?php echo esc_url($midbanner['url']); ?>" alt="<?php echo esc_attr($midbanner['alt']); ?>" class="banner__image" />
+  <div class="section _toplarge">
+    <div class="banner">
+      <img src="<?php echo esc_url($midbanner['url']); ?>" alt="<?php echo esc_attr($midbanner['alt']); ?>" class="banner__image" />
+    </div>
   </div>
   <?php endif; ?>
 

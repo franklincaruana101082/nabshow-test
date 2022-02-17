@@ -5,7 +5,6 @@
  *
  */
 
-
 get_header();
 
 $hero = get_field('banner_background_image');
@@ -69,6 +68,10 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
       <h4 class="stories__intro"><?php echo $stories['stories_title']; ?></h4>
     </div>
 
+    <div class="section _bottom-only container">
+      <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
+    </div>
+
     <div class="stories">
       <?php
         while( have_rows('story_items')): the_row();
@@ -106,7 +109,7 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   ?>
 
   <div class="section container">
-    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
+    <?php //dynamic_sidebar('broadstreet-home-leaderboard'); ?>
   </div>
   </div><?php // close .home__lighting1 ?>
 <?php
@@ -223,6 +226,8 @@ endif;
   <?php //<div class="decorative _lightlines-footer-corner _pulled"></div> ?>
 </main><!-- #main -->
 
-
 <?php
+
+dynamic_sidebar('broadstreet-prestitial'); 
+
 get_footer();

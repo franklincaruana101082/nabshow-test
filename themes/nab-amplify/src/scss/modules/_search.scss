@@ -14,11 +14,23 @@
 			margin: 0 auto rem(40);
 		}
 	}
-		&__field {
+		&__field.st-default-search-input {
 			background-color: transparent;
+			background-image: url('/wp-content/themes/nab-amplify/assets/images/icon-search.svg');
+			background-repeat: no-repeat;
+			background-position: calc(100% - #{rem(4)}) rem(14);
+			background-size: rem(22) rem(21);
 			font-family: $font__secondary;
 			font-size: rem(16);
 			color: $color__white;
+			display: block;
+			width: 100%;
+			height: auto;
+			padding: 0;
+			border: 0;
+			font-weight: 400;
+			line-height: rem(50);
+
 			&::placeholder {
 				color: $color__gray-lighter;
 			}
@@ -170,7 +182,7 @@
 	margin-top: rem(20);
 	text-align: center;
 	a {
-		@extend .link._back;
+		@extend .link, ._back;
 		color: $color__yellow;
 		font-weight: 600;
 	}

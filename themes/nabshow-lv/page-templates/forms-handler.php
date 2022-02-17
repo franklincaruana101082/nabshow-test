@@ -82,18 +82,8 @@ get_header();
 					$inquiry_type   = filter_input( INPUT_POST, 'inquiry_type', FILTER_SANITIZE_STRING );
 					$send_copy      = filter_input( INPUT_POST, 'send_copy', FILTER_SANITIZE_STRING );
 					$post_title     = trim( $full_name );
-					$security_check = filter_input( INPUT_POST, 'security_check', FILTER_SANITIZE_STRING );
 
-
-					// Check Spam.
-					$content['comment_author']       = $full_name;
-					$content['comment_author_email'] = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_STRING );
-					$content['comment_content']      = filter_input( INPUT_POST, 'what_can_we_help_you_with', FILTER_SANITIZE_STRING );
-					$content['comment_phone']        = filter_input( INPUT_POST, 'phone_number', FILTER_SANITIZE_STRING );
-					$content['comment_company']      = filter_input( INPUT_POST, 'company', FILTER_SANITIZE_STRING );
-					$spam_detected                   = nabshow_lv_contact_form_spam_check( $content );
-
-					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with', 'security_check' );
+					$contact_form_fields = array( 'email', 'phone_number', 'company', 'inquiry_type', 'what_can_we_help_you_with' );
 
 					$inserted_post_id   = wp_insert_post(
 						array(
@@ -139,9 +129,7 @@ get_header();
 						$to_inquiry_email = isset( $inquiry_emails[ $inquiry_type ] ) ? $inquiry_emails[ $inquiry_type ] : '';
 						$to_email         = ! empty( $to_email ) ? $to_email . ',' . $to_inquiry_email : $to_inquiry_email;
 
-						if ( empty( $security_check ) && false === $spam_detected ) {
-							wp_mail( $to_email, $subject, $inquiry_email_template, $headers );
-						}
+						wp_mail( $to_email, $subject, $inquiry_email_template, $headers );
 
 						if ( ! empty( $send_copy ) && 'yes' === $send_copy ) {
 
@@ -266,18 +254,8 @@ get_header();
 						$form_page_url = get_the_permalink();
 						?>
                         <div class="form-confirmation">
-                            <!--<p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>-->
-							<h2 style="color:white">Thank you for your interest. We'll connect with you soon.</h2>
-                            <p>Click on the images below to download the 2021 media kit and/or show prospectus:</p>
-							<div>
-								<div style="width:30%; float:left;">
-									<div data-bynder-widget="media-item" data-media-id="BF324043-A0B1-4C43-B8D730ECCEA95F93" data-title="false" data-lightbox="false" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
-								</div>
-								<div style="width:30%; float:left;">
-                           			<div data-bynder-widget="media-item" data-media-id="0324E68A-D2E0-4BA0-82F49FC44CE3DAB9" data-title="false" data-lightbox="true" data-download="true"><script id="bynder-widgets-js" data-account-url="assets.nabshow.com" data-language="en" src="https://d8ejoa1fys2rk.cloudfront.net/bynder-embed/latest/bynder-embed.js"></script></div>
-                            	</div>
-                            </div>
-                            <div style="clear:both"></div>
+                            <p><a href="<?php echo esc_url( get_template_directory_uri() . '/assets/docs/NAB_ExhibitorProspectus.pdf' ); ?>" target="_blank" class="btn-primary publication-btn">Download Now</a></p>
+							<p>Thank you for your interest. We’ll connect with you soon.</p>
                             <p><a href="<?php echo esc_url( $form_page_url ); ?>">Return to the Form</a></p>
                         </div>
 						<?php

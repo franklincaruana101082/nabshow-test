@@ -129,9 +129,15 @@ figure {
 		right: 0;
 		height: rem(54);
 		background: linear-gradient($color__gray-darkest, rgba($color__gray-darkest, 0));
+		.page-template-template-content-grouping & {
+			z-index: 1;
+		}
 	}
 	.page-template-page-recommendation & {
 		background-color: $color__gray-dark;
+	}
+	.single-articles & {
+		padding: 0;
 	}
 }
 
@@ -169,7 +175,7 @@ figure {
 	}
 	}
 .friendship-button.add {
-	@extend .link._plus;
+	@extend .link, ._plus;
 }
 
 

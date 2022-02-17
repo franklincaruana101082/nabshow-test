@@ -626,71 +626,16 @@ function nabshow_lv_get_special_event_minutes_options() {
  * Add corona virus update on every page except home page.
  */
 function nabshow_lv_add_corona_virus_update_content() {
-
+	
 	if ( ! is_home() && ! is_front_page() ) {
-
+		
 		$reuse_block = get_post( 52279 );
 
 		if ( isset( $reuse_block->post_content ) && ! empty( $reuse_block->post_content ) ) {
-
+			
 			$reuse_block_content = apply_filters( 'the_content', $reuse_block->post_content);
 			echo wp_kses_post( $reuse_block_content );
 		}
 	}
-
-}
-
-/**
- * Integrate Akismet to custom Contact Form
- *
- * @param array $content Submitted Data.
- *
- * @return bool Spam or not.
- */
-function nabshow_lv_contact_form_spam_check( $content ) {
-
-	// innocent until proven guilty
-	$isSpam = false;
-
-	$content = (array) $content;
-
-	if ( function_exists( 'akismet_init' ) ) {
-
-		$wpcom_api_key = get_option( 'wordpress_api_key' );
-
-		if ( ! empty( $wpcom_api_key ) ) {
-
-			global $akismet_api_host, $akismet_api_port;
-
-			// set remaining required values for akismet api
-			$content['user_ip']    = preg_replace( '/[^0-9., ]/', '', $_SERVER['REMOTE_ADDR'] );
-			$content['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-			$content['referrer']   = $_SERVER['HTTP_REFERER'];
-			$content['blog']       = get_option( 'home' );
-
-			if ( empty( $content['referrer'] ) ) {
-				$content['referrer'] = get_permalink();
-			}
-
-			$queryString = '';
-
-			foreach ( $content as $key => $data ) {
-				if ( ! empty( $data ) ) {
-					$queryString .= $key . '=' . urlencode( stripslashes( $data ) ) . '&';
-				}
-			}
-
-			$response = akismet_http_post( $queryString, $akismet_api_host, '/1.1/comment-check', $akismet_api_port );
-
-			if ( $response[1] == 'true' ) {
-				update_option( 'akismet_spam_count', get_option( 'akismet_spam_count' ) + 1 );
-				$isSpam = true;
-			}
-
-		}
-
-	}
-
-	return $isSpam;
-
+	
 }

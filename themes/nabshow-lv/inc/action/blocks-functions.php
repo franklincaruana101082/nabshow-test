@@ -168,6 +168,10 @@ function nabshow_lv_register_dynamic_blocks() {
                 'parentPageId'  => array(
                     'type' => 'string'
                 ),
+                'selection' => array(
+                    'type'    => 'boolean',
+                    'default' => false
+                ),
                 'itemToFetch'  => array(
                     'type' => 'number',
                     'default' => 10
@@ -1349,9 +1353,9 @@ function nabshow_lv_site_forms_render_callback( $attributes ) {
 
 	$form_type  = isset( $attributes[ 'formType' ] ) && ! empty( $attributes[ 'formType' ] ) ? $attributes[ 'formType' ] : 'startup-loft';
 	$form_email = isset( $attributes[ 'formEmail' ] ) && ! empty( $attributes[ 'formEmail' ] ) ? $attributes[ 'formEmail' ] : '';
-
+	
 	set_query_var( 'form_email', $form_email );
-
+	
 	ob_start();
 
 	if ( 'startup-loft' === $form_type ) {

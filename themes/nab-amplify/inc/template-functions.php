@@ -1356,3 +1356,484 @@ function nab_get_search_company_product_ids( $keyword, $category_search_array ) 
 
 	return $product_ids;
 }
+
+
+function get_nab_persona_by_slug($slug, $array) {
+	foreach ($array as $key => $val) {
+		if ($val['slug'] === $slug) {
+			$resultSet['title'] = $val['title'];
+			$resultSet['description'] = $val['description'];
+			$resultSet['icon'] = $val['icon'];
+			$resultSet['button'] = $val['button'];
+			return $resultSet;
+		}
+	}
+	return null;
+}
+
+
+add_filter( 'wp_parsely_metadata', 'filter_parsely_metadata', 10, 3 );
+function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
+	$post_type = get_post_type($post->ID);
+
+	//global
+    $parsely_metadata['post_type'] = $post_type;
+
+    //post specific
+	if($post_type === 'articles') {
+		$parsely_metadata['@type'] = 						"Article";
+		$contentPillars = get_field('content_pillars', $post->ID);
+		$parsely_metadata['articleSection'] =				empty($contentPillars) ? "Uncategorized" : $contentPillars[0];
+		$parsely_metadata['contentPillars'] =				$contentPillars;
+
+		$parsely_metadata['relatedCompany'] =				(!empty(get_field('nab_selected_company_id', $post->ID))) ? get_the_title(get_field('nab_selected_company_id', $post->ID)) : '';
+		$parsely_metadata['articleType'] =					get_field('article_type', $post->ID);
+		$parsely_metadata['community'] =					get_field('community', $post->ID);
+		$parsely_metadata['personas'] =						get_field('personas', $post->ID);
+		$parsely_metadata['contentScope'] =					get_field('content_scope', $post->ID);
+		$parsely_metadata['contentFormat'] =				get_field('content_format', $post->ID);
+		$parsely_metadata['contentSubject'] =				get_field('content_subject', $post->ID);
+		$parsely_metadata['acquisitionSub'] =				get_field('acquisition_sub', $post->ID);
+		$parsely_metadata['distributionSub'] =				get_field('distribution_sub', $post->ID);
+		$parsely_metadata['managementSub'] =				get_field('management_sub', $post->ID);
+		$parsely_metadata['radioSub'] =						get_field('radio_sub', $post->ID);
+		$parsely_metadata['displaySub'] =					get_field('display_sub', $post->ID);
+		$parsely_metadata['industrySub'] =					get_field('industry_sub', $post->ID);
+		$parsely_metadata['contentSub'] =					get_field('content_sub', $post->ID);
+		$parsely_metadata['productionSub'] =				get_field('production_sub', $post->ID);
+		$parsely_metadata['contentCategory'] =				array_column( wp_get_post_terms($post->ID, 'content-category'), 'name');
+		$keywords = array();
+		if (!empty($parsely_metadata['articleType'])) {
+			array_push($keywords, array($parsely_metadata['articleType']));
+		}
+		if (!empty($parsely_metadata['community'])) {
+			array_push($keywords, $parsely_metadata['community']);
+		}
+		if (!empty($parsely_metadata['personas'])) {
+			array_push($keywords, $parsely_metadata['personas']);
+		}
+		if (!empty($parsely_metadata['contentScope'])) {
+			array_push($keywords, array($parsely_metadata['contentScope']));
+		}
+		if (!empty($parsely_metadata['contentFormat'])) {
+			array_push($keywords, $parsely_metadata['contentFormat']);
+		}
+		if (!empty($parsely_metadata['contentSubject'])) {
+			array_push($keywords, $parsely_metadata['contentSubject']);
+		}
+		if (!empty($parsely_metadata['acquisitionSub'])) {
+			array_push($keywords, $parsely_metadata['acquisitionSub']);
+		}
+		if (!empty($parsely_metadata['distributionSub'])) {
+			array_push($keywords, $parsely_metadata['distributionSub']);
+		}
+		if (!empty($parsely_metadata['managementSub'])) {
+			array_push($keywords, $parsely_metadata['managementSub']);
+		}
+		if (!empty($parsely_metadata['radioSub'])) {
+			array_push($keywords, $parsely_metadata['radioSub']);
+		}
+		if (!empty($parsely_metadata['displaySub'])) {
+			array_push($keywords, $parsely_metadata['displaySub']);
+		}
+		if (!empty($parsely_metadata['industrySub'])) {
+			array_push($keywords, $parsely_metadata['industrySub']);
+		}
+		if (!empty($parsely_metadata['contentSub'])) {
+			array_push($keywords, $parsely_metadata['contentSub']);
+		}
+		if (!empty($parsely_metadata['productionSub'])) {
+			array_push($keywords, $parsely_metadata['productionSub']);
+		}
+		$allKeywords = array_merge(...array_values($keywords));
+		$parsely_metadata['keywords'] = $allKeywords;
+	}
+
+    if($post_type === 'sessions') {
+		$parsely_metadata['@type'] = "Event";
+		$speakers = get_field('speakers');
+		$speaker_names = [];
+		if(!empty($speakers)) {
+			foreach($speakers as $speaker_id) {
+				$speaker_name = get_field( 'first_name', $speaker_id ) . ' ' . get_field( 'last_name', $speaker_id );
+				array_push($speaker_names, $speaker_name);
+			}
+		}
+    	$parsely_metadata['relatedCompany'] =				(!empty(get_field('company', $post->ID))) ? get_the_title(get_field('company', $post->ID)) : '';
+    	$parsely_metadata['speakers'] =						$speaker_names;
+    	$parsely_metadata['status'] =						get_field('session_status');
+    	$parsely_metadata['sessionCategories'] =			array_column( wp_get_post_terms($post->ID, 'session_categories'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['sessionCategories']) ? "Uncategorized" : $parsely_metadata['sessionCategories'][0];
+	}
+
+    if($post_type === 'tribe_events') {
+		$parsely_metadata['@type'] = "Event";
+    	$parsely_metadata['relatedCompany'] =				(!empty(get_field('nab_selected_company_id', $post->ID))) ? get_the_title(get_field('nab_selected_company_id', $post->ID)) : '';
+    	$parsely_metadata['companyCategory'] = 			array_column( wp_get_post_terms($post->ID, 'company-category'), 'name');
+    	$parsely_metadata['eventCategories'] = 			array_column( wp_get_post_terms($post->ID, 'tribe_events_cat'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['eventCategories']) ? "Uncategorized" : $parsely_metadata['eventCategories'][0];
+    }
+
+    if($post_type === 'downloadable-pdfs') {
+		$parsely_metadata['@type'] = "Report";
+    	$parsely_metadata['relatedCompany'] =				(!empty(get_field('nab_selected_company_id', $post->ID))) ? get_the_title(get_field('nab_selected_company_id', $post->ID)) : '';
+    }
+
+    if($post_type === 'product') {
+		$parsely_metadata['@type'] = "WebPage";
+    	$parsely_metadata['productCategories'] = 					array_column( wp_get_post_terms($post->ID, 'product_cat'), 'name');
+		$parsely_metadata['articleSection'] =				empty($parsely_metadata['productCategories']) ? "Uncategorized" : $parsely_metadata['productCategories'][0];
+    }
+
+    if($post_type === 'company') {
+		$parsely_metadata['@type'] = "WebPage";
+		$product_categories = get_field('product_categories', $post->ID);
+		$product_category_names = [];
+		if(!empty($product_categories)) {
+			foreach($product_categories as $product_category_id) {
+				$term = get_term_by('ID', $product_category_id, 'company-product-category' );
+				if ( false !== $term ) {
+					$product_category_name = $term->name;
+				}
+				array_push($product_category_names, $product_category_name);
+			}
+		}
+
+		$search_product_categories = get_field('search_product_categories', $post->ID);
+		$search_product_category_names = [];
+		if(!empty($search_product_categories)) {
+			foreach($search_product_categories as $search_product_category_id) {
+				$term = get_term_by('ID', $search_product_category_id, 'company-product-category' );
+				if ( false !== $term ) {
+					$search_product_category_name = $term->name;
+				}
+				array_push($search_product_category_names, $search_product_category_name);
+			}
+		}
+
+		$parsely_metadata['aboutCompany'] =				get_field('about_company', $post->ID);
+		$parsely_metadata['productCategories'] =			$product_category_names;
+		$parsely_metadata['searchProductCategories'] =	$search_product_category_names;
+		$parsely_metadata['memberLevel'] =					get_field('member_level', $post->ID);
+    }
+
+
+    return $parsely_metadata;
+}
+
+function swiftype_tags() {
+	$st_id =					get_queried_object_id();
+	$post_type =				get_post_type($st_id);
+	$st_post_type = 				"";
+
+    if($post_type === 'articles') {
+    	$st_post_type = 				"Article";
+		$contentPillars =				get_field('content_pillars', $st_id);
+		$articleSection =				empty($contentPillars) ? "Uncategorized" : $contentPillars[0];
+		$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
+		$articleType =					get_field('article_type', $st_id);
+		$community =					get_field('community', $st_id);
+		$personas =						get_field('personas', $st_id);
+		$contentScope =					get_field('content_scope', $st_id);
+		$contentFormat =				get_field('content_format', $st_id);
+		$contentSubject =				get_field('content_subject', $st_id);
+		$acquisitionSub =				get_field('acquisition_sub', $st_id);
+		$distributionSub =				get_field('distribution_sub', $st_id);
+		$managementSub =				get_field('management_sub', $st_id);
+		$radioSub =						get_field('radio_sub', $st_id);
+		$displaySub =					get_field('display_sub', $st_id);
+		$industrySub =					get_field('industry_sub', $st_id);
+		$contentSub =					get_field('content_sub', $st_id);
+		$productionSub =				get_field('production_sub', $st_id);
+		$contentCategory =				array_column( wp_get_post_terms($st_id, 'content-category'), 'name');
+
+		if(!empty($contentPillars)) {
+			foreach($contentPillars as $contentPillar) { ?>
+			<meta class="swiftype" name="content_pillars" data-type="string" content="<?php echo($contentPillar); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentPillar); ?>" />
+		<?php } }
+
+		if(!empty($articleSection)) { ?>
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
+		<?php }
+
+		if(!empty($relatedCompany)) { ?>
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
+		<?php }
+
+		if(!empty($articleType)) { ?>
+			<meta class="swiftype" name="article_type" data-type="string" content="<?php echo($articleType); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($articleType); ?>" />
+		<?php }
+
+		if(!empty($community)) {
+			foreach($community as $communityItem) { ?>
+			<meta class="swiftype" name="communities" data-type="string" content="<?php echo($communityItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($communityItem); ?>" />
+		<?php } }
+
+		if(!empty($personas)) {
+			foreach($personas as $personasItem) { ?>
+			<meta class="swiftype" name="personas" data-type="string" content="<?php echo($personasItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($personasItem); ?>" />
+		<?php } }
+
+		if(!empty($contentScope)) { ?>
+			<meta class="swiftype" name="content_scope" data-type="string" content="<?php echo($contentScope); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentScope); ?>" />
+		<?php } 
+
+		if(!empty($contentFormat)) {
+			foreach($contentFormat as $contentFormatItem) { ?>
+			<meta class="swiftype" name="content_formats" data-type="string" content="<?php echo($contentFormatItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentFormatItem); ?>" />
+		<?php } }
+
+		if(!empty($contentSubject)) {
+			foreach($contentSubject as $contentSubjectItem) { ?>
+			<meta class="swiftype" name="content_subjects" data-type="string" content="<?php echo($contentSubjectItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentSubjectItem); ?>" />
+		<?php } }
+
+		if(!empty($acquisitionSub)) {
+			foreach($acquisitionSub as $acquisitionSubItem) { ?>
+			<meta class="swiftype" name="acquisition_and_production_subjects" data-type="string" content="<?php echo($acquisitionSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($acquisitionSubItem); ?>" />
+		<?php } }
+
+		if(!empty($distributionSub)) {
+			foreach($distributionSub as $distributionSubItem) { ?>
+			<meta class="swiftype" name="distribution_and_delivery_subjects" data-type="string" content="<?php echo($distributionSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($distributionSubItem); ?>" />
+		<?php } }
+
+		if(!empty($managementSub)) {
+			foreach($managementSub as $managementSubItem) { ?>
+			<meta class="swiftype" name="management_and_systems_subjects" data-type="string" content="<?php echo($managementSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($managementSubItem); ?>" />
+		<?php } }
+
+		if(!empty($radioSub)) {
+			foreach($radioSub as $radioSubItem) { ?>
+			<meta class="swiftype" name="radio_subjects" data-type="string" content="<?php echo($radioSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($radioSubItem); ?>" />
+		<?php } }
+
+		if(!empty($displaySub)) {
+			foreach($displaySub as $displaySubItem) { ?>
+			<meta class="swiftype" name="display_systems_subjects" data-type="string" content="<?php echo($displaySubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($displaySubItem); ?>" />
+		<?php } }
+
+		if(!empty($industrySub)) {
+			foreach($industrySub as $industrySubItem) { ?>
+			<meta class="swiftype" name="industry_resources_subjects" data-type="string" content="<?php echo($industrySubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($industrySubItem); ?>" />
+		<?php } }
+
+		if(!empty($contentSub)) {
+			foreach($contentSub as $contentSubItem) { ?>
+			<meta class="swiftype" name="media_content_subjects" data-type="string" content="<?php echo($contentSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentSubItem); ?>" />
+		<?php } }
+
+		if(!empty($productionSub)) {
+			foreach($productionSub as $productionSubItem) { ?>
+			<meta class="swiftype" name="post_production_subjects" data-type="string" content="<?php echo($productionSubItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productionSubItem); ?>" />
+		<?php } }
+
+		if(!empty($contentCategory)) {
+			foreach($contentCategory as $contentCategoryItem) { ?>
+			<meta class="swiftype" name="content_categories" data-type="string" content="<?php echo($contentCategoryItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($contentCategoryItem); ?>" />
+		<?php } }
+
+	}
+	
+    if($post_type === 'sessions') {
+		$st_post_type = "Event";
+		$speakers = get_field('speakers');
+		$speaker_names = [];
+		if(!empty($speakers)) {
+			foreach($speakers as $speaker_id) {
+				$speaker_name = get_field( 'first_name', $speaker_id ) . ' ' . get_field( 'last_name', $speaker_id );
+				array_push($speaker_names, $speaker_name);
+			}
+		}
+    	$relatedCompany =				(!empty(get_field('company', $st_id))) ? get_the_title(get_field('company', $st_id)) : '';
+    	$speakers =						$speaker_names;
+    	$status =						get_field('session_status');
+    	$sessionCategories =			array_column( wp_get_post_terms($st_id, 'session_categories'), 'name');
+		$articleSection =				empty($sessionCategories) ? "Uncategorized" : $sessionCategories[0];
+
+		if(!empty($relatedCompany)) { ?>
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
+		<?php }
+
+		if(!empty($speakers)) {
+			foreach($speakers as $speaker) { ?>
+			<meta class="swiftype" name="speakers" data-type="string" content="<?php echo($speaker); ?>" />
+		<?php } }
+
+		if(!empty($status)) { ?>
+			<meta class="swiftype" name="status" data-type="string" content="<?php echo($status); ?>" />
+		<?php }
+
+		if(!empty($sessionCategories)) {
+			foreach($sessionCategories as $sessionCategoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($sessionCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($sessionCategoriesItem); ?>" />
+		<?php } }
+
+		if(!empty($articleSection)) { ?>
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
+		<?php }
+
+	}
+
+    if($post_type === 'tribe_events') {
+		$st_post_type = "Event";
+    	$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
+    	$companyCategory = 				array_column( wp_get_post_terms($st_id, 'company-category'), 'name');
+    	$eventCategories = 				array_column( wp_get_post_terms($st_id, 'tribe_events_cat'), 'name');
+		$articleSection =				empty($eventCategories) ? "Uncategorized" : $eventCategories[0];
+
+		if(!empty($relatedCompany)) { ?>
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
+		<?php }
+
+		if(!empty($articleSection)) { ?>
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
+		<?php }
+
+		if(!empty($companyCategory)) {
+			foreach($companyCategory as $companyCategoryItem) { ?>
+			<meta class="swiftype" name="company_categories" data-type="string" content="<?php echo($companyCategoryItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($companyCategoryItem); ?>" />
+		<?php } }
+
+		if(!empty($eventCategories)) {
+			foreach($eventCategories as $eventCategoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($eventCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($eventCategoriesItem); ?>" />
+		<?php } }
+    }
+
+    if($post_type === 'downloadable-pdfs') {
+		$st_post_type = "Report";
+    	$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
+    	if(!empty($relatedCompany)) { ?>
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
+		<?php }
+    }
+
+    if($post_type === 'product') {
+		$st_post_type = "WebPage";
+    	$productCategories =			array_column( wp_get_post_terms($st_id, 'product_cat'), 'name');
+		$articleSection =				empty($productCategories) ? "Uncategorized" : $productCategories[0];
+
+		if(!empty($productCategories)) {
+			foreach($productCategories as $productCategoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+		<?php } }
+
+		if(!empty($articleSection)) { ?>
+			<meta class="swiftype" name="article_section" data-type="string" content="<?php echo($articleSection); ?>" />
+		<?php }
+    }
+
+    	if($post_type === 'company-products') {
+		$st_post_type = "WebPage";
+		$productCategories =			array_column( wp_get_post_terms($st_id, 'company-product-category'), 'name');
+		$categories =					array_column( wp_get_post_terms($st_id, 'content-category'), 'name');
+		$productTags =					array_column( wp_get_post_terms($st_id, 'company-product-tag'), 'name');
+		$articleSection =				empty($productCategories) ? "Uncategorized" : $productCategories[0];
+		$relatedCompany =				(!empty(get_field('nab_selected_company_id', $st_id))) ? get_the_title(get_field('nab_selected_company_id', $st_id)) : '';
+
+		if(!empty($relatedCompany)) { ?>
+
+			<meta class="swiftype" name="related_companies" data-type="string" content="<?php echo($relatedCompany); ?>" />
+		<?php }
+
+		if(!empty($productCategories)) {
+			foreach($productCategories as $productCategoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productCategoriesItem); ?>" />
+		<?php } }
+
+		if(!empty($categories)) {
+			foreach($categories as $categoriesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($categoriesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($categoriesItem); ?>" />
+		<?php } }
+
+		if(!empty($productTags)) {
+			foreach($productTags as $productTagsItem) { ?>
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productTagsItem); ?>" />
+		<?php } }
+
+		if(!empty($articleSection)) { ?>
+			<meta class="swiftype" name="articleSection" data-type="string" content="<?php echo($articleSection); ?>" />
+		<?php }
+	}
+
+    if($post_type === 'company') {
+		$st_post_type = "WebPage";
+		$product_categories = get_field('product_categories', $st_id);
+		$product_category_names = [];
+		if(!empty($product_categories)) {
+			foreach($product_categories as $product_category_id) {
+				$term = get_term_by('ID', $product_category_id, 'company-product-category' );
+				if ( false !== $term ) {
+					$product_category_name = $term->name;
+				}
+				array_push($product_category_names, $product_category_name);
+			}
+		}
+
+		$search_product_categories = get_field('search_product_categories', $st_id);
+		if(!empty($search_product_categories)) {
+			foreach($search_product_categories as $search_product_category_id) {
+				$term = get_term_by('ID', $search_product_category_id, 'company-product-category' );
+				if ( false !== $term ) {
+					$search_product_category_name = $term->name;
+				}
+				array_push($product_category_names, $search_product_category_name);
+			}
+		}
+
+		$aboutCompany =				get_field('about_company', $st_id);
+		$productCategories =		$product_category_names;
+		$memberLevel =				get_field('member_level', $st_id);
+
+		if(!empty($productCategoryNames)) {
+			foreach($productCategoryNames as $productCategoryNamesItem) { ?>
+			<meta class="swiftype" name="categories" data-type="string" content="<?php echo($productCategoryNamesItem); ?>" />
+			<meta class="swiftype" name="tags" data-type="string" content="<?php echo($productCategoryNamesItem); ?>" />
+		<?php } }
+
+		if(!empty($memberLevel)) { ?>
+			<meta class="swiftype" name="member_level" data-type="string" content="<?php echo($memberLevel); ?>" />
+		<?php }
+
+    }
+
+    if($st_post_type == "") {
+    	$st_post_type = $post_type;
+    }
+    $st_published_at =			get_the_date('Y-m-d', $st_id);
+	$st_modified_at =			get_the_modified_date('Y-m-d', $st_id);
+	$st_title =					get_the_title($st_id);
+	$st_featured_image_url =	get_the_post_thumbnail_url($st_id);
+	if(empty($st_featured_image_url)) { $st_featured_image_url = nab_amplify_get_featured_image($st_id); }
+    ?>
+    <meta class="swiftype" name="post_type" data-type="string" content="<?php echo($st_post_type); ?>" />
+	<meta class="swiftype" name="published_at" data-type="date" content="<?php echo esc_attr($st_published_at); ?>" />
+	<meta class="swiftype" name="modified_at" data-type="date" content="<?php echo esc_attr($st_modified_at); ?>" />
+	<meta class="swiftype" name="title" data-type="string" content="<?php echo esc_attr($st_title); ?>" />
+	<meta class="swiftype" name="featured_image_url" data-type="enum" content="<?php echo ($st_featured_image_url); ?>" />
+    <?php
+}
+add_action('wp_head', 'swiftype_tags');

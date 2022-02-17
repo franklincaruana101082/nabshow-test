@@ -6,7 +6,7 @@
 
 function nabshow_lv_2021_enqueue_styles() {
 	wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
-    wp_enqueue_style( 'nabshow-lv-child-2021',
+    wp_enqueue_style( 'nabshow-lv-child-2021', 
     	get_stylesheet_directory_uri().'/assets/css/styles.min.css'
     );
     wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
@@ -14,7 +14,7 @@ function nabshow_lv_2021_enqueue_styles() {
     //wp_enqueue_script( 'nabshow-2021-jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array(), '1.0', true );
     wp_enqueue_script( 'nabshow-2021-slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array(), '1.8.1', true);
     wp_enqueue_script( 'nabshow-2021-main', get_stylesheet_directory_uri() . '/assets/js/app.min.js', array(), '1.0', true );
-    //wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
+    wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
 
 }
 add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_enqueue_styles', 100 );
@@ -156,14 +156,6 @@ function nabshow_lv_2021_widgets() {
         'after_widget'  => '</div>',
 	) );
 
-    register_sidebar( array(
-        'name'          => esc_html__( 'Broadstreet Banner ROS Middle', 'nabshow_lv' ),
-        'id'            => 'broadstreet-ros-middle',
-        'description'   => esc_html__( 'Broadstreet Ad Placement.', 'nabshow-lv' ),
-        'before_widget' => '<div id="%1$s" class="ad _728x90 _middle %2$s">',
-        'after_widget'  => '</div>',
-    ) );
-
 	register_sidebar( array(
 		'name'			=> esc_html__( 'Broadstreet ROS Bottom', 'nabshow_lv' ),
 		'id'			=> 'broadstreet-ros-bottom',
@@ -284,8 +276,9 @@ add_action( 'widgets_init', 'nabshow_lv_2021_widgets' );
  */
 // add_filter( 'allow_subdirectory_install', '__return_true' );
 
+
 /**
- * Nabshow LV 2021 custom post types.
+ * Nabshow LV 2021 custom post types. 
  */
 function nabshow_lv_2021_register_custom_post_type() {
 	$labels = array(
@@ -314,86 +307,14 @@ function nabshow_lv_2021_register_custom_post_type() {
         'show_in_nav_menus'   => true,
         'show_in_admin_bar'   => true,
         'can_export'          => true,
-        'has_archive'         => false,
+        'has_archive'         => false,        
         'capability_type'     => 'post',
         'show_in_rest'        => true,
         'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
-
-    register_post_type( 'conference', $args );
-
-
-    $labels = array(
-        'name'               => _x('Destinations', 'Post Type General Name', 'nabshow-lv'),
-        'singular_name'      => _x('Destinations', 'Post Type Singular Name', 'nabshow-lv'),
-        'menu_name'          => __('Destinations', 'nabshow-lv'),
-        'parent_item_colon'  => __('Parent Destinations', 'nabshow-lv'),
-        'all_items'          => __('All Destinations', 'nabshow-lv'),
-        'view_item'          => __('View Destinations', 'nabshow-lv'),
-        'add_new_item'       => __('Add New Destinations', 'nabshow-lv'),
-        'add_new'            => __('Add New', 'nabshow-lv'),
-        'edit_item'          => __('Edit Destinations', 'nabshow-lv'),
-        'update_item'        => __('Update Destinations', 'nabshow-lv'),
-        'search_items'       => __('Search Destinations', 'nabshow-lv'),
-        'not_found'          => __('Not Found', 'nabshow-lv'),
-        'not_found_in_trash' => __('Not found in Trash', 'nabshow-lv'),
-    );
-
-    $args = array(
-        'label'               => __('Destinations', 'nabshow-lv'),
-        'labels'              => $labels,
-        'hierarchical'        => false,
-        'public'              => true,
-        'show_ui'             => true,
-        'show_in_menu'        => true,
-        'show_in_nav_menus'   => true,
-        'show_in_admin_bar'   => true,
-        'can_export'          => true,
-        'has_archive'         => false,
-        'capability_type'     => 'post',
-        'show_in_rest'        => true,
-        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
-
-    );
-
-    register_post_type( 'destinations', $args );
-
-
-    $labels = array(
-        'name'               => _x('Networking', 'Post Type General Name', 'nabshow-lv'),
-        'singular_name'      => _x('Networking', 'Post Type Singular Name', 'nabshow-lv'),
-        'menu_name'          => __('Networking', 'nabshow-lv'),
-        'parent_item_colon'  => __('Parent Networking', 'nabshow-lv'),
-        'all_items'          => __('All Networking', 'nabshow-lv'),
-        'view_item'          => __('View Networking', 'nabshow-lv'),
-        'add_new_item'       => __('Add New Networking', 'nabshow-lv'),
-        'add_new'            => __('Add New', 'nabshow-lv'),
-        'edit_item'          => __('Edit Networking', 'nabshow-lv'),
-        'update_item'        => __('Update Networking', 'nabshow-lv'),
-        'search_items'       => __('Search Networking', 'nabshow-lv'),
-        'not_found'          => __('Not Found', 'nabshow-lv'),
-        'not_found_in_trash' => __('Not found in Trash', 'nabshow-lv'),
-    );
-
-    $args = array(
-        'label'               => __('Networking', 'nabshow-lv'),
-        'labels'              => $labels,
-        'hierarchical'        => false,
-        'public'              => true,
-        'show_ui'             => true,
-        'show_in_menu'        => true,
-        'show_in_nav_menus'   => true,
-        'show_in_admin_bar'   => true,
-        'can_export'          => true,
-        'has_archive'         => false,
-        'capability_type'     => 'post',
-        'show_in_rest'        => true,
-        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
-
-    );
-
-    register_post_type( 'networking', $args );
+    
+    register_post_type( 'conference', $args );	
 }
 add_action( 'init', 'nabshow_lv_2021_register_custom_post_type' );
 
@@ -404,19 +325,19 @@ function nabshow_lv_2021_date_sort( $a, $b ) {
 
 /**
  * Modified session archive page default query.
- *
+ * 
  * @param WP_Query $query
  */
 function nabshow_lv_2021_modified_session_list_query( $query ) {
 
-	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {
-
-		$query->set( 'meta_key', 'starttime' );
-        $query->set( 'orderby', 'meta_value' );
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {  
+   
+		$query->set( 'meta_key', 'starttime' ); 
+        $query->set( 'orderby', 'meta_value' );  
         $query->set( 'order', 'ASC' );
 
 		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
-
+		
 		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
 			$query->set( 'paged', $current_page );
 		}
@@ -431,8 +352,8 @@ function nabshow_lv_2021_modified_session_list_query( $query ) {
 		if ( is_array( $meta_query_args ) && count( $meta_query_args ) > 0 ) {
 			$query->set( 'meta_query', $meta_query_args );
 		}
-
-    }
+		
+    }   
 }
 add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
 
@@ -448,7 +369,7 @@ add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_register_custom_script' );
 
 /**
  * Prepare session archive page tax query args.
- *
+ * 
  * @return array
  */
 function nabshow_lv_2021_prepare_session_tax_query() {
@@ -463,7 +384,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	$tax_query_args				= array();
 
 	if ( isset( $session_program ) && ! empty( $session_program ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'tracks',
 			'terms'		=> $session_program,
@@ -471,7 +392,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_location ) && ! empty( $session_location ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-locations',
 			'terms'		=> $session_location,
@@ -479,7 +400,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_registration_pass ) && ! empty( $session_registration_pass ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_registration_pass,
@@ -487,7 +408,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_topic ) && ! empty( $session_topic ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_topic,
@@ -495,7 +416,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_education_partner ) && ! empty( $session_education_partner ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_education_partner,
@@ -503,7 +424,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_session_type ) && ! empty( $session_session_type ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_session_type,
@@ -511,7 +432,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_experience_level ) && ! empty( $session_experience_level ) ) {
-
+		
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_experience_level,
@@ -524,7 +445,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 
 /**
  * Prepare session archive page meta query args.
- *
+ * 
  * @return array
  */
 function nabshow_lv_2021_prepare_session_meta_query() {
@@ -559,7 +480,7 @@ function nabshow_lv_2021_prepare_session_meta_query() {
 }
 
 function nabshow_lv_2021_session_filter() {
-
+	
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
 	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
@@ -633,55 +554,41 @@ function nabshow_lv_2021_session_filter() {
 				$end_time   = str_replace(':00', '', $end_time );
 			}
 			?>
-
 			<div class="filter-result-box">
-				<!-- datetime -->
-				<div class="filter-result-box-datetime">
-					<?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?> <?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?>
+				<?php
+				if ( ! empty( $program_name ) ) {
+					
+					$program_url = $program_planner_url . $program_name . '/show/all'; 
+					?>
+					<span><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
+					<?php
+				}
+				?>
+				<h2><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
+				<div class="session-info">
+					<span><?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?></span>
+					<span><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></span>
 					<?php
 					if ( ! empty( $location ) ) {
 						?>
-						<a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a>
+						<span><a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a></span>
 						<?php
 					}
 					?>
 				</div>
-				<!-- END datetime -->
-
-				<!-- title -->
-				<h2 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h2>
-				<!-- END title -->
-
-				<!-- category -->
-				<?php
-				if ( ! empty( $program_name ) ) {
-
-					$program_url = $program_planner_url . $program_name . '/show/all';
-					?>
-					<span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
-					<?php
-				}
-				?>
-				<!-- END category -->
-
-				<!-- description -->
-				<div class="filter-result-box-description">
-					<p><?php the_excerpt(); ?></p>
-				</div>
-				<!-- END description -->
-
+				<p><?php the_excerpt(); ?></p>
 				<?php
 				$speakers       = get_post_meta( $session_id, 'speakers', true );
 				$speaker_ids    = explode( ',', $speakers );
 				$all_speakers   = array();
 
 				if ( ! empty( $speakers ) && count( $speaker_ids ) > 0 ) {
-
+					
 					foreach ( $speaker_ids as $speaker_id ) {
-
+						
 						$speaker_name   = get_the_title( $speaker_id );
 						$mys_speaker_id = get_post_meta( $speaker_id, 'speakerid', true );
-						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>';
+						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>'; 
 					}
 					?>
 					<div class="speakers-list">
@@ -691,11 +598,7 @@ function nabshow_lv_2021_session_filter() {
 					<?php
 				}
 				?>
-
-				<!-- cta -->
-				<a class="filter-result-box-cta" href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
-				<!-- END cta -->
-
+				<a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
 			</div>
 			<?php
 		}
@@ -720,8 +623,8 @@ function nabshow_lv_2021_session_filter() {
 			'current'   => $current_page,
 			'total'     => $total_pages,
 			'add_args'  => false,
-			'prev_text' => __( 'Previous' ),
-			'next_text' => __( 'Next' ),
+			'prev_text' => __( '<i class="fa fa-arrow-left"></i> Previous' ),
+			'next_text' => __( 'Next <i class="fa fa-arrow-right"></i>' ),
 		) ), $allowed_tags );
 
 	} else {

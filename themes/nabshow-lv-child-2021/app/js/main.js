@@ -45,56 +45,6 @@ jQuery(function($) {
 		}
 	});
 
-	// FAQs
-	$(".faq").each(function(){
-		var el = $(this);
-		var toggle = el.find(".faq-toggle");
-		var content = el.find(".faq-content");
-		toggle.click(function(){
-			// If its expanded
-			if (toggle.attr("aria-expanded") === 'true') {
-				console.log('IF TRUE: faq toggle is', toggle.attr("aria-expanded"));
-				toggle.attr("aria-expanded", 'false');
-				content.attr("hidden", true);
-				console.log("content is now", content.attr("hidden"));
-			// If its closed	
-			} else {
-				console.log('ELSE: faq toggle is', toggle.attr("aria-expanded"));
-				toggle.attr("aria-expanded", 'true');
-				content.attr("hidden", false);
-				console.log("content is now", content.attr("hidden"));
-			}
-		});
-
-	});
-
-
-
-	//homepage testimonials
-	$('.testimonials').slick({
-		slidesToShow: 3,
-		slidesToScroll: 1,
-		dots: false,
-		arrows: false,
-		infinite: true,
-		speed: 250,
-		autoplay: true,
-		autoplaySpeed: 4000,
-		responsive: [
-			{
-				breakpoint: 1024,
-				settings: {
-					slidesToShow: 2,
-				}
-			},
-			{
-				breakpoint: 604,
-				settings: {
-					slidesToShow: 1,
-				}
-			},
-		]
-	});
 
 	$('.cards').slick({
 		slidesToShow: 1,
@@ -106,94 +56,7 @@ jQuery(function($) {
 		centerPadding: '20px',
 	});
 
-	$('.attending-panels').slick({
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		dots: true,
-		arrows: false,
-		infinite: false,
-		fade: true,	
-		speed: 1000,
-		autoplay: true,
-		autoplaySpeed: 5000,	
-	});
-
-
-  if ($('.conference-sessions-speakers').length > 0) {
-		// each day
-		$('.conference-sessions-speakers').slick({
-			slidesToShow: 1,
-			slidesToScroll: 1,
-			arrows: false,
-			fade: true,	
-			speed: 1000,
-			autoplay: true,
-			autoplaySpeed: 10000,		
-			dots: true,
-		});
-	}
-
-	if ($('.videos-carousel').length > 0) {		
-		$('.videos-carousel--3').slick({
-			slidesToShow: 3,
-			slidesToScroll: 3,
-			dots: true,
-			arrows: false,
-			responsive: [					
-				{
-					breakpoint: 600,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1,
-					}
-				},						
-			]
-		});
-	}
-
-	if ($('.thumbcards').length > 0) {
-		$('.thumbcards--4').slick({
-			slidesToShow: 4,
-			slidesToScroll: 4,
-			dots: true,
-			arrows: false,
-			responsive: [	
-				{
-					breakpoint: 880,
-					settings: {
-						slidesToShow: 3,
-						slidesToScroll: 3,
-					}
-				},
-				{
-					breakpoint: 600,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1,
-					}
-				},						
-			]
-		});
-		$('.thumbcards--3').slick({
-			slidesToShow: 3,
-			slidesToScroll: 3,
-			dots: true,
-			arrows: false,
-			responsive: [					
-				{
-					breakpoint: 600,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1,
-					}
-				},						
-			]
-		});
-	}
-
-	
-
-	if ($('.schedule__days').length > 0 || $('.schedule__sessions').length > 0) {
+	if ($('.schedule__days').length > 0) {
 		// each day
 		$('.schedule__days').slick({
 			slidesToShow: 1,
@@ -203,7 +66,6 @@ jQuery(function($) {
 			asNavFor: '.schedule__menu',
 			swipe: false,
 			swipeToSlide: false,
-			adaptiveHeight: true
 		});
 		// menu for days
 		$('.schedule__menu').slick({

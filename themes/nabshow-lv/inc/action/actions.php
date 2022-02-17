@@ -97,8 +97,8 @@ add_action( 'init', 'nabshow_lv_register_news_releases_taxonomy' );
 add_action( 'rest_api_init', 'nabshow_lv_register_api_endpoints');
 
 // Send email to Admins when any Author publishes any page/post.
-add_action( 'publish_page', 'send_mails_on_publish', 10, 3 );
-add_action( 'publish_post', 'send_mails_on_publish', 10, 3 );
+//add_action( 'publish_page', 'send_mails_on_publish', 10, 3 );
+//add_action( 'publish_post', 'send_mails_on_publish', 10, 3 );
 
 // Action for set custom login logo
 add_action( 'login_enqueue_scripts', 'nabshow_lv_set_custom_login_logo' );
@@ -114,9 +114,6 @@ add_action( 'pre_get_posts', 'nabshow_lv_set_author_list_post_type' );
 
 // Action for change user role capability
 add_action( 'admin_init', 'nabshow_lv_change_user_role_cap' );
-
-// Action to Register Settings.
-add_action( 'admin_init', 'nabshow_lv_register_settings' );
 
 // Action for allowed Administrator, editor, author and contributor user to enter unfiltered html.
 add_filter( 'map_meta_cap', 'nabshow_lv_add_unfiltered_html_capability_to_users', 1, 3 );
@@ -137,9 +134,3 @@ add_action( 'init', 'nabshow_lv_register_landing_page_post_type' );
 
 // Action to set preloaded bock in the landing page post type 
 add_action( 'admin_init', 'nabshow_lv_set_preloaded_block_in_new_landing_page' );
-
-// Action to add the resources post type.
-add_action( 'init', 'nabshow_lv_resource_page' );
-
-// Action to add the schedule post type.
-add_action( 'init', 'nabshow_lv_schedule_page' );

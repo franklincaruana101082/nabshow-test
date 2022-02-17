@@ -287,6 +287,14 @@ function nabshow_base_widgets() {
         'after_widget'  => '</div>',
 	) );
 
+    register_sidebar( array(
+        'name'          => esc_html__( 'Broadstreet Prestitial', 'nabshow_base' ),
+        'id'            => 'broadstreet-prestitial',
+        'description'   => esc_html__( 'Broadstreet Ad Placement.', 'nabshow-base' ),
+        'before_widget' => '<div id="%1$s" class="ad _prestitial %2$s">',
+        'after_widget'  => '</div>',
+    ) );
+
 }
 
 add_action( 'widgets_init', 'nabshow_base_widgets' );

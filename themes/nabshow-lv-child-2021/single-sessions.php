@@ -8,8 +8,7 @@
  */
 get_header();
 ?>
-    <div class="decorative _lightlines-strip"></div>
-    <div class="section container">
+    <div id="primary" class="container">
         <div class="session-detail-page">
             <?php
             while ( have_posts() ) {
@@ -51,42 +50,31 @@ get_header();
                     $end_time   = str_replace(':00', '', $end_time );
                 }
                 ?>
-
                 <div class="filter-result-box">
-                    <!-- datetime -->
-                    <div class="filter-result-box-datetime"><?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?></span> <?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></span>
-                        <?php
-                        if ( ! empty( $location ) ) {
-                            ?>
-                            <a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                    <!-- END datetime -->
-
-                    <!-- title -->
-                    <h1 class="filter-result-box-title"><a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a></h1>
-                    <!-- END title --> 
-
-                    <!-- category -->
                     <?php
                     if ( ! empty( $program_name ) ) {
                         
                         $program_url = $program_planner_url . $program_name . '/show/all'; 
                         ?>
-                        <span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
+                        <span><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
                         <?php
                     }
                     ?>
-                    <!-- END category -->                                        
-
-                    <!-- description -->
-                    <div class="filter-result-box-description">
-                        <?php the_content(); ?>
+                    <h1>
+                        <a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank"><?php the_title(); ?></a>
+                    </h1>
+                    <div class="session-info">
+                        <span><?php echo esc_html( date_format( date_create( $date ), 'F j, Y' ) ); ?></span>
+                        <span><?php echo esc_html( $start_time ); ?> - <?php echo esc_html( $end_time ); ?></span>
+                        <?php
+                        if ( ! empty( $location ) ) {
+                            ?>
+                            <span><a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><?php echo esc_html( $location ); ?></a></span>
+                            <?php
+                        }
+                        ?>
                     </div>
-                    <!-- END description -->
-
+                    <?php the_content(); ?>
                     <?php
                     $speakers       = get_post_meta( $session_id, 'speakers', true );
                     $speaker_ids    = explode( ',', $speakers );
@@ -108,17 +96,12 @@ get_header();
                         <?php
                     }
                     ?>
-                    <!-- cta -->
-                    <a class="filter-result-box-cta" href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
-                    <!-- END cta -->
-                    
+                    <a href="<?php echo esc_url( $session_planner_url . $schedule_id ); ?>" target="_blank">View in Planner</a>
                 </div>
                 <?php
             }
             ?>
         </div>
-    </div>
-    <div class="decorative _lightlines-footer-strip"></div>
-    
+    </div><!-- #primary -->
 <?php
 get_footer();

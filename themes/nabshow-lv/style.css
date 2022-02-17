@@ -65,7 +65,7 @@ html{line-height:1.15;-webkit-text-size-adjust:100%;box-sizing:border-box}
  * Remove the margin in all browsers.
   */
 
-body{margin:0;background:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body{margin:0;background:#fff}
 
 /* *
  * Correct the font size and margin on `h1` elements within `section` and
@@ -236,7 +236,6 @@ template{display:none}
 body,button,input,select,optgroup,textarea{color:#404040;font-family:"Gotham Book", sans-serif;font-size:16px;font-size:1rem;line-height:1.5}
 h1,h2,h3,h4,h5,h6{clear:both}
 p{margin-bottom:1.5em}
-p strong,p b {font-family: 'Roboto Bold', sans-serif}
 dfn,cite,em,i{font-style:italic}
 blockquote{margin:0 1.5em}
 address{margin:0 0 1.5em}
@@ -335,7 +334,6 @@ a:hover,a:active{outline:0}
 /* --------------------------------------------------------------
 # Content
 -------------------------------------------------------------- */
-.hundredheight{height:100%;}
 
 /* --------------------------------------------------------------
 ## Posts and pages

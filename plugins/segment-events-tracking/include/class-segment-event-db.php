@@ -97,7 +97,7 @@ if ( ! class_exists( 'Segment_Event_DB' ) ) {
                 Segment::init( $segment_api_key );
 
                 $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
-                $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 10" );
+                $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 20" );
 
                 if ( $query_results && ! empty( $query_results ) ) {
 
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Segment_Event_DB' ) ) {
                             } else {
                                 Segment::track( $data );
                             }
-
+                            Segment::flush();
                             $this->st_remove_event( $result->id );
                         }
                     }

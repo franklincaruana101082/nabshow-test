@@ -195,7 +195,7 @@
         allData[parentIndex].detailList[newIndex].index = currentIndex;
       }
 
-      this.refressData(allData);
+      setAttributes({ dataArry: allData });
     }
 
     moveParentItem(currentIndex, newIndex) {
@@ -206,8 +206,7 @@
       allData[currentIndex].titleIndex = newIndex;
       allData[newIndex].titleIndex = currentIndex;
 
-      setAttributes({dataArray: allData});
-
+      setAttributes({ dataArry: allData });
     }
 
     MoveItemToParent( currentParentIndex, parentIndex, index ) {
@@ -218,7 +217,7 @@
       allData[parentIndex].detailList.push(allData[currentParentIndex].detailList[index]);
       allData[currentParentIndex].detailList.splice(index, 1);
 
-      this.refressData(allData);
+      setAttributes({ dataArry: allData });
     }
 
     duplicate(parentIndex, currentIndex) {
@@ -235,26 +234,13 @@
         type: allData[parentIndex].detailList[currentIndex].type
       });
 
-      this.refressData(allData);
-    }
-
-    refressData(data){
-      const { setAttributes, attributes } = this.props;
-      let allData = [...data];
-
-      data.sort((a, b) => a.index - b.index).map((parent, index) => {
-        allData[index].titleIndex = index;
-        parent.detailList.sort((a, b) => a.index - b.index).map((child, i) => {
-          allData[index].detailList[i].index = i;
-        });
-      });
-
       setAttributes({ dataArray: allData });
     }
 
     render() {
       const { attributes, setAttributes } = this.props;
       const { dataArray, showFilter, showTitle, showDateFilter, showOpenToFilter, showLocationFilter, showTypeFilter, showNameFilter, showTimeFilter, timeFilter } = attributes;
+
       return (
         <Fragment>
           <InspectorControls>
@@ -472,7 +458,7 @@
                             if (true === toDel) {
                               let tempDataArray = [...dataArray];
                               tempDataArray.splice(parentIndex, 1);
-                              this.refressData(tempDataArray);
+                              setAttributes({ dataArray: tempDataArray });
                             }
                           }}
                           className="fa fa-times details-parent"
@@ -554,7 +540,7 @@
                                       if (true === toDelete) {
                                         let tempDataArray = [...dataArray];
                                         tempDataArray[parentIndex].detailList.splice(index, 1);
-                                        this.refressData(tempDataArray);
+                                        setAttributes({ dataArray: tempDataArray});
                                       }
                                     }}
                                     className="fa fa-times"

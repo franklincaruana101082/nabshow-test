@@ -27,7 +27,7 @@ function nabshow_lv_add_block_editor_assets() {
 		'nab-gutenberg-block',
 		get_template_directory_uri() . '/blocks/css/block.css',
 		array(),
-		'6.6'
+		'6.4'
 	);
 
 	wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
@@ -56,7 +56,7 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
   if ('forms-data' === $edit_post_type )
     return;
 
-  $values = array(
+	$values = array(
 		'Post Title'           => 'post_title',
 		'Blank Featured Image' => 'blank_featured_image',
 	);
@@ -74,6 +74,8 @@ function nabshow_lv_admin_posts_filter_restrict_manage_posts() {
 		?>
 	</select>
 	<?php
+
+
 
 	if ( 'page' === $edit_post_type ) {
 
@@ -263,13 +265,11 @@ function nabshow_lv_register_api_endpoints() {
 	register_rest_route( 'nab_api', '/request/page-parents', array(
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_page_parents_callback',
-		'permission_callback' => '__return_true'
 	) );
 
 	register_rest_route( 'nab_api', '/request/page-acf-fields', array(
 		'methods'  => 'GET',
 		'callback' => 'nabshow_lv_get_page_acf_fields',
-		'permission_callback' => '__return_true'
 	) );
 
 	register_rest_route( 'nab_api', '/request/post-excerpt/', array(
@@ -282,7 +282,6 @@ function nabshow_lv_register_api_endpoints() {
 				}
 			),
 		),
-		'permission_callback' => '__return_true'
 	) );
 }
 
@@ -416,11 +415,15 @@ function send_mails_on_publish( $postid ) {
 
 	$ucaps = (array) $user->roles;
 	$ucaps = implode( ', ', $ucaps );
-	$ucaps = empty( $ucaps ) ? 'user' : $ucaps;
 
 	$uname          = $user->data->display_name;
-	$emails = array( 'vdubreuil@nab.org' );
+	$administrators = get_users( array( 'role' => 'administrator' ) );
+	$emails         = array();
 	$link           = get_permalink( $postid );
+
+	foreach ( $administrators as $admin ) {
+		$emails[] = $admin->user_email;
+	}
 
 	$body = sprintf( 'Hi Admin,<br><br>
 		The content on the following link has been updated.<br><br>

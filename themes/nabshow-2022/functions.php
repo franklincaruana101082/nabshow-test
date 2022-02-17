@@ -30,3 +30,5 @@ function nabshow_2022_swiftype_script() {
 }
 
 add_action('wp_footer', 'nabshow_2022_swiftype_script');
+
+
