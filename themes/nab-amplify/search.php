@@ -31,9 +31,11 @@ $allowed_tags['broadstreet-zone'] = array('zone-id' => 1);
 	</div>
 	<div class="nab-search-result-wrapper">
 		<div class="search-result-filter">
+			<?php /*
 			<div class="search-box">
 				<?php get_search_form(); ?>
 			</div>
+			*/ ?>
 			<?php
 			if (isset($view_type) && !empty($view_type) && in_array($view_type, $view_screen, true)) {
 			?>

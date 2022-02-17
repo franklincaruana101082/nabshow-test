@@ -29,7 +29,7 @@ if($hide_videos) {
   <div class="section _bottom">
     <div class="container teaser__intro">
       <div class="section-heading teaser__desc">
-        <h1 class="h-xxl"><?php the_title(); ?></h1>
+        <h1 class="h-xxl" data-swiftype-index="false"><?php the_title(); ?></h1>
         <?php the_content(); ?>
       </div>      
       <?php 

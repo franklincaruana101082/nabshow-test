@@ -18,7 +18,7 @@ while ( have_posts() ) :
 				</div>
 				<?php } ?>
 				<div class="intro__copy">
-					<?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
+					<?php the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' ); ?>
 					<div class="introtext">
 						<?php the_content(); ?>
 					</div>

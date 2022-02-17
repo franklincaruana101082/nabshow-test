@@ -20,26 +20,44 @@ if(get_field('header_lighting_effects')) {
     </div>
     <?php } ?>
     <div class="container">
-        <?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
-        <?php 
+        <?php the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' ); ?>
+        <?php
+        if( have_rows('promo_lists')):  
+
+            while(have_rows('promo_lists')) : the_row();
+        
             if( have_rows('header_promo_section')): 
             $count = 0;
         ?>
-        <div class="grouping__promo">
+        <section class="grouping__promo">
             <?php while(have_rows('header_promo_section')) : the_row(); 
                 $link_url = get_sub_field('link');
                 $link_wp_id = url_to_postid( $link_url );
+                $post_type = get_post_type($link_wp_id);
                 $author_id = get_post_field ('post_author', $link_wp_id);
                 $author_name = get_the_author_meta('first_name', $author_id) . ' ' . get_the_author_meta('last_name', $author_id);
                 $image = get_sub_field('image');
+                if(empty($image)){
+                    $image_id = get_post_thumbnail_id($link_wp_id);
+                    if($image_id){
+                        $image['url'] = get_the_post_thumbnail_url($link_wp_id);
+                        $image['alt'] = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
+                    }
+                }
                 $title = get_sub_field('title');
+                if(empty($title)) {
+                    $title = get_the_title($link_wp_id);
+                }
                 $category = get_sub_field('category');
                 $lede = get_sub_field('lede');
+                if(empty($lede)) {
+                    $lede = wp_trim_words( get_the_excerpt($link_wp_id) );
+                }
                 if(!empty($link_url)) {
             ?>
                 <a href="<?php echo esc_url($link_url); ?>" class="relatedlink <?php if($count !== 0) { echo esc_attr('_minor'); } ?>">
                     <?php if(!empty($image)) { ?>
-                    <div class="relatedlink__image" style="background-image: url('<?php echo esc_url($image['url']); ?>');">
+                    <div class="relatedlink__image">
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
                     <?php } ?>
@@ -53,7 +71,7 @@ if(get_field('header_lighting_effects')) {
                     <?php if($count == 0 && !empty($lede)) { ?>
                         <div class="relatedlink__lede"><?php echo esc_html($lede); ?></div>
                     <?php } ?>
-                    <?php if(!empty($author_name)) { ?>
+                    <?php if(!empty($author_name) && $post_type == 'articles') { ?>
                         <div class="relatedlink__author"><?php echo esc_html($author_name); ?></div>
                     <?php } ?>
                     </div>
@@ -61,9 +79,20 @@ if(get_field('header_lighting_effects')) {
             <?php } 
             $count++;
             endwhile; ?>
-        </div>
+        </section>
         <?php
             endif;
+            if(get_sub_field('promo_ad_shortcode')){
+            ?>
+            <div class="nab-ad-block grouping__promoad">
+            <?php
+                echo do_shortcode(get_sub_field('promo_ad_shortcode'));
+            ?>
+            </div>
+            <?php
+            }
+            endwhile;
+        endif;
         ?>
     </div>
 </header><!-- .page-header -->
@@ -96,19 +125,35 @@ if(get_field('header_lighting_effects')) {
                 <?php while(have_rows('link_list')) : the_row(); 
                     $link_url = get_sub_field('link');
                     $link_wp_id = url_to_postid( $link_url );
+                    $post_type = get_post_type($link_wp_id);
                     $author_id = get_post_field ('post_author', $link_wp_id);
                     $author_name = get_the_author_meta('first_name', $author_id) . ' ' . get_the_author_meta('last_name', $author_id);
                     $article_date = get_the_date('', $link_wp_id);
                     $image = get_sub_field('image');
+                    if(empty($image)){
+                        $image_id = get_post_thumbnail_id($link_wp_id);
+                        if($image_id){
+                            $image['url'] = get_the_post_thumbnail_url($link_wp_id);
+                            $image['alt'] = get_post_meta($image_id, '_wp_attachment_image_alt', TRUE);
+                        }
+                    }
                     $title = get_sub_field('title');
+                    if(empty($title)) {
+                        $title = get_the_title($link_wp_id);
+                    }
                     $lede = get_sub_field('lede');
+                    if(empty($lede)) {
+                        $lede = wp_trim_words( get_the_excerpt($link_wp_id) );
+                    }
                     if(!empty($link_url)) {
                 ?>
                 <a href="<?php echo esc_url($link_url); ?>" class="relatedlink _minor">
                     <?php if(!empty($image)) { ?>
-                    <div class="relatedlink__image" style="background-image: url('<?php echo esc_url($image['url']); ?>');">
+                    <div class="relatedlink__image">
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
+                    <?php } else { ?>
+                        <div class="relatedlink__image"></div>
                     <?php } ?>
                     <div class="relatedlink__copy">
                     <?php if(!empty($article_date)) { ?>
@@ -120,7 +165,7 @@ if(get_field('header_lighting_effects')) {
                     <?php if(!empty($lede)) { ?>
                         <div class="relatedlink__lede"><?php echo esc_html($lede); ?></div>
                     <?php } ?>
-                    <?php if(!empty($author_name)) { ?>
+                    <?php if(!empty($author_name) && $post_type == 'articles') { ?>
                         <div class="relatedlink__author"><?php echo esc_html($author_name); ?></div>
                     <?php } ?>
                     </div>
