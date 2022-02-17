@@ -77,7 +77,7 @@ while ( have_posts() ) :
 
 					<?php do_action( 'woocommerce_register_form_start' ); ?>
 
-					<div class="signup__titles">
+					<div class="signup__titles" data-swiftype-index="false">
 						<h2><?php the_title(); ?></h2>
 						<?php if ( isset( $redirect_url ) && ! empty( $redirect_url ) ) {
 							$my_account_url = add_query_arg( 'r', $redirect_url, get_site_url(12, '/nab-show-sign-in/') );

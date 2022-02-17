@@ -60,7 +60,7 @@ if($hide_videos) {
 				<header class="intro">
 					<div class="container">
 					<?php
-						the_title( '<h1 class="intro__title">', '</h1>' );
+						the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' );
 						if ($session_status != "VOD") {
 					?>
 					<div class="intro__time introtext">
