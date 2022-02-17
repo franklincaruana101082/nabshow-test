@@ -20,7 +20,7 @@ if(get_field('header_lighting_effects')) {
     </div>
     <?php } ?>
     <div class="container">
-        <?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
+        <?php the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' ); ?>
         <?php
         if( have_rows('promo_lists')):  
 

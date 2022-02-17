@@ -38,7 +38,7 @@ $ad_code                  = get_field( 'ad_code' );
   <div class="section _bottom gradient__orange-orange-corners">
     <div class="container">
       <div class="section-heading _centered">
-        <h1 class="h-xxl"><?php the_title(); ?></h1>        
+        <h1 class="h-xxl" data-swiftype-index="false"><?php the_title(); ?></h1>        
       </div>
       <div class="exhibit-teaser">
         <?php

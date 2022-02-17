@@ -16,7 +16,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 ?>
 
 </div> <!-- end site-content -->
-<footer id="colophon" class="footer">
+<footer id="colophon" class="footer" data-swiftype-index="false">
     <div class="container">
     
       <div class="footer__logo">      

@@ -69,7 +69,7 @@ if ($persona != 'none' && $persona != '') {
 			<header class="intro">
 
 				<?php
-				the_title( '<h1 class="intro__title entry-title">', '</h1>' );
+				the_title( '<h1 class="intro__title entry-title" data-swiftype-index="false">', '</h1>' );
 				//echo do_shortcode( '[bookmark]' );
 				?>
 
