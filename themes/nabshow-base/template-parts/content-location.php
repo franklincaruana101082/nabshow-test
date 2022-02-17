@@ -245,11 +245,17 @@ if ( $display_speakers_and_sessions ) {
                                     $mys_session_id         = get_the_ID();
                                     $session_schedule_id    = get_post_meta( $mys_session_id, 'scheduleid', true );
                                     $mys_session_start_date = get_post_meta( $mys_session_id, 'starttime', true );
-                                    $mys_session_summary    = get_post_meta( $mys_session_id, 'abstract', true );
+                                    $mys_session_summary    = get_post_meta( $mys_session_id, 'summarysummary', true );
                                     $formatted_session_date = '';
 
                                     if ( ! empty( $mys_session_start_date ) ) {
-                                        $formatted_session_date = date_format( date_create( $mys_session_start_date ), 'F j, Y g:i a' );
+                                        
+                                        if ( false !== strpos( $mys_session_start_date, '-' ) ) {
+                                            $formatted_session_date = date_format( date_create( $mys_session_start_date ), 'F j, Y g:i a' );
+                                        } else {
+                                            $dt                     = DateTime::createFromFormat( 'F, j Y H:i:s', $mys_session_start_date );
+                                            $formatted_session_date = $dt->format( 'F j, Y g:i a' );
+                                        }
                                     }
 
                                     $mys_session_link = 'https://nab22.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $session_schedule_id;
@@ -257,7 +263,7 @@ if ( $display_speakers_and_sessions ) {
                                     <a href="<?php echo esc_url( $mys_session_link );?>" target="_blank" class="conference-sessions-session _link">
                                         <p class="conference-sessions-session-title"><?php echo esc_html( get_the_title() ); ?></p>
                                         <h6 class="datetime-small icon-calendar"><?php echo esc_html( $formatted_session_date ); ?></h6>
-                                        <div class="conference-sessions-session-desc"><?php echo wp_kses_post( $mys_session_summary ); ?></div>
+                                        <div class="conference-sessions-session-desc"><p><?php echo esc_html( $mys_session_summary ); ?></p></div>
                                     </a>
                                     <?php
 
