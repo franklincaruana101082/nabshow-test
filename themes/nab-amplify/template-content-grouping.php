@@ -57,7 +57,7 @@ if(get_field('header_lighting_effects')) {
             ?>
                 <a href="<?php echo esc_url($link_url); ?>" class="relatedlink <?php if($count !== 0) { echo esc_attr('_minor'); } ?>">
                     <?php if(!empty($image)) { ?>
-                    <div class="relatedlink__image" style="background-image: url('<?php echo esc_url($image['url']); ?>');">
+                    <div class="relatedlink__image">
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
                     <?php } ?>
@@ -149,7 +149,7 @@ if(get_field('header_lighting_effects')) {
                 ?>
                 <a href="<?php echo esc_url($link_url); ?>" class="relatedlink _minor">
                     <?php if(!empty($image)) { ?>
-                    <div class="relatedlink__image" style="background-image: url('<?php echo esc_url($image['url']); ?>');">
+                    <div class="relatedlink__image">
                         <img class="" src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
                     </div>
                     <?php } else { ?>
