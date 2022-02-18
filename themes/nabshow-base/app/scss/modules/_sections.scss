@@ -819,6 +819,14 @@
   }
 }
 
+.conference__logo {
+  padding: rem(50) 0 0;
+  text-align: center;
+  img {
+    width: auto;
+  }
+}
+
 .partners-icons {
   list-style-type: none;
   display: grid;

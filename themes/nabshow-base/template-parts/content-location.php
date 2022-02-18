@@ -8,6 +8,7 @@
  */
 
 $location                       = get_field( 'location' );
+$logo                           = get_field( 'logo' );
 $featured_video                 = get_field( 'featured_video' );
 $start_date                     = get_field( 'start_date' );
 $end_date                       = get_field( 'end_date' );
@@ -42,7 +43,9 @@ if ( ! empty( $featured_video ) ) {
     </div>
     <?php
 }
-
+?>
+<div class="conference__logo"><img  src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" /></div>
+<?php
 if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
     
     $final_date         = '';
@@ -137,10 +140,12 @@ if ( $display_speakers_and_sessions ) {
     $featured_speakers_and_sessions = get_field( 'featured_speakers_and_sessions' );
 
     $featured_speakers_and_sessions_amount = array();
-    foreach( $featured_speakers_and_sessions as $i => $row ) {
-        if(!$row['hide_this_item']):
-            $featured_speakers_and_sessions_amount[$i] = $i;
-        endif;
+    if(!empty($featured_speakers_and_sessions)){
+        foreach( $featured_speakers_and_sessions as $i => $row ) {
+            if(!$row['hide_this_item']):
+                $featured_speakers_and_sessions_amount[$i] = $i;
+            endif;
+        }
     }
 
     if( !empty($featured_speakers_and_sessions_amount) ) {
