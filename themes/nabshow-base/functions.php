@@ -333,7 +333,7 @@ function nabshow_base_register_custom_post_type() {
         'has_archive'         => false,        
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
+        'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
     
@@ -369,7 +369,7 @@ function nabshow_base_register_custom_post_type() {
         'has_archive'         => false,        
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
+        'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
     
@@ -405,7 +405,7 @@ function nabshow_base_register_custom_post_type() {
         'has_archive'         => false,        
         'capability_type'     => 'post',
         'show_in_rest'        => true,
-        'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
+        'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
     
