@@ -289,6 +289,9 @@ if ( $display_speakers_and_sessions ) {
     <div class="section container">
         <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
     </div>
+    <div class="section container">
+        <?php the_content(); ?>
+    </div>
     <?php
 }
 
