@@ -20,31 +20,36 @@ $date_now = $now->format('Y-m-d H:i:s');
 
 $timeframe = get_field('event_timeframe');
 if($timeframe === 'upcoming') {
-	$meta_query = array(
-		array(
-			'key' => array('session_end_time', '_EventEndDateUTC'),
-			'compare' => '>=',
-			'value' => $date_now,
-			'type' => 'DATETIME',
-		),
+	$meta_query_build = array(
+		'key' => array('session_end_time', '_EventEndDateUTC'),
+		'compare' => '>=',
+		'value' => $date_now,
+		'type' => 'DATETIME',
 	);
 } else if($timeframe === 'past') {
-	$meta_query = array(
-		array(
-			'key' => array('session_end_time', '_EventEndDateUTC'),
-			'compare' => '>',
-			'value' => $date_now,
-			'type' => 'DATETIME',
-		),
+	$meta_query_build = array(
+		'key' => array('session_end_time', '_EventEndDateUTC'),
+		'compare' => '<',
+		'value' => $date_now,
+		'type' => 'DATETIME',
 	);
 } else {
-	$meta_query = array(
-		array(
-			'key' => array('session_end_time', '_EventEndDateUTC'),
-			'compare' => 'EXISTS',
-		),
+	$meta_query_build = array(
+		'key' => array('session_end_time', '_EventEndDateUTC'),
+		'compare' => 'EXISTS',
 	);
 }
+
+$meta_query = array(
+	'relation' => 'AND',
+	array(
+		'key' => 'session_status',
+		'value' => 'VOD',
+		'compare' => '!='
+	),
+);
+$meta_query[] = $meta_query_build;
+
 
 //$session_terms = get_terms( 'sessions' );
 
@@ -165,17 +170,16 @@ if(!$hide_events && !$hide_sessions) {
 	}
 }
 
-print_r($meta_query);
 
 $events = get_posts( array(
 	'posts_per_page' => -1,
 	'post_type' => $post_type,
 	'tax_query' => $tax_query,
 	'meta_query' => $meta_query,
-	'order' => 'ASC',
+	'order' => 'DESC',
 	'orderby' => 'meta_value',
-	//'meta_key' => array('session_date', '_EventStartDateUTC'),
-	//'meta_type' => 'DATETIME'
+	'meta_key' => array('session_date', '_EventStartDateUTC'),
+	'meta_type' => 'DATETIME'
 ));
 
 ?>
