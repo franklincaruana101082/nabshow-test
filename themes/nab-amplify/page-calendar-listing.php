@@ -1,7 +1,7 @@
 <?php
 /*
- * Template Name: Event Calendar
- * Description: List upcoming events and sessions
+ * Template Name: Calendar Listing
+ * Description: List events and sessions
 */
 ?>
 
@@ -12,6 +12,41 @@ wp_enqueue_script('nab-ouical', get_template_directory_uri().'/src/js/ouical.js'
 get_header();
 
 $post_type = array();
+
+$newTZ = wp_timezone();
+$now = new DateTime(gmdate('Y-m-d H:i:s'));
+$now->setTimezone($newTZ);
+$date_now = $now->format('Y-m-d H:i:s');
+
+$timeframe = get_field('event_timeframe');
+if($timeframe === 'upcoming') {
+	$meta_query = array(
+		array(
+			'key' => array('session_end_time', '_EventEndDateUTC'),
+			'compare' => '>=',
+			'value' => $date_now,
+			'type' => 'DATETIME',
+		),
+	);
+} else if($timeframe === 'past') {
+	$meta_query = array(
+		array(
+			'key' => array('session_end_time', '_EventEndDateUTC'),
+			'compare' => '>',
+			'value' => $date_now,
+			'type' => 'DATETIME',
+		),
+	);
+} else {
+	$meta_query = array(
+		array(
+			'key' => array('session_end_time', '_EventEndDateUTC'),
+			'compare' => 'EXISTS',
+		),
+	);
+}
+
+//$session_terms = get_terms( 'sessions' );
 
 $hide_sessions = get_field('hide_all_sessions');
 $session_categories = get_field('session_categories_to_list');
@@ -91,18 +126,19 @@ if(!$hide_events && !$hide_sessions) {
 	if($event_categories) {
 		
 		$tax_query = array(
-				array(
-				'taxonomy' => 'tribe_events_cat',
-				'field' => 'term_id',
-				'terms' => $event_categories,
-				),
-			);
+			array(
+			'taxonomy' => 'tribe_events_cat',
+			'field' => 'term_id',
+			'terms' => $event_categories,
+			),
+		);
 	} else {
 		$tax_query = array(
 			array(
 			'taxonomy' => 'tribe_events_cat',
-			'field' => 'term_id',
-			'terms' => '*',
+			//'field' => 'term_id',
+			//'terms' => '*',
+			'operator' => 'XXX'
 			),
 		);
 	}
@@ -111,39 +147,35 @@ if(!$hide_events && !$hide_sessions) {
 	if($session_categories) {
 		
 		$tax_query = array(
-				array(
-				'taxonomy' => 'session_categories',
-				'field' => 'term_id',
-				'terms' => $session_categories,
-				),
-			);
+			array(
+			'taxonomy' => 'session_categories',
+			'field' => 'term_id',
+			'terms' => $session_categories,
+			),
+		);
 	} else {
 		$tax_query = array(
-				array(
-				'taxonomy' => 'session_categories',
-				'field' => 'term_id',
-				'terms' => '*',
-				),
-			);
+			array(
+			'taxonomy' => 'session_categories',
+			//'field' => 'term_id',
+			//'terms' => '*',
+			'operator' => 'XXX'
+			),
+		);
 	}
 }
 
-
-
-
-$newTZ = wp_timezone();
-$now = new DateTime(gmdate('Y-m-d H:i:s'));
-$now->setTimezone($newTZ);
-$date_now = $now->format('Y-m-d H:i:s');
+print_r($meta_query);
 
 $events = get_posts( array(
 	'posts_per_page' => -1,
 	'post_type' => $post_type,
 	'tax_query' => $tax_query,
+	'meta_query' => $meta_query,
 	'order' => 'ASC',
 	'orderby' => 'meta_value',
-	'meta_key' => array('session_date', '_EventStartDateUTC'),
-	'meta_type' => 'DATETIME'
+	//'meta_key' => array('session_date', '_EventStartDateUTC'),
+	//'meta_type' => 'DATETIME'
 ));
 
 ?>
