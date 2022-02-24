@@ -43,9 +43,7 @@ if ( ! empty( $featured_video ) ) {
     </div>
     <?php
 }
-?>
-<div class="conference__logo"><img  src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" /></div>
-<?php
+
 if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
     
     $final_date         = '';
@@ -79,6 +77,7 @@ if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
             <?php echo wp_kses_post( $description ); ?>
         </div>
         <div class="conference__intro-partners">
+            <div class="conference__logo"><img  src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" /></div>
             <?php
             if ( $partner_sponsors ) {
                 ?>

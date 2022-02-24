@@ -820,8 +820,9 @@
 }
 
 .conference__logo {
-  padding: rem(50) 0 0;
+  padding: 0 0 rem(50);
   text-align: center;
+  min-width: rem(300);
   img {
     width: auto;
   }
