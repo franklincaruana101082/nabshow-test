@@ -177,6 +177,10 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					AND HistoryStatus != 10
 					ORDER BY HistoryID DESC LIMIT 1",
 					$wpdb->prefix, '%' . $data_type . '%' ) );
+			
+			if ( 'modified-exhibitors' === $data_type ) {
+				wp_mail( 'nitish.kaila@multidots.com', 'MYS exhibitor previous sync date', 'previous sync date = ' . $previous_date );
+			}
 
 			return $previous_date;
 		}
