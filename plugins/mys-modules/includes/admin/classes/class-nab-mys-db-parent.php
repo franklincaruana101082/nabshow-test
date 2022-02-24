@@ -178,7 +178,7 @@ if ( ! class_exists( 'NAB_MYS_DB_Parent' ) ) {
 					ORDER BY HistoryID DESC LIMIT 1",
 					$wpdb->prefix, '%' . $data_type . '%' ) );
 			
-			if ( 'modified-exhibitors' === $data_type ) {
+			if ( 'modified-exhibitors' === $data_type && ( 'https://amplify.nabshow.com/' === get_site_url() || 'https://amplify.nabshow.com' === get_site_url() ) ) {
 				wp_mail( 'nitish.kaila@multidots.com', 'MYS exhibitor previous sync date', 'previous sync date = ' . $previous_date );
 			}
 
