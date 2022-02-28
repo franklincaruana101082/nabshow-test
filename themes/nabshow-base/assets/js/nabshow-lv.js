@@ -1770,10 +1770,8 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
           if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('on-rollover') ) {
 
             let imgLink = document.createElement('a');
-            imgLink.setAttribute('href', '#');
-            imgLink.setAttribute('class', 'detail-list-modal-popup');
-            imgLink.setAttribute('data-postid', value.post_id);
-            imgLink.setAttribute('data-posttype', 'speakers');
+            imgLink.setAttribute('href', value.speaker_url);            
+            imgLink.setAttribute('target', '_blank');
 
             imgLink.appendChild(innerImg);
             itemInnerFlipBox.appendChild(imgLink);
@@ -1790,10 +1788,8 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
 
             let innerHeadingLink = document.createElement('a');
             innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('href', '#');
-            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
-            innerHeadingLink.setAttribute('data-posttype', 'speakers');
+            innerHeadingLink.setAttribute('href', value.speaker_url);
+            innerHeadingLink.setAttribute('target', '_blank');
 
             innerHeading.appendChild(innerHeadingLink);
             innerFlipBoxBack.appendChild(innerHeading);
