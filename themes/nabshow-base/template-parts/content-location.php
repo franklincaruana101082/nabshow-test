@@ -8,6 +8,7 @@
  */
 
 $location                       = get_field( 'location' );
+$logo                           = get_field( 'logo' );
 $featured_video                 = get_field( 'featured_video' );
 $start_date                     = get_field( 'start_date' );
 $end_date                       = get_field( 'end_date' );
@@ -76,6 +77,7 @@ if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
             <?php echo wp_kses_post( $description ); ?>
         </div>
         <div class="conference__intro-partners">
+            <div class="conference__logo"><img  src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" /></div>
             <?php
             if ( $partner_sponsors ) {
                 ?>
@@ -133,57 +135,43 @@ if ( $sponsors ) {
 }
 
 if ( $display_speakers_and_sessions ) {
+    $speakers_and_sessions_heading = get_field( 'speakers_and_sessions_heading' );
+    $featured_speakers_and_sessions = get_field( 'featured_speakers_and_sessions' );
 
-    $featured_speakers = get_field( 'featured_speakers' );
-    $featured_sessions = get_field( 'featured_sessions' );
-
-    $featured_speakers_amount = array();
-    foreach( $featured_speakers as $i => $row ) {
-        if(!$row['hide_this_speaker']):
-            $featured_speakers_amount[$i] = $i;
-        endif;
+    $featured_speakers_and_sessions_amount = array();
+    if(!empty($featured_speakers_and_sessions)){
+        foreach( $featured_speakers_and_sessions as $i => $row ) {
+            if(!$row['hide_this_item']):
+                $featured_speakers_and_sessions_amount[$i] = $i;
+            endif;
+        }
     }
 
-    $featured_sessions_amount = array();
-    foreach( $featured_sessions as $i => $row ) {
-        if(!$row['hide_this_session']):
-            $featured_sessions_amount[$i] = $i;
-        endif;
-    }
-
-    if( !empty($featured_speakers_amount) && !empty($featured_sessions_amount) ) {
-        $fss_title = "Featured Speakers<br/>&amp; Sessions";
+    if( !empty($featured_speakers_and_sessions_amount) ) {
         $fss_class = "featured_all";
-    } else if ( !empty($featured_speakers_amount) && empty($featured_sessions_amount) ) {
-        $fss_title = "Featured Speakers";
-        $fss_class = "featured_speakers";
-    } else if ( empty($featured_speakers_amount) && !empty($featured_sessions_amount) ) {
-        $fss_title = "Featured Sessions";
-        $fss_class = "featured_sessions";
     }
     ?>    
     <div class="section">
         <div class="decorative _blur">
             <div class="container">
                 <div class="conference-sessions">
-                    <h3 class="conference-sessions-title"><?php echo($fss_title); ?></h3>
+                    <h3 class="conference-sessions-title"><?php echo($speakers_and_sessions_heading); ?></h3>
                 </div>
                 <div class="conference-sessions-content <?php echo($fss_class); ?>">
-                    <?php if ( !empty($featured_speakers_amount) ) { ?>
+                    <?php if ( !empty($featured_speakers_and_sessions_amount) ) { ?>
                     <div class="conference-sessions-speakers">
                         <?php
-                        foreach ( $featured_speakers as $row ) {
+                        foreach ( $featured_speakers_and_sessions as $row ) {
                             
                             $speaker_image          = isset( $row['image']['ID'] ) && ! empty( $row['image']['ID'] ) ? wp_get_attachment_url( $row['image']['ID'] ) : '';
-                            $speaker_description    = $row['speaker_description'];
+                            $speaker_description    = $row['description'];
                             $speaker_dates          = $row['dates'];
-                            $speaker_name           = $row['speaker_name'];
+                            $speaker_name           = $row['name'];
                             $speaker_link_url = '';
-                            if( $row['speaker_link'] ) :
-                                $speaker_link_url       = $row['speaker_link']['url'];
-                                //$speaker_link_target    = $row['speaker_link']['target'] ? $row['speaker_link']['target'] : '_self';
+                            if( $row['link'] ) :
+                                $speaker_link_url       = $row['link']['url'];
                             endif;
-                            if(!$row['hide_this_speaker']):
+                            if(!$row['hide_this_item']):
                             ?>                                
                             <div class="conference-sessions-speaker">
                                 <?php if($speaker_link_url): ?>
@@ -215,19 +203,20 @@ if ( $display_speakers_and_sessions ) {
 
                     $session_tracks     = get_field( 'session_tracks' );
                     $session_categories = get_field( 'session_categories' );
+                    $manual_sessions = get_field( 'manual_sessions' );
 
-                    if ( ( $session_tracks && count( $session_tracks ) > 0 ) || ( $session_categories && count( $session_categories ) > 0 ) ) {
+                    if ( ( $session_tracks && count( $session_tracks ) > 0 ) || ( $session_categories && count( $session_categories ) > 0 ) || ( $manual_sessions && count( $manual_sessions ) > 0 ) ) {
                         
                         $session_query_args = array(
                             'post_type'      => 'sessions',
-                            'posts_per_page' => 10,
+                            'posts_per_page' => 100,
                             'post_status'    => 'publish',
                             'meta_key'       => 'starttime',
                             'orderby'        => 'meta_value',
                             'order'          => 'ASC',
                         );
 
-                        $tax_query_args = array( 'relation' => 'OR' );
+                        $tax_query_args = array( 'relation' => 'AND' );
 
                         if ( $session_tracks && count( $session_tracks ) > 0 ) {
                             $tax_query_args[] = array(
@@ -249,7 +238,7 @@ if ( $display_speakers_and_sessions ) {
 
                         $session_query = new WP_Query( $session_query_args );
 
-                        if ( $session_query->have_posts() ) {
+                        if ( $session_query->have_posts() || count( $manual_sessions ) > 0) {
                             ?>
                             <div class="conference-sessions-sessions">
                                 <?php
@@ -270,7 +259,7 @@ if ( $display_speakers_and_sessions ) {
                                         } else {
                                             $dt                     = DateTime::createFromFormat( 'F, j Y H:i:s', $mys_session_start_date );
                                             $formatted_session_date = $dt->format( 'F j, Y g:i a' );
-                                        }                                                                               
+                                        }
                                     }
 
                                     $mys_session_link = 'https://nab22.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $session_schedule_id;
@@ -283,7 +272,14 @@ if ( $display_speakers_and_sessions ) {
                                     <?php
 
                                 endwhile;
+                                foreach ( $manual_sessions as $row ) {
                                 ?>                        
+                                    <a href="<?php echo esc_url( $row['link']['url'] );?>" target="_blank" class="conference-sessions-session _link">
+                                        <p class="conference-sessions-session-title"><?php echo esc_html( $row['title'] ); ?></p>
+                                        <h6 class="datetime-small icon-calendar"><?php echo esc_html( $row['dates'] ); ?></h6>
+                                        <div class="conference-sessions-session-desc"><p><?php echo wp_kses_post( $row['description'] ); ?></p></div>
+                                    </a>
+                                <?php } ?>
                             </div>
                             <?php
                             wp_reset_postdata();
@@ -296,6 +292,9 @@ if ( $display_speakers_and_sessions ) {
     </div>
     <div class="section container">
         <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+    </div>
+    <div class="section container">
+        <?php the_content(); ?>
     </div>
     <?php
 }
