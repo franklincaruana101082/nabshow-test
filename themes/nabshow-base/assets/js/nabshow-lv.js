@@ -2111,10 +2111,8 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
               let innerHeadingLink = document.createElement('a');
               innerHeadingLink.innerText = value.post_title;
-              innerHeadingLink.setAttribute('href', '#');
-              innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-              innerHeadingLink.setAttribute('data-postid', value.post_id);
-              innerHeadingLink.setAttribute('data-posttype', 'sessions');
+              innerHeadingLink.setAttribute('href', value.planner_link);
+              innerHeadingLink.setAttribute('target', '_blank');
 
               innerHeading.appendChild(innerHeadingLink);
               createItemDiv.appendChild(innerHeading);
@@ -2134,10 +2132,8 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
               let innerParagraphLink = document.createElement('a');
               innerParagraphLink.innerText = ' Read More';
-              innerParagraphLink.setAttribute('href', '#');
-              innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-              innerParagraphLink.setAttribute('data-postid', value.post_id);
-              innerParagraphLink.setAttribute('data-posttype', 'sessions');
+              innerParagraphLink.setAttribute('href', value.planner_link);
+              innerParagraphLink.setAttribute('target', '_blank');
 
               innerParagraph.appendChild(innerParagraphLink);
               createItemDiv.appendChild(innerParagraph);
