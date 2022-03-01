@@ -26,7 +26,7 @@ if($timeframe === 'upcoming') {
 		'value' => $date_now,
 		'type' => 'DATETIME',
 	);
-	$order = 'ASC';
+	$query_order = 'ASC';
 } else if($timeframe === 'past') {
 	$meta_query_build = array(
 		'key' => array('session_end_time', '_EventEndDateUTC'),
@@ -34,13 +34,13 @@ if($timeframe === 'upcoming') {
 		'value' => $date_now,
 		'type' => 'DATETIME',
 	);
-	$order = 'DESC';
+	$query_order = 'DESC';
 } else {
 	$meta_query_build = array(
 		'key' => array('session_end_time', '_EventEndDateUTC'),
 		'compare' => 'EXISTS',
 	);
-	$order = 'DESC';
+	$query_order = 'DESC';
 }
 
 $meta_query = array(
@@ -179,7 +179,7 @@ $events = get_posts( array(
 	'post_type' => $post_type,
 	'tax_query' => $tax_query,
 	'meta_query' => $meta_query,
-	'order' => $order,
+	'order' => $query_order,
 	'orderby' => 'meta_value',
 	'meta_key' => array('session_date', '_EventStartDateUTC'),
 	'meta_type' => 'DATETIME'
