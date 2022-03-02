@@ -1770,10 +1770,8 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
           if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('on-rollover') ) {
 
             let imgLink = document.createElement('a');
-            imgLink.setAttribute('href', '#');
-            imgLink.setAttribute('class', 'detail-list-modal-popup');
-            imgLink.setAttribute('data-postid', value.post_id);
-            imgLink.setAttribute('data-posttype', 'speakers');
+            imgLink.setAttribute('href', value.speaker_url);            
+            imgLink.setAttribute('target', '_blank');
 
             imgLink.appendChild(innerImg);
             itemInnerFlipBox.appendChild(imgLink);
@@ -1790,10 +1788,8 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
 
             let innerHeadingLink = document.createElement('a');
             innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('href', '#');
-            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
-            innerHeadingLink.setAttribute('data-posttype', 'speakers');
+            innerHeadingLink.setAttribute('href', value.speaker_url);
+            innerHeadingLink.setAttribute('target', '_blank');
 
             innerHeading.appendChild(innerHeadingLink);
             innerFlipBoxBack.appendChild(innerHeading);
@@ -1903,15 +1899,8 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
           if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-name') ) {
 
             let innerHeading = document.createElement('h4');
-
-            let innerHeadingLink = document.createElement('a');
-            innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('href', '#');
-            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
-            innerHeadingLink.setAttribute('data-posttype', 'exhibitors');
-
-            innerHeading.appendChild(innerHeadingLink);
+            innerHeading.innerText = value.post_title;
+            
             itemInnerDiv.appendChild(innerHeading);
           }
 
@@ -1928,14 +1917,6 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
             let innerParagraph = document.createElement('p');
             innerParagraph.innerText = value.post_excerpt;
 
-            let innerParagraphLink = document.createElement('a');
-            innerParagraphLink.innerText = ' Read More';
-            innerParagraphLink.setAttribute('href', '#');
-            innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-            innerParagraphLink.setAttribute('data-postid', value.post_id);
-            innerParagraphLink.setAttribute('data-posttype', 'exhibitors');
-
-            innerParagraph.appendChild(innerParagraphLink);
             itemInnerDiv.appendChild(innerParagraph);
           }
 
@@ -1947,9 +1928,11 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
           }
 
           let innerPlannerLink = document.createElement('a');
-          innerPlannerLink.innerText = 'View in Planner';
+          innerPlannerLink.innerText = 'View Details';
+          innerPlannerLink.setAttribute('class', 'MYS-link');
           innerPlannerLink.setAttribute('href', value.planner_link);
           innerPlannerLink.setAttribute('target', '_blank');
+
 
           itemInnerDiv.appendChild(innerPlannerLink);
           createItemDiv.appendChild(itemInnerDiv);
@@ -2111,10 +2094,8 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
               let innerHeadingLink = document.createElement('a');
               innerHeadingLink.innerText = value.post_title;
-              innerHeadingLink.setAttribute('href', '#');
-              innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-              innerHeadingLink.setAttribute('data-postid', value.post_id);
-              innerHeadingLink.setAttribute('data-posttype', 'sessions');
+              innerHeadingLink.setAttribute('href', value.planner_link);
+              innerHeadingLink.setAttribute('target', '_blank');
 
               innerHeading.appendChild(innerHeadingLink);
               createItemDiv.appendChild(innerHeading);
@@ -2134,10 +2115,8 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
               let innerParagraphLink = document.createElement('a');
               innerParagraphLink.innerText = ' Read More';
-              innerParagraphLink.setAttribute('href', '#');
-              innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-              innerParagraphLink.setAttribute('data-postid', value.post_id);
-              innerParagraphLink.setAttribute('data-posttype', 'sessions');
+              innerParagraphLink.setAttribute('href', value.planner_link);
+              innerParagraphLink.setAttribute('target', '_blank');
 
               innerParagraph.appendChild(innerParagraphLink);
               createItemDiv.appendChild(innerParagraph);

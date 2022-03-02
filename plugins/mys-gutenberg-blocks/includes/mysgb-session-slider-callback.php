@@ -224,14 +224,28 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 
             if ( ! empty( $start_time ) ) {
 
-                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $start_time ), 'g:i a' ) );
+                if ( false !== strpos( $start_time, '-' ) ) {
+                    $start_time = date_format( date_create( $start_time ), 'g:i a' );
+                } else {
+                    $dt         = DateTime::createFromFormat( 'F, j Y H:i:s', $start_time );
+                    $start_time = $dt->format( 'g:i a' );
+                }
+
+                $start_time = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), $start_time );
                 $start_time = str_replace(':00', '', $start_time );
 
             }
             if ( ! empty( $end_time ) ) {
 
-                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
-                $start_time = str_replace(':00', '', $end_time );
+                if ( false !== strpos( $end_time, '-' ) ) {
+                    $end_time = date_format( date_create( $end_time ), 'g:i a' );
+                } else {
+                    $dt       = DateTime::createFromFormat( 'F, j Y H:i:s', $end_time );
+                    $end_time = $dt->format( 'g:i a' );
+                }
+
+                $end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), $end_time );
+                $end_time = str_replace(':00', '', $end_time );
 
             }
             if ( $date_group !== $date ) {
@@ -376,16 +390,34 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
             $date                = get_post_meta( $session_id, 'date', true );
             $start_time          = get_post_meta( $session_id, 'starttime', true );
             $end_time            = get_post_meta( $session_id, 'endtime', true );
+            $schedule_id         = get_post_meta( $session_id, 'scheduleid', true );
+            $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;            
 
             if ( ! empty( $date ) ) {
                 $date       = date_format( date_create( $date ), 'l, F j, Y' );
             }
             if ( ! empty( $start_time ) ) {
-                $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $start_time ), 'g:i a' ) );
+
+                if ( false !== strpos( $start_time, '-' ) ) {
+                    $start_time = date_format( date_create( $start_time ), 'g:i a' );
+                } else {
+                    $dt         = DateTime::createFromFormat( 'F, j Y H:i:s', $start_time );
+                    $start_time = $dt->format( 'g:i a' );
+                }
+
+                $start_time = str_replace( array('am','pm'), array('a.m.','p.m.'), $start_time );
                 $start_time = str_replace(':00', '', $start_time );
             }
             if ( ! empty( $end_time ) ) {
-                $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), date_format( date_create( $end_time ), 'g:i a' ) );
+
+                if ( false !== strpos( $end_time, '-' ) ) {
+                    $end_time = date_format( date_create( $end_time ), 'g:i a' );
+                } else {
+                    $dt         = DateTime::createFromFormat( 'F, j Y H:i:s', $end_time );
+                    $end_time = $dt->format( 'g:i a' );
+                }
+
+                $end_time   = str_replace( array('am','pm'), array('a.m.','p.m.'), $end_time );
                 $end_time   = str_replace(':00', '', $end_time );
             }
 
@@ -443,7 +475,7 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
                 if ( $display_name ) {
                     $title_text =  mb_strimwidth( get_the_title(), 0, 83, '...' );
                     ?>
-                    <h4><?php $this->mysgb_generate_popup_link( $session_id, $block_post_type, $title_text); ?></h4>
+                    <h4><a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank"><?php echo esc_html( $title_text ); ?></a></h4>
                     <?php
                 }
 
@@ -479,17 +511,14 @@ if ( 'date-group' === $layout &&  ! $slider_active ) {
 
                 if ( 'with-featured' === $layout || 'with-masonry' === $layout ) {
 
-                	$schedule_id         = get_post_meta( $session_id, 'scheduleid', true );
-                    $session_planner_url = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/session-details.cfm?scheduleid=' . $schedule_id;
-
                     if ( $display_summary ) {
                         ?>
                         <p>
 	                    <?php
 
-	                        echo esc_html( get_the_excerpt() );
-	                        $this->mysgb_generate_popup_link( $session_id, $block_post_type, 'Read More', 'read-more-popup' );
+	                        echo esc_html( get_the_excerpt() );                         
 	                    ?>
+                            <a href="<?php echo esc_url( $session_planner_url ); ?>" target="_blank">Read More</a>
 	                    </p>
 	                    <?php
                     }

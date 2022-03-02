@@ -512,6 +512,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 
 				$i                  = 0;
 				$MYSGutenbergBlocks = new MYSGutenbergBlocks();
+				$show_code          = $MYSGutenbergBlocks->mysgb_get_mys_show_code();
 
 				while ( $speaker_query->have_posts() ) {
 
@@ -523,6 +524,8 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$featured_post      = has_term( 'featured', 'speaker-categories' ) ? 'featured' : '';
 					$speaker_company    = get_the_terms( $speaker_id, 'speaker-companies' );
 					$speaker_company    = $MYSGutenbergBlocks->mysgb_get_pipe_separated_term_list( $speaker_company );
+					$mys_speaker_id     = get_post_meta( $speaker_id, 'speakerid', true );
+					$speaker_url        = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/speaker-details.cfm?speakerid=' . $mys_speaker_id;
 
 					$result_post[ $i ][ 'post_id' ]       = $speaker_id;
 
@@ -535,7 +538,7 @@ if ( ! class_exists('MYSAjaxHandler') ) {
 					$result_post[ $i ][ 'thumbnail_url' ] = $thumbnail_url;
 					$result_post[ $i ][ 'job_title' ]     = html_entity_decode( $speaker_job_title );
 					$result_post[ $i ][ 'company' ]       = html_entity_decode( $speaker_company );
-
+					$result_post[ $i ][ 'speaker_url' ]   = $speaker_url;
 					$i++;
 				}
 			}
