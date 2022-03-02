@@ -7,7 +7,7 @@
 
 <?php
 
-wp_enqueue_script('nab-ouical', get_template_directory_uri().'/src/js/ouical.js', array(), '1.0', true);
+
 
 get_header();
 
@@ -212,12 +212,14 @@ $events = get_posts( array(
 
 			<?php 
 			$NewDateCheck = '';
+			$NewMonthCheck = '';
 			foreach ( $events as $post ) { 
 				$EventStart = '';
 				if(get_post_meta($post->ID, '_EventStartDate', true)) { $EventStart = get_post_meta($post->ID, '_EventStartDate', true);}
 				if(get_field('session_date')) { $EventStart = get_field('session_date');}
 				$EventStart = new DateTime($EventStart);
 				$EventStartDay = $EventStart->format('Y-m-d');
+				$EventStartMonth = $EventStart->format('m-Y');
 
 				$EventEnd = '';
 				if(get_post_meta($post->ID, '_EventEndDate', true)) { $EventEnd = get_post_meta($post->ID, '_EventEndDate', true);}
@@ -239,9 +241,10 @@ $events = get_posts( array(
 						$NewDateCheck = $EventStartDay;
 				?>
 				<!-- first event in day shows date -->
-				<a class="events-list__date" id="<?php echo $EventStart->format('F-d');?>">
+				<a class="events-list__date" <?php if ($NewMonthCheck != $EventStartMonth) { $NewMonthCheck = $EventStartMonth; ?>id="<?php echo $EventStart->format('m-Y');?>"<?php } ?>>
 					<div class="event__month"><?php echo $EventStart->format('F');?></div>
 					<div class="event__day text-gradient _blue"><?php echo $EventStart->format('d');?></div>
+					<div class="event__year"><?php echo $EventStart->format('Y');?></div>
 				</a>
 				<?php } ?>
 				<div class="events-list__event__card">
@@ -273,15 +276,7 @@ $events = get_posts( array(
 							<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
 						</div>
 						<?php } ?>
-						<!-- uses ouical.js to generate add-to-calendar -->
-						<div 
-						class="events-list__event__add"
-						data-title="<?php the_title(); ?>"
-						data-start="<?php echo $EventStart->format('F d, Y H:i'); ?>"
-						data-end="<?php echo $EventEnd->format('F d, Y H:i'); ?>"
-						data-address="The Internet"
-						data-description="<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25).' '.get_the_permalink(); ?>"
-						></div>
+						<a class="events-list__more" href="<?php echo get_the_permalink(); ?>">More Details</a>
 					</div>
 				</div>
 			</div>
@@ -300,18 +295,23 @@ $events = get_posts( array(
 					<?php
 					$NewDateJumpCheck = '';
 					foreach ( $events as $post ) { 
-						if(get_post_meta($post->ID, '_EventStartDate', true)) { $EventJumpStart = get_post_meta($post->ID, '_EventStartDate', true);}
-						if(get_field('session_date')) { $EventJumpStart = get_field('session_date');}
+						if(get_post_meta($post->ID, '_EventStartDate', true)) { 
+							$EventJumpStart = get_post_meta($post->ID, '_EventStartDate', true);
+						}
+						if(get_field('session_date')) { 
+							$EventJumpStart = get_field('session_date');
+						}
 						$EventJumpStart = new DateTime($EventJumpStart);
+						$EventJumpStartMonth = $EventJumpStart->format('m-Y');
 						$EventJumpStartDay = $EventJumpStart->format('Y-m-d');
 
-							if ($NewDateJumpCheck != $EventJumpStartDay) { 
-								$NewDateJumpCheck = $EventJumpStartDay;
+							if ($NewDateJumpCheck != $EventJumpStartMonth) { 
+								$NewDateJumpCheck = $EventJumpStartMonth;
 					?>
 					<li>
 						<!-- first event in day shows date -->
-						<a href="#<?php echo $EventJumpStart->format('F-d');?>">
-							<?php echo $EventJumpStart->format('l, F j');?>
+						<a href="#<?php echo $EventJumpStart->format('m-Y');?>">
+							<?php echo $EventJumpStart->format('F Y');?>
 						</a>
 					</li>
 					<?php } } ?>
