@@ -191,6 +191,7 @@ if ($persona != 'none' && $persona != '') {
 			//we need these defined here because they may change depending on the template we're adding this to
 			$company_id = get_field('nab_selected_company_id');
 			$company_name = get_the_title( $company_id );
+			$company_url = get_field('contact_preferences_url', $company);
 			$opt_in_required = (int)get_field('make_opt_in_required');
 			$occurred_at_type = 'article';
 			$displayInline = true;
