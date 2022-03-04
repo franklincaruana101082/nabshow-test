@@ -35,6 +35,7 @@ $testimonials         = get_field( 'testimonials' );
 $attending_companies  = get_field( 'attending_companies' );
 $exhibitor_companies  = get_field( 'exhibitor_companies' );
 $display_safety       = get_field( 'display_safety' );
+$site_intro           = get_field( 'site_intro' );
 
 if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   ?>
@@ -58,19 +59,29 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   </div>
   <?php
 }
+
+if ( $site_intro && ! empty( $site_intro ) ) {
+  ?>
+  <div class="section container">
+    <div class="site__intro">
+      <?php echo wp_kses_post( $site_intro ); ?>
+    </div>
+  </div>
+  <?php
+}
   $stories = get_field('stories');
+
   if( $stories ):
     while( have_rows('stories')): the_row();
       if( have_rows('story_items')):
 ?>
   <div class="section container">
-    <div class="section-heading">
-      <h4 class="stories__intro"><?php echo $stories['stories_title']; ?></h4>
-    </div>
+    
+    <h2 class="featurette__title"><?php echo esc_html( $stories['section_header'] ); ?></h2>
 
-    <div class="section _bottom-only container">
-      <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
-    </div>
+    <div class="featurette__intro">
+      <?php echo wp_kses_post( $stories['intro_copy'] ); ?>
+    </div>    
 
     <div class="stories">
       <?php
@@ -100,6 +111,9 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
         </div>
       </div>
       <?php endwhile; ?>
+    </div>
+    <div class="section _bottom-only container">
+      <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
     </div>
   </div>
   <?php
