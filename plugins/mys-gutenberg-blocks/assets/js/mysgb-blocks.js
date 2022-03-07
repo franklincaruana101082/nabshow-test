@@ -415,10 +415,9 @@
             mysAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
         });
 
-        $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
-            $(this).toggleClass('active');
+        $(document).on('change', '.browse-speakers-filter .featured-checkbox', function () {      
             speakerPageNumber = 1;
-            featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
+            featuredSpeaker = $(this).is(':checked') ? 'featured' : '';
             mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
         });
 
@@ -443,8 +442,7 @@
             mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
         });
 
-        $(document).on('click', '.browse-speakers-filter .orderby', function () {
-            $(this).toggleClass('active');
+        $(document).on('change', '.browse-speakers-filter .orderby-checkbox', function () {      
             speakerPageNumber = 1;
             mysAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
         });
@@ -585,7 +583,7 @@ function mysAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     jobTitleSearch = 0 < jQuery('.browse-speakers-filter .speaker-title-search').length ? jQuery('.browse-speakers-filter .speaker-title-search').val() : '',
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
-    orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
+    orderBy = jQuery('.browse-speakers-filter .orderby-checkbox').is(':checked') ? 'title' : 'date';
 
     jQuery('body').addClass('popup-loader');
 

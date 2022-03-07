@@ -45,18 +45,10 @@ if ( ! $display_company ) {
 		?>
 		<div class="row">
 			<div class="col-lg-12">
-				<?php
-				if ( ! in_array( 'Featured', $remove_filter, true ) ) {
-					?>
-					<input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
-					<?php
-				}
-				if ( ! in_array( 'Sort Alphabetically', $remove_filter, true ) && $display_name ) {
-					?>
-					<input type="button" class="orderby" value="Sort by Last Name">
-					<?php
-				}
-				?>
+				<input type="checkbox" id="speaker-featured-checkbox" class="featured-checkbox" value="featured">
+				<label for="speaker-featured-checkbox">Featured</label>
+				<input type="checkbox" class="orderby-checkbox" id="speaker-sort-order-checkbox" value="Sort by Last Name" />
+				<label for="speaker-sort-order-checkbox">Sort by Last Name</label>				
 			</div>
 		</div>
 	</div>

@@ -1252,10 +1252,9 @@
       nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
-    $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
-      $(this).toggleClass('active');
+    $(document).on('change', '.browse-speakers-filter .featured-checkbox', function () {      
       speakerPageNumber = 1;
-      featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
+      featuredSpeaker = $(this).is(':checked') ? 'featured' : '';
       nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
@@ -1280,8 +1279,7 @@
       nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
-    $(document).on('click', '.browse-speakers-filter .orderby', function () {
-      $(this).toggleClass('active');
+    $(document).on('change', '.browse-speakers-filter .orderby-checkbox', function () {      
       speakerPageNumber = 1;
       nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
@@ -1723,7 +1721,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
     sessionSpeakers = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').val() : '',
-    orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
+    orderBy = jQuery('.browse-speakers-filter .orderby-checkbox').is(':checked') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
 
