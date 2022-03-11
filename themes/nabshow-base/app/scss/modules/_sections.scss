@@ -164,6 +164,9 @@
     flex-direction: column;
     padding: rem(80) 0;
   }
+  &._nobg {
+    background: transparent;
+  }
   &._short {
     @include bp-768 {
       min-height: 0;
@@ -272,6 +275,14 @@
 }
 .inline-icon + .inline-icon {
   margin-left: 1rem;
+}
+.icon-pillar {
+  background-size: auto 100%;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  padding: rem(3) 0 rem(3) rem(24);
+  @include primary-black-16-16-20;
+  display: inline-block;
 }
 
 // decorative
