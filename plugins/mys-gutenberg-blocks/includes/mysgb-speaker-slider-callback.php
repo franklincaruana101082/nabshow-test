@@ -284,12 +284,17 @@ if ( $query->have_posts() || $listing_page ) {
             <div class="nab-dynamic-list nab-box-slider speakers" id="<?php echo $listing_page ? esc_attr('browse-speaker') : ''; ?>">
         <?php
         }
+		
+		$show_code = $this->mysgb_get_mys_show_code();
 
         while ( $query->have_posts() ) {
 
             $query->the_post();
 
             $speaker_id = get_the_ID();
+
+			$mys_speaker_id = get_post_meta( $speaker_id, 'speakerid', true );
+			$speaker_url    = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/speaker-details.cfm?speakerid=' . $mys_speaker_id;
 
             if ( has_post_thumbnail() ) {
                 $thumbnail_url = get_the_post_thumbnail_url();
@@ -315,7 +320,7 @@ if ( $query->have_posts() || $listing_page ) {
 
                         if ( 'rectangle' === $slider_shape || ( 'circle' === $slider_shape && ! $display_name ) || ( $slider_active && $slide_info_below && ! $slide_info_rollovers ) || ( ! $slider_active && ! $grid_info_rollovers ) ) {
                             ?>
-                            <a href="#" class="detail-list-modal-popup" data-postid="<?php echo esc_attr( $speaker_id ); ?>" data-posttype="<?php echo esc_attr( $block_post_type ); ?>">
+                            <a href="<?php echo esc_url( $speaker_url ); ?>" target="_blank">
                         	    <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="speaker-logo" class="<?php echo 'circle' === $slider_shape ? esc_attr('rounded-circle') : ''; ?>">
                         	</a>
 
@@ -333,7 +338,7 @@ if ( $query->have_posts() || $listing_page ) {
 								$speaker_name = explode(',', $speaker_name, 2);
                                 $speaker_name = isset( $speaker_name[1] ) ? $speaker_name[1] . ' ' . $speaker_name[0] : $speaker_name[0];
 	                            ?>
-	                            <h6><?php $this->mysgb_generate_popup_link( $speaker_id, $block_post_type, $speaker_name ); ?></h6>
+	                            <h6> <a href="<?php echo esc_url( $speaker_url ); ?>" target="_blank"><?php echo esc_html( $speaker_name ); ?></a></h6>
 	                            <?php
 	                        }
 							if ( ! $slider_active || $slide_info_below || $slide_info_rollovers ) {

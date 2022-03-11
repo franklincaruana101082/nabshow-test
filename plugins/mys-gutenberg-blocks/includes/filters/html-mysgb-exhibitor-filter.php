@@ -29,9 +29,11 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
-                <input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
-                <input type="button" class="orderby" value="Sort Alphabetically">
+            <div class="col-lg-12">                
+                <input type="checkbox" id="exhibitor-featured-checkbox" class="featured-checkbox" value="featured">
+                <label for="exhibitor-featured-checkbox">Featured</label>
+                <input type="checkbox" class="orderby-checkbox" id="exhibitor-sort-order-checkbox" value="Sort Alphabetically" />
+                <label for="exhibitor-sort-order-checkbox">Sort Alphabetically</label>
             </div>
         </div>
     </div>

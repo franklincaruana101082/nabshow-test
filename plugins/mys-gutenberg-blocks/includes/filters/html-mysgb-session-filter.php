@@ -28,7 +28,8 @@ if ( ! empty( $get_featured ) && 'featured' === strtolower( $get_featured ) ) {
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <input type="button" class="<?php echo esc_attr( $featured_class ); ?>" value="Featured">
+                <input type="checkbox" id="session-featured-checkbox" class="featured-checkbox" value="featured">
+                <label for="session-featured-checkbox">Featured</label>
             </div>
         </div>
     </div>

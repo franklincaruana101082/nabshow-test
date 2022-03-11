@@ -30,7 +30,11 @@ if($registration_required && $opt_in_required && $optin_complete) {
 			<span class="nab-modal-close fa fa-times"></span>
 			<div class="modal-content-wrap">
 				<h3>Opt In To Communications</h3>
-				<p>By opting in, you consent to receive communications from <?php echo $company_name;?>. Per our agreement, <?php echo $company_name;?> is not permitted to share your data with anyone else. You can stop communications or revise your communication settings at any time by visiting the <?php echo $company_name;?> website.</p>
+				<p>By opting in, you consent to receive communications from <?php echo $company_name;?>. Per our agreement, <?php echo $company_name;?> is not permitted to share your data with anyone else. You can stop communications or revise your communication settings at any time by visiting 
+					<?php if ($company_url) { ?><a href="<?php echo esc_url($company_url); ?>" target="_blank"><?php } ?>
+					the <?php echo $company_name;?> website.
+					<?php if ($company_url) { ?></a><?php } ?>
+				</p>
 				<?php if ($opt_in_required) { ?>
 					<p>Opt in is required to access this content.</p>
 				<?php } ?>
