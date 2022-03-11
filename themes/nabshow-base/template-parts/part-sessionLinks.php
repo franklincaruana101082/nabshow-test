@@ -23,9 +23,6 @@ $speakers_and_sessions_heading = $slinks_settings['sessions_links_title'];
 				$session_categories = $slinks_settings['session_categories'];
 				$manual_sessions    = $slinks_settings['manual_sessions'];
 
-				echo('<h1>POO'.$session_tracks.'</h1>');
-				echo('<h1>EAT'.$session_categories.'</h1>');
-
 				if ( ( $session_tracks && count( $session_tracks ) > 0 ) || ( $session_categories && count( $session_categories ) > 0 ) || ( $manual_sessions && count( $manual_sessions ) > 0 ) ) {
 					
 					$session_query_args = array(
@@ -40,7 +37,6 @@ $speakers_and_sessions_heading = $slinks_settings['sessions_links_title'];
 					$tax_query_args = array( 'relation' => 'AND' );
 
 					if ( $session_tracks && count( $session_tracks ) > 0 ) {
-						echo('<h1>TRACKS should not show up</h1>');
 						$tax_query_args[] = array(
 							'taxonomy' => 'tracks',
 							'field'    => 'term_id',
@@ -49,7 +45,6 @@ $speakers_and_sessions_heading = $slinks_settings['sessions_links_title'];
 					}
 
 					if ( $session_categories && count( $session_categories ) > 0 ) {
-						echo('<h1>CATEGORIES should not show up</h1>');
 						$tax_query_args[] = array(
 							'taxonomy' => 'session-categories',
 							'field'    => 'term_id',
@@ -66,7 +61,6 @@ $speakers_and_sessions_heading = $slinks_settings['sessions_links_title'];
 						<div class="conference-sessions-sessions">
 							<?php
 							while ( $session_query->have_posts() ) :
-								echo('<h1>this should not show up</h1>');
 								$session_query->the_post();
 
 								$mys_session_id         = get_the_ID();
