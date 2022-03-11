@@ -280,7 +280,7 @@
   background-size: auto 100%;
   background-position: 0 50%;
   background-repeat: no-repeat;
-  padding: rem(3) 0 rem(3) rem(24);
+  padding: rem(3) 0 rem(3) rem(32);
   @include primary-black-16-16-20;
   display: inline-block;
 }
@@ -790,6 +790,10 @@
   p {
     @include primary-medium-italic-15-24;
   }
+}
+.story__intro {
+  color: $color__white;
+  @include primary-medium-italic-15-24;
 }
 
 .maintenance-wrapper {
