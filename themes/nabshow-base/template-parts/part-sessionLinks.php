@@ -11,10 +11,10 @@ $speakers_and_sessions_heading = $slinks_settings['sessions_links_title'];
 
 ?>    
 <div class="section">
-	<div class="decorative _blur">
+	
 		<div class="container">
-			<div class="conference-sessions">
-				<h3 class="conference-sessions-title"><?php echo($speakers_and_sessions_heading); ?></h3>
+			<div class="section-heading _short">
+				<h3 class="h-xl"><?php echo($speakers_and_sessions_heading); ?></h3>
 			</div>
 			<div class="conference-sessions-content">
 				<?php 
@@ -105,7 +105,7 @@ $speakers_and_sessions_heading = $slinks_settings['sessions_links_title'];
 				?>
 			</div>        
 		</div>
-	</div>
+	
 </div>
 <?php /*
 <div class="section container">
