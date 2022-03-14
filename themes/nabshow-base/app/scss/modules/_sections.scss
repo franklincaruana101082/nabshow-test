@@ -2141,6 +2141,12 @@
 
 //pillar page sections for background lighting effects
 .section__row {
+  
+  padding-bottom: rem(40);
+  @include bp-768 {
+    padding-bottom: rem(80);
+  }
+  
   &:last-child {
     margin-bottom: rem(-60);
     padding-bottom: rem(60);
