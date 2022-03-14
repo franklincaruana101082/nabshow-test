@@ -234,6 +234,19 @@ if( have_rows('closing_featurette') ) :
   endif;
  endwhile;
 endif;
+
+if ( have_posts() ) :
+  ?>
+  <div class="section gutenberg-blocks">
+    <?php
+    while ( have_posts() ) :
+      the_post();
+      the_content();
+    endwhile;
+    ?>
+  </div>
+  <?php
+endif;
 ?>
 
 
