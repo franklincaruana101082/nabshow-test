@@ -2,7 +2,7 @@
 $flex_content_settings = array(
   'blocks'        => $flex_content_blocks
 );
-// error_log(print_r($flex_content_settings['blocks'], 1));
+//echo('<pre style="color: white;">'); print_r($flex_content_settings['blocks']); echo('</pre>');
 if ( is_array($flex_content_settings['blocks']) ) :
   $prev_row_settings = array(
     'anchor'   => '',
