@@ -35,7 +35,7 @@
         <nav class="footer__nav">
           <?php wp_nav_menu( array( 'theme_location' => 'menu-footer', 'container' => false, 'menu_class' => 'footer__menu' ) ); ?>
         </nav>
-        <small class="footer__copyright">&copy;2021 <strong>National Association of Broadcasters.</strong> All Rights Reserved.</small>
+        <small class="footer__copyright">&copy;<?php echo date("Y"); ?> <strong>National Association of Broadcasters.</strong> All Rights Reserved.</small>
       </div>
     </div>
   </footer>
