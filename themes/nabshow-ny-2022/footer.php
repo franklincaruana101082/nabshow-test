@@ -16,6 +16,7 @@
       <div class="footer__main">
         <div class="footer__logo">
           <a href="<?php echo esc_url( get_site_url() ); ?>" class="footer__logo-link">
+            <!--
             <?php
             // check if show global menu option is selected
             $footer_logo_code = get_theme_mod( 'nab_footer_logo_code' );
@@ -23,6 +24,18 @@
                 echo $footer_logo_code; // ignored use of wp_kses beacuse the code may vary and accept new tags/attributes in the future.
             } else {
                 echo("<img src='/wp-content/themes/nabshow-lv-child-2021/assets/images/NAB_Show_Logo_White.png' alt='NAB Show'/>");
+            }
+            ?>
+            -->
+            <?php
+            // check if show global menu option is selected
+            $header_logo_id = get_theme_mod( 'custom_logo' );
+            $header_logo_img = wp_get_attachment_image_src( $header_logo_id, 'full');
+            $header_logo_url = $header_logo_img[0];
+            if ( $header_logo_url ) {
+                echo("<img class='header__mainnav-logo' src='".$header_logo_url."'>");
+            } else {
+                echo("<img class='header__mainnav-logo' src='/wp-content/themes/nabshow-lv-child-2021/assets/images/NAB_Show_Logo.png'>");
             }
             ?>
           </a>

@@ -178,12 +178,14 @@ function nabshow_customize_css()
 	$primary_slate_dark = hsv_to_hex(array('h'=>$primary_hsv['h']+3.5, 's'=>$primary_hsv['s']*0.236628849, 'v'=>$primary_hsv['v']*0.8));//var(--primary-slate-dark, #2d2930);
 	$primary_lighter    = hsv_to_hex(array('h'=>$primary_hsv['h']+37.8, 's'=>$primary_hsv['s']*0.497568882, 'v'=>$primary_hsv['v']*3.421276596));//var(--primary-lighter, #cd8ec4);
 	$primary_light      = hsv_to_hex(array('h'=>$primary_hsv['h']+36.6, 's'=>$primary_hsv['s']*0.912479741, 'v'=>$primary_hsv['v']*2.638297872));//var(--primary-light, #9e4593);
-	$primary_lightish   = hsv_to_hex(array('h'=>$primary_hsv['h']-0.2, 's'=>$primary_hsv['s']*0.995137763, 'v'=>$primary_hsv['v']*2.553191489));//var(--primary-lightish, #6b3b99);
+	// $primary_lightish   = hsv_to_hex(array('h'=>$primary_hsv['h']-0.2, 's'=>$primary_hsv['s']*0.995137763, 'v'=>$primary_hsv['v']*2.553191489));//var(--primary-lightish, #6b3b99);
+	$primary_lightish = '#6769B4';
 	$primary_dark       = hsv_to_hex(array('h'=>$primary_hsv['h']-36.8, 's'=>$primary_hsv['s']*1.473257699, 'v'=>$primary_hsv['v']*0.54893617));//var(--primary-dark, #030621);
 
 	//create derivative colors from secondary color
 	$secondary_hsv = hex_to_hsv($secondary);
-	$secondary_light = hsv_to_hex(array('h'=>$secondary_hsv['h']-19.1,'s'=>$secondary_hsv['s']*1.308965517, 'v'=>$secondary_hsv['v']*1.368107303));
+	// $secondary_light = hsv_to_hex(array('h'=>$secondary_hsv['h']-19.1,'s'=>$secondary_hsv['s']*1.308965517, 'v'=>$secondary_hsv['v']*1.368107303));
+	$secondary_light = '#0CA5EA';
 	$secondary_dark = hsv_to_hex(array('h'=>$secondary_hsv['h']+11.1,'s'=>$secondary_hsv['s']*1.015172414, 'v'=>$secondary_hsv['v']*0.508196721));
 
 	echo("<!--".$swapGrays."-->");

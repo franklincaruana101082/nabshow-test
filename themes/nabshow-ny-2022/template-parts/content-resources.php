@@ -79,7 +79,7 @@
 	<?php if(have_rows('resource_links')) : ?>
 	<div class="container">
 			<div class="jump-links">
-				<h2 class="jump-links__label">Quick links:</h2>
+				<h2 class="jump-links__label">Resource links:</h2>
 				<ul class="jump-links__menu">
 					<?php while(have_rows('resource_links')): the_row(); ?>
 					<li class="jump-links__item"><a href="<?php the_sub_field('link'); ?>" target="<?php the_sub_field('link_target');?>" class="button _arrow _full"><?php the_sub_field('link_text'); ?></a></li>
@@ -138,9 +138,11 @@
 			</div>
 			<?php endif; ?>
 		</div>
+		<!--
 		<div class="section container">
-			<?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+			<?php // dynamic_sidebar('broadstreet-ros-middle'); ?>
 		</div>
+		-->
 	</div>
 <?php endif; endwhile; endif; ?>
 
@@ -169,14 +171,18 @@
 
 ?>
 <?php if (!$hide_team): ?>
-	<div class="container section _toplarge _team">
-		<div class="feature">
-			<?php dynamic_sidebar('Team'); ?>
-			<div class="feature__cta">
-				<ul class="button-group">
-					<li><a href="/exhibit/meet-the-team/" class="button _solid">Meet The Team</a></li>
-					<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Contact Sales</a></li>
-				</ul>
+	<div class="section _team">
+		<div class="feature-wrap">
+			<div class="container">
+			  <div class="feature">
+					<?php dynamic_sidebar('Team'); ?>
+					<div class="feature__cta">
+						<ul class="button-group">
+							<li><a href="/exhibit/meet-the-team/" class="button _solid">Meet The Team</a></li>
+							<li><a href="<?php echo site_url('/exhibit/contact-a-sales-representative/'); ?>" class="button _solid">Contact Sales</a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

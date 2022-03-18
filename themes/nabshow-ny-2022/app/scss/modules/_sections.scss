@@ -154,8 +154,10 @@
 
 // intro, used on most pages
 .intro {
+  color: $color__white;
   position: relative;
-  @include gradient-orange-purple-dark;
+  @include background-image("background-intro.jpg");
+  background-size: cover;
   padding: rem(35) 0;
   @include bp-768 {
     min-height: rem(420);
@@ -171,7 +173,7 @@
     }
   }
   &._lightlines-strip {
-    padding-top: rem(100);
+    padding-top: rem(72);
     &::before {
       content: "";
       position: absolute;
@@ -179,7 +181,7 @@
       left: 0;
       right: 0;
       height: rem(20);
-      // @include background-image("lightlines-strip.jpg");
+      @include background-image("lightlines-strip.jpg");
       background-size: cover;
     }
   }
@@ -199,22 +201,27 @@
   }
 }
 .intro__container {
+  color: $color__white !important;
   text-align: center;
 }
 .intro__label {
-  @include primary-black-16-16-20;
+  color: $color__white !important;
+  @include primary-regular-21-25;
+  font-family: 'Open Sans Regular', sans-serif !important;
   text-transform: uppercase;
   margin-bottom: rem(20);
 }
 .intro__title {
+  color: $color__white !important;
   @include primary-black-20-30;
   text-transform: uppercase;
   @include bp-768 {
-    @include primary-black-70-70;
+    @include primary-black-40-50;
   }
 }
 .intro__body {
   p {
+    color: $color__white !important;
     @include primary-medium-20-30;
   }
   @include bp-768 {
@@ -227,6 +234,7 @@
 }
 
 .datetime-small {
+  color: $color__white;
   @include primary-black-12-12-20;
   text-transform: uppercase;
   display: inline-block;
@@ -430,8 +438,7 @@
 .resource-intro-image {
   margin-bottom: rem(40);
   @include bp-768 {
-    direction: ltr;
-    width: rem(180);
+    width: 50%;
     margin-right: rem(50);
   }
 }
@@ -445,21 +452,10 @@
     width: calc(100% - 14.375rem);
   }
   p {
-    @include primary-medium-20-30;
-    margin-bottom: rem(30);
-    @include bp-768 {
-      @include primary-medium-24-46;
-      margin-bottom: rem(40);
-    }
+    // Global styles
   }
   ul {
-    @include primary-medium-20-30;
-    margin-bottom: rem(30);
-    padding-left: rem(32);
-    @include bp-768 {
-      @include primary-medium-24-46;
-      margin-bottom: rem(40);
-    }
+    // Global styles
   }
 }
 .resource-intro-stats {
@@ -473,7 +469,8 @@
 // stats
 .stats {
   margin: 0 rem(-32);
-  background: $color__purple;
+  color: $color__white !important;
+  background: $color__blue-light;
   list-style-type: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -498,7 +495,7 @@
         display: block;
         position: absolute;
         width: rem(100);
-        border-top: rem(2) solid $color__purple-dark;
+        border-top: rem(2) solid $color__white;
         left: 50%;
         top: 0;
         transform: translateX(-50%);
@@ -507,7 +504,7 @@
   }
 }
 .stat__link {
-  color: $color__white;
+  color: $color__white !important;
   transition: color .25s ease-in-out;
   &:hover, &:focus, &:active {
     text-decoration: none;
@@ -515,6 +512,7 @@
   }
 }
 .stat__label {
+  color: $color__white !important;
   display: block;
   @include primary-black-15-15-20;
   margin-bottom: rem(12);
@@ -524,6 +522,7 @@
   }
 }
 .stat__number {
+  color: $color__white !important;
   @include primary-black-60-60;
   @include bp-1024 {
     @include primary-black-80-80;
@@ -532,7 +531,6 @@
 
 // Opportunities
 .opportunities {
-  @include gradient-purple-blue;
   padding-bottom: rem(55);
   @include bp-768 {
     padding-bottom: rem(100);
@@ -644,12 +642,14 @@
 }
 
 // feature
+.feature-wrap {
+  background: $color__purple-light;
+}
 .feature {
   position: relative;
   z-index: 100;
   padding: rem(40) rem(30);
-  border-radius: rem(10);
-  @include gradient-purple-orange-corners-dark;
+  background: $color__purple-light;
   display: grid;
   grid-gap: rem(30);
   @include bp-768 {
@@ -673,13 +673,15 @@
   }
 }
 .feature__body {
+  color: $color__white !important;
   position: relative;
   z-index: 110;
-  h3 {
+  h3, h2 {
+    color: $color__white !important;
     text-transform: uppercase;
   }
   p {
-    @extend %body-text-medium;
+    color: $color__white !important;
   }
 }
 .feature__cta {
@@ -689,45 +691,11 @@
 
 // amp-signup
 .amp-signup {
-  position: relative;
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: rem(30);
-    height: rem(30);
-    border-top: 1px solid $color__white;
-  }
-  &::before {
-    left: 0;
-    border-left: 1px solid $color__white;
-  }
-  &::after {
-    right: 0;
-    border-right: 1px solid $color__white;
-  }
 }
 .amp-signup__content {
   padding: rem(80) 0;
   position: relative;
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: rem(30);
-    height: rem(30);
-    border-bottom: 1px solid $color__white;
-  }
-  &::before {
-    left: 0;
-    border-left: 1px solid $color__white;
-  }
-  &::after {
-    right: 0;
-    border-right: 1px solid $color__white;
-  }
+  background-color: $color__purple-lightish;
   @include bp-768 {
     padding: rem(76) rem(82);
     grid-template-columns: 1fr rem(120);
@@ -737,6 +705,13 @@
   @include bp-1024 {
     grid-template-columns: 1fr 1fr;
     grid-gap: rem(77);
+  }
+  h1, h2, h3, h4 {
+    text-transform: uppercase;
+    color: $color__white;
+  }
+  p {
+    color: $color__white;
   }
 }
 
@@ -749,35 +724,34 @@
   display: grid;
   grid-gap: rem(48);
   @include bp-768 {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: rem(32) rem(68);
   }
 }
 
 .story {
-  display: grid;
   color: $color__white;
   text-decoration: none;
-  &:hover,
-  &:focus {
-    color: $color__purple-light;
-    text-decoration: none;
-  }
-  @include bp-768 {
-    grid-template-columns: rem(189) 1fr;
-    grid-gap: rem(20);
-  }
 }
 .story__media {
   margin-bottom: rem(20);
 }
 .story__title {
-  @include primary-black-20-20;
-  margin-bottom: rem(20);
+  color: $color__purple-light;
+  @include primary-black-24-24;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: rem(16);
 }
 .story__body {
+  padding: 0 1rem;
+  text-align: center;
   p {
-    @include primary-medium-italic-15-24;
+    color: $color__black;
+    text-align: center;
+    @include primary-medium-14-19;
+    margin-bottom: 1.5rem;
   }
 }
 

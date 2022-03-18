@@ -29,7 +29,7 @@
 					'--primary-slate-dark': '#2d2930',
 					'--primary-lighter': '#cd8ec4',
 					'--primary-light': '#9e4593',
-					'--primary-lightish': '#6b3b99',
+					'--primary-lightish': '#6769B4',
 					'--primary-dark': '#030621',
 				} );
 			} else {
@@ -38,7 +38,7 @@
 				var primarySlateDark = hsv2rgb(primaryHSV[0]+3.5,primaryHSV[1]*0.236628849,primaryHSV[2]*0.8);
 				var primaryLighter   = hsv2rgb(primaryHSV[0]+37.8,primaryHSV[1]*0.497568882,primaryHSV[2]*3.421276596);
 				var primaryLight     = hsv2rgb(primaryHSV[0]+36.6,primaryHSV[1]*0.912479741,primaryHSV[2]*2.638297872);
-				var primaryLightish  = hsv2rgb(primaryHSV[0]-0.2,primaryHSV[1]*0.995137763,primaryHSV[2]*2.553191489);
+				var primaryLightish  = hsv2rgb(primaryHSV[0]-0.2,primaryHSV[1]*0.995137763,primaryHSV[2]*2.553191489);				
 				var primaryDark      = hsv2rgb(primaryHSV[0]-36.8,primaryHSV[1]*1.473257699,primaryHSV[2]*0.54893617);
 				$( ':root' ).css( {
 					'--primary-color': to,

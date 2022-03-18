@@ -1,4 +1,4 @@
-// Base styles
+// Base styles Updated2
 
 *,
 *::before,
@@ -11,8 +11,9 @@
 html,
 body {
   scroll-behavior: smooth;
-  background-color: $color__purple-dark !important;
+  background-color: $color__white !important;
   color: $color__white;
+  color: black;
   font-family: $font__primary;
   * {
     font-family: $font__primary;

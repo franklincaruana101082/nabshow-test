@@ -35,8 +35,9 @@
 
 .cards {
   list-style-type: none;
+  display: grid;
+  grid-gap: 2rem;
   @include bp-768 {
-    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(rem(264), 1fr));
     grid-gap: rem(40) rem(36);
     width: auto !important;
@@ -44,16 +45,18 @@
 }
 
 .card {
-  border-radius: rem(10);
+  border-radius: 0;
   overflow: hidden;
   margin: 0 rem(8);
-  //height: rem(512) !important;
-  color: $color__white;
+  color: $color__white !important;
   text-decoration: none;
-  @include gradient-purple;
+  background-color: $color__purple-lightish;
   @include bp-768 {
     width: auto !important;
     margin: 0;
+  }
+  p {
+    color: $color__white !important;
   }
   > a {
     color: $color__white;
@@ -73,7 +76,8 @@
 }
 
 .card__title {
-  @include primary-black-12-12-20;
+  color: $color__white !important;
+  @include primary-black-20-27;
   line-height: 1.6;
   text-transform: uppercase;
   margin-bottom: rem(20);
@@ -82,12 +86,14 @@
 .card__body {
   padding: rem(30) rem(30) rem(40) rem(30);
   ul {
+    color: $color__white !important;
     padding-left: rem(16);
   }
   p {
-    @include primary-medium-italic-16-24;
+    color: $color__white !important;
+    // global p styles
     a {
-      color: $color__pink;
+      color: inherit !important;
       text-decoration: underline;
       &:hover,
       &:focus {
@@ -98,7 +104,7 @@
   @include bp-768 {
     padding: rem(30) rem(30) rem(50) rem(30);
     p {
-      @include primary-medium-italic-16-24;
+      // global p styles
     }
   }
 }

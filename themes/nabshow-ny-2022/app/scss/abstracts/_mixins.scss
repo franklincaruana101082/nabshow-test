@@ -95,7 +95,11 @@
 @mixin background-image($img) {
   background-image: url("#{$theme_path}/assets/images/#{$img}");
 }
+// correct
+// https://nabshow.vipdev.lndo.site/wp-content/themes/nabshow-ny-2022/assets/images/background-intro.jpg
 
+// wrong
+//url("/wp-content/themes/nabshow-nyc-2022/assets/images/background-intro.jpg")
 @mixin font-face-import(
   $font-family,
   $font-file-slug,

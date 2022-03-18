@@ -1,6 +1,10 @@
+console.log('hi there test');
 // Your main script
 
 jQuery(function($) {
+
+
+  console.log('hi');
 
 	//set aria-expanded attrs to top level menu a tags
 	$('.menu-item-has-children a').attr('aria-expanded', 'false');
@@ -68,6 +72,7 @@ jQuery(function($) {
 
 	});
 
+ 
 
 
 	//homepage testimonials
@@ -129,6 +134,35 @@ jQuery(function($) {
 		autoplaySpeed: 5000,	
 	});
 
+// Topics
+if ($('.topics').length > 0) {
+	console.log('hi from topics');
+	$('.topics__main').slick({
+	  slidesToShow: 1,
+	  slidesToScroll: 1,
+	  arrows: true,
+	  fade: true,
+	  asNavFor: $('.topics__nav')
+	});
+	$('.topics__nav').slick({
+	  slidesToShow: 3,
+	  slidesToScroll: 1,
+	  asNavFor: $('.topics__main'),
+	  arrows: false,
+	  dots: false,
+	  centerMode: true,
+	  focusOnSelect: true,
+	  infinite: true,
+	  responsive: [
+	  	{
+	  		breakpoint: 768,
+	  		settings: {
+	  			slidesToShow: 2
+	  		}
+	  	}
+	  ]
+	});
+}
 
   if ($('.conference-sessions-speakers').length > 0) {
 		// each day

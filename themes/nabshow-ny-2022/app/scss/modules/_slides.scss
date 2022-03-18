@@ -15,7 +15,7 @@
   );
   position: absolute !important; // overrides slick inline styles
   z-index: 110;
-  padding-top: rem(30);
+  padding: rem(16) 0;
   top: 0;
   left: 0;
   right: 0;
@@ -96,11 +96,11 @@
     bottom: 0;
     left: 0;
     width: 50%;
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.8) 55.49%,
-      rgba(0, 0, 0, 0) 99.71%
-    );
+    // background: linear-gradient(
+    //   90deg,
+    //   rgba(0, 0, 0, 0.8) 55.49%,
+    //   rgba(0, 0, 0, 0) 99.71%
+    // );
   }
   @include bp-768 {
     padding: rem(188) 0 rem(156);
@@ -132,6 +132,7 @@
   background-repeat: no-repeat;
   padding-left: rem(25);
   @include primary-black-12-12-20;
+  color: $color__white;
   margin-bottom: rem(20);
   .new & {
     line-height: rem(13);
@@ -140,6 +141,7 @@
 .schedule__day-title {
   @include primary-black-20-30;
   margin-bottom: rem(20);
+  color: $color__white;
   @include bp-768 {
     @include primary-black-40-44;
     .new & {
@@ -148,10 +150,12 @@
   }
 }
 .schedule__day-body {
+  color: $color__white;
   p {
-    @include primary-medium-italic-16-24;
+    color: $color__white;
   }
 }
+
 .schedule__day-cta {
   margin-top: rem(36);
   @include bp-768 {

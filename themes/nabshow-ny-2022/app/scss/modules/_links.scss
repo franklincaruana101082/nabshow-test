@@ -1,7 +1,9 @@
 // LINKS
 
 .jump-links {
-  background: $color__blue;
+  color: $color__white !important;
+  background: $color__blue-light;
+  border-radius: rem(10);
   padding: rem(34) rem(30) rem(30);
   @include bp-1024 {
     padding: rem(28) rem(39) rem(24);
@@ -21,7 +23,8 @@
   @include bp-1024 {
     text-align: left;
     margin-top: rem(13);
-    @include primary-black-16-16-20;
+    @include secondary-bold-16-21;
+    font-family: "Roboto Bold",sans-serif !important;
   }
 }
 
