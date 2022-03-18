@@ -62,7 +62,7 @@ This take a little while to start up, but once it completes, you can see info ab
 vip dev-env info --slug=nabshow
 ```
 
-## Database Import
+### Database Import
 
 The default installation does not automatically import a database, so you also have to run the following the first time ([docs](https://docs.wpvip.com/technical-references/vip-local-development-environment/#h-import)):
 
@@ -74,10 +74,19 @@ Note: The default snapshot that VIP provides is really big and has table data we
 
 Once the import command is complete, you can access the site using the URL from the above info command.
 
-## Clean Up
+### Clean Up
 
 When you're done developing for the day, shut down your locally running site:
 
 ```bash
 vip dev-env stop --slug=nabshow
+```
+
+### CSS Workflow
+
+If you are editing CSS:
+
+```bash
+npm install
+gulp
 ```
