@@ -278,6 +278,17 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             $track_event['properties'] = $this->st_add_user_taxonomy_properties( $user->ID );
 
+            $track_identity = array(
+                'userId'    => $user->ID,
+                'traits'    => $track_event['properties'],
+            );
+
+            $track_identity['traits']['email'] = $track_identity['traits']['Email_Address'];
+
+            unset( $track_identity['traits']['Email_Address'] );
+
+            $this->st_identity_event( $track_identity );
+
             $this->st_track_event( $track_event );
         }
 
