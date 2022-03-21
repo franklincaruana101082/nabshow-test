@@ -260,21 +260,22 @@
   // accordion
   $(document).on(
     'click',
-    '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons',
+    '.accordionParentWrapper .accordionWrapper .accordionHeader',
     function (e) {
       e.stopImmediatePropagation();
-      $(this).parent().parent().siblings().find('.accordionBody').slideUp();
-      $(this).parent().next().slideToggle();
+      $(this).parent().siblings().find('.accordionBody').slideUp();
+      $(this).next().slideToggle();
       if (
-        $(this).parent().parent('.accordionWrapper').hasClass('tabClose')
+        $(this).parent('.accordionWrapper').hasClass('tabClose')
       ) {
-        $(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
-        $(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
+        $(this).parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
+        $(this).parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
       } else {
-        $(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
+        $(this).parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
       }
     }
   );
+  
 
   // related-content-custom-item
   if (0 < $('.related-content-custom-box').length) {
