@@ -30,10 +30,11 @@ $colorhex__purple: #2a173c;
 $colorhex__purple-dark: #030621;
 
 
+
 //using css vars
 
 $color__black: var(--black, $colorhex__black);
-$color__dark: var(--dark, $colorhex__dark);
+$color__dark: var(--primary-darker, $colorhex__dark);
 $color__gray-dark: var(--gray-dark, $colorhex__gray-dark);
 $color__gray: var(--gray, $colorhex__gray);
 $color__gray--medium: var(--gray-medium, $colorhex__gray--medium);

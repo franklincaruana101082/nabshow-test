@@ -67,6 +67,7 @@
   display: block;
   text-align: center;
   margin-top: rem(20);
+  color: $color__white;
   @include primary-bold-12-12;
   @include bp-604 {
     margin: 0;
@@ -75,6 +76,8 @@
   }
   a {
     color: $color__white;
+    font-family: "Open Sans Bold", sans-serif;
+    font-weight: bold;
   }
 }
 
