@@ -113,6 +113,12 @@ input[type="button"].button,
       background: $color__white;
       color: $color__purple-light;
     }
+    &._border {
+      border: rem(3) solid $color__purple-light;
+      @include bp-768 {
+        border: rem(5) solid $color__purple-light;
+      }
+    }
     &._xl {
       @include bp-768 {
         @include primary-black-30-30;

@@ -2093,3 +2093,33 @@
 .news_bottom_ad {
   display: none;
 }
+
+.closing__copy {
+  margin: 0 rem(8);
+  @include bp-604 {
+    margin: 0 rem(28);
+  }
+  @include bp-1024 {
+    margin: 0 rem(36);
+  }
+  @include bp-1280 {
+    margin: 0 rem(48);
+  }
+  @include bp-1440 {
+    margin: 0 rem(60);
+  }
+}
+
+.closing__button {
+  margin: 0 auto rem(20);
+  @include bp-768 {
+    margin: 0 auto rem(40);
+  }
+}
+
+.closing__content {
+  text-align: center;
+  max-width: rem(1100);
+  margin: 0 auto;
+  padding: 0 rem(20);
+}

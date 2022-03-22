@@ -12,6 +12,7 @@ $video= get_field('banner_video_embed');
 $logo = get_field('banner_logo_image');
 $cta1 = get_field('banner_main_cta');
 $cta2 = get_field('banner_secondary_cta');
+$banner_copy = get_field('banner_copy');
 
 ?>
 
@@ -24,6 +25,9 @@ $cta2 = get_field('banner_secondary_cta');
       <div class="hero__cta">
         <a href="<?php echo esc_url( $cta1['url'] ); ?>" class="button _xxl _solid _white" target="<?php echo esc_attr( $cta1['target'] ); ?>"><?php echo( $cta1['title'] ); ?></a>
       </div>
+      <?php endif; 
+      if( !empty($banner_copy) ): ?>
+      <div class="hero__copy"><?php echo wp_kses_post($banner_copy); ?></div>
       <?php endif; ?>
     </div>
   </div>
@@ -31,10 +35,6 @@ $cta2 = get_field('banner_secondary_cta');
 <?php
 
 $quick_links          = get_field( 'quick_links' );
-$testimonials         = get_field( 'testimonials' );
-$attending_companies  = get_field( 'attending_companies' );
-$exhibitor_companies  = get_field( 'exhibitor_companies' );
-$display_safety       = get_field( 'display_safety' );
 $site_intro           = get_field( 'site_intro' );
 
 if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
@@ -199,8 +199,10 @@ if( have_rows('closing_featurette') ) :
   ?>
   <div class="section featurette">
     <div class="container">
-      <h2 class="h-xl"><?php the_sub_field('closing_title'); ?></h2>
-      <div class="intro-body-text"><?php the_sub_field('closing_copy'); ?></div>
+      <div class="closing__copy">
+        <h2 class="h-xl"><?php the_sub_field('closing_title'); ?></h2>
+        <div class="intro-body-text"><?php the_sub_field('closing_copy'); ?></div>
+      </div>
       <?php if( have_rows('closing_Items') ) : ?>
         <div class="cards">
         <?php while( have_rows('closing_Items') ): the_row();
@@ -236,57 +238,81 @@ endif;
 ?>
 
 <?php
-    $schedule_page_id = get_field('schedule_page');
-  if(have_rows('feature_timeline', $schedule_page_id)): ?>
-  <div class="schedule">
-    <div class="schedule__menu">
-    <?php while (have_rows('feature_timeline', $schedule_page_id)): the_row();
-      $day = new DateTime(get_sub_field('day', $schedule_page_id));
-      $day_number = $day->format('d');
-      $day_name = $day->format('l');
-      if(substr($day_name, 0, 1) == 'T' || substr($day_name, 0, 1) == 'S') {
-        $day_abbr = substr($day_name, 0,2);
-      } else {
-        $day_abbr = substr($day_name, 0,1);
-      }
-      ?>
-      <div class="schedule__menu-item">
-        <span class="schedule__menu-item-day-short"><?php echo($day_abbr);?></span>
-        <span class="schedule__menu-item-day"><?php echo($day_name); ?></span>
-        <span class="schedule__menu-item-num"><?php echo($day_number); ?></span>
-      </div>
-      <?php endwhile; ?>
-    </div>
+$numrows = count( get_field( 'featured_dates' ) );
 
-    <div class="schedule__days">
-      <?php while (have_rows('feature_timeline', $schedule_page_id)): the_row();
-        $bg_image = get_sub_field('timeline_feature_background_image', $schedule_page_id);
-        $start_time = new DateTime(get_sub_field('start_time', $schedule_page_id));
-        $end_time = new DateTime(get_sub_field('end_time', $schedule_page_id));
-        $cta = get_sub_field('cta', $schedule_page_id);
-        if(!empty($cta)):
-          $cta_target = $cta['target'] ? $cta['target'] : '_self';
-        endif;
-      ?>
-      <div class="schedule__day">
-        <div class="schedule__day-wrapper" style="background-image: url('<?php echo esc_url($bg_image['url']);?>');">
-          <div class="container">
-            <div class="schedule__day-content">
-              <h3 class="schedule__day-time"><?php echo($start_time->format('g:iA').' - '.$end_time->format('g:iA')); ?></h3>
-              <h4 class="schedule__day-title"><?php the_sub_field('timeline_feature_title', $schedule_page_id); ?></h4>
-              <div class="schedule__day-body"><?php the_sub_field('timeline_feature_copy', $schedule_page_id); ?></div>
-              <?php if($cta): ?>
-              <div class="schedule__day-cta">
-                <a href="<?php echo esc_url( $cta['url'] ); ?>" target="<?php echo esc_attr( $cta_target ); ?>" class="button _solid"><?php echo esc_html( $cta['title'] ); ?></a>
-              </div>
-              <?php endif; ?>
-            </div>
+if( have_rows('featured_dates') ): ?>
+  <div class="section topics">
+    <?php if($numrows > 1): ?>
+    <ul class="topics__nav">
+    <?php
+      while( have_rows('featured_dates') ): the_row();
+        ?>
+        <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
+        <?php
+      endwhile;
+
+      while( have_rows('featured_dates') ): the_row();
+        ?>
+        <li class="topics__navitem"><div class="topics__navwrap"><?php the_sub_field('small_title'); ?></div></li>
+        <?php
+      endwhile;
+    ?>
+    </ul>
+    <?php endif; ?>
+    <ul class="topics__main">
+    <?php
+      while( have_rows('featured_dates') ): the_row();
+        $background = get_sub_field('background_image');
+        $link = get_sub_field('link');
+        ?>
+        <li class="topics__item" style="background-image: url('<?php echo esc_url($background['url']); ?>');">
+          <div class="topic">
+            <h5 class="topic__lede"><?php the_sub_field('small_title'); ?></h5>
+            <h2 class="topic__title"><?php the_sub_field('big_title'); ?></h2>
+            <div class="topic__copy"><?php the_sub_field('copy'); ?></div>
+            <?php if( !empty($link) ): ?>
+            <a class="topic__button button _solid _white _md" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>"><?php echo $link['title']; ?></a>
+            <?php endif; ?>
           </div>
-        </div>
-      </div>
-      <?php endwhile; ?>
-    </div>
+        </li>
+        <?php
+      endwhile;
+      if($numrows > 1):
+      while( have_rows('featured_dates') ): the_row();
+        $background = get_sub_field('background_image');
+        $link = get_sub_field('link');
+        ?>
+        <li class="topics__item" style="background-image: url('<?php echo esc_url($background['url']); ?>');">
+          <div class="topic">
+            <h5 class="topic__lede"><?php the_sub_field('small_title'); ?></h5>
+            <h2 class="topic__title"><?php the_sub_field('big_title'); ?></h2>
+            <div class="topic__copy"><?php the_sub_field('copy'); ?></div>
+            <?php if( !empty($link) ): ?>
+            <a class="topic__button button _solid _white _md" href="<?php echo esc_url($link['url']); ?>" target="<?php echo esc_attr($link['target'] ? $link['target'] : '_self'); ?>"><?php echo $link['title']; ?></a>
+            <?php endif; ?>
+          </div>
+        </li>
+        <?php
+      endwhile;
+      endif;
+    ?>
+    </ul>
   </div>
+<?php
+endif;
+?>
+
+<?php if (get_field('closing_cta')): 
+  $closing_cta = get_field('closing_cta');
+?>
+<div class="section container">
+  <div class="closing__content">
+    <a class="closing__button button _xxl _solid _white _border" href="<?php echo esc_url($closing_cta['url']); ?>" target="<?php echo esc_attr($closing_cta['target'] ? $closing_cta['target'] : '_self'); ?>"><?php echo $closing_cta['title']; ?></a>
+    <?php if(get_field('closing_copy')): ?>
+      <?php the_field('closing_copy'); ?>
+    <?php endif; ?>
+  </div>
+</div>
 <?php endif; ?>
 
 </main><!-- #main -->
