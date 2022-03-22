@@ -425,9 +425,9 @@
 .resource-intro-content {
   padding-bottom: rem(60);
   @include bp-768 {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
+    //display: flex;
+    //flex-flow: row nowrap;
+    //justify-content: space-between;
     //   display: grid;
     //   grid-template-columns: 1fr rem(180);
     //   direction: rtl;
@@ -438,18 +438,18 @@
 .resource-intro-image {
   margin-bottom: rem(40);
   @include bp-768 {
-    width: 50%;
-    margin-right: rem(50);
+    //width: 50%;
+    //margin-right: rem(50);
   }
 }
 .resource-intro-body {
   margin-bottom: rem(40);
   @include bp-768 {
-    direction: ltr;
-    margin-bottom: 0;
-    flex: 0 1 auto;
-    order: 1;
-    width: calc(100% - 14.375rem);
+    // direction: ltr;
+    // margin-bottom: 0;
+    // flex: 0 1 auto;
+    // order: 1;
+    // width: calc(100% - 14.375rem);
   }
   p {
     // Global styles
@@ -469,8 +469,9 @@
 // stats
 .stats {
   margin: 0 rem(-32);
-  color: $color__white !important;
-  background: $color__blue-light;
+  color: $color__purple-light !important;
+  background: $color__white;
+  border: rem(2) solid $color__purple-light;
   list-style-type: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -495,7 +496,7 @@
         display: block;
         position: absolute;
         width: rem(100);
-        border-top: rem(2) solid $color__white;
+        border-top: rem(2) solid $color__purple-light;
         left: 50%;
         top: 0;
         transform: translateX(-50%);
@@ -504,7 +505,7 @@
   }
 }
 .stat__link {
-  color: $color__white !important;
+  //color: $color__white !important;
   transition: color .25s ease-in-out;
   &:hover, &:focus, &:active {
     text-decoration: none;
@@ -512,7 +513,7 @@
   }
 }
 .stat__label {
-  color: $color__white !important;
+  //color: $color__white !important;
   display: block;
   @include primary-black-15-15-20;
   margin-bottom: rem(12);
@@ -522,7 +523,7 @@
   }
 }
 .stat__number {
-  color: $color__white !important;
+  //color: $color__white !important;
   @include primary-black-60-60;
   @include bp-1024 {
     @include primary-black-80-80;

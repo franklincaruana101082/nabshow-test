@@ -20,28 +20,29 @@
 	<div class="container">
 		<div class="resource-intro">
 			<div class="resource-intro-content">
+				<?php
+				$header_image = get_field('header_image');
+				if(!empty($header_image)):
+				?>
+				<div class="resource-intro-image figure">
+					<img src="<?php echo esc_url($header_image['url']); ?>" class="figure__media" alt="<?php echo esc_attr($header_image['alt']); ?>" />
+				</div>
+				<?php endif; ?>
 				<div class="resource-intro-body">
 				<?php if(the_field('header_body')): ?>
 					<?php the_field('header_body') ?>
 				<?php endif; ?>
 
 				<?php
-					$header_cta_text = get_field('header_cta_text');
-					$header_cta_url = get_field('header_cta_url');
-					$header_cta_target = get_field('header_cta_target');
-					if(!empty($header_cta_text) && !empty($header_cta_url)): ?>
+					$header_cta = get_field('header_cta');
+					$header_cta_text = $header_cta['title'];
+					$header_cta_url = $header_cta['url'];
+					$header_cta_target = $header_cta['target'] ? $header_cta['target'] : '_self';
+					if(!empty($header_cta)): ?>
 					<a href="<?php echo esc_url($header_cta_url); ?>" target="<?php echo $header_cta_target; ?>" class="button _solid _cta"><?php echo $header_cta_text; ?></a>
 				<?php endif; ?>
 				</div>
 
-				<?php
-				$header_image = get_field('header_image');
-				if(!empty($header_image)):
-				?>
-					<div class="resource-intro-image figure">
-						<img src="<?php echo esc_url($header_image['url']); ?>" class="figure__media" alt="<?php echo esc_attr($header_image['alt']); ?>" />
-					</div>
-				<?php endif; ?>
 			</div>
 
 			<?php if(have_rows('stats')): ?>
