@@ -8,6 +8,7 @@
   width: calc(100% + rem(64));
   @include bp-768 {
     margin: 0 auto;
+    width: 100%;
   }
 }
 
@@ -38,7 +39,7 @@
   display: grid;
   grid-gap: 2rem;
   @include bp-768 {
-    grid-template-columns: repeat(auto-fit, minmax(rem(264), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(rem(310), 1fr));
     grid-gap: rem(40) rem(36);
     width: auto !important;
   }
