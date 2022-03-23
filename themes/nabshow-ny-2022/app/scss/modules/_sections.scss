@@ -699,13 +699,13 @@
   background-color: $color__purple-lightish;
   @include bp-768 {
     padding: rem(76) rem(82);
-    grid-template-columns: 1fr rem(120);
-    display: grid;
-    grid-gap: rem(40);
+    // grid-template-columns: 1fr rem(120);
+    // display: grid;
+    // grid-gap: rem(40);
   }
   @include bp-1024 {
-    grid-template-columns: 1fr 1fr;
-    grid-gap: rem(77);
+    // grid-template-columns: 1fr 1fr;
+    // grid-gap: rem(77);
   }
   h1, h2, h3, h4 {
     text-transform: uppercase;
