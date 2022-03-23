@@ -237,21 +237,27 @@
 // ===========================================
 
 .email-signup {
-  border-bottom: rem(2.5) solid $color__white;
-  display: grid;
-  grid-template-columns: 1fr auto;
+  max-width: rem(560);
 }
 .email-signup__input,
 .nabshow_2021 .mktoForm input#Email.mktoField {
   appearance: none;
   background: none;
   border: none;
+  display: block;
+  width: 100%;
+  border-bottom: rem(2.5) solid $color__white;
   @include primary-black-12-12-20;
   padding: rem(12) rem(12) rem(12) 0;
   color: $color__white;
   &::placeholder {
     color: $color__white;
+    text-transform: uppercase;
   }
+}
+.email-signup__submit {
+  margin-top: rem(12);
+  color: $color__purple-lightish !important;
 }
 .nabshow_2021 .mktoForm input#Email.mktoField {
   //overrides :/
