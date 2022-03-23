@@ -1,0 +1,123 @@
+// Scss mixins
+@mixin cf() {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+// RESPONSIVE
+@mixin bp-1440() {
+  @media (min-width: 90em) {
+    @content;
+    /*content:"1440px";*/
+  }
+}
+
+@mixin bp-1280() {
+  @media (min-width: 80em) {
+    @content;
+    /*content:"1280px";*/
+  }
+}
+
+@mixin bp-1024() {
+  @media (min-width: 64em) {
+    @content;
+    /*content:"1024px";*/
+  }
+}
+
+@mixin bp-960() {
+  @media (min-width: 60em) {
+    @content;
+    /*content:"960px";*/
+  }
+}
+
+@mixin bp-860() {
+  @media (min-width: 53.75em) {
+    @content;
+    /*content:"860px";*/
+  }
+}
+
+@mixin bp-768() {
+  @media (min-width: 48em) {
+    @content;
+    /*content:"768px";*/
+  }
+}
+
+@mixin bp-604() {
+  @media (min-width: 37.75em) {
+    @content;
+    /*content:"604px";*/
+  }
+}
+
+@mixin bp-480() {
+  @media (min-width: 30em) {
+    @content;
+    /*content:"480px";*/
+  }
+}
+
+@mixin bp-414() {
+  @media (min-width: 25.875em) {
+    @content;
+    /*content:"414px";*/
+  }
+}
+
+@mixin bp-360() {
+  @media (min-width: 22.5em) {
+    @content;
+    /*content:"360px";*/
+  }
+}
+
+@mixin bp-320() {
+  @media (min-width: 20em) {
+    @content;
+    /*content:"320px";*/
+  }
+}
+
+// Background image asset management
+// note: $theme_path comes from _variables.scss
+@mixin background-image($img) {
+  background-image: url("#{$theme_path}/assets/images/#{$img}");
+}
+// correct
+// https://nabshow.vipdev.lndo.site/wp-content/themes/nabshow-ny-2022/assets/images/background-intro.jpg
+
+// wrong
+//url("/wp-content/themes/nabshow-nyc-2022/assets/images/background-intro.jpg")
+@mixin font-face-import(
+  $font-family,
+  $font-file-slug,
+  $font-weight,
+  $font-style
+) {
+  @font-face {
+    font-family: $font-family;
+    src: url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.eot?v=4.7.0);
+    src: url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.eot?#iefix&v=4.7.0)
+        format("embedded-opentype"),
+      url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.woff2?v=4.7.0)
+        format("woff2"),
+      url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.woff?v=4.7.0)
+        format("woff"),
+      url(#{$theme_path}/assets/images/fonts/#{$font-file-slug}.svg?v=4.7.0#hashbuster)
+        format("svg");
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+}
