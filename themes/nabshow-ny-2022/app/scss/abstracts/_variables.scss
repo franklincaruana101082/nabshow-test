@@ -10,6 +10,7 @@ $theme_path: "/wp-content/themes/nabshow-ny-2022";
 // Colors
 $colorhex__black: #000000;
 $colorhex__dark: #11002B; // footer
+$colorhex__gray-darkest: #181818;
 $colorhex__gray-dark: #333333;
 $colorhex__gray: #404040;
 $colorhex__gray--medium: #737373;
@@ -35,6 +36,7 @@ $colorhex__purple-dark: #030621;
 
 $color__black: var(--black, $colorhex__black);
 $color__dark: var(--primary-darker, $colorhex__dark);
+$color__gray-darkest: var(--gray-darkest, $colorhex__gray-darkest);
 $color__gray-dark: var(--gray-dark, $colorhex__gray-dark);
 $color__gray: var(--gray, $colorhex__gray);
 $color__gray--medium: var(--gray-medium, $colorhex__gray--medium);

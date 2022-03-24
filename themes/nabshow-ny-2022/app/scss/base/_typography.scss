@@ -586,11 +586,11 @@ body {
 
 .wysiwyg-typography {
   @include primary-medium-24-46;
-  color: $color__white;
+  color: inherit;
   p,
   li,
   p span {
-    color: $color__white;
+    color: inherit;
     @include primary-regular-17-31;
     @include bp-768 {
       @include primary-medium-24-46;
@@ -603,14 +603,14 @@ body {
 
   h1,
   h2 {
-    color: $color__white;
+    color: inherit;
     @extend .h-xl;
     text-transform: uppercase;
   }
 
   h3,
   h4 {
-    color: $color__white;
+    color: inherit;
     @extend .h-sm;
     padding-bottom: rem(16);
   }

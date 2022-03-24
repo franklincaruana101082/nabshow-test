@@ -24,6 +24,9 @@
       padding-bottom: rem(60);
     }
   }
+  &--black {
+    background-color: $color__gray-darkest;
+  }
 }
 
 .section-heading {
@@ -156,6 +159,7 @@
 .intro {
   color: $color__white;
   position: relative;
+  background-color: $color__purple-light;
   @include background-image("background-intro.jpg");
   background-size: cover;
   padding: rem(35) 0;
@@ -746,7 +750,7 @@
   margin-bottom: rem(16);
 }
 .story__body {
-  padding: 0 1rem;
+  //padding: 0 1rem;
   text-align: center;
   p {
     color: $color__black;
@@ -1236,18 +1240,8 @@
 
 // feature text
 .feature-text {
+  color: $color__black;
   padding: rem(40);
-  background: linear-gradient(
-      256.59deg,
-      rgba(158, 69, 147, 0) 81.26%,
-      rgba(158, 69, 147, 0.5) 139.5%
-    ),
-    linear-gradient(
-      243.87deg,
-      rgba(12, 165, 234, 0.03) -13.36%,
-      rgba(47, 93, 171, 0.06) 31.04%
-    );
-  border-radius: rem(10);
   @include bp-1024 {
     width: calc( 100% - #{rem(350)});
     &__wrap {
@@ -1289,29 +1283,24 @@
 
 // story steps
 .story-steps-wrapper {
-  @include gradient-purple-blue;
-  padding: rem(48) 0;
+  padding: rem(48) 0 0;
   @include bp-1024 {
-    padding: rem(60) 0;
+    padding: rem(60) 0 0;
   }
 }
 .story-steps {
-  display: grid;
-  grid-gap: rem(80);
+  // display: grid;
+  // grid-gap: rem(80);
 }
 .story-step {
   padding: 0 rem(32);
   display: flex;
   flex-direction: column-reverse;
-  .story-step-counter {
-    color: $color__white;
-    @include primary-black-60-60;
-    opacity: 0.2;
-    display: block;
-    margin-bottom: rem(12);
-  }
+  color: $color__white;
+
   h3 {
     @include primary-black-31-44;
+
   }
   p {
     @include primary-regular-17-31;
@@ -1321,7 +1310,7 @@
     display: grid;
     grid-template-columns: 1.25fr 1fr;
     grid-gap: rem(80);
-    &:nth-child(even) {
+    .story-step-wrapper:nth-child(even) & {
       direction: rtl;
       * {
         direction: ltr;
@@ -1342,6 +1331,19 @@
     }
   }
 }
+.story-step-wrapper {
+  padding: rem(40) 0;
+  background-color: $color__purple-lightish;
+  &:nth-child(even) {
+    background-color: $color__purple-light;
+  }
+  @include bp-604 {
+    padding: rem(60) 0;
+  }
+  @include bp-1024 {
+    padding: rem(80) 0;
+  }
+}
 .story-step-media {
   img {
     border-radius: 50%;
@@ -1352,6 +1354,10 @@
 .logo-banner {
   display: grid;
   grid-gap: rem(32);
+  padding: rem(60) 0;
+  .logo-banner-body {
+    color: $color__white;
+  }
   p {
     @include primary-regular-17-31;
   }
@@ -1362,11 +1368,21 @@
   @include bp-768 {
     grid-template-columns: rem(310) 1fr;
     grid-gap: rem(50);
+    padding: rem(100) 0;
     .logo-banner-body {
       p {
         @include primary-medium-24-46;
       }
     }
+  }
+  @include bp-1024 {
+    padding: rem(120) 0;
+  }
+  @include bp-1280 {
+    padding: rem(140) 0;
+  }
+  @include bp-1440 {
+    padding: rem(160) 0;
   }
 }
 
