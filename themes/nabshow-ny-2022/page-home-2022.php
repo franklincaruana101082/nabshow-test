@@ -302,13 +302,17 @@ if( have_rows('featured_dates') ): ?>
 endif;
 ?>
 
-<?php if (get_field('closing_cta')): 
-  $closing_cta = get_field('closing_cta');
+<?php 
+$closing_cta = get_field('closing_cta');
+$closing_copy = get_field('closing_copy');
+if ($closing_cta || $closing_copy): 
 ?>
 <div class="section container">
   <div class="closing__content">
+    <?php if ($closing_cta): ?>
     <a class="closing__button button _xxl _solid _white _border" href="<?php echo esc_url($closing_cta['url']); ?>" target="<?php echo esc_attr($closing_cta['target'] ? $closing_cta['target'] : '_self'); ?>"><?php echo $closing_cta['title']; ?></a>
-    <?php if(get_field('closing_copy')): ?>
+    <?php endif; 
+    if($closing_copy): ?>
       <?php the_field('closing_copy'); ?>
     <?php endif; ?>
   </div>

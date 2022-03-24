@@ -129,6 +129,11 @@ input[type="button"].button,
         @include primary-black-31-44;
       }
     }
+    &._cta {
+      @include primary-black-24-24;
+      padding: rem(20) rem(64);
+      letter-spacing: normal;
+    }
   }
 
   &._plus {
