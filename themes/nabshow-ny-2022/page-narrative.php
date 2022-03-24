@@ -45,35 +45,33 @@ if ( $display_story_steps ) {
     ?>
     <div class="section">
         <div class="story-steps-wrapper">
-            <div class="container">
-                <div class="story-steps">
-                    <?php
-                    if ( $story_steps ) {
+            <div class="story-steps">
+                <?php
+                if ( $story_steps ) {
 
-                        foreach ( $story_steps as $row ) {
-                            
-                            $story_image = isset( $row['image']['ID'] ) && ! empty( $row['image']['ID'] ) ? wp_get_attachment_url( $row['image']['ID'] ) : '';
-                            ?>
-                            <div class="story-step">
-                                <div class="story-step-body">
-                                    <span class="story-step-counter"><?php echo esc_html( $row['counter'] ); ?></span>
-                                    <h3><?php echo esc_html( $row['title'] ); ?></h3>
-                                    <div class="wysiwyg-typography">
-                                        <?php echo wp_kses_post( $row['body'] ); ?>
+                    while(have_rows('story_steps')) : the_row(); 
+                        
+                        $story_image = get_sub_field('image');//isset( $row['image']['ID'] ) && ! empty( $row['image']['ID'] ) ? wp_get_attachment_url( $row['image']['ID'] ) : '';
+                        ?>
+                        <div class="story-step-wrapper">
+                            <div class="container">
+                                <div class="story-step">
+                                    <div class="story-step-body">
+                                        <h3><?php echo esc_html( get_sub_field('title') ); ?></h3>
+                                        <div class="wysiwyg-typography">
+                                            <?php echo wp_kses_post( get_sub_field('body') ); ?>
+                                        </div>
+                                    </div>
+                                    <div class="story-step-media">                                    
+                                        <img src="<?php echo esc_url( $story_image['url'] ); ?>" alt="<?php echo esc_attr( $stroy_image['alt'] ); ?>" />
                                     </div>
                                 </div>
-                                <div class="story-step-media">                                    
-                                    <img src="<?php echo esc_url( $story_image ); ?>" alt="<?php echo esc_attr( $row['image_alt'] ); ?>" />
-                                </div>
                             </div>
-                            <?php
-                        }
-                    }
-                    ?>
-                </div>    
-            </div>
-            <div class="section container">
-                <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
+                        </div>
+                        <?php
+                    endwhile;
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -87,78 +85,36 @@ if ( $display_logo_banner ) {
     $logo_banner_body       = get_field( 'logo_banner_body' );
     $logo_banner_url        = isset( $logo_banner_image['ID'] ) && ! empty( $logo_banner_image['ID'] ) ? wp_get_attachment_url( $logo_banner_image['ID'] ) : '';
     ?>
-    <div class="section container">
-        <div class="logo-banner">
-            <div class="logo-banner-media">
-                <img src="<?php echo esc_url( $logo_banner_url ); ?>" alt="<?php echo esc_attr( $logo_banner_image_alt ); ?>" />
-                <div class="logo-banner-ad">
-                    <?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
+    <div class="section--black">
+        <div class="container">
+            <div class="logo-banner">
+                <div class="logo-banner-media">
+                    <img src="<?php echo esc_url( $logo_banner_url ); ?>" alt="<?php echo esc_attr( $logo_banner_image_alt ); ?>" />
+                    <div class="logo-banner-ad">
+                        <?php dynamic_sidebar('broadstreet-ros-middle-square'); ?>
+                    </div>
+                </div>
+                <div class="logo-banner-body wysiwyg-typography">
+                    <?php echo wp_kses_post( $logo_banner_body ); ?>
                 </div>
             </div>
-            <div class="logo-banner-body wysiwyg-typography">
-                <?php echo wp_kses_post( $logo_banner_body ); ?>
-            </div>
         </div>
     </div>
     <?php
 }
 
-if ( $display_faq_section ) {
-    
-    $faq_section_title  = get_field( 'faq_section_title' );
-    $faq_section_body   = get_field( 'faq_section_body' );
-    $faqs               = get_field( 'faqs' );
-    ?>
-    <div class="section container">
-        <div class="faq-section">
-            <div class="faq-section-body wysiwyg-typography">
-                <h3><?php echo esc_html( $faq_section_title ); ?></h3>
-                <?php echo wp_kses_post( $faq_section_body ); ?>
-            </div>
-            <div class="faq-section-faqs">
-                <?php
-                if ( $faqs ) {
-                    ?>
-                    <ul class="faqs">
-                        <?php
-                        foreach ( $faqs as $row ) {
-                            
-                            ?>
-                            <li class="faq">
-                                <h4><button class="faq-toggle" aria-expanded="false"><?php echo esc_html( $row['title'] ); ?></button></h4>
-                                <div class="faq-content" hidden>
-                                    <?php echo wp_kses_post( $row['body'] ); ?>
-                                    <a class="button _arrow _alt _full _small" href="<?php echo esc_url( $row['cta_url'] ); ?>"><?php echo esc_html( $row['cta_text'] ); ?></a>
-                                </div>
-                            </li>
-                            <?php
-                        }
-                        ?>
-                    </ul>
-                    <?php
-                }
-                ?>                
-            </div>
-        </div>
-    </div>
-    <?php
-}
 
-if ( $display_ad_section ) {
     
-    $ad_section_title           = get_field( 'ad_section_title' );
-    $ad_section_body            = get_field( 'ad_section_body' );
-    $ad_section_ad_embed_code   = get_field( 'ad_section_ad_embed_code' );
+$closing_cta      = get_field( 'closing_cta' );
+$closing_cta_copy = get_field( 'closing_cta_copy' );
+if ( $closing_cta || $closing_cta_copy ) {
     ?>
     <div class="section container">
-        <div class="ad-section">
-            <div class="ad-section-body wysiwyg-typography">
-                <h2 class="h-xl"><?php echo esc_html( $ad_section_title ); ?></h2>
-                <?php echo $ad_section_body; ?>
-            </div>
-            <div class="ad-section-ad">
-                <?php echo do_shortcode( $ad_section_ad_embed_code ); ?>
-            </div>
+        <div class="closing__content">
+            <a href="<?php echo esc_url($closing_cta['url']); ?>" class="closing__button button _xxl _solid _white _border">
+                <?php echo esc_html($closing_cta['title']); ?>
+            </a>
+            <?php echo wp_kses_post($closing_cta_copy); ?>
         </div>
     </div>
     <?php
@@ -169,11 +125,6 @@ if ( $display_ad_section ) {
 <div class="section container generic">
     <?php the_content(); ?>
 </div>
-<?php endif; ?>
-
-<div class="section container">
-    <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
-</div>
-<?php
+<?php endif; 
 
 get_footer();
