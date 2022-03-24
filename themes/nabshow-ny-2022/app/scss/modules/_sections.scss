@@ -1345,8 +1345,16 @@
   }
 }
 .story-step-media {
+  height: 0;
+  padding-top: 100%;
+  position: relative;
   img {
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+    height: 100%;
+    position: absolute;
+    top: 0;
   }
 }
 
