@@ -85,7 +85,7 @@
     padding-left: rem(16);
   }
   p {
-    @include primary-medium-italic-16-24;
+    @include primary-medium-italic-18-24;
     a {
       color: $color__pink;
       text-decoration: underline;
@@ -98,7 +98,7 @@
   @include bp-768 {
     padding: rem(30) rem(30) rem(50) rem(30);
     p {
-      @include primary-medium-italic-16-24;
+      @include primary-medium-italic-18-24;
     }
   }
 }
