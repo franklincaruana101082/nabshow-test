@@ -35,6 +35,15 @@ if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
 	<!-- End Dynamic Schema -->
 
 	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <?php
+    $frontpageID = get_option('page_on_front');
+    if (get_field('banner_date', $frontpageID)) { ?>
+    <style>
+        .header__mainnav-cta.menu-item > a:before {
+            content:  "<?php the_field('banner_date', $frontpageID); ?>";
+        }
+    </style>
+    <?php } ?>
 </head>
 
 <body <?php body_class(); ?>>
