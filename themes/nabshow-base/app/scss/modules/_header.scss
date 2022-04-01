@@ -10,7 +10,7 @@
 // Mobile nav topper, not shown on Desk
 .header__mobile {
   position: relative;
-  padding: rem(16) rem(32);
+  padding: rem(16);
   min-height: rem(60);
   background-color: $color__purple;
   display: flex;
@@ -77,7 +77,7 @@
 .header__mobile-logo-link {
   display: block;
   min-width: rem(107);
-  max-width: rem(120);
+  max-width: rem(150);
   position: absolute;
   left: 50%;
   top: 50%;
@@ -168,7 +168,13 @@ html._header-is-open {
   @include bp-768 {
     display: block;
     order: 1;
-    width: rem(167);
+    width: rem(160);
+  }
+  @include bp-1024 {
+    width: rem(200);
+  }
+  @include bp-1280 {
+    width: rem(250);
   }
 }
 .header__mainnav-menu {
@@ -328,6 +334,43 @@ html._header-is-open {
     padding: rem(12) rem(32);
     color: $color__blue;
     font-size: rem(12);
+    position: relative;
+    margin-top: rem(20);
+    @include bp-768 {
+      padding: rem(12) rem(20);
+      letter-spacing: rem(1);
+    }
+    @include bp-1024 {
+      padding: rem(12) rem(32);
+      letter-spacing: rem(12 * 0.2);
+    }
+    @include bp-1280 {
+      margin-top: 0;
+    }
+
+    &:before {
+      position: absolute;
+      top: rem(-20);
+      left: 0;
+      right: 0;
+      width: 100%;
+      color: $color__white;
+      text-align: center;
+      text-transform: none;
+      letter-spacing: rem(0.2);
+      font-size: rem(14);
+      @include bp-1280 {
+        top: 0;
+        bottom: 0;
+        left: auto;
+        right: calc(100% + #{rem(20)});
+        text-align: right;
+        font-size: rem(16);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
   }
   .button {
     width: 100%;
@@ -367,6 +410,46 @@ html._header-is-open {
   & > .container {
     max-width: 100%;
     padding: 0;
+  }
+
+  .nab-header-inner {
+    @include bp-768 {
+      padding: rem(10) 0;
+    }
+    .nab-head-mobile {
+      display: none;
+    }
+    .nab-nav-wrap {
+      height: auto;
+      background-color: transparent;
+      background-image: none;
+      top: 0;
+      @include bp-768 {
+        position: static;
+        display: flex;
+        .nab-left-navigation {
+          width: 66%;
+        }
+        .nab-sec-navigation {
+          position: static;
+          width: 34%;
+        }
+        .nab-navigation-menu {
+          &:before {
+            width: auto;
+            font-size: rem(12);
+            padding: 0 rem(10);
+          }
+          li {
+            width: auto;
+            a {
+              font-size: rem(12);
+              padding: 0 rem(10);
+            }
+          }
+        }
+      }
+    }
   }
 }
 

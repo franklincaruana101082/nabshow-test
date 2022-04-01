@@ -1,5 +1,6 @@
 jQuery(function($) {
 	$('.topics__main').slick({
+	  autoplay: true,
 	  slidesToShow: 1,
 	  slidesToScroll: 1,
 	  arrows: true,
@@ -7,6 +8,7 @@ jQuery(function($) {
 	  asNavFor: $('.topics__nav')
 	});
 	$('.topics__nav').slick({
+	  autoplay: true,
 	  slidesToShow: 3,
 	  slidesToScroll: 1,
 	  asNavFor: $('.topics__main'),
