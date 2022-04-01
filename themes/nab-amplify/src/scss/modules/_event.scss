@@ -324,6 +324,20 @@
 		@include bp-1024 {
 		}
 	}
+		.events-list__title {
+			margin-bottom: 0;
+			font-family: $font__secondary;
+			font-size: rem(20);
+			text-transform: uppercase;
+			letter-spacing: rem(2);
+			@include bp-1024 {
+				padding-bottom: rem(20);
+				margin-left: rem(-40);
+			}
+			@include bp-1280 {
+				padding-bottom: rem(40);
+			}
+		}
 	.events-list__nav {
 		display: none;
 		position: relative;
@@ -379,6 +393,12 @@
 		}
 		@include bp-1024 {
 			padding-left: rem(120);
+		}
+		& + .events-list__title {
+			margin-top: rem(30);
+			@include bp-1280 {
+				margin-top: rem(60);
+			}
 		}
 		.events-list__event__card {
 			display: grid;

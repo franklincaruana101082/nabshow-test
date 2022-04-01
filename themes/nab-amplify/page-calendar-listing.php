@@ -207,110 +207,109 @@ if($timeframe !== 'all') {
 	));
 }
 
+$NewDateCheck = '';
+$NewMonthCheck = '';
+$NewDateJumpCheck = '';
 
-function displayEvents($events) {
-	$NewDateCheck = '';
-	$NewMonthCheck = '';
-	foreach ( $events as $event ) { 
-		$EventStart = '';
-		if(get_post_meta($event->ID, '_EventStartDate', true)) { $EventStart = get_post_meta($event->ID, '_EventStartDate', true);}
-		if(get_field('session_date')) { $EventStart = get_field('session_date');}
-		$EventStart = new DateTime($EventStart);
-		$EventStartDay = $EventStart->format('Y-m-d');
-		$EventStartMonth = $EventStart->format('m-Y');
+function displayEvents($post) {
+	global $NewDateCheck;
+	global $NewMonthCheck;
+	$EventStart = '';
+	if(get_post_meta($post->ID, '_EventStartDate', true)) { $EventStart = get_post_meta($post->ID, '_EventStartDate', true);}
+	if(get_field('session_date')) { $EventStart = get_field('session_date');}
+	if($EventStart != '') {
+	$EventStart = new DateTime($EventStart);
+	$EventStartDay = $EventStart->format('Y-m-d');
+	$EventStartMonth = $EventStart->format('m-Y');
 
-		$EventEnd = '';
-		if(get_post_meta($event->ID, '_EventEndDate', true)) { $EventEnd = get_post_meta($event->ID, '_EventEndDate', true);}
-		if(get_field('session_end_time')) { $EventEnd = get_field('session_end_time');}
-		$EventEnd = new DateTime($EventEnd);
+	$EventEnd = '';
+	if(get_post_meta($post->ID, '_EventEndDate', true)) { $EventEnd = get_post_meta($post->ID, '_EventEndDate', true);}
+	if(get_field('session_end_time')) { $EventEnd = get_field('session_end_time');}
+	$EventEnd = new DateTime($EventEnd);
 
-		$company_id = 0;
-		if(get_field('nab_selected_company_id')) { $company_id = get_field('nab_selected_company_id');}
-		if(get_field('company')) {$company_id = get_field('company');}
-		if($company_id){
-			$company_name = get_the_title($company_id);
-			$company_img = nab_amplify_get_featured_image( $company_id, false );
-		}
+	$company_id = 0;
+	if(get_field('nab_selected_company_id')) { $company_id = get_field('nab_selected_company_id');}
+	if(get_field('company')) {$company_id = get_field('company');}
+	if($company_id){
+		$company_name = get_the_title($company_id);
+		$company_img = nab_amplify_get_featured_image( $company_id, false );
+	}
+?>
+<!-- event start -->
+<div class="events-list__event" data-newdatecheck="<?php echo $NewDateCheck; ?>" data-EventStartDay="<?php echo $EventStartDay; ?>">
+	<?php 
+		if ($NewDateCheck != $EventStartDay) { 
+			$NewDateCheck = $EventStartDay;
 	?>
-	<!-- event start -->
-	<div class="events-list__event">
-		<?php 
-			if ($NewDateCheck != $EventStartDay) { 
-				$NewDateCheck = $EventStartDay;
-		?>
-		<!-- first event in day shows date -->
-		<a class="events-list__date" <?php if ($NewMonthCheck != $EventStartMonth) { $NewMonthCheck = $EventStartMonth; ?>id="<?php echo $EventStart->format('m-Y');?>"<?php } ?>>
-			<div class="event__month"><?php echo $EventStart->format('F');?></div>
-			<div class="event__day text-gradient _blue"><?php echo $EventStart->format('d');?></div>
-			<div class="event__year"><?php echo $EventStart->format('Y');?></div>
-		</a>
-		<?php } ?>
-		<div class="events-list__event__card">
-			<div class="events-list__event__datetime event__time">
-				<?php echo $EventStart->format('D d');?><br />
-				<?php 
-					if($EventStart->format('i') == '00') {
-						echo $EventStart->format('gA');
-					} else {
-						echo $EventStart->format('g:iA');
-					}
-				?>
+	<!-- first event in day shows date -->
+	<a class="events-list__date" data-newdatecheck="<?php echo $NewDateCheck; ?>" <?php if ($NewMonthCheck != $EventStartMonth) { $NewMonthCheck = $EventStartMonth; ?>id="<?php echo $EventStart->format('m-Y');?>"<?php } ?>>
+		<div class="event__month"><?php echo $EventStart->format('F');?></div>
+		<div class="event__day text-gradient _blue"><?php echo $EventStart->format('d');?></div>
+		<div class="event__year"><?php echo $EventStart->format('Y');?></div>
+	</a>
+	<?php } ?>
+	<div class="events-list__event__card">
+		<div class="events-list__event__datetime event__time">
+			<?php echo $EventStart->format('D d');?><br />
+			<?php 
+				if($EventStart->format('i') == '00') {
+					echo $EventStart->format('gA');
+				} else {
+					echo $EventStart->format('g:iA');
+				}
+			?>
+		</div>
+		<div class="events-list__event__main">
+			<a class="events-list__event-link" href="<?php echo get_the_permalink(); ?>"><?php the_title( '<h6 class="event__title events-list__event__title">', '</h6>' ); ?></a>
+			<div class="introtext events-list__event__text">
+				<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25); ?>
 			</div>
-			<div class="events-list__event__main">
-				<a class="events-list__event-link" href="<?php echo get_the_permalink(); ?>"><?php the_title( '<h6 class="event__title events-list__event__title">', '</h6>' ); ?></a>
-				<div class="introtext events-list__event__text">
-					<?php echo wp_trim_words( get_the_content(null, false, $event->ID), 25); ?>
+			<?php if($company_id){ ?>
+			<div class="event__host events-list__host">
+				<div class="event__host-leadin events-list__host-leadin">
+					<?php esc_html_e('Presented by', 'nab-amplify'); ?>
 				</div>
-				<?php if($company_id){ ?>
-				<div class="event__host events-list__host">
-					<div class="event__host-leadin events-list__host-leadin">
-						<?php esc_html_e('Presented by', 'nab-amplify'); ?>
-					</div>
-					<?php if($company_img) { ?>
-					<img class="event__host-photo events-list__host-photo" 
-						 src="<?php echo esc_url($company_img);?>" 
-						 alt="<?php esc_html_e('Logo for ', 'nab-amplify'); echo esc_html($company_name);?>">
-					<?php } ?>
-					<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
-				</div>
+				<?php if($company_img) { ?>
+				<img class="event__host-photo events-list__host-photo" 
+					 src="<?php echo esc_url($company_img);?>" 
+					 alt="<?php esc_html_e('Logo for ', 'nab-amplify'); echo esc_html($company_name);?>">
 				<?php } ?>
-				<a class="events-list__more" href="<?php echo get_the_permalink(); ?>">More Details</a>
+				<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
 			</div>
+			<?php } ?>
+			<a class="events-list__more" href="<?php echo get_the_permalink(); ?>">More Details</a>
 		</div>
 	</div>
-	<!-- event end -->
-	<?php
+</div>
+<!-- event end -->
+<?php
 	}
 }
 
-
-function displayJumpLink($events) {
-	$NewDateJumpCheck = '';
-	foreach ( $events as $event ) { 
-		if(get_post_meta($event->ID, '_EventStartDate', true)) { 
-			$EventJumpStart = get_post_meta($event->ID, '_EventStartDate', true);
-		}
-		if(get_field('session_date')) { 
-			$EventJumpStart = get_field('session_date');
-		}
-		$EventJumpStart = new DateTime($EventJumpStart);
-		$EventJumpStartMonth = $EventJumpStart->format('m-Y');
-		$EventJumpStartDay = $EventJumpStart->format('Y-m-d');
-
-			if ($NewDateJumpCheck != $EventJumpStartMonth) { 
-				$NewDateJumpCheck = $EventJumpStartMonth;
-	?>
-	<li>
-		<!-- first event in day shows date -->
-		<a href="#<?php echo $EventJumpStart->format('m-Y');?>">
-			<?php echo $EventJumpStart->format('F Y');?>
-		</a>
-	</li>
-	<?php }
+function displayJumpLink($post) {
+	global $NewDateJumpCheck;
+	if(get_post_meta($post->ID, '_EventStartDate', true)) { 
+		$EventJumpStart = get_post_meta($post->ID, '_EventStartDate', true);
 	}
+	if(get_field('session_date')) { 
+		$EventJumpStart = get_field('session_date');
+	}
+	if ($EventJumpStart != '') {
+	$EventJumpStart = new DateTime($EventJumpStart);
+	$EventJumpStartMonth = $EventJumpStart->format('m-Y');
+	$EventJumpStartDay = $EventJumpStart->format('Y-m-d');
+
+		if ($NewDateJumpCheck != $EventJumpStartMonth) { 
+			$NewDateJumpCheck = $EventJumpStartMonth;
+?>
+<li>
+	<!-- first event in day shows date -->
+	<a href="#<?php echo $EventJumpStart->format('m-Y');?>">
+		<?php echo $EventJumpStart->format('F Y');?>
+	</a>
+</li>
+<?php } }
 }
-
-
 ?>
 <main id="primary" class="site-main event-calendar_php">
 <header class="intro">
@@ -325,9 +324,7 @@ function displayJumpLink($events) {
 	</div>
 </header><!-- .page-header -->
 
-<?php if ($events || $upcomingevents || $pastevents) : 
-//print_r($events);
-	?>
+<?php if ($events || $upcomingevents || $pastevents) : ?>
 <div class="container">
 
 	<!-- events-list has the events and sticky nav -->
@@ -338,18 +335,27 @@ function displayJumpLink($events) {
 
 			<?php 
 			if ($events) {
-				displayEvents($events);
+				foreach ( $events as $post ) { 
+					displayEvents($post);
+				} 
 			}
 
 			if ($upcomingevents) {
-				displayEvents($upcomingevents);
+				?>
+				<h2 class="events-list__title">Upcoming Events</h2>
+				<?php
+				foreach ( $upcomingevents as $post ) { 
+					displayEvents($post);
+				} 
 			}
 
 			if ($pastevents) {
 				?>
-				<h2>Past Events</h2>
+				<h2 class="events-list__title">Past Events</h2>
 				<?php
-				displayEvents($pastevents);
+				foreach ( $pastevents as $post ) { 
+					displayEvents($post);
+				} 
 			}
 			?>
 
@@ -364,13 +370,19 @@ function displayJumpLink($events) {
 				<ul>
 					<?php
 					if ($events) {
-						displayJumpLink($events);
+						foreach ( $events as $post ) { 
+							displayJumpLink($post);
+						}
 					}
 					if ($upcomingevents) {
-						displayJumpLink($upcomingevents);
+						foreach ( $upcomingevents as $post ) { 
+							displayJumpLink($post);
+						}
 					}
 					if ($pastevents) {
-						displayJumpLink($pastevents);
+						foreach ( $pastevents as $post ) { 
+							displayJumpLink($post);
+						}
 					}
 					?>
 				</ul>
