@@ -34,6 +34,7 @@ $all_meta_query = array(
 	'compare' => 'EXISTS',
 );
 
+$query_amount = -1;
 
 
 $timeframe = get_field('event_timeframe');
@@ -43,6 +44,7 @@ if($timeframe === 'upcoming') {
 } else if($timeframe === 'past') {
 	$meta_query_build = $past_meta_query;
 	$query_order = 'DESC';
+	$query_amount = 20;
 } else {
 	$meta_query_build = $all_meta_query;
 	$query_order = 'DESC';
@@ -175,7 +177,7 @@ if(!$hide_events && !$hide_sessions) {
 
 if($timeframe !== 'all') {
 	$events = get_posts( array(
-		'posts_per_page' => -1,
+		'posts_per_page' => $query_amount,
 		'post_type' => $post_type,
 		'tax_query' => $tax_query,
 		'meta_query' => $meta_query,
@@ -217,7 +219,7 @@ function displayEvents($post) {
 	$EventStart = '';
 	if(get_post_meta($post->ID, '_EventStartDate', true)) { $EventStart = get_post_meta($post->ID, '_EventStartDate', true);}
 	if(get_field('session_date')) { $EventStart = get_field('session_date');}
-	if($EventStart != '') {
+	if($EventStart != '') { //only display event if it has a start date
 	$EventStart = new DateTime($EventStart);
 	$EventStartDay = $EventStart->format('Y-m-d');
 	$EventStartMonth = $EventStart->format('m-Y');
@@ -294,7 +296,7 @@ function displayJumpLink($post) {
 	if(get_field('session_date')) { 
 		$EventJumpStart = get_field('session_date');
 	}
-	if ($EventJumpStart != '') {
+	if ($EventJumpStart != '') { //only display link if event has a start date
 	$EventJumpStart = new DateTime($EventJumpStart);
 	$EventJumpStartMonth = $EventJumpStart->format('m-Y');
 	$EventJumpStartDay = $EventJumpStart->format('Y-m-d');
