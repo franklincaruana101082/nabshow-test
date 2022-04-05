@@ -206,11 +206,12 @@ function standardListItem($item_id,$item_link) {
 
                     standardListItem($link_wp_id, $link_url);
 
-                endwhile; ?>
+                endwhile; 
+            endif;
+            ?>
             </div>
         </div>
         <?php
-            endif;
         }
             if($listAd) {
         ?>
