@@ -1094,7 +1094,12 @@ function nab_maritz_redirect_url( $user_id ) {
 			$experient_production_url = 'https://registration.experientevent.com/shownab221/';
 			$experient_qa_url = 'https://qawebreg.experientevent.com/shownab221/';
 		}
-    }
+
+		if ( $show_code === 'shownab228') {
+			$experient_production_url = 'https://registration.experientevent.com/ShowNAB228/Flow/ATT/';
+			$experient_qa_url = 'https://qawebreg.experientevent.com/ShowNAB228/Flow/ATT/';
+		}
+	}
 
 	$url_parse = wp_parse_url( get_site_url() );
 
