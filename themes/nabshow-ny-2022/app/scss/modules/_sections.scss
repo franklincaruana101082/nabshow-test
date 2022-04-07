@@ -769,12 +769,7 @@
 
 // conference
 .conference__intro {
-  display: grid;
-  grid-gap: rem(40);
-  @include bp-1024 {
-    grid-gap: rem(38);
-    display: flex;
-  }
+  
 }
 .conference__intro-text {
   p {
@@ -812,18 +807,18 @@
 
 .partners-icons {
   list-style-type: none;
-  display: grid;
-  grid-gap: rem(32);
-  max-width: rem(550);
+  display: flex;
+  justify-content: space-around;
+  //max-width: rem(550);
   margin: 0 auto;
   li {
     text-align: center;
   }
   @include bp-768 {
-    grid-template-columns: 1fr 1fr;
+    
   }
   @include bp-1024 {
-    grid-template-columns: 1fr;
+    
   }
   img {
     display: block;
