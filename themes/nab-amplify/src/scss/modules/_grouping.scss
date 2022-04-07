@@ -168,6 +168,7 @@
 				height: 0;
 				padding-top: 76.667%;
 				position: relative;
+
 				img {
 					position: absolute;
 					top: 0;
@@ -201,6 +202,16 @@
 		}
 		@include bp-1440 {
 			grid-template-columns: rem(284) 1fr;
+		}
+	}
+
+	.grouping__list {
+		.relatedlink._minor {
+			@include bp-768 {
+				.relatedlink__image {
+					padding-top: 52.5%;
+				}
+			}
 		}
 	}
 
