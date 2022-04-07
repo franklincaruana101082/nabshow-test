@@ -16,6 +16,7 @@ $colorhex__gray: #404040;
 $colorhex__gray--medium: #737373;
 $colorhex__gray-light: #c4c4c4;
 $colorhex__gray-medium-light: #9e9e9e;
+$colorhex__gray-lightest: #efefef;
 $colorhex__white: #ffffff;
 
 $colorhex__pink: #f4b2ec;
@@ -42,6 +43,7 @@ $color__gray: var(--gray, $colorhex__gray);
 $color__gray--medium: var(--gray-medium, $colorhex__gray--medium);
 $color__gray-light: var(--gray-light, $colorhex__gray-light);
 $color__gray-medium-light: var(--gray-medium-light, $colorhex__gray-medium-light);
+$color__gray-lightest: var(--gray-lightest, $colorhex__gray-lightest);
 $color__white: var(--white, $colorhex__white);
 
 
