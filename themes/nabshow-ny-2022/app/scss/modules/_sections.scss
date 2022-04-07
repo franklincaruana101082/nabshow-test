@@ -822,11 +822,11 @@
   }
   img {
     display: block;
-    max-height: rem(100);
+    max-height: rem(140);
     width: 100%;
     width: auto;
     margin: 0 auto;
-    max-width: rem(250);
+    //max-width: rem(250);
   }
 }
 
@@ -1178,9 +1178,11 @@
     text-transform: uppercase;
     @include primary-black-25-40;
     margin-bottom: rem(22);
+    color: $color__white;
   }
   p {
     @include primary-medium-20-38;
+    color: $color__white;
     & + p {
       margin-top: rem(22);
     }
