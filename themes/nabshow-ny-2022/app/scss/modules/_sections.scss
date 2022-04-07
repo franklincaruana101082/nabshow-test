@@ -778,7 +778,10 @@
 }
 .conference__intro-text {
   p {
-    @include primary-medium-24-46;
+    @include primary-medium-20-30;
+    @include bp-1024 {
+      @include primary-medium-24-46;
+    }
     & + p {
       margin-top: rem(30);
     }
@@ -877,12 +880,14 @@
   text-transform: uppercase;
   margin-bottom: rem(40);
   @include bp-768 {
-    @include primary-black-70-70;
+    @include primary-black-54-57;
+    letter-spacing: rem(8.7);
     margin-bottom: rem(76);
   }
 }
 .conference-sessions-content {
   @include bp-768 {
+    position: relative;
     display: grid;
     grid-gap: rem(40);
     &.featured_all {
@@ -899,6 +904,13 @@
     &.featured_sessions, &.featured_speakers {
       grid-template-columns: auto;
     }
+  }
+}
+.conference-sessions-speakers-sticky {
+  @include bp-768 {
+    position: sticky;
+    top: rem(20);
+    align-self: start;
   }
 }
 .conference-sessions-speakers {
@@ -954,12 +966,13 @@
   .conference-sessions-speaker-name {
     transition: color 0.25s ease-in-out;
     text-decoration: none;
-    &:after {
-      content: "→";
-      display: inline-block;
-      font-size: 1em;
-      margin: 0 0 0.25rem 1rem;
-    }
+    color: $color__black;
+    // &:after {
+    //   content: "→";
+    //   display: inline-block;
+    //   font-size: 1em;
+    //   margin: 0 0 0.25rem 1rem;
+    // }
   }
 }
 .conference-sessions-speaker-image-wrap {
@@ -989,9 +1002,14 @@
 }
 .conference-sessions-speaker-date {
   margin-bottom: rem(40);
+  text-transform: uppercase;
+  color: $color__purple-light;
 }
 .conference-sessions-speaker-body {
   padding: 0 rem(16);
+  p {
+    @include primary-medium-16-16;
+  }
 }
 @keyframes conference-sessions-speaker-progress-animation {
   from {
@@ -1021,36 +1039,19 @@
 
 .conference-sessions-sessions {
   display: grid;
-  grid-gap: rem(40);
+  grid-gap: rem(27);
   align-items: flex-start;
   @include bp-768 {
-    background-size: rem(8) auto;
-    background-position: 0 0;
-    @include background-image("decorative-vert-line-dots.png");
-    background-repeat: repeat-y;
     padding-left: rem(67);
     .featured_sessions & {
       grid-template-columns: 1fr 1fr;
-      background-position: 50% 0;
     }
   }
   @include bp-1280 {
     position: relative;
-    grid-template-columns: 1fr 1fr;
+    //grid-template-columns: 1fr 1fr;
     padding-left: rem(20);
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: rem(8);
-      left: 50%;
-      margin-left: rem(10);
-      background-size: rem(8) auto;
-      background-position: 0 0;
-      @include background-image("decorative-vert-line-dots.png");
-      background-repeat: repeat-y;
-    }
+    
     .featured_sessions & {
       grid-template-columns: 1fr 1fr 1fr;
       background-position: 66.666% 20%;
@@ -1061,18 +1062,18 @@
   }
 }
 .conference-sessions-session {
-  padding-bottom: rem(40);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: rem(20) rem(40);
+  background-color: $color__gray-lightest;
+  @include bp-1280 {
+    padding: rem(40) rem(50);
+  }
   p {
     @include primary-medium-22-30;
     margin-bottom: rem(20);
   }
-  @include bp-1280 {
-    padding-left: rem(40);
-    padding-right: rem(40);
-  }
   &._link {
     p.conference-sessions-session-title {
+      color: $color__black;
       transition: color 0.25s ease-in-out;
     }
     &:hover,
@@ -1080,27 +1081,19 @@
     &:active {
       text-decoration: none;
       p.conference-sessions-session-title {
-        color: $color__pink;
-      }
-    }
-    p.conference-sessions-session-title {
-      &::after {
-        content: "→";
-        transition: color 0.25s ease-in-out;
-        display: inline-block;
-        margin: 0 0 rem(4) rem(16);
-        font-size: 2em;
-        @include bp-768 {
-          font-size: 1em;
-        }
+        color: $color__blue-light;
       }
     }
   }
+}
+.conference-sessions-session-date {
+  color: $color__purple-light;
 }
 .conference-sessions-session-desc {
   font-size: rem(14);
   line-height: 1.36;
   p {
+    color: $color__black;
     font-size: rem(14);
     line-height: 1.36;
   }
@@ -1165,15 +1158,15 @@
 
 // cta-block
 .cta-block {
-  background: $color__blue;
+  background: $color__purple-light;
 }
 .cta-block-content {
   margin: 0 auto;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   @include bp-768 {
     display: grid;
-    grid-template-columns: auto rem(300);
+    grid-template-columns: auto rem(400);
   }
   @include bp-1024 {
     grid-template-columns: auto rem(500);
@@ -1219,8 +1212,24 @@
     padding: rem(80) rem(124) rem(80) rem(112);
   }
 }
-.cta-block-cta {
-  margin-top: rem(22);
+.cta-block-ctas {
+  text-align: center;
+  padding: 0 rem(32);
+  @include bp-768 {
+    margin: rem(48) 0 rem(26);
+  }
+  @include bp-1024 {
+    margin: rem(80) 0 rem(40);
+  }
+  @include bp-1280 {
+    margin: rem(152) 0 rem(40);
+  }
+  a.button {
+    margin: 0 rem(10) rem(22);
+    @include bp-1024 {
+      margin: 0 0 rem(40);
+    }
+  }
 }
 .cta-block-media {
   @include bp-768 {

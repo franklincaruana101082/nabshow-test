@@ -139,6 +139,7 @@ if ( $display_speakers_and_sessions ) {
     $featured_speakers_and_sessions = get_field( 'featured_speakers_and_sessions' );
 
     $featured_speakers_and_sessions_amount = array();
+    $fss_class = '';
     if(!empty($featured_speakers_and_sessions)){
         foreach( $featured_speakers_and_sessions as $i => $row ) {
             if(!$row['hide_this_item']):
@@ -152,13 +153,14 @@ if ( $display_speakers_and_sessions ) {
     }
     ?>    
     <div class="section">
-        <div class="decorative _blur">
+        
             <div class="container">
                 <div class="conference-sessions">
                     <h3 class="conference-sessions-title"><?php echo($speakers_and_sessions_heading); ?></h3>
                 </div>
                 <div class="conference-sessions-content <?php echo($fss_class); ?>">
                     <?php if ( !empty($featured_speakers_and_sessions_amount) ) { ?>
+                    <div class="conference-sessions-speakers-sticky">
                     <div class="conference-sessions-speakers">
                         <?php
                         foreach ( $featured_speakers_and_sessions as $row ) {
@@ -189,7 +191,7 @@ if ( $display_speakers_and_sessions ) {
                                 <?php else: ?>
                                     </div>
                                 <?php endif; ?>
-                                <h6 class="conference-sessions-speaker-date datetime-small icon-calendar"><?php echo esc_html( $speaker_dates ); ?></h6>
+                                <h6 class="conference-sessions-speaker-date"><?php echo esc_html( $speaker_dates ); ?></h6>
                                 <div class="conference-sessions-speaker-body">                                        
                                     <p><?php echo esc_html( $speaker_description ); ?></p>
                                 </div>
@@ -198,6 +200,7 @@ if ( $display_speakers_and_sessions ) {
                             <?php
                             endif;
                         } ?>
+                    </div>
                     </div>
                     <?php } 
 
@@ -266,7 +269,7 @@ if ( $display_speakers_and_sessions ) {
                                     ?>
                                     <a href="<?php echo esc_url( $mys_session_link );?>" target="_blank" class="conference-sessions-session _link">
                                         <p class="conference-sessions-session-title"><?php echo esc_html( get_the_title() ); ?></p>
-                                        <h6 class="datetime-small icon-calendar"><?php echo esc_html( $formatted_session_date ); ?></h6>
+                                        <h6 class="conference-sessions-session-date"><?php echo esc_html( $formatted_session_date ); ?></h6>
                                         <div class="conference-sessions-session-desc"><p><?php echo esc_html( $mys_session_summary ); ?></p></div>
                                     </a>
                                     <?php
@@ -276,7 +279,7 @@ if ( $display_speakers_and_sessions ) {
                                 ?>                        
                                     <a href="<?php echo esc_url( $row['link']['url'] );?>" target="_blank" class="conference-sessions-session _link">
                                         <p class="conference-sessions-session-title"><?php echo esc_html( $row['title'] ); ?></p>
-                                        <h6 class="datetime-small icon-calendar"><?php echo esc_html( $row['dates'] ); ?></h6>
+                                        <h6 class="conference-sessions-session-date"><?php echo esc_html( $row['dates'] ); ?></h6>
                                         <div class="conference-sessions-session-desc"><p><?php echo wp_kses_post( $row['description'] ); ?></p></div>
                                     </a>
                                 <?php } ?>
@@ -288,7 +291,7 @@ if ( $display_speakers_and_sessions ) {
                     ?>
                 </div>        
             </div>
-        </div>
+        
     </div>
     <div class="section container">
         <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
@@ -299,91 +302,29 @@ if ( $display_speakers_and_sessions ) {
     <?php
 }
 
-$post_id = get_the_ID();
-$post_type = get_post_type($post_id);
-$query_args = array(
-    'post_type'         => $post_type,
-    'posts_per_page'    => -1,
-    'post__not_in'      => array( get_the_ID() ),
-    'fields'            => 'ids'
-);
-
-$all_conferences = new WP_Query( $query_args );
-$conferences_ids = $all_conferences->posts;
-
-if ( $all_conferences->have_posts() ) {
-    ?>
-    <div class="section">
-        <div class="schedule__sessions">
-            <?php
-            while ( $all_conferences->have_posts() ) {
-                
-                $all_conferences->the_post();
-
-                $conference_logo        = get_field( 'logo' );
-                $conference_image       = isset( $conference_logo['ID'] ) && ! empty( $conference_logo['ID'] ) ? wp_get_attachment_url( $conference_logo['ID'] ) : '';
-                $short_description      = get_field( 'short_description' );
-                $conference_final_date  = '';
-                $conference_start_date  = get_field( 'start_date' );
-                $conference_end_date    = get_field( 'end_date' );
-
-                if ( ! empty( $conference_start_date ) && ! empty( $conference_end_date ) ) {
-                    
-                    if ( date_format( date_create( $conference_start_date ), 'Ymd' ) !== date_format( date_create( $conference_end_date ), 'Ymd' ) ) {
-                        $month                  = date_format( date_create( $conference_start_date ), 'F' );
-                        $start_day              = date_format( date_create( $conference_start_date ), 'j' );
-                        $end_day                = date_format( date_create( $conference_end_date ), 'j' );
-                        $year                   = date_format( date_create( $conference_start_date ), 'Y' );
-                        $conference_final_date  = $month . ' ' . $start_day . '-' . $end_day . ' ' . $year;
-                    } else {
-                        $conference_final_date  = date_format( date_create( $conference_start_date ), 'F j Y' );
-                    }
-                }
-                ?>
-                <div class="schedule__session">
-                    <a href="<?php echo esc_url( get_the_permalink() ); ?>" class="schedule__session-item">
-                        <img src="<?php echo esc_url( $conference_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" />
-                        <div class="schedule__session-item-content">
-                            <h5 class="schedule__session-item-title"><?php echo esc_html( get_the_title() ); ?></h5>
-                            <div class="schedule__session-item-body">
-                                <?php echo wp_kses_post( $short_description ); ?>
-                            </div>
-                            <h6 class="schedule__session-item-time"><?php echo esc_html( $conference_final_date ); ?></h6>
-                            <div class="schedule__session-item-cta">
-                                <span class="button _solid _compact">Learn More</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-    </div>
-    <?php
-}
-wp_reset_postdata();
-
 if ( $display_cta_block ) {
 
-    $cta_title          = get_field( 'cta_title' );
-    $cta_body           = get_field( 'cta_body' );
-    $cta_button_url     = get_field( 'cta_button_url' );
-    $cta_button_text    = get_field( 'cta_button_text' );
-    $cta_image          = get_field( 'cta_image' );
+    $cta_title    = get_field( 'cta_title' );
+    $cta_body     = get_field( 'cta_body' );
+    $cta_button_1 = get_field( 'cta_button_1' );
+    $cta_button_2 = get_field( 'cta_button_2' );
     ?>    
     <div class="section">
         <div class="cta-block">
             <div class="cta-block-content">
                 <div class="cta-block-main">
+                    <?php if(!empty($cta_title)) { ?>
                     <h3><?php echo esc_html( $cta_title ); ?></h3>
+                    <?php } ?>
                     <?php echo wp_kses_post( $cta_body ); ?>
-                    <div class="cta-block-cta">
-                        <a href="<?php esc_url( $cta_button_url ); ?>" class="button _solid _compact"><?php echo esc_html( $cta_button_text ); ?></a>
-                    </div>
                 </div>
-                <div class="cta-block-media">                    
-                    <img src="<?php echo esc_url( wp_get_attachment_url( $cta_image['ID']) ); ?>" alt="" />
+                <div class="cta-block-ctas">
+                    <?php if(!empty($cta_button_1)) { ?>
+                    <a href="<?php esc_url( $cta_button_1['url'] ); ?>" target="<?php echo esc_attr($cta_button_1['target'] ? $cta_button_1['target'] : '_self'); ?>" class="button _solid _cta"><?php echo esc_html( $cta_button_1['title'] ); ?></a>
+                    <?php }
+                    if(!empty($cta_button_2)) { ?>
+                    <a href="<?php esc_url( $cta_button_2['url'] ); ?>" target="<?php echo esc_attr($cta_button_2['target'] ? $cta_button_2['target'] : '_self'); ?>" class="button _solid _cta"><?php echo esc_html( $cta_button_2['title'] ); ?></a>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -418,4 +359,20 @@ if ( $display_mailing_list_block ) {
 <div class="section container">
     <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 </div>
-<div class="decorative _lightlines-footer-strip"></div>
+
+<?php 
+$closing_cta = get_field('closing_cta');
+$closing_copy = get_field('closing_copy');
+if ($closing_cta || $closing_copy): 
+?>
+<div class="section container">
+  <div class="closing__content">
+    <?php if ($closing_cta): ?>
+    <a class="closing__button button _xxl _solid _white _border" href="<?php echo esc_url($closing_cta['url']); ?>" target="<?php echo esc_attr($closing_cta['target'] ? $closing_cta['target'] : '_self'); ?>"><?php echo $closing_cta['title']; ?></a>
+    <?php endif; 
+    if($closing_copy): ?>
+      <?php the_field('closing_copy'); ?>
+    <?php endif; ?>
+  </div>
+</div>
+<?php endif; ?>
