@@ -14,7 +14,7 @@
 	<div class="container">
 	    <header class="intro">
 			<?php
-			the_title( '<h1 class="intro__title entry-title">', '</h1>' );
+			the_title( '<h1 class="intro__title entry-title" data-swiftype-index="false">', '</h1>' );
 			?>
 
 
@@ -139,6 +139,7 @@
 					//we need these defined here because they may change depending on the template we're adding this to
 					$company_id = $company;
 					$company_name = get_the_title( $company );
+					$company_url = get_field('contact_preferences_url', $company);
 					$opt_in_required = (int)get_field('make_opt_in_required');
 					$registration_required = false;
 					$registered = true;

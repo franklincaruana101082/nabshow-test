@@ -30,7 +30,7 @@ $user_id  = get_current_user_id();
 $user_obj = get_user_by( 'id', $user_id );
 $username = $user_obj->user_login;
 ?>
-<div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')">
+<div class="banner-header" style="background-image: url('<?php echo esc_url($cover_image); ?>')" data-swiftype-index="false">
     <div class="banner-container">
         <div class="banner-inner">
             <div class="bannner-actions">

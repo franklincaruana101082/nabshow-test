@@ -323,7 +323,7 @@ function nab_company_details_render_callback($attributes)
         <div class="container">
             <div class="company-details-inner">
                 <div class="company-about-outer">
-                    <h2>About</h2>
+                    <h2 data-swiftype-index="false">About</h2>
                     <div class="company-about-inner">
                     <?php if ($about_company) {
                         ?>

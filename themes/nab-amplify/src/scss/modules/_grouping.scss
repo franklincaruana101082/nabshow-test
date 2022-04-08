@@ -2,12 +2,12 @@
 	&__intro {
 		.intro__title {
 			text-align: center;
-			padding: rem(60) 0 rem(40);
+			padding: rem(60) 0 rem(20);
 			@include bp-1024 {
-				padding: rem(80) 0 rem(60);
+				padding: rem(80) 0 rem(30);
 			}
 			@include bp-1280 {
-				padding: rem(100) 0 rem(80);
+				padding: rem(100) 0 rem(40);
 			}
 		}
 
@@ -32,8 +32,9 @@
 		}
 	}
 	&__promo {
-
+		padding: rem(20) 0;
 		@include bp-1024 {
+			padding: rem(30) 0;
 			display: grid;
 			grid-template-columns: 40% 1fr;
 			grid-template-rows: auto auto auto;
@@ -54,12 +55,28 @@
 			.relatedlink:nth-child(4) {
 				grid-area: four;
 			}
+
+			//this isn't working with the addition of ads inbetween sections
+			// &:nth-of-type(even) {
+			// 	grid-template-columns: 1fr 40%;
+			// 	grid-template-areas:
+			// 	"two one"
+			// 	"three one"
+			// 	"four one";
+			// }
 		}
 		@include bp-1280 {
+			padding: rem(40) 0;
 			grid-template-columns: 45% 1fr;
+			// &:nth-of-type(even) {
+			// 	grid-template-columns: 1fr 45%;
+			// }
 		}
 		@include bp-1440 {
 			grid-template-columns: 50% 1fr;
+			// &:nth-of-type(even) {
+			// 	grid-template-columns: 1fr 50%;
+			// }
 		}
 		.relatedlink {
 			&__headline {
@@ -68,7 +85,44 @@
 			&__category + .relatedlink__headline {
 				margin-top: 0;
 			}
+			&__image {
+				position: relative;
+				height: 0;
+				padding-top: 77.465%;
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					object-position: center center;
+				}
+			}
+			&:nth-child(1) {
+				.relatedlink__image {
+					padding-top: 73.846%;
+				}
+				.relatedlink__headline {
+					line-height: 1;
+					@include bp-1024 {
+						font-size: rem(28);
+					}
+					@include bp-1280 {
+						font-size: rem(38);
+					}
+					@include bp-1440 {
+						font-size: rem(48);
+					}
+				}
+			}
 		}
+	}
+
+	&__promoad {
+		//padding-bottom: rem(30);
 	}
 
 
@@ -103,25 +157,28 @@
 			border-image: none;
 			display: grid;
 			grid-template-columns: rem(284) 1fr;
-			// grid-template-rows: auto auto auto;
-			// grid-template-areas:
-			// 	"img cat"
-			// 	"img title"
-			// 	"img author";
-			grid-gap: rem(20) rem(40);
+			grid-gap: rem(20) rem(45);
 			align-items: start;
 
 			.relatedlink__image {
-				//grid-area: img;
 				border-top: 2px solid $color__purple;
 				border-image: linear-gradient(90deg, $color__purple, $color__pink) 2;
 				border-width: 0;
 				border-top-width: 2px;
+				height: 0;
+				padding-top: 76.667%;
+				position: relative;
+
 				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					width: 100%;
+					height: 100%;
 					object-fit: cover;
 					object-position: center center;
-					width: 100%;
-
 				}
 			}
 			.relatedlink__copy {
@@ -145,6 +202,16 @@
 		}
 		@include bp-1440 {
 			grid-template-columns: rem(284) 1fr;
+		}
+	}
+
+	.grouping__list {
+		.relatedlink._minor {
+			@include bp-768 {
+				.relatedlink__image {
+					padding-top: 52.5%;
+				}
+			}
 		}
 	}
 
@@ -189,6 +256,12 @@
 			}
 			.relatedlink__lede {
 				margin: 0 0 rem(20);
+			}
+			.relatedlink__headline {
+				line-height: 1.2;
+				@include bp-1280 {
+					font-size: rem(30);
+				}
 			}
 		}	
 	}

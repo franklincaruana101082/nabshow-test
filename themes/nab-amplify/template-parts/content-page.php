@@ -11,7 +11,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <?php if ( ! is_account_page() ) { ?>
         <header class="intro entry-header">
-            <?php the_title( '<h1 class="intro__title entry-title">', '</h1>' ); ?>
+            <?php the_title( '<h1 class="intro__title entry-title" data-swiftype-index="false">', '</h1>' ); ?>
         </header><!-- .entry-header -->
     <?php }
 

@@ -91,7 +91,7 @@ if ($list_past_sessions) {
 <main id="primary" class="site-main sessions-list_php">
 <header class="intro">
 	<div class="container">
-		<?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
+		<?php the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' ); ?>
 		<div class="intro__copy introtext">
 			<?php the_content(); ?>
 		</div>

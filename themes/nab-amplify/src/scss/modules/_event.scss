@@ -47,6 +47,15 @@
 			line-height: 1;
 			letter-spacing: -0.04em;
 		}
+		&__year {
+			text-align: right;
+			font-family: $font__primary;
+			color: $color__white;
+			font-size: rem(12);
+			text-transform: uppercase;
+			font-weight: 600;
+			line-height: 1;
+		}
 
 	&__photo {
 		grid-column: 2 / 3;
@@ -315,6 +324,20 @@
 		@include bp-1024 {
 		}
 	}
+		.events-list__title {
+			margin-bottom: 0;
+			font-family: $font__secondary;
+			font-size: rem(20);
+			text-transform: uppercase;
+			letter-spacing: rem(2);
+			@include bp-1024 {
+				padding-bottom: rem(20);
+				margin-left: rem(-40);
+			}
+			@include bp-1280 {
+				padding-bottom: rem(40);
+			}
+		}
 	.events-list__nav {
 		display: none;
 		position: relative;
@@ -371,6 +394,12 @@
 		@include bp-1024 {
 			padding-left: rem(120);
 		}
+		& + .events-list__title {
+			margin-top: rem(30);
+			@include bp-1280 {
+				margin-top: rem(60);
+			}
+		}
 		.events-list__event__card {
 			display: grid;
 			grid-template-columns: rem(32) 1fr;
@@ -403,12 +432,15 @@
 	.events-list__date {
 		display: block;
 		padding: rem(32) 0 0;
+		min-width: rem(90);
 		.event__month {
 			font-size: rem(14.24);
 			color: $color__white;
 		}
 		.event__day {
 			font-size: rem(78.31);
+			text-align: center;
+			width: 100%;
 		}
 		@include bp-1024 {
 			position: absolute;
@@ -450,7 +482,7 @@
 // ==================================================
 
 // wrapper for placement
-.events-list__event__add {
+.events-list__event__add, .events-list__more {
 	@include bp-1024 {
 		position: absolute;
 		//z-index: 100;
@@ -459,6 +491,10 @@
 		top: 0;
 		width: rem(144);
 	}
+}
+.events-list__more {
+	display: block;
+	text-align: right;
 }
 .events-list__event-link {
 	text-decoration: none;

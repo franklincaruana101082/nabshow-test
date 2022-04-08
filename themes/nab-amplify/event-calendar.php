@@ -42,8 +42,9 @@ if(!$hide_events && !$hide_sessions) {
 			'relation' => 'OR',
 				array(
 				'taxonomy' => 'session_categories',
-				'field' => 'term_id',
-				'terms' => '*',
+				//'field' => 'term_id',
+				//'terms' => '*',
+				'operator' => 'XXX'
 				),
 				array(
 				'taxonomy' => 'tribe_events_cat',
@@ -62,8 +63,9 @@ if(!$hide_events && !$hide_sessions) {
 				),
 				array(
 				'taxonomy' => 'tribe_events_cat',
-				'field' => 'term_id',
-				'terms' => '*',
+				//'field' => 'term_id',
+				//'terms' => '*',
+				'operator' => 'XXX'
 				),
 			);
 	} elseif(!$session_categories && !$event_categories) {
@@ -72,13 +74,15 @@ if(!$hide_events && !$hide_sessions) {
 			'relation' => 'OR',
 				array(
 				'taxonomy' => 'session_categories',
-				'field' => 'term_id',
-				'terms' => '*',
+				//'field' => 'term_id',
+				//'terms' => '*',
+				'operator' => 'XXX'
 				),
 				array(
 				'taxonomy' => 'tribe_events_cat',
-				'field' => 'term_id',
-				'terms' => '*',
+				//'field' => 'term_id',
+				//'terms' => '*',
+				'operator' => 'XXX'
 				),
 			);
 	}
@@ -136,6 +140,13 @@ $events = get_posts( array(
 	'posts_per_page' => -1,
 	'post_type' => $post_type,
 	'tax_query' => $tax_query,
+	'meta_query' => array(
+		array(
+			'key' => 'session_status',
+			'value' => 'VOD',
+			'compare' => '!='
+		)
+	),
 	'order' => 'ASC',
 	'orderby' => 'meta_value',
 	'meta_key' => array('session_date', '_EventStartDateUTC'),
@@ -146,7 +157,7 @@ $events = get_posts( array(
 <main id="primary" class="site-main event-calendar_php">
 <header class="intro">
 	<div class="container">
-		<?php the_title( '<h1 class="intro__title">', '</h1>' ); ?>
+		<?php the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' ); ?>
 		<div class="intro__copy introtext">
 			<?php the_content(); ?>
 		</div>

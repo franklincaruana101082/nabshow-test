@@ -60,7 +60,7 @@ if($hide_videos) {
 				<header class="intro">
 					<div class="container">
 					<?php
-						the_title( '<h1 class="intro__title">', '</h1>' );
+						the_title( '<h1 class="intro__title" data-swiftype-index="false">', '</h1>' );
 						if ($session_status != "VOD") {
 					?>
 					<div class="intro__time introtext">
@@ -502,6 +502,7 @@ if($hide_videos) {
 						$user_id = $user_id;
 						$company_id = $company;
 						$company_name = $session_company_name;
+						$company_url = get_field('contact_preferences_url', $company);
 						$occurred_at_type = 'session';
 						$displayInline = false;
 						//use this instead of get_template_part so the partial can access the above php vars from here
