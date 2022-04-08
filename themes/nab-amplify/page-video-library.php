@@ -82,7 +82,7 @@ if($hide_videos) {
           foreach ( $section_videos as $video ) :
             
             $video_desc  = wp_strip_all_tags(get_the_excerpt($video));
-            $video_img_url = get_the_post_thumbnail_url($video);
+            $video_img_url = nab_amplify_get_featured_image($video);
             if($video_img_url == '') {
               $video_img_url = get_template_directory_uri().'/assets/images/amplify-video-placeholder.png';
             }
