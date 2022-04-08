@@ -9,8 +9,6 @@ get_header();
 
 $page_title  = get_field( 'page_title' );
 $page_subtitle  = get_field( 'page_subtitle' );
-$attendee_imgs  = get_field( 'attendee_images' );
-$attendee_names = get_field( 'attendee_names' );
 ?>
 
 <main id="main">
@@ -21,55 +19,91 @@ $attendee_names = get_field( 'attendee_names' );
       <div class="intro__body"><?php the_content(); ?></div>
     </div>
   </div>
-
   <?php
-  if ( $attendee_imgs ) {
-    
-    ?>
-    <div class="section _bottom container">
-      <div class="logo-group">
-        <?php
-        foreach ( $attendee_imgs as $row ) {
-          $logo_name = $row['name'];
-          $logo = $row['image']['ID'];
-          if ( isset( $logo ) && !empty( $logo ) ):
-          ?>
-          <img src="<?php echo esc_url( wp_get_attachment_url( $logo ) ); ?>" alt="<?php echo esc_attr( $logo_name ); ?>" />                    
-          <?php
-          endif;
-        }
-        ?>             
-      </div>
-    </div>
-    <?php
-  }
+  $quick_links = get_field( 'quick_links' );
 
-  if ( $attendee_names ) {
+  if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
     ?>
-    <div class="section attending-list-wrapper">
-      <div class="container _wide">
-        <ul class="attending-list">
+    <div class="section container">
+      <div class="jump-links">
+        <h2 class="jump-links__label"><?php the_field('quick_links_title'); ?></h2>
+        <ul class="jump-links__menu">
           <?php
-          foreach ( $attendee_names as $row ) {
-            if( $row['name'] ):
+          foreach ( $quick_links as $link ) {
+
+            $link_url     = $link['link']['url'];
+            $link_title   = $link['link']['title'];
+            $link_target  = isset( $link['link']['target'] ) && ! empty( $link['link']['target'] ) ? $link['link']['target'] : '_self';
             ?>
-            <li><b class="attending-list-item-name"><?php echo esc_html( $row['name'] ); ?></b></li>
+            <li class="jump-links__item"><a href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>" class="button _arrow _full"><?php echo esc_html( $link_title ); ?></a></li>
             <?php
-            endif;
           }
-          ?>          
+          ?>
         </ul>
       </div>
     </div>
     <?php
   }
-  ?>  
+  ?>
+
+  <?php
   
+  if( have_rows('attendees') ):
+  ?>
+  
+  <div class="section container _wide">
+    <?php
+    if( get_field( 'attendees_title' ) ) {
+    ?>
+    <h2 class="attending-title"><?php the_field( 'attendees_title' ); ?></h2>
+    <?php } ?>
+    <ul class="attending-list">
+    <?php
+    // Loop through rows.
+    while( have_rows('attendees') ) : the_row();
+        ?>
+        <li class="attending-item">
+          <div class="attending-list-item-id">
+            <h4 class="attending-list-item-name"><?php the_sub_field('name'); ?></h4>
+            <div class="attending-list-item-title"><?php the_sub_field('title'); ?></div>
+            <div class="attending-list-item-company"><?php the_sub_field('company_name'); ?></div>
+          </div>
+          <div class="attending-list-item-copy"><?php the_sub_field('copy'); ?></div>
+        </li>
+        <?php
+    // End loop.
+    endwhile;
+    ?>
+    </ul>
+  </div>
+  
+    <?php
+  endif;
+  ?>  
+  <div class="container">
+    <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
+  </div>
+  <?php 
+  $closing_cta = get_field('closing_cta');
+  $closing_copy = get_field('closing_copy');
+  if ($closing_cta || $closing_copy): 
+  ?>
+  <div class="section container">
+    <div class="closing__content">
+      <?php if ($closing_cta): ?>
+      <a class="closing__button button _xxl _solid _white _border" href="<?php echo esc_url($closing_cta['url']); ?>" target="<?php echo esc_attr($closing_cta['target'] ? $closing_cta['target'] : '_self'); ?>"><?php echo $closing_cta['title']; ?></a>
+      <?php endif; 
+      if($closing_copy): ?>
+        <?php the_field('closing_copy'); ?>
+      <?php endif; ?>
+    </div>
+  </div>
+  <?php endif; ?>
 </main><!-- #main -->
 
-<div class="container">
-  <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
-</div>
+
 
 <?php
 get_footer();
+
+
