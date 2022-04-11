@@ -28,6 +28,9 @@
 		font-weight: 900;
 		text-transform: uppercase;
 		margin-bottom: rem(30);
+		@include bp-1024 {
+			font-size: rem(60);
+		}
 	}
 
 	&__when {
