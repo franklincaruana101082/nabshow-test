@@ -176,6 +176,8 @@
       font-size: rem(32);
       font-weight: 700;
       line-height: 1.25;
+      text-align: center;
+      margin: auto;
       &:before {
         content: '';
         display: inline-block;
