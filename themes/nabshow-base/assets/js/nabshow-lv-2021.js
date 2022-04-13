@@ -46,7 +46,6 @@
     });
 
     function nabSessionListPageAjax( _this, pageNumber ) {
-        console.log('nabSessionListPageAjax');
         let parentElement = _this.parents('.filter-row');
         let sessionDate = 0 < parentElement.find('.filter-date.active').length ? parentElement.find('.filter-date.active').attr('data-date') : '';
         let page = 1,
