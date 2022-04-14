@@ -55,7 +55,7 @@ function standardListItem($item_id,$item_link) {
 
 <main id="primary" class="site-main grouping content-grouping_php">
 <header class="intro grouping__intro <?php echo esc_attr($introClass); ?>">
-    <?php if(get_field('above_content_lists_ad_shortcode')) { ?>
+    <?php if(get_field('header_ad_shortcode')) { ?>
     <div class="nab-ad-block header_ad">
         <?php echo do_shortcode(get_field('header_ad_shortcode')); ?>
     </div>
