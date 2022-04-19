@@ -26,4 +26,10 @@ jQuery(function($) {
 	  	}
 	  ]
 	});
+
+	$('.js-schedule-day').on('click', function() {
+		$('.js-schedule-day').removeClass('_shown');
+		$('.js-schedule').removeClass('_shown');
+		$(this).addClass('_shown').next('.js-schedule').addClass('_shown');
+	});
 });
