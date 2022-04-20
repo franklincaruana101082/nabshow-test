@@ -781,6 +781,9 @@
     grid-template-columns: rem(189) 1fr;
     grid-gap: rem(20);
   }
+  &._noimg {
+    display: block;
+  }
 }
 .story__media {
   margin-bottom: rem(20);
