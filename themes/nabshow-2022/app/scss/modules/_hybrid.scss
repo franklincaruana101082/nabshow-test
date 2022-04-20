@@ -30,9 +30,15 @@
 			display: grid;
 			grid-template-columns: 8fr 4fr;
 			grid-gap: rem(18);
+			&._noSchedule {
+				grid-template-columns: 1fr;
+			}
     }
     @include bp-1280 {
     	grid-template-columns: 9fr 4fr;
+    	&._noSchedule {
+				grid-template-columns: 1fr;
+			}
     }
   }
   	&__video {
@@ -88,8 +94,12 @@
 
 
 .schedule {
+	position: relative;
 	&__title {
 		text-transform: uppercase;
+		position: absolute;
+		left: 0;
+		bottom: 100%;
 	}
 	&__main {
 		border-width: 1px;
@@ -101,7 +111,7 @@
 		list-style: none;
 		display: flex;
 		justify-content: space-evenly;
-		height: calc(100% - #{rem(36)});
+		height: 100%;
 		&:before {
 			content: '';
 			display: block;
