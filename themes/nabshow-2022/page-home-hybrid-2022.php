@@ -290,15 +290,18 @@ if(have_rows('prominent_links')) {
 <?php endif; //end if( have_rows('news_items') || have_rows('news_ctas') || have_rows('press_links') ) : ?>
 
 
-<?php if(have_rows('show_gallery')): ?>
+<?php if(have_rows('show_gallery')): 
+  $gallery_url = get_field('gallery_images_link');
+  ?>
 <div class="container section hybrid__gallery">
   <?php while(have_rows('show_gallery')): the_row(); 
     $img = get_sub_field('image');
+
     if(!empty($img)) {
-  ?>
-  <div class="hybrid__galleryItem">
+    if($gallery_url) { ?><a href="<?php echo esc_url($gallery_url); ?>" class="hybrid__galleryItem"><?php } else { ?><div class="hybrid__galleryItem"><?php } ?>
     <img class="hybrid__galleryImg" src="<?php echo esc_url($img['url']); ?>" alt="<?php echo esc_attr($img['alt']); ?>" />
-  </div>
+    <?php if($gallery_url) { ?></a><?php } else { ?></div><?php } ?>
+  
   <?php } endwhile; //end while(have_rows('show_gallery')): the_row(); ?>
 </div>
 <?php endif; //end if(have_rows('show_gallery')): ?>
