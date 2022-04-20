@@ -33,7 +33,7 @@ if($video_file) {
         <h1 class="intro__title"><?php echo esc_html($headline); ?></h1>
       <?php } ?>
 
-      <div class="banner__vs">
+      <div class="banner__vs <?php if(!have_rows('banner_show_schedule') || get_field('hide_schedule')){ echo esc_attr('_noSchedule'); }?>">
         <?php if($video): ?>
           <div class="banner__video">
             <div class="embed-wrapper _video" style="<?php echo esc_attr($video_style); ?>">
@@ -56,7 +56,7 @@ if($video_file) {
           </div>
         <?php endif; ?>
         
-        <?php if(have_rows('banner_show_schedule')): ?>
+        <?php if(have_rows('banner_show_schedule') && !get_field('hide_schedule')): ?>
           <div class="banner__schedule schedule">
             <?php if (get_field('banner_schedule_title')) { ?>
             <h4 class="schedule__title"><?php the_field('banner_schedule_title'); ?></h4>
