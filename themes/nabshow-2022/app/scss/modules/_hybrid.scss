@@ -1,0 +1,309 @@
+//hybrid
+
+.banner {
+  &--hybrid {
+    position: relative;
+    background-image: url('#{$theme_path}/assets/images/hybrid-banner-bg.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+
+    padding-top: rem(32);
+
+    @include bp-1024 {
+		padding-top: rem(64);    	
+    }
+
+    .intro__label, .intro__title {
+    	text-align: center;
+    }
+  }
+
+  &__vs {
+  	padding-top: rem(30);
+  	padding-bottom: rem(30);
+  	@include bp-1024 {
+			padding-top: rem(70);
+			padding-bottom: rem(70);
+			display: grid;
+			grid-template-columns: 8fr 4fr;
+			grid-gap: rem(18);
+			&._noSchedule {
+				grid-template-columns: 1fr;
+			}
+    }
+    @include bp-1280 {
+    	grid-template-columns: 9fr 4fr;
+    	&._noSchedule {
+				grid-template-columns: 1fr;
+			}
+    }
+  }
+  	&__video {
+  		
+  	}
+
+  		&__cta {
+  			text-align: center;
+  			@include bp-1280 {
+  				text-align: left;
+  				display: flex;
+  				flex-flow: row wrap;
+  				justify-content: space-between;
+  				align-items: flex-start;
+  			}
+  			.button {
+  				font-weight: 600;
+  				padding: rem(12) rem(32);
+  				@include bp-1024 {
+  					padding: rem(12) rem(58);
+  					margin: rem(10) 0 0 auto;
+  					align-self: flex-end;
+
+  				}
+  			}
+  		}
+
+  			&__sponsor {
+  				margin: rem(10) auto rem(20);
+  				@include bp-1280 {
+  					margin: rem(10) 0 0;
+  				}
+  			}
+  				&__sponsorImage {
+  					display: block;
+  					width: auto;
+  					margin: rem(16) auto 0;
+  				}
+
+  	&__schedule {
+  		display: none;
+  		@include bp-1024 {
+  			display: block;
+  		}
+  	}
+}
+
+
+.schedule {
+	position: relative;
+	&__title {
+		text-transform: uppercase;
+		position: absolute;
+		left: 0;
+		bottom: 100%;
+	}
+	&__main {
+		border-width: 1px;
+		border-style: solid;
+		border-color: $c__blue-light;
+		border-radius: rem(10);
+		padding: 0 rem(10);
+		position: relative;
+		list-style: none;
+		display: flex;
+		justify-content: space-evenly;
+		height: 100%;
+		&:before {
+			content: '';
+			display: block;
+			width: 100%;
+			height: 0;
+			border-bottom: 1px solid $c__blue-light;
+			position: absolute;
+			top: rem(40);
+			left: 0;
+			right: 0;
+		}
+	}
+
+		&__day {
+
+		}
+			&__date {
+				background: none;
+				border: 0;
+				color: $color__white;
+				text-transform: uppercase;
+				font-weight: 600;
+				font-size: rem(12);
+				line-height: rem(34);
+				letter-spacing: 0.2em;
+				cursor: pointer;
+				border-style: solid;
+				border-color: transparent;
+				border-width: rem(3) 0;
+				transition: border-color .25s ease;
+				&:hover, &:focus, &:active {
+					color: $color__purple-light;
+					outline: none;
+				}
+				&._shown {
+					border-bottom-color: $c__purple-light;
+				}
+			}
+			&__list {
+				display: none;
+				position: absolute;
+				left: 0;
+				right: 0;
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				height: calc(100% - #{rem(40)});
+				overflow: auto;
+
+				&._shown {
+					display: block;
+				}
+			}
+
+				&__item {
+					display: grid;
+					grid-template-columns: rem(110) 1fr;
+					grid-gap: rem(18);
+					font-size: rem(16);
+					line-height: 1.25;
+					margin: rem(10);
+				}
+					&__time {
+
+					}
+					&__name {
+
+					}
+}
+
+
+.hybrid {
+	&__video {
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	&__plinks {
+		padding: rem(50) 0;
+		text-align: center;
+		.h-xl {
+			text-transform: uppercase;
+		}
+	}
+	&__plinksList {
+		list-style: none;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+		&__plink {
+			margin: 0 rem(8) rem(16);
+		}
+
+
+	&__copy {
+		padding-bottom: rem(40);
+		@include bp-1280 {
+			max-width: rem(800);
+			padding-bottom: rem(70);
+		}
+	}
+
+	&__stories {
+		margin-bottom: rem(40);
+		@include bp-1024 {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+
+	&__gallery {
+		padding-bottom: rem(40);
+		display: grid;
+		grid-gap: rem(12);
+		grid-template-areas:
+			"first first"
+			"second third"
+			"fourth fifth";
+		@include bp-1024 {
+			padding-bottom: rem(70);
+			grid-template-areas:
+				"first first second third"
+				"first first fourth fifth";
+		}
+	}
+		&__galleryItem {
+			display: block;
+			width: 100%;
+			height: 0;
+			padding-top: 100%;
+			position: relative;
+			overflow: hidden;
+			&:nth-child(1) {
+				grid-area: first;
+			}
+			&:nth-child(2) {
+				grid-area: second;
+			}
+			&:nth-child(3) {
+				grid-area: third;
+			}
+			&:nth-child(4) {
+				grid-area: fourth;
+			}
+			&:nth-child(5) {
+				grid-area: fifth;
+			}
+		}
+			&__galleryImg {
+				position: absolute;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center center;
+			}
+
+
+	.cards-wrapper {
+		padding-bottom: rem(30);
+		@include bp-1024 {
+			padding-bottom: rem(60);
+		}
+	}
+	.featurette__title {
+		margin-bottom: rem(36);
+	}
+
+
+
+	//lighting effects
+
+	&__lighting1 {
+		background-image: url('#{$img_path}light effect_hybrid_1_top_left.png'),
+											url('#{$img_path}light effect_hybrid_1_top_right.png'),
+											url('#{$img_path}light effect_hybrid_1_bottom_left.png');
+		background-position: top left, top right, bottom left;
+		background-repeat: no-repeat, no-repeat, no-repeat;
+		background-color: $color__purple-dark;
+		background-blend-mode: screen, screen, screen;
+	}
+
+	&__lighting2 {
+		background-image: url('#{$img_path}light effect_hybrid_2_top_left.png'),
+											url('#{$img_path}light effect_hybrid_2_top_right.png');
+		background-position: top left, top right;
+		background-repeat: no-repeat, no-repeat;
+		background-color: $color__purple-dark;
+		background-blend-mode: screen, screen;
+	}
+
+	&__lighting3 {
+		background-image: url('#{$img_path}light effect_hybrid_3.png');
+		background-position: center left;
+		background-repeat: no-repeat;
+		background-color: $color__purple-dark;
+		background-blend-mode: screen;
+	}
+
+}
