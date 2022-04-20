@@ -26,6 +26,7 @@
   	padding-bottom: rem(30);
   	@include bp-1024 {
 			padding-top: rem(70);
+			padding-bottom: rem(70);
 			display: grid;
 			grid-template-columns: 8fr 4fr;
 			grid-gap: rem(18);
@@ -67,6 +68,9 @@
   				letter-spacing: 0.2em;
   				max-width: rem(156);
   				margin: rem(10) auto rem(20);
+  				@include bp-1280 {
+  					margin: rem(10) 0 0;
+  				}
   			}
   				&__sponsorImage {
   					display: block;
