@@ -18,19 +18,19 @@ $date_now = $now->format('Y-m-d H:i:s');
 
 
 $upcoming_meta_query = array(
-	'key' => array('session_end_time', '_EventEndDateUTC'),
+	'key' => array('session_end_time', '_EventEndDate'),
 	'compare' => '>=',
 	'value' => $date_now,
 	'type' => 'DATETIME',
 );
 $past_meta_query = array(
-	'key' => array('session_end_time', '_EventEndDateUTC'),
+	'key' => array('session_end_time', '_EventEndDate'),
 	'compare' => '<',
 	'value' => $date_now,
 	'type' => 'DATETIME',
 );
 $all_meta_query = array(
-	'key' => array('session_end_time', '_EventEndDateUTC'),
+	'key' => array('session_end_time', '_EventEndDate'),
 	'compare' => 'EXISTS',
 );
 
@@ -185,7 +185,7 @@ if($timeframe !== 'all') {
 		'meta_query' => $meta_query,
 		'order' => $query_order,
 		'orderby' => 'meta_value',
-		'meta_key' => array('session_date', '_EventStartDateUTC'),
+		'meta_key' => array('session_date', '_EventStartDate'),
 		'meta_type' => 'DATETIME'
 	));
 } else {
@@ -196,7 +196,7 @@ if($timeframe !== 'all') {
 		'meta_query' => $upcoming_meta_query,
 		'order' => 'ASC',
 		'orderby' => 'meta_value',
-		'meta_key' => array('session_date', '_EventStartDateUTC'),
+		'meta_key' => array('session_date', '_EventStartDate'),
 		'meta_type' => 'DATETIME'
 	));
 	$pastevents = get_posts( array(
@@ -206,7 +206,7 @@ if($timeframe !== 'all') {
 		'meta_query' => $past_meta_query,
 		'order' => 'DESC',
 		'orderby' => 'meta_value',
-		'meta_key' => array('session_date', '_EventStartDateUTC'),
+		'meta_key' => array('session_date', '_EventStartDate'),
 		'meta_type' => 'DATETIME'
 	));
 }
