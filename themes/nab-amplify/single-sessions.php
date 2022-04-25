@@ -518,24 +518,32 @@ if($hide_videos) {
 
 							<?php //dynamic_sidebar('session-not-logged-in'); ?>
 							<section class="introtext widget widget_text">
-								<h3 class="intro__title">Become an official NAB Amplify Member</h3>			
-								<div class="textwidget"><p>You need to be logged in to NAB Amplify to register for this session.<br>Scroll down to read more information about the event.</p></div>
+								<div class="textwidget">
+									<h3 class="intro__title">
+										<a class="" href="<?php echo( esc_url( wc_get_page_permalink( 'myaccount' ) ) . '?r=' . $referring_url ); ?>"><?php esc_html_e( 'Sign in to your account', 'nab-amplify' ); ?></a> to register for this event and to access Video-On-Demand of past events.
+									</h3>
+
+									<p>Need an NAB Amplify account?</p>
+								</div>
 							</section>
-							
-							
+
 							<div class="intro__cta">
 								<?php
-								$referring_url = get_permalink( get_queried_object_id() );
-								$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
-								if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
-									$sign_up_page_url = get_permalink( $sign_up_page->ID );
-								?>
-								<a href="<?php echo( esc_url( $sign_up_page_url ) . '?r=' . $referring_url ); ?>" class="button _gradientpink"><?php esc_html_e( 'Sign Me Up', 'nab-amplify' ); ?></a>
+									$referring_url = get_permalink( get_queried_object_id() );
+									$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
+									if ( isset( $sign_up_page ) && ! empty( $sign_up_page ) ) {
+										$sign_up_page_url = get_permalink( $sign_up_page->ID );
+									?>
+										<a href="<?php echo( esc_url( $sign_up_page_url ) . '?r=' . $referring_url ); ?>" class="button _gradientpink"><?php esc_html_e( 'Sign Up Now', 'nab-amplify' ); ?></a>
+							</div>
+									
 								<?php } ?>
-
 								
-								<a class="" href="<?php echo( esc_url( wc_get_page_permalink( 'myaccount' ) ) . '?r=' . $referring_url ); ?>"><?php esc_html_e( 'Already on NAB Amplify? Sign In', 'nab-amplify' ); ?></a>
-							</div> 
+							<section class="introtext widget widget_text">
+								<div class="textwidget" style="padding-top: 2rem;">
+									<p>Scroll down for more information about this event.</p>
+								</div>
+							</section>
 						</div>
 					</div>
 					<div class="session__desc">
