@@ -527,7 +527,7 @@ if($hide_videos) {
 								</div>
 							</section>
 
-							<div class="intro__cta">
+							<div>
 								<?php
 									$referring_url = get_permalink( get_queried_object_id() );
 									$sign_up_page = get_page_by_path( NAB_SIGNUP_PAGE ); // @todo later replace this with VIP function
