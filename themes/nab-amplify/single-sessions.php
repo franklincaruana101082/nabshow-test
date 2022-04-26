@@ -7,6 +7,8 @@
  * @package Amplify
  */
 
+add_action( 'wp_head', 'nab_add_og_image', 5 );
+
 get_header();
 
 if (isset($_GET['registered']) && $_GET['registered'] == 'true') {
