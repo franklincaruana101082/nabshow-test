@@ -180,7 +180,7 @@ function standardListItem($item_id,$item_link) {
                         );
                     }
                     $args = array(
-                        'numberposts' => -1,
+                        'posts_per_page' => -1,
                         'post_type' => 'articles',
                         'meta_query' => $meta_query,
                     );
