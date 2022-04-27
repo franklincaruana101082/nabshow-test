@@ -5262,12 +5262,27 @@ function nab_add_og_image() {
         return;
         
     if(!has_post_thumbnail( $post->ID )) { //the post does not have featured image, use a default image
-        $default_image="https://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-video-placeholder.png"; 
-        echo '<meta property="og:image" content="' . $default_image . '"/>';
+        $default_image="https://amplify.nabshow.com/wp-content/themes/nab-amplify/assets/images/amplify-video-placeholder.png";
+        ?>
+        <meta property="og:image" content="<?php echo esc_url($default_image); ?>"/>
+        <meta property="og:image:width" content="400" />
+        <meta property="og:image:height" content="225" />
+        <meta property="og:image:type" content="image/png" />
+        <?php
     }
     else{
-        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
-        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+        $thumbnail_src  = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+        $thumbnail_meta = wp_get_attachment_metadata( get_post_thumbnail_id( $post->ID ) );
+        $thumbnail_w    = $thumbnail_meta['width'];
+        $thumbnail_h    = $thumbnail_meta['height'];
+        $thumbnail_type = $thumbnail_meta['sizes']['thumbnail']['mime-type'];
+        ?>
+
+        <meta property="og:image" content="<?php echo esc_attr( $thumbnail_src[0] ); ?>"/>
+        <meta property="og:image:width" content="<?php echo esc_attr( $thumbnail_w ); ?>" />
+        <meta property="og:image:height" content="<?php echo esc_attr( $thumbnail_h ); ?>" />
+        <meta property="og:image:type" content="<?php echo esc_attr( $thumbnail_type ); ?>" />
+        <?php
     }
     echo "
 ";
