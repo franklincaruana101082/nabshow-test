@@ -53,16 +53,7 @@
   border-radius: rem(6);
   @include primary-black-12-12-20;
   line-height: 1.6;
-  background: linear-gradient(
-      256.59deg,
-      rgba(158, 69, 147, 0) 81.26%,
-      #9e4593 139.5%
-    ),
-    linear-gradient(
-      243.87deg,
-      rgba(12, 165, 234, 0.6) -13.36%,
-      rgba(47, 93, 171, 0.12) 31.04%
-    );
+  background: $color__blue-light;
   cursor: pointer;
   transition: all 0.3s;
   @include bp-960 {
@@ -125,7 +116,7 @@
 }
 
 .filter-result-box {
-  @include gradient-purple;
+  background-color: $color__purple-lightish;
   padding: rem(30);
   @include bp-604 {
     padding: rem(30) rem(55);
@@ -145,7 +136,7 @@
     margin-bottom: rem(14);
     a {
       text-decoration: none;
-      color: $color__purple-lighter;
+      color: $color__pink;
       &:hover,
       &:focus {
         text-decoration: underline;
@@ -156,7 +147,7 @@
     margin-bottom: rem(12);
     a {
       text-decoration: none;
-      color: $color__white;
+      color: $color__gray-lightest;
       @include primary-medium-36-36;
       &:hover,
       &:focus {
@@ -187,11 +178,12 @@
   }
   .speakers-list {
     margin-bottom: rem(20);
+    color: $color__white;
     i {
       color: $color__white;
     }
     a {
-      color: $color__purple-lighter;
+      color: $color__pink;
       text-decoration: none;
       &:hover,
       &:focus {
@@ -202,7 +194,7 @@
   .filter-result-box-cta {
     display: block;
     text-decoration: none;
-    color: $color__purple-lighter;
+    color: $color__pink;
     @include primary-black-14-14-20;
     text-transform: uppercase;
     &:hover,
@@ -228,11 +220,15 @@
   text-transform: uppercase;
   &:hover,
   &:focus {
-    color: $color__purple-lighter;
+    color: $color__purple;
     opacity: 0.7;
+    &.dots {
+      color: $color__purple-lighter;
+      opacity: 1;
+    }
   }
   &.current {
-    color: $color__white;
+    color: $color__purple-slate;
     pointer-events: none;
   }
 
