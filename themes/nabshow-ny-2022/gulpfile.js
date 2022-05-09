@@ -41,7 +41,7 @@ const paths = {
 
 function serve () {
 	browserSync.init({
-		proxy: "show.test"
+		proxy: "https://nabshow.vipdev.lndo.site/ny2022/"
 	})
 }
 

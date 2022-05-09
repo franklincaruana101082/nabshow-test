@@ -41,7 +41,7 @@ const paths = {
 
 function serve () {
   browserSync.init({
-    proxy: "amplify.test"
+    proxy: "https://amplify.nabshow.vipdev.lndo.site/"
   })
 }
 
