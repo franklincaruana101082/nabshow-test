@@ -2069,6 +2069,9 @@
 
 .closing__copy {
   margin: 0 rem(8);
+  ._centered & {
+    text-align: center;
+  }
   @include bp-604 {
     margin: 0 rem(28);
   }

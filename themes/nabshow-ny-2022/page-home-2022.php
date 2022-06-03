@@ -196,8 +196,12 @@ endif;
 if( have_rows('closing_featurette') ) :
   while( have_rows('closing_featurette') ): the_row();
     if(get_sub_field('closing_title')):
+      $center_featurette = '';
+      if(get_sub_field('center_featurette')) {
+        $center_featurette = ' _centered';
+      }
   ?>
-  <div class="section featurette">
+  <div class="section featurette <?php echo esc_attr($center_featurette); ?>">
     <div class="container">
       <div class="closing__copy">
         <h2 class="h-xl"><?php the_sub_field('closing_title'); ?></h2>
