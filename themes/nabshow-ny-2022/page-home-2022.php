@@ -74,8 +74,12 @@ if ( $site_intro && ! empty( $site_intro ) ) {
   if( $stories ):
     while( have_rows('stories')): the_row();
       if( have_rows('story_items')):
+        $center_stories = '';
+        if(get_sub_field('center_featurette')) {
+          $center_stories = ' _centered';
+        }
 ?>
-  <div class="section container">
+  <div class="section container <?php echo esc_attr($center_stories); ?>">
     
     <h2 class="featurette__title"><?php echo esc_html( $stories['section_header'] ); ?></h2>
 
@@ -196,8 +200,12 @@ endif;
 if( have_rows('closing_featurette') ) :
   while( have_rows('closing_featurette') ): the_row();
     if(get_sub_field('closing_title')):
+      $center_featurette = '';
+      if(get_sub_field('center_featurette')) {
+        $center_featurette = ' _centered';
+      }
   ?>
-  <div class="section featurette">
+  <div class="section featurette <?php echo esc_attr($center_featurette); ?>">
     <div class="container">
       <div class="closing__copy">
         <h2 class="h-xl"><?php the_sub_field('closing_title'); ?></h2>
