@@ -389,6 +389,26 @@ html._header-is-open {
   }
 }
 
+.header__mainnav-info {
+  color: $color__white;
+  text-transform: none;
+  letter-spacing: rem(0.2);
+  font-size: rem(14);
+  @include bp-768 {
+    position: relative;
+    order: 4;
+    margin: 0 0 0 rem(16);
+    flex: 1;
+    text-align: right;
+  }
+  @include bp-1280 {
+    font-size: rem(16);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 .header__secondarynav {
   display: flex;
   flex-direction: column-reverse;
