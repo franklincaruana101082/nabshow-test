@@ -232,14 +232,13 @@ function displayEvents($post) {
 	$EventEnd = new DateTime($EventEnd);
 
 	$company_id = 0;
-	$event_url = '';
+	$event_url = get_the_permalink($post->ID);
 	if(get_field('nab_selected_company_id')) { 
 		$company_id = get_field('nab_selected_company_id');
 		$event_url = get_post_meta($post->ID, '_EventURL', true);
 	}
 	if(get_field('company')) {
 		$company_id = get_field('company');
-		$event_url = get_the_permalink();
 	}
 	if($company_id){
 		$company_name = get_the_title($company_id);
