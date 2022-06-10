@@ -61,6 +61,8 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 <script type="application/javascript">
     window.consentManagerConfig = function(exports){
       //=== Script Updates
+      const writeKey = '<?php echo $write_key; ?>'
+
       var bannerContent = exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',)
       
       exports.preferences.onPreferencesSaved(function(prefs) {  });      
@@ -84,7 +86,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 
       return {   
             container: '#nab-amp-cookie-consent',
-            writeKey: '<?php echo $write_key; ?>',   
+            writeKey: writeKey,   
             bannerContent: bannerContent,          
             bannerSubContent: 'Change your preferences',
             preferencesDialogTitle: 'Website Data Collection',
