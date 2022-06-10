@@ -12,7 +12,6 @@
 
 $privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
 $write_key		= get_option( 'segment_tracking_api_key' );
-
 ?>
 
 </div> <!-- end site-content -->
@@ -60,47 +59,43 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 </div><!-- #page -->
 
 <script type="application/javascript">
-  window.consentManagerConfig = function(exports) {
-    var React = exports.React
-    var bannerContent = React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',)
-    
-    //=== Script Updates
-    var defaultPref = { marketingAndAnalytics: false, functional: true, advertising: false };
-    var initPref = loadPref = { marketingAndAnalytics: false, functional: true };
-    
-    if(localStorage.getItem("hasPrefStored") && typeof localStorage.getItem("hasPrefStored") !== "undefined") loadPref = defaultPref;   
+    window.consentManagerConfig = function(exports){
+      //=== Script Updates
+      const writeKey = '<?php echo $write_key; ?>'
 
-    var myEl = document.getElementById('nab-amp-cookie-consent'); // Get DOM nap-amp-cookie-consent container
+      var bannerContent = exports.React.createElement('span', null, 'We use cookies (and other similar technologies) to collect data to improve your experience on our site. By using our website, you՚re agreeing to the collection of data as described in our Website Data Collection Policy.',)
+      
+      exports.preferences.onPreferencesSaved(function(prefs) {  });      
 
-    // Capture cookie consent set preference close button
-    myEl.addEventListener('click', function(e) {
-      e.preventDefault(); // Prevent a link from opening the URL:
-      // Check if event triggered or event source is from button close on notif dialog
-      if(e.target.getAttribute('aria-label').toLowerCase() === "close"){
-        // Extra flag hasPrefStored for determining default preference whether to use the value from Initial Preferences 
-        // or the full set which include key adverstising and value false
-        if(!localStorage.getItem("hasPrefStored") || typeof localStorage.getItem("hasPrefStored") === "undefined"){          
-          exports.preferences.savePreferences(defaultPref);    
-          localStorage.setItem("hasPrefStored",1);
+      var myEl = document.getElementById('nab-amp-cookie-consent'); // Get DOM nap-amp-cookie-consent container
+      // Capture nab-amp-cookie-consent button click
+      myEl.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent a link from opening the URL:
+        // Check if event triggered or event source is from button close on notif dialog
+        if(e.target.tagName.toLowerCase() === 'button' && e.target?.getAttributeNode('aria-label')?.value?.toLowerCase() === 'close'){
 
-          loadPref = defaultPref; // Swap previous preference with a new/default preference, includes one preference, adverstising: false
-        }     
-      }
-    })
-    //===
+          // define default Destination and Custom Preferences
+          const defaultDesPref =  {"Amazon Kinesis":true,"Amazon S3":true,"Data Lakes":true,"Facebook Pixel":false,"Google Analytics":true,"Hotjar":true,"LinkedIn Insight Tag":false,"Marketo V2":true,"Parsely":true,"Salesforce Marketing Cloud":true,"Visual Tagger":true};
+          const defaultCusPref =  {marketingAndAnalytics:true, advertising:false, functional:true};
 
-    return {
-      container: '#nab-amp-cookie-consent',
-      writeKey: '<?php echo $write_key; ?>',          
-      initialPreferences: loadPref,
-      bannerContent: bannerContent,
-      bannerSubContent: 'Change your preferences',
-      preferencesDialogTitle: 'Website Data Collection',
-      preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
-      cancelDialogTitle: 'Are you sure you want to cancel?',
-      cancelDialogContent: 'Your preferences have not been saved.'
+          // save default preferences
+          exports.preferences.savePreferences({ destinationPreferences: defaultDesPref, customPreferences: defaultCusPref });
+        }
+      })
+      //===
+
+      return {   
+            container: '#nab-amp-cookie-consent',
+            writeKey: writeKey,   
+            bannerContent: bannerContent,          
+            bannerSubContent: 'Change your preferences',
+            preferencesDialogTitle: 'Website Data Collection',
+            preferencesDialogContent: 'We use data collected by cookies and JavaScript libraries.',
+            cancelDialogTitle: 'Are you sure you want to cancel?',
+            cancelDialogContent: 'Your preferences have not been saved.',
+            closeBehavior: 'accept'
+        };
     }
-  }
 </script>
 
 <!-- Setup the Segment Consent Manager tag -->
@@ -145,6 +140,7 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 
   _st('install','EXqWbg3Gg4icxjFkYUK3','2.0.0');
 </script>
+
 </body>
 
 </html>
