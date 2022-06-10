@@ -84,4 +84,11 @@ jQuery(function($) {
 	//set the url for this woocommerce error link because it's impossible to find where this is in the code/DB
 	jQuery('.woocommerce-error a.showlogin').attr('href', jQuery('.signup__titles .js-signupLink').attr('href'));
 	
+
+	
+	var wooGDPRmsg = jQuery('body.woocommerce-checkout .woocommerce + p').html();
+	jQuery('body.woocommerce-checkout .woocommerce-checkout-review-order').append("<div class='wooGDPRmsg'>"+wooGDPRmsg+"</div>");	
+	jQuery('body.woocommerce-checkout .woocommerce + p').remove();
+	
+	
 });
