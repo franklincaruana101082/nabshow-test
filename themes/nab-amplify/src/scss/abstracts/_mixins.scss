@@ -33,6 +33,13 @@
 	}
  }
  
+ @mixin bp-992() {
+	@media (min-width: 62em) {
+		@content;
+		/*content:"768px";*/
+	}
+ }
+
  @mixin bp-768() {
 	@media (min-width: 48em) {
 		@content;

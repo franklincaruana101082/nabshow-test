@@ -94,8 +94,12 @@
 <?php if(have_rows('opportunities')) :
 	while( have_rows('opportunities') ): the_row();
 		if ( get_sub_field('opportunities_title') || get_sub_field('opportunities_copy') || have_rows('opportunities_items') ) :
+			$center_opportunities = '';
+	        if(get_sub_field('center_featurette')) {
+	          $center_opportunities = ' _centered';
+	        }
 	?>
-	<div class="section opportunities">
+	<div class="section opportunities  <?php echo esc_attr($center_opportunities); ?>">
 		<div class="container">
 			<?php if(get_sub_field('opportunities_title')): ?>
 			<div class="intro-body-text">
