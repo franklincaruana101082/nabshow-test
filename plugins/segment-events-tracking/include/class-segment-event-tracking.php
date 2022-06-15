@@ -19,12 +19,14 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          */
         public $post_id = 0;
         
+        private static $client;
         /**
          * Construct to use add WP hooks.
          */
         public function __construct() {
             
             add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );
+            // add_action( 'get_client', array( $this, 'st_send_event_from_db_to_segment' ) );
 
             $this->st_init_hooks_for_segement_track();
         }
@@ -32,6 +34,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
         /**
          * initialize wordpress hooks.
          */
+
         public function st_init_hooks_for_segement_track() {
 
             add_action( 'wp_enqueue_scripts', array( $this, 'st_enqueue_script' ) );
@@ -76,6 +79,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
             add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
             add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
+
+            add_action( 'wp_footer', array( $this, 'st_track_event' ) );
         }
 
         public function st_enqueue_script() {
@@ -113,7 +118,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
                 'ajaxurl'       => admin_url('admin-ajax.php'),
                 'nabNonce'      => wp_create_nonce('nab-ajax-nonce'),
-                'postID'        => $post->ID,
+                'postID'        => (!empty($post->ID) ? $post->ID : 0),
                 'page'          => $current_page,
                 'search_term'   => $search_terms,
                 'is_pageview'   => $is_pageview,
@@ -121,19 +126,55 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             ));
         }        
 
+
         public function st_track_event( $tracking_details = array() ) {
             
+
             if ( ! isset( $tracking_details['userId'] ) || empty( $tracking_details['userId'] ) ) {
 
-                if ( is_user_logged_in() ) {
-                    $tracking_details['userId'] = get_current_user_id(); 
-                } else {
-                    $tracking_details['anonymousId'] = uniqid();
-                }
+                if ( is_user_logged_in() && !empty($tracking_details['userId'])) $tracking_details['userId'] = get_current_user_id();
+                if ( !empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = $this->retrieve_or_generate_anonymous_id();
             }
+
+
             $tracking_details = wp_json_encode( $tracking_details );
 
-            $this->st_insert_event( 'track', $tracking_details );
+            do_action('qm/debug', $tracking_details);  
+
+            $this->st_insert_event( 'track', $tracking_details );    
+            
+        }
+
+        public function retrieve_or_generate_anonymous_id(){
+
+            $segment_api_key = get_option( 'segment_tracking_api_key' );
+
+            if ( ! empty( $segment_api_key ) ) {
+                
+                require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
+
+                $defaults = [];
+
+                class_alias( 'Segment', 'Analytics' );
+                Segment::init( $segment_api_key );
+                
+                $anonymousdetails = Segment::identify( $defaults );
+                if(empty($anonymousdetails)) $anonymousdetails = Segment::track( $defaults );
+                
+                if(empty($anonymousdetails)) $anonymousdetails = Segment::flush();
+                
+                if(empty($anonymousdetails)){
+                    $defaults['anonymousId'] = uniqid();
+                    $anonymousdetails = $defaults;
+                }
+                
+                $tracking_details = wp_json_encode( $anonymousdetails );
+                
+                do_action('qm/debug', $tracking_details);
+
+            }
+            
+            
         }
 
         public function st_identity_event( $identity_details = array() ) {
@@ -1202,6 +1243,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 $this->st_track_event( $track_event );
             }
 
+            do_action('qm/info', $track_event);
+            
             wp_send_json_success(array(
                 'feedback' => 'Event Track Successfully',
                 'type'     => 'success',
@@ -1236,6 +1279,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
         public function st_track_search_card_click_event() {
 
+            
             if ( isset( $_COOKIE['st_search_click'] ) ) {
 
                 $track_event = array(
@@ -1256,6 +1300,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                 unset( $_COOKIE['st_search_click'] );
                 setcookie( 'st_search_click', null, -1, '/' );
+
+                do_action('qm/info', $track_event);
             }
         }
 
@@ -1571,7 +1617,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             );
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $article_terms = get_the_terms( $post_id, 'content-category' );
@@ -1630,7 +1676,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
             
             $parent_page = wp_get_post_parent_id( $post_id );
@@ -1658,7 +1704,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;            
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $session_terms = get_the_terms( $post_id, 'session_categories' );
@@ -1724,7 +1770,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;            
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $featured_terms = get_field( 'product_categories', $post_id );            
@@ -1803,7 +1849,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $product_category = get_the_terms( $post_id, 'company-product-category' );
@@ -1847,7 +1893,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $product = wc_get_product( $post_id );
