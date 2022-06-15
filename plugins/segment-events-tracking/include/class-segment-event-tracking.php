@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
+
 if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
     
     class Segment_Event_Tracking extends Segment_Event_DB {
@@ -18,15 +20,15 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          * @var int $post_id
          */
         public $post_id = 0;
+
+        private static $default = array( "userId" => "user-id", "anonymousId" => "anonymous-id","event" => "empty-properties","properties" => array() );
         
-        private static $client;
         /**
          * Construct to use add WP hooks.
          */
         public function __construct() {
             
             add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );
-            // add_action( 'get_client', array( $this, 'st_send_event_from_db_to_segment' ) );
 
             $this->st_init_hooks_for_segement_track();
         }
@@ -80,7 +82,10 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
             add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
 
+            // To be Commented
             add_action( 'wp_footer', array( $this, 'st_track_event' ) );
+            add_action( 'wp_ajax_st_track_opt_in_out', array( $this, 'st_track_retrieve_anonymous_id_from_client_callback' ) );
+            
         }
 
         public function st_enqueue_script() {
@@ -113,7 +118,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     }                
                 }
             }
-
+            
             wp_enqueue_script( 'st-segement-event-js', plugin_dir_url( __DIR__ ) . 'js/st-segement-event-tracking.js' );
             wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
                 'ajaxurl'       => admin_url('admin-ajax.php'),
@@ -124,70 +129,72 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 'is_pageview'   => $is_pageview,
                 'content_type'  => $content_type,
             ));
+
+            
         }        
 
 
         public function st_track_event( $tracking_details = array() ) {
             
-
+            $tracking_details = !empty($tracking_details) ? $tracking_details : self::$default;
+            
             if ( ! isset( $tracking_details['userId'] ) || empty( $tracking_details['userId'] ) ) {
 
-                if ( is_user_logged_in() && !empty($tracking_details['userId'])) $tracking_details['userId'] = get_current_user_id();
-                if ( !empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = $this->retrieve_or_generate_anonymous_id();
+                if ( is_user_logged_in() ) $tracking_details['userId'] = get_current_user_id();
+
+                if ( !empty($tracking_details['anonymousId']) ){
+                    $opt = $this->retrieve_or_generate_anonymous_id( $tracking_details );
+                    $tracking_details['anonymousId'] = $opt['anonymousId'];
+                    
+                }               
+                
+                if ( !empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = uniqid();
             }
 
+            do_action('qm/debug',$tracking_details['anonymousId']);
 
             $tracking_details = wp_json_encode( $tracking_details );
 
-            do_action('qm/debug', $tracking_details);  
-
-            $this->st_insert_event( 'track', $tracking_details );    
+            $this->st_insert_event( 'track', $tracking_details );                
             
         }
 
-        public function retrieve_or_generate_anonymous_id(){
+        public function retrieve_or_generate_anonymous_id( $tracking_details = array() ){
 
             $segment_api_key = get_option( 'segment_tracking_api_key' );
 
-            if ( ! empty( $segment_api_key ) ) {
-                
-                require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
+            $tracking_details = !empty($tracking_details) ? $tracking_details : self::$default;
 
-                $defaults = [];
+            if ( ! empty( $segment_api_key ) ) { 
 
-                class_alias( 'Segment', 'Analytics' );
-                Segment::init( $segment_api_key );
-                
-                $anonymousdetails = Segment::identify( $defaults );
-                if(empty($anonymousdetails)) $anonymousdetails = Segment::track( $defaults );
-                
-                if(empty($anonymousdetails)) $anonymousdetails = Segment::flush();
-                
-                if(empty($anonymousdetails)){
-                    $defaults['anonymousId'] = uniqid();
-                    $anonymousdetails = $defaults;
+                if(empty($tracking_details['anonymousId'])){
+                    $opt = $this->st_send_event_from_db_to_segment();
+                    $tracking_details['anonymousId'] = $opt['anonymousId'];
                 }
                 
-                $tracking_details = wp_json_encode( $anonymousdetails );
-                
-                do_action('qm/debug', $tracking_details);
-
+                if(empty($tracking_details['anonymousId'])) $tracking_details['anonymousId'] = uniqid();
             }
             
+            $this->st_insert_event( 'track', $tracking_details );            
             
         }
 
         public function st_identity_event( $identity_details = array() ) {
 
+            $tracking_details = !empty($tracking_details) ? $tracking_details : self::$default;
+
             if ( ! isset( $identity_details['userId'] ) || empty( $identity_details['userId'] ) ) {
 
-                if ( is_user_logged_in() ) {
-                    $identity_details['userId'] = get_current_user_id(); 
-                } else {
-                    $identity_details['anonymousId'] = uniqid();
+                if ( is_user_logged_in() ) $identity_details['userId'] = get_current_user_id(); 
+                
+                if ( !empty($tracking_details['anonymousId']) ){
+                    $opt = $this->retrieve_or_generate_anonymous_id( $tracking_details );
+                    $identity_details['anonymousId'] = $opt['anonymousId'];
                 }
             }
             
+            do_action('qm/debug',$tracking_details['anonymousId']);
+
             $identity_details = wp_json_encode( $identity_details );
             $this->st_insert_event( 'identify', $identity_details );
         }
@@ -238,6 +245,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             $track_event = array(
                 'userId'        => $user_id,
+                'anonymousId'   => $user_data->anonymous_id,
                 'event'         => 'Account_Created',
                 'properties'    => array(
                     'Email_Address' => $user_data->user_email,
@@ -247,6 +255,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             $track_identity = array(
                 'userId'    => $user_id,
+                'anonymousId'   => $user_data->anonymous_id,
                 'traits'    => array(
                     'email'         => $user_data->user_email,
                     'User_Name'     => $user_data->user_login,
@@ -321,6 +330,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                 $track_identity = array(
                     'userId'    => $user_id,
+                    'anonymousId'=> $track_event['anonymousId'],
                     'traits'    => $track_event['properties'],
                 );
     
@@ -345,6 +355,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
                 $track_identity = array(
                     'userId'    => $user_id,
+                    'anonymousId'=> $track_event['anonymousId'],
                     'traits'    => $track_event['properties'],
                 );
     
@@ -627,6 +638,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
             $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            $anonymous_id = filter_input(INPUT_POST, 'anonymous_id', FILTER_SANITIZE_NUMBER_INT);
             $session_id = filter_input( INPUT_POST, 'session_id', FILTER_SANITIZE_NUMBER_INT );
             $session_name = filter_input( INPUT_POST, 'session_name', FILTER_SANITIZE_STRING );
             $session_company_id = filter_input( INPUT_POST, 'session_company_id', FILTER_SANITIZE_NUMBER_INT );
@@ -643,7 +655,8 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             $track_event     = array(
                 'event'      => 'Session_User_Registered',
-                'userId'     => $user_id,
+                'userId'     => $anonymous_id,
+                'anonymousId' => $user_id,
                 'properties' => array(
                     'session_id'            => $session_id,
                     'session_name'          => $session_name,
@@ -675,6 +688,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
 
             $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            $anonymous_id = filter_input(INPUT_POST, 'anonymous_id', FILTER_SANITIZE_NUMBER_INT);
             $company_id = filter_input(INPUT_POST, 'company_id', FILTER_SANITIZE_NUMBER_INT);
             $company_name = filter_input(INPUT_POST, 'company_name', FILTER_SANITIZE_STRING);
             $opted_in = filter_input(INPUT_POST, 'opted_in', FILTER_VALIDATE_BOOLEAN);
@@ -700,6 +714,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             $track_event     = array(
                 'event'      => $event_track,
                 'userId'     => $user_id,
+                'anonymousId'     => $anonymous_id,
                 'properties' => array(
                     'company_id'            => $company_id,
                     'company_name'          => $company_name,
@@ -1223,6 +1238,33 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
     
                 $this->st_track_event( $track_event );
             }
+        }
+
+        public function st_track_retrieve_anonymous_id_from_client_callback() {
+
+            check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
+            $anonymous_id = filter_input(INPUT_POST, 'anonymous_id', FILTER_SANITIZE_NUMBER_INT);
+            if ( is_user_logged_in() ) {
+
+                $user_id = get_current_user_id();
+                $user_data = get_userdata( $user_id );
+                $track_event = array(
+                    'userId'    => $user_id,
+                    'event'     => 'Site_Feedback_Clicked',
+                );
+    
+                $track_event['properties'] = $this->st_add_user_taxonomy_properties( $user_id );
+    
+                $this->st_track_event( $track_event );
+            }
+
+            do_action('qm/info', $anonymous_id);
+            
+            wp_send_json_success(array(
+                'feedback' => 'Event Track Successfully',
+                'type'     => 'success',
+            ));	
+
         }
 
         public function st_track_site_feedback_callback() {

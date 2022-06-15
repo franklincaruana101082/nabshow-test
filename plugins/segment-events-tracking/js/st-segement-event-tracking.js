@@ -1,4 +1,44 @@
 ( function ($) {
+
+    function triggerEventRetrieveAnonymousId(segmentJST){
+        $.ajax({
+            url: segmentJS.ajaxurl,
+            type: 'GET',
+            data: {
+                action: 'st_track_retrieve_anonymous_id_from_client_click',
+                nabNonce: segmentJS.nabNonce,
+                anonymous_id: segmentJST.anonymous_id,
+                userId: segmentJST.userId,
+            },
+            success: function (response) {              
+            }
+        });
+    }
+    
+    function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
+    let segmentJST = { ajaxurl: segmentJS.ajaxurl, postID: getCookie('postID'), nabNonce: {}, anonymous_id: getCookie('ajs_anonymous_id'), userId: getCookie('userId'), userTraits: getCookie('userTraits'), groupProperties: getCookie('groupProperties'), groupId: getCookie('groupId')};
+    
+    // console.log("segmentJS.ajaxurl",segmentJS.ajaxurl);
+    // console.log("segmentJST",segmentJST);
+    
+    $( document ).ready(function() {
+        triggerEventRetrieveAnonymousId(segmentJST)
+    })
+
     $(document).on('click', '.nab-suggetion a, #custom_html-10 a.btn', function(){
         $.ajax({
             url: segmentJS.ajaxurl,

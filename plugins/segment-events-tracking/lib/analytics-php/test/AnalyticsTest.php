@@ -14,6 +14,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
   {
     $this->assertTrue(Segment::track(array(
       "userId" => "john",
+      "anonymousId" => "anonymous-id",
       "event" => "Module PHP Event",
     )));
   }
@@ -23,6 +24,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
     $this->assertTrue(Segment::group(array(
       "groupId" => "group-id",
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "traits" => array(
         "plan" => "startup",
       ),
@@ -162,6 +164,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
   {
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "empty-properties",
       "properties" => array(),
     )));
@@ -170,6 +173,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
       "category" => "empty-properties",
       "name" => "empty-properties",
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "properties" => array(),
     )));
   }
@@ -179,6 +183,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
     $this->assertTrue(Segment::alias(array(
       "previousId" => "previous-id",
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
     )));
   }
 
@@ -186,6 +191,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
   {
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "Context Test",
       "context" => array(),
     )));
@@ -195,6 +201,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
   {
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "Context Test",
       "context" => array(
         "active" => false,
@@ -206,42 +213,49 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase
   {
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "integer-timestamp",
       "timestamp" => (int) mktime(0, 0, 0, date('n'), 1, date('Y')),
     )));
 
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "string-integer-timestamp",
       "timestamp" => (string) mktime(0, 0, 0, date('n'), 1, date('Y')),
     )));
 
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "iso8630-timestamp",
       "timestamp" => date(DATE_ATOM, mktime(0, 0, 0, date('n'), 1, date('Y'))),
     )));
 
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "iso8601-timestamp",
       "timestamp" => date(DATE_ATOM, mktime(0, 0, 0, date('n'), 1, date('Y'))),
     )));
 
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "strtotime-timestamp",
       "timestamp" => strtotime('1 week ago'),
     )));
 
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "microtime-timestamp",
       "timestamp" => microtime(true),
     )));
 
     $this->assertTrue(Segment::track(array(
       "userId" => "user-id",
+      "anonymousId" => "anonymous-id",
       "event" => "invalid-float-timestamp",
       "timestamp" => ((string) mktime(0, 0, 0, date('n'), 1, date('Y'))) . '.',
     )));

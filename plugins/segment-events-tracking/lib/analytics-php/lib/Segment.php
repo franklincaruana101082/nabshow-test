@@ -95,6 +95,7 @@ class Segment {
     self::checkClient();
     $userId = !empty($message["userId"]);
     $previousId = !empty($message["previousId"]);
+    $anonymousId = !empty($message["anonymousId"]);
     self::assert($userId && $previousId, "Segment::alias() requires both userId and previousId");
 
     return self::$client->alias($message);

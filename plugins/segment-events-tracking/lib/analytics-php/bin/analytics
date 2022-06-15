@@ -15,6 +15,7 @@ $options = getopt('', array(
   'type:',
 
   'userId::',
+  'anonymousId::',
 
   'event::',
   'properties::',
@@ -38,6 +39,7 @@ switch ($options['type']) {
   case 'track':
     Segment::track(array(
       'userId' => $options['userId'],
+      'anonymousId' => $options['anonymousId'],
       'event' => $options['event'],
       'properties' => parse_json($options['properties'])
     ));
@@ -46,6 +48,7 @@ switch ($options['type']) {
   case 'identify':
     Segment::identify(array(
       'userId' => $options['userId'],
+      'anonymousId' => $options['anonymousId'],
       'traits' => parse_json($options['traits'])
     ));
     break;
@@ -53,6 +56,7 @@ switch ($options['type']) {
   case 'page':
     Segment::page(array(
       'userId' => $options['userId'],
+      'anonymousId' => $options['anonymousId'],
       'name' => $options['name'],
       'properties' => parse_json($options['properties'])
     ));
@@ -61,6 +65,7 @@ switch ($options['type']) {
   case 'group':
     Segment::identify(array(
       'userId' => $options['userId'],
+      'anonymousId' => $options['anonymousId'],
       'groupId' => $options['groupId'],
       'traits' => parse_json($options['traits'])
     ));
@@ -69,6 +74,7 @@ switch ($options['type']) {
   case 'alias':
     Segment::alias(array(
       'userId' => $options['userId'],
+      'anonymousId' => $options['anonymousId'],
       'previousId' => $options['previousId']
     ));
     break;
