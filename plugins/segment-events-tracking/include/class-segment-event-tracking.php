@@ -21,7 +21,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
          */
         public $post_id = 0;
 
-        private static $default = array( "userId" => "user-id", "anonymousId" => "anonymous-id","event" => "empty-properties","properties" => array() );
+        private static $default = array( "userId" => "user-id", "anonymousId" => null,"event" => "empty-properties","properties" => array() );
         
         /**
          * Construct to use add WP hooks.
@@ -138,20 +138,20 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             
             $tracking_details = !empty($tracking_details) ? $tracking_details : self::$default;
             
-            if ( ! isset( $tracking_details['userId'] ) || empty( $tracking_details['userId'] ) ) {
+            // if ( ! isset( $tracking_details['userId'] ) || empty( $tracking_details['userId'] ) ) {
 
                 if ( is_user_logged_in() ) $tracking_details['userId'] = get_current_user_id();
 
                 if ( !empty($tracking_details['anonymousId']) ){
                     $opt = $this->retrieve_or_generate_anonymous_id( $tracking_details );
-                    $tracking_details['anonymousId'] = $opt['anonymousId'];
+                    $tracking_details['anonymousId'] = !empty($opt['anonymousId']) ? $opt['anonymousId'] : null;
                     
                 }               
                 
-                if ( !empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = uniqid();
-            }
+                if ( empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = uniqid();
+            // }
 
-            do_action('qm/debug',$tracking_details['anonymousId']);
+            do_action('qm/debug',$tracking_details);
 
             $tracking_details = wp_json_encode( $tracking_details );
 
@@ -183,15 +183,17 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             $tracking_details = !empty($tracking_details) ? $tracking_details : self::$default;
 
-            if ( ! isset( $identity_details['userId'] ) || empty( $identity_details['userId'] ) ) {
+            // if ( ! isset( $identity_details['userId'] ) || empty( $identity_details['userId'] ) ) {
 
                 if ( is_user_logged_in() ) $identity_details['userId'] = get_current_user_id(); 
                 
-                if ( !empty($tracking_details['anonymousId']) ){
+                if (empty($tracking_details['anonymousId']) ){
                     $opt = $this->retrieve_or_generate_anonymous_id( $tracking_details );
-                    $identity_details['anonymousId'] = $opt['anonymousId'];
+                    $identity_details['anonymousId'] = !empty($opt['anonymousId']) ? $opt['anonymousId'] : null;
                 }
-            }
+
+                if(empty($tracking_details['anonymousId'])) $tracking_details['anonymousId'] = uniqid();
+            // }
             
             do_action('qm/debug',$tracking_details['anonymousId']);
 
