@@ -82,8 +82,6 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
             add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
 
-            // To be Commented
-            // add_action( 'wp_footer', array( $this, 'st_track_event' ) );
             add_action( 'wp_ajax_st_track_opt_in_out', array( $this, 'st_track_retrieve_anonymous_id_from_client_callback' ) );
             
         }
