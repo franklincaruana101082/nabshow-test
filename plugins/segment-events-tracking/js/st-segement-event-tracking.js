@@ -16,18 +16,10 @@
     }
     
     // function description for retreiving cookie by name/key
-    function getCookie(cname) {
-        let name = cname + "=";
-        let ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-          let c = ca[i];
-          while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-        }
+    function getAJSCookie(ajs_name) {
+        const ajs_cookie = localStorage.getItem(ajs_name);
+        if(ajs_cookie !== undefined) return JSON.parse(ajs_cookie);
+
         return "";
     }
           
@@ -36,11 +28,11 @@
         // Store some desired or needed cookie in variable
         let segmentJST = { 
                 ...segmentJS, 
-                anonymous_id: getCookie('ajs_anonymous_id'), 
-                user_id: getCookie('ajs_user_id'), 
-                user_traits: getCookie('ajs_user_traits.destinationTrackingPreferences'), 
-                group_properties: getCookie('ajs_group_properties'), 
-                group_id: getCookie('ajs_group_id')
+                anonymous_id: getAJSCookie('ajs_anonymous_id'), 
+                user_id: getAJSCookie('ajs_user_id'), 
+                user_traits: getAJSCookie('ajs_user_traits'), 
+                group_properties: getAJSCookie('ajs_group_properties'), 
+                group_id: getAJSCookie('ajs_group_id')
             };
 
         triggerEventRetrieveAnonymousId(segmentJST) // function call to send anonymous id, user id, etc. to server

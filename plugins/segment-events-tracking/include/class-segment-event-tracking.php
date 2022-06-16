@@ -1961,40 +1961,53 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
         public function st_track_retrieve_anonymous_id_from_client_callback() {
 
             check_ajax_referer( 'nab-ajax-nonce', 'nabNonce' );
-            
-            $tracking_details = self::$default;
 
             $anonymous_id = filter_input(INPUT_POST, 'anonymous_id', FILTER_SANITIZE_STRING);
             $user_id_from_client = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
-            $post_id = filter_input(INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT);
+
+            // $page = filter_input(INPUT_POST, 'page', FILTER_SANITIZE_STRING);
+            // $post_id = filter_input(INPUT_POST, 'postID', FILTER_SANITIZE_NUMBER_INT);
             
-            $user = $opt = null;
             // Check if User is Logged In then use get_current_user_id() function, otherwise check if client passed user_id and use its value
             if ( is_user_logged_in() ){
                 $user = get_current_user(); 
-                $tracking_details['userId'] = get_current_user_id(); // If user is logged in}                
+                $user_id = get_current_user_id(); // If user is logged in}                
             } else {
                 $user = get_user_by( 'id', $user_id_from_client );
-                $tracking_details['userId'] = $user_id_from_client; // if user is not logged in
-            }
+                $user_id = $user_id_from_client; // if user is not logged in
+            }           
 
+            // Try to check and get user traits properties
+            // Track identity and event
+            $track_event = array(
+                'userId'    => $user_id,
+                'event'     => 'Retrieve Anonymous Id',
+            );
 
-            if ( empty($tracking_details['anonymousId']) ){
-                $this->st_identity_event( $tracking_details );   
-                $opt = 3;  
-            }
+            $track_event['properties'] = $this->st_add_user_taxonomy_properties( $user_id );
+
+            $track_identity = array(
+                'userId'    => $user->ID,
+                'traits'    => $track_event['properties'],
+            );
+
+            $track_identity['traits']['email'] = $track_identity['traits']['Email_Address'];
+
+            unset( $track_identity['traits']['Email_Address'] );
+
+            $this->st_identity_event( $track_identity );
+
+            $this->st_track_event( $track_event );
+
+            $tracking_details = array_merge($track_identity, $track_event);
             
-            if ( empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = $anonymous_id;           
+            $tracking_details['anonymousId'] = $anonymous_id;
             
-            if ( empty($tracking_details['anonymousId']) ){
-                $tracking_details['anonymousId'] = uniqid();
-                $opt = 3;
-            }
-            
+            if ( empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = uniqid();
+
             wp_send_json_success(array(
                 'feedback' => 'Retrieve Anonymous ID Event Track Successfully',
-                'tracking_details' => $tracking_details,
-                'opt' => $opt,
+                'track_details' => $tracking_details,
                 'type' => 'success'
             ));	
         }
