@@ -2001,9 +2001,9 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             $tracking_details = array_merge($track_identity, $track_event);
             
-            $tracking_details['anonymousId'] = $anonymous_id;
+            $tracking_details['anonymousId'] = $anonymous_id; // If anonymous id exist then use it
             
-            if ( empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = uniqid();
+            if ( empty($tracking_details['anonymousId']) ) $tracking_details['anonymousId'] = uniqid(); // If anonymous id dont exist then use uniqid
 
             wp_send_json_success(array(
                 'feedback' => 'Retrieve Anonymous ID Event Track Successfully',
