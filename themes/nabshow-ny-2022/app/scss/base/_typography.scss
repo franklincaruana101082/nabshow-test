@@ -477,8 +477,10 @@ body {
   ======================================= */
 
 .intro-body-text {
-  max-width: rem(734);
   padding-bottom: rem(18);
+  ._centered & {
+    text-align: center;
+  }
   @include bp-768 {
     padding-bottom: rem(60);
   }

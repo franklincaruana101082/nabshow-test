@@ -86,6 +86,9 @@
 
 .card__body {
   padding: rem(30) rem(30) rem(40) rem(30);
+  ._centered & {
+    text-align: center;
+  }
   ul {
     color: $color__white !important;
     padding-left: rem(16);
