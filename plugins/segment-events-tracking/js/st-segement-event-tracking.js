@@ -1,20 +1,21 @@
 ( function ($) {
 
+    // function description for passing anonymous ID from client to server
     function triggerEventRetrieveAnonymousId(segmentJST){
         $.ajax({
             url: segmentJS.ajaxurl,
-            type: 'GET',
+            type: 'POST',
             data: {
-                action: 'st_track_retrieve_anonymous_id_from_client_click',
-                nabNonce: segmentJS.nabNonce,
-                anonymous_id: segmentJST.anonymous_id,
-                userId: segmentJST.userId,
+                action: 'st_track_retrieve_anonymous_id_from_client',
+                ...segmentJST
             },
-            success: function (response) {              
+            success: function (response) {      
+                console.log("response",response)
             }
         });
     }
     
+    // function description for retreiving cookie by name/key
     function getCookie(cname) {
         let name = cname + "=";
         let ca = document.cookie.split(';');
@@ -25,18 +26,24 @@
           }
           if (c.indexOf(name) == 0) {
             return c.substring(name.length, c.length);
-          }
+        }
         }
         return "";
-      }
-
-    let segmentJST = { ajaxurl: segmentJS.ajaxurl, postID: getCookie('postID'), nabNonce: {}, anonymous_id: getCookie('ajs_anonymous_id'), userId: getCookie('userId'), userTraits: getCookie('userTraits'), groupProperties: getCookie('groupProperties'), groupId: getCookie('groupId')};
-    
-    // console.log("segmentJS.ajaxurl",segmentJS.ajaxurl);
-    // console.log("segmentJST",segmentJST);
-    
+    }
+          
+    // Allow page to load completely
     $( document ).ready(function() {
-        triggerEventRetrieveAnonymousId(segmentJST)
+        // Store some desired or needed cookie in variable
+        let segmentJST = { 
+                ...segmentJS, 
+                anonymous_id: getCookie('ajs_anonymous_id'), 
+                user_id: getCookie('ajs_user_id'), 
+                user_traits: getCookie('ajs_user_traits.destinationTrackingPreferences'), 
+                group_properties: getCookie('ajs_group_properties'), 
+                group_id: getCookie('ajs_group_id')
+            };
+
+        triggerEventRetrieveAnonymousId(segmentJST) // function call to send anonymous id, user id, etc. to server
     })
 
     $(document).on('click', '.nab-suggetion a, #custom_html-10 a.btn', function(){
