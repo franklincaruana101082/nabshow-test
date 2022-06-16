@@ -1981,7 +1981,6 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
 
             if ( empty($tracking_details['anonymousId']) ){
                 $this->st_identity_event( $tracking_details );   
-                // $tracking_details['anonymousId'] = !empty($opt['anonymousId']) ? $opt['anonymousId'] : null;
                 $opt = 3;  
             }
             
