@@ -24,8 +24,9 @@
 	</div><!-- .entry-content -->
 
 </article><!-- #post-<?php the_ID(); ?> -->
-
+<?php if(is_active_sidebar('broadstreet-ros-bottom')) { ?>
 	<div class="container">
 		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
+<?php } ?>
 <div class="decorative _lightlines-footer-corner"></div>

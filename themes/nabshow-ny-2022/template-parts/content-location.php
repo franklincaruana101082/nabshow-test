@@ -52,9 +52,11 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
 }
 ?>
 
+<?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
 <div class="section container">
     <?php dynamic_sidebar('broadstreet-internal-top'); ?>
 </div>
+<?php } ?>
 
 <?php
 if ( ! empty( $featured_video ) ) {
@@ -298,9 +300,11 @@ if ( $display_speakers_and_sessions ) {
                 </div>        
             </div>
     </div>
+    <?php if(is_active_sidebar('broadstreet-ros-middle')) { ?>
     <div class="section container">
         <?php dynamic_sidebar('broadstreet-ros-middle'); ?>
     </div>
+    <?php } ?>
     <div class="section container">
         <?php the_content(); ?>
     </div>
@@ -361,9 +365,11 @@ if ( $display_mailing_list_block ) {
     <?php
 }
 ?>
+<?php if(is_active_sidebar('broadstreet-ros-bottom')) { ?>
 <div class="section container">
     <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 </div>
+<?php } ?>
 
 <?php 
 $closing_cta = get_field('closing_cta');

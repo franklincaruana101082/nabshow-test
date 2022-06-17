@@ -19,7 +19,7 @@
 <div class="decorative _lightlines-bottom-right">
 	<div class="container">
 		<div class="resource-intro">
-			<div class="resource-intro-content">
+			<div class="resource-intro-content<?php if(!have_rows('stats')): ?> _nostats<?php endif; ?>">
 				<?php
 				$header_image = get_field('header_image');
 				if(!empty($header_image)):
@@ -73,9 +73,11 @@
 		</div>
 	</div>
 
+	<?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
 	<div class="section _bottom-only container">
 		<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 	</div>
+	<?php } ?>
 
 	<?php if(have_rows('resource_links')) : ?>
 	<div class="container">
@@ -193,10 +195,11 @@
 	</div>
 <?php endif; ?>
 
-
+<?php if(is_active_sidebar('broadstreet-ros-bottom')) { ?>
 	<div class="section container">
 		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
+<?php } ?>
 
 <?php if (!$hide_sign_up): ?>
 	<div class="section _amp-signup">

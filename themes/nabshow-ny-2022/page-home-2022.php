@@ -112,9 +112,11 @@ if ( $site_intro && ! empty( $site_intro ) ) {
       </div>
       <?php endwhile; ?>
     </div>
+    <?php if(is_active_sidebar('broadstreet-home-leaderboard')) { ?>
     <div class="section _bottom-only container">
       <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
     </div>
+    <?php } ?>
   </div>
   <?php
       endif;

@@ -57,10 +57,11 @@ if ( is_array( $all_session_id ) && count( $all_session_id ) > 0 ) {
 }
 ?>
     <div class="decorative _lightlines-strip"></div>
-
+    <?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
     <div class="container">
         <?php dynamic_sidebar('broadstreet-internal-top'); ?>
     </div>
+    <?php } ?>
 
     <div class="section decorative _lightlines-top-left-angle">
         <div class="container">

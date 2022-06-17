@@ -20,10 +20,11 @@
 
 <!-- Schedule Table Begins here -->
 	<div class="section _bottom">
+		<?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
 		<div class="section _bottom-only container">
 			<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 		</div>
-		<?php 
+		<?php }
 		 if(get_field('schedule_table')){
 		 	get_template_part( 'template-parts/partial', 'schedule-table', array('schedule_id' => get_field('schedule_table')) );
 		 	//nabshow_render_schedule(get_field('schedule_table'));
@@ -134,9 +135,11 @@
 			</div>
 		</div>
 		*/ ?>
+		<?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
 		<div class="section container">
 			<?php dynamic_sidebar('broadstreet-ros-middle'); ?>
 		</div>
+		<?php } ?>
 	</div>
 <!-- END Schedule Table -->
 
@@ -272,8 +275,10 @@
 	</div>
 <?php endif; ?>
 
+<?php if(is_active_sidebar('broadstreet-ros-bottom')) { ?>
 <div class="container">
 	<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 </div>
+<?php } ?>
 
 <div class="decorative _lightlines-footer-strip"></div>
