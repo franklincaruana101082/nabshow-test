@@ -73,9 +73,11 @@
 		</div>
 	</div>
 
+	<?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
 	<div class="section _bottom-only container">
 		<?php dynamic_sidebar('broadstreet-internal-top'); ?>
 	</div>
+	<?php } ?>
 
 	<?php if(have_rows('resource_links')) : ?>
 	<div class="container">
@@ -193,10 +195,11 @@
 	</div>
 <?php endif; ?>
 
-
+<?php if(is_active_sidebar('broadstreet-ros-bottom')) { ?>
 	<div class="section container">
 		<?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
 	</div>
+<?php } ?>
 
 <?php if (!$hide_sign_up): ?>
 	<div class="section _amp-signup">

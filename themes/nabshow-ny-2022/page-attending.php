@@ -80,10 +80,11 @@ $page_subtitle  = get_field( 'page_subtitle' );
     <?php
   endif;
   ?>  
+  <?php if(is_active_sidebar('broadstreet-ros-middle')) { ?>
   <div class="container">
     <?php dynamic_sidebar('broadstreet-ros-bottom'); ?>
   </div>
-  <?php 
+  <?php }
   $closing_cta = get_field('closing_cta');
   $closing_copy = get_field('closing_copy');
   if ($closing_cta || $closing_copy): 
