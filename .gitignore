@@ -41,3 +41,4 @@ phpcs
 wpcs
 composer.json
 composer.lock
+wp-content
