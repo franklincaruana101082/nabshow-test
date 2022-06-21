@@ -10,7 +10,7 @@
  * @package NABShow_LV
  */
 
-header('Cache-Control: public, max-age=300'); // Setting cache header here!
+// header('Cache-Control: public, max-age=300'); // Setting cache header here!
 
 if ('production' === VIP_GO_APP_ENVIRONMENT) {
     // This code only runs on production

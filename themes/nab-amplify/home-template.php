@@ -378,7 +378,7 @@
 </head>
 
 <body id="bodyId">
-
+<script>console.disableYellowBox = true;</script>
 <!-- screen -->
 <div id="screen" class="mktoContent">
 
@@ -453,7 +453,16 @@
 
 	</div>
 	<script src="https://app-ab34.marketo.com/js/forms2/js/forms2.min.js"></script>
-	<script>MktoForms2.loadForm( '//app-ab34.marketo.com', '927-ARO-980', 1113 );</script>
+	<script>
+		MktoForms2.loadForm( '//app-ab34.marketo.com', '927-ARO-980', 1113, function(form) {
+			// Add an onSuccess handler
+			form.onSuccess(function(values, followUpUrl) {
+				// Get the form's jQuery element and hide it
+				form.getFormElem().hide();
+				// Return false to prevent the submission handler from taking the lead to the follow up url
+				return false;
+			});
+	</script>
 	<!-- content -->
 
 	<!-- transparency -->
@@ -475,5 +484,6 @@
 <script type="text/javascript" src="//munchkin.marketo.net//munchkin.js"></script>
 <script>Munchkin.init( '927-ARO-980', { customName: 'NAB21OV', wsInfo: 'j1RR' } );</script>
 <script type="text/javascript" src="<?php echo get_stylesheet_directory_uri() ?>/assets/js/stripmkttok.js"></script>
+
 </body>
 </html>

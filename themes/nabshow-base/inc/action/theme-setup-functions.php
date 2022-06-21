@@ -209,19 +209,19 @@ function nabshow_lv_widgets_init() {
  */
 function nabshow_lv_scripts() {
 
-    wp_enqueue_script( 'nabshow-lv-skip-link-focus-fix', get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js', array(), '20151215', true );
+    wp_enqueue_script( 'nabshow-lv-skip-link-focus-fix', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js',16), array(), '20151215', true );
 
-    wp_enqueue_style( 'nabshow-lv-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css' );
+    wp_enqueue_style( 'nabshow-lv-fonts', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/fonts/fonts.css',15) );
 
     wp_enqueue_style( 'wp-block-library' );
 
     //wp_enqueue_style( 'nabshow-lv-style', get_stylesheet_uri() );
 
-    wp_enqueue_style( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css' );
+    wp_enqueue_style( 'nabshow-lv-bootstrap', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/css/bootstrap.min.css',12) );
 
-    wp_enqueue_style( 'nabshow-lv-font-awesome', get_template_directory_uri() . '/assets/fonts/font-awesome.min.css' );
+    wp_enqueue_style( 'nabshow-lv-font-awesome', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/fonts/font-awesome.min.css',13) );
 
-    wp_enqueue_style( 'nabshow-lv-bxslider-style', get_template_directory_uri() . '/assets/css/jquery.bxslider.css' );
+    wp_enqueue_style( 'nabshow-lv-bxslider-style', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/css/jquery.bxslider.css',14) );
 
     // wp_enqueue_style( 'nabshow-lv-custom-style', get_template_directory_uri() . '/assets/css/custom.css', array(), '6.7' );
 
@@ -234,11 +234,11 @@ function nabshow_lv_scripts() {
     }
 
     //bx-slider script
-    wp_enqueue_script( 'nabshow-lv-bx-slider', get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
+    wp_enqueue_script( 'nabshow-lv-bx-slider', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/jquery.bxslider.min.js',5), array( 'jquery' ), null, true );
 
-    wp_enqueue_script( 'nabshow-lv-bootstrap', get_template_directory_uri() . '/assets/js/modal.min.js', array( 'jquery' ), null, true  );
-    wp_enqueue_script( 'nabshow-lv-iframe-resize', get_template_directory_uri() . '/assets/js/iframeResizer.min.js', array( 'jquery' ), '6.0', true );
-    wp_enqueue_script( 'nabshow-lv-custom', get_template_directory_uri() . '/assets/js/nabshow-lv.js', array( 'jquery' ), '6.1', true );
+    wp_enqueue_script( 'nabshow-lv-bootstrap', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/modal.min.js',6), array( 'jquery' ), null, true  );
+    wp_enqueue_script( 'nabshow-lv-iframe-resize', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/iframeResizer.min.js',7), array( 'jquery' ), '6.0', true );
+    wp_enqueue_script( 'nabshow-lv-custom', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/nabshow-lv.js',8), array( 'jquery' ), '6.1', true );
 	wp_localize_script( 'nabshow-lv-custom', 'nabshowLvCustom', array(
 		'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 		'nabshow_lv_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
@@ -252,7 +252,7 @@ function nabshow_lv_scripts() {
     }
 
     if ( is_post_type_archive('not-to-be-missed') ):
-        wp_enqueue_script( 'nabshow-lv-ntb-missed', get_template_directory_uri() . '/assets/js/nabshow-lv-ntb-missed.js', array( 'jquery' ), null, true );
+        wp_enqueue_script( 'nabshow-lv-ntb-missed', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/nabshow-lv-ntb-missed.js',4), array( 'jquery' ), null, true );
         wp_localize_script( 'nabshow-lv-ntb-missed', 'nabshowLvNtbMissed', array(
             'ajax_url'                    => admin_url( 'admin-ajax.php' ),
             'nabshow_lv_ntb_missed_nonce' => wp_create_nonce( 'ntb_missed_nonce' )
@@ -262,7 +262,7 @@ function nabshow_lv_scripts() {
     $current_taxonomy_term = get_queried_object();
 
     if ( is_post_type_archive('thought-gallery') || ( isset( $current_taxonomy_term->taxonomy ) && 'thought-gallery-category' === $current_taxonomy_term->taxonomy ) ):
-        wp_enqueue_script( 'nabshow-lv-thought-gallery', get_template_directory_uri() . '/assets/js/nabshow-lv-thought-gallery.js', array( 'jquery' ), '1.0', true );
+        wp_enqueue_script( 'nabshow-lv-thought-gallery',UrlVerifier::AppendTimeToUrl( get_template_directory_uri() . '/assets/js/nabshow-lv-thought-gallery.js',9), array( 'jquery' ), '1.0', true );
         wp_localize_script( 'nabshow-lv-thought-gallery', 'nabshowLvThoughtGallery', array(
             'ajax_url'                    => admin_url( 'admin-ajax.php' ),
             'nabshow_lv_thought_gallery_nonce' => wp_create_nonce( 'thought_gallery_nonce' )
@@ -270,7 +270,7 @@ function nabshow_lv_scripts() {
     endif;
 
 	if ( is_post_type_archive('news-releases' ) ):
-		wp_enqueue_script( 'nabshow-lv-news-releases', get_template_directory_uri() . '/assets/js/nabshow-lv-news-releases.js', array( 'jquery' ), '1.1', true );
+		wp_enqueue_script( 'nabshow-lv-news-releases', UrlVerifier::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/nabshow-lv-news-releases.js',10), array( 'jquery' ), '1.1', true );
 		wp_localize_script( 'nabshow-lv-news-releases', 'nabshowLvNewsReleases', array(
 			'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 			'nabshow_lv_news_releases_nonce' => wp_create_nonce( 'news_releases_nonce' )
@@ -278,10 +278,10 @@ function nabshow_lv_scripts() {
 	endif;
 
 	//Marketo script
-	wp_enqueue_script( 'nabshow-lv-marketo', '//app-ab34.marketo.com/js/forms2/js/forms2.min.js', array( 'nabshow-lv-custom' ), null, true );
+	wp_enqueue_script( 'nabshow-lv-marketo', UrlVerifier::AppendTimeToUrl('//app-ab34.marketo.com/js/forms2/js/forms2.min.js',1), array( 'nabshow-lv-custom' ), null, true );
 	wp_add_inline_script( 'nabshow-lv-marketo', 'MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1033);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1091);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1099);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1111);');
 
-	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
+	wp_enqueue_script( 'nabshow-lv-webreg', UrlVerifier::AppendTimeToUrl('https://app.webreg.me/communities/0a61a16a0610/engagements.js',2), array( 'nabshow-lv-custom' ), null, true );
 }
 
 
