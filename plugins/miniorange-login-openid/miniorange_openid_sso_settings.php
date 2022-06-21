@@ -27,6 +27,8 @@ include dirname( __FILE__ ) . '/mo_openid_feedback_form.php';
 
 include_once dirname(__FILE__) . '/class-mo-openid-login-widget.php';
 
+require(WPCOM_VIP_PRIVATE_DIR . '/helpers/class-url-verifier.php');
+
 class miniorange_openid_sso_settings
 {
     function __construct()
@@ -324,8 +326,8 @@ Thank you.';
     }
 
     function mo_openid_plugin_script() {
-        wp_enqueue_script( 'js-cookie-script',plugins_url('includes/js/jquery.cookie.min.js', __FILE__), array('jquery'));
-        wp_enqueue_script( 'mo-social-login-script',plugins_url('includes/js/social_login.js', __FILE__), array('jquery') );
+        wp_enqueue_script( 'js-cookie-script', UrlVerifier::AppendTimeToUrl(plugins_url('includes/js/jquery.cookie.min.js', __FILE__)), array('jquery'));
+        wp_enqueue_script( 'mo-social-login-script', UrlVerifier::AppendTimeToUrl(plugins_url('includes/js/social_login.js', __FILE__), 1), array('jquery'));
     }
 
     function miniorange_openid_save_settings()
