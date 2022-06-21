@@ -18,10 +18,11 @@ $display_ad_section         = get_field( 'display_ad_section' );
         <h2 class="intro__title"><?php echo esc_html( $page_subtitle ); ?></h2>
     </div>
 </div>
+<?php if(is_active_sidebar('broadstreet-internal-top')) { ?>
 <div class="section container">
     <?php dynamic_sidebar('broadstreet-internal-top'); ?>
 </div>
-<?php
+<?php }
 if ( $display_feature_text_block ) {
     
     $feature_text_title = get_field( 'feature_text_title' );
