@@ -49,4 +49,5 @@ add_filter( 'the_content', function( $content ) {
 	if ( $is_user_in_beta ) {
 		// Codes Here
 	}
+	return $content;
 } );
