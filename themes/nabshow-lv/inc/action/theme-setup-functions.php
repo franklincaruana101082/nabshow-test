@@ -289,3 +289,4 @@ function nabshow_lv_scripts() {
 
 	wp_enqueue_script( 'nabshow-lv-webreg', UrlVerifier::AppendTimeToUrl('https://app.webreg.me/communities/0a61a16a0610/engagements.js',1), array( 'nabshow-lv-custom' ), null, true );
 }
+
