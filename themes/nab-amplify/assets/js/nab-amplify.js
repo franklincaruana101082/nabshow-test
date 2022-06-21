@@ -2162,7 +2162,7 @@
     } // End if
   });
 
-  jQuery(window).load(function () {
+  jQuery(window).on('load', function () {
     if (window.location.hash) {
       jQuery("html, body").animate(
         {
@@ -2201,7 +2201,7 @@
   });
 
   // on load
-  $(window).load(function () {
+  jQuery(window).on('load', function () {
     $(".video_added").removeClass("woocommerce-product-gallery__image");
 
     $(".custom_thumb.video_added a").fancybox({
