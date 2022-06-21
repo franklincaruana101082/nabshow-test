@@ -20,15 +20,14 @@ require('view/profile/mo_openid_profile.php');
 require('class-mo-openid-sso-shortcode-buttons.php');
 require('class-mo-openid-social-comment.php');
 require('view/email_settings/mo_openid_email_settings_functions.php');
+
 include dirname( __FILE__ ) . '/mo_openid_Language.php';
 
 include dirname( __FILE__ ) . '/mo_openid_feedback_form.php';
 
-
 include_once dirname(__FILE__) . '/class-mo-openid-login-widget.php';
 
 require(WPCOM_VIP_PRIVATE_DIR . '/helpers/class-url-verifier.php');
-
 class miniorange_openid_sso_settings
 {
     function __construct()
@@ -63,7 +62,7 @@ class miniorange_openid_sso_settings
         add_action('wp_ajax_mo_check_restrict_user', 'mo_openid_restrict_user');
         add_action('wp_ajax_mo_disable_app', 'mo_disable_app');
         add_action( 'admin_footer', array( $this,'mo_openid_feedback_request' ));
-        add_action( 'wp_enqueue_scripts', array( $this, 'mo_openid_plugin_script' ) ,5);
+        add_action( 'wp_enqueue_scripts', array( $this, 'mo_openid_plugin_script' ), 5);
 
         //for addon
         add_action('wp_ajax_verify_addon_licience', 'mo_openid_show_verify_addon_license_page');
@@ -304,7 +303,7 @@ Thank you.';
     }
 
     function mo_openid_add_social_login(){
-        if(!is_user_logged_in() && strpos( $_SERVER['QUERY_STRING'], 'disable-social-login' ) == false){
+        if(!is_user_logged_in() && !strpos( $_SERVER['QUERY_STRING'], 'disable-social-login' )){
             $mo_login_widget = new mo_openid_login_wid();
             $mo_login_widget->openidloginForm();
         }
@@ -325,11 +324,17 @@ Thank you.';
         }
     }
 
-    function mo_openid_plugin_script() {
+    function mo_openid_plugin_script() {      
+        
         wp_enqueue_script( 'js-cookie-script', UrlVerifier::AppendTimeToUrl(plugins_url('includes/js/jquery.cookie.min.js', __FILE__)), array('jquery'));
         wp_enqueue_script( 'mo-social-login-script', UrlVerifier::AppendTimeToUrl(plugins_url('includes/js/social_login.js', __FILE__), 1), array('jquery'));
     }
-
+    
+    function exception_handler(Throwable $exception) {
+        echo "Uncaught exception: " , $exception->getMessage(), "\n";
+    }
+      
+      
     function miniorange_openid_save_settings()
     {
         if(is_admin() && get_option('Activated_Plugin')=='Plugin-Slug') {

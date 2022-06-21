@@ -4,6 +4,7 @@
  *
  */
 
+
 function nabshow_2022_enqueue_styles() {
     wp_enqueue_style( 'nabshow-2022', 
     	get_stylesheet_directory_uri().'/style.css'
@@ -30,5 +31,3 @@ function nabshow_2022_swiftype_script() {
 }
 
 add_action('wp_footer', 'nabshow_2022_swiftype_script');
-
-

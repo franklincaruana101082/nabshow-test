@@ -261,16 +261,17 @@ final class Assets {
 		$href  = $this->context->url( 'dist/assets/svg/svg.svg' ) . '#' . $name;
 		$label = 'aria-label="' . ( empty( $args['label'] ) ? esc_attr( $name ) : esc_attr( $args['label'] ) ) . '"';
 		$label = 'presentation' === $args['role'] ? '' : $label;
-
-		return sprintf(
-			'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
-			esc_attr( $args['role'] ),
-			esc_attr( 'svg googlesitekit-svg-' . $name ),
-			$label,
-			esc_attr( $args['height'] ),
-			esc_attr( $args['width'] ),
-			esc_url( $href )
-		);
+		if( !empty($args) ){
+			return sprintf(
+				'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
+				esc_attr( $args['role'] ),
+				esc_attr( 'svg googlesitekit-svg-' . $name ),
+				$label,
+				esc_attr( $args['height'] ),
+				esc_attr( $args['width'] ),
+				esc_url( $href )
+			);
+		}
 	}
 
 	/**
@@ -299,7 +300,9 @@ final class Assets {
 			function ( $tag, $handle ) use ( $assets ) {
 				// TODO: 'hoverintent-js' can be removed from here at some point, see https://github.com/ampproject/amp-wp/pull/3928.
 				if ( $this->context->is_amp() && ( isset( $assets[ $handle ] ) && $assets[ $handle ] instanceof Script || 'hoverintent-js' === $handle ) ) {
-					$tag = preg_replace( '/(?<=<script)(?=\s|>)/i', ' data-ampdevmode', $tag );
+					if(!empty($tag)) {
+						$tag = preg_replace( '/(?<=<script)(?=\s|>)/i', ' data-ampdevmode', $tag );
+					}
 				}
 				return $tag;
 			},
@@ -311,7 +314,7 @@ final class Assets {
 			'style_loader_tag',
 			function ( $tag, $handle ) use ( $assets ) {
 				if ( $this->context->is_amp() && isset( $assets[ $handle ] ) && $assets[ $handle ] instanceof Stylesheet ) {
-					$tag = preg_replace( '/(?<=<link)(?=\s|>)/i', ' data-ampdevmode', $tag );
+					if(!empty($tag)) $tag = preg_replace( '/(?<=<link)(?=\s|>)/i', ' data-ampdevmode', $tag );
 				}
 				return $tag;
 			},
@@ -354,6 +357,8 @@ final class Assets {
 			'googlesitekit-datastore-site',
 			'googlesitekit-datastore-user',
 		);
+		
+		if( empty($base_url) && empty($dependencies) ) return;
 
 		// Register plugin scripts.
 		$assets = array(
@@ -419,13 +424,14 @@ final class Assets {
 							array( BC_Functions::class, 'rest_preload_api_request' ),
 							array()
 						);
-
-						return array(
-							'nonce'         => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ),
-							'nonceEndpoint' => admin_url( 'admin-ajax.php?action=rest-nonce' ),
-							'preloadedData' => $preloaded,
-							'rootURL'       => esc_url_raw( get_rest_url() ),
-						);
+						if( wp_installing() && ! is_multisite() ){
+							return array(
+								'nonce'         => wp_create_nonce( 'wp_rest' ),
+								'nonceEndpoint' => admin_url( 'admin-ajax.php?action=rest-nonce' ),
+								'preloadedData' => $preloaded,
+								'rootURL'       => esc_url_raw( get_rest_url() ),
+							);
+						}
 					},
 				)
 			),
@@ -863,6 +869,8 @@ final class Assets {
 	 */
 	private function add_async_defer_attribute( $tag, $handle ) {
 		$script_execution = wp_scripts()->get_data( $handle, 'script_execution' );
+		if( empty($tag) )
+			return;
 		if ( ! $script_execution ) {
 			return $tag;
 		}
