@@ -231,7 +231,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
                 'ajaxurl'       => admin_url('admin-ajax.php'),
                 'nabNonce'      => wp_create_nonce('nab-ajax-nonce'),
-                'postID'        => $post->ID,
+                'postID'        => (!empty($post->ID) ? $post->ID : 0),
                 'page'          => $current_page,
                 'search_term'   => $search_terms,
                 'is_pageview'   => $is_pageview,

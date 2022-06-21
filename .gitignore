@@ -36,3 +36,9 @@ Thumbs.db
 
 # node modules
 node_modules
+vendor
+phpcs
+wpcs
+composer.json
+composer.lock
+wp-content
