@@ -1083,9 +1083,9 @@ function nab_maritz_redirect_url( $user_id ) {
 		return;
 	}
 
-	// Default to '21 LV Registration
-	$experient_production_url = 'https://registration.experientevent.com/ShowNAB211/Flow/ATT/';
-	$experient_qa_url = 'https://qawebreg.experientevent.com/ShowNAB211/Flow/ATT/';
+	// Default to '22 NY Registration
+	$experient_production_url = 'https://registration.experientevent.com/ShowNAB228/Flow/ATT/';
+	$experient_qa_url = 'https://qawebreg.experientevent.com/ShowNAB228/Flow/ATT/';
 
 	$show_code = filter_input( INPUT_GET, 'show_code', FILTER_SANITIZE_STRING );
 	if ( isset( $show_code ) && ! empty( $show_code ) ) {
