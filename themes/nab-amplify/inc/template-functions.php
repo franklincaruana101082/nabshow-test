@@ -1133,7 +1133,7 @@ function nab_maritz_redirect_url( $user_id ) {
 	if ( is_page( 'sign-up' ) ) {
 		$params['source'] = 'amplify';
 	}
-	if ( is_page( 'nab-show-sign-up' ) ) {
+	if ( is_page( 'nab-show-sign-up' ) || is_page( 'nab-show-ny-sign-up' ) ) {
 		$params['source'] = 'nabshow';
 	}
 	return add_query_arg( $params, $url );
