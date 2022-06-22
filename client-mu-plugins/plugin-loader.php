@@ -19,4 +19,4 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
-require(WPMU_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php');
+require(WPMU_PLUGIN_DIR . '/custom-helpers/nabshow-cache-control.php');
