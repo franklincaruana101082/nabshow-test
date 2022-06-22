@@ -12,8 +12,6 @@
  */
 
 function nabshow_styles() {
-    //wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');  
-    
     wp_enqueue_style( 'nabshow-lv-child-2021', UrlVerifier::AppendTimeToUrl('/wp-content/themes/nabshow-lv-child-2021/assets/css/styles.min.css'), array(), wp_get_theme()->get( 'Version' ) );
     
     wp_enqueue_style( 'slick', UrlVerifier::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', 1), array(), '1.0');
@@ -37,9 +35,6 @@ function remove_amplify_css() {
 
     wp_dequeue_script( 'nab-amplify-navigation' );
     wp_deregister_script( 'nab-amplify-navigation' );
-
-    //wp_dequeue_script();
-    //wp_deregister_script();
 
 }
 add_action( 'wp_enqueue_scripts', 'remove_amplify_css', 99 );

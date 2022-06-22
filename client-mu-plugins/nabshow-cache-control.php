@@ -1,12 +1,11 @@
 <?php
 
-
 require(WPCOM_VIP_PRIVATE_DIR . '/helpers/cache-control-helper.php');
+
 // Load the VIP Vary_Cache class
-require_once WP_CONTENT_DIR . '/mu-plugins/cache/class-vary-cache.php';
+require_once WP_MU_PLUGIN_DIR . '/cache/class-vary-cache.php';
 
 use Automattic\VIP\Cache\Vary_Cache;
-// use UrlVerifier;
 
 add_action( 'wp', 'wpcom_vip_cache_maxage' );
 
@@ -49,4 +48,5 @@ add_filter( 'the_content', function( $content ) {
 	if ( $is_user_in_beta ) {
 		// Codes Here
 	}
+	return $content;
 } );

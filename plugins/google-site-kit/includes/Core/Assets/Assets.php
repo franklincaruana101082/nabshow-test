@@ -261,17 +261,15 @@ final class Assets {
 		$href  = $this->context->url( 'dist/assets/svg/svg.svg' ) . '#' . $name;
 		$label = 'aria-label="' . ( empty( $args['label'] ) ? esc_attr( $name ) : esc_attr( $args['label'] ) ) . '"';
 		$label = 'presentation' === $args['role'] ? '' : $label;
-		if( !empty($args) ){
-			return sprintf(
-				'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
-				esc_attr( $args['role'] ),
-				esc_attr( 'svg googlesitekit-svg-' . $name ),
-				$label,
-				esc_attr( $args['height'] ),
-				esc_attr( $args['width'] ),
-				esc_url( $href )
-			);
-		}
+		return sprintf(
+			'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
+			esc_attr( $args['role'] ),
+			esc_attr( 'svg googlesitekit-svg-' . $name ),
+			$label,
+			esc_attr( $args['height'] ),
+			esc_attr( $args['width'] ),
+			esc_url( $href )
+		);
 	}
 
 	/**
@@ -358,8 +356,6 @@ final class Assets {
 			'googlesitekit-datastore-user',
 		);
 		
-		if( empty($base_url) && empty($dependencies) ) return;
-
 		// Register plugin scripts.
 		$assets = array(
 			new Script(
@@ -869,8 +865,7 @@ final class Assets {
 	 */
 	private function add_async_defer_attribute( $tag, $handle ) {
 		$script_execution = wp_scripts()->get_data( $handle, 'script_execution' );
-		if( empty($tag) )
-			return;
+		
 		if ( ! $script_execution ) {
 			return $tag;
 		}

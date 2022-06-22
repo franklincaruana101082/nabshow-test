@@ -17,4 +17,3 @@ function wpcom_vip_cache_maxage( $wp ) {
     }
 }
 
-?>
