@@ -5,16 +5,16 @@
  */
 
 function nabshow_lv_2021_enqueue_styles() {
-	wp_enqueue_style( 'proxima-nova', UrlVerifier::AppendTimeToUrl('https://use.typekit.net/qbe2mua.css'), array(), '1.0');
-    wp_enqueue_style( 'nabshow-lv-child-2021', 
-		UrlVerifier::AppendTimeToUrl(get_stylesheet_directory_uri().'/assets/css/styles.min.css',1)
+	wp_enqueue_style( 'proxima-nova', UrlCacheControl::AppendTimeToUrl('https://use.typekit.net/qbe2mua.css'), array(), '1.0');
+    wp_enqueue_style( 'nabshow-lv-child-2021',
+		UrlCacheControl::AppendTimeToUrl(get_stylesheet_directory_uri().'/assets/css/styles.min.css',1)
     );
-    wp_enqueue_style( 'slick', UrlVerifier::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css',2), array(), '1.0');
+    wp_enqueue_style( 'slick', UrlCacheControl::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css',2), array(), '1.0');
 
     //wp_enqueue_script( 'nabshow-2021-jquery', "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js", array(), '1.0', true );
-    wp_enqueue_script( 'nabshow-2021-slick', UrlVerifier::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',3), array(), '1.8.1', true);
-    wp_enqueue_script( 'nabshow-2021-main', UrlVerifier::AppendTimeToUrl(get_stylesheet_directory_uri() . '/assets/js/app.min.js',4), array(), '1.0', true );
-    wp_enqueue_script( 'nabshow-2021-gleanin-plugin', UrlVerifier::AppendTimeToUrl('https://app.webreg.me/communities/076497845fd7/engagements.js',5), array(), '1.0', true );
+    wp_enqueue_script( 'nabshow-2021-slick', UrlCacheControl::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',3), array(), '1.8.1', true);
+    wp_enqueue_script( 'nabshow-2021-main', UrlCacheControl::AppendTimeToUrl(get_stylesheet_directory_uri() . '/assets/js/app.min.js',4), array(), '1.0', true );
+    wp_enqueue_script( 'nabshow-2021-gleanin-plugin', UrlCacheControl::AppendTimeToUrl('https://app.webreg.me/communities/076497845fd7/engagements.js',5), array(), '1.0', true );
 
 }
 add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_enqueue_styles', 100 );
@@ -278,7 +278,7 @@ add_action( 'widgets_init', 'nabshow_lv_2021_widgets' );
 
 
 /**
- * Nabshow LV 2021 custom post types. 
+ * Nabshow LV 2021 custom post types.
  */
 function nabshow_lv_2021_register_custom_post_type() {
 	$labels = array(
@@ -307,14 +307,14 @@ function nabshow_lv_2021_register_custom_post_type() {
         'show_in_nav_menus'   => true,
         'show_in_admin_bar'   => true,
         'can_export'          => true,
-        'has_archive'         => false,        
+        'has_archive'         => false,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
         'supports'            => array( 'title', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
-    
-    register_post_type( 'conference', $args );	
+
+    register_post_type( 'conference', $args );
 }
 add_action( 'init', 'nabshow_lv_2021_register_custom_post_type' );
 
@@ -325,19 +325,19 @@ function nabshow_lv_2021_date_sort( $a, $b ) {
 
 /**
  * Modified session archive page default query.
- * 
+ *
  * @param WP_Query $query
  */
 function nabshow_lv_2021_modified_session_list_query( $query ) {
 
-	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {  
-   
-		$query->set( 'meta_key', 'starttime' ); 
-        $query->set( 'orderby', 'meta_value' );  
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {
+
+		$query->set( 'meta_key', 'starttime' );
+        $query->set( 'orderby', 'meta_value' );
         $query->set( 'order', 'ASC' );
 
 		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
-		
+
 		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
 			$query->set( 'paged', $current_page );
 		}
@@ -352,8 +352,8 @@ function nabshow_lv_2021_modified_session_list_query( $query ) {
 		if ( is_array( $meta_query_args ) && count( $meta_query_args ) > 0 ) {
 			$query->set( 'meta_query', $meta_query_args );
 		}
-		
-    }   
+
+    }
 }
 add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
 
@@ -369,7 +369,7 @@ add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_register_custom_script' );
 
 /**
  * Prepare session archive page tax query args.
- * 
+ *
  * @return array
  */
 function nabshow_lv_2021_prepare_session_tax_query() {
@@ -384,7 +384,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	$tax_query_args				= array();
 
 	if ( isset( $session_program ) && ! empty( $session_program ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'tracks',
 			'terms'		=> $session_program,
@@ -392,7 +392,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_location ) && ! empty( $session_location ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-locations',
 			'terms'		=> $session_location,
@@ -400,7 +400,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_registration_pass ) && ! empty( $session_registration_pass ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_registration_pass,
@@ -408,7 +408,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_topic ) && ! empty( $session_topic ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_topic,
@@ -416,7 +416,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_education_partner ) && ! empty( $session_education_partner ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_education_partner,
@@ -424,7 +424,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_session_type ) && ! empty( $session_session_type ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_session_type,
@@ -432,7 +432,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_experience_level ) && ! empty( $session_experience_level ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_experience_level,
@@ -445,7 +445,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 
 /**
  * Prepare session archive page meta query args.
- * 
+ *
  * @return array
  */
 function nabshow_lv_2021_prepare_session_meta_query() {
@@ -480,7 +480,7 @@ function nabshow_lv_2021_prepare_session_meta_query() {
 }
 
 function nabshow_lv_2021_session_filter() {
-	
+
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
 	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
@@ -557,8 +557,8 @@ function nabshow_lv_2021_session_filter() {
 			<div class="filter-result-box">
 				<?php
 				if ( ! empty( $program_name ) ) {
-					
-					$program_url = $program_planner_url . $program_name . '/show/all'; 
+
+					$program_url = $program_planner_url . $program_name . '/show/all';
 					?>
 					<span><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
 					<?php
@@ -583,12 +583,12 @@ function nabshow_lv_2021_session_filter() {
 				$all_speakers   = array();
 
 				if ( ! empty( $speakers ) && count( $speaker_ids ) > 0 ) {
-					
+
 					foreach ( $speaker_ids as $speaker_id ) {
-						
+
 						$speaker_name   = get_the_title( $speaker_id );
 						$mys_speaker_id = get_post_meta( $speaker_id, 'speakerid', true );
-						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>'; 
+						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>';
 					}
 					?>
 					<div class="speakers-list">
