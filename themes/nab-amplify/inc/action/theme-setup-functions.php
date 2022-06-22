@@ -32,7 +32,7 @@ function amplify_front_scripts()
 	wp_enqueue_script('amplify-tag-js', get_template_directory_uri() . '/js/jquery.tagsinput.js', ['jquery'], null, true);
 	wp_enqueue_media();
 
-	if ( is_page( 'sign-up' ) || is_page( 'nab-show-sign-up' )) {
+	if ( is_page( 'sign-up' ) || is_page( 'nab-show-sign-up' ) || is_page( 'nab-show-ny-sign-up' )) {
 
 		$wc_country = array(
 			'countries' => json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) )
