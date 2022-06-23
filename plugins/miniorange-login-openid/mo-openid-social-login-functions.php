@@ -31,7 +31,7 @@ function mo_openid_initialize_social_login(){
     $base_return_url = $http . $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"], '?') . $post;
     $return_url = strpos($base_return_url, '?') !== false ? urlencode($base_return_url . '&option=moopenid') : urlencode($base_return_url . '?option=moopenid');
     $url = 'https://login.xecurify.com/moas/openid-connect/client-app/authenticate?token=' . $encoded_token . '&userdata=' . $userdata . '&id=' . get_option('mo_openid_admin_customer_key') . '&encrypted=true&app=' . $appname . '_oauth_xecurify&returnurl=' . $return_url . '&encrypt_response=true';
-    wp_redirect($url);
+    // wp_redirect($url);
     exit;
 }
 
@@ -338,7 +338,7 @@ function mo_create_new_user($user_val){
     );
     $user_id 	= wp_insert_user( $userdata);
 
-    
+
 
     if(is_wp_error( $user_id )) {
         print_r($user_id);
@@ -432,13 +432,13 @@ function mo_openid_plugin_update(){
     $table_name = $wpdb->prefix . 'mo_openid_linked_user';
     $charset_collate = $wpdb->get_charset_collate();
 
-    $time = $wpdb->get_var("SELECT COLUMN_NAME 
-                                    FROM information_schema.COLUMNS 
+    $time = $wpdb->get_var("SELECT COLUMN_NAME
+                                    FROM information_schema.COLUMNS
                                     WHERE
                                      TABLE_SCHEMA='$wpdb->dbname'
                                      AND COLUMN_NAME = 'timestamp'");
 
-    $data_type=$wpdb->get_var("SELECT DATA_TYPE 
+    $data_type=$wpdb->get_var("SELECT DATA_TYPE
                     FROM information_schema.COLUMNS
                     WHERE
                     TABLE_SCHEMA='$wpdb->dbname'
@@ -466,10 +466,10 @@ function mo_openid_plugin_update(){
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
 
-        $identifier = $wpdb->get_var("SELECT COLUMN_NAME 
-                                    FROM information_schema.COLUMNS 
-                                    WHERE 
-                                    TABLE_NAME = '$wpdb->users' 
+        $identifier = $wpdb->get_var("SELECT COLUMN_NAME
+                                    FROM information_schema.COLUMNS
+                                    WHERE
+                                    TABLE_NAME = '$wpdb->users'
                                     AND TABLE_SCHEMA='$wpdb->dbname'
                                     AND COLUMN_NAME = 'identifier'");
 

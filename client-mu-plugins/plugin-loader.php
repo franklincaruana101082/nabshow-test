@@ -19,4 +19,4 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
-require(WPMU_PLUGIN_DIR . '/custom-helpers/nabshow-cache-control.php');
+wpcom_vip_load_plugin('custom-helpers/nabshow-cache-control.php');

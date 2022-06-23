@@ -101,7 +101,7 @@ class API extends Hooks {
             'secret_key'    => $parameters['secret_key'] == cx_get_secret_key(),
             'secret_iv'     => $parameters['secret_iv'] == cx_get_secret_iv(),
             'remote'        => array(
-                'license'   => cx_is_pro() && function_exists( 'cx_is_active' ) && cx_is_active(),                
+                'license'   => cx_is_pro() && function_exists( 'cx_is_active' ) && cx_is_active(),
                 'incoming' => get_option( 'share-logins_config_incoming' ),
                 'outgoing' => get_option( 'share-logins_config_outgoing' ),
             )

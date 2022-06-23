@@ -33,12 +33,12 @@ if ( ! defined( 'WP_POST_REVISIONS' ) ) {
 
 /**
  * The VIP_JETPACK_IS_PRIVATE constant is enabled by default in non-production environments.
- * 
+ *
  * It disables programmatic access to content via the WordPress.com REST API and Jetpack Search;
  * subscriptions via the WordPress.com Reader; and syndication via the WordPress.com Firehose.
  *
  * You can disable "private" mode (e.g. for testing) in non-production environment by setting the constant to `true` below (or just by removing the lines).
- * 
+ *
  * @see https://docs.wpvip.com/technical-references/restricting-site-access/controlling-content-distribution-via-jetpack/
  */
 if ( ! defined( 'VIP_JETPACK_IS_PRIVATE' ) &&

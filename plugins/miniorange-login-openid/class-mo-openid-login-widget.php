@@ -894,21 +894,21 @@ class mo_openid_login_wid extends WP_Widget {
             function HandlePopupResult(result) {
                 <?php
                 if ( is_page( 'sign-up' ) ) {
-                    global $wp_query; 
+                    global $wp_query;
                     $query_var = $wp_query->query_vars['r'];
                     if($query_var){
-                        $sign_up_redirect_url = $query_var; 
+                        $sign_up_redirect_url = $query_var;
                         setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
                     }
-                    
+
                 }
                 if( is_page( 'my-account' )){
-                    global $wp_query; 
+                    global $wp_query;
                     $query_var = $wp_query->query_vars['r'];
                     if($query_var){
-                        $sign_up_redirect_url = $query_var; 
+                        $sign_up_redirect_url = $query_var;
                         setcookie( 'nab_social_signup_redirect', $sign_up_redirect_url, ( time() + 1800 ), '/' );
-                    } 
+                    }
                 }
 
 
@@ -918,7 +918,7 @@ class mo_openid_login_wid extends WP_Widget {
 
 
 
-                
+
 
                 ?>
                 window.location = "<?php echo mo_openid_get_redirect_url();?>";
@@ -1220,48 +1220,48 @@ function mo_openid_get_redirect_url() {
             $redirect_url = wc_get_page_permalink( 'myaccount' );
             unset( $_COOKIE[ 'nab_social_redirect' ] );
             setcookie( 'nab_social_redirect', null, -1, '/');
-    
+
         } else {
-    
+
             $custom_url_redirect = filter_input( INPUT_GET, 'r', FILTER_SANITIZE_STRING );
-        
+
             if ( empty( $custom_url_redirect ) ) {
-    
+
                 if ( isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
                     $custom_url_redirect = $_POST[ 'redirect' ];
                 } else if ( isset( $_POST[ 'checkout_redirect' ] ) && ! empty( $_POST[ 'checkout_redirect' ] ) ) {
                     $custom_url_redirect = $_POST[ 'checkout_redirect' ];
                 } else {
-                    
+
                     if ( isset( $_COOKIE[ 'nab_amp_login_redirect' ] ) && ! empty( $_COOKIE[ 'nab_amp_login_redirect' ] ) ) {
                         $referer_url = $_COOKIE[ 'nab_amp_login_redirect' ];
-                        
-                        $site_url = get_site_url();	
-                    
+
+                        $site_url = get_site_url();
+
                         if ( false === strpos( $referer_url , $site_url ) ) {
-            
+
                             $url_parse 	= wp_parse_url( $referer_url );
                             $url_host	= isset( $url_parse[ 'host' ] ) && ! empty( $url_parse[ 'host' ] ) ? $url_parse[ 'host' ] : '';
-            
+
                             if ( preg_match( '/md-develop.com/i', $url_host ) || preg_match( '/nabshow-com-develop/i', $url_host ) || preg_match('/nabshow.com/i', $url_host ) ) {
-                                
+
                                 $custom_url_redirect = wc_get_page_permalink( 'myaccount' );
-    
+
                                 // setcookie( 'nab_login_redirect', $referer_url, ( time() + 3600 ), '/' );
                             }
                         }
                     }
                 }
             }
-    
+
             if ( ! empty( $custom_url_redirect ) ) {
-                
+
                 $redirect_url = $custom_url_redirect;
                 setcookie( 'nab_social_redirect', $redirect_url, ( time() + 3600 ), '/' );
             }
-    
+
         }
-    }    
+    }
 
     return $redirect_url;
 }
@@ -1359,7 +1359,7 @@ function mo_openid_login_validate(){
                 'last_name' => $last_name,
                 'user_url' => $user_url,
             );
-			
+
 			// Checking if username already exist
             $user_name_user_id = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->users where user_login = %s", $userdata['user_login']));
 
@@ -1386,7 +1386,7 @@ function mo_openid_login_validate(){
                     exit();
                 }
             }
-			
+
             $user_id   = wp_insert_user( $userdata);
             if(is_wp_error( $user_id )) {
                 print_r($user_id);
@@ -1411,15 +1411,16 @@ function mo_openid_login_validate(){
                 'social_app_name' => $appname,
                 'social_user_id' => $social_user_id,
             );
-
-            mo_openid_start_session_login($session_values);
             $user	= get_user_by('id', $user_id );
-            update_custom_data($user_id);
-            //registration hook
-            do_action( 'mo_user_register', $user_id,$user_profile_url);
-            mo_openid_link_account($user->user_login, $user);
-            $linked_email_id = $wpdb->get_var($wpdb->prepare("SELECT user_id FROM " . $db_prefix . "mo_openid_linked_user where linked_social_app = \"%s\" AND identifier = %s", $appname, $social_user_id));
-            mo_openid_login_user($linked_email_id,$user_id,$user,$user_picture,0);
+			if(!empty($user_id)){
+				mo_openid_start_session_login($session_values);
+				update_custom_data($user_id);
+				//registration hook
+				do_action( 'mo_user_register', $user_id,$user_profile_url);
+				mo_openid_link_account($user->user_login, $user);
+				$linked_email_id = $wpdb->get_var($wpdb->prepare("SELECT user_id FROM " . $db_prefix . "mo_openid_linked_user where linked_social_app = \"%s\" AND identifier = %s", $appname, $social_user_id));
+				mo_openid_login_user($linked_email_id,$user_id,$user,$user_picture,0);
+			}
         }
     }
 
