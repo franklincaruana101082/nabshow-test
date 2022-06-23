@@ -16,14 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once( WPMU_PLUGIN_DIR . '/misc.php' );
 require(WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php');
 
-
 // Load the VIP Vary_Cache class
 require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
 
-/**
- * Commands to manage automatic event execution
- */
 use Automattic\VIP\Cache\Vary_Cache;
 
  class NabshowCacheControl extends Vary_Cache{
@@ -41,22 +37,24 @@ use Automattic\VIP\Cache\Vary_Cache;
 			$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
 			if ( !$is_user_in_nabshow ) {
 				self::set_group_for_user( 'nabshow', 'yes' );
+
+				// Redirect back to the same page (per the POST-REDIRECT-GET pattern).
+				// Please note the use of the `vip_vary_cache_did_send_headers` action.
+				add_action( 'vip_vary_cache_did_send_headers', function() {
+					wp_safe_redirect( add_query_arg( '' ) );
+					exit;
+				} );
 			}
-
-			if( !is_user_logged_in() ) do_action('wp_send_co','wp_add_header_max_age');
-
 		} );
 
-		add_filter('set_current_user', function( $user ) {
+		add_action('set_current_user', function( $user ) {
 
 			$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
 			if ( !$is_user_in_nabshow ) {
 				self::set_group_for_user( 'nabshow', 'yes' );
 			}
 
-			if( !is_user_logged_in() ) do_action('wp_send_co','wp_add_header_max_age');
-
-			return $user;
+			if( is_user_logged_in() ) error_log(json_encode(wp_get_current_user()));
 		});
 
 		add_filter( 'the_content', function( $content ) {
@@ -64,14 +62,19 @@ use Automattic\VIP\Cache\Vary_Cache;
 			if ( $is_user_in_beta ) {
 				$user = wp_get_current_user();
 				if(empty($user->ID)){
-					$user = UrlCacheControl::RetreiveUser();
+					$user = UrlCacheControl::RetreiveSetCurrentUser();
 				}
-
-
 			}
-
-			return $content;
 		} );
+
+		if( is_admin() ){
+			add_action('admin_init', function( ) {
+				$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
+				if ( !$is_user_in_nabshow ) {
+					self::set_group_for_user( 'nabshow', 'yes' );
+				}
+			});
+		}
 	}
 }
 

