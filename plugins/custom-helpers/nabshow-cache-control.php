@@ -36,10 +36,6 @@ use Automattic\VIP\Cache\Vary_Cache;
 
 	function init_enqueue_scripts(){
 
-		add_action( 'wp_logout', function() {
-			do_action('wpcom_vip_check_for_404_and_remove_cache_headers', 'wp_add_header_no_cache');
-		});
-
 		add_action( 'init', function() {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
@@ -47,9 +43,6 @@ use Automattic\VIP\Cache\Vary_Cache;
 				self::set_group_for_user( 'nabshow', 'yes' );
 			}
 
-			// if( !is_user_logged_in() ) do_action('reloadAndReAuth', 'vip_vary_cache_did_send_headers');
-
-			// do_action('qm/debug', is_user_logged_in());
 			if( !is_user_logged_in() ) do_action('wp_send_co','wp_add_header_max_age');
 
 		} );
@@ -61,9 +54,6 @@ use Automattic\VIP\Cache\Vary_Cache;
 				self::set_group_for_user( 'nabshow', 'yes' );
 			}
 
-			// if( !is_user_logged_in() ) $this->reloadAndReAuth();
-
-			// do_action('qm/debug', is_user_logged_in());
 			if( !is_user_logged_in() ) do_action('wp_send_co','wp_add_header_max_age');
 
 			return $user;
@@ -80,29 +70,9 @@ use Automattic\VIP\Cache\Vary_Cache;
 
 			}
 
-			// do_action('qm/debug', is_user_logged_in());
-
-
-
 			return $content;
 		} );
 	}
-
-	// function reloadAndReAuth(){
-
-	// 	$user = UrlCacheControl::RetreiveUser();
-
-	// 	do_action('wp_set_auth_cookie', $user->ID, true );
-
-	// 	wp_admin_init();
-	// 	wp_init();
-	// 	// do_action('wp_add_header_max_age', 'admin_init');
-	// 	// do_action('wp_add_header_max_age', 'wp');
-	// 	// do_action('wp_add_header_no_cache', 'admin_init');
-	// 	// do_action('wp_add_header_no_cache', 'wp');
-	// 	// add_action('wp_add_header_max_age', 'admin_init');
-	// 	// add_action('wp_add_header_max_age', 'wp');
-	// }
 }
 
 new NabshowCacheControl();
