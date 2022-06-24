@@ -1,7 +1,7 @@
 <?php
 /**
  * We need to do a little handywork to make sure that Wordpress
- * thinks we're a standard built-in modal. 
+ * thinks we're a standard built-in modal.
  */
 
 # Include this so Wordpress doesn't throw NOTICEs when setting $pagenow
@@ -19,7 +19,7 @@ if(!defined('BROADSTREET_PARTNER_NAME'))
 if(BROADSTREET_DEBUG) {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    ini_set('log_errors', 1);    
+    ini_set('log_errors', 1);
 }
 
 # Include libraries
@@ -34,32 +34,32 @@ class Broadstreet_Mini
     CONST KEY_API_KEY       = 'Broadstreet_API_Key';
     CONST KEY_NETWORK_ID    = 'Broadstreet_Network_Key';
     CONST KEY_AD_LIST       = 'Broadstreet_Ad_List';
-    
+
     public static function execute()
     {
         # Check permissions again
         bs_check_perms();
-        
+
         $action = $_GET['action'];
-        
+
         # Don't allow access to protected/utillity methods
         if($action[0] == '_')
             die('Denied');
-        
+
         # Make sure the requested function is available
         if(is_callable(array('self', $action)))
         {
             call_user_func(array('self', $action));
         }
     }
-    
+
     /**
-     * Load the front intro page 
+     * Load the front intro page
      */
     public static function index()
     {
         $id = @$_GET['id'];
-        
+
         if($id)
         {
             $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=design&id=$id");
@@ -68,9 +68,9 @@ class Broadstreet_Mini
 
         self::_load('index', array('has_free' => Broadstreet_Mini_Utility::hasFreeAds()));
     }
-    
+
     /**
-     * Show the user the final code 
+     * Show the user the final code
      */
     public static function code()
     {
@@ -79,21 +79,21 @@ class Broadstreet_Mini
 
         self::_load('code', array('data' => $data));
     }
-    
+
     /**
-     * Show the user the final code 
+     * Show the user the final code
      */
     public static function list_ads()
     {
         //session_destroy();
         $data       = Broadstreet_Mini_Utility::getTrackedAds();
         $logged_in  = (bool)Broadstreet_Mini_Utility::getOption(self::KEY_NETWORK_ID);
-        
+
         self::_load('list', array('ads' => $data, 'logged_in' => $logged_in));
     }
-    
+
     /**
-     * Load the final purchase page 
+     * Load the final purchase page
      */
     public static function finalize()
     {
@@ -103,7 +103,7 @@ class Broadstreet_Mini
         $network_id = Broadstreet_Mini_Utility::getOption(self::KEY_NETWORK_ID);
         $done       = false;
         $error      = false;
-        
+
 
         $network         = $api->getNetwork($network_id);
         $show_pay_notice = false;
@@ -112,27 +112,27 @@ class Broadstreet_Mini
         {
             $show_pay_notice = true;
         }
-        
+
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $advertiser_id   = $_POST['advertiser_id'];
             $advertiser_name = $_POST['advertiser_name'];
-            
+
             if(!$advertiser_id && strlen($advertiser_name) < 3)
             {
                 $error = "You must choose an advertiser or enter the name of a new one. It should be at least 3 letters long.";
             }
-            
+
             if($show_pay_notice)
             {
                 $url = Broadstreet_Mini_Utility::broadstreetLink("/networks/{$network->id}/accounts");
                 $error = 'You need <a rel="track" target="_blank" href="'.$url.'">A Paid Account</a> with us to continue. Come aboard! We exist for indy publishers!';
             }
-            
+
             if(!$error)
             {
                 $params = array();
-                
+
                 try
                 {
                     if(!$advertiser_id)
@@ -170,7 +170,7 @@ class Broadstreet_Mini
                     {
                         $options['facebook_id'] = $data['ad_facebook'];
                         $hash_tag = $data['ad_hashtag'];
-                    } 
+                    }
                     elseif($data['ad_source'] == 'twitter')
                     {
                         $options['twitter_id'] = $data['ad_twitter'];
@@ -196,7 +196,7 @@ class Broadstreet_Mini
                     $header                     = "<!-- READY TO GO! DO NOT EDIT! - broadstreet:$id -->";
                     $data['ad_html']            = $ad->html;
                     $data['ad_html_output']     = $header . Broadstreet_Mini_Utility::escapeJSTag($ad->html);
-                    
+
                     # Only set this if it's new
                     if(!isset($data['bs_id']))
                     {
@@ -206,13 +206,13 @@ class Broadstreet_Mini
                         $data['bs_advertiser_name'] = ($advertiser_name ? stripslashes($advertiser_name) : 'Existing Advertiser');
                         $data['ad_created']         = time();
                     }
-                    
+
                     $data['ad_modified'] = time();
-                    
+
                     # Save
                     Broadstreet_Mini_Utility::setOption($id, $data);
                     Broadstreet_Mini_Utility::trackAd($data);
-                    
+
                     # Keep track of which ads were created
 
                     $done = true;
@@ -223,7 +223,7 @@ class Broadstreet_Mini
                     if(BROADSTREET_DEBUG) $error .= ' ' . $ex->__toString();
                     Broadstreet_Mini_Utility::sendReport("Network: $network_id\n\n" . $ex->__toString() . "\n\n" . print_r($params, true));
                 }
-                
+
                 # If the config says to show the code on the last step, do that
                 if(!$error && BROADSTREET_SHOW_CODE)
                 {
@@ -236,7 +236,7 @@ class Broadstreet_Mini
 
         self::_load('finalize', array('network' => $network, 'show_pay_notice' => $show_pay_notice, 'error' => $error, 'data' => $data, 'done' => $done, 'advertisers' => $api->getAdvertisers($network_id)));
     }
-    
+
     /**
      * Show the login/register page
      */
@@ -244,11 +244,11 @@ class Broadstreet_Mini
     {
         $id    = @$_GET['id'];
         $after = @$_POST['next'];
-        
+
         $data = Broadstreet_Mini_Utility::getOption($id);
         $api  = new Broadstreet();
         $error= null;
-        
+
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             if($_POST['type'] == 'login')
@@ -259,7 +259,7 @@ class Broadstreet_Mini
                     $network_id   = $_POST['network_id'];
                     $network_name = $_POST['network_name'];
                     $network_name = $network_name ? $network_name : bs_get_website_name();
-                    
+
                     # Hook up an existing network or create a new one
                     if($network_id)
                     {
@@ -285,7 +285,7 @@ class Broadstreet_Mini
                     # Register the user by email address
                     $resp = $api->register($_POST['email']);
                     Broadstreet_Mini_Utility::setOption(self::KEY_API_KEY, $resp->access_token);
-                    
+
                     # Create a network for the new user
                     $resp = $api->createNetwork('New Network ' . date('Y/m/d'));
                     Broadstreet_Mini_Utility::setOption(self::KEY_NETWORK_ID, $resp->id);
@@ -295,7 +295,7 @@ class Broadstreet_Mini
                     $error = "There was an error. Do you already have an account with us? Try logging in.";
                 }
             }
-            
+
             if(!$error)
             {
                 # Go to the finalize page
@@ -303,22 +303,22 @@ class Broadstreet_Mini
                     $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=finalize&id=$id");
                 else
                     $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=$after");
-                
+
                 header("Location: $next");
                 return;
             }
         }
-        
+
         if(!$error)
         {
             Broadstreet_Mini_Utility::runHook('bs_login_register_after');
         }
-        
+
         self::_load('register', array('data' => $data, 'error' => $error));
     }
-    
+
     /**
-     * The call for designing what the ad looks like 
+     * The call for designing what the ad looks like
      */
     public static function design()
     {
@@ -327,7 +327,7 @@ class Broadstreet_Mini
         $data = Broadstreet_Mini_Utility::getOption($id);
         $fonts= $api->getFonts();
         $error= null;
-        
+
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data['ad_x']     = $_POST['x'];
@@ -346,7 +346,7 @@ class Broadstreet_Mini
             {
                 $error = 'See how your proof looks before moving on.';
             }
-            
+
             if(!$error)
             {
                 $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=source&id=$id");
@@ -357,21 +357,21 @@ class Broadstreet_Mini
         self::_load('design', array('data' => $data, 'fonts' => $fonts, 'error' => $error));
 
     }
-    
+
     /**
      * The call for uploading the ad
-     * @return type 
+     * @return type
      */
     public static function upload()
     {
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            if(!@$_POST['use_sample'] && (!isset($_FILES['file']) || $_FILES['file']['size'] == 0)) 
+            if(!@$_POST['use_sample'] && (!isset($_FILES['file']) || $_FILES['file']['size'] == 0))
             {
                 self::_load('upload', array('error' => "You didn't upload any files. Try again!"));
                 return;
             }
-            
+
             if(!@$_POST['use_sample'])
             {
                 $uploadedfile     = $_FILES['file'];
@@ -382,9 +382,9 @@ class Broadstreet_Mini
             {
                 $result = bs_get_sample();
             }
-            
+
             # Make sure we got an image
-            if(!strstr($result['type'], 'gif') 
+            if(!strstr($result['type'], 'gif')
                 && !strstr($result['type'], 'jpeg')
                 && !strstr($result['type'], 'plain') # Hack because PHP stinks
                 && !strstr($result['type'], 'png'))
@@ -407,9 +407,9 @@ class Broadstreet_Mini
                     'ad_url'  => $result['url'],
                     'ad_file' => $result['file']
                 );
-                
+
                 Broadstreet_Mini_Utility::setOption($id, $ad_data);
-                
+
                 $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=design&id=$id");
                 header("Location: $next");
             }
@@ -419,37 +419,37 @@ class Broadstreet_Mini
             self::_load('upload');
         }
     }
-    
+
     /**
-     * Show the settings page 
+     * Show the settings page
      */
     public static function settings()
     {
         $id  = @$_GET['id'];
         $api = Broadstreet_Mini_Utility::getClient();
-        
+
         $network_id   = Broadstreet_Mini_Utility::getOption(self::KEY_NETWORK_ID);
         $access_token = Broadstreet_Mini_Utility::getOption(self::KEY_API_KEY);
         $networks     = $api->getNetworks();
-        
+
         $done = false;
         $error = false;
-        
+
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $new_token = $_POST['access_token'];
-            
+
             try
             {
                 $new_api = new Broadstreet($new_token);
                 $new_networks = $new_api->getNetworks();
-                
+
                 if($new_token !== $access_token)
                 {
                     $networks = $new_networks;
                     $network_id = null;
                     Broadstreet_Mini_Utility::setOption(self::KEY_API_KEY, $new_token);
-                        
+
                     if(count($new_networks) > 1)
                     {
                         # User commands mroe than one publisher
@@ -461,7 +461,7 @@ class Broadstreet_Mini
                     {
                         # User commands a single publisher - grab the first
                         Broadstreet_Mini_Utility::setOption(self::KEY_NETWORK_ID, $networks[0]->id);
-                        
+
                         $done = true;
                     }
                 }
@@ -469,7 +469,7 @@ class Broadstreet_Mini
                 {
                     $network_id = $_POST['network_id'];
                     Broadstreet_Mini_Utility::setOption(self::KEY_NETWORK_ID, $network_id);
-                    
+
                     $done = true;
                 }
             }
@@ -479,7 +479,7 @@ class Broadstreet_Mini
                 $access_token = $new_token;
             }
         }
-        
+
         # If an ID was passed in, go back to the design page
         if($done && $id)
         {
@@ -493,69 +493,69 @@ class Broadstreet_Mini
             header("Location: $next");
             return;
         }
-        
+
         self::_load('settings', array('id' => $id, 'access_token' => $access_token, 'network_id' => $network_id, 'networks' => $networks, 'done' => $done, 'error' => $error));
     }
-    
+
     /**
-     * Show the page for picking the text source 
+     * Show the page for picking the text source
      */
     public static function source()
     {
         $id   = $_GET['id'];
         $data = Broadstreet_Mini_Utility::getOption($id);
-        
+
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data['ad_destination'] = $_POST['destination'];
-            
+
             # Get rid of old data
             unset($data['ad_source']);
             unset($data['ad_facebook']);
             unset($data['ad_twitter']);
             unset($data['ad_phone']);
             unset($data['ad_hashtag']);
-            
+
             if($_POST['source'] == 'text_message')
             {
                 $data['ad_source'] = 'text_message';
                 $data['ad_phone'] = $_POST['phone'];
-                
+
                 if(!Broadstreet_Mini_Utility::isPhoneValid($_POST['phone']))
                     $data['error'] = 'You need a valid-looking phone number to use text messaging. Try numbers-only.';
-                
+
                 //if(!$_POST['destination'])
                 //    $data['error'] = 'You need to set where the ad will take you after a click (destination)';
             }
-            
+
             if($_POST['source'] == 'facebook')
             {
                 $data['ad_source']   = 'facebook';
                 $data['ad_facebook'] = $_POST['facebook'];
                 $data['ad_hashtag']  = $_POST['facebook_hashtag'];
-                
+
                 if(!$_POST['facebook'])
                     $data['error'] = "You need to enter the URL of the advertiser's Facebook page";
             }
-            
+
             if($_POST['source'] == 'twitter')
             {
                 $data['ad_source']  = 'twitter';
                 $data['ad_twitter'] = ltrim($_POST['twitter'], '@');
                 $data['ad_hashtag'] = $_POST['twitter_hashtag'];
-                
+
                 if(!$_POST['twitter'])
                     $data['error'] = 'You need to enter a Twitter username';
             }
-            
+
             if(!isset($data['error']))
             {
                 # Woo!
                 Broadstreet_Mini_Utility::setOption($id, $data);
-                
+
                 # Check for account
                 $api_key = Broadstreet_Mini_Utility::getOption(self::KEY_API_KEY);
-                
+
                 if(!$api_key)
                 {
                     $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=register&id=$id");
@@ -564,24 +564,24 @@ class Broadstreet_Mini
                 else
                 {
                     $next = Broadstreet_Mini_Utility::getBaseURL("index.php?action=finalize&id=$id");
-                    header("Location: $next");                    
+                    header("Location: $next");
                 }
                 # Redirect
-                
+
             }
         }
-        
+
         self::_load('source', array('data' => $data));
     }
-    
+
     /**
-     * AJAX handler for getting a proof 
+     * AJAX handler for getting a proof
      */
     public static function get_proof()
     {
         $id = $_GET['id'];
         $data = Broadstreet_Mini_Utility::getOption($id);
-        
+
         $params = array();
         $params['text_x']       = $_POST['x'];
         $params['text_y']       = $_POST['y'];
@@ -592,13 +592,13 @@ class Broadstreet_Mini
         $params['default_text'] = $_POST['default'];
         $params['alignment']    = $_POST['justify'];
         $params['partner']      = BROADSTREET_PARTNER_NAME;
-        
+
         # Template file
         $params['template_base64'] = base64_encode(file_get_contents($data['ad_file']));
-            
+
         $api = new Broadstreet();
-        
-        try 
+
+        try
         {
             $response = $api->createProof($params);
             echo json_encode(array('success' => true, 'proof' => $response));
@@ -608,9 +608,9 @@ class Broadstreet_Mini
             echo json_encode(array('success' => false, 'message' => $ex->__toString()));
         }
     }
-    
+
     /**
-     * AJAX handler for logging in and getting a list of publishers 
+     * AJAX handler for logging in and getting a list of publishers
      */
     public function login()
     {
@@ -632,7 +632,7 @@ class Broadstreet_Mini
             }
         }
     }
-    
+
     /**
      * Load a view file. The file should be located in Broadstreet/Views.
      * @param string $file The filename of the view without the extenstion (assumed
