@@ -1,3 +1,7 @@
+.nabshow_signup {
+  background-color: $color__purple-light;
+  color: $color__white;
+}
 .signup-wrapper {
   position: relative;
   &::after {
@@ -284,7 +288,7 @@
   justify-content: space-between;
   align-items: center;
   @include bp-604 {
-    margin-top: rem(20);
+    padding-top: rem(80);
   }
   > div {
     display: block;
