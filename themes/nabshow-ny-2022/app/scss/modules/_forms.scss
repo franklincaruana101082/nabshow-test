@@ -455,17 +455,21 @@
 //for signup page
 .page-template-sign-up-template-nabshow {
   .select2-dropdown {
-    background-color: $color__gray-dark;
+    background-color: $color__blue-light;
     border: 1px solid $color__purple-light;
   }
   .select2-container--default .select2-results__option--selected {
-    background-color: $color__gray-dark;
+    background-color: $color__blue-light;
+  }
+  .select2-results__option {
+    background-color: $color__purple-lighter;
   }
   .select2-container--default
     .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: $color__purple-light;
+    background-color: $color__blue-light;
   }
 }
+
 
 // tagchecks
 
