@@ -22,6 +22,29 @@
 		padding: rem(80) rem(130) rem(30) calc(((100vw - #{rem(1440)}) / 2) + #{rem(187)});
 	}
 
+	._dates & {
+		position: relative;
+		&:before {
+			content: "";
+			display: block;
+			position: absolute;
+
+			@include bp-768 {
+				top: rem(80);
+				left: rem(30);
+				width: 1px;
+				height: calc(100% - #{rem(100)});
+				background-color: $color__white;
+			}
+			@include bp-1280 {
+				left: rem(45);
+			}
+			@include bp-1440 {
+				left: calc(((100vw - #{rem(1440)}) / 2) + #{rem(139)});
+			}
+		}
+	}
+
 	&__lede, &__title, &__copy {
     color: $color__white;
 		font-family: $font__primary;
@@ -55,6 +78,35 @@
 		text-shadow: 0 0 rem(20) rgba(0, 0, 0, .8);
 		@include bp-1024 {
 			text-shadow: 0 0 rem(20) $color__black;
+		}
+		a {
+			&:hover {
+				color: $color__purple-lighter;
+			}
+		}
+		._dates & {
+			& > * {
+				position: relative;
+				&:before {
+					content: '';
+					display: block;
+					@include bp-768 {
+						width: rem(7);
+						height: rem(7);
+						background-color: $color__white;
+						border-radius: 100%;
+						position: absolute;
+						top: calc(.5em - 2px);
+						left: rem(-33);
+					}
+					@include bp-1280 {
+						left: rem(-48);
+					}
+					@include bp-1440 {
+						left: rem(-51);
+					}
+				}
+			}
 		}
 	}
 }
