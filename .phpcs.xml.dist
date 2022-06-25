@@ -1,34 +1,28 @@
 <?xml version="1.0"?>
-<ruleset
-		name="VIP Sites"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
-	<description>Custom ruleset for VIP sites.</description>
-
-	<!-- Note: this file is only used for local PHPCS checks; the vip-go-ci bot does not read it.
-	To customize the bot's behavior, see https://docs.wpvip.com/how-tos/customize-the-bot/. -->
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PluginSlug" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+	<description>Custom ruleset for PluginSlug plugin.</description>
 
 	<!-- For help in understanding this file: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
 	<!-- For help in using PHPCS: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
-	<!-- For VIP code review items: https://docs.wpvip.com/technical-references/code-review/ -->
-	<!-- For VIP PHPCS severity levels: https://docs.wpvip.com/technical-references/vip-code-analysis-bot/phpcs-report/ -->
 
 	<!-- What to scan -->
-	<file>./themes/</file>
-	<file>./client-mu-plugins/</file>
-	<file>./plugins/</file>
+	<file>.</file>
 	<!-- Ignoring Files and Folders:
 		https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-files-and-folders -->
-	<exclude-pattern>./themes/twentytwentytwo/</exclude-pattern>
 	<exclude-pattern>./node_modules/</exclude-pattern>
 	<exclude-pattern>./vendor/</exclude-pattern>
 
 	<!-- How to scan -->
-	<arg value="sp"/> <!-- Show sniff and progress -->
-	<arg name="colors"/> <!-- Show results with colors. Disable if working on Windows -->
-	<arg name="basepath" value="."/> <!-- Strip the file paths down to the relevant bit -->
-	<arg name="parallel" value="8"/> <!-- Enables parallel processing when available for faster results -->
-	<arg name="extensions" value="php,js"/> <!-- Limit to PHP and JS files -->
+	<!-- Show sniff and progress -->
+	<arg value="sp"/>
+	<!-- Show results with colors -->
+	<arg name="colors"/>
+	<!-- Strip the file paths down to the relevant bit -->
+	<arg name="basepath" value="."/>
+	<!-- Enables parallel processing when available for faster results. -->
+	<arg name="parallel" value="20"/>
+	<!-- Limit to PHP files -->
+	<arg name="extensions" value="php"/>
 
 	<!-- Rules: Check PHP version compatibility - see
 		https://github.com/PHPCompatibility/PHPCompatibilityWP -->
@@ -37,17 +31,53 @@
 		https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
 	<config name="testVersion" value="7.4-"/>
 
-	<!-- Rules: VIP Coding Standards - see
-		https://github.com/Automattic/VIP-Coding-Standards -->
-	<rule ref="WordPress-VIP-Go"/>
-
 	<!-- Rules: WordPress Coding Standards - see
 		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
-	<!--<rule ref="WordPress-Extra"/>--> <!-- Includes WordPress-Core -->
-	<!--<rule ref="WordPress-Docs"/>-->
-	<!-- For help in understanding this minimum_supported_wp_version:
-		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#setting-minimum-supported-wp-version-for-all-sniffs-in-one-go-wpcs-0140 -->
-	<config name="minimum_supported_wp_version" value="6.0-"/>
+	<!-- WordPress-Extra includes WordPress-Core -->
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+	<!-- For help in understanding these custom sniff properties:
+		https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
+	<config name="minimum_supported_wp_version" value="5.3"/>
 
-	<!-- For more information on customizing this file, see https://docs.wpvip.com/technical-references/vip-codebase/phpcs-xml-dist/. -->
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="plugin_slug"/>
+				<element value="Gamajo\PluginSlug"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="plugin-slug"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
+		<properties>
+			<property name="blank_line_check" value="true"/>
+		</properties>
+	</rule>
+
+	<!-- WordPress insists on long array syntax, so let's ignore that, and insist on short array syntax. -->
+	<rule ref="WordPress">
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+	</rule>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+	<!-- Rules: WordPress VIP Go, for WordPress.com VIP - see
+	https://github.com/Automattic/VIP-Coding-Standards -->
+	<rule ref="WordPress-VIP-Go"/>
+
 </ruleset>

@@ -139,7 +139,7 @@
             // Add AJAX loader.
             $tabClone.prepend('<i class="fs-ajax-spinner"></i>');
             // Hide loader after content fully loaded.
-            $('.wrap i' + 'frame').load(function () {
+            $('.wrap i' + 'frame').on('load',function () {
                 $(".fs-ajax-spinner").hide();
             });
             <?php endif ?>

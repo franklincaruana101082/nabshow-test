@@ -213,7 +213,7 @@
       $(this).parents('.modal').modal('hide');
     }
     $('body').addClass('popup-loader');
-    $('.modal .modal-body').load('/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId, function () {
+    $('.modal .modal-body').on('load','/modal-popup?postid=' + postId + '&posttype=' + postType + '&userid=' + userId, function () {
       $('.modal').modal({
         show: true
       });

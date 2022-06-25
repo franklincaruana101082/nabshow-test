@@ -62,7 +62,7 @@
 
 		} );
 
-	$(window).on('load', function () {
+	).on('load', function () {
 		// Check purchases and create zoom link.
 		checkPurchasesAndCreatZoomLink();
 	});
