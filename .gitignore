@@ -36,9 +36,23 @@ Thumbs.db
 
 # node modules
 node_modules
-vendor
+
+# Development files
+package.json
+package-lock.json
+
+# Leftover core/plugin upgrade files
+/upgrade/
+
+# Local PHPCS configuration files
+.phpcs.xml
+phpcs.xml
+
+# Composer (repo root only)
+/vendor/
+
 phpcs
 wpcs
 composer.json
 composer.lock
-wp-content
+

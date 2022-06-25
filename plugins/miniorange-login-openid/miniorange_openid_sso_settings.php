@@ -27,7 +27,6 @@ include dirname( __FILE__ ) . '/mo_openid_feedback_form.php';
 
 include_once dirname(__FILE__) . '/class-mo-openid-login-widget.php';
 
-require(WPCOM_VIP_PRIVATE_DIR . '/helpers/class-url-verifier.php');
 class miniorange_openid_sso_settings
 {
     function __construct()
@@ -240,11 +239,11 @@ class miniorange_openid_sso_settings
         add_option( 'mo_delete_user_error_message','Error deleting user from account linking table');
         add_option( 'mo_account_linking_message','Link your social account to existing WordPress account by entering username and password.');
         $message='Dear User,
-        
+
 Your verification code for completing your profile is: ##otp##  Please use this code to complete your profile.
-         
+
 Do not share this code with anyone.
-        
+
 Thank you.';
 
         add_option( 'custom_otp_msg',$message);
@@ -324,17 +323,17 @@ Thank you.';
         }
     }
 
-    function mo_openid_plugin_script() {      
-        
-        wp_enqueue_script( 'js-cookie-script', UrlVerifier::AppendTimeToUrl(plugins_url('includes/js/jquery.cookie.min.js', __FILE__)), array('jquery'));
-        wp_enqueue_script( 'mo-social-login-script', UrlVerifier::AppendTimeToUrl(plugins_url('includes/js/social_login.js', __FILE__), 1), array('jquery'));
+    function mo_openid_plugin_script() {
+
+        wp_enqueue_script( 'js-cookie-script', UrlCacheControl::AppendTimeToUrl(plugins_url('includes/js/jquery.cookie.min.js', __FILE__)), array('jquery'));
+        wp_enqueue_script( 'mo-social-login-script', UrlCacheControl::AppendTimeToUrl(plugins_url('includes/js/social_login.js', __FILE__), 1), array('jquery'));
     }
-    
+
     function exception_handler(Throwable $exception) {
         echo "Uncaught exception: " , $exception->getMessage(), "\n";
     }
-      
-      
+
+
     function miniorange_openid_save_settings()
     {
         if(is_admin() && get_option('Activated_Plugin')=='Plugin-Slug') {

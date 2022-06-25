@@ -14,9 +14,8 @@ use Google\Site_Kit\Context;
 use Google\Site_Kit\Core\Permissions\Permissions;
 use Google\Site_Kit\Core\Storage\Cache;
 use Google\Site_Kit\Core\Util\BC_Functions;
-use UrlVerifier;
 use WP_Dependencies;
-
+use UrlCacheControl;
 /**
  * Class managing assets.
  *
@@ -261,17 +260,15 @@ final class Assets {
 		$href  = $this->context->url( 'dist/assets/svg/svg.svg' ) . '#' . $name;
 		$label = 'aria-label="' . ( empty( $args['label'] ) ? esc_attr( $name ) : esc_attr( $args['label'] ) ) . '"';
 		$label = 'presentation' === $args['role'] ? '' : $label;
-		if( !empty($args) ){
-			return sprintf(
-				'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
-				esc_attr( $args['role'] ),
-				esc_attr( 'svg googlesitekit-svg-' . $name ),
-				$label,
-				esc_attr( $args['height'] ),
-				esc_attr( $args['width'] ),
-				esc_url( $href )
-			);
-		}
+		return sprintf(
+			'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
+			esc_attr( $args['role'] ),
+			esc_attr( 'svg googlesitekit-svg-' . $name ),
+			$label,
+			esc_attr( $args['height'] ),
+			esc_attr( $args['width'] ),
+			esc_url( $href )
+		);
 	}
 
 	/**
@@ -357,15 +354,13 @@ final class Assets {
 			'googlesitekit-datastore-site',
 			'googlesitekit-datastore-user',
 		);
-		
-		if( empty($base_url) && empty($dependencies) ) return;
 
 		// Register plugin scripts.
 		$assets = array(
 			new Script(
 				'googlesitekit-vendor',
 				array(
-					'src' => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-vendor.js'),
+					'src' => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-vendor.js'),
 				)
 			),
 			new Script_Data(
@@ -439,14 +434,14 @@ final class Assets {
 			new Script(
 				'googlesitekit-activation',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-activation.js',1),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-activation.js',1),
 					'dependencies' => $dependencies,
 				)
 			),
 			new Script(
 				'googlesitekit-base',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-admin.js',2),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-admin.js',2),
 					'dependencies' => array( 'googlesitekit-apifetch-data', 'googlesitekit-base-data' ),
 					'execution'    => 'defer',
 				)
@@ -455,7 +450,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-api',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-api.js',3),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-api.js',3),
 					'dependencies' => array(
 						'googlesitekit-vendor',
 						'googlesitekit-apifetch-data',
@@ -465,7 +460,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-data',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-data.js',4),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-data.js',4),
 					'dependencies' => array(
 						'googlesitekit-vendor',
 						'googlesitekit-api',
@@ -475,7 +470,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-datastore-user',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-datastore-user.js',5),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-datastore-user.js',5),
 					'dependencies' => array(
 						'googlesitekit-data',
 						'googlesitekit-api',
@@ -486,7 +481,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-datastore-site',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-datastore-site.js',6),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-datastore-site.js',6),
 					'dependencies' => array(
 						'googlesitekit-vendor',
 						'googlesitekit-api',
@@ -499,7 +494,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-datastore-forms',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-datastore-forms.js',7),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-datastore-forms.js',7),
 					'dependencies' => array(
 						'googlesitekit-data',
 					),
@@ -508,7 +503,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-modules',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-modules.js',8),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-modules.js',8),
 					'dependencies' => array(
 						'googlesitekit-vendor',
 						'googlesitekit-api',
@@ -521,7 +516,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-widgets',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-widgets.js',9),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-widgets.js',9),
 					'dependencies' => array(
 						'googlesitekit-data',
 					),
@@ -531,55 +526,55 @@ final class Assets {
 			new Script(
 				'googlesitekit-ads-detect',
 				array(
-					'src' => UrlVerifier::AppendTimeToUrl($base_url . 'js/pagead2.ads.js',10),
+					'src' => UrlCacheControl::AppendTimeToUrl($base_url . 'js/pagead2.ads.js',10),
 				)
 			),
 			new Script(
 				'googlesitekit-dashboard-splash',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-dashboard-splash.js',11),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-dashboard-splash.js',11),
 					'dependencies' => $dependencies,
 				)
 			),
 			new Script(
 				'googlesitekit-dashboard-details',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-dashboard-details.js',12),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-dashboard-details.js',12),
 					'dependencies' => $dependencies,
 				)
 			),
 			new Script(
 				'googlesitekit-dashboard',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-dashboard.js',13),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-dashboard.js',13),
 					'dependencies' => $dependencies,
 				)
 			),
 			new Script(
 				'googlesitekit-module-page',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-module.js',14),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-module.js',14),
 					'dependencies' => $dependencies,
 				)
 			),
 			new Script(
 				'googlesitekit-settings',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-settings.js',15),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-settings.js',15),
 					'dependencies' => $dependencies,
 				)
 			),
 			new Stylesheet(
 				'googlesitekit-admin-css',
 				array(
-					'src' => UrlVerifier::AppendTimeToUrl($base_url . 'css/admin.css',16),
+					'src' => UrlCacheControl::AppendTimeToUrl($base_url . 'css/admin.css',16),
 				)
 			),
 			// WP Dashboard assets.
 			new Script(
 				'googlesitekit-wp-dashboard',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-wp-dashboard.js',17),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-wp-dashboard.js',17),
 					'dependencies' => $dependencies,
 					'execution'    => 'defer',
 				)
@@ -587,14 +582,14 @@ final class Assets {
 			new Stylesheet(
 				'googlesitekit-wp-dashboard-css',
 				array(
-					'src' => UrlVerifier::AppendTimeToUrl($base_url . 'css/wpdashboard.css',18),
+					'src' => UrlCacheControl::AppendTimeToUrl($base_url . 'css/wpdashboard.css',18),
 				)
 			),
 			// Admin bar assets.
 			new Script(
 				'googlesitekit-adminbar-loader',
 				array(
-					'src'          => UrlVerifier::AppendTimeToUrl($base_url . 'js/googlesitekit-adminbar-loader.js',19),
+					'src'          => UrlCacheControl::AppendTimeToUrl($base_url . 'js/googlesitekit-adminbar-loader.js',19),
 					'dependencies' => $dependencies,
 					'execution'    => 'defer',
 					'before_print' => function( $handle ) use ( $base_url ) {
@@ -610,7 +605,7 @@ final class Assets {
 			new Stylesheet(
 				'googlesitekit-adminbar-css',
 				array(
-					'src' => UrlVerifier::AppendTimeToUrl($base_url . 'css/adminbar.css',20),
+					'src' => UrlCacheControl::AppendTimeToUrl($base_url . 'css/adminbar.css',20),
 				)
 			),
 		);
@@ -869,8 +864,7 @@ final class Assets {
 	 */
 	private function add_async_defer_attribute( $tag, $handle ) {
 		$script_execution = wp_scripts()->get_data( $handle, 'script_execution' );
-		if( empty($tag) )
-			return;
+
 		if ( ! $script_execution ) {
 			return $tag;
 		}
