@@ -2201,7 +2201,7 @@
   });
 
   // on load
-  $(window).on('load', function () {
+  jQuery(window).on('load', function () {
     $(".video_added").removeClass("woocommerce-product-gallery__image");
 
     $(".custom_thumb.video_added a").fancybox({

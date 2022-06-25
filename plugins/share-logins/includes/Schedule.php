@@ -46,7 +46,7 @@ class Schedule extends Hooks {
 
             cx_remove_scheduled_url( cx_get_route_home( $url )  );
 		}
-		cx_clean_scheduled_urls();
+
         endif;
 
         /**
@@ -54,13 +54,8 @@ class Schedule extends Hooks {
          * @author developerwil
          * @link https://wordpress.org/support/topic/sessions-need-to-be-destroyed/
          */
-        // if( empty( cx_get_scheduled_urls() ) && session_status() != PHP_SESSION_NONE ) {
-        //     session_destroy();
-        // }
-
-        // ZPD 21/10/2019 - destroy session if scheduled URLs are empty
-        if( empty( cx_get_scheduled_urls() ) ) {
-            @session_destroy();
+        if( empty( cx_get_scheduled_urls() ) && session_status() != PHP_SESSION_NONE ) {
+            session_destroy();
         }
     }
 }

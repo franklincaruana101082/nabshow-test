@@ -159,13 +159,13 @@ $(document).ready(function() {
 
         $(this).parents('.side-nav').find('.active').removeClass('active');
         $(this).parent().addClass('active');
-        $('div.namespace-contents').load(
+        $('div.namespace-contents').on('load',
             this.href + ' div.namespace-contents', function(){
                 initializeContents();
                 $(window).scrollTop($('div.namespace-contents').position().top);
             }
         );
-        $('div.package-contents').load(
+        $('div.package-contents').on('load',
             this.href + ' div.package-contents', function(){
                 initializeContents();
                 $(window).scrollTop($('div.package-contents').position().top);

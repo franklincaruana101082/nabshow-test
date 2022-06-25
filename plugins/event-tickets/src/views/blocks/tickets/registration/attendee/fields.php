@@ -24,4 +24,4 @@ $fields = $meta->get_meta_fields_by_ticket( $ticket->ID );
 ?>
 <?php foreach ( $fields as $field ) : ?>
 	<?php $this->template( 'blocks/tickets/registration/attendee/fields/' . $field->type  , array( 'ticket' => $ticket, 'field' => $field ) ); ?>
-<?php endforeach; ?>
+<?php endforeach; 

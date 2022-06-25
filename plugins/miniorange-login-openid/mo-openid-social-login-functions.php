@@ -12,27 +12,28 @@ function mo_openid_end_session() {
     session_unset(); //unsets all session variables
 }
 
-function mo_openid_initialize_social_login(){
-    $client_name = "wordpress";
-    $appname = sanitize_text_field($_REQUEST['app_name']);
-    if($appname=='yaahoo')
-        $appname='yahoo';
-    $timestamp = round(microtime(true) * 1000);
-    $api_key = get_option('mo_openid_admin_api_key');
-    $token = $client_name . ':' . number_format($timestamp, 0, '', '') . ':' . $api_key;
-    $customer_token = get_option('mo_openid_customer_token');
-    $encrypted_token = encrypt_data($token, $customer_token);
-    $encoded_token = urlencode($encrypted_token);
-    $userdata = get_option('moopenid_user_attributes') ? 'true' : 'false';
-    $http = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? "https://" : "http://";
-    $parts = parse_url($http . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-    parse_str($parts['query'], $query);
-    $post = isset($query['p']) ? '?p=' . $query['p'] : '';
-    $base_return_url = $http . $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"], '?') . $post;
-    $return_url = strpos($base_return_url, '?') !== false ? urlencode($base_return_url . '&option=moopenid') : urlencode($base_return_url . '?option=moopenid');
-    $url = 'https://login.xecurify.com/moas/openid-connect/client-app/authenticate?token=' . $encoded_token . '&userdata=' . $userdata . '&id=' . get_option('mo_openid_admin_customer_key') . '&encrypted=true&app=' . $appname . '_oauth_xecurify&returnurl=' . $return_url . '&encrypt_response=true';
-    // wp_redirect($url);
-    exit;
+function mo_openid_initialize_social_login() {
+	$client_name = 'WordPress';
+	$appname     = sanitize_text_field( $_REQUEST['app_name'] );
+	if ( $appname == 'yaahoo' ) {
+		$appname = 'yahoo';
+	}
+	$timestamp       = round( microtime( true ) * 1000 );
+	$api_key         = get_option( 'mo_openid_admin_api_key' );
+	$token           = $client_name . ':' . number_format( $timestamp, 0, '', '' ) . ':' . $api_key;
+	$customer_token  = get_option( 'mo_openid_customer_token' );
+	$encrypted_token = encrypt_data( $token, $customer_token );
+	$encoded_token   = urlencode( $encrypted_token );
+	$userdata        = get_option( 'moopenid_user_attributes' ) ? 'true' : 'false';
+	$http            = isset( $_SERVER['HTTPS'] ) && ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https://' : 'http://';
+	$parts           = parse_url( $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	parse_str( $parts['query'], $query );
+	$post            = isset( $query['p'] ) ? '?p=' . $query['p'] : '';
+	$base_return_url = $http . $_SERVER['HTTP_HOST'] . strtok( $_SERVER['REQUEST_URI'], '?' ) . $post;
+	$return_url      = strpos( $base_return_url, '?' ) !== false ? urlencode( $base_return_url . '&option=moopenid' ) : urlencode( $base_return_url . '?option=moopenid' );
+	$url             = 'https://login.xecurify.com/moas/openid-connect/client-app/authenticate?token=' . $encoded_token . '&userdata=' . $userdata . '&id=' . get_option( 'mo_openid_admin_customer_key' ) . '&encrypted=true&app=' . $appname . '_oauth_xecurify&returnurl=' . $return_url . '&encrypt_response=true';
+	// wp_redirect($url);
+	exit;
 }
 
 function mo_openid_custom_app_oauth_redirect($appname){

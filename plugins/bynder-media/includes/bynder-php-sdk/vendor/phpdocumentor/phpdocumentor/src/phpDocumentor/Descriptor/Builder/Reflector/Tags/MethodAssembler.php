@@ -72,9 +72,9 @@ class MethodAssembler extends AssemblerAbstract
             }
 
             // Type should not be assigned after name
-            if (!$argumentName && !$argumentType && $part{0} != '$') {
+            if (!$argumentName && !$argumentType && $part[0] != '$') {
                 $argumentType = $part;
-            } elseif (!$argumentName && $part{0} == '$') {
+            } elseif (!$argumentName && $part[0] == '$') {
                 $argumentName = $part;
             } elseif ($part == '=') {
                 $argumentDefault = null;

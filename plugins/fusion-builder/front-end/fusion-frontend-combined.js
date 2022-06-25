@@ -29880,7 +29880,7 @@ var FusionPageBuilder = FusionPageBuilder || {};
 				if ( video.length && 'undefined' !== typeof video.get( 0 ) ) {
 
 					// Source change.
-					video.get( 0 ).load();
+					video.get( 0 ).on('load',);
 
 					// Auto play.
 					( 'yes' === params.autoplay ) ? video.get( 0 ).play() : video.get( 0 ).pause();
