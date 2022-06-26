@@ -65,3 +65,4 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
+define('SUNRISE', true);

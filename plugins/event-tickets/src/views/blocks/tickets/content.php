@@ -28,4 +28,4 @@ $context = [
 <?php if ( ! $is_mini ) : ?>
 	<?php $this->template( 'blocks/tickets/content-description', $context ); ?>
 <?php endif; ?>
-<?php $this->template( 'blocks/tickets/extra', $context ); ?>
+<?php $this->template( 'blocks/tickets/extra', $context ); 

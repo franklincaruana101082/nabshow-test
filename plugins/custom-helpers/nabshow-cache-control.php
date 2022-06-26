@@ -22,9 +22,6 @@ require WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-helper/class-url-
 
 require WP_PLUGIN_DIR . '/user-switching/user-switching.php';
 
-/**
- * Commands to manage automatic event execution
- */
 use Automattic\VIP\Cache\Vary_Cache;
 
 class NabshowCacheControl extends Vary_Cache {
@@ -100,7 +97,7 @@ class NabshowCacheControl extends Vary_Cache {
 				function() {
 					wp_safe_redirect( add_query_arg( [ '' ] ) );
 					exit;
-				} 
+				}
 			);
 		}
 	}
