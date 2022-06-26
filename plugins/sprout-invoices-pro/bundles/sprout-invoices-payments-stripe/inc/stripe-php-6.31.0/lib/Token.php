@@ -17,11 +17,11 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Token extends ApiResource
-{
+class Token extends ApiResource {
 
-    const OBJECT_NAME = "token";
 
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
+	const OBJECT_NAME = 'token';
+
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
 }

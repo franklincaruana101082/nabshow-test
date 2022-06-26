@@ -27,14 +27,14 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Product extends ApiResource
-{
+class Product extends ApiResource {
 
-    const OBJECT_NAME = "product";
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'product';
+
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Delete;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 }

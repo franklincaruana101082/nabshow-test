@@ -25,5 +25,5 @@ if ( ! defined( 'SA_ADDON_STRIPE_CHECKOUT_URL' ) ) {
 // Load up the processor before updates
 add_action( 'si_payment_processors_loaded', 'sa_load_stripe_checkout' );
 function sa_load_stripe_checkout() {
-	require_once( 'SI_Stripe_Checkout.php' );
+	require_once 'SI_Stripe_Checkout.php';
 }

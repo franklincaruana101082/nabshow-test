@@ -7,8 +7,8 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class BitcoinTransaction extends ApiResource
-{
+class BitcoinTransaction extends ApiResource {
 
-    const OBJECT_NAME = "bitcoin_transaction";
+
+	const OBJECT_NAME = 'bitcoin_transaction';
 }

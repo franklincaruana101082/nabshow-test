@@ -16,8 +16,8 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class SourceTransaction extends ApiResource
-{
+class SourceTransaction extends ApiResource {
 
-    const OBJECT_NAME = "source_transaction";
+
+	const OBJECT_NAME = 'source_transaction';
 }

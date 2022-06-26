@@ -23,14 +23,14 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Coupon extends ApiResource
-{
+class Coupon extends ApiResource {
 
-    const OBJECT_NAME = "coupon";
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'coupon';
+
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Delete;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 }

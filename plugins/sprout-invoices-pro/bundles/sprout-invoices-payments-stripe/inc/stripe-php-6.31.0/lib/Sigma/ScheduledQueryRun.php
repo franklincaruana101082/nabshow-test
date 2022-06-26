@@ -19,15 +19,14 @@ namespace Stripe\Sigma;
  *
  * @package Stripe\Sigma
  */
-class ScheduledQueryRun extends \Stripe\ApiResource
-{
-    const OBJECT_NAME = "scheduled_query_run";
+class ScheduledQueryRun extends \Stripe\ApiResource {
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+	const OBJECT_NAME = 'scheduled_query_run';
 
-    public static function classUrl()
-    {
-        return "/v1/sigma/scheduled_query_runs";
-    }
+	use \Stripe\ApiOperations\All;
+	use \Stripe\ApiOperations\Retrieve;
+
+	public static function classUrl() {
+		return '/v1/sigma/scheduled_query_runs';
+	}
 }

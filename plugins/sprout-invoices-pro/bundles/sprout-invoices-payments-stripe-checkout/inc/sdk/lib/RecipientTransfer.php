@@ -32,7 +32,7 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class RecipientTransfer extends ApiResource
-{
-    const OBJECT_NAME = "recipient_transfer";
+class RecipientTransfer extends ApiResource {
+
+	const OBJECT_NAME = 'recipient_transfer';
 }

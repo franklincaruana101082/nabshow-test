@@ -28,41 +28,39 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class SubscriptionSchedule extends ApiResource
-{
-    const OBJECT_NAME = "subscription_schedule";
+class SubscriptionSchedule extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
-    use ApiOperations\NestedResource;
+	const OBJECT_NAME = 'subscription_schedule';
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $opts
-     *
-     * @return SubscriptionSchedule The canceled subscription schedule.
-     */
-    public function cancel($params = null, $opts = null)
-    {
-        $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
+	use ApiOperations\NestedResource;
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $opts
-     *
-     * @return SubscriptionSchedule The released subscription schedule.
-     */
-    public function release($params = null, $opts = null)
-    {
-        $url = $this->instanceUrl() . '/release';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $opts
+	 *
+	 * @return SubscriptionSchedule The canceled subscription schedule.
+	 */
+	public function cancel( $params = null, $opts = null ) {
+		$url                   = $this->instanceUrl() . '/cancel';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $opts );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
+
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $opts
+	 *
+	 * @return SubscriptionSchedule The released subscription schedule.
+	 */
+	public function release( $params = null, $opts = null ) {
+		$url                   = $this->instanceUrl() . '/release';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $opts );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
 }

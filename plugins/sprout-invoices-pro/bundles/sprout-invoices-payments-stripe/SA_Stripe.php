@@ -105,27 +105,27 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 		// Enqueue Scripts
 		if ( apply_filters( 'si_remove_scripts_styles_on_doc_pages', '__return_true' ) ) {
 			// enqueue after enqueue is filtered
-			add_action( 'si_doc_enqueue_filtered', array( __CLASS__, 'enqueue' ) );
+			add_action( 'si_doc_enqueue_filtered', [ __CLASS__, 'enqueue' ] );
 		} else { // enqueue normal
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
+			add_action( 'wp_enqueue_scripts', [ __CLASS__, 'enqueue' ] );
 		}
 
-		add_action( 'si_head', array( __CLASS__, 'si_add_stylesheet' ), 100 );
+		add_action( 'si_head', [ __CLASS__, 'si_add_stylesheet' ], 100 );
 
 		// Add Recurring button
-		add_action( 'recurring_payments_profile_info', array( __CLASS__, 'stripe_profile_link' ) );
+		add_action( 'recurring_payments_profile_info', [ __CLASS__, 'stripe_profile_link' ] );
 
 		// plaid token generation
-		add_filter( 'si_payment_options', array( get_class(), 'add_plaid_option' ), 20, 2 );
+		add_filter( 'si_payment_options', [ get_class(), 'add_plaid_option' ], 20, 2 );
 
-		add_action( 'wp_ajax_' . self::AJAX_ACTION_PLAID_TOKEN, array( get_class(), 'callback_for_plaid_token' ) );
-		add_action( 'wp_ajax_nopriv_' . self::AJAX_ACTION_PLAID_TOKEN, array( get_class(), 'callback_for_plaid_token' ) );
+		add_action( 'wp_ajax_' . self::AJAX_ACTION_PLAID_TOKEN, [ get_class(), 'callback_for_plaid_token' ] );
+		add_action( 'wp_ajax_nopriv_' . self::AJAX_ACTION_PLAID_TOKEN, [ get_class(), 'callback_for_plaid_token' ] );
 
-		add_action( 'wp_ajax_' . self::AJAX_ACTION_PLIAD_CREATE, array( get_class(), 'plaid_token_create' ) );
-		add_action( 'wp_ajax_nopriv_' . self::AJAX_ACTION_PLIAD_CREATE, array( get_class(), 'plaid_token_create' ) );
+		add_action( 'wp_ajax_' . self::AJAX_ACTION_PLIAD_CREATE, [ get_class(), 'plaid_token_create' ] );
+		add_action( 'wp_ajax_nopriv_' . self::AJAX_ACTION_PLIAD_CREATE, [ get_class(), 'plaid_token_create' ] );
 
-		add_action( 'wp_ajax_' . self::AJAX_ACTION_PAYMENTINTENT_CREATE, array( get_class(), 'payment_intent_create' ) );
-		add_action( 'wp_ajax_nopriv_' . self::AJAX_ACTION_PAYMENTINTENT_CREATE, array( get_class(), 'payment_intent_create' ) );
+		add_action( 'wp_ajax_' . self::AJAX_ACTION_PAYMENTINTENT_CREATE, [ get_class(), 'payment_intent_create' ] );
+		add_action( 'wp_ajax_nopriv_' . self::AJAX_ACTION_PAYMENTINTENT_CREATE, [ get_class(), 'payment_intent_create' ] );
 	}
 
 	public static function public_name() {
@@ -133,15 +133,15 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 	}
 
 	public static function checkout_options() {
-		 $option = array(
-			 'icons'          => array(
+		 $option = [
+			 'icons'          => [
 				 SI_URL . '/resources/front-end/img/visa.png',
 				 SI_URL . '/resources/front-end/img/mastercard.png',
 				 SI_URL . '/resources/front-end/img/amex.png',
 				 SI_URL . '/resources/front-end/img/discover.png',
-			 ),
+			 ],
 			 'label'          => __( 'Credit Card', 'sprout-invoices' ),
-			 'accepted_cards' => array(
+			 'accepted_cards' => [
 				 'visa',
 				 'mastercard',
 				 'amex',
@@ -149,9 +149,9 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 				 'discover',
 				// 'jcb',
 				// 'maestro'
-			 ),
-		 );
-		 $option['purchase_button_callback'] = array( __CLASS__, 'payment_button' );
+			 ],
+		 ];
+		 $option['purchase_button_callback'] = [ __CLASS__, 'payment_button' ];
 		 
 		 return $option;
 	}
@@ -178,12 +178,12 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 		self::$plaid_api_secret_key = get_option( self::PLAID_API_SECRET_KEY, '' );
 
 		// Remove pages
-		add_filter( 'si_checkout_pages', array( $this, 'remove_checkout_pages' ) );
+		add_filter( 'si_checkout_pages', [ $this, 'remove_checkout_pages' ] );
 
 		if ( 'true' != self::$disable_stripe_js ) {
-			add_filter( 'sa_get_form_field', array( __CLASS__, 'filter_credit_form' ), 10, 4 );
+			add_filter( 'sa_get_form_field', [ __CLASS__, 'filter_credit_form' ], 10, 4 );
 			add_filter( 'si_valid_process_payment_page_fields', '__return_false' );
-			add_action( 'si_credit_card_payment_fields', array( __CLASS__, 'modify_credit_form' ) );
+			add_action( 'si_credit_card_payment_fields', [ __CLASS__, 'modify_credit_form' ] );
 		}
 	}
 
@@ -201,77 +201,77 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 	/**
 	 * Hooked on init add the settings page and options.
 	 */
-	public static function register_settings( $settings = array() ) {
+	public static function register_settings( $settings = [] ) {
 		// Settings
-		$settings['payments'] = array(
-			'si_stripe_settings' => array(
+		$settings['payments'] = [
+			'si_stripe_settings' => [
 				'title'    => __( 'Stripe Settings', 'sprout-invoices' ),
 				'weight'   => 200,
-				'settings' => array(
-					self::API_MODE_OPTION            => array(
+				'settings' => [
+					self::API_MODE_OPTION            => [
 						'label'  => __( 'Mode', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'    => 'select',
-							'options' => array(
+							'options' => [
 								self::MODE_LIVE => __( 'Live', 'sprout-invoices' ),
 								self::MODE_TEST => __( 'Test', 'sprout-invoices' ),
-							),
+							],
 							'default' => self::$api_mode,
-						),
-					),
-					self::CURRENCY_CODE_OPTION       => array(
+						],
+					],
+					self::CURRENCY_CODE_OPTION       => [
 						'label'  => __( 'Stripe/Plaid Currency Code', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'       => 'text',
 							'default'    => self::$currency_code,
-							'attributes' => array( 'class' => 'small-text' ),
-						),
-					),
-					self::API_SECRET_KEY_OPTION      => array(
+							'attributes' => [ 'class' => 'small-text' ],
+						],
+					],
+					self::API_SECRET_KEY_OPTION      => [
 						'label'  => __( 'Live Secret Key', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'    => 'text',
 							'default' => self::$api_secret_key,
-						),
-					),
-					self::API_PUB_KEY_OPTION         => array(
+						],
+					],
+					self::API_PUB_KEY_OPTION         => [
 						'label'  => __( 'Live Publishable Key', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'    => 'text',
 							'default' => self::$api_pub_key,
-						),
-					),
-					self::API_SECRET_KEY_TEST_OPTION => array(
+						],
+					],
+					self::API_SECRET_KEY_TEST_OPTION => [
 						'label'  => __( 'Test Secret Key', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'    => 'text',
 							'default' => self::$api_secret_key_test,
-						),
-					),
-					self::API_PUB_KEY_TEST_OPTION    => array(
+						],
+					],
+					self::API_PUB_KEY_TEST_OPTION    => [
 						'label'  => __( 'Test Publishable Key', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'    => 'text',
 							'default' => self::$api_pub_key_test,
-						),
-					),
-					self::PLAID_STATUS               => array(
+						],
+					],
+					self::PLAID_STATUS               => [
 						'label'  => __( 'Plaid', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'        => 'checkbox',
 							'default'     => ( 'false' != self::$plaid_status ) ? 1 : 0,
 							'value'       => ( 'false' != self::$plaid_status ) ? 1 : 0,
 							'description' => __( 'Stripe SEPA that is integrated with Sprout Invoices.', 'sprout-invoices' ),
-						),
-					),
-					self::PLAID_API_CLIENT_ID        => array(
+						],
+					],
+					self::PLAID_API_CLIENT_ID        => [
 						'label'  => __( 'Plaid client_id', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'        => 'text',
 							'default'     => self::$plaid_api_client_id,
 							'description' => __( 'Leave this option blank if you do not want to enable ACH payments via Stripe.', 'sprout-invoices' ),
-						),
-					),
+						],
+					],
 					// self::PLAID_API_PUB_KEY          => array(
 					// 'label'  => __( 'Plaid public_key', 'sprout-invoices' ),
 					// 'option' => array(
@@ -280,31 +280,31 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 					// 'description' => __( 'Leave this option blank if you do not want to enable ACH payments via Stripe.', 'sprout-invoices' ),
 					// ),
 					// ),
-					self::PLAID_API_SECRET_KEY       => array(
+					self::PLAID_API_SECRET_KEY       => [
 						'label'  => __( 'Plaid secret', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'        => 'text',
 							'default'     => self::$plaid_api_secret_key,
 							'description' => __( 'Leave this option blank if you do not want to enable ACH payments via Stripe.', 'sprout-invoices' ),
-						),
-					),
+						],
+					],
 
-					self::SEPA_STATUS                => array(
+					self::SEPA_STATUS                => [
 						'label'  => __( 'SEPA Debit', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'        => 'checkbox',
 							'default'     => ( 'false' != self::$sepa_status ) ? 1 : 0,
 							'value'       => ( 'false' != self::$sepa_status ) ? 1 : 0,
 							'description' => __( 'Stripe SEPA that is integrated with Sprout Invoices.', 'sprout-invoices' ),
-						),
-					),
+						],
+					],
 
-					self::SEPA_COUNTRY               => array(
+					self::SEPA_COUNTRY               => [
 						'label'  => __( 'SEPA Debit Country', 'sprout-invoices' ),
-						'option' => array(
+						'option' => [
 							'type'    => 'select',
 							'default' => self::$sepa_country,
-							'options' => array(
+							'options' => [
 								'at' => 'Austria',
 								'be' => 'Belgium',
 								'ee' => 'Estonia',
@@ -320,9 +320,9 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 								'es' => 'Spain',
 								'se' => 'Sweden',
 
-							),
-						),
-					),
+							],
+						],
+					],
 					// self::MODAL_JS_OPTION            => array(
 					// 'label'  => __( 'Use Stripe Checkout', 'sprout-invoices' ),
 					// 'option' => array(
@@ -341,9 +341,9 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 					// 'description' => __( 'Only recommended if you\'re running a site with SSL already. Do not disable Stripe.js if you\'re using Stripe Checkout.', 'sprout-invoices' ),
 					// ),
 					// ),
-				),
-			),
-		);
+				],
+			],
+		];
 
 		return $settings;
 	}
@@ -364,7 +364,7 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 		$key            = ( self::$api_mode === self::MODE_TEST ) ? self::$api_pub_key_test : self::$api_pub_key;
 		$payment_amount = ( si_has_invoice_deposit( $invoice->get_id() ) ) ? $invoice->get_deposit() : $invoice->get_balance();
 
-		$data_attributes = array(
+		$data_attributes = [
 			'key'               => $key,
 			'name'              => get_bloginfo( 'name' ),
 			'email'             => $user_email,
@@ -373,7 +373,7 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 			'currency'          => self::get_currency_code( $invoice_id ),
 			'amount'            => self::convert_money_to_cents( $payment_amount, $invoice ),
 			'allow-remember-me' => 'false',
-		);
+		];
 		$data_attributes = apply_filters( 'si_stripe_js_data_attributes', $data_attributes, $invoice_id );
 
 		?>
@@ -382,7 +382,7 @@ class SA_Stripe extends SI_Credit_Card_Processors {
 			var si_stripe_js_data_attributes = <?php echo wp_json_encode( $data_attributes ); ?>;
 			/* ]]> */
 		</script>
-		<!-- <form action="<?php echo add_query_arg( array( SI_Checkouts::CHECKOUT_ACTION => SI_Checkouts::PAYMENT_PAGE ), si_get_credit_card_checkout_form_action() ); ?>" method="POST" class="button" id="stripe_pop_form">
+		<!-- <form action="<?php echo add_query_arg( [ SI_Checkouts::CHECKOUT_ACTION => SI_Checkouts::PAYMENT_PAGE ], si_get_credit_card_checkout_form_action() ); ?>" method="POST" class="button" id="stripe_pop_form">
 			<input type="hidden" name="<?php echo SI_Checkouts::CHECKOUT_ACTION; ?>" value="<?php echo SI_Checkouts::PAYMENT_PAGE; ?>" />
 			<script src="https://checkout.stripe.com/checkout.js" class="stripe-button" 
 		<?php
@@ -1218,10 +1218,10 @@ pre {
 		if ( ! self::$plaid_api_pub_key || '' === self::$plaid_api_pub_key ) {
 			return $enabled_processors;
 		}
-		$enabled_processors['plaid'] = array(
+		$enabled_processors['plaid'] = [
 			'label'                    => __( 'Bank Account', 'sprout-invoices' ),
-			'purchase_button_callback' => array( __CLASS__, 'add_plaid_button' ),
-		);
+			'purchase_button_callback' => [ __CLASS__, 'add_plaid_button' ],
+		];
 		return $enabled_processors;
 	}
 
@@ -1254,15 +1254,15 @@ pre {
 		$public_token = sanitize_text_field( $_REQUEST['public_token'] );
 		$invoice_id   = sanitize_text_field( $_REQUEST['invoice_id'] );
 		if ( '' === $account_id ) {
-			wp_send_json_error( array( 'message' => __( 'No Account ID Provided.', 'sprout-invoices' ) ) );
+			wp_send_json_error( [ 'message' => __( 'No Account ID Provided.', 'sprout-invoices' ) ] );
 		}
 		if ( '' === $public_token ) {
-			wp_send_json_error( array( 'message' => __( 'No Public Token Provided.', 'sprout-invoices' ) ) );
+			wp_send_json_error( [ 'message' => __( 'No Public Token Provided.', 'sprout-invoices' ) ] );
 		}
 
 		$client_id = self::get_client_id( $invoice_id );
 		if ( ! $client_id ) {
-			wp_send_json_error( array( 'message' => __( 'No Client Associated.', 'sprout-invoices' ) ) );
+			wp_send_json_error( [ 'message' => __( 'No Client Associated.', 'sprout-invoices' ) ] );
 		}
 
 		$plaid_token_exchange = self::plaid_token_exchange( $public_token, $account_id );
@@ -1279,7 +1279,6 @@ pre {
 	}
 
 	static function make_plaid_payment( $invoice_id, $client_id, $token ) {
-
 		$invoice = SI_Invoice::get_instance( $invoice_id );
 		$user_id = si_whos_user_id_is_paying( $invoice );
 		self::setup_stripe();
@@ -1287,33 +1286,32 @@ pre {
 
 		// $customer_id = self::payment_intent_customer( $user_id, $token );
 
-		$charge_args = array(
+		$charge_args = [
 			'amount'      => self::convert_money_to_cents( sprintf( '%0.2f', $payment_amount ), $invoice ),
 			'currency'    => self::get_currency_code( $invoice->get_id() ),
 			'description' => get_the_title( $invoice->get_id() ),
 			// 'customer'    => $customer_id,
 			'source'      => $token,
-		);
+		];
 
 			// Charge the card!
 			// $charge   = \Stripe\Charge::create( apply_filters( 'si_stripe_chage_args', $charge_args, $checkout, $invoice ) );
 		try {
 			$charge     = \Stripe\Charge::create( $charge_args );
 			$payment_id = SI_Payment::new_payment(
-				array(
+				[
 					'payment_method' => self::PAYMENT_METHOD,
 					'invoice'        => $invoice->get_id(),
 					'amount'         => self::convert_cents_to_money( $charge['amount'], $invoice ),
-					'data'           => array(
+					'data'           => [
 						'live'         => ( self::$api_mode == self::MODE_LIVE ),
 						'api_response' => $charge,
-					),
-				),
+					],
+				],
 				SI_Payment::STATUS_AUTHORIZED
 			);
 
 			if ( ! $payment_id ) {
-
 				wp_send_json_error( false );
 			}
 
@@ -1327,7 +1325,6 @@ pre {
 			self::set_error_messages( $e->getMessage() );
 			wp_send_json_error( $e->getMessage() );
 		}
-
 	}
 
 	/**
@@ -1373,17 +1370,15 @@ pre {
 			$user  = get_userdata( $user_id );
 			$email = $user->user_email;
 
-			$customer_args = array(
+			$customer_args = [
 				'description' => $email,
 				'email'       => $email,
 
-			);
+			];
 
 			// Create a customer first so we can retrieve them later for future payments
 			try {
-
 				$customer = \Stripe\Customer::create( apply_filters( 'si_stripe_customer_args', $customer_args, $user_id ) );
-
 			} catch ( Exception $e ) {
 				self::set_error_messages( $e->getMessage() );
 				wp_send_json_error( $data = $e->getMessage(), $status_code = 402 );
@@ -1403,7 +1398,7 @@ pre {
 					$customer_id,
 					$token->bank_account->id
 				);
-				$bank_account->verify( array( 'amounts' => array( 32, 45 ) ) );
+				$bank_account->verify( [ 'amounts' => [ 32, 45 ] ] );
 			} catch ( Exception $e ) {
 				// self::set_error_messages( $e->getMessage() );
 				// wp_send_json_error( $e->getMessage() );
@@ -1426,32 +1421,31 @@ pre {
 		$customer_id = self::payment_intent_customer( $user_id );
 
 		if ( isset( $_POST['paymentIntentId'] ) && $_POST['paymentIntentId'] != null ) {
-			\Stripe\PaymentIntent::update($_POST['paymentIntentId'],['customer'=> $customer_id]);
+			\Stripe\PaymentIntent::update( $_POST['paymentIntentId'], [ 'customer' => $customer_id ] );
 			$charge = \Stripe\PaymentIntent::retrieve( sanitize_text_field( $_POST['paymentIntentId'] ) );
 			$charge->confirm();
 			$charge_reciept = self::generateResponse( $charge );
 
 			wp_send_json( $charge_reciept );
 		} elseif ( isset( $_POST['completeOrder'] ) && $_POST['completeOrder'] != null ) {
-			\Stripe\PaymentIntent::update($_POST['completeOrder'],['customer'=> $customer_id]);
+			\Stripe\PaymentIntent::update( $_POST['completeOrder'], [ 'customer' => $customer_id ] );
 			$charge = \Stripe\PaymentIntent::retrieve( sanitize_text_field( $_POST['completeOrder'] ) );
 			$charge->confirm();
 			$charge_reciept = self::generateResponse( $charge );
 			$payment_id     = SI_Payment::new_payment(
-				array(
+				[
 					'payment_method' => self::PAYMENT_METHOD,
 					'invoice'        => $invoice->get_id(),
 					'amount'         => self::convert_cents_to_money( $charge['amount'], $invoice ),
-					'data'           => array(
+					'data'           => [
 						'live'         => ( self::$api_mode == self::MODE_LIVE ),
 						'api_response' => $charge,
-					),
-				),
+					],
+				],
 				SI_Payment::STATUS_AUTHORIZED
 			);
 
 			if ( ! $payment_id ) {
-
 				wp_send_json_error( false );
 			}
 
@@ -1462,28 +1456,25 @@ pre {
 			$payment->set_status( SI_Payment::STATUS_COMPLETE );
 			do_action( 'payment_complete', $payment );
 
-			wp_send_json_success( array( $payment, $payment_id ) );
-
+			wp_send_json_success( [ $payment, $payment_id ] );
 		} else {
-
-			$charge_args = array(
+			$charge_args = [
 				'amount'      => self::convert_money_to_cents( sprintf( '%0.2f', $payment_amount ), $invoice ),
 				'currency'    => self::get_currency_code( $invoice->get_id() ),
 				'description' => get_the_title( $invoice->get_id() ),
-			);
+			];
 
 			if ( isset( $_POST['payment_method_types'] ) && $_POST['payment_method_types'] != null ) {
-				$charge_args['payment_method_types'] = array( $_POST['payment_method_types'] );
+				$charge_args['payment_method_types'] = [ $_POST['payment_method_types'] ];
 				if ( $_POST['payment_method_types'] !== 'sepa_debit' ) {
 					$charge_args = array_merge(
 						$charge_args,
-						array(
+						[
 							'confirmation_method' => 'manual',
 							'customer'            => $customer_id,
-							'confirm'     => false,
-						)
+							'confirm'             => false,
+						]
 					);
-
 				}
 			}
 			if ( ( isset( $_POST['paymentMethodId'] ) && $_POST['paymentMethodId'] != null ) ) {
@@ -1506,7 +1497,6 @@ pre {
 				self::set_error_messages( $e->getMessage() );
 			}
 		}
-
 	}
 
 	/**
@@ -1518,22 +1508,22 @@ pre {
 			case 'requires_action':
 			case 'requires_source_action':
 				// Card requires authentication
-				return array(
+				return [
 					'requiresAction'  => true,
 					'paymentIntentId' => $intent->id,
 					'clientSecret'    => $intent->client_secret,
-				);
+				];
 			case 'requires_payment_method':
 			case 'requires_source':
 				// Card was not properly authenticated, suggest a new payment method
-				return array(
+				return [
 					'error' => 'Your card was denied, please provide a new payment method',
-				);
+				];
 			case 'succeeded':
 			case 'requires_confirmation':
 				// Payment is complete, authentication not required
 				// To cancel the payment after capture you will need to issue a Refund (https://stripe.com/docs/api/refunds)
-				return array( 'clientSecret' => $intent->client_secret );
+				return [ 'clientSecret' => $intent->client_secret ];
 		}
 	}
 
@@ -1550,30 +1540,30 @@ pre {
 		$api_domain = apply_filters( 'si_plaid_api_domain', $api_domain );
 
 		// exchange token
-		$post_data = array(
+		$post_data = [
 			'client_id'     => self::$plaid_api_client_id,
 			'secret'        => self::$plaid_api_secret_key,
 			'client_name'   => sanitize_text_field( $_POST['client_name'] ),
-			'country_codes' => array( 'US' ),
+			'country_codes' => [ 'US' ],
 			'language'      => 'en',
-			'user'          => array(
+			'user'          => [
 				'client_user_id' => str_replace( ' ', '-', sanitize_text_field( $_POST['client_name'] ) ) . time(),
-			),
-			'products'      => array( 'auth' ),
-		);
+			],
+			'products'      => [ 'auth' ],
+		];
 
 		// api
 		$raw_response = wp_remote_post(
 			$api_domain . '/link/token/create',
-			array(
-				'headers'   => array(
+			[
+				'headers'   => [
 					'Content-Type' => 'application/json',
-				),
+				],
 				'method'    => 'POST',
 				'body'      => json_encode( $post_data ),
 				'timeout'   => apply_filters( 'http_request_timeout', 30 ),
 				'sslverify' => false,
-			)
+			]
 		);
 
 		// get access token
@@ -1583,9 +1573,9 @@ pre {
 		if ( ! isset( $exchange_response->link_token ) ) {
 			if ( isset( $exchange_response->error_message ) ) {
 				wp_send_json(
-					array(
+					[
 						'message' => $exchange_response->error_message,
-					)
+					]
 				);
 			}
 		}
@@ -1607,23 +1597,23 @@ pre {
 		$api_domain = apply_filters( 'si_plaid_api_domain', $api_domain );
 
 		// exchange token
-		$post_data = array(
+		$post_data = [
 			'client_id'    => self::$plaid_api_client_id,
 			'secret'       => self::$plaid_api_secret_key,
 			'public_token' => $public_token,
-		);
+		];
 		// api
 		$raw_response = wp_remote_post(
 			$api_domain . '/item/public_token/exchange',
-			array(
-				'headers'   => array(
+			[
+				'headers'   => [
 					'Content-Type' => 'application/json',
-				),
+				],
 				'method'    => 'POST',
 				'body'      => json_encode( $post_data ),
 				'timeout'   => apply_filters( 'http_request_timeout', 30 ),
 				'sslverify' => false,
-			)
+			]
 		);
 
 		// get access token
@@ -1631,56 +1621,54 @@ pre {
 
 		if ( ! isset( $exchange_response->access_token ) ) {
 			if ( isset( $exchange_response->message ) ) {
-				return array(
+				return [
 					'message' => $exchange_response->message,
-				);
+				];
 			} else {
-
 				do_action( 'si_error', 'Plaid Public Token Exchange', $post_data, false );
 				do_action( 'si_error', 'Plaid Public Token Exchange', $exchange_response, false );
 
-				return array(
+				return [
 					'message' => sprintf( __( 'No access_token provided in exchange. Please try again later.', 'sprout-invoices' ) ),
-				);
+				];
 			}
 		}
 
 		// bank token
-		$post_data = array(
+		$post_data = [
 			'client_id'    => self::$plaid_api_client_id,
 			'secret'       => self::$plaid_api_secret_key,
 			'access_token' => $exchange_response->access_token,
 			'account_id'   => $account_id,
-		);
+		];
 		// api
 		$raw_response = wp_remote_post(
 			$api_domain . '/processor/stripe/bank_account_token/create',
-			array(
-				'headers'   => array(
+			[
+				'headers'   => [
 					'Content-Type' => 'application/json',
-				),
+				],
 				'method'    => 'POST',
 				'body'      => json_encode( $post_data ),
 				'timeout'   => apply_filters( 'http_request_timeout', 30 ),
 				'sslverify' => false,
-			)
+			]
 		);
 
 		$bank_response = json_decode( wp_remote_retrieve_body( $raw_response ) );
 
 		if ( ! isset( $bank_response->stripe_bank_account_token ) ) {
 			if ( isset( $bank_response->message ) ) {
-				return array(
+				return [
 					'message' => $bank_response->message,
-				);
+				];
 			} else {
-
 				do_action( 'si_error', 'Plaid Bank Token Exchange', $post_data, false );
 				do_action( 'si_error', 'Plaid Bank Token Exchange', $bank_response, false );
 
-				return array(
+				return [
 					'message' => sprintf( __( 'A Stripe Bank Account Token was not returned (%s). Please try again later. ', 'sprout-invoices' ), $bank_response->request_id ),
-				);
+				];
 			}
 		}
 
@@ -1702,22 +1690,22 @@ pre {
 		echo '<script type="text/javascript" src="' . SA_ADDON_STRIPE_URL . '/resources/si-stripe.jquery.js"></script>';
 
 		$pub_key      = ( get_option( self::API_MODE_OPTION, self::MODE_TEST ) === self::MODE_TEST ) ? get_option( self::API_PUB_KEY_TEST_OPTION, '' ) : get_option( self::API_PUB_KEY_OPTION, '' );
-		$si_js_object = array(
+		$si_js_object = [
 			'pub_key'                 => $pub_key,
 			'token_input'             => self::TOKEN_INPUT_NAME,
 			'callback_payment_intent' => self::AJAX_ACTION_PAYMENTINTENT_CREATE,
 			'sepa_country'            => self::$sepa_country,
-		);
+		];
 
 		if ( '' !== self::$plaid_api_client_id && '' !== self::$plaid_api_secret_key ) {
 			$env           = ( get_option( self::API_MODE_OPTION, self::MODE_TEST ) === self::MODE_TEST ) ? 'development' : 'production';
 			$env           = apply_filters( 'si_plaid_env', $env );
-			$si_js_object += array(
+			$si_js_object += [
 				'plaid_env'             => $env,
 				'callback_action'       => self::AJAX_ACTION_PLAID_TOKEN,
 				'callback_create_token' => self::AJAX_ACTION_PLIAD_CREATE,
 				'clientName'            => __( 'Authorize Bank Transfer', 'sprout-invoices' ),
-			);
+			];
 		}
 		?>
 
@@ -1738,15 +1726,15 @@ pre {
 		if ( is_single() && ( get_post_type( get_the_ID() ) === SI_Invoice::POST_TYPE ) ) {
 			// enqueue
 			wp_enqueue_script( 'stripe-js', 'https://js.stripe.com/v3/' );
-			wp_enqueue_script( 'si-stripe-js', SA_ADDON_STRIPE_URL . '/resources/si-stripe.jquery.js', array( 'jquery', 'stripe-js' ), SA_ADDON_STRIPE_VERSION );
+			wp_enqueue_script( 'si-stripe-js', SA_ADDON_STRIPE_URL . '/resources/si-stripe.jquery.js', [ 'jquery', 'stripe-js' ], SA_ADDON_STRIPE_VERSION );
 
 			// Localize the pub key
 			$pub_key      = ( get_option( self::API_MODE_OPTION, self::MODE_TEST ) === self::MODE_TEST ) ? get_option( self::API_PUB_KEY_TEST_OPTION, '' ) : get_option( self::API_PUB_KEY_OPTION, '' );
-			$si_js_object = array(
+			$si_js_object = [
 				'pub_key'     => $pub_key,
 				'token_input' => self::TOKEN_INPUT_NAME,
 
-			);
+			];
 
 			// Enqueue scripts
 			wp_localize_script( 'si-stripe-js', 'si_stripe_js_object', apply_filters( 'si_stripe_js_object_localization', $si_js_object ) );
@@ -1802,15 +1790,15 @@ pre {
 		}
 
 		$payment_id = SI_Payment::new_payment(
-			array(
+			[
 				'payment_method' => self::PAYMENT_METHOD,
 				'invoice'        => $invoice->get_id(),
 				'amount'         => self::convert_cents_to_money( $charge_reciept['amount'], $invoice ),
-				'data'           => array(
+				'data'           => [
 					'live'         => ( self::$api_mode == self::MODE_LIVE ),
 					'api_response' => $charge_reciept,
-				),
-			),
+				],
+			],
 			SI_Payment::STATUS_AUTHORIZED
 		);
 		if ( ! $payment_id ) {
@@ -1858,37 +1846,36 @@ pre {
 			}
 			$payment_amount = ( si_has_invoice_deposit( $invoice->get_id() ) ) ? $invoice->get_deposit() : $invoice->get_balance();
 
-			$charge_args = array(
+			$charge_args = [
 				'amount'      => self::convert_money_to_cents( sprintf( '%0.2f', $payment_amount ), $invoice ),
 				'currency'    => self::get_currency_code( $invoice->get_id() ),
 				'customer'    => $customer_id,
 				'description' => get_the_title( $invoice->get_id() ),
-			);
+			];
 			$charge_api  = false;
 			switch ( $method ) {
 				case 'ach':
 					$charge_api = true;
 					break;
 				case 'sepa_debit':
-					$charge_args['payment_method_types'] = array( 'sepa_debit' );
+					$charge_args['payment_method_types'] = [ 'sepa_debit' ];
 					break;
 				case 'eps':
-					$charge_args['payment_method_types'] = array( 'eps' );
+					$charge_args['payment_method_types'] = [ 'eps' ];
 					break;
 				default:
-					$charge_args['payment_method_types'] = array( 'card' );
-
+					$charge_args['payment_method_types'] = [ 'card' ];
 			}
 
 			// Charge the card!
 			$charge   = $charge_api ? \Stripe\Charge::create( apply_filters( 'si_stripe_chage_args', $charge_args, $checkout, $invoice ) ) : \Stripe\PaymentIntent::create( apply_filters( 'si_stripe_chage_args', $charge_args, $checkout, $invoice ) );
-			$response = array(
+			$response = [
 				'id'       => $charge->id,
 				'amount'   => $charge->amount,
 				'customer' => $charge->customer,
 				'card'     => ( isset( $charge->card->id ) ) ? $charge->card->id : '',
 				'bank'     => ( isset( $charge->source->bank_name ) ) ? $charge->source->bank_name : '',
-			);
+			];
 			// Return something for the response
 			return $response;
 		} catch ( Exception $e ) {
@@ -1905,7 +1892,6 @@ pre {
 	 * @return array
 	 */
 	public function purchase_data( SI_Checkouts $checkout, SI_Invoice $invoice ) {
-
 		if ( isset( $_REQUEST['stripeToken'] ) && '' !== $_POST['stripeToken'] ) {
 			$card_data = $_REQUEST['stripeToken'];
 		} elseif ( isset( $_POST[ self::TOKEN_INPUT_NAME ] ) && $_POST[ self::TOKEN_INPUT_NAME ] !== '' ) {
@@ -1916,7 +1902,7 @@ pre {
 				self::set_error_messages( 'Missing Stripe token. Please contact support.' );
 				return false;
 			} else {
-				$card_data = array(
+				$card_data = [
 					'number'          => $this->cc_cache['cc_number'],
 					'name'            => $checkout->cache['billing']['first_name'] . ' ' . $checkout->cache['billing']['last_name'],
 					'exp_month'       => $this->cc_cache['cc_expiration_month'],
@@ -1928,7 +1914,7 @@ pre {
 					'address_zip'     => $checkout->cache['billing']['postal_code'],
 					'address_state'   => $checkout->cache['billing']['zone'],
 					'address_country' => $checkout->cache['billing']['country'],
-				);
+				];
 			}
 		}
 		return apply_filters( 'si_stripe_purchase_data', $card_data, $checkout, $invoice );
@@ -1941,7 +1927,7 @@ pre {
 	 * @param  array $card_data
 	 * @return
 	 */
-	public function get_customer( $user_id = 0, $card_data = array() ) {
+	public function get_customer( $user_id = 0, $card_data = [] ) {
 		$customer_exists = false;
 		$customer_id     = 0;
 
@@ -1959,7 +1945,6 @@ pre {
 					// This customer was deleted
 					$customer_exists = false;
 				} else {
-
 					$stripe_customer->card = $card_data;
 					$stripe_customer->save();
 				}
@@ -1971,11 +1956,11 @@ pre {
 			$user  = get_userdata( $user_id );
 			$email = $user->user_email;
 
-			$customer_args = array(
+			$customer_args = [
 				'description' => $email,
 				'email'       => $email,
 				'card'        => $card_data,
-			);
+			];
 
 			// Create a customer first so we can retrieve them later for future payments
 			$customer = \Stripe\Customer::create( apply_filters( 'si_stripe_customer_args', $customer_args, $user_id, $card_data ) );
@@ -2002,7 +1987,6 @@ pre {
 	 * Create the recurring payment profile.
 	 */
 	private function create_recurring_payment_plan( SI_Checkouts $checkout, SI_Invoice $invoice ) {
-
 		self::setup_stripe();
 
 		try {
@@ -2012,17 +1996,17 @@ pre {
 			$price      = SI_Subscription_Payments::get_renew_price( $invoice_id );
 
 			$name      = get_the_title( $invoice_id );
-			$plan_args = array(
-				'product'  => array(
+			$plan_args = [
+				'product'  => [
 					'name' => $name,
 					'id'   => $invoice_id,
-				),
+				],
 				'nickname' => sprintf( __( 'Invoice: %s', 'sprout-invoices' ), $name ),
 				'amount'   => self::convert_money_to_cents( sprintf( '%0.2f', $price ), $invoice ),
 				'currency' => self::get_currency_code( $invoice_id ),
 				'interval' => $term,
 				'id'       => $invoice_id . self::convert_money_to_cents( sprintf( '%0.2f', $price ), $invoice ),
-			);
+			];
 
 			// Recurring Plan the customer will be changed to.
 			$plan = \Stripe\Plan::create( apply_filters( 'si_stripe_plan_args', $plan_args, $checkout, $invoice ) );
@@ -2042,13 +2026,11 @@ pre {
 	 * Create the recurring payment profile.
 	 */
 	private function add_customer_to_plan( SI_Checkouts $checkout, SI_Invoice $invoice ) {
-
 		$invoice_id = $invoice->get_id();
 
 		self::setup_stripe();
 
 		try {
-
 			$user = si_who_is_paying( $invoice );
 
 			$purchase_data = $this->purchase_data( $checkout, $invoice );
@@ -2060,34 +2042,34 @@ pre {
 			$amount_in_cents = self::convert_money_to_cents( sprintf( '%0.2f', $price ), $invoice );
 			$balance         = ( si_has_invoice_deposit( $invoice_id ) ) ? $invoice->get_deposit() : $invoice->get_balance();
 
-			$customer_args = array(
+			$customer_args = [
 				'card'            => $purchase_data,
 				'plan'            => $invoice_id . $amount_in_cents,
 				'email'           => $user->user_email,
 				'account_balance' => self::convert_money_to_cents( sprintf( '%0.2f', $balance - $price ), $invoice ),
-			); // A positive amount as a customer balance increases the amount of the next invoice. A negative amount becomes a credit that decreases the amount of the next invoice.
+			]; // A positive amount as a customer balance increases the amount of the next invoice. A negative amount becomes a credit that decreases the amount of the next invoice.
 			$subscribe     = \Stripe\Customer::create( apply_filters( 'si_stripe_customer_args', $customer_args, $checkout, $invoice ) );
 
-			$subscribe = array(
+			$subscribe = [
 				'id'              => $subscribe->id,
 				'subscription_id' => $subscribe->subscriptions->data[0]->id,
 				'amount'          => $amount_in_cents,
 				'plan'            => $invoice_id . $amount_in_cents,
 				'card'            => $purchase_data,
 				'email'           => $user->user_email,
-			);
+			];
 
 			// Payment
 			$payment_id = SI_Payment::new_payment(
-				array(
+				[
 					'payment_method' => self::PAYMENT_METHOD,
 					'invoice'        => $invoice_id,
 					'amount'         => $price,
-					'data'           => array(
+					'data'           => [
 						'live'         => ( self::MODE_LIVE === self::$api_mode ),
 						'api_response' => $subscribe,
-					),
-				),
+					],
+				],
 				SI_Payment::STATUS_RECURRING
 			);
 
@@ -2166,7 +2148,6 @@ pre {
 		$data = $payment->get_data();
 
 		if ( isset( $data['api_response']['subscription_id'] ) && isset( $data['api_response']['id'] ) ) {
-
 			$status = self::get_subscription_status( $data['api_response']['id'], $data['api_response']['subscription_id'] );
 
 			printf( __( '<b>Current Payment Status:</b> <code>%s</code>', 'sprout-invoices' ), $status );

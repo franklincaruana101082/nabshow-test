@@ -27,13 +27,13 @@ namespace Stripe;
  * @property int $trial_period_days
  * @property string $usage_type
  */
-class Plan extends ApiResource
-{
-    const OBJECT_NAME = "plan";
+class Plan extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'plan';
+
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Delete;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 }

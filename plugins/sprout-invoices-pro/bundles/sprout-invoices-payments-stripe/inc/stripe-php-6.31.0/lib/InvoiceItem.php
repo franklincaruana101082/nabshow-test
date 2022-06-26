@@ -26,14 +26,14 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class InvoiceItem extends ApiResource
-{
+class InvoiceItem extends ApiResource {
 
-    const OBJECT_NAME = "invoiceitem";
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'invoiceitem';
+
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Delete;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 }

@@ -13,18 +13,17 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Balance extends SingletonApiResource
-{
+class Balance extends SingletonApiResource {
 
-    const OBJECT_NAME = "balance";
 
-    /**
-     * @param array|string|null $opts
-     *
-     * @return Balance
-     */
-    public static function retrieve($opts = null)
-    {
-        return self::_singletonRetrieve($opts);
-    }
+	const OBJECT_NAME = 'balance';
+
+	/**
+	 * @param array|string|null $opts
+	 *
+	 * @return Balance
+	 */
+	public static function retrieve( $opts = null ) {
+		return self::_singletonRetrieve( $opts );
+	}
 }

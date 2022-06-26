@@ -16,13 +16,13 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class WebhookEndpoint extends ApiResource
-{
-    const OBJECT_NAME = "webhook_endpoint";
+class WebhookEndpoint extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'webhook_endpoint';
+
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Delete;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 }

@@ -25,27 +25,26 @@ namespace Stripe\Issuing;
  *
  * @package Stripe\Issuing
  */
-class Card extends \Stripe\ApiResource
-{
-    const OBJECT_NAME = "issuing.card";
+class Card extends \Stripe\ApiResource {
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\Retrieve;
-    use \Stripe\ApiOperations\Update;
+	const OBJECT_NAME = 'issuing.card';
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return CardDetails The card details associated with that issuing card.
-     */
-    public function details($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/details';
-        list($response, $opts) = $this->_request('get', $url, $params, $options);
-        $obj = \Stripe\Util\Util::convertToStripeObject($response, $opts);
-        $obj->setLastResponse($response);
-        return $obj;
-    }
+	use \Stripe\ApiOperations\All;
+	use \Stripe\ApiOperations\Create;
+	use \Stripe\ApiOperations\Retrieve;
+	use \Stripe\ApiOperations\Update;
+
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return CardDetails The card details associated with that issuing card.
+	 */
+	public function details( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/details';
+		list($response, $opts) = $this->_request( 'get', $url, $params, $options );
+		$obj                   = \Stripe\Util\Util::convertToStripeObject( $response, $opts );
+		$obj->setLastResponse( $response );
+		return $obj;
+	}
 }

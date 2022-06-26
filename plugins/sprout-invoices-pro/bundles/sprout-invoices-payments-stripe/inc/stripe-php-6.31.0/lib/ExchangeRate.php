@@ -7,11 +7,11 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class ExchangeRate extends ApiResource
-{
+class ExchangeRate extends ApiResource {
 
-    const OBJECT_NAME = "exchange_rate";
 
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+	const OBJECT_NAME = 'exchange_rate';
+
+	use ApiOperations\All;
+	use ApiOperations\Retrieve;
 }

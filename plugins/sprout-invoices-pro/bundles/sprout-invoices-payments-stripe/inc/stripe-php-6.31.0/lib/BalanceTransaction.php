@@ -22,20 +22,19 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class BalanceTransaction extends ApiResource
-{
+class BalanceTransaction extends ApiResource {
 
-    const OBJECT_NAME = "balance_transaction";
 
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+	const OBJECT_NAME = 'balance_transaction';
 
-    /**
-     * @return string The class URL for this resource. It needs to be special
-     *    cased because it doesn't fit into the standard resource pattern.
-     */
-    public static function classUrl()
-    {
-        return "/v1/balance/history";
-    }
+	use ApiOperations\All;
+	use ApiOperations\Retrieve;
+
+	/**
+	 * @return string The class URL for this resource. It needs to be special
+	 *    cased because it doesn't fit into the standard resource pattern.
+	 */
+	public static function classUrl() {
+		return '/v1/balance/history';
+	}
 }

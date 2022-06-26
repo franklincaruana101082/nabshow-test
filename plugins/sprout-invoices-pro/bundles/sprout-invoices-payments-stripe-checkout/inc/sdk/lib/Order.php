@@ -31,33 +31,31 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Order extends ApiResource
-{
-    const OBJECT_NAME = "order";
+class Order extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'order';
 
-    /**
-     * @return Order The paid order.
-     */
-    public function pay($params = null, $opts = null)
-    {
-        $url = $this->instanceUrl() . '/pay';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 
-    /**
-     * @return OrderReturn The newly created return.
-     */
-    public function returnOrder($params = null, $opts = null)
-    {
-        $url = $this->instanceUrl() . '/returns';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
-        return Util\Util::convertToStripeObject($response, $opts);
-    }
+	/**
+	 * @return Order The paid order.
+	 */
+	public function pay( $params = null, $opts = null ) {
+		$url                   = $this->instanceUrl() . '/pay';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $opts );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
+
+	/**
+	 * @return OrderReturn The newly created return.
+	 */
+	public function returnOrder( $params = null, $opts = null ) {
+		$url                   = $this->instanceUrl() . '/returns';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $opts );
+		return Util\Util::convertToStripeObject( $response, $opts );
+	}
 }

@@ -9,9 +9,9 @@ namespace Stripe\Terminal;
  *
  * @package Stripe\Terminal
  */
-class ConnectionToken extends \Stripe\ApiResource
-{
-    const OBJECT_NAME = "terminal.connection_token";
+class ConnectionToken extends \Stripe\ApiResource {
 
-    use \Stripe\ApiOperations\Create;
+	const OBJECT_NAME = 'terminal.connection_token';
+
+	use \Stripe\ApiOperations\Create;
 }

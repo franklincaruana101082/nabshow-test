@@ -24,36 +24,36 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Topup extends ApiResource
-{
-    const OBJECT_NAME = "topup";
+class Topup extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'topup';
 
-    /**
-     * Possible string representations of the status of the top-up.
-     * @link https://stripe.com/docs/api/topups/object#topup_object-status
-     */
-    const STATUS_CANCELED  = 'canceled';
-    const STATUS_FAILED    = 'failed';
-    const STATUS_PENDING   = 'pending';
-    const STATUS_REVERSED  = 'reversed';
-    const STATUS_SUCCEEDED = 'succeeded';
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return Topup The canceled topup.
-     */
-    public function cancel($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	/**
+	 * Possible string representations of the status of the top-up.
+	 *
+	 * @link https://stripe.com/docs/api/topups/object#topup_object-status
+	 */
+	const STATUS_CANCELED  = 'canceled';
+	const STATUS_FAILED    = 'failed';
+	const STATUS_PENDING   = 'pending';
+	const STATUS_REVERSED  = 'reversed';
+	const STATUS_SUCCEEDED = 'succeeded';
+
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return Topup The canceled topup.
+	 */
+	public function cancel( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/cancel';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $options );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
 }

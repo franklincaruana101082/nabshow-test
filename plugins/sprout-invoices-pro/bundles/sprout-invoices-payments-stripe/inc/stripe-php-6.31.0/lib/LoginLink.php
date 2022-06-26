@@ -11,8 +11,8 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class LoginLink extends ApiResource
-{
+class LoginLink extends ApiResource {
 
-    const OBJECT_NAME = "login_link";
+
+	const OBJECT_NAME = 'login_link';
 }

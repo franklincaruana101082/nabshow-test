@@ -22,27 +22,26 @@ namespace Stripe;
  * @property string $rolled_back_from
  * @property string $type
  */
-class Recipient extends ApiResource
-{
+class Recipient extends ApiResource {
 
-    const OBJECT_NAME = "recipient";
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Delete;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'recipient';
 
-    /**
-     * @param array|null $params
-     *
-     * @return Collection of the Recipient's Transfers
-     */
-    public function transfers($params = null)
-    {
-        $params = $params ?: [];
-        $params['recipient'] = $this->id;
-        $transfers = Transfer::all($params, $this->_opts);
-        return $transfers;
-    }
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Delete;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
+
+	/**
+	 * @param array|null $params
+	 *
+	 * @return Collection of the Recipient's Transfers
+	 */
+	public function transfers( $params = null ) {
+		$params              = $params ?: [];
+		$params['recipient'] = $this->id;
+		$transfers           = Transfer::all( $params, $this->_opts );
+		return $transfers;
+	}
 }

@@ -22,23 +22,22 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Review extends \Stripe\ApiResource
-{
-    const OBJECT_NAME = "review";
+class Review extends \Stripe\ApiResource {
 
-    use \Stripe\ApiOperations\All;
-    use \Stripe\ApiOperations\Retrieve;
+	const OBJECT_NAME = 'review';
 
-    /**
-     * @param array|string|null $options
-     *
-     * @return Review The approved review.
-     */
-    public function approve($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/approve';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	use \Stripe\ApiOperations\All;
+	use \Stripe\ApiOperations\Retrieve;
+
+	/**
+	 * @param array|string|null $options
+	 *
+	 * @return Review The approved review.
+	 */
+	public function approve( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/approve';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $options );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
 }

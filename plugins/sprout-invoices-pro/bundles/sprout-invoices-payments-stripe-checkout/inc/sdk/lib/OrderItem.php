@@ -15,7 +15,7 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class OrderItem extends StripeObject
-{
-    const OBJECT_NAME = "order_item";
+class OrderItem extends StripeObject {
+
+	const OBJECT_NAME = 'order_item';
 }

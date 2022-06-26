@@ -12,10 +12,10 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class AccountLink extends ApiResource
-{
+class AccountLink extends ApiResource {
 
-    const OBJECT_NAME = "account_link";
 
-    use ApiOperations\Create;
+	const OBJECT_NAME = 'account_link';
+
+	use ApiOperations\Create;
 }

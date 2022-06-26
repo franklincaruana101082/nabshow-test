@@ -16,10 +16,10 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class CountrySpec extends ApiResource
-{
-    const OBJECT_NAME = "country_spec";
+class CountrySpec extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
+	const OBJECT_NAME = 'country_spec';
+
+	use ApiOperations\All;
+	use ApiOperations\Retrieve;
 }

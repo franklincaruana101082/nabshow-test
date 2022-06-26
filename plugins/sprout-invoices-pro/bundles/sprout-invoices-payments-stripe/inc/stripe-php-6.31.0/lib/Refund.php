@@ -24,13 +24,13 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Refund extends ApiResource
-{
+class Refund extends ApiResource {
 
-    const OBJECT_NAME = "refund";
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'refund';
+
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 }

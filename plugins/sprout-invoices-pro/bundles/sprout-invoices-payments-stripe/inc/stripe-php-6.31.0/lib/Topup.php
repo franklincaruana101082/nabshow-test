@@ -24,27 +24,26 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class Topup extends ApiResource
-{
+class Topup extends ApiResource {
 
-    const OBJECT_NAME = "topup";
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'topup';
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return Topup The canceled topup.
-     */
-    public function cancel($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
+
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return Topup The canceled topup.
+	 */
+	public function cancel( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/cancel';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $options );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
 }

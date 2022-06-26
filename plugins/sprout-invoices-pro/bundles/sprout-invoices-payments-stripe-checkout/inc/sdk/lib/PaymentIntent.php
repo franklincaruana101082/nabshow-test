@@ -40,67 +40,64 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class PaymentIntent extends ApiResource
-{
-    const OBJECT_NAME = "payment_intent";
+class PaymentIntent extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create;
-    use ApiOperations\Retrieve;
-    use ApiOperations\Update;
+	const OBJECT_NAME = 'payment_intent';
 
-    /**
-     * These constants are possible representations of the status field.
-     *
-     * @link https://stripe.com/docs/api/payment_intents/object#payment_intent_object-status
-     */
-    const STATUS_CANCELED                = 'canceled';
-    const STATUS_PROCESSING              = 'processing';
-    const STATUS_REQUIRES_ACTION         = 'requires_action';
-    const STATUS_REQUIRES_CAPTURE        = 'requires_capture';
-    const STATUS_REQUIRES_CONFIRMATION   = 'requires_confirmation';
-    const STATUS_REQUIRES_PAYMENT_METHOD = 'requires_payment_method';
-    const STATUS_SUCCEEDED               = 'succeeded';
+	use ApiOperations\All;
+	use ApiOperations\Create;
+	use ApiOperations\Retrieve;
+	use ApiOperations\Update;
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return PaymentIntent The canceled payment intent.
-     */
-    public function cancel($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/cancel';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	/**
+	 * These constants are possible representations of the status field.
+	 *
+	 * @link https://stripe.com/docs/api/payment_intents/object#payment_intent_object-status
+	 */
+	const STATUS_CANCELED                = 'canceled';
+	const STATUS_PROCESSING              = 'processing';
+	const STATUS_REQUIRES_ACTION         = 'requires_action';
+	const STATUS_REQUIRES_CAPTURE        = 'requires_capture';
+	const STATUS_REQUIRES_CONFIRMATION   = 'requires_confirmation';
+	const STATUS_REQUIRES_PAYMENT_METHOD = 'requires_payment_method';
+	const STATUS_SUCCEEDED               = 'succeeded';
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return PaymentIntent The captured payment intent.
-     */
-    public function capture($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/capture';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return PaymentIntent The canceled payment intent.
+	 */
+	public function cancel( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/cancel';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $options );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return PaymentIntent The confirmed payment intent.
-     */
-    public function confirm($params = null, $options = null)
-    {
-        $url = $this->instanceUrl() . '/confirm';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
-        $this->refreshFrom($response, $opts);
-        return $this;
-    }
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return PaymentIntent The captured payment intent.
+	 */
+	public function capture( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/capture';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $options );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
+
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return PaymentIntent The confirmed payment intent.
+	 */
+	public function confirm( $params = null, $options = null ) {
+		$url                   = $this->instanceUrl() . '/confirm';
+		list($response, $opts) = $this->_request( 'post', $url, $params, $options );
+		$this->refreshFrom( $response, $opts );
+		return $this;
+	}
 }

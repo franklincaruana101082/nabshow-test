@@ -15,7 +15,7 @@ namespace Stripe\Issuing;
  *
  * @package Stripe\Issuing
  */
-class CardDetails extends \Stripe\ApiResource
-{
-    const OBJECT_NAME = "issuing.card_details";
+class CardDetails extends \Stripe\ApiResource {
+
+	const OBJECT_NAME = 'issuing.card_details';
 }

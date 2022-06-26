@@ -23,13 +23,13 @@ if ( ! defined( 'SA_ADDON_SQUARE_URL' ) ) {
 // Load up the processor before updates
 add_action( 'si_payment_processors_loaded', 'sa_load_square' );
 function sa_load_square() {
-	require_once( 'inc/Square_Up.php' );
+	require_once 'inc/Square_Up.php';
 }
 
 // Load up the updater after si is completely loaded
 add_action( 'sprout_invoices_loaded', 'sa_load_square_updates' );
 function sa_load_square_updates() {
 	if ( class_exists( 'SI_Updates' ) ) {
-		require_once( 'inc/sa-updates/SA_Updates.php' );
+		require_once 'inc/sa-updates/SA_Updates.php';
 	}
 }

@@ -4,17 +4,17 @@
  *
  * NOTICE OF LICENSE
  *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *you may not use this file except in compliance with the License.
- *You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *Unless required by applicable law or agreed to in writing, software
- *distributed under the License is distributed on an "AS IS" BASIS,
- *WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *See the License for the specific language governing permissions and
- *limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  *  @author    PagSeguro Internet Ltda.
  *  @copyright 2007-2014 PagSeguro Internet Ltda.
@@ -24,93 +24,84 @@
 /***
  * Encapsulates web service calls regarding PagSeguro notifications
  */
-class PagSeguroNotificationService
-{
+class PagSeguroNotificationService {
 
-    /***
-     *
-     */
-    const SERVICE_NAME = 'notificationService';
 
-    /***
-     * @param PagSeguroConnectionData $connectionData
-     * @param $notificationCode
-     * @return string
-     */
-    private static function buildTransactionNotificationUrl(PagSeguroConnectionData $connectionData, $notificationCode)
-    {
-        $url = $connectionData->getServiceUrl();
-        return "{$url}/{$notificationCode}/?" . $connectionData->getCredentialsUrlQuery();
-    }
+	/***
+	 *
+	 */
+	const SERVICE_NAME = 'notificationService';
 
-    /***
-     * Returns a transaction from a notification code
-     *
-     * @param PagSeguroCredentials $credentials
-     * @param String $notificationCode
-     * @throws PagSeguroServiceException
-     * @throws Exception
-     * @return PagSeguroTransaction
-     * @see PagSeguroTransaction
-     */
-    public static function checkTransaction(PagSeguroCredentials $credentials, $notificationCode)
-    {
+	/***
+	 * @param PagSeguroConnectionData $connectionData
+	 * @param $notificationCode
+	 * @return string
+	 */
+	private static function buildTransactionNotificationUrl( PagSeguroConnectionData $connectionData, $notificationCode ) {
+		$url = $connectionData->getServiceUrl();
+		return "{$url}/{$notificationCode}/?" . $connectionData->getCredentialsUrlQuery();
+	}
 
-        LogPagSeguro::info("PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - begin");
-        $connectionData = new PagSeguroConnectionData($credentials, self::SERVICE_NAME);
+	/***
+	 * Returns a transaction from a notification code
+	 *
+	 * @param PagSeguroCredentials $credentials
+	 * @param String               $notificationCode
+	 * @throws PagSeguroServiceException
+	 * @throws Exception
+	 * @return PagSeguroTransaction
+	 * @see PagSeguroTransaction
+	 */
+	public static function checkTransaction( PagSeguroCredentials $credentials, $notificationCode ) {
+		LogPagSeguro::info( "PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - begin" );
+		$connectionData = new PagSeguroConnectionData( $credentials, self::SERVICE_NAME );
 
-        try {
+		try {
+			$connection = new PagSeguroHttpConnection();
+			$connection->get(
+				self::buildTransactionNotificationUrl( $connectionData, $notificationCode ),
+				$connectionData->getServiceTimeout(),
+				$connectionData->getCharset()
+			);
 
-            $connection = new PagSeguroHttpConnection();
-            $connection->get(
-                self::buildTransactionNotificationUrl($connectionData, $notificationCode),
-                $connectionData->getServiceTimeout(),
-                $connectionData->getCharset()
-            );
+			$httpStatus = new PagSeguroHttpStatus( $connection->getStatus() );
 
-            $httpStatus = new PagSeguroHttpStatus($connection->getStatus());
+			switch ( $httpStatus->getType() ) {
+				case 'OK':
+					// parses the transaction
+					$transaction = PagSeguroTransactionParser::readTransaction( $connection->getResponse() );
+					LogPagSeguro::info(
+						"PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - end " .
+						$transaction->toString() . ')'
+					);
+					break;
 
-            switch ($httpStatus->getType()) {
+				case 'BAD_REQUEST':
+					$errors = PagSeguroTransactionParser::readErrors( $connection->getResponse() );
+					$e      = new PagSeguroServiceException( $httpStatus, $errors );
+					LogPagSeguro::info(
+						"PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - error " .
+						$e->getOneLineMessage()
+					);
+					throw $e;
+					break;
 
-                case 'OK':
-                    // parses the transaction
-                    $transaction = PagSeguroTransactionParser::readTransaction($connection->getResponse());
-                    LogPagSeguro::info(
-                        "PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - end " .
-                        $transaction->toString() . ")"
-                    );
-                    break;
+				default:
+					$e = new PagSeguroServiceException( $httpStatus );
+					LogPagSeguro::info(
+						"PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - error " .
+						$e->getOneLineMessage()
+					);
+					throw $e;
+					break;
+			}
 
-                case 'BAD_REQUEST':
-                    $errors = PagSeguroTransactionParser::readErrors($connection->getResponse());
-                    $e = new PagSeguroServiceException($httpStatus, $errors);
-                    LogPagSeguro::info(
-                        "PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - error " .
-                        $e->getOneLineMessage()
-                    );
-                    throw $e;
-                    break;
-
-                default:
-                    $e = new PagSeguroServiceException($httpStatus);
-                    LogPagSeguro::info(
-                        "PagSeguroNotificationService.CheckTransaction(notificationCode=$notificationCode) - error " .
-                        $e->getOneLineMessage()
-                    );
-                    throw $e;
-                    break;
-
-            }
-
-            return isset($transaction) ? $transaction : null;
-
-        } catch (PagSeguroServiceException $e) {
-            throw $e;
-        }
-        catch (Exception $e) {
-            LogPagSeguro::error("Exception: " . $e->getMessage());
-            throw $e;
-        }
-
-    }
+			return isset( $transaction ) ? $transaction : null;
+		} catch ( PagSeguroServiceException $e ) {
+			throw $e;
+		} catch ( Exception $e ) {
+			LogPagSeguro::error( 'Exception: ' . $e->getMessage() );
+			throw $e;
+		}
+	}
 }

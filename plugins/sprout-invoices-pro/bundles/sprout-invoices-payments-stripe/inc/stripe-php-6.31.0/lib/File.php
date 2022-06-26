@@ -18,38 +18,36 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class File extends ApiResource
-{
-    // This resource can have two different object names. In latter API
-    // versions, only `file` is used, but since stripe-php may be used with
-    // any API version, we need to support deserializing the older
-    // `file_upload` object into the same class.
-    const OBJECT_NAME = "file";
-    const OBJECT_NAME_ALT = "file_upload";
+class File extends ApiResource {
 
-    use ApiOperations\All;
-    use ApiOperations\Create {
-        create as protected _create;
-    }
-    use ApiOperations\Retrieve;
+	// This resource can have two different object names. In latter API
+	// versions, only `file` is used, but since stripe-php may be used with
+	// any API version, we need to support deserializing the older
+	// `file_upload` object into the same class.
+	const OBJECT_NAME     = 'file';
+	const OBJECT_NAME_ALT = 'file_upload';
 
-    public static function classUrl()
-    {
-        return '/v1/files';
-    }
+	use ApiOperations\All;
+	use ApiOperations \Create {
+		create as protected _create;
+	}
+	use ApiOperations\Retrieve;
 
-    /**
-     * @param array|null $params
-     * @param array|string|null $options
-     *
-     * @return \Stripe\File The created resource.
-     */
-    public static function create($params = null, $options = null)
-    {
-        $opts = \Stripe\Util\RequestOptions::parse($options);
-        if (is_null($opts->apiBase)) {
-            $opts->apiBase = Stripe::$apiUploadBase;
-        }
-        return static::_create($params, $opts);
-    }
+	public static function classUrl() {
+		return '/v1/files';
+	}
+
+	/**
+	 * @param array|null        $params
+	 * @param array|string|null $options
+	 *
+	 * @return \Stripe\File The created resource.
+	 */
+	public static function create( $params = null, $options = null ) {
+		$opts = \Stripe\Util\RequestOptions::parse( $options );
+		if ( is_null( $opts->apiBase ) ) {
+			$opts->apiBase = Stripe::$apiUploadBase;
+		}
+		return static::_create( $params, $opts );
+	}
 }

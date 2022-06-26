@@ -24,7 +24,7 @@ namespace Stripe;
  *
  * @package Stripe
  */
-class InvoiceLineItem extends ApiResource
-{
-    const OBJECT_NAME = "line_item";
+class InvoiceLineItem extends ApiResource {
+
+	const OBJECT_NAME = 'line_item';
 }
