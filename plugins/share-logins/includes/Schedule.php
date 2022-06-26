@@ -46,7 +46,6 @@ class Schedule extends Hooks {
 
             cx_remove_scheduled_url( cx_get_route_home( $url )  );
 		}
-
         endif;
 
         /**

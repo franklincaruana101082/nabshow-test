@@ -190,6 +190,7 @@ class Broadstreet_Core
               'callback' => function($request) {
                 return Broadstreet_Utility::getAvailableTargets();
               },
+			  'permission_callback' => '__return_true',
             ));
         });
     }

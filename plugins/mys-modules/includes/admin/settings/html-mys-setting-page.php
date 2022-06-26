@@ -82,6 +82,8 @@ $remove_speakers_api     = $current_url . '/wp-json/mys/remove?data=speakers';
 $remove_speakers_dry_api = $remove_speakers_api . '&dry=run';
 $remove_sponsors_api     = $current_url . '/wp-json/mys/remove?data=sponsors';
 $remove_sponsors_dry_api = $remove_sponsors_api . '&dry=run';
+$permission_callback = '__return_true';
+
 ?>
 <div class="mys-section-left settings-page">
 	<div class="mys-main-table res-cl">
