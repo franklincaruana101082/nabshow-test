@@ -25,7 +25,8 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 					),
 					'args' => array(
 
-					)
+					),
+					'permission_callback' => '__return_true'
 				)
 			);
 
@@ -35,6 +36,7 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 						$this,
 						'rgblocks_fetch_reusable_blocks_terms',
 					),
+					'permission_callback' => '__return_true'
 				)
 			);
 		}

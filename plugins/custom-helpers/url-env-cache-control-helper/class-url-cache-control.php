@@ -16,12 +16,12 @@ require_once WPMU_PLUGIN_DIR . '/misc.php';
 class UrlCacheControl {
 
 	private static function UrlOrigin( $s, $use_forwarded_host = false ) {
-		$ssl      = ( ! empty( $s['HTTPS'] ) === true && $s['HTTPS'] === 'on' );
+		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] === 'on' );
 		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
 		$protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( ( $ssl ) ? 's' : '' );
 		$port     = $s['SERVER_PORT'];
-		$port     = ( ( ! $ssl && $port === '80' ) === true || ( $ssl && $port === '443' ) === true ) ? '' : ':' . $port;
-		$host     = ( $use_forwarded_host === true && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) === true ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) === true ? $s['HTTP_HOST'] : null );
+		$port     = ( ( ! $ssl && $port === '80' ) || ( $ssl && $port === '443' ) ) ? '' : ':' . $port;
+		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
 		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
 		return $protocol . '://' . $host;
 	}
@@ -33,8 +33,8 @@ class UrlCacheControl {
 		$isReachable   = true;
 		$code          = 100;
 		$url_tested    = $uri;
-		if ( $directUrlCheck === true ) {
-			if ( ! wp_http_validate_url( $url_tested ) === true ) {
+		if ( $directUrlCheck ) {
+			if ( ! wp_http_validate_url( $url_tested ) ) {
 				$isReachable = false;
 			}
 			return [
@@ -45,43 +45,43 @@ class UrlCacheControl {
 				'hasNoProtocol' => (int) $hasNoProtocol,
 			];
 		}
-		if ( ! preg_match( '/^(https?\:\/\/)/', $uri, $uri_matches ) === true ) {
+		if ( ! preg_match( '/^(https?\:\/\/)/', $uri, $uri_matches ) ) {
 			$url_origin       = self::UrlOrigin( $s, $use_forwarded_host );
 			$removeAllSlashes = preg_replace( '/^(?!https?\.:)\/+(-\.)?/', $url_origin, $uri );
 			$url_tested       = $url_origin . $removeAllSlashes;
 			$hasNoProtocol    = true;
 		}
-		if ( ! wp_http_validate_url( $url_tested ) === true ) {
-			if ( $hasNoProtocol === true ) {
-				if ( $use_forwarded_host === true ) {
+		if ( ! wp_http_validate_url( $url_tested ) ) {
+			if ( $hasNoProtocol ) {
+				if ( $use_forwarded_host ) {
 					$url_tested = self::UrlOrigin( $s, ! ( $use_forwarded_host ) ) . $url_tested;
 				}
 			}
 			$isReachable = false;
 			$code        = 0;
 		}
-		if ( ! $isReachable === true ) {
+		if ( ! $isReachable ) {
 			$code        = 200;
 			$isReachable = true;
-			if ( ! wp_http_validate_url( $url_tested ) === true ) {
+			if ( ! wp_http_validate_url( $url_tested ) ) {
 				$url_tested  = preg_replace( '/^(?!https?\.:)\/+(-\.)?/', 'http://', $uri );
 				$isReachable = false;
 				$code        = 0;
 			}
 		}
-		if ( ! $isReachable === true ) {
+		if ( ! $isReachable ) {
 			$code        = 200;
 			$isReachable = true;
-			if ( ! wp_http_validate_url( $url_tested ) === true ) {
+			if ( ! wp_http_validate_url( $url_tested ) ) {
 				$url_tested  = preg_replace( '/^(?!http\.:)\/+(-\.)?/', 'https://', $uri );
 				$isReachable = false;
 				$code        = 0;
 			}
 		}
-		if ( ! $isReachable === true ) {
+		if ( ! $isReachable ) {
 			$code        = 200;
 			$isReachable = true;
-			if ( ! wp_http_validate_url( $url_tested ) === true ) {
+			if ( ! wp_http_validate_url( $url_tested ) ) {
 				$url_tested  = $uri;
 				$isReachable = false;
 				$code        = 0;
@@ -107,7 +107,7 @@ class UrlCacheControl {
 		$urlwtmc   = self::AppendTimeToUrl( $uri, $index );
 		$urlverify = self::FullUrl( $urlwtmc, $use_forwarded_host, $directUrlCheck );
 
-		if ( $urlverify['isReachable'] === true && in_array( $urlverify['code'], [ 0, 200, 302 ] ) === true ) {
+		if ( $urlverify['isReachable'] && in_array( $urlverify['code'], [ 0, 200, 302 ] ) ) {
 			return true;
 		}
 
@@ -117,8 +117,8 @@ class UrlCacheControl {
 	public static function LoadReachableWPEnqueueStyles( $url_array = [] ) {
 		$i = 0;
 		foreach ( $url_array as $key => $url ) {
-			if ( self::IsReachable( $url[0], $i ) === true ) {
-				if ( isset( $url[1] ) === true && isset( $url[2] ) === true ) {
+			if ( self::IsReachable( $url[0], $i ) ) {
+				if ( isset( $url[1] ) && isset( $url[2] ) ) {
 					wp_enqueue_style( $key, self::AppendTimeToUrl( $url[0], $i++ ), $url[1], $url[2] );
 				} else {
 					wp_enqueue_style( $key, self::AppendTimeToUrl( $url[0], $i++ ) );
@@ -132,8 +132,8 @@ class UrlCacheControl {
 	public static function LoadReachableWPEnqueueScripts( $url_array = [] ) {
 		$i = 0;
 		foreach ( $url_array as $key => $url ) {
-			if ( self::IsReachable( $url[0], $i ) === true ) {
-				if ( isset( $url[1] ) === true && isset( $url[2] ) === true && isset( $url[3] ) === true ) {
+			if ( self::IsReachable( $url[0], $i ) ) {
+				if ( isset( $url[1] ) && isset( $url[2] ) && isset( $url[3] ) ) {
 					wp_enqueue_script( $key, self::AppendTimeToUrl( $url[0], $i++ ), $url[1], $url[2], $url[3] );
 				} else {
 					wp_enqueue_script( $key, self::AppendTimeToUrl( $url[0], $i++ ) );
@@ -160,10 +160,10 @@ class UrlCacheControl {
 
 	public static function RetreiveSetCurrentUser() {
 		$user = wp_get_current_user();
-		if ( empty( $user->ID ) === true ) {
+		if ( empty( $user->ID ) ) {
 			$ajsUserId = sanitize_key( $_COOKIE['ajs_user_id'] );
-			if ( isset( $ajsUserId ) === true ) {
-				$user_id = ( is_numeric( $ajsUserId ) === true ? (int) $ajsUserId : 0 );
+			if ( isset( $ajsUserId ) ) {
+				$user_id = ( is_numeric( $ajsUserId ) ? (int) $ajsUserId : 0 );
 				$user    = get_user_by( 'id', $user_id );
 
 				wp_set_current_user( $user->ID );

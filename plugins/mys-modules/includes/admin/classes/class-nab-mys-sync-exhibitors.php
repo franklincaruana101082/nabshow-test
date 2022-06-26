@@ -33,7 +33,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			//Upload CSV
 			add_action( 'admin_post_sync_exhibitors_request', array( $this, 'nab_mys_exh_csv' ) );
 
-			add_action( 'admin_post_import_exhibitors_request', array( $this, 'nab_mys_import_exhibitors_by_ids' ) );			
+			add_action( 'admin_post_import_exhibitors_request', array( $this, 'nab_mys_import_exhibitors_by_ids' ) );
 
 			//Action for the Ajax Call from ( /assets/js/nab-mys-script.js ).
 			add_action( 'wp_ajax_nab_mys_exhibitor_data', array( $this, 'nab_mys_sync_exhibitors' ) );
@@ -363,7 +363,8 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			 */
 			register_rest_route( 'mys', '/get-exh', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_exh_api_to_custom' )
+					'callback' => array( $this, 'nab_mys_cron_exh_api_to_custom' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 
@@ -538,22 +539,22 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 		}
 
 		/**
-		 * Upload Import Exhibitors by IDs CSV. 
+		 * Upload Import Exhibitors by IDs CSV.
 		 *
 		 * @package MYS Modules
 		 * @since 1.0.0
 		 */
 		public function nab_mys_import_exhibitors_by_ids() {
 
-			$sync_exhibitors_data = filter_input( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );			
+			$sync_exhibitors_data = filter_input( INPUT_POST, 'sync_exhibitors_nonce', FILTER_SANITIZE_STRING );
 			$csv_from_date        = $this->nab_mys_db_exh->nab_mys_db_previous_date( 'modified-exhibitors' );
-			
+
 			if ( empty( $csv_from_date ) ) {
 				$csv_from_date = current_time( 'Y-m-d H:i:s' );
 			}
-			
+
 			if ( wp_verify_nonce( $sync_exhibitors_data, 'sync_exhibitors_data' ) ) {
-				
+
 				$filters = array(
 					"exhibitors-csv" => array(
 						"filter" => FILTER_SANITIZE_STRING,
@@ -620,7 +621,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 						);
 
 						$current_user_id = get_current_user_id();
-						
+
 						$sql = $wpdb->insert(
 								$wpdb->prefix . 'mys_history', array(
 								'HistoryStatus'    => 0,
@@ -631,12 +632,12 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 								'HistoryData'	   => '[]'
 							), array( '%d', '%s', '%d', '%s', '%s', '%s' )
 						);
-		
+
 						$history_id = $wpdb->insert_id;
 						$row		= 0;
 						$cnt		= 0;
 
-						if ( $handle !== false ) {							
+						if ( $handle !== false ) {
 
 							foreach ( $handle_new as $data ) {
 
@@ -644,7 +645,7 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 									$cnt++;
 									continue;
 								}
-								
+
 								$wpdb->insert(
 									$wpdb->prefix . 'mys_data', array(
 										'HistoryID'			=> $history_id,
@@ -653,23 +654,23 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 										'ItemStatus'		=> 2,
 										'DataType'			=> 'single-exhibitor',
 										'ModifiedID'		=> $data[0],
-										'DataStartTime'		=> $csv_from_date										
+										'DataStartTime'		=> $csv_from_date
 									), array( '%d', '%s', '%d', '%d', '%s', '%d', '%s' )
 								);
-								
+
 								$row++;
 								$cnt++;
 							}
 						}
 
-						if ( $row > 0 ) {							
+						if ( $row > 0 ) {
 
 							$sql_values = array(
 								'HistoryEndTime'       => current_time( 'Y-m-d H:i:s' ),
-								'HistoryStatus'        => 0,								
+								'HistoryStatus'        => 0,
 								'HistoryItemsAffected' => $row
 							);
-			
+
 							$wpdb->update(
 								$wpdb->prefix . 'mys_history', $sql_values, array(
 									'HistoryGroupID'  => $random_group_id,

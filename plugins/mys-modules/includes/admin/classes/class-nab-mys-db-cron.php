@@ -148,25 +148,29 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			 */
 			register_rest_route( 'mys', '/migrate-data', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_custom_to_master' )
+					'callback' => array( $this, 'nab_mys_cron_custom_to_master' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 
 			register_rest_route( 'mys', '/migrate-custom', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_custom_migration' )
+					'callback' => array( $this, 'nab_mys_cron_custom_migration' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 
 			register_rest_route( 'mys', '/remove', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_remove_posts' )
+					'callback' => array( $this, 'nab_mys_cron_remove_posts' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 
 			register_rest_route( 'mys', '/getwpid', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_get_wpids' )
+					'callback' => array( $this, 'nab_mys_cron_get_wpids' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 		}
@@ -491,7 +495,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 * @package MYS Modules
 		 */
 		public function nab_mys_cron_master_flow( $data_to_migrate, $manual_run ) {
-			
+
 			$result = $data_group_migrated = array();
 
 			foreach ( $data_to_migrate as $item ) {
@@ -655,7 +659,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 		 * @return string Dispalys the status of the migration with migrated IDs in the form of DataID -> PostID.
 		 */
 		public function nab_mys_cron_insert_to_master( $prepared_data ) {
-			
+
 			$data              	= $prepared_data['data'];
 			$item              	= $prepared_data['item'];
 			$post_type         	= $prepared_data['post_type'];
@@ -816,7 +820,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 					/**
 					 * Preparing taxonomies data.
 					 */
-					$save_taxonomies 	= array();					
+					$save_taxonomies 	= array();
 
 					if ( $exhibitors_slug === $post_type ) {
 
@@ -932,7 +936,7 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 						$save_taxonomies['exhibitor-trends'] = $trends_array;
 
 						//Adding/Updating Products
-						$products		= $individual_item['products'];						
+						$products		= $individual_item['products'];
 						if ( 0 !== count( $products ) ) {
 							foreach ( $products as $product ) {
 								$prepared_data                      = array();

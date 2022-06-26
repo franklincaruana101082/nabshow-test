@@ -111,21 +111,25 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
             register_rest_route( 'nab_api', '/request/all_terms', array(
                 'methods'  => 'GET',
                 'callback' => array( __CLASS__, 'mysgb_get_all_terms' ),
+				'permission_callback' => '__return_true',
             ) );
 
 	        register_rest_route( 'nab_api', '/request/sponsor-acf-types', array(
 		        'methods'  => 'GET',
 		        'callback' => array( __CLASS__, 'mysgb_get_sponsor_acf_types' ),
+				'permission_callback' => '__return_true',
 	        ) );
 
 	        register_rest_route( 'nab_api', '/request/category-block-terms', array(
 		        'methods'  => 'GET',
-		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms' ),
-            ) );
-            
+		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms'),
+				'permission_callback' => '__return_true'
+			) );
+
             register_rest_route( 'nab_api', '/request/get-session-channels', array(
 		        'methods'  => 'GET',
 		        'callback' => array( __CLASS__, 'mysgb_get_session_channels' ),
+				'permission_callback' => '__return_true'
 	        ) );
         }
 
@@ -206,7 +210,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 		    return new WP_REST_Response( $final_terms, 200 );
 
         }
-        
+
         /**
          * Get all session channels.
          *
@@ -219,15 +223,15 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             $query_args = array(
                 'post_type'      => 'channels',
-                'posts_per_page' => -1,            
+                'posts_per_page' => -1,
                 'orderby'        => 'title',
                 'order'          => 'ASC'
             );
-            
+
             $query = new WP_Query( $query_args );
 
             if ( $query->have_posts() ) {
-                
+
                 while ( $query->have_posts() ) {
 
                     $query->the_post();
@@ -240,7 +244,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
                 }
 
                 wp_reset_postdata();
-            }            
+            }
 
             return new WP_REST_Response( $return, 200 );
 
@@ -604,7 +608,7 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
          * @since 1.0.0
          */
         public function mysgb_related_exhibitors_render_callback( $attributes ) {
-            
+
             ob_start();
 
 	        include( plugin_dir_path( __FILE__ ) . 'includes/mysgb-related-exhibitors-callback.php' );

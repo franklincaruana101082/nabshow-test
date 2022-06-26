@@ -491,7 +491,8 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			 */
 			register_rest_route( 'mys', '/get-data', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_cron_api_to_custom' )
+					'callback' => array( $this, 'nab_mys_cron_api_to_custom' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 
@@ -500,7 +501,8 @@ if ( ! class_exists( 'NAB_MYS_Sessions' ) ) {
 			 */
 			register_rest_route( 'mys', '/custom-session-migration', array(
 					'methods'  => 'GET',
-					'callback' => array( $this, 'nab_mys_corn_custom_session_migration' )
+					'callback' => array( $this, 'nab_mys_corn_custom_session_migration' ),
+					'permission_callback' => '__return_true'
 				)
 			);
 

@@ -37,14 +37,17 @@ class API extends Hooks {
         register_rest_route( $this->namespace, '/login', array(
             'methods'   => 'GET',
             'callback'  => array( $this, 'login' ),
+			'permission_callback' => '__return_true'
         ) );
         register_rest_route( $this->namespace, '/logout', array(
             'methods'   => 'GET',
             'callback'  => array( $this, 'logout' ),
+			'permission_callback' => '__return_true'
         ) );
         register_rest_route( $this->namespace, '/validate', array(
             'methods'   => 'GET',
             'callback'  => array( $this, 'validate' ),
+			'permission_callback' => '__return_true'
         ) );
     }
 
