@@ -27,11 +27,10 @@ require WP_PLUGIN_DIR . '/user-switching/user-switching.php';
  */
 use Automattic\VIP\Cache\Vary_Cache;
 
- class NabshowCacheControl extends Vary_Cache{
+class NabshowCacheControl extends Vary_Cache {
 	private $user_switching = null;
 
-    function __construct()
-    {
+	function __construct() {
 		// Register the `nabshow` group
 		self::register_group( 'nabshow-2022' );
 		$this->init_enqueue_scripts();
@@ -42,9 +41,9 @@ use Automattic\VIP\Cache\Vary_Cache;
 
 		add_filter( 'the_content', [ $this, 'nabshow_get_content' ] );
 
-		add_action( 'wp_login', array( $this, 'nabshow_login_user_func' ) );
+		add_action( 'wp_login', [ $this, 'nabshow_login_user_func' ] );
 
-		add_action( 'wp_logout', array( $this, 'nabshow_logout_user_func') );
+		add_action( 'wp_logout', [ $this, 'nabshow_logout_user_func' ] );
 
 		add_action( 'admin_init', [ $this, 'nabshow_admin_init_func' ] );
 	}
@@ -59,10 +58,8 @@ use Automattic\VIP\Cache\Vary_Cache;
 			// if ( !empty( $user->ID ) ) {
 				// do_action( 'switch_to_user', $user->ID );
 			// }
-			// error_log("logged in ".json_encode($user));
-			// error_log("is_user_in_beta ".$is_user_in_beta);
-			// 	do_action( 'switch_to_user', $user->ID );
-			// }
+			error_log( 'logged in ' . json_encode( $user ) );
+			error_log( 'is_user_in_beta ' . $is_user_in_beta );
 		}
 	}
 
@@ -72,13 +69,11 @@ use Automattic\VIP\Cache\Vary_Cache;
 		}
 
 		user_switching_clear_olduser_cookie();
-		error_log(json_encode($user));
-		error_log($is_user_in_beta);
+		error_log( json_encode( $user ) );
+		error_log( $is_user_in_beta );
 		self::unload();
-		error_log(json_encode($user));
-		error_log($is_user_in_beta);
-
-		}
+		error_log( json_encode( $user ) );
+		error_log( $is_user_in_beta );
 	}
 
 	public function nabshow_admin_init_func() {
@@ -100,10 +95,13 @@ use Automattic\VIP\Cache\Vary_Cache;
 
 			// Redirect back to the same page (per the POST-REDIRECT-GET pattern).
 			// Please note the use of the `vip_vary_cache_did_send_headers` action.
-			add_action( 'vip_vary_cache_did_send_headers', function() {
-				wp_safe_redirect( add_query_arg( [''] ) );
-				exit;
-			} );
+			add_action(
+				'vip_vary_cache_did_send_headers',
+				function() {
+					wp_safe_redirect( add_query_arg( [ '' ] ) );
+					exit;
+				}
+			);
 		}
 	}
 

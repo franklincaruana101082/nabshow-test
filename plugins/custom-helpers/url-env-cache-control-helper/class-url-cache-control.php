@@ -138,6 +138,8 @@ class UrlCacheControl {
 				} else {
 					wp_enqueue_script( $key, self::AppendTimeToUrl( $url[0], $i++ ) );
 				}
+			} else {
+				self::remove_cache_headers_for_404();
 			}
 		}
 	}
@@ -163,6 +165,7 @@ class UrlCacheControl {
 			if ( isset( $ajsUserId ) ) {
 				$user_id = ( is_numeric( $ajsUserId ) ? (int) $ajsUserId : 0 );
 				$user    = get_user_by( 'id', $user_id );
+
 				wp_set_current_user( $user->ID );
 			}
 		}
