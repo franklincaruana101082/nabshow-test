@@ -207,6 +207,7 @@ function nabshow_lv_widgets_init() {
  *
  * @since 1.0.0
  */
+
 function nabshow_lv_scripts() {
 
     wp_enqueue_script( 'nabshow-lv-skip-link-focus-fix', UrlCacheControl::AppendTimeToUrl(get_template_directory_uri() . '/assets/js/skip-link-focus-fix.js',16), array(), '20151215', true );

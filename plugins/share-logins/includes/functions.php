@@ -109,7 +109,7 @@ endif;
 if( ! function_exists( 'cx_auto_login' ) ) :
 function cx_auto_login( $username, $remember = 1 ) {
     if( is_user_logged_in() ) return;
-    
+
     $user = get_user_by( 'login', $username );
     $user_id = $user->ID;
 
@@ -187,7 +187,8 @@ function cx_set_scheduled_urls( $urls ) {
      * @author developerwil
      * @link https://wordpress.org/support/topic/sessions-need-to-be-destroyed/
      */
-    session_write_close();
+    // @session_write_close();
+    @session_destroy();
 }
 endif;
 
@@ -202,7 +203,7 @@ endif;
 if( ! function_exists( 'cx_remove_scheduled_url' ) ) :
 function cx_remove_scheduled_url( $url ) {
     $urls = cx_get_scheduled_urls();
-    
+
     if( isset( $urls[ $url ] ) ) {
         unset( $urls[ $url ] );
     }
@@ -214,7 +215,7 @@ endif;
 if( ! function_exists( 'cx_clean_scheduled_urls' ) ) :
 function cx_clean_scheduled_urls() {
     if( !isset( $_SESSION['_share-logins_scheduled_urls'] ) ) return;
-    
+
     unset( $_SESSION['_share-logins_scheduled_urls'] );
 }
 endif;
@@ -285,12 +286,12 @@ function cx_user_meta_keys() {
         foreach ( $result as $row ) {
             $meta_keys[ $row->meta_key ] = $row->meta_key;
         }
-        
+
         wp_cache_set( 'user_meta_keys', $meta_keys, 'share-logins', DAY_IN_SECONDS );
 
         return $meta_keys;
     }
-    
+
     return $user_meta_keys;
 
 }
@@ -321,7 +322,7 @@ function cx_validation_report( $remote_site ) {
     if( !is_wp_error( $data ) && $data['response']['code'] == 200 ) {
         $report = json_decode( $data['body'], true );
     }
-    
+
     $report['local'] = array(
         'license'   => cx_is_pro() && function_exists( 'cx_is_active' ) && cx_is_active(),
         'incoming'  => array(
@@ -363,7 +364,7 @@ function cx_is_role_allowed( $user ) {
     $roles = cx_get_option( 'share-logins_basics', 'user_roles', array() );
 
     if( !is_array( $roles ) || count( $roles ) <= 0 ) return true;
-    
+
     return count( array_intersect( $roles, $user->roles ) ) > 0;
 }
 endif;

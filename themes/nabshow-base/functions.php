@@ -120,7 +120,7 @@ add_filter( 'allow_subdirectory_install', '__return_true' );
 
 
 if( function_exists('acf_add_options_page') ) {
-    
+
     acf_add_options_page(array(
         'page_title' => 'Theme Settings',
         'menu_title' => 'Theme Settings',
@@ -128,7 +128,7 @@ if( function_exists('acf_add_options_page') ) {
         'capability' => 'edit_posts',
         'redirect'   => false,
     ));
-    
+
 }
 
 
@@ -237,7 +237,7 @@ function nabshow_base_widgets() {
         'after_title'   => '</h3>',
 	) );
 
-	
+
 	register_sidebar( array(
 		'name'			=> esc_html__( 'Broadstreet Home Leaderboard', 'nabshow_base' ),
 		'id'			=> 'broadstreet-home-leaderboard',
@@ -300,7 +300,7 @@ add_action( 'widgets_init', 'nabshow_base_widgets' );
 
 
 /**
- * Nabshow Base custom post types. 
+ * Nabshow Base custom post types.
  */
 function nabshow_base_register_custom_post_type() {
 	$labels = array(
@@ -329,14 +329,14 @@ function nabshow_base_register_custom_post_type() {
         'show_in_nav_menus'   => true,
         'show_in_admin_bar'   => true,
         'can_export'          => true,
-        'has_archive'         => false,        
+        'has_archive'         => false,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
         'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
-    
-    register_post_type( 'conference', $args );	
+
+    register_post_type( 'conference', $args );
 
 
     $labels = array(
@@ -365,13 +365,13 @@ function nabshow_base_register_custom_post_type() {
         'show_in_nav_menus'   => true,
         'show_in_admin_bar'   => true,
         'can_export'          => true,
-        'has_archive'         => false,        
+        'has_archive'         => false,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
         'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
-    
+
     register_post_type( 'destinations', $args );
 
 
@@ -401,13 +401,13 @@ function nabshow_base_register_custom_post_type() {
         'show_in_nav_menus'   => true,
         'show_in_admin_bar'   => true,
         'can_export'          => true,
-        'has_archive'         => false,        
+        'has_archive'         => false,
         'capability_type'     => 'post',
         'show_in_rest'        => true,
         'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', 'excerpt', 'author' ),
 
     );
-    
+
     register_post_type( 'networking', $args );
 }
 add_action( 'init', 'nabshow_base_register_custom_post_type' );
@@ -419,19 +419,19 @@ function nabshow_lv_2021_date_sort( $a, $b ) {
 
 /**
  * Modified session archive page default query.
- * 
+ *
  * @param WP_Query $query
  */
 function nabshow_lv_2021_modified_session_list_query( $query ) {
 
-	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {  
-   
-		$query->set( 'meta_key', 'starttime' ); 
-        $query->set( 'orderby', 'meta_value' );  
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'sessions' ) ) {
+
+		$query->set( 'meta_key', 'starttime' );
+        $query->set( 'orderby', 'meta_value' );
         $query->set( 'order', 'ASC' );
 
 		$current_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
-		
+
 		if ( isset( $current_page ) && ! empty( $current_page ) && (int) $current_page > 1 ) {
 			$query->set( 'paged', $current_page );
 		}
@@ -446,8 +446,8 @@ function nabshow_lv_2021_modified_session_list_query( $query ) {
 		if ( is_array( $meta_query_args ) && count( $meta_query_args ) > 0 ) {
 			$query->set( 'meta_query', $meta_query_args );
 		}
-		
-    }   
+
+    }
 }
 add_action( 'pre_get_posts', 'nabshow_lv_2021_modified_session_list_query' );
 
@@ -463,7 +463,7 @@ add_action( 'wp_enqueue_scripts', 'nabshow_lv_2021_register_custom_script' );
 
 /**
  * Prepare session archive page tax query args.
- * 
+ *
  * @return array
  */
 function nabshow_lv_2021_prepare_session_tax_query() {
@@ -478,7 +478,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	$tax_query_args				= array();
 
 	if ( isset( $session_program ) && ! empty( $session_program ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'tracks',
 			'terms'		=> $session_program,
@@ -486,7 +486,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_location ) && ! empty( $session_location ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-locations',
 			'terms'		=> $session_location,
@@ -494,7 +494,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_registration_pass ) && ! empty( $session_registration_pass ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_registration_pass,
@@ -502,7 +502,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_topic ) && ! empty( $session_topic ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_topic,
@@ -510,7 +510,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_education_partner ) && ! empty( $session_education_partner ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_education_partner,
@@ -518,7 +518,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_session_type ) && ! empty( $session_session_type ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_session_type,
@@ -526,7 +526,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_experience_level ) && ! empty( $session_experience_level ) ) {
-		
+
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_experience_level,
@@ -539,7 +539,7 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 
 /**
  * Prepare session archive page meta query args.
- * 
+ *
  * @return array
  */
 function nabshow_lv_2021_prepare_session_meta_query() {
@@ -574,7 +574,7 @@ function nabshow_lv_2021_prepare_session_meta_query() {
 }
 
 function nabshow_lv_2021_session_filter() {
-	
+
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
 	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );
@@ -647,7 +647,7 @@ function nabshow_lv_2021_session_filter() {
 				$end_time   = str_replace( array( 'am','pm' ), array( 'a.m.','p.m.' ), date_format( date_create( $end_time ), 'g:i a' ) );
 				$end_time   = str_replace(':00', '', $end_time );
 			}
-			?>		
+			?>
 
 			<div class="filter-result-box">
 				<!-- datetime -->
@@ -670,20 +670,20 @@ function nabshow_lv_2021_session_filter() {
 				<!-- category -->
 				<?php
 				if ( ! empty( $program_name ) ) {
-					
-					$program_url = $program_planner_url . $program_name . '/show/all'; 
+
+					$program_url = $program_planner_url . $program_name . '/show/all';
 					?>
 					<span class="filter-result-box-category"><a href="<?php echo esc_url( $program_url ); ?>" target="_blank"><?php echo esc_html( $program_name ); ?></a></span>
 					<?php
 				}
 				?>
-				<!-- END category -->												
+				<!-- END category -->
 
 				<!-- description -->
 				<div class="filter-result-box-description">
 					<p><?php the_excerpt(); ?></p>
 				</div>
-				<!-- END description -->	
+				<!-- END description -->
 
 				<?php
 				$speakers       = get_post_meta( $session_id, 'speakers', true );
@@ -691,12 +691,12 @@ function nabshow_lv_2021_session_filter() {
 				$all_speakers   = array();
 
 				if ( ! empty( $speakers ) && count( $speaker_ids ) > 0 ) {
-					
+
 					foreach ( $speaker_ids as $speaker_id ) {
-						
+
 						$speaker_name   = get_the_title( $speaker_id );
 						$mys_speaker_id = get_post_meta( $speaker_id, 'speakerid', true );
-						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>'; 
+						$all_speakers[] = '<a href="' . $speaker_planner_url . $mys_speaker_id . '" target="_blank">' . str_replace( ',', '', $speaker_name ) . '</a>';
 					}
 					?>
 					<div class="speakers-list">

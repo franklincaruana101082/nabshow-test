@@ -21,9 +21,9 @@ class Settings extends Hooks {
         $this->name     = $plugin['Name'];
         $this->version  = $plugin['Version'];
     }
-    
+
     public function init() {
-        
+
         $settings = array(
             'id'            => $this->slug,
             'label'         => $this->name,
@@ -222,7 +222,7 @@ class Settings extends Hooks {
                     return array( 'status' => 1, 'message' => __( 'Settings Saved!' ), 'page_load' => 1 );
                 }, 10, 4 );
                 break;
-                
+
             case 'share-logins_config_outgoing':
                 $sites = array();
                 if( isset( $posted['share-logins_config_outgoing'] ) && is_array( $posted['share-logins_config_outgoing'] ) ) :
@@ -239,7 +239,7 @@ class Settings extends Hooks {
                     return array( 'status' => 1, 'message' => __( 'Settings Saved!' ), 'page_load' => 0 );
                 }, 10, 4 );
                 break;
-                
+
             case 'share-logins_config_incoming':
                 $sites = array();
                 if( isset( $posted['share-logins_config_incoming'] ) && is_array( $posted['share-logins_config_incoming'] ) ) :
@@ -256,7 +256,7 @@ class Settings extends Hooks {
                     return array( 'status' => 1, 'message' => __( 'Settings Saved!' ), 'page_load' => 0 );
                 }, 10, 4 );
                 break;
-            
+
             default:
                 return $is_savable;
                 break;

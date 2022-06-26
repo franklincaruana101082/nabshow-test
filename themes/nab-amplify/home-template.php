@@ -378,7 +378,6 @@
 </head>
 
 <body id="bodyId">
-<script>console.disableYellowBox = true;</script>
 <!-- screen -->
 <div id="screen" class="mktoContent">
 
