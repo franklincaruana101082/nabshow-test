@@ -9,17 +9,16 @@
 * License:     GPL2
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-require_once( WPMU_PLUGIN_DIR . '/misc.php' );
-require(WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php');
 
+require_once WPMU_PLUGIN_DIR . '/misc.php';
 
 // Load the VIP Vary_Cache class
 require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
+require WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
 /**
  * Commands to manage automatic event execution
@@ -30,49 +29,80 @@ use Automattic\VIP\Cache\Vary_Cache;
     function __construct()
     {
 		// Register the `nabshow` group
-		self::register_group( 'nabshow' );
+		self::register_group( 'nabshow-2022' );
 		$this->init_enqueue_scripts();
 	}
 
-	function init_enqueue_scripts(){
+	function init_enqueue_scripts() {
 
-		add_action( 'init', function() {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
-			if ( !$is_user_in_nabshow ) {
-				self::set_group_for_user( 'nabshow', 'yes' );
+		add_action( 'init', array( $this, 'nabshow_init_func' ) );
+
+		add_filter( 'the_content', array( $this, 'nabshow_get_content' ) );
+
+		add_action( 'wp_login', array( $this, 'nabshow_login_user_func' ) );
+		// add_action( 'wp_logout', array( $this, 'nabshow_logout_user_func') );
+
+		add_action( 'wp_logout', array( $this, 'user_switching_clear_olduser_cookie') );
+
+		add_action( 'admin_init', array( $this, 'nabshow_admin_init_func' ) );
+	}
+
+	public function nabshow_login_user_func( $user ) {
+		$is_user_in_beta = self::is_user_in_group_segment( 'nabshow-2022', 'yes' );
+		if ( $is_user_in_beta ) {
+			if ( empty( $user->ID ) ) {
+				$user = UrlCacheControl::RetreiveSetCurrentUser();
 			}
 
-			if( !is_user_logged_in() ) do_action('wp_send_co','wp_add_header_max_age');
+			// if ( !empty( $user->ID ) ) {
+			// 	do_action( 'switch_to_user', $user->ID );
+			// }
+		}
+	}
 
-		} );
+	public function nabshow_logout_user_func( $user ) {
+		$is_user_in_beta = self::is_user_in_group_segment( 'nabshow-2022', 'yes' );
+		if ( $is_user_in_beta ) {
 
-		add_filter('set_current_user', function( $user ) {
+		}
+	}
 
-			$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
-			if ( !$is_user_in_nabshow ) {
-				self::set_group_for_user( 'nabshow', 'yes' );
+	public function nabshow_admin_init_func() {
+		if ( is_admin() ) {
+			$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow-2022', 'yes' );
+			if ( ! $is_user_in_nabshow ) {
+				self::set_group_for_user( 'nabshow-2022', 'yes' );
 			}
+			// $user_id = get_current_user_id();
+			// if(!empty($user_id)) do_action( 'switch_to_user', $user_id );
+		}
+	}
 
-			if( !is_user_logged_in() ) do_action('wp_send_co','wp_add_header_max_age');
+	public function nabshow_init_func() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow-2022', 'yes' );
+		if ( ! $is_user_in_nabshow ) {
+			self::set_group_for_user( 'nabshow-2022', 'yes' );
 
-			return $user;
-		});
+			// Redirect back to the same page (per the POST-REDIRECT-GET pattern).
+			// Please note the use of the `vip_vary_cache_did_send_headers` action.
+			add_action( 'vip_vary_cache_did_send_headers', function() {
+				wp_safe_redirect( add_query_arg( [''] ) );
+				exit;
+			} );
+		}
+	}
 
-		add_filter( 'the_content', function( $content ) {
-			$is_user_in_beta = self::is_user_in_group_segment( 'beta', 'yes' );
-			if ( $is_user_in_beta ) {
-				$user = wp_get_current_user();
-				if(empty($user->ID)){
-					$user = UrlCacheControl::RetreiveUser();
-				}
-
-
+	public function nabshow_get_content( $content ) {
+		$is_user_in_beta = self::is_user_in_group_segment( 'nabshow-2022', 'yes' );
+		if ( $is_user_in_beta ) {
+			$user = wp_get_current_user();
+			if ( empty( $user->ID ) ) {
+				$user = UrlCacheControl::RetreiveSetCurrentUser();
 			}
-
-			return $content;
-		} );
+		}
+		return $content;
 	}
 }
-
 new NabshowCacheControl();
+
