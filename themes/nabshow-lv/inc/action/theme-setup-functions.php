@@ -284,9 +284,9 @@ function nabshow_lv_scripts() {
 	endif;
 
 	//Marketo script
-	wp_enqueue_script( 'nabshow-lv-marketo', UrlCacheControl::AppendTimeToUrl('//app-ab34.marketo.com/js/forms2/js/forms2.min.js'), array( 'nabshow-lv-custom' ), null, true );
+	wp_enqueue_script( 'nabshow-lv-marketo', '//app-ab34.marketo.com/js/forms2/js/forms2.min.js', array( 'nabshow-lv-custom' ), null, true );
 	wp_add_inline_script( 'nabshow-lv-marketo', 'MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1033);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1091);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1099);MktoForms2.loadForm("//app-ab34.marketo.com", "927-ARO-980", 1111);');
 
-	wp_enqueue_script( 'nabshow-lv-webreg', UrlCacheControl::AppendTimeToUrl('https://app.webreg.me/communities/0a61a16a0610/engagements.js',1), array( 'nabshow-lv-custom' ), null, true );
+	wp_enqueue_script( 'nabshow-lv-webreg', 'https://app.webreg.me/communities/0a61a16a0610/engagements.js', array( 'nabshow-lv-custom' ), null, true );
 }
 

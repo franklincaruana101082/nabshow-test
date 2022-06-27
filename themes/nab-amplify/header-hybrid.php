@@ -11,16 +11,15 @@
  * @package Amplify
  */
 
+
 function nabshow_styles() {
-  wp_enqueue_style( 'nabshow-lv-child-2021', UrlCacheControl::AppendTimeToUrl('/wp-content/themes/nabshow-lv-child-2021/assets/css/styles.min.css'), array(), wp_get_theme()->get( 'Version' ) );
+  //wp_enqueue_style( 'proxima-nova', 'https://use.typekit.net/qbe2mua.css', array(), '1.0');
+  wp_enqueue_style( 'nabshow-lv-child-2021', '/wp-content/themes/nabshow-lv-child-2021/assets/css/styles.min.css', array(), wp_get_theme()->get( 'Version' ) );
+  wp_enqueue_style( 'slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.0');
 
-  wp_enqueue_style( 'slick', UrlCacheControl::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', 1), array(), '1.0');
-
-  wp_enqueue_script( 'nabshow-2021-slick', UrlCacheControl::AppendTimeToUrl('//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', 2), array(), '1.8.1', true);
-
-  wp_enqueue_script( 'nabshow-2021-main', UrlCacheControl::AppendTimeToUrl('/wp-content/themes/nabshow-lv-child-2021/assets/js/app.min.js', 3), array(), '1.0', true );
-
-  wp_enqueue_script( 'nabshow-2021-gleanin-plugin', UrlCacheControl::AppendTimeToUrl('https://app.webreg.me/communities/076497845fd7/engagements.js', 4), array(), '1.0', true );
+  wp_enqueue_script( 'nabshow-2021-slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array(), '1.8.1', true);
+  wp_enqueue_script( 'nabshow-2021-main', '/wp-content/themes/nabshow-lv-child-2021/assets/js/app.min.js', array(), '1.0', true );
+  wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
 }
 
 add_action( 'wp_enqueue_scripts', 'nabshow_styles', 100 );
