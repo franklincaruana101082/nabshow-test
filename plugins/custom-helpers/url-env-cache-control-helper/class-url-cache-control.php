@@ -13,8 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 require_once WPMU_PLUGIN_DIR . '/misc.php';
-class UrlCacheControl {
 
+class UrlCacheControl {
 	private static function UrlOrigin( $s, $use_forwarded_host = false ) {
 		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] === 'on' );
 		$sp       = strtolower( $s['SERVER_PROTOCOL'] );
@@ -159,17 +159,14 @@ class UrlCacheControl {
 	}
 
 	public static function RetreiveSetCurrentUser() {
-		$user = wp_get_current_user();
-		if ( empty( $user->ID ) ) {
-			$ajsUserId = sanitize_key( $_COOKIE['ajs_user_id'] );
-			if ( isset( $ajsUserId ) ) {
-				$user_id = ( is_numeric( $ajsUserId ) ? (int) $ajsUserId : 0 );
-				$user    = get_user_by( 'id', $user_id );
 
-				wp_set_current_user( $user->ID );
-			}
+		$user = wp_get_current_user();
+		if ( empty($user) && empty( $user->ID ) && !empty($_COOKIE['ajs_user_id']) ) {
+			$ajsUserId = sanitize_key( $_COOKIE['ajs_user_id'] );
+			if ( !empty( $ajsUserId ) ) $user = get_user_by( 'id', $ajsUserId );
 		}
 
+		if( !empty($user->ID) ) wp_set_current_user( $user->ID );
 		return $user;
 	}
 }

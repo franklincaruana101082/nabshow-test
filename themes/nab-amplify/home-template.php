@@ -388,22 +388,22 @@
 			<div class="inner">
 				<?php
 				if ( have_posts() ) :
-					
+
 					while ( have_posts() ) :
-						
+
 						the_post();
-						
+
 						the_content();
-								
+
 					endwhile; // End of the loop.
 				endif;
-				
+
 				$page_id    	= get_the_ID();
                 $rows       	= get_field( 'event_details', $page_id );
 				$bottom_info	= get_field( 'home_bottom_info', $page_id );
 				?>
-				<div id="marketo-form" class="framing">					
-					<form id="mktoForm_1113"></form>					
+				<div id="marketo-form" class="framing">
+					<form id="mktoForm_1113"></form>
 				</div>
 				<?php
 				if ( ! empty( $bottom_info ) ) {
@@ -416,7 +416,7 @@
                     <div id="showcase">
                         <?php
                         foreach( $rows as $row ) {
-                            
+
                             $event_logo     = $row[ 'event_logo' ];
                             $event_date     = $row[ 'event_date' ];
                             $event_link     = $row[ 'event_link' ];
@@ -430,17 +430,17 @@
                                     <p>
 									<?php
 									echo esc_html( $event_date );
-									
+
 									if ( ! empty( $event_link ) ) {
 										?>
 										<br><a href="<?php echo esc_url( $event_link ); ?>"><?php echo esc_html( $link_text ); ?></a>
 										<?php
 									}
-									?>										
+									?>
 									</p>
                                 </div>
                                 <?php
-                            }                            
+                            }
                         }
                         ?>
                     </div>

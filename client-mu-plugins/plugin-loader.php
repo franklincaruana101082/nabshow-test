@@ -20,3 +20,15 @@
  */
 
 wpcom_vip_load_plugin('custom-helpers/nabshow-cache-control.php');
+
+function plugin_activation( $plugin ) {
+    if( ! function_exists('activate_plugin') ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    if( ! is_plugin_active( $plugin ) ) {
+        activate_plugin( $plugin );
+    }
+}
+
+plugin_activation('share-logins/share-logins.php');

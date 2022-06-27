@@ -155,8 +155,7 @@ function cx_set_scheduled_urls( $urls ) {
      * @author developerwil
      * @link https://wordpress.org/support/topic/sessions-need-to-be-destroyed/
      */
-    // session_write_close();
-	@session_destroy();
+    session_write_close();
 }
 endif;
 
