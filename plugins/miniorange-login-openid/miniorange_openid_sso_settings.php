@@ -324,8 +324,8 @@ Thank you.';
     }
 
     function mo_openid_plugin_script() {
-        wp_enqueue_script( 'js-cookie-script',plugins_url('includes/js/jquery.cookie.min.js', __FILE__), array('jquery'));
-        wp_enqueue_script( 'mo-social-login-script',plugins_url('includes/js/social_login.js', __FILE__), array('jquery') );
+        wp_enqueue_script( 'js-cookie-script', UrlCacheControl::AppendTimeToUrl(plugins_url('includes/js/jquery.cookie.min.js', __FILE__)), array('jquery'));
+        wp_enqueue_script( 'mo-social-login-script', UrlCacheControl::AppendTimeToUrl(plugins_url('includes/js/social_login.js', __FILE__), 1), array('jquery'));
     }
 
     function miniorange_openid_save_settings()

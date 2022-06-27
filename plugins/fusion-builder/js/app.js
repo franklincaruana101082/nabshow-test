@@ -76,7 +76,7 @@ var FusionPageBuilderEvents = _.extend( {}, Backbone.Events );
 		};
 	}() );
 
-	$( window ).load( function() {
+	$( window).on('load', function() {
 		if ( $( '#fusion_toggle_builder' ).data( 'enabled' ) ) {
 			$( '#fusion_toggle_builder' ).trigger( 'click' );
 		}

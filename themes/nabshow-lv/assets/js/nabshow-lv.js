@@ -100,7 +100,7 @@
   }
 
 
-  $(window).load(function () {
+  $(window).on('load',function () {
 
     /**
      * Startup Loft forms datepicker
@@ -1112,7 +1112,7 @@
       nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
     });
     if (0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length) {
-      $(window).load(function () {
+      $(window).on('load',function () {
         $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function () {
           pageNumber = 1;
           sessionDate = $(this).val();
@@ -1442,7 +1442,7 @@
       nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle, featuredPage);
     });
     if (0 < $('.browse-happenings-filter #happenings_date').length) {
-      $(window).load(function () {
+      $(window).on('load',function () {
         $('.browse-happenings-filter #happenings_date').datepicker({ dateFormat: 'DD, MM d, yy' }).on('change', function () {
           nabFilterDestinationPagesHandler(pageLocation, pageType, newThisYear, pageStartWith, pageSearchTitle, featuredPage);
         });
