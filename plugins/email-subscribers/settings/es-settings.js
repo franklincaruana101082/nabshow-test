@@ -40,7 +40,7 @@ jQuery( function( $ ) {
 	} );
 
 	// On clicking save settings make sure the same tab is reloaded
-	$( window ).load( function() {
+	$( window).on('load', function() {
 		default_nav_tab = '#admin';
 		current_nav_tab = window.location.hash;
 		if ( current_nav_tab == null || current_nav_tab == "" ) {
