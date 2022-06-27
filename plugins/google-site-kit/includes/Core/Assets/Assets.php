@@ -359,7 +359,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-vendor',
 				array(
-					'src' => $base_url . 'js/googlesitekit-vendor.js',
+					'src' => $base_url . 'js/googlesitekit-vendor.js'
 				)
 			),
 			new Script_Data(
