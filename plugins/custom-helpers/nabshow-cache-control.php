@@ -37,8 +37,6 @@ class NabshowCacheControl extends Vary_Cache{
 
 		add_action( 'init', [ $this, 'nabshow_init_func' ] );
 
-		add_filter( 'the_content', [ $this, 'nabshow_get_content' ] );
-
 	}
 
 	public function nabshow_login_user_func( $user ) {
@@ -66,14 +64,6 @@ class NabshowCacheControl extends Vary_Cache{
 		}else{
 			self::set_group_for_user( 'nabshow', 'yes' );
 		}
-	}
-
-	public function nabshow_get_content( $content ) {
-		$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
-		if ( !empty($is_user_in_nabshow) ) {
-
-		}
-		return $content;
 	}
 }
 new NabshowCacheControl();
