@@ -55,7 +55,7 @@ if ( empty( $redirect_url ) && isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[
 }
 ?>
 <!-- START legacy-template: sign-up-template -->
-<main id="primary" class="site-main">
+<main id="primary" class="site-main nabshow_signup">
 
 <?php
 while ( have_posts() ) :

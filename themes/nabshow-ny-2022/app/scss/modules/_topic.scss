@@ -1,6 +1,6 @@
 .topic {
 	min-height: rem(500);
-	padding: 0 rem(20);
+	padding: rem(80) rem(20) 0;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: center;
@@ -123,10 +123,10 @@
 		left: 0;
 		right: 0;
 		height: rem(78);
-
-		padding: 0 rem(40);
+		padding: 0 rem(100) 0 0;
 		background: linear-gradient(360deg, rgba(0, 0, 0, 0.7) -63.18%, rgba(0, 0, 0, 0) -63.18%, rgba(0, 0, 0, 0.7) 121.82%);
 		@include bp-768 {
+			padding: 0 rem(40);
 			display: block;
 		}
 		@include bp-1024 {
@@ -200,8 +200,11 @@
 		}
 	}
 		&__item {
-			background-position: center center;
+			background-position: left center;
 			background-size: cover;
 			background-repeat: no-repeat;
+			@include bp-1024 {
+				background-position: center center;
+			}
 		}
 }
