@@ -60,6 +60,7 @@ class NabshowCacheControl extends Vary_Cache{
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
 		if( !empty($is_user_in_nabshow) ){
+			if(is_user_logged_in()) self::enable_encryption();
 			
 		}else{
 			self::set_group_for_user( 'nabshow', 'yes' );
