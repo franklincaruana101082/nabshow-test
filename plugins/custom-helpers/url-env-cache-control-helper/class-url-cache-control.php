@@ -158,16 +158,5 @@ class UrlCacheControl {
 		nocache_headers();
 	}
 
-	public static function RetreiveSetCurrentUser() {
-
-		$user = wp_get_current_user();
-		if ( empty($user) && empty( $user->ID ) && !empty($_COOKIE['ajs_user_id']) ) {
-			$ajsUserId = sanitize_key( $_COOKIE['ajs_user_id'] );
-			if ( !empty( $ajsUserId ) ) $user = get_user_by( 'id', $ajsUserId );
-		}
-
-		if( !empty($user->ID) ) wp_set_current_user( $user->ID );
-		return $user;
-	}
 }
 
