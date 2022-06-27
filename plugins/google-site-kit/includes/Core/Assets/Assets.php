@@ -604,7 +604,7 @@ final class Assets {
 			new Stylesheet(
 				'googlesitekit-adminbar-css',
 				array(
-					'src' => $base_url . 'css/adminbar.css',20),
+					'src' => $base_url . 'css/adminbar.css',20
 				)
 			),
 		);
