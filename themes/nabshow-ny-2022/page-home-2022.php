@@ -247,7 +247,7 @@ endif;
 $numrows = count( get_field( 'featured_dates' ) );
 
 if( have_rows('featured_dates') ): ?>
-  <div class="section topics">
+  <div class="section topics _dates">
     <?php if($numrows > 1): ?>
     <ul class="topics__nav">
     <?php
