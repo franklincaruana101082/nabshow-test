@@ -61,9 +61,10 @@ class NabshowCacheControl extends Vary_Cache{
 		$is_user_in_nabshow = self::is_user_in_group_segment( 'nabshow', 'yes' );
 		if( empty($is_user_in_nabshow) ){
 
-			if(is_user_logged_in()) self::enable_encryption();
-
 			self::set_group_for_user( 'nabshow', 'yes' );
+
+			if(is_user_logged_in()) self::enable_encryption();
+			
 			// Redirect back to the same page (per the POST-REDIRECT-GET pattern).
 			// Please note the use of the `vip_vary_cache_did_send_headers` action.
 			add_action( 'vip_vary_cache_did_send_headers', function() {
