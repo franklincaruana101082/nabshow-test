@@ -778,3 +778,16 @@ function fix_post_id_on_preview($null, $post_id) {
     }
 }
 add_filter( 'acf/pre_load_post_id', 'fix_post_id_on_preview', 10, 2 );
+
+
+
+add_action('admin_head', 'nab_custom_admin_css');
+
+function nab_custom_admin_css() {
+  echo '<style>
+    .wp-block-nab-accordion .wp-block-nab-accordion-item ul li, h3.block-editor-rich-text__editable.rich-text {
+color: black !important;
+}
+  </style>';
+}
+
