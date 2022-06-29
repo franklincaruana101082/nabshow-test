@@ -95,7 +95,7 @@ class NabshowCacheControl extends Vary_Cache
 
             // Redirect back to the same page (per the POST-REDIRECT-GET pattern).
             // Please note the use of the `vip_vary_cache_did_send_headers` action.
-            do_action(
+            add_action(
                 'vip_vary_cache_did_send_headers', function () {
                     wp_safe_redirect(add_query_arg(''));
                     exit;
