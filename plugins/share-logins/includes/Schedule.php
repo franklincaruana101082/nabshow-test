@@ -25,8 +25,8 @@ class Schedule extends Hooks {
     public function __construct( $plugin ) {
         $this->name     = $plugin['Name'];
         $this->ncrypt   = ncrypt();
-        if ( session_status() == PHP_SESSION_NONE ) {
-            // session_start();
+        if ( !session_id() && session_status() == PHP_SESSION_NONE ) {
+            session_start();
         }
     }
 

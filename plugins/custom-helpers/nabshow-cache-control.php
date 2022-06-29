@@ -1,4 +1,5 @@
 <?php
+namespace App\NabshowCacheControl;
 /*
 * Plugin Name: Custom Cache Control, Environment Manage, Url Verify Helpers
 * Plugin URI: https://plugin-site.example.com
@@ -53,13 +54,15 @@ class NabshowCacheControl extends Vary_Cache
         }
     }
 
-    public function nabshow_the_content_func( $user )
+    public function nabshow_the_content_func( $content )
     {
         
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if ($is_user_in_nabshow ) {
-
+            
         }
+
+        return $content;
     }
 
     public function nabshow_login_user_func( $user )
@@ -82,16 +85,13 @@ class NabshowCacheControl extends Vary_Cache
     }
 
     public function nabshow_init_func()
-    {
-        
+    {        
+
      // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if(empty($is_user_in_nabshow) ) {
 
             self::set_group_for_user('nabshow', 'yes');
-
-            if(is_user_logged_in()) { self::enable_encryption();
-            }
 
             // Redirect back to the same page (per the POST-REDIRECT-GET pattern).
             // Please note the use of the `vip_vary_cache_did_send_headers` action.

@@ -149,7 +149,7 @@ class UrlCacheControl {
 		header( 'Cache-Control: public max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
 	public static function wp_add_header_no_cache() {
-		header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
+		header( 'Cache-Control: no-cache, must-revalidate, max-age=3600' );
 	}
 
 	public static function remove_cache_headers_for_404() {
