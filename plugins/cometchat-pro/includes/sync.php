@@ -4,7 +4,7 @@
 
 function registerCometChatProSession()
 {
-    if (!session_id()) {
+    if (!session_id() && session_status() == PHP_SESSION_NONE ) {
         session_id();
         session_start();
     }
