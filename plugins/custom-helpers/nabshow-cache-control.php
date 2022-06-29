@@ -87,15 +87,14 @@ class NabshowCacheControl extends Vary_Cache
     public function nabshow_init_func()
     {        
 
-     // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if(empty($is_user_in_nabshow) ) {
-            // self::enable_encryption();
             self::set_group_for_user('nabshow', 'yes');
 
             // Redirect back to the same page (per the POST-REDIRECT-GET pattern).
             // Please note the use of the `vip_vary_cache_did_send_headers` action.
-            do_action(
+            add_action(
                 'vip_vary_cache_did_send_headers', function () {
                     wp_safe_redirect(add_query_arg(''));
                     exit;

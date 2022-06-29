@@ -9,7 +9,7 @@ date_default_timezone_set('America/Chicago');
   * Enable Sessions
   * Checks to see if a session_id exists.  If not, a new session is started.
   */
-  // if ( !session_id() && session_status() == PHP_SESSION_NONE ) session_start();
+  if ( !session_id() && session_status() == PHP_SESSION_NONE ) session_start();
 
 /** 
  * Sandbox Mode - TRUE/FALSE

@@ -111,14 +111,6 @@ function watcher (cb) {
 	watch(paths.images.src, series(images, reload), cb);
   watch(paths.scripts.src, series(scripts, reload), cb);
 }
-
-var cachebust = require('gulp-cache-bust');
- 
-gulp.src('./dist/*/*.html')
-    .pipe(cachebust({
-        type: 'MD5'
-    }))
-    .pipe(gulp.dest('./dist'));
     
 exports.watch = watcher
 exports.css = css
