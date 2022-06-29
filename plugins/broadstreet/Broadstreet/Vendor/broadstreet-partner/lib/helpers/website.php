@@ -1,7 +1,7 @@
 <?php
 
 
-// if ( !session_id() && session_status() == PHP_SESSION_NONE ) session_start();
+if ( !session_id() && session_status() == PHP_SESSION_NONE ) session_start();
 
 function bs_setup()
 {
