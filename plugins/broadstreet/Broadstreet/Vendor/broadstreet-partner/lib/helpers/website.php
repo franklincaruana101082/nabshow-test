@@ -1,6 +1,8 @@
 <?php
 
-session_start(['use_only_cookies' => 1]);
+require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
+
+add_action('init', 'register_nabshow_session');
 
 
 function bs_setup()
