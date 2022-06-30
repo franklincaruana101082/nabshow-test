@@ -106,7 +106,7 @@ class NabshowCacheControl extends Vary_Cache
     }//end set_nabshow_frame_options_header()
 
     public function set_nabshow_frame_options_header( $headers ) {
-        $headers['X-hacker'] = 'Updated by Frank';
+        $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'crushlovely.com';
         
         add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
