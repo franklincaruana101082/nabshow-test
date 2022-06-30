@@ -35,8 +35,7 @@ class NabshowCacheControl
     public function init_enqueue_scripts()
     {        
         add_filter('wp_headers', [ $this, 'set_nabshow_frame_options_header'], 999);
-        add_action( 'wp_enqueue_scripts', array( $this, 'set_clearing_session_js' ) );
-        add_filter('set_clearing_session_js', [ $this, 'set_nabshow_frame_options_header'], 999);
+        // add_action( 'wp_enqueue_scripts', array( $this, 'set_clearing_session_js'));
 
     }//end init_enqueue_scripts()
 
