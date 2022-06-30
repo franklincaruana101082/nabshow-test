@@ -1,10 +1,7 @@
-console.log('hi there test');
 // Your main script
 
 jQuery(function($) {
 
-
-  console.log('hi');
 
 	//set aria-expanded attrs to top level menu a tags
 	$('.menu-item-has-children a').attr('aria-expanded', 'false');
@@ -42,9 +39,9 @@ jQuery(function($) {
  
 	// Hide dropdown menu on click outside
 	$(document).on("click", function(event){
-		console.log("∆∆∆ Document on Click");
+		//console.log("∆∆∆ Document on Click");
 		if(!$(event.target).closest('.menu-item-has-children a[aria-expanded]').length){
-			console.log("∆∆∆ Document on Click closing all");
+			//console.log("∆∆∆ Document on Click closing all");
 			closeAllAriaExpandeds();
 		}
 	});
@@ -57,16 +54,16 @@ jQuery(function($) {
 		toggle.click(function(){
 			// If its expanded
 			if (toggle.attr("aria-expanded") === 'true') {
-				console.log('IF TRUE: faq toggle is', toggle.attr("aria-expanded"));
+				//console.log('IF TRUE: faq toggle is', toggle.attr("aria-expanded"));
 				toggle.attr("aria-expanded", 'false');
 				content.attr("hidden", true);
-				console.log("content is now", content.attr("hidden"));
+				//console.log("content is now", content.attr("hidden"));
 			// If its closed	
 			} else {
-				console.log('ELSE: faq toggle is', toggle.attr("aria-expanded"));
+				//console.log('ELSE: faq toggle is', toggle.attr("aria-expanded"));
 				toggle.attr("aria-expanded", 'true');
 				content.attr("hidden", false);
-				console.log("content is now", content.attr("hidden"));
+				//console.log("content is now", content.attr("hidden"));
 			}
 		});
 
@@ -136,7 +133,6 @@ jQuery(function($) {
 
 // Topics
 if ($('.topics').length > 0) {
-	console.log('hi from topics');
 	$('.topics__main').slick({
 	  slidesToShow: 1,
 	  slidesToScroll: 1,
