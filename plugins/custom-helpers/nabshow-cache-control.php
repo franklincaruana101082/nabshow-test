@@ -23,6 +23,7 @@ require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-ca
 require_once WPMU_PLUGIN_DIR.'/misc.php';
 
 use Automattic\VIP\Cache\Vary_Cache;
+use UrlCacheControl;
 
 class NabshowCacheControl extends Vary_Cache
 {
@@ -32,7 +33,7 @@ class NabshowCacheControl extends Vary_Cache
     {
         // Register the `nabshow` group
         self::register_group('nabshow');
-        $this->init_enqueue_scripts();
+        $this->init_enqueue_scripts();        
 
     }//end __construct()
 
@@ -53,6 +54,7 @@ class NabshowCacheControl extends Vary_Cache
     {
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if ($is_user_in_nabshow) {
+            
         }
 
     }//end nabshow_wp_footer_func()
@@ -92,6 +94,7 @@ class NabshowCacheControl extends Vary_Cache
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if (empty($is_user_in_nabshow)) {
+
             if (is_user_logged_id()) {
                 self::enable_encryption();
             }

@@ -12,6 +12,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
+
 /**
  * @package    Plugin
  * @subpackage Schedule
@@ -19,8 +21,7 @@ if (! defined('ABSPATH')) {
  */
 class Schedule extends Hooks
 {
-
-
+    
     /**
      * Constructor function
      */
@@ -28,9 +29,8 @@ class Schedule extends Hooks
     {
         $this->name   = $plugin['Name'];
         $this->ncrypt = ncrypt();
-        if (!session_id()) {
-            session_start(['use_only_cookies' => 1]);
-        }
+
+        add_action('init', 'register_nabshow_session');
 
     }//end __construct()
 

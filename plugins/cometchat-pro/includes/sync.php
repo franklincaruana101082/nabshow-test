@@ -2,11 +2,13 @@
 
 // Start/Destroy CometChat Pro session on login/logout
 
+require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
+
 function registerCometChatProSession()
 {
     if (!session_id() ) {
         session_id();
-        session_start(['use_only_cookies'=>1]);
+        add_action('init', 'register_nabshow_session');
     }
 }
 

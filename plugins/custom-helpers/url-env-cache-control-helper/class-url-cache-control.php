@@ -148,8 +148,8 @@ class UrlCacheControl {
 		// Set the max age 5 minutes.
 		header( 'Cache-Control: public max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
-	public static function wp_add_header_no_cache() {
-		header( 'Cache-Control: no-cache, must-revalidate, max-age=3600' );
+	public static function wp_add_header_no_cache( $mins = 5 ) {
+		header( 'Cache-Control: no-cache, must-revalidate, max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
 
 	public static function remove_cache_headers_for_404() {
@@ -158,12 +158,10 @@ class UrlCacheControl {
 		nocache_headers();
 	}
 
-	public static function register_nabshow_session()
-	{
-	  if( !session_id() )
-	  {
-		session_start(['use_only_cookies'=>1]);
-	  }
-	}
+	function register_nabshow_session() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start(['use_only_cookies' => 1]);
+        }
+    }
 }
 
