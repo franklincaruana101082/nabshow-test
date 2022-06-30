@@ -29,11 +29,20 @@
 .social-list {
   list-style-type: none;
   display: flex;
+  flex-flow: row wrap;
   justify-content: center;
   li {
     padding: 0 rem(16);
     @include bp-604 {
       padding: 0 0 0 rem(32);
+      &.footer__social-hashtag {
+        width: 100%;
+      }
+    }
+    @include bp-768 {
+      &.footer__social-hashtag {
+        width: auto;
+      }
     }
     i {
       font-size: rem(20);
