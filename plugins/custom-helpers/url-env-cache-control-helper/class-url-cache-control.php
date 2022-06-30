@@ -186,8 +186,10 @@ class UrlCacheControl {
 		// Specification says ETag should be specified within double quotes
 		$etag = '"' . $file_last_mod_time . '.' . $content_last_mod_time . '"';
 
-		// Set Cache-Control header
-		header('Cache-Control: max-age='.$max_age);
+		if(!empty($max_age)){
+			// Set Cache-Control header
+			header('Cache-Control: max-age='.$max_age);
+		}
 
 		// Set ETag header
 		header('ETag: ' . $etag);

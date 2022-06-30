@@ -102,10 +102,14 @@ class NabshowCacheControl extends Vary_Cache
     }//end set_nabshow_frame_options_header()
 
     public function set_nabshow_frame_options_header( $headers ) {
+        
+        remove_action( 'wp_head', 'wp_generator' );
+
         $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
         
-        UrlCacheControl::set_cache_headers_with_etags();
+        UrlCacheControl::wp_add_header_pragma_revalidate_cache();
+        UrlCacheControl::set_cache_headers_with_etags(null);
         
         add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
 
