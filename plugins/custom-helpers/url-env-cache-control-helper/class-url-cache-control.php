@@ -173,24 +173,6 @@ class UrlCacheControl {
         }
     }
 
-	public static function add_etag_header() {
-        $file = __DIR__ . '/myfile.js';
-		$etag = '"' . filemtime($file) . '"';
-
-		// Use it if the file is changed more often than one time per second:
-		// $etag = '"' . md5_file($file) . '"';
-
-		header('Etag: ' . $etag);
-
-		$ifNoneMatch = array_map('trim', explode(',', trim($_SERVER['HTTP_IF_NONE_MATCH'])));
-		if (in_array($etag, $ifNoneMatch, true) || count($ifNoneMatch) == 1 && in_array('*', $ifNoneMatch, true)) {
-			header('HTTP/1.1 304 Not Modified');
-			exit;
-		}
-
-		print file_get_contents($file);
-    }
-
 	public static function set_cache_headers_with_etags($max_age = 86400, $content_last_mod_time = 1520949851){
 
 		// Get last modification time of the current PHP file
