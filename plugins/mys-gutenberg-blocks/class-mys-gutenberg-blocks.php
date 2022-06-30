@@ -110,21 +110,25 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             register_rest_route( 'nab_api', '/request/all_terms', array(
                 'methods'  => 'GET',
+                'permission_callback' => '__return_true',
                 'callback' => array( __CLASS__, 'mysgb_get_all_terms' ),
             ) );
 
 	        register_rest_route( 'nab_api', '/request/sponsor-acf-types', array(
 		        'methods'  => 'GET',
+                'permission_callback' => '__return_true',
 		        'callback' => array( __CLASS__, 'mysgb_get_sponsor_acf_types' ),
 	        ) );
 
 	        register_rest_route( 'nab_api', '/request/category-block-terms', array(
 		        'methods'  => 'GET',
+                'permission_callback' => '__return_true',
 		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms' ),
             ) );
             
             register_rest_route( 'nab_api', '/request/get-session-channels', array(
 		        'methods'  => 'GET',
+                'permission_callback' => '__return_true',
 		        'callback' => array( __CLASS__, 'mysgb_get_session_channels' ),
 	        ) );
         }

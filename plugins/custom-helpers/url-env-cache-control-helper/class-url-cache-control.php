@@ -16,8 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-require_once WPMU_PLUGIN_DIR . '/misc.php';
-
 class UrlCacheControl {
 	private static function UrlOrigin( $s, $use_forwarded_host = false ) {
 		$ssl      = ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] === 'on' );
@@ -156,12 +154,9 @@ class UrlCacheControl {
 		// Set the max age 5 minutes.
 		header( 'Cache-Control: no-cache no-store max-age=0' );
 	}
-	public static function wp_add_header_pragma_revalidate_cache( ) {
-		header( 'Cache-Control: must-revalidate, max-age=3600' );
-		header( 'Pragma: public' );
-	}
+
 	public static function wp_add_header_pragma_cache( $mins = 3600 ) {
-		header( 'Cache-Control: max-age='.$mins );
+		header( 'Cache-Control: public, must-revalidate, max-age='.$mins );
 		header( 'Pragma: public' );
 	}
 
@@ -171,10 +166,23 @@ class UrlCacheControl {
 		nocache_headers();
 	}
 
+	public static function remove_session_from_curl($headers) {	
+		header( "Set-Cookie: No cookie here due to security reason. Thanks! " );
+	}
 	public static function register_nabshow_session() {
         if (session_status() == PHP_SESSION_NONE) {
-            session_start(['use_only_cookies' => 1]);
+            // session_start(['use_only_cookies' => 1]);
+            session_start();
         }
+    }
+
+	public static function invalidate_sessions() {
+		if (session_status() == PHP_SESSION_NONE) {
+			session_start(); // initialize session
+			session_destroy(); // destroy session
+		}
+
+        setcookie("PHPSESSID","",time()-3600,"/"); // delete session cookie
     }
 
 	public static function set_cache_headers_with_etags($max_age = 86400, $content_last_mod_time = 1520949851){
