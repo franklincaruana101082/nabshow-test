@@ -40,13 +40,14 @@ class NabshowCacheControl extends Vary_Cache
 
     public function init_enqueue_scripts()
     {        
-        add_action('the_content', [ $this, 'nabshow_the_content_func' ]);
-        add_action('wp_footer', [ $this, 'nabshow_wp_footer_func' ]);
+
+        add_action('init', [ $this, 'nabshow_init_func' ]);
 
         add_action('wp_logout', [ $this, 'nabshow_logout_user_func' ]);
         add_action('wp_login', [ $this, 'nabshow_login_user_func' ]);
-
-        add_action('init', [ $this, 'nabshow_init_func' ]);
+        
+        add_action('the_content', [ $this, 'nabshow_the_content_func' ]);
+        add_action('wp_footer', [ $this, 'nabshow_wp_footer_func' ]);
     }//end init_enqueue_scripts()
 
 
@@ -94,7 +95,7 @@ class NabshowCacheControl extends Vary_Cache
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if (empty($is_user_in_nabshow)) {
-            if (is_user_logged_id()) {
+            if (is_user_logged_in()) {
                 self::enable_encryption();
             }
 
