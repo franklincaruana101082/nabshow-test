@@ -176,15 +176,6 @@ class UrlCacheControl {
         }
     }
 
-	public static function invalidate_sessions() {
-		if (session_status() == PHP_SESSION_NONE) {
-			session_start(); // initialize session
-			session_destroy(); // destroy session
-		}
-
-        setcookie("PHPSESSID","",time()-3600,"/"); // delete session cookie
-    }
-
 	public static function set_cache_headers_with_etags($max_age = 86400, $content_last_mod_time = 1520949851){
 
 		// Get last modification time of the current PHP file
