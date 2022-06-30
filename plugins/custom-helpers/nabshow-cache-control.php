@@ -91,7 +91,7 @@ class NabshowCacheControl extends Vary_Cache
 
     public function nabshow_init_func()
     {            
-        if (!is_user_logged_in()) UrlCacheControl::wp_add_header_pragma_revalidate_cache();
+        UrlCacheControl::wp_add_header_pragma_revalidate_cache();
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if (empty($is_user_in_nabshow)) {
