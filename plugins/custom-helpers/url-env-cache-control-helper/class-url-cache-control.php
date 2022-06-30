@@ -158,5 +158,12 @@ class UrlCacheControl {
 		nocache_headers();
 	}
 
+	public static function register_nabshow_session()
+	{
+	  if( !session_id() )
+	  {
+		session_start();
+	  }
+	}
 }
 
