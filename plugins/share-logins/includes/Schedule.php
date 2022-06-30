@@ -14,6 +14,8 @@ if (! defined('ABSPATH')) {
 
 require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
+use UrlCacheControl;
+
 /**
  * @package    Plugin
  * @subpackage Schedule
@@ -30,7 +32,7 @@ class Schedule extends Hooks
         $this->name   = $plugin['Name'];
         $this->ncrypt = ncrypt();
 
-        add_action('init', 'register_nabshow_session');
+        UrlCacheControl::register_nabshow_session();
 
     }//end __construct()
 

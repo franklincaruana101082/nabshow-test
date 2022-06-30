@@ -9,9 +9,11 @@
 * License:     GPL2
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
 require_once WPMU_PLUGIN_DIR . '/misc.php';
 
 class UrlCacheControl {
@@ -24,8 +26,7 @@ class UrlCacheControl {
 		$host     = ( $use_forwarded_host && isset( $s['HTTP_X_FORWARDED_HOST'] ) ) ? $s['HTTP_X_FORWARDED_HOST'] : ( isset( $s['HTTP_HOST'] ) ? $s['HTTP_HOST'] : null );
 		$host     = isset( $host ) ? $host : $s['SERVER_NAME'] . $port;
 		return $protocol . '://' . $host;
-	}
-
+	}	
 	public static function FullUrl( $uri, $use_forwarded_host = false, $directUrlCheck = false ) {
 		$s = $_SERVER;
 
@@ -148,6 +149,7 @@ class UrlCacheControl {
 		// Set the max age 5 minutes.
 		header( 'Cache-Control: public max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
+	
 	public static function wp_add_header_no_cache( $mins = 5 ) {
 		header( 'Cache-Control: no-cache, must-revalidate, max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
@@ -158,7 +160,7 @@ class UrlCacheControl {
 		nocache_headers();
 	}
 
-	function register_nabshow_session() {
+	public static function register_nabshow_session() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start(['use_only_cookies' => 1]);
         }
