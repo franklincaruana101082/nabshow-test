@@ -23,7 +23,6 @@ require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-ca
 require_once WPMU_PLUGIN_DIR.'/misc.php';
 
 use Automattic\VIP\Cache\Vary_Cache;
-use UrlCacheControl;
 
 class NabshowCacheControl extends Vary_Cache
 {

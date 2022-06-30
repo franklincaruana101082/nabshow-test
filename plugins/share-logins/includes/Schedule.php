@@ -14,8 +14,6 @@ if (! defined('ABSPATH')) {
 
 require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
-use UrlCacheControl;
-
 /**
  * @package    Plugin
  * @subpackage Schedule
