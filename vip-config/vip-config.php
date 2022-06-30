@@ -66,3 +66,5 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 
 
 define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
+// define('VIP_GO_AUTH_COOKIE_KEY', ''); 
+// define('VIP_GO_AUTH_COOKIE_IV', '');

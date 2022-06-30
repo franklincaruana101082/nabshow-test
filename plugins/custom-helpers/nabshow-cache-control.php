@@ -40,6 +40,7 @@ class NabshowCacheControl extends Vary_Cache
 
     public function init_enqueue_scripts()
     {        
+        add_filter( 'wp_headers', [ $this, 'set_nabshow_frame_options_header'], 999 );
 
         add_action('init', [ $this, 'nabshow_init_func' ]);
 
@@ -91,7 +92,10 @@ class NabshowCacheControl extends Vary_Cache
 
     public function nabshow_init_func()
     {            
-        if (!is_user_logged_in()) UrlCacheControl::wp_add_header_pragma_revalidate_cache();
+        
+        // self::enable_encryption();
+        UrlCacheControl::set_cache_headers_with_etags();
+
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if (empty($is_user_in_nabshow)) {
@@ -99,7 +103,17 @@ class NabshowCacheControl extends Vary_Cache
             self::set_group_for_user('nabshow', 'yes');
         }
 
-    }//end nabshow_init_func()
+    }//end set_nabshow_frame_options_header()
+
+    public function set_nabshow_frame_options_header( $headers ) {
+        $headers['X-hacker'] = 'modified by Frank';
+        $headers['X-Powered-By'] = 'crushlovely.com';
+        
+        add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
+
+        return $headers;
+
+    }//end set_nabshow_frame_options_header()
 }//end class
 
 new NabshowCacheControl();
