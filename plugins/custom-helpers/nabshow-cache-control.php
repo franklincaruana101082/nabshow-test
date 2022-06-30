@@ -28,7 +28,6 @@ class NabshowCacheControl extends Vary_Cache
 
     public function __construct()
     {
-        self::enable_encryption();
         // Register the `nabshow` group
         self::register_group('nabshow');
         $this->init_enqueue_scripts();
