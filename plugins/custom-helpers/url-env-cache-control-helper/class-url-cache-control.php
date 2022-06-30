@@ -149,11 +149,16 @@ class UrlCacheControl {
 
 	public static function wp_add_header_max_age( $mins = 5 ) {
 		// Set the max age 5 minutes.
-		header( 'Cache-Control: public max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
+		header( 'Cache-Control: max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
 
-	public static function wp_add_header_no_cache( $mins = 5 ) {
-		header( 'Cache-Control: no-cache, must-revalidate, max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
+	public static function wp_add_header_no_cache( ) {
+		// Set the max age 5 minutes.
+		header( 'Cache-Control: no-cache no-store max-age=0' );
+	}
+	public static function wp_add_header_pragma_revalidate_cache( ) {
+		header( 'Cache-Control: must-revalidate, max-age=3600' );
+		header( 'Pragma: public' );
 	}
 
 	public static function remove_cache_headers_for_404() {
