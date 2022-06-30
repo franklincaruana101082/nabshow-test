@@ -108,7 +108,7 @@ class NabshowCacheControl extends Vary_Cache
         $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
         
-        UrlCacheControl::wp_add_header_pragma_revalidate_cache();
+        UrlCacheControl::wp_add_header_pragma_cache(86400);
         UrlCacheControl::set_cache_headers_with_etags(null);
         
         add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
