@@ -1,3 +1,5 @@
+( function ($) {
+
 addEventListener("fetch", event => event.respondWith(handler(event)));
 
 async function handler(event) {
@@ -15,3 +17,5 @@ async function handler(event) {
     cacheOverride
   });
 }
+
+})(jQuery)

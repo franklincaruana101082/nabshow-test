@@ -35,12 +35,14 @@ if ( ! class_exists( 'Zoom_APIs' ) ) {
 			// Add registrations on load the content page.
 			register_rest_route( 'zoom', '/add-registrant', array(
 				'methods'  => 'POST',
+				'permission_callback' => '__return_true',
 				'callback' => array( $this, 'zp_rest_add_registrant' )
 			) );
 
 			// Get all details and print, this is for debug and personal uses.
 			register_rest_route( 'zoom', '/get-details', array(
 				'methods'  => 'GET',
+				'permission_callback' => '__return_true',
 				'callback' => array( $this, 'zp_rest_get_details' )
 			) );
 

@@ -1235,6 +1235,7 @@ function amplify_register_api_endpoints()
         '/unlink-products',
         array(
             'methods'  => 'POST',
+            'permission_callback' => '__return_true',
             'callback' => 'nab_amplify_unlink_products',
         )
     );

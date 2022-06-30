@@ -34,22 +34,24 @@ class NabshowCacheControl
 
     public function init_enqueue_scripts()
     {        
-        add_filter( 'wp_headers', [ $this, 'set_nabshow_frame_options_header'], 999 );
+        add_filter('wp_headers', [ $this, 'set_nabshow_frame_options_header'], 999);
 
     }//end init_enqueue_scripts()
 
 
-    public function set_nabshow_frame_options_header( $headers ) {
+    public function set_nabshow_frame_options_header( $headers )
+    {
         
-        remove_action( 'wp_head', 'wp_generator' );
+        remove_action('wp_head', 'wp_generator');
+
+        UrlCacheControl::remove_session_from_curl();        
+        UrlCacheControl::wp_add_header_pragma_cache(86400);
+        UrlCacheControl::set_cache_headers_with_etags();
 
         $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
         
-        UrlCacheControl::wp_add_header_pragma_cache(86400);
-        UrlCacheControl::set_cache_headers_with_etags(null);
-        
-        add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
+        add_action('send_headers', 'send_frame_options_header', 10, 0);
 
         return $headers;
 
