@@ -3,6 +3,9 @@
  * Timezone Setting
  * List of Supported Timezones: http://www.php.net/manual/en/timezones.php
  */
+
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+
 date_default_timezone_set('America/Chicago');
 
 /*
@@ -10,7 +13,7 @@ date_default_timezone_set('America/Chicago');
   * Checks to see if a session_id exists.  If not, a new session is started.
  */
 if (!session_id()) {
-    session_start(['use_only_cookies' => 1]);
+    UrlCacheControl::register_nabshow_session();
 }
 
 /*

@@ -1,5 +1,4 @@
 <?php
-namespace Plugins\CustomHelpers;
 /*
  * Plugin Name: Custom Cache Control, Environment Manage, Url Verify Helpers
  * Plugin URI: https://plugin-site.example.com
@@ -10,17 +9,15 @@ namespace Plugins\CustomHelpers;
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+namespace Plugins\CustomHelpers;
+
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+
 if (! defined('ABSPATH')) {
     exit;
     // Exit if accessed directly.
 }
-
-
-require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
-
-require_once WPMU_PLUGIN_DIR.'/misc.php';
-
-use Plugins\CustomHelpers\UrlCacheControl;
 
 class NabshowCacheControl
 {

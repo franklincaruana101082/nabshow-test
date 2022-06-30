@@ -1,5 +1,5 @@
 <?php
-namespace Plugins\CustomHelpers;
+namespace Plugins\CustomHelpers\UrlEnvCacheControlHelper;
 
 /*
 * Plugin Name: Custom Cache Control, Environment Manage, Url Verify Helpers

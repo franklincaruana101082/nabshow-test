@@ -1,6 +1,6 @@
 <?php
 
-use Plugins\CustomHelpers\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
 
 function bs_setup()
 {
