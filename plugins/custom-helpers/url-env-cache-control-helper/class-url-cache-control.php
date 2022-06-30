@@ -156,7 +156,7 @@ class UrlCacheControl {
 	}
 
 	public static function wp_add_header_pragma_cache( $mins = 3600 ) {
-		header( 'Cache-Control: public, must-revalidate, max-age='.$mins );
+		header( 'Cache-Control: must-revalidate, max-age='.$mins );
 		header( 'Pragma: public' );
 	}
 
