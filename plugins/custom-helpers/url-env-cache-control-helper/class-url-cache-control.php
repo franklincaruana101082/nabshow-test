@@ -160,6 +160,10 @@ class UrlCacheControl {
 		header( 'Cache-Control: must-revalidate, max-age=3600' );
 		header( 'Pragma: public' );
 	}
+	public static function wp_add_header_pragma_cache( $mins = 3600 ) {
+		header( 'Cache-Control: max-age='.$mins );
+		header( 'Pragma: public' );
+	}
 
 	public static function remove_cache_headers_for_404() {
 		// Cleaner permalink options
