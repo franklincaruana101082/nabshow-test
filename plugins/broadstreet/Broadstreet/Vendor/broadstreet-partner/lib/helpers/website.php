@@ -2,12 +2,12 @@
 
 require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
-add_action('init', 'register_nabshow_session');
+use UrlCacheControl;
 
 
 function bs_setup()
 {
-
+    UrlCacheControl::register_nabshow_session();
 }//end bs_setup()
 
 
