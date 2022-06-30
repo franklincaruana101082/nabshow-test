@@ -1,7 +1,6 @@
 <?php
 
-require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
-
+use Plugins\CustomHelpers\UrlCacheControl\UrlCacheControl;
 
 function bs_setup()
 {

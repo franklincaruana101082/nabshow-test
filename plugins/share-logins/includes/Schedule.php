@@ -5,6 +5,8 @@
 
 namespace codexpert\Share_Logins;
 
+use Plugins\CustomHelpers\UrlCacheControl\UrlCacheControl;
+
 /*
  * if accessed directly, exit.
  */
@@ -12,7 +14,6 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
 /**
  * @package    Plugin
