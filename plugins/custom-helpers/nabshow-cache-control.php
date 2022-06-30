@@ -91,7 +91,7 @@ class NabshowCacheControl extends Vary_Cache
 
     public function nabshow_init_func()
     {            
-        UrlCacheControl::wp_add_header_no_cache();
+        UrlCacheControl::wp_add_header_max_age();
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if (empty($is_user_in_nabshow)) {

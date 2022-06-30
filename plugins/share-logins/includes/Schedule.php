@@ -31,7 +31,6 @@ class Schedule extends Hooks
         $this->name   = $plugin['Name'];
         $this->ncrypt = ncrypt();
 
-        // UrlCacheControl::register_nabshow_session();
 
     }//end __construct()
 
