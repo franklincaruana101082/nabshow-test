@@ -15,24 +15,19 @@ if (! defined('ABSPATH')) {
     // Exit if accessed directly.
 }
 
-// Load the VIP Vary_Cache class
-require_once WPMU_PLUGIN_DIR.'/cache/class-vary-cache.php';
 
 require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
 require_once WPMU_PLUGIN_DIR.'/misc.php';
 
-use Automattic\VIP\Cache\Vary_Cache;
-use Plugins\CustomHelpers\UrlCacheControl\UrlCacheControl;
+use Plugins\CustomHelpers\UrlCacheControl;
 
-class NabshowCacheControl extends Vary_Cache
+class NabshowCacheControl
 {
 
 
     public function __construct()
     {
-        // Register the `nabshow` group
-        self::register_group('nabshow');
         $this->init_enqueue_scripts();        
 
     }//end __construct()
@@ -42,64 +37,8 @@ class NabshowCacheControl extends Vary_Cache
     {        
         add_filter( 'wp_headers', [ $this, 'set_nabshow_frame_options_header'], 999 );
 
-        add_action('init', [ $this, 'nabshow_init_func' ]);
-
-        add_action('wp_logout', [ $this, 'nabshow_logout_user_func' ]);
-        add_action('wp_login', [ $this, 'nabshow_login_user_func' ]);
-        
-        add_action('the_content', [ $this, 'nabshow_the_content_func' ]);
-        add_action('wp_footer', [ $this, 'nabshow_wp_footer_func' ]);
     }//end init_enqueue_scripts()
 
-
-    public function nabshow_wp_footer_func($user)
-    {
-        $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
-        if ($is_user_in_nabshow) {
-        }
-
-    }//end nabshow_wp_footer_func()
-
-
-    public function nabshow_the_content_func($content)
-    {
-        $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
-        if ($is_user_in_nabshow) {
-        }
-
-        return $content;
-
-    }//end nabshow_the_content_func()
-
-
-    public function nabshow_login_user_func($user)
-    {
-        $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
-        if ($is_user_in_nabshow) {
-        }
-
-    }//end nabshow_login_user_func()
-
-
-    public function nabshow_logout_user_func($user)
-    {
-        $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
-        if ($is_user_in_nabshow) {
-        }
-
-    }//end nabshow_logout_user_func()
-
-
-    public function nabshow_init_func()
-    {            
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
-        $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
-        if (empty($is_user_in_nabshow)) {
-
-            self::set_group_for_user('nabshow', 'yes');
-        }
-
-    }//end set_nabshow_frame_options_header()
 
     public function set_nabshow_frame_options_header( $headers ) {
         
