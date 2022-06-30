@@ -92,10 +92,6 @@ class NabshowCacheControl extends Vary_Cache
 
     public function nabshow_init_func()
     {            
-        
-        // self::enable_encryption();
-        UrlCacheControl::set_cache_headers_with_etags();
-
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         $is_user_in_nabshow = self::is_user_in_group_segment('nabshow', 'yes');
         if (empty($is_user_in_nabshow)) {
@@ -107,7 +103,9 @@ class NabshowCacheControl extends Vary_Cache
 
     public function set_nabshow_frame_options_header( $headers ) {
         $headers['X-hacker'] = 'modified by Frank';
-        $headers['X-Powered-By'] = 'crushlovely.com';
+        $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
+        
+        UrlCacheControl::set_cache_headers_with_etags();
         
         add_action( 'send_headers', 'send_frame_options_header', 10, 0 );
 
