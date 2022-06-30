@@ -2,10 +2,7 @@
 
 // Start/Destroy CometChat Pro session on login/logout
 
-
-require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
-
-use UrlCacheControl;
+use Plugins\CustomHelpers\UrlCacheControl\UrlCacheControl;
 
 function registerCometChatProSession()
 {

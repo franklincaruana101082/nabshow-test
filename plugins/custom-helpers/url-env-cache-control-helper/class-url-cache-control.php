@@ -1,4 +1,6 @@
 <?php
+namespace Plugins\CustomHelpers\UrlCacheControl;
+
 /*
 * Plugin Name: Custom Cache Control, Environment Manage, Url Verify Helpers
 * Plugin URI: https://plugin-site.example.com
@@ -149,7 +151,7 @@ class UrlCacheControl {
 		// Set the max age 5 minutes.
 		header( 'Cache-Control: public max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
-	
+
 	public static function wp_add_header_no_cache( $mins = 5 ) {
 		header( 'Cache-Control: no-cache, must-revalidate, max-age=' . ( $mins * MINUTE_IN_SECONDS ) );
 	}
