@@ -26,7 +26,7 @@ class Schedule extends Hooks {
         $this->name     = $plugin['Name'];
         $this->ncrypt   = ncrypt();
         if ( !session_id() ) {
-            session_start();
+            session_start(['use_only_cookies'=>1]);
         }
     }
 

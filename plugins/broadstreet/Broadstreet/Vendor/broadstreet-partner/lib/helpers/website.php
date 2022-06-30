@@ -1,7 +1,6 @@
 <?php
 
-
-if ( !session_id() ) session_start();
+session_start(['use_only_cookies'=>1]);
 
 function bs_setup()
 {
