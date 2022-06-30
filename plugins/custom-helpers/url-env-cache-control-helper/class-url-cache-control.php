@@ -166,7 +166,7 @@ class UrlCacheControl {
 		nocache_headers();
 	}
 
-	public static function remove_session_from_curl($headers) {	
+	public static function remove_session_from_curl() {	
 		header( "Set-Cookie: No cookie here due to security reason. Thanks! " );
 	}
 	public static function register_nabshow_session() {

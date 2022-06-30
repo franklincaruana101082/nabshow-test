@@ -44,9 +44,9 @@ class NabshowCacheControl
         
         remove_action('wp_head', 'wp_generator');
 
-        UrlCacheControl::remove_session_from_curl($headers);        
-        UrlCacheControl::wp_add_header_pragma_cache(86400,$headers);
-        UrlCacheControl::set_cache_headers_with_etags(null);
+        UrlCacheControl::remove_session_from_curl();        
+        UrlCacheControl::wp_add_header_pragma_cache(86400);
+        UrlCacheControl::set_cache_headers_with_etags();
 
         $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
