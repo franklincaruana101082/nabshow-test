@@ -85,7 +85,7 @@ class Broadstreet_Mini
      */
     public static function list_ads()
     {
-        //session_destroy();
+        // session_destroy();
         $data       = Broadstreet_Mini_Utility::getTrackedAds();
         $logged_in  = (bool)Broadstreet_Mini_Utility::getOption(self::KEY_NETWORK_ID);
         
