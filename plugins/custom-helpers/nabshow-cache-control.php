@@ -12,12 +12,14 @@
 
 namespace Plugins\CustomHelpers;
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
-
 if (! defined('ABSPATH')) {
     exit;
     // Exit if accessed directly.
 }
+
+require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
+
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
 
 class NabshowCacheControl
 {
