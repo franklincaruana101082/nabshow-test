@@ -167,7 +167,7 @@ class UrlCacheControl {
 	}
 
 	public static function remove_session_from_curl() {	
-		header( "Set-Cookie: No cookie here due to security reason. Thanks! " );
+		header( "Set-Cookie: No cookie here due to security reason. Thanks!" );
 	}
 	public static function register_nabshow_session() {
         if (session_status() == PHP_SESSION_NONE) {
@@ -176,7 +176,7 @@ class UrlCacheControl {
         }
     }
 
-	public static function set_cache_headers_with_etags($max_age = 86400, $content_last_mod_time = 1520949851){
+	public static function set_cache_headers_with_etags($content_last_mod_time = 1520949851){
 
 		// Get last modification time of the current PHP file
 		$file_last_mod_time = filemtime(__FILE__);
@@ -188,11 +188,6 @@ class UrlCacheControl {
 		// Combine both to generate a unique ETag for a unique content
 		// Specification says ETag should be specified within double quotes
 		$etag = '"' . $file_last_mod_time . '.' . $content_last_mod_time . '"';
-
-		if(!empty($max_age)){
-			// Set Cache-Control header
-			header('Cache-Control: max-age='.$max_age);
-		}
 
 		// Set ETag header
 		header('ETag: ' . $etag);
