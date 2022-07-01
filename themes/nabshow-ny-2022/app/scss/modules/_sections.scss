@@ -1553,24 +1553,25 @@
       @include screen-reader-text;
     }
     th {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba($colorhex__blue-dark, 0.2);
       padding: 0 rem(18) rem(22);
       & + * {
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border-left: 1px solid rgba($colorhex__blue-dark, 0.2);
       }
     }
     td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba($colorhex__blue-dark, 0.2);
       padding: rem(22);
       text-align: center;
       vertical-align: center;
       & + * {
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border-left: 1px solid rgba($colorhex__blue-dark, 0.2);
       }
     }
 
     .col-heading {
       @include primary-medium-12-18;
+      color: $color__black;
       text-transform: uppercase;
       text-align: left;
       padding: 1rem 0;
@@ -1578,7 +1579,11 @@
     .col-date {
       text-align: center;
       @include primary-black-12-12-20;
+      color: $color__purple-dark;
       text-transform: uppercase;
+      span {
+        @include primary-black-12-12-20;
+      }
       b {
         display: block;
         padding-top: rem(6);
@@ -1592,7 +1597,7 @@
       a,
       span {
         @include primary-black-16-16-20;
-        color: $color__white;
+        color: $color__blue;
         text-transform: uppercase;
         text-decoration: none;
         max-width: 20em;
@@ -1618,7 +1623,7 @@
         }
         &:focus,
         &:hover {
-          color: $color__pink;
+          color: $color__purple;
         }
       }
     }
@@ -1630,7 +1635,7 @@
         height: rem(10);
         overflow: hidden;
         border-radius: 50%;
-        background: #c25cb6;
+        background: $color__purple-lightish;
         text-indent: 999%;
       }
     }
