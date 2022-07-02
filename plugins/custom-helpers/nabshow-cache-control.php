@@ -22,6 +22,8 @@ require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
 require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
 
+require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/reverse-proxy/config-reverse-proxy.php';
+
 use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
 use Automattic\VIP\Cache\Vary_Cache;
 class NabshowCacheControl extends Vary_Cache
@@ -107,8 +109,6 @@ class NabshowCacheControl extends Vary_Cache
 
         $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
-        
-        add_action('send_headers', 'send_frame_options_header', 10, 0);
 
         return $headers;
 

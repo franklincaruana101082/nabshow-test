@@ -1,7 +1,6 @@
 <?php
 
 
-
 if ( (!empty( $_SERVER['HTTP_X_FORWARDED_HOST'])) ||
      (!empty( $_SERVER['HTTP_X_FORWARDED_FOR'])) ) {
     $_SERVER['HTTPS'] = 'on';
@@ -9,25 +8,26 @@ if ( (!empty( $_SERVER['HTTP_X_FORWARDED_HOST'])) ||
 
 # ProxyPass Settings
 # overrides the variables below to ensure that any
-# request to /nabshow/* subdirectory is taken care of properly
-$_SERVER['REQUEST_URI'] = '/nabshow' . $_SERVER['REQUEST_URI'];
-$_SERVER['SCRIPT_NAME'] = '/nabshow' . $_SERVER['SCRIPT_NAME'];
-$_SERVER['PHP_SELF'] = '/nabshow' . $_SERVER['PHP_SELF'];
+# request to /2022/* subdirectory is taken care of properly
+$_SERVER['REQUEST_URI'] = '/2022' . $_SERVER['REQUEST_URI'];
+$_SERVER['SCRIPT_NAME'] = '/2022' . $_SERVER['SCRIPT_NAME'];
+$_SERVER['PHP_SELF'] = '/2022' . $_SERVER['PHP_SELF'];
 
 
 // A constant defining an array of allowed IP addresses and/or CIDRs
 
 // which equate to the possible IP addresses of your Remote Proxy
 
-// define( ‘MY_PROXY_IP_ALLOW_LIST’, [
+define( ‘MY_PROXY_IP_ALLOW_LIST’, [
 
-//     ‘1.2.3.4/20’,
+    // ‘1.2.3.4/20’,
 
-//     ‘5.6.7.8/20’,
+    // ‘5.6.7.8/20’,
 
-//     ‘2.3.4.5’,
+    // ‘2.3.4.5’,
+    "192.168.1.7"
 
-// ] );
+] );
 
 $proxy_lib = ABSPATH . ‘/wp-content/mu-plugins/lib/proxy/ip-forward.php’;
 
@@ -45,7 +45,8 @@ if ( ! empty( $_SERVER[‘HTTP_TRUE_CLIENT_IP’] )
 
         $_SERVER[‘HTTP_TRUE_CLIENT_IP’],
 
-        $_SERVER[‘HTTP_X_VIP_PROXY_VERIFICATION’]
+        $_SERVER[‘HTTP_X_VIP_PROXY_VERIFICATION’],
+        ‘MY_PROXY_IP_ALLOW_LIST’
 
     );
 
