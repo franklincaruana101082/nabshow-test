@@ -66,5 +66,27 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 
 
 define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
+
+define( 'VIP_MAINTENANCE_MODE', true );
+
+function x_maybe_enable_maintenance_mode() {
+
+	$maintenance_bypass_secret = 'd7a759f7b707162eb42518fa34b01ef18ab5600d8937faf95d2f5c8e08bd83da7edcdeb838d2c0fa';
+
+	$enable_maintenance_mode = true;
+
+	if ( isset( $_COOKIE['vip-go-seg'] )
+		&& hash_equals( $maintenance_bypass_secret, $_COOKIE['vip-go-seg'] ) ) {
+		// Don't enable if the request has our secret key.
+		$enable_maintenance_mode = false;
+	}
+
+	define( 'VIP_MAINTENANCE_MODE', $enable_maintenance_mode );
+
+	// header( 'Vary: X-VIP-Go-Segmentation', false );
+}
+
+x_maybe_enable_maintenance_mode();
+
 // define('VIP_GO_AUTH_COOKIE_KEY', ''); 
 // define('VIP_GO_AUTH_COOKIE_IV', '');

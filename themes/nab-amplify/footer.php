@@ -10,6 +10,8 @@
  * @package Amplify
  */
 
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+
 $privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
 $write_key		= get_option( 'segment_tracking_api_key' );
 
@@ -87,6 +89,10 @@ $write_key		= get_option( 'segment_tracking_api_key' );
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-600ec7b9fa93e668"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
+<?php
+$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
+if($isReachable){
+?>
 <script type="text/javascript">
   adroll_adv_id = "SSH5IDWJB5GCXDVUNY5AIZ";
   adroll_pix_id = "NJDQ2IYGJFGXDCSYUXCS3O";
@@ -114,7 +120,9 @@ $write_key		= get_option( 'segment_tracking_api_key' );
   })(window, document);
   adroll.track("pageView");
 </script>
-
+<?php 
+}
+?>
 <script type="text/javascript">
   (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
   (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);

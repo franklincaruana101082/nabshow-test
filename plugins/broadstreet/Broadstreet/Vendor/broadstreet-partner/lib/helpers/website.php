@@ -1,10 +1,10 @@
 <?php
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+// use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
 
 function bs_setup()
 {
-    UrlCacheControl::register_nabshow_session();
+    // UrlCacheControl::register_nabshow_session();
 }//end bs_setup()
 
 
