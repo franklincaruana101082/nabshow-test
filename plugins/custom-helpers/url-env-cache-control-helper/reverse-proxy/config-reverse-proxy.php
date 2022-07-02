@@ -18,16 +18,16 @@ if ( (!empty( $_SERVER['HTTP_X_FORWARDED_HOST'])) ||
 
 // which equate to the possible IP addresses of your Remote Proxy
 
-define( ‘MY_PROXY_IP_ALLOW_LIST’, [
+// define( ‘MY_PROXY_IP_ALLOW_LIST’, [
 
-    // ‘1.2.3.4/20’,
+//     // ‘1.2.3.4/20’,
 
-    // ‘5.6.7.8/20’,
+//     // ‘5.6.7.8/20’,
 
-    // ‘2.3.4.5’,
-    "192.168.1.7"
+//     // ‘2.3.4.5’,
+//     "192.168.1.7"
 
-] );
+// ] );
 
 $proxy_lib = ABSPATH . ‘/wp-content/mu-plugins/lib/proxy/ip-forward.php’;
 
@@ -46,7 +46,7 @@ if ( ! empty( $_SERVER[‘HTTP_TRUE_CLIENT_IP’] )
         $_SERVER[‘HTTP_TRUE_CLIENT_IP’],
 
         $_SERVER[‘HTTP_X_VIP_PROXY_VERIFICATION’],
-        ‘MY_PROXY_IP_ALLOW_LIST’
+        // ‘MY_PROXY_IP_ALLOW_LIST’
 
     );
 
