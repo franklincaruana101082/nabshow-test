@@ -12,6 +12,9 @@ if ( (!empty( $_SERVER['HTTP_X_FORWARDED_HOST'])) ||
 $_SERVER['REQUEST_URI'] = '/2022' . $_SERVER['REQUEST_URI'];
 $_SERVER['SCRIPT_NAME'] = '/2022' . $_SERVER['SCRIPT_NAME'];
 $_SERVER['PHP_SELF'] = '/2022' . $_SERVER['PHP_SELF'];
+$_SERVER['REQUEST_URI'] = '/amplify' . $_SERVER['REQUEST_URI'];
+$_SERVER['SCRIPT_NAME'] = '/amplify' . $_SERVER['SCRIPT_NAME'];
+$_SERVER['PHP_SELF'] = '/amplify' . $_SERVER['PHP_SELF'];
 
 
 // A constant defining an array of allowed IP addresses and/or CIDRs
