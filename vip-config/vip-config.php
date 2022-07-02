@@ -70,23 +70,29 @@ define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94m
 define( 'VIP_MAINTENANCE_MODE', true );
 
 function x_maybe_enable_maintenance_mode() {
-
+	// Generate using something like `openssl rand -hex 40`.
+	// This is a secret value shared with our test provider.
 	$maintenance_bypass_secret = 'd7a759f7b707162eb42518fa34b01ef18ab5600d8937faf95d2f5c8e08bd83da7edcdeb838d2c0fa';
 
+	// Enabled by default but disabled conditionally below.
 	$enable_maintenance_mode = true;
-
-	if ( isset( $_COOKIE['vip-go-seg'] )
+	if ( ! defined( 'VIP_GO_ENV' ) ) {
+		// Don't enable for non-VIP environments.
+		$enable_maintenance_mode = false;
+	} elseif ( isset( $_COOKIE['vip-go-seg'] )
+		// phpcs:ignore WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE
 		&& hash_equals( $maintenance_bypass_secret, $_COOKIE['vip-go-seg'] ) ) {
 		// Don't enable if the request has our secret key.
 		$enable_maintenance_mode = false;
 	}
 
+	// Enable maintenance mode if needed.
 	define( 'VIP_MAINTENANCE_MODE', $enable_maintenance_mode );
 
-	// header( 'Vary: X-VIP-Go-Segmentation', false );
+	// Make sure our reverse proxy respects the cookie.
+	header( 'Vary: X-VIP-Go-Segmentation', false );
 }
 
 x_maybe_enable_maintenance_mode();
-
 // define('VIP_GO_AUTH_COOKIE_KEY', ''); 
 // define('VIP_GO_AUTH_COOKIE_IV', '');
