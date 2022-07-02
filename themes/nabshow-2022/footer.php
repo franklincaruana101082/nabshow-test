@@ -9,6 +9,8 @@
  * @package NABShow_LV
  */
 
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+
 ?>
 </div><?php //close <div data-swiftype-name="body" data-swiftype-type="text"> ?>
   <footer class="footer">
@@ -42,7 +44,12 @@
 </div><!-- #page -->
 
 
-<?php wp_footer(); ?>
+<?php 
+wp_footer();
+
+$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
+if($isReachable){
+?>
 <script type="text/javascript">
     adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
     adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
@@ -70,5 +77,8 @@
     })(window, document);
     adroll.track("pageView");
 </script>
+<?php 
+}
+?>
 </body>
 </html>

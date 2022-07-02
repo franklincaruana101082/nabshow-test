@@ -54,8 +54,12 @@
 <!-- Back To Top -->
 <div class="back-to-top"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
 <!-- Back To Top -->
-*/ ?>
-<?php wp_footer(); ?>
+*/ 
+wp_footer();
+
+$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
+if($isReachable){
+?>
 <script type="text/javascript">
     adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
     adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
@@ -83,5 +87,8 @@
     })(window, document);
     adroll.track("pageView");
 </script>
+<?php 
+}
+?>
 </body>
 </html>

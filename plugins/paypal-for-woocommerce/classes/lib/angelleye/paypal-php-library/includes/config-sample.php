@@ -12,9 +12,7 @@ date_default_timezone_set('America/Chicago');
  * Enable Sessions
   * Checks to see if a session_id exists.  If not, a new session is started.
  */
-if (!session_id()) {
-    UrlCacheControl::register_nabshow_session();
-}
+UrlCacheControl::register_nabshow_session();
 
 /*
  * Sandbox Mode - TRUE/FALSE
