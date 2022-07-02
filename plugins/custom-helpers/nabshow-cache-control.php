@@ -109,6 +109,8 @@ class NabshowCacheControl extends Vary_Cache
 
         $headers['X-hacker'] = 'modified by Frank';
         $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
+        
+        add_action('send_headers', 'send_frame_options_header', 10, 0);
 
         return $headers;
 
