@@ -166,12 +166,13 @@ class UrlCacheControl
         // Set the max age 5 minutes.
         header('Cache-Control: no-cache no-store max-age=0');
     }
-    public static function wp_add_cache_param($mins=86400)
+    public static function wp_add_cache_param()
     {
-        header('Cache-Control: max-age='.$mins);
+        header('Cache-Control: max-age=86400');
         header('Pragma: public');
         header('Content-Type: text/html; charset=' . get_option('blog_charset'));
         header('X-Robots-Tag: noindex');
+        header('Vary: cookie');
     }
 
     public static function remove_cache_headers_for_404()

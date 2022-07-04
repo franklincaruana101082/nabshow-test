@@ -26,28 +26,44 @@ use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 use Automattic\VIP\Cache\Vary_Cache;
 class NabshowCacheControl
 {
+    /**
+     * The page identifier used in WordPress to register the MyYoast proxy page.
+     *
+     * @var string
+     */
+    const PAGE_IDENTIFIER = 'nabshow_page_proxy';
+
+    /**
+     * The cache control's max age. Used in the header of a successful proxy response.
+     *
+     * @var int
+     */
+    const CACHE_CONTROL_MAX_AGE = DAY_IN_SECONDS;   
 
 
     public function __construct()
-    {
+    {   
+          
         Vary_Cache::register_group('nabshow');   
-        $this->init_enqueue_scripts();     
+        $this->init_enqueue_scripts();  
 
     }//end __construct()
 
 
     public function init_enqueue_scripts()
     {        
-        add_action('wp_headers', [ $this, 'nabshow_send_headers'], 999); 
-        add_action('init', [ $this, 'set_vary_cache_init' ]);    
-        add_action('init', [ $this, 'prevent_broken_link_load' ]);
+         
+        // add_action('init', [ $this, 'set_vary_cache_init' ]);    
+        // add_action('init', [ $this, 'prevent_broken_link_load' ]);
+        add_action('send_headers', [ $this, 'nabshow_send_headers' ], 999);  
         add_action('init', [ $this, 'set_extra_js_scripts' ]);   
+        // add_action('init', [ $this, 'set_extra_js_scripts' ]);   
     }//end init_enqueue_scripts()
 
     public function set_vary_cache_init()
     {
 
-        $is_user_in_nabshow = Vary_Cache::is_user_in_group_segment('nabshow', 'yes');
+        $is_user_in_nabshow = Vary_Cache::is_user_in_group('nabshow', 'yes');
         if (!$is_user_in_nabshow ) {
             Vary_Cache::set_group_for_user('nabshow', 'yes');
 
@@ -98,21 +114,20 @@ class NabshowCacheControl
         );
     }
 
-    public function nabshow_send_headers($headers)
+    public function nabshow_send_headers()
     {        
-        send_origin_headers();
-        UrlCacheControl::remove_session_from_curl();
-        UrlCacheControl::wp_add_cache_param();        
-        send_nosniff_header();
-        nocache_headers();
-        status_header(200);
+        remove_action( 'wp_head', 'wp_generator' );
 
-        return $headers;
+        UrlCacheControl::remove_session_from_curl();
+        UrlCacheControl::wp_add_cache_param();
+
+        send_origin_headers();
+        send_nosniff_header();
     }
     public function set_extra_js_scripts()
-    {
+    {  
         wp_enqueue_script('verify-url-exist', plugin_dir_url(__DIR__).'custom-helpers/url-env-cache-control-reverse-proxy-helper/js/verify-url-exist.js');
-        wp_localize_script('verify-url-exist', 'verifyUrlExistJS', array( ));        
+        wp_localize_script('verify-url-exist', 'verifyUrlExistJS', array( ));      
     }
 }//end class
 
