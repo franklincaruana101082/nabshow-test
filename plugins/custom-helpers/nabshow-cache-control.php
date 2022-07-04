@@ -42,7 +42,7 @@ class NabshowCacheControl extends Vary_Cache
     {        
         add_action( 'init', [ $this, 'set_vary_cache_init' ] );
         add_action( 'wp_headers',[ $this, 'nabshow_send_headers'], 999 );        
-        $this->prevent_broken_link_load();
+        add_action( 'init', [ $this, 'prevent_broken_link_load' ]);
     }//end init_enqueue_scripts()
 
     public function set_vary_cache_init() {
