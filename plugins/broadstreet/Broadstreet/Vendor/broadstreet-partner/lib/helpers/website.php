@@ -1,10 +1,10 @@
 <?php
 
-// session_start();
+// use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 function bs_setup()
 {
-    
+    // UrlCacheControl::register_nabshow_session();
 }//end bs_setup()
 
 

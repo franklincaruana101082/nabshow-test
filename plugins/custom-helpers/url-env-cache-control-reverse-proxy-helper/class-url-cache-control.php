@@ -114,8 +114,7 @@ class UrlCacheControl
 
         $isItInArr = in_array($urlverify['code'], [0,200,302]);
 
-        if($urlverify['isReachable'] && $isItInArr) { return true;
-        }
+        if($urlverify['isReachable'] && $isItInArr) return true;
 
         
         return false;
@@ -159,13 +158,11 @@ class UrlCacheControl
     {
         header('Cache-Control: max-age=86400');
         header('Pragma: public');
-        header('X-Robots-Tag: noindex');
-        header('Vary: cookie');
     }
 
     public static function update_header_sent_wo_phpsessid()
     {   
-        header("Set-Cookie: OH.. Not Sure! if your'e using curl command now? but usually this is the result. Value of set-cookie is this message itself. Try Checking it out via browser's dev-tools");
+        
         
         $set_cookie = null;
         $headers = self::get_HTTP_request_headers();
@@ -180,10 +177,18 @@ class UrlCacheControl
             }
         }
 
-        
-        $headers['Cookie'] = stripslashes(json_encode($set_cookie));
-        
+        if(!empty($set_cookie)){ $headers['Cookie'] = stripslashes(json_encode($set_cookie));
+        }else{ 
+            header("Set-Cookie: Hello there.. Not Sure! if your'e using curl command now or not? but usually this is the result. Value of set-cookie is this message itself. It's intended for security reasons. Try Checking it out via browser's dev-tools. Thanks!");
+        }
         return $headers;
+    }
+    public static function register_nabshow_session()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            // session_start(['use_only_cookies' => 1]);
+            @session_start();
+        }
     }
 
     public static function set_cache_headers_with_etags($mins=3600,$content_last_mod_time = 1520949851)
