@@ -10,7 +10,7 @@
  * @package Amplify
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
  switch_to_blog('4');
 ?>

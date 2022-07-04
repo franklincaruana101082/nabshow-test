@@ -9,7 +9,7 @@
  * @package NABShow_LV
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 ?>
 </div><?php //close <div data-swiftype-name="body" data-swiftype-type="text"> ?>

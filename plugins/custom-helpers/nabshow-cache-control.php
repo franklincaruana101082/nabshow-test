@@ -20,9 +20,9 @@ if (! defined('ABSPATH')) {
 // Load the VIP Vary_Cache class
 require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
-require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-helper/class-url-cache-control.php';
+require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php';
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 use Automattic\VIP\Cache\Vary_Cache;
 class NabshowCacheControl extends Vary_Cache
 {
@@ -38,10 +38,10 @@ class NabshowCacheControl extends Vary_Cache
 
     public function init_enqueue_scripts()
     {        
-        add_filter('wp_headers', [ $this, 'set_cache_headers_for_404']);
-        add_action( 'init', [ $this, 'set_vary_cache_init' ] );
+        // add_filter('wp_headers', [ $this, 'set_cache_headers_for_404']);
+        // add_action( 'init', [ $this, 'set_vary_cache_init' ] );
         add_action( 'init', [ $this, 'set_nabshow_options_header' ], 999 );
-        add_filter('wp_headers', [ $this, 'prevent_broken_link_load'], 999);
+        // add_filter('wp_headers', [ $this, 'prevent_broken_link_load'], 999);
         add_filter('wp_headers', [ $this, 'set_verify_url_exist_js'], 999);
     }//end init_enqueue_scripts()
 
@@ -52,10 +52,10 @@ class NabshowCacheControl extends Vary_Cache
 
             // Redirect back to the same page (per the POST-REDIRECT-GET pattern).
             // Please note the use of the `vip_vary_cache_did_send_headers` action.
-            add_action( 'vip_vary_cache_did_send_headers', function() {
-                wp_safe_redirect( add_query_arg( '' ) );
-                exit;
-            } );
+            // add_action( 'vip_vary_cache_did_send_headers', function() {
+            //     wp_safe_redirect( add_query_arg( '' ) );
+            //     exit;
+            // } );
         }
     }
 

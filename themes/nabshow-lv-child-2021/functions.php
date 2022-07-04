@@ -1,6 +1,6 @@
 <?php
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 /**
  * NABShow LV Child 2021 functions and definitions
