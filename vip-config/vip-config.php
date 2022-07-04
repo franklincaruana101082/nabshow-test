@@ -15,9 +15,13 @@
  *
  * - The WordPress.com VIP Team
  **/
-// define( 'WP_DEBUG', true );
+// define( 'WP_DEBUG', false );
 
-define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
+define( 'VIP_GO_APP_ENVIRONMENT', 'develop' );
+define( 'WPCOM_IS_VIP_ENV', true );
+// define( 'WP_TESTS_MULTISITE', 1 );
+// define( 'WP_TESTS_DOMAIN', 'nabshow.vipdev.lndo.site' );
+define( 'VIP_GO_ENV', 'develop' );
 
 
 /**
@@ -65,3 +69,8 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
+
+define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
+
+require_once(ABSPATH.'wp-content/plugins/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php');
+require_once(ABSPATH.'wp-content/plugins/custom-helpers/url-env-cache-control-reverse-proxy-helper/vary-cache/config-vary-cache.php');
