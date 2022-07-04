@@ -5,8 +5,6 @@
 
 namespace codexpert\Share_Logins;
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
-
 /*
  * if accessed directly, exit.
  */
@@ -30,7 +28,10 @@ class Schedule extends Hooks
     {
         $this->name   = $plugin['Name'];
         $this->ncrypt = ncrypt();
-        UrlCacheControl::register_nabshow_session();
+        if (session_status() == PHP_SESSION_NONE) {
+            // @session_start(['use_only_cookies' => 1]);
+            @session_start();
+        }
 
     }//end __construct()
 

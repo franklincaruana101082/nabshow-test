@@ -8,7 +8,7 @@ function registerCometChatProSession()
 {
     if (!session_id() ) {
         session_id();
-        UrlCacheControl::register_nabshow_session();
+        @session_start();
     }
 }
 

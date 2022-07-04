@@ -4,15 +4,16 @@
  * List of Supported Timezones: http://www.php.net/manual/en/timezones.php
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
-
 date_default_timezone_set('America/Chicago');
 
 /*
  * Enable Sessions
   * Checks to see if a session_id exists.  If not, a new session is started.
  */
-UrlCacheControl::register_nabshow_session();
+if (session_status() == PHP_SESSION_NONE) {
+    // session_start(['use_only_cookies' => 1]);
+    @session_start();
+}
 
 /*
  * Sandbox Mode - TRUE/FALSE

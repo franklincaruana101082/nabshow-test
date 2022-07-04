@@ -117,7 +117,6 @@ class UrlCacheControl
         if($urlverify['isReachable'] && $isItInArr) { return true;
         }
 
-        self::remove_cache_headers_for_404();
         
         return false;
     }
@@ -133,9 +132,7 @@ class UrlCacheControl
                 }else{
                     wp_enqueue_style($key, self::AppendTimeToUrl($url[0], $i++));
                 }
-            } else {
-                self::remove_cache_headers_for_404();
-            }
+            } 
         }
     }
 
@@ -149,9 +146,7 @@ class UrlCacheControl
                 } else {
                     wp_enqueue_script($key, self::AppendTimeToUrl($url[0], $i++));
                 }
-            } else {
-                self::remove_cache_headers_for_404();
-            }
+            } 
         }
     }
 
@@ -160,38 +155,34 @@ class UrlCacheControl
         // Set the max age 5 minutes.
         header('Cache-Control: max-age='.($mins * MINUTE_IN_SECONDS));
     }
-
-    public static function wp_add_header_no_cache()
-    {
-        // Set the max age 5 minutes.
-        header('Cache-Control: no-cache no-store max-age=0');
-    }
     public static function wp_add_cache_param()
     {
         header('Cache-Control: max-age=86400');
         header('Pragma: public');
-        header('Content-Type: text/html; charset=' . get_option('blog_charset'));
         header('X-Robots-Tag: noindex');
         header('Vary: cookie');
     }
 
-    public static function remove_cache_headers_for_404()
-    {
-        // Cleaner permalink options
-        add_filter('got_url_rewrite', '__return_true');
-        nocache_headers();
-    }
+    public static function update_header_sent_wo_phpsessid()
+    {   
+        $set_cookie = null;
+        $headers = self::get_HTTP_request_headers();
+        foreach ($headers as $key => $value) {
+            if(!empty($value) && !is_array($value)) {  $headers[$key] = "" . stripslashes($value);
+            }
+            
+            if($key === "Cookie") {
+                
+                $set_cookie = preg_replace('/(PHPSESSID=[A-Za-z0-9]+\;)/', '', $value); // Remove PHPSESSID value from header
 
-    public static function remove_session_from_curl()
-    {    
-        header("Set-Cookie: No cookie here due to security reason. Thanks!");
-    }
-    public static function register_nabshow_session()
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            // session_start(['use_only_cookies' => 1]);
-            @session_start();
+                break;
+            }
         }
+
+        if(!empty($set_cookie)) { $headers['Cookie'] = json_encode($set_cookie);
+        }
+        
+        return $headers;
     }
 
     public static function set_cache_headers_with_etags($mins=3600,$content_last_mod_time = 1520949851)
@@ -219,6 +210,18 @@ class UrlCacheControl
                 exit();
             }
         }
+    }
+    public static function get_HTTP_request_headers()
+    {
+        $HTTP_headers = array();
+        foreach($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) <> 'HTTP_') {
+                continue;
+            }
+            $single_header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
+            $HTTP_headers[$single_header] = $value;
+        }
+        return $HTTP_headers;
     }
 }
 
