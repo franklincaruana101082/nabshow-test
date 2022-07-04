@@ -12,15 +12,15 @@
 
 namespace Plugins\CustomHelpers;
 
-require_once WPMU_PLUGIN_DIR . '/misc.php';
+require_once( WPMU_PLUGIN_DIR . '/misc.php' );
 
 // Load the VIP Vary_Cache class
-require_once WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php';
+require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
-require_once WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/vary-cache/config-vary-cache.php';
-require_once WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php';
+require_once( WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-reverse-proxy-helper/vary-cache/config-vary-cache.php' );
+require_once( WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php' );
 
-require_once WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php';
+require_once( WP_PLUGIN_DIR . '/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php' );
 
 use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 use Automattic\VIP\Cache\Vary_Cache;
@@ -105,7 +105,7 @@ class NabshowCacheControl
         UrlCacheControl::wp_add_cache_param();        
         send_nosniff_header();
         nocache_headers();
-        status_header( 200 );
+        status_header(200);
 
         return $headers;
     }
