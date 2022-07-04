@@ -47,9 +47,7 @@ if (! empty($IP) && file_exists($proxy_lib) ) {
 
     include_once $proxy_lib;
 
-    $res = Automattic\VIP\Proxy\fix_remote_address($IP, $httpxforwardedfor, PROXY_IP_ALLOW_LIST);
-    
-    error_log(json_encode($rec));
+    Automattic\VIP\Proxy\fix_remote_address($IP, $httpxforwardedfor, PROXY_IP_ALLOW_LIST);
 
 }
 // phpcs:enable
