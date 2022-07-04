@@ -179,7 +179,7 @@ class UrlCacheControl
 
         if(!empty($set_cookie)){ $headers['Cookie'] = stripslashes(json_encode($set_cookie));
         }else{ 
-            header("Set-Cookie: Hello there.. Not Sure! if your'e using curl command now or not? but usually this is the result. Value of set-cookie is this message itself. It's intended for security reasons. Try Checking it out via browser's dev-tools. Thanks!");
+            header("Set-Cookie: Hello there. PHP Session Id (PHPSESSID) is not included here for security reason. Thanks!");
         }
         return $headers;
     }
