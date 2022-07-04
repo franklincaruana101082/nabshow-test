@@ -4,7 +4,8 @@
 
 // which equate to the possible IP addresses of your Remote Proxy
 
-define( 'PROXY_IP_ALLOW_LIST', [
+define(
+    'PROXY_IP_ALLOW_LIST', [
 
     // ‘1.2.3.4/20’,
 
@@ -18,4 +19,5 @@ define( 'PROXY_IP_ALLOW_LIST', [
     '172.22.0.1',
     '172.22.0.2'
 
-]);
+     ]
+);
