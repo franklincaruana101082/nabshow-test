@@ -43,9 +43,9 @@ $proxy_lib = ABSPATH . ‘/wp-content/mu-plugins/lib/proxy/ip-forward.php’;
 
 if (! empty($IP) && file_exists($proxy_lib) ) {
 
-    include_once __DIR__ . ‘/remote-proxy-ips.php’;
+    require_once( __DIR__ . ‘/remote-proxy-ips.php’ );
 
-    include_once $proxy_lib;
+    require_once( $proxy_lib );
 
     Automattic\VIP\Proxy\fix_remote_address($IP, $httpxforwardedfor, PROXY_IP_ALLOW_LIST);
 
