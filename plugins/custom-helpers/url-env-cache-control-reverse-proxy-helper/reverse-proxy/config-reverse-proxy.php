@@ -5,7 +5,7 @@ if (! defined('ABSPATH')) {
     // Exit if accessed directly.
 }
 
-$IP = '127.0.0.1';
+$IP = null;
 // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized — Validated in the function call.
 if(!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
     $IP = $_SERVER['HTTP_CF_CONNECTING_IP'];
