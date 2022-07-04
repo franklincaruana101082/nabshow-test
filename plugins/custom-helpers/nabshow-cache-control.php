@@ -99,11 +99,13 @@ class NabshowCacheControl
     }
 
     public function nabshow_send_headers($headers)
-    {
+    {        
         send_origin_headers();
         UrlCacheControl::remove_session_from_curl();
         UrlCacheControl::wp_add_cache_param();        
         send_nosniff_header();
+        nocache_headers();
+        status_header( 200 );
 
         return $headers;
     }

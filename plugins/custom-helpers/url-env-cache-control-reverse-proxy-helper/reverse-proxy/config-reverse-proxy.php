@@ -21,8 +21,6 @@ $httpxforwardedfor = $IP;
 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $httpxforwardedfor = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
-else if (!empty(getenv('HTTP_X_FORWARDED_FOR'))) { $httpxforwardedfor = getenv('HTTP_X_FORWARDED_FOR');
-}
 
 $httpxvipproxyverification = null;
 if (!empty(defined('HTTP_X_VIP_PROXY_VERIFICATION'))) {
@@ -43,11 +41,12 @@ if ((isset($_SERVER['HTTP_X_FORWARDED_HOST']))
 // $_SERVER['SCRIPT_NAME'] = '/2022' . $_SERVER['SCRIPT_NAME'];
 // $_SERVER['PHP_SELF'] = '/2022' . $_SERVER['PHP_SELF'];
 
-$proxy_lib = ABSPATH . ‘/wp-content/mu-plugins/lib/proxy/ip-forward.php’;
+$proxy_lib = ABSPATH . "/wp-content/mu-plugins/lib/proxy/ip-forward.php";
+$proxy_ip_allow_list = __DIR__ . "/remote-proxy-ips.php";
 
 if (! empty($IP) && file_exists($proxy_lib) ) {
 
-    require_once( __DIR__ . ‘/remote-proxy-ips.php’ );
+    require_once( $proxy_ip_allow_list );
 
     require_once( $proxy_lib );
 
