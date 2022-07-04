@@ -100,7 +100,6 @@ class NabshowCacheControl extends Vary_Cache
     }
 
     public function nabshow_send_headers(){
-        remove_action('wp_head', 'wp_generator');
         send_origin_headers();
         UrlCacheControl::remove_session_from_curl();
         UrlCacheControl::wp_add_cache_param();
