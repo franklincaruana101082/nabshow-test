@@ -4,7 +4,7 @@
  * List of Supported Timezones: http://www.php.net/manual/en/timezones.php
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 date_default_timezone_set('America/Chicago');
 

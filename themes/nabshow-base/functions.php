@@ -4,7 +4,7 @@
  *
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 //************BEGIN Stuff from former parent theme functions file
 

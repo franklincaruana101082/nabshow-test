@@ -4,7 +4,7 @@
  * All theme setup functions located this file
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 if ( ! function_exists( 'nabshow_lv_setup' ) ) :
     /**

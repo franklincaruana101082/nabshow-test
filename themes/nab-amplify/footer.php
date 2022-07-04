@@ -10,7 +10,7 @@
  * @package Amplify
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 $privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
 $write_key		= get_option( 'segment_tracking_api_key' );

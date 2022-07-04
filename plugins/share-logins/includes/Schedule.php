@@ -5,7 +5,7 @@
 
 namespace codexpert\Share_Logins;
 
-use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
+use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 /*
  * if accessed directly, exit.
