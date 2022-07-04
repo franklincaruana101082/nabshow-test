@@ -41,7 +41,8 @@ class NabshowCacheControl extends Vary_Cache
     public function init_enqueue_scripts()
     {        
         add_action( 'init', [ $this, 'set_vary_cache_init' ] );
-        add_action( 'wp_headers',[ $this, 'nabshow_send_headers'], 999 );
+        add_action( 'wp_headers',[ $this, 'nabshow_send_headers'], 999 );        
+        $this->prevent_broken_link_load();
     }//end init_enqueue_scripts()
 
     public function set_vary_cache_init() {
@@ -61,15 +62,6 @@ class NabshowCacheControl extends Vary_Cache
             } );
         }
     }
-
-	public function set_cache_headers_for_404(){
-		UrlCacheControl::remove_cache_headers_for_404();
-	}
-
-	public function wp_enqueue_scripts(){
-        wp_enqueue_script('verify-url-exist', plugin_dir_url(__DIR__).'custom-helpers/url-env-cache-control-reverse-proxy-helper/js/verify-url-exist.js');
-        wp_localize_script('verify-url-exist', 'verifyUrlExistJS', array( ));
-	}
 
     public function prevent_broken_link_load( ){
         ob_start();
@@ -110,23 +102,6 @@ class NabshowCacheControl extends Vary_Cache
         nocache_headers();
         status_header( 200 );
     }
-
-    public function set_nabshow_options_header( $headers )
-    {  
-        remove_action('wp_head', 'wp_generator');
-        
-        UrlCacheControl::wp_add_cache_param();
-        UrlCacheControl::set_cache_headers_with_etags();
-        UrlCacheControl::remove_session_from_curl();        
-
-        $headers['X-hacker'] = 'modified by Frank';
-        $headers['X-Powered-By'] = 'Crush & Lovely <https://crushlovely.com>';
-        
-        add_action('send_headers', 'send_frame_options_header', 10, 0);
-
-        return $headers;
-
-    }//end set_nabshow_frame_options_header()
 }//end class
 
 new NabshowCacheControl();
