@@ -12,7 +12,7 @@ date_default_timezone_set('America/Chicago');
  */
 if (session_status() == PHP_SESSION_NONE) {
     // session_start(['use_only_cookies' => 1]);
-    @session_start();
+    session_start();
 }
 
 /*
