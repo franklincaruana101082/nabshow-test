@@ -18,5 +18,6 @@
  * wpcom_vip_load_plugin only loads plugins from the `WP_PLUGIN_DIR` directory.
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
+require_once( WP_PLUGIN_DIR . "/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php" );
 
 wpcom_vip_load_plugin('custom-helpers/nabshow-cache-control.php');
