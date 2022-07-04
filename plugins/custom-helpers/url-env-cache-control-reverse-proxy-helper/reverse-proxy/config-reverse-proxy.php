@@ -11,16 +11,14 @@ if(!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
     $IP = $_SERVER['HTTP_CF_CONNECTING_IP'];
 } else if(!empty($_SERVER['REMOTE_ADDR'])) {
     $IP = $_SERVER['REMOTE_ADDR'];
-}
-
-if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+} else if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $IP = $_SERVER['HTTP_CLIENT_IP'];
-} else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+} else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
 
 $httpxforwardedfor = $IP;
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $httpxforwardedfor = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
 else if (!empty(getenv('HTTP_X_FORWARDED_FOR'))) { $httpxforwardedfor = getenv('HTTP_X_FORWARDED_FOR');
