@@ -39,24 +39,25 @@ class NabshowCacheControl extends Vary_Cache
 
     public function init_enqueue_scripts()
     {        
-        // add_filter('wp_headers', [ $this, 'set_cache_headers_for_404']);
-        // add_action( 'init', [ $this, 'set_vary_cache_init' ] );
+        add_action( 'init', [ $this, 'set_vary_cache_init' ] );
         add_action( 'wp_headers',[ $this, 'nabshow_send_headers'], 999 );
-        // add_filter('wp_headers', [ $this, 'prevent_broken_link_load'], 999);
-        add_filter('wp_headers', [ $this, 'set_verify_url_exist_js'], 999);
     }//end init_enqueue_scripts()
 
     public function set_vary_cache_init() {
+
+        wp_enqueue_script('verify-url-exist', plugin_dir_url(__DIR__).'custom-helpers/url-env-cache-control-reverse-proxy-helper/js/verify-url-exist.js');
+        wp_localize_script('verify-url-exist', 'verifyUrlExistJS', array( ));
+
         $is_user_in_nabshow = Vary_Cache::is_user_in_group_segment( 'nabshow', 'yes' );
         if ( !$is_user_in_nabshow ) {
             self::set_group_for_user( 'nabshow', 'yes' );
 
             // Redirect back to the same page (per the POST-REDIRECT-GET pattern).
             // Please note the use of the `vip_vary_cache_did_send_headers` action.
-            // add_action( 'vip_vary_cache_did_send_headers', function() {
-            //     wp_safe_redirect( add_query_arg( '' ) );
-            //     exit;
-            // } );
+            add_action( 'vip_vary_cache_did_send_headers', function() {
+                wp_safe_redirect( add_query_arg( '' ) );
+                exit;
+            } );
         }
     }
 
@@ -64,9 +65,9 @@ class NabshowCacheControl extends Vary_Cache
 		UrlCacheControl::remove_cache_headers_for_404();
 	}
 
-	public function set_verify_url_exist_js(){
-        wp_enqueue_script('verify-url-exist-js', plugin_dir_url(__DIR__).'custom-helpers/url-env-cache-control-helper/js/verify-url-exist.js');
-        wp_localize_script('verify-url-exist-js', 'verifyUrlExistJS', array( ));
+	public function wp_enqueue_scripts(){
+        wp_enqueue_script('verify-url-exist', plugin_dir_url(__DIR__).'custom-helpers/url-env-cache-control-reverse-proxy-helper/js/verify-url-exist.js');
+        wp_localize_script('verify-url-exist', 'verifyUrlExistJS', array( ));
 	}
 
     public function prevent_broken_link_load( ){
@@ -99,13 +100,14 @@ class NabshowCacheControl extends Vary_Cache
     }
 
     public function nabshow_send_headers(){
-        // send_origin_headers();
+        remove_action('wp_head', 'wp_generator');
+        send_origin_headers();
         UrlCacheControl::remove_session_from_curl();
         UrlCacheControl::wp_add_cache_param();
         @header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
         @header( 'X-Robots-Tag: noindex' );
         send_nosniff_header();
-        // nocache_headers();
+        nocache_headers();
         status_header( 200 );
     }
 
