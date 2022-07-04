@@ -72,5 +72,3 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 
 define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
 
-require_once(ABSPATH.'wp-content/plugins/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php');
-require_once(ABSPATH.'wp-content/plugins/custom-helpers/url-env-cache-control-reverse-proxy-helper/vary-cache/config-vary-cache.php');

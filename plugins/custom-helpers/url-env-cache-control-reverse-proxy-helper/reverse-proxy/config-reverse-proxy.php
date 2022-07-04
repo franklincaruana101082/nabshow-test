@@ -1,8 +1,11 @@
 <?php
 
+if (! defined('ABSPATH')) {
+    exit;
+    // Exit if accessed directly.
+}
 // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized — Validated in the function call.
-
-$IP = !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+$IP = !empty($_SERVER['HTTP_CF_CONNECTING_IP']) ? $_SERVER['HTTP_CF_CONNECTING_IP'] : $_SERVER['REMOTE_ADDR'];
 
 if (isset($_SERVER['HTTP_CLIENT_IP'])) {
     $IP = $_SERVER['HTTP_CLIENT_IP'];
@@ -34,7 +37,8 @@ if ( (isset( $_SERVER['HTTP_X_FORWARDED_HOST'])) ||
 // $_SERVER['SCRIPT_NAME'] = '/2022' . $_SERVER['SCRIPT_NAME'];
 // $_SERVER['PHP_SELF'] = '/2022' . $_SERVER['PHP_SELF'];
 
-$proxy_lib = WPMU_PLUGIN_DIR . ‘/lib/proxy/ip-forward.php’;
+$proxy_lib = ABSPATH . ‘/wp-content/mu-plugins/lib/proxy/ip-forward.php’;
+
 if ( ! empty( $IP ) && file_exists( $proxy_lib ) ) {
 
     require_once( __DIR__ . ‘/remote-proxy-ips.php’ );

@@ -12,10 +12,6 @@ namespace Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper;
 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
-
 class UrlCacheControl {
 	private static function UrlOrigin($s, $useFhost=false)
 	{
@@ -171,7 +167,6 @@ class UrlCacheControl {
 		// Set the max age 5 minutes.
 		header('Cache-Control: no-cache no-store max-age=0');
 	}
-
 	public static function wp_add_cache_param($mins=86400){
 		header('Cache-Control: max-age='.$mins);
 		header('Pragma: public');
