@@ -2,8 +2,6 @@
 
 // Start/Destroy CometChat Pro session on login/logout
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
-
 function registerCometChatProSession()
 {
     if (!session_id() ) {
