@@ -44,13 +44,14 @@ if ((isset($_SERVER['HTTP_X_FORWARDED_HOST']))
 $proxy_lib = ABSPATH . "/wp-content/mu-plugins/lib/proxy/ip-forward.php";
 $proxy_ip_allow_list = __DIR__ . "/remote-proxy-ips.php";
 
+// phpcs:enable
 if (! empty($IP) && file_exists($proxy_lib) ) {
 
+    // phpcs:disable WordPressVIPMinimum.Files.IncludingFile.UsingVariable - Validated the file exist
     require_once( $proxy_ip_allow_list );
-
     require_once( $proxy_lib );
+    // phpcs:enable
 
     Automattic\VIP\Proxy\fix_remote_address($IP, $httpxforwardedfor, PROXY_IP_ALLOW_LIST);
 
 }
-// phpcs:enable
