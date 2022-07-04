@@ -22,6 +22,7 @@ require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
 require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php';
 
+use AutomateWoo;
 use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 use Automattic\VIP\Cache\Vary_Cache;
 class NabshowCacheControl extends Vary_Cache
@@ -40,7 +41,7 @@ class NabshowCacheControl extends Vary_Cache
     {        
         // add_filter('wp_headers', [ $this, 'set_cache_headers_for_404']);
         // add_action( 'init', [ $this, 'set_vary_cache_init' ] );
-        add_action( 'init', [ $this, 'set_nabshow_options_header' ], 999 );
+        add_action( 'wp_headers',[ $this, 'nabshow_send_headers'], 999 );
         // add_filter('wp_headers', [ $this, 'prevent_broken_link_load'], 999);
         add_filter('wp_headers', [ $this, 'set_verify_url_exist_js'], 999);
     }//end init_enqueue_scripts()
@@ -95,6 +96,17 @@ class NabshowCacheControl extends Vary_Cache
             $after_body.='<div class="content">My Content</div>';
             return $after_body;
         });
+    }
+
+    public function nabshow_send_headers(){
+        // send_origin_headers();
+        UrlCacheControl::remove_session_from_curl();
+        UrlCacheControl::wp_add_cache_param();
+        @header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
+        @header( 'X-Robots-Tag: noindex' );
+        send_nosniff_header();
+        // nocache_headers();
+        status_header( 200 );
     }
 
     public function set_nabshow_options_header( $headers )

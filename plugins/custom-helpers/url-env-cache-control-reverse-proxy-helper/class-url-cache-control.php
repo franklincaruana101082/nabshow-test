@@ -173,8 +173,8 @@ class UrlCacheControl {
 	}
 
 	public static function wp_add_cache_param($mins=86400){
-		header('Cache-Control: max-age='.$mins);
-		// header('Pragma: public');
+		@header('Cache-Control: max-age='.$mins);
+		@header('Pragma: public');
 	}
 
 	public static function remove_cache_headers_for_404(){
