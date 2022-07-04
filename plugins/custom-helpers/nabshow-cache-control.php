@@ -20,9 +20,10 @@ if (! defined('ABSPATH')) {
 // Load the VIP Vary_Cache class
 require_once( WPMU_PLUGIN_DIR . '/cache/class-vary-cache.php' );
 
-require WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php';
+require_once( WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php' );
 
-use AutomateWoo;
+require_once( WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php' );
+
 use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 use Automattic\VIP\Cache\Vary_Cache;
 class NabshowCacheControl extends Vary_Cache
