@@ -165,6 +165,8 @@ class UrlCacheControl
 
     public static function update_header_sent_wo_phpsessid()
     {   
+        header("Set-Cookie: OH.. Not Sure! if your'e using curl command now? but usually this is the result. Value of set-cookie is this message itself. Try Checking it out via browser's dev-tools");
+        
         $set_cookie = null;
         $headers = self::get_HTTP_request_headers();
         foreach ($headers as $key => $value) {
@@ -173,14 +175,13 @@ class UrlCacheControl
             
             if($key === "Cookie") {
                 
-                $set_cookie = preg_replace('/(PHPSESSID=[A-Za-z0-9]+\;)/', '', $value); // Remove PHPSESSID value from header
-
+                $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header
                 break;
             }
         }
 
-        if(!empty($set_cookie)) { $headers['Cookie'] = json_encode($set_cookie);
-        }
+        
+        $headers['Cookie'] = stripslashes(json_encode($set_cookie));
         
         return $headers;
     }
