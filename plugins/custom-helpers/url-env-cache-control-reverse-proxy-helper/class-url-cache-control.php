@@ -154,16 +154,15 @@ class UrlCacheControl
         // Set the max age 5 minutes.
         header('Cache-Control: max-age='.($mins * MINUTE_IN_SECONDS));
     }
-    public static function wp_add_cache_param()
-    {
-        header('Cache-Control: max-age=86400');
+    public static function wp_add_cache_param($mins=5)
+    {   
+        // Set the max age 5 minutes.
+        header('Cache-Control: max-age='.($mins * MINUTE_IN_SECONDS));
         header('Pragma: public');
     }
 
     public static function update_header_sent_wo_phpsessid()
-    {   
-        
-        
+    {       
         $set_cookie = null;
         $headers = self::get_HTTP_request_headers();
         foreach ($headers as $key => $value) {
