@@ -95,9 +95,7 @@ class NabshowCacheControl extends Vary_Cache
     public function nabshow_send_headers(){
         send_origin_headers();
         UrlCacheControl::remove_session_from_curl();
-        UrlCacheControl::wp_add_cache_param();
-        @header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
-        @header( 'X-Robots-Tag: noindex' );
+        UrlCacheControl::wp_add_cache_param();        
         send_nosniff_header();
         nocache_headers();
         status_header( 200 );
