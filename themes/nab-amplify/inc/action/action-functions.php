@@ -1021,7 +1021,7 @@ function nab_amplify_completed_order_after_payment_complete($order_id)
     }
 }
 
-/**
+/**y
  * Auto Completed order if total amount is zero and order status is processing.
  */
 function nab_amplify_completed_zero_order($order_id)
@@ -1235,6 +1235,7 @@ function amplify_register_api_endpoints()
         '/unlink-products',
         array(
             'methods'  => 'POST',
+            'permission_callback' => '__return_true',
             'callback' => 'nab_amplify_unlink_products',
         )
     );

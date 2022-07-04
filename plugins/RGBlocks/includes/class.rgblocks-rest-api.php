@@ -19,6 +19,7 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 
 			register_rest_route( 'rg_blocks', '/request/reusable-blocks', array(
 					'methods'  => WP_REST_Server::READABLE,
+					'permission_callback' => '__return_true',
 					'callback' => array(
 						$this,
 						'rgblocks_fetch_reusable_blocks_list',
@@ -31,6 +32,7 @@ if ( ! class_exists('RGBlocks_REST_API') ) {
 
 			register_rest_route( 'rg_blocks', '/request/get-blocks-terms', array(
 					'methods'  => WP_REST_Server::READABLE,
+					'permission_callback' => '__return_true',
 					'callback' => array(
 						$this,
 						'rgblocks_fetch_reusable_blocks_terms',

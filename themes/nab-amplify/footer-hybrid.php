@@ -10,6 +10,7 @@
  * @package Amplify
  */
 
+use Plugins\CustomHelpers\UrlEnvCacheControlHelper\UrlCacheControl;
 
  switch_to_blog('4');
 ?>
@@ -54,7 +55,12 @@
   
   _st('install','_2XyWYChms3Vq4a5zLBs','2.0.0');
 </script>
-<?php wp_footer(); ?>
+<?php 
+wp_footer(); 
+
+$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
+if($isReachable){
+?>
 <script type="text/javascript">
     adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
     adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
@@ -82,6 +88,9 @@
     })(window, document);
     adroll.track("pageView");
 </script>
-<?php restore_current_blog(); ?>
+<?php 
+}
+restore_current_blog();
+?>
 </body>
 </html>

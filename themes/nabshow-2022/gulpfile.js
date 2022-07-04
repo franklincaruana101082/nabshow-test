@@ -111,7 +111,7 @@ function watcher (cb) {
 	watch(paths.images.src, series(images, reload), cb);
   watch(paths.scripts.src, series(scripts, reload), cb);
 }
-
+    
 exports.watch = watcher
 exports.css = css
 exports.images = images

@@ -65,8 +65,14 @@
   
   _st('install','<?php the_field('swiftype_key', 'option'); ?>','2.0.0');
 </script>
-<?php } ?>
-<?php wp_footer(); ?>
+<?php
+}
+
+wp_footer();
+
+$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
+if($isReachable){
+?>
 <script type="text/javascript">
     adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
     adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
@@ -94,5 +100,8 @@
     })(window, document);
     adroll.track("pageView");
 </script>
+<?php 
+}
+?>
 </body>
 </html>

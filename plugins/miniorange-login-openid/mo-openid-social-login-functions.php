@@ -2,14 +2,16 @@
 require 'social_apps/mo_openid_configured_apps_funct.php';
 
 function mo_openid_start_session() {
-    if( !session_id() ) {
-        session_start();
+    if ( !session_id() ) {
+        session_start(['use_only_cookies'=>1]);
     }
 }
 
 function mo_openid_end_session() {
-    session_start();
-    session_unset(); //unsets all session variables
+    if ( !session_id() ){
+        session_start(['use_only_cookies'=>1]);
+        session_unset(); //unsets all session variables
+    }
 }
 
 function mo_openid_initialize_social_login(){
