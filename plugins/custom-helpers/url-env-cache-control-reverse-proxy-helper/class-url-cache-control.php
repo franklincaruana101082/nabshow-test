@@ -132,47 +132,30 @@ class UrlCacheControl
         header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
     }
 
-    public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
-    {   
-        $set_cookie = null;
+    // public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
+    // {   
+    //     $set_cookie = null;
         
-        foreach ($headers as $key => $value) {            
-            if($key === "Cookie"){
-                $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header set-cookie                
-            }
-        }
+    //     foreach ($headers as $key => $value) {            
+    //         if($key === "Cookie"){
+    //             $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header set-cookie                
+    //         }
+    //     }
 
-        if($remove_cookie_header){ 
-            unset($headers['Cookie']);
-        }else{
-            if(!empty($set_cookie)){
-                $headers['Cookie'] = stripslashes($set_cookie);
-            }
-            else{
-                header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
-            }
-        }
+    //     if($remove_cookie_header){ 
+    //         unset($headers['Cookie']);
+    //     }else{
+    //         if(!empty($set_cookie)){
+    //             $headers['Cookie'] = stripslashes($set_cookie);
+    //         }
+    //         else{
+    //             header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
+    //         }
+    //     }
         
-        unset(
-            $headers['X-Hacker'],
-            $headers['X-Forwarded-for'],
-            $headers['X-Country-code'],
-            $headers['X-Forwarded-scheme'],
-            $headers['X-Forwarded-proto'],
-            $headers['X-Forwarded-port'],
-            $headers['X-Forwarded-host'],
-            $headers['X-Original-forwarded-for'],
-            $headers['X-Mobile-class'],
-            $headers['X-Query-args'],
-            $headers['X-Real-ip'],
-            $headers['Sec-Ch-Ua-Mobile'],
-            $headers['Sec-Ch-Ua-Platform'],
-            $headers['Sec-Ch-Ua'],
-            $headers['X-Powered-by']
-        );
         
-        return $headers;
-    }
+    //     return $headers;
+    // }
 
     public static function register_nabshow_session()
     {

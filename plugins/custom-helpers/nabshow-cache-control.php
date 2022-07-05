@@ -47,20 +47,29 @@ class NabshowCacheControl
     public function remove_phpsessid_from_cookie_headers($headers)
     {
         send_origin_headers();
+        
+        $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
+        
+        $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
+        
+        if(!empty($headers['Cookie'])){
+            $cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
+            $headers['Cookie'] = stripslashes($cookie);
+        }else
+            header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation");
 
-        $sendheaders = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
-
-        $headers = UrlCacheControl::update_header_sent_wo_phpsessid($sendheaders); // removing PHPSESSID from set-cookie header
-
-        foreach ($headers as $key => $value) {
-            $stripslashes_value = stripslashes($value); 
-            if($key === "Cookie") {
-                
-                $stripslashes_value = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie
-                
-                break;
-            }
-        }
+        
+            unset(
+            $headers['X-Country-Code'],
+            $headers['X-Mobile-Class'],
+            $headers['x-Query-Args'],
+            $headers['X-Hacker'],
+            $headers['X-Powered-By'],
+            $headers['Sec-Fetch-User'],
+            $headers['Sec-Ch-Ua-Mobile'],
+            $headers['Sec-Ch-Ua-Platform'],
+            $headers['Sec-Ch-Ua']
+        );
 
         return $headers;
     }   
