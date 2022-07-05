@@ -21,15 +21,10 @@ add_action('wp_head', 'gtm_header_ny_inclusion');
 function gtm_header_ny_inclusion(){ ?>
 	<!-- Google Tag Manager -->
 	<script>(function(w,d,s,l,i){w[l]=w[l]||[];        
-	var urlraw = 'https://www.googletagmanager.com/gtm.js?id='+i;
-	var verifiedUrl = verifyUrlExist(urlraw);
-	if(verifiedUrl){
-	console.log(verifiedUrl);
 		w[l].push({'gtm.start':
 		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	}
 	})(window,document,'script','dataLayer','GTM-K2F9KBS');</script>
 	<!-- End Google Tag Manager --> <?php
 }
