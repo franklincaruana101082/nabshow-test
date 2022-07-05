@@ -114,76 +114,42 @@ class UrlCacheControl
 
         $isItInArr = in_array($urlverify['code'], [0,200,302]);
 
-        if($urlverify['isReachable'] && $isItInArr) return true;
+        if($urlverify['isReachable'] && $isItInArr) { return true;
+        }
 
         
         return false;
     }
 
-    public static function loadReachableWPEnqueueStyles($url_array = [])
-    {
-        $i = 0;
-        foreach($url_array as $key => $url)
-        {
-            if(self::IsReachable($url[0], $i)) {
-                if(isset($url[1]) && isset($url[2])) {
-                    wp_enqueue_style($key, self::AppendTimeToUrl($url[0], $i++), $url[1], $url[2]);
-                }else{
-                    wp_enqueue_style($key, self::AppendTimeToUrl($url[0], $i++));
-                }
-            } 
-        }
-    }
-
-    public static function loadReachableWPEnqueueScripts( $url_array = [] )
-    {
-        $i = 0;
-        foreach ( $url_array as $key => $url ) {
-            if (self::IsReachable($url[0], $i) ) {
-                if (isset($url[1]) && isset($url[2]) && isset($url[3]) ) {
-                    wp_enqueue_script($key, self::AppendTimeToUrl($url[0], $i++), $url[1], $url[2], $url[3]);
-                } else {
-                    wp_enqueue_script($key, self::AppendTimeToUrl($url[0], $i++));
-                }
-            } 
-        }
-    }
-
-    public static function wp_add_header_max_age($mins=5 )
-    {
-        // Set the max age 5 minutes.
-        header('Cache-Control: max-age='.($mins * MINUTE_IN_SECONDS));
-    }
     public static function wp_add_cache_param($mins=5)
     {   
         // Set the max age 5 minutes.
-        header('Cache-Control: max-age='.($mins * MINUTE_IN_SECONDS));
-        header('Pragma: public');
-        header('Vary: Accept');
+        $maxage = ($mins * MINUTE_IN_SECONDS);
+        header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        header('Pragma: public'); // For Legacy Browsers
+        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control
+        header('Vary: Accept-Encoding'); // stating importance of caching
+        header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
     }
 
     public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
-    {       
+    {   
         $set_cookie = null;
         
         foreach ($headers as $key => $value) {
             $stripslashes_value = $value;
-            if(!empty($value) && !is_array($value)) {  
-                $stripslashes_value = "" . stripslashes($value);
+
+            if(!empty($value) && !is_array($value)) { $stripslashes_value = "" . stripslashes($value);
             }
-            error_log("$key => $stripslashes_value");
-            if($key === "Cookie") {
-                
-                $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header
-                break;
+            if($key === "Cookie") { $set_cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
             }
         }
-        if($remove_cookie_header){
-            unset($headers['Cookie']);
+
+        if($remove_cookie_header) { unset($headers['Cookie']);
         }else{
-            if(!empty($set_cookie)){ $headers['Cookie'] = stripslashes(json_encode($set_cookie));
-            }else{ 
-                header("Set-Cookie: Hello there. PHP Session Id (PHPSESSID) is not included here for security reason. Thanks!");
+            if(!empty($set_cookie)) { $headers['Cookie'] = stripslashes(json_encode($set_cookie));
+            }
+            else{ header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
             }
         }
         
@@ -204,6 +170,7 @@ class UrlCacheControl
         
         return $headers;
     }
+
     public static function register_nabshow_session()
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -212,32 +179,6 @@ class UrlCacheControl
         }
     }
 
-    public static function set_cache_headers_with_etags($mins=3600,$content_last_mod_time = 1520949851)
-    {        
-        // Get last modification time of the current PHP file
-        $file_last_mod_time = filemtime(__FILE__);
-
-        // Get last modification time of the main content (that user sees)
-        // Hardcoded just as an example
-        $content_last_mod_time = $content_last_mod_time;
-
-        // Combine both to generate a unique ETag for a unique content
-        // Specification says ETag should be specified within double quotes
-        $etag = '"' . $file_last_mod_time . '.' . $content_last_mod_time . '"';
-
-        // Set ETag header
-        header('ETag: ' . $etag);
-
-        // Check whether browser had sent a HTTP_IF_NONE_MATCH request header
-        if(isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
-            // If HTTP_IF_NONE_MATCH is same as the generated ETag => content is the same as browser cache
-            // So send a 304 Not Modified response header and exit
-            if($_SERVER['HTTP_IF_NONE_MATCH'] == $etag) {
-                header('HTTP/1.1 304 Not Modified', true, 304);
-                exit();
-            }
-        }
-    }
     public static function get_HTTP_request_headers()
     {
         $HTTP_headers = array();
