@@ -125,7 +125,7 @@ class UrlCacheControl
     {   
         // Set the max age 5 minutes.
         $maxage = ($mins * MINUTE_IN_SECONDS);
-        header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable'); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
         header('Pragma: public'); // For Legacy Browsers
         header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control
         header('Vary: Accept-Encoding'); // stating importance of caching
@@ -141,7 +141,7 @@ class UrlCacheControl
 
             if(!empty($value) && !is_array($value)) { $stripslashes_value = "" . stripslashes($value);
             }
-            if($key === "Cookie") { $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
+            if($key === "Cookie") { $set_cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
             }
         }
 
