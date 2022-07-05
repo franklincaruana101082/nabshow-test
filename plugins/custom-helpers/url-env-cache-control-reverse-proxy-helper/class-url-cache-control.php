@@ -125,11 +125,11 @@ class UrlCacheControl
     {   
         // Set the max age 5 minutes.
         $maxage = ($mins * MINUTE_IN_SECONDS);
-        header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        header('Cache-Control: public, max-fage='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
         header('Pragma: public'); // For Legacy Browsers
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control
+        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-fage for cache-control
         header('Vary: Accept-Encoding'); // stating importance of caching
-        header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
+        header('x-Frame-Options: SAMEORIGIN'); // for security reason. 
     }
 
     public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
@@ -154,18 +154,21 @@ class UrlCacheControl
         }
         
         unset(
-            $headers['X-hacker'],
-            $headers['X-Forwarded-For'],
-            $headers['X-Country-Code'],
-            $headers['X-Forwarded-Port'],
-            $headers['X-Original-Forwarded-For'],
-            $headers['X-Mobile-Class'],
-            $headers['X-Query-Args'],
-            $headers['X-Real-Ip'],
-            $headers['Sec-Ch-Ua-Mobile'],
-            $headers['Sec-Ch-Ua-Platform'],
-            $headers['Sec-Ch-Ua'],
-            $headers['X-Powered-by']
+            $headers['x-hacker'],
+            $headers['x-forwarded-for'],
+            $headers['x-country-code'],
+            $headers['x-forwarded-scheme'],
+            $headers['x-forwarded-proto'],
+            $headers['x-forwarded-port'],
+            $headers['x-forwarded-host'],
+            $headers['x-original-forwarded-for'],
+            $headers['x-mobile-class'],
+            $headers['x-query-args'],
+            $headers['x-real-ip'],
+            $headers['sec-ch-Ua-mobile'],
+            $headers['sec-ch-Ua-platform'],
+            $headers['sec-ch-Ua'],
+            $headers['x-powered-by']
         );
         
         return $headers;
