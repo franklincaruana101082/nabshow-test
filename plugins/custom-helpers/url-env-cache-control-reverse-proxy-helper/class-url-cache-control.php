@@ -161,32 +161,53 @@ class UrlCacheControl
         header('Pragma: public');
     }
 
-    public static function update_header_sent_wo_phpsessid()
+    public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
     {       
         $set_cookie = null;
-        $headers = self::get_HTTP_request_headers();
+        
         foreach ($headers as $key => $value) {
-            if(!empty($value) && !is_array($value)) {  $headers[$key] = "" . stripslashes($value);
+            $stripslashes_value = $value;
+            if(!empty($value) && !is_array($value)) {  
+                $stripslashes_value = "" . stripslashes($value);
             }
-            
+            error_log("$key => $stripslashes_value");
             if($key === "Cookie") {
                 
                 $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header
                 break;
             }
         }
-
-        if(!empty($set_cookie)){ $headers['Cookie'] = stripslashes(json_encode($set_cookie));
-        }else{ 
-            header("Set-Cookie: Hello there. PHP Session Id (PHPSESSID) is not included here for security reason. Thanks!");
+        if($remove_cookie_header){
+            unset($headers['Cookie']);
+        }else{
+            if(!empty($set_cookie)){ $headers['Cookie'] = stripslashes(json_encode($set_cookie));
+            }else{ 
+                header("Set-Cookie: Hello there. PHP Session Id (PHPSESSID) is not included here for security reason. Thanks!");
+            }
         }
+        
+        unset(
+            $headers['X-hacker'],
+            $headers['X-Forwarded-For'],
+            $headers['X-Country-Code'],
+            $headers['X-Forwarded-Port'],
+            $headers['X-Original-Forwarded-For'],
+            $headers['X-Mobile-Class'],
+            $headers['X-Query-Args'],
+            $headers['X-Real-Ip'],
+            $headers['Sec-Ch-Ua-Mobile'],
+            $headers['Sec-Ch-Ua-Platform'],
+            $headers['Sec-Ch-Ua'],
+            $headers['X-Powered-by']
+        );
+        
         return $headers;
     }
     public static function register_nabshow_session()
     {
         if (session_status() == PHP_SESSION_NONE) {
             // session_start(['use_only_cookies' => 1]);
-            @session_start();
+            session_start();
         }
     }
 

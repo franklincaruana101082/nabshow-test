@@ -52,10 +52,11 @@ class NabshowCacheControl
 
     public function nabshow_send_headers()
     {        
-        remove_action('wp_head', 'wp_generator');
+        // remove_action('wp_head', 'wp_generator');
 
-        send_origin_headers();
-        send_nosniff_header();
+        // send_origin_headers();
+        // send_nosniff_header();
+        UrlCacheControl::set_cache_headers_with_etags();
 
         // UrlCacheControl::update_header_sent_wo_phpsessid(); // remove PHPSESSID from header and its value
 
@@ -64,12 +65,12 @@ class NabshowCacheControl
     }
     public function remove_some_x_headers($headers)
     {
+        $sendheaders = UrlCacheControl::get_HTTP_request_headers();
 
-        unset($headers['X-hacker']);
-
-        $headers = UrlCacheControl::update_header_sent_wo_phpsessid();
+        $headers = UrlCacheControl::update_header_sent_wo_phpsessid($sendheaders);
 
         // unset($headers['Set-Cookie']); // Another alternative for php session id issue on cache invalidation. Removes the header set-cookie
+
 
         return $headers;
     }
