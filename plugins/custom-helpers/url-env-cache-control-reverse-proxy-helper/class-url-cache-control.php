@@ -136,20 +136,25 @@ class UrlCacheControl
     {   
         $set_cookie = null;
         
-        foreach ($headers as $key => $value) {
-            $stripslashes_value = $value;
+        foreach ($headers as $key => $value) {           
 
-            if(!empty($value) && !is_array($value)) { $stripslashes_value = "" . stripslashes($value);
+            if(!empty($value)){
+                $stripslashes_value = stripslashes($value);
             }
-            if($key === "Cookie") { $set_cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
+            
+            if($key === "Cookie"){
+                $set_cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
             }
         }
 
-        if($remove_cookie_header) { unset($headers['Cookie']);
+        if($remove_cookie_header){ 
+            unset($headers['Cookie']);
         }else{
-            if(!empty($set_cookie)) { $headers['Cookie'] = stripslashes(json_encode($set_cookie));
+            if(!empty($set_cookie)){
+                $headers['Cookie'] = stripslashes($set_cookie);
             }
-            else{ header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
+            else{
+                header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
             }
         }
         
@@ -165,10 +170,10 @@ class UrlCacheControl
             $headers['x-mobile-class'],
             $headers['x-query-args'],
             $headers['x-real-ip'],
-            $headers['sec-ch-Ua-mobile'],
-            $headers['sec-ch-Ua-platform'],
-            $headers['sec-ch-Ua'],
-            $headers['x-powered-by']
+            $headers['Sec-Ch-Ua-Mobile'],
+            $headers['Sec-Ch-Ua-Platform'],
+            $headers['Sec-Ch-Ua'],
+            $headers['X-Powered-by']
         );
         
         return $headers;
