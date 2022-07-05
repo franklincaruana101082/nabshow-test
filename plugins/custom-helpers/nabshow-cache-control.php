@@ -53,13 +53,10 @@ class NabshowCacheControl
 
         foreach ($headers as $key => $value) {
             $stripslashes_value = stripslashes($value); 
-            // $set_cookie = $headers['Cookie'];
-            error_log("$key => $stripslashes_value");
             if($key === "Cookie") {
                 
                 $stripslashes_value = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie
                 
-                error_log($stripslashes_value);
                 break;
             }
         }
@@ -72,9 +69,9 @@ class NabshowCacheControl
 
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-        if ( ! isset( $_GET['send_test_etag'] ) ) {
-            return;
+        if ( ! isset( $_GET['send_test_etag'] ) ){ return;
         }
+
         $etag = sanitize_key( wp_unslash( $_GET['send_test_etag'] ) );
         header( "ETag: $etag" );
 
@@ -94,8 +91,7 @@ class NabshowCacheControl
 
         echo "<dl>\n";
         foreach ( $_SERVER as $key => $value ) {
-            if ( ! preg_match( '/^HTTP_/', $key ) ) {
-                continue;
+            if ( ! preg_match( '/^HTTP_/', $key ) ){ continue;
             }
             $header = substr( $key, 5 );
             $header = str_replace( '_', '-', $header );
