@@ -154,18 +154,21 @@ class UrlCacheControl
         }
         
         unset(
-            $headers['X-hacker'],
-            $headers['X-Forwarded-For'],
-            $headers['X-Country-Code'],
-            $headers['X-Forwarded-Port'],
-            $headers['X-Original-Forwarded-For'],
-            $headers['X-Mobile-Class'],
-            $headers['X-Query-Args'],
-            $headers['X-Real-Ip'],
-            $headers['Sec-Ch-Ua-Mobile'],
-            $headers['Sec-Ch-Ua-Platform'],
-            $headers['Sec-Ch-Ua'],
-            $headers['X-Powered-by']
+            $headers['x-hacker'],
+            $headers['x-forwarded-for'],
+            $headers['x-country-code'],
+            $headers['x-forwarded-scheme'],
+            $headers['x-forwarded-proto'],
+            $headers['x-forwarded-port'],
+            $headers['x-forwarded-host'],
+            $headers['x-original-forwarded-for'],
+            $headers['x-mobile-class'],
+            $headers['x-query-args'],
+            $headers['x-real-ip'],
+            $headers['sec-ch-Ua-mobile'],
+            $headers['sec-ch-Ua-platform'],
+            $headers['sec-ch-Ua'],
+            $headers['x-powered-by']
         );
         
         return $headers;
