@@ -4,8 +4,6 @@
  *
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
-
 //************BEGIN Stuff from former parent theme functions file
 
 /**
@@ -143,8 +141,7 @@ function nabshow_base_enqueue_styles() {
 
     wp_enqueue_script( 'nabshow-2021-main', get_template_directory_uri() . '/assets/js/app.min.js', array(), '1.0', true );
 
-	$isReachable = UrlCacheControl::isReachable('https://app.webreg.me/communities/076497845fd7/engagements.js');
-    if($isReachable) wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
+	wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
 
 }
 

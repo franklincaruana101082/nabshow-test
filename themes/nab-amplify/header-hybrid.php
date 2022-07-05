@@ -1,6 +1,5 @@
 <?php
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
 /**
  * The header for our theme
@@ -22,8 +21,7 @@ function nabshow_styles() {
   wp_enqueue_script( 'nabshow-2021-slick', '//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array(), '1.8.1', true);
   wp_enqueue_script( 'nabshow-2021-main', '/wp-content/themes/nabshow-lv-child-2021/assets/js/app.min.js', array(), '1.0', true );
   
-  $isReachable = UrlCacheControl::isReachable('https://app.webreg.me/communities/076497845fd7/engagements.js');
-  if($isReachable) wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
+  wp_enqueue_script( 'nabshow-2021-gleanin-plugin', 'https://app.webreg.me/communities/076497845fd7/engagements.js', array(), '1.0', true );
 }
 
 add_action( 'wp_enqueue_scripts', 'nabshow_styles', 100 );

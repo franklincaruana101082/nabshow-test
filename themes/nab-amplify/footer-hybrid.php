@@ -10,7 +10,6 @@
  * @package Amplify
  */
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 
  switch_to_blog('4');
 ?>
@@ -57,9 +56,6 @@ use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
 </script>
 <?php 
 wp_footer(); 
-
-$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
-if($isReachable){
 ?>
 <script type="text/javascript">
     adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
@@ -89,7 +85,6 @@ if($isReachable){
     adroll.track("pageView");
 </script>
 <?php 
-}
 restore_current_blog();
 ?>
 </body>

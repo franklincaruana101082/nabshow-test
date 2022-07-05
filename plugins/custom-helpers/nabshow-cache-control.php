@@ -46,8 +46,6 @@ class NabshowCacheControl
 
     public function init_enqueue_scripts()
     {        
-         
-        add_action('init', [ $this, 'set_extra_js_scripts' ]);   
         add_action('send_headers', [ $this, 'nabshow_send_headers' ]);  
         add_filter('wp_headers', [ $this, 'remove_some_x_headers' ]);  
     }//end init_enqueue_scripts()
@@ -63,11 +61,6 @@ class NabshowCacheControl
 
         if(!is_user_logged_in()) { UrlCacheControl::wp_add_cache_param();
         }
-    }
-    public function set_extra_js_scripts()
-    {  
-        wp_enqueue_script('verify-url-exist', plugin_dir_url(__DIR__).'custom-helpers/url-env-cache-control-reverse-proxy-helper/js/verify-url-exist.js');
-        wp_localize_script('verify-url-exist', 'verifyUrlExistJS', array( ));      
     }
     public function remove_some_x_headers($headers)
     {

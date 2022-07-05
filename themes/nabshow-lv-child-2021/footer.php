@@ -56,9 +56,6 @@
 <!-- Back To Top -->
 */ 
 wp_footer();
-
-$isReachable = UrlCacheControl::isReachable('https://s.adroll.com');
-if($isReachable){
 ?>
 <script type="text/javascript">
     adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
@@ -87,8 +84,5 @@ if($isReachable){
     })(window, document);
     adroll.track("pageView");
 </script>
-<?php 
-}
-?>
 </body>
 </html>
