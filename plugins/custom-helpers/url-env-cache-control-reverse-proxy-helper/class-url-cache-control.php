@@ -159,6 +159,7 @@ class UrlCacheControl
         // Set the max age 5 minutes.
         header('Cache-Control: max-age='.($mins * MINUTE_IN_SECONDS));
         header('Pragma: public');
+        header('Vary: Accept');
     }
 
     public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
