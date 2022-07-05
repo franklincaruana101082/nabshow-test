@@ -136,14 +136,9 @@ class UrlCacheControl
     {   
         $set_cookie = null;
         
-        foreach ($headers as $key => $value) {           
-
-            if(!empty($value)){
-                $stripslashes_value = stripslashes($value);
-            }
-            
+        foreach ($headers as $key => $value) {            
             if($key === "Cookie"){
-                $set_cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
+                $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header set-cookie                
             }
         }
 
@@ -159,17 +154,17 @@ class UrlCacheControl
         }
         
         unset(
-            $headers['x-hacker'],
-            $headers['x-forwarded-for'],
-            $headers['x-country-code'],
-            $headers['x-forwarded-scheme'],
-            $headers['x-forwarded-proto'],
-            $headers['x-forwarded-port'],
-            $headers['x-forwarded-host'],
-            $headers['x-original-forwarded-for'],
-            $headers['x-mobile-class'],
-            $headers['x-query-args'],
-            $headers['x-real-ip'],
+            $headers['X-Hacker'],
+            $headers['X-Forwarded-for'],
+            $headers['X-Country-code'],
+            $headers['X-Forwarded-scheme'],
+            $headers['X-Forwarded-proto'],
+            $headers['X-Forwarded-port'],
+            $headers['X-Forwarded-host'],
+            $headers['X-Original-forwarded-for'],
+            $headers['X-Mobile-class'],
+            $headers['X-Query-args'],
+            $headers['X-Real-ip'],
             $headers['Sec-Ch-Ua-Mobile'],
             $headers['Sec-Ch-Ua-Platform'],
             $headers['Sec-Ch-Ua'],
