@@ -114,7 +114,8 @@ class UrlCacheControl
 
         $isItInArr = in_array($urlverify['code'], [0,200,302]);
 
-        if($urlverify['isReachable'] && $isItInArr) return true;
+        if($urlverify['isReachable'] && $isItInArr) { return true;
+        }
 
         
         return false;
@@ -140,13 +141,13 @@ class UrlCacheControl
 
             if(!empty($value) && !is_array($value)) { $stripslashes_value = "" . stripslashes($value);
             }
-            if($key === "Cookie"){ $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
+            if($key === "Cookie") { $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
             }
         }
 
-        if($remove_cookie_header){ unset($headers['Cookie']);
+        if($remove_cookie_header) { unset($headers['Cookie']);
         }else{
-            if(!empty($set_cookie)){ $headers['Cookie'] = stripslashes(json_encode($set_cookie));
+            if(!empty($set_cookie)) { $headers['Cookie'] = stripslashes(json_encode($set_cookie));
             }
             else{ header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
             }
