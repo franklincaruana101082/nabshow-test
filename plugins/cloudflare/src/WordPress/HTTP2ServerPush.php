@@ -93,14 +93,18 @@ class HTTP2ServerPush
     {
 
         $resource_types = array('script', 'style');
-        array_walk($resource_types, function ($resource_type) {
-            $key = "http2_{$resource_type}_srcs";
-            if (isset($GLOBALS[$key]) && is_array($GLOBALS[$key])) {
-                array_walk($GLOBALS[$key], function ($src) use ($resource_type) {
-                    printf('<link rel="preload" href="%s" as="%s">', esc_url($src), esc_html($resource_type));
-                });
+        array_walk(
+            $resource_types, function ($resource_type) {
+                $key = "http2_{$resource_type}_srcs";
+                if (isset($GLOBALS[$key]) && is_array($GLOBALS[$key])) {
+                    array_walk(
+                        $GLOBALS[$key], function ($src) use ($resource_type) {
+                            printf('<link rel="preload" href="%s" as="%s">', esc_url($src), esc_html($resource_type));
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     /**
@@ -126,20 +130,20 @@ class HTTP2ServerPush
     {
 
         switch ($current_hook) {
-            case 'style_loader_src':
-                return 'style';
-            case 'script_loader_src':
+        case 'style_loader_src':
+            return 'style';
+        case 'script_loader_src':
+            return 'script';
+        case 'autoptimize_filter_cache_getname':
+            $ext = pathinfo($src, PATHINFO_EXTENSION);
+            if ($ext === 'js') {
                 return 'script';
-            case 'autoptimize_filter_cache_getname':
-                $ext = pathinfo($src, PATHINFO_EXTENSION);
-                if ($ext === 'js') {
-                    return 'script';
-                } elseif ($ext === 'css') {
-                    return 'style';
-                }
-                return '';
-            default:
-                return '';
+            } elseif ($ext === 'css') {
+                return 'style';
+            }
+            return '';
+        default:
+            return '';
         }
     }
 }

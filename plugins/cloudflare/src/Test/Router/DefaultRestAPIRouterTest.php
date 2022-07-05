@@ -56,10 +56,12 @@ class DefaultRestAPIRouterTest extends \PHPUnit\Framework\TestCase
 
         $response = $this->clientV4APIRouter->getRoute($request);
 
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'class' => 'testClass',
             'function' => 'testFunction',
-        ), $response);
+            ), $response
+        );
     }
 
     public function testGetRouteReturnsFalseForNoRouteFound()

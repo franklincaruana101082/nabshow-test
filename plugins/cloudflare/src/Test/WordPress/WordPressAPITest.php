@@ -20,17 +20,17 @@ class WordPressAPITest extends \PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->mockWordPressClientAPI = $this->getMockBuilder('CF\WordPress\WordPressClientAPI')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->mockConfig = $this->getMockBuilder('CF\Integration\DefaultConfig')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->mockDataStore = $this->getMockBuilder('CF\WordPress\DataStore')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->mockLogger = $this->getMockBuilder('CF\Integration\DefaultLogger')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->mockWordPressWrapper = $this->getMockBuilder('CF\WordPress\WordPressWrapper')
             ->disableOriginalConstructor()
             ->getMock();
@@ -66,9 +66,9 @@ class WordPressAPITest extends \PHPUnit\Framework\TestCase
         $domainName = 'domain.com';
 
         $this->mockDataStore = $this->getMockBuilder('CF\WordPress\DataStore')
-                ->disableOriginalConstructor()
-                ->setMethods(array('getDomainNameCache'))
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(array('getDomainNameCache'))
+            ->getMock();
 
         $this->mockDataStore->method('getDomainNameCache')->willReturn($domainName);
 
@@ -82,9 +82,9 @@ class WordPressAPITest extends \PHPUnit\Framework\TestCase
     public function testGetDomainListReturnEmpty()
     {
         $this->mockDataStore = $this->getMockBuilder('CF\WordPress\DataStore')
-                ->disableOriginalConstructor()
-                ->setMethods(array('getDomainNameCache'))
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(array('getDomainNameCache'))
+            ->getMock();
 
         $this->mockDataStore->method('getDomainNameCache')->willReturn(null);
 

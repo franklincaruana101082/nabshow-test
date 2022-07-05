@@ -476,9 +476,9 @@ class Hooks
      * Accepts a page rule key and value to check if it exists in the page rules
      * provided.
      *
-     * @param mixed $pagerules
-     * @param mixed $key
-     * @param mixed $value
+     * @param  mixed $pagerules
+     * @param  mixed $key
+     * @param  mixed $value
      * @return bool
      */
     private function pageRuleContains($pagerules, $key, $value)
@@ -521,7 +521,7 @@ class Hooks
      * pathHasCachableFileExtension takes a string of a URL and evaluates if it
      * has a file extension that Cloudflare caches by default.
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return bool
      */
     private function pathHasCachableFileExtension($value)
@@ -543,7 +543,7 @@ class Hooks
      * "/feed/atom/", "/author/foo/feed", "/comments/feed", "/shop/feed",
      * "/tag/.../feed/", etc.
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return bool
      */
     private function pathIsNotForFeeds($value)
@@ -555,7 +555,7 @@ class Hooks
     /**
      * urlIsHTTPS determines if a scheme used for a URL is HTTPS.
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return bool
      */
     private function urlIsHTTPS($value)

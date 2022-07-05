@@ -61,9 +61,11 @@ class AbstractAPIClientTest extends \PHPUnit\Framework\TestCase
     public function testGetPaginatedResultsRequestsAllPages()
     {
         $this->mockRequest->method('getMethod')->willReturn('GET');
-        $this->mockClient->expects($this->exactly((self::TOTAL_PAGES - 1)))->method('send')->willReturn([
+        $this->mockClient->expects($this->exactly((self::TOTAL_PAGES - 1)))->method('send')->willReturn(
+            [
             'result' => []
-        ]);
+            ]
+        );
         $this->mockAbstractAPIClient->getPaginatedResults($this->mockRequest, self::MOCK_RESPONSE);
     }
 

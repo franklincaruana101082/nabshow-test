@@ -46,9 +46,11 @@ class AbstractPluginActionsTest extends \PHPUnit\Framework\TestCase
 
     public function testPostAccountSaveAPICredentialsReturnsErrorIfMissingApiKey()
     {
-        $this->mockRequest->method('getBody')->willReturn(array(
+        $this->mockRequest->method('getBody')->willReturn(
+            array(
             'email' => 'email',
-        ));
+            )
+        );
         $this->mockAPIClient->method('createAPIError')->willReturn(array('success' => false));
 
         $response = $this->mockAbstractPluginActions->login();
@@ -58,9 +60,11 @@ class AbstractPluginActionsTest extends \PHPUnit\Framework\TestCase
 
     public function testPostAccountSaveAPICredentialsReturnsErrorIfMissingEmail()
     {
-        $this->mockRequest->method('getBody')->willReturn(array(
+        $this->mockRequest->method('getBody')->willReturn(
+            array(
             'apiKey' => 'apiKey',
-        ));
+            )
+        );
         $this->mockAPIClient->method('createAPIError')->willReturn(array('success' => false));
 
         $response = $this->mockAbstractPluginActions->login();
@@ -74,9 +78,13 @@ class AbstractPluginActionsTest extends \PHPUnit\Framework\TestCase
         $this->mockAPIClient
             ->expects($this->once())
             ->method('createAPISuccessResponse')
-            ->will($this->returnCallback(function ($input) {
-                $this->assertTrue(is_array($input));
-            }));
+            ->will(
+                $this->returnCallback(
+                    function ($input) {
+                        $this->assertTrue(is_array($input));
+                    }
+                )
+            );
         $this->mockAbstractPluginActions->getPluginSettings();
     }
 
@@ -127,10 +135,12 @@ class AbstractPluginActionsTest extends \PHPUnit\Framework\TestCase
     {
         $apiKey = 'apiKey';
         $email = 'email';
-        $this->mockRequest->method('getBody')->willReturn(array(
+        $this->mockRequest->method('getBody')->willReturn(
+            array(
             $apiKey => $apiKey,
             $email => $email,
-        ));
+            )
+        );
         $this->mockDataStore->method('createUserDataStore')->willReturn(true);
         $this->mockClientAPI->method('responseOk')->willReturn(false);
 

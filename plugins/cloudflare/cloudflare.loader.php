@@ -23,10 +23,12 @@ try {
 
         // Rewrite Cloudflare IPs when the plugin is loaded,
         // Doing this later in the plugin lifecycle will not update the IPs correctly
-        add_action('plugins_loaded', function () {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
-            $_SERVER['HTTP_X_FORWARDED_FOR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
-        }, 1);
+        add_action(
+            'plugins_loaded', function () {
+                $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
+                $_SERVER['HTTP_X_FORWARDED_FOR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
+            }, 1
+        );
     }
 } catch (\RuntimeException $e) {
     error_log($e->getMessage());

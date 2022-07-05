@@ -139,6 +139,7 @@ abstract class AbstractPluginActions
 
     /**
      * For PATCH /plugin/:zonedId/settings/:settingId
+     *
      * @return mixed
      * @throws \Exception
      */
@@ -174,6 +175,7 @@ abstract class AbstractPluginActions
 
     /**
      * For GET /userconfig
+     *
      * @return mixed
      */
     public function getConfig()

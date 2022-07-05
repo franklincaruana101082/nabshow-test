@@ -25,8 +25,8 @@ class SecurityUtil
     }
 
     /**
-     * @param $secret - string a cryptographically strong secret
-     * @param $user - string a piece of unique user data
+     * @param $secret         - string a cryptographically strong secret
+     * @param $user           - string a piece of unique user data
      * @param $timeValidUntil - int of time the token will be valid for in seconds
      *
      * @return string
@@ -45,7 +45,7 @@ class SecurityUtil
 
     /**
      * @param $secret - string a cryptographically strong secret
-     * @param $user - string a piece of unique user data
+     * @param $user   - string a piece of unique user data
      * @param $token- string the token that needs to be validated.
      *
      * @return bool

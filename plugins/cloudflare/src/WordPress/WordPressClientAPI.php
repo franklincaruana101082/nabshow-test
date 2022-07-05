@@ -113,8 +113,8 @@ class WordPressClientAPI extends Client
     /**
      * Returns all page rules in the desired state. Defaults to active.
      *
-     * @param mixed $zoneId
-     * @param string $status
+     * @param  mixed  $zoneId
+     * @param  string $status
      * @return array
      */
     public function getPageRules($zoneId, $status = "active")

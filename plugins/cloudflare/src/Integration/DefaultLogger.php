@@ -29,8 +29,10 @@ class DefaultLogger extends AbstractLogger implements LoggerInterface
      */
     public function log($level, $message, array $context = array())
     {
-        return error_log(self::PREFIX.' '.strtoupper($level).': '.$message.' '.
-            (!empty($context) ? print_r($context, true) : ''));
+        return error_log(
+            self::PREFIX.' '.strtoupper($level).': '.$message.' '.
+            (!empty($context) ? print_r($context, true) : '')
+        );
     }
 
     /**

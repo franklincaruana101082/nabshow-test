@@ -76,12 +76,14 @@ class ClientActions
             }
 
             if ($found === false) {
-                array_push($domainList, array(
+                array_push(
+                    $domainList, array(
                     'name' => $wpDomain,
                     'plan' => array('name' => ''),
                     'type' => '',
                     'status' => 'inactive',
-                ));
+                    )
+                );
             }
         }
         $cfZonesList['result'] = $domainList;

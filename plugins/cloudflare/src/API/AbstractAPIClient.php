@@ -65,13 +65,15 @@ abstract class AbstractAPIClient implements APIInterface
         } catch (\Exception $e) {
             $errorMessage = $this->getErrorMessage($e);
 
-            $this->logAPICall($this->getAPIClientName(), array(
+            $this->logAPICall(
+                $this->getAPIClientName(), array(
                 'type' => 'request',
                 'method' => $request->getMethod(),
                 'path' => $request->getUrl(),
                 'headers' => $request->getHeaders(),
                 'params' => $request->getParameters(),
-                'body' => $request->getBody(), ), true);
+                'body' => $request->getBody(), ), true
+            );
             $this->logAPICall($this->getAPIClientName(), array('type' => 'response', 'code' => $e->getCode(), 'body' => $errorMessage, 'stacktrace' => $e->getTraceAsString()), true);
 
             return $this->createAPIError($errorMessage);
@@ -127,7 +129,7 @@ abstract class AbstractAPIClient implements APIInterface
     }
 
     /**
-     * @param  $error
+     * @param $error
      *
      * @return string
      */

@@ -125,7 +125,7 @@ class DataStore implements DataStoreInterface
     }
 
     /**
-     * @param  $settingId Plugin::[PluginSettingName]
+     * @param $settingId Plugin::[PluginSettingName]
      *
      * @return mixed
      */

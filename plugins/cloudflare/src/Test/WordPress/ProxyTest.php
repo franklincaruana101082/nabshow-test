@@ -63,11 +63,13 @@ class ProxyTest extends \PHPUnit\Framework\TestCase
     public function testRunHandlesPost()
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $jsonBody = json_encode(array(
+        $jsonBody = json_encode(
+            array(
             'proxyURL' => 'proxyURL',
             'proxyURLType' => 'proxyURLType',
             'cfCSRFToken' => 'cfCSRFToken',
-        ));
+            )
+        );
         $mockFileGetContents = $this->getFunctionMock('CF\WordPress', 'file_get_contents');
         $mockFileGetContents->expects($this->any())->willReturn($jsonBody);
         $mockWPVerifyNonce = $this->getFunctionMock('CF\WordPress', 'wp_verify_nonce');
@@ -89,9 +91,11 @@ class ProxyTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['proxyURL'] = $url;
         $_GET['proxyURLType'] = 'CLIENT';
-        $jsonBody = json_encode(array(
+        $jsonBody = json_encode(
+            array(
             'proxyURL' => $proxyURL,
-        ));
+            )
+        );
 
         $this->mockProxy->expects($this->once())->method('getJSONBody')->willReturn($jsonBody);
 
@@ -112,9 +116,11 @@ class ProxyTest extends \PHPUnit\Framework\TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_GET['proxyURL'] = $url;
         $_GET['proxyURLType'] = 'PLUGIN';
-        $jsonBody = json_encode(array(
+        $jsonBody = json_encode(
+            array(
             'proxyURL' => $proxyURL,
-        ));
+            )
+        );
 
         $this->mockProxy->expects($this->once())->method('getJSONBody')->willReturn($jsonBody);
 
@@ -132,9 +138,11 @@ class ProxyTest extends \PHPUnit\Framework\TestCase
     {
         $proxyURL = 'proxyurl.com';
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $jsonBody = json_encode(array(
+        $jsonBody = json_encode(
+            array(
             'proxyURL' => $proxyURL,
-        ));
+            )
+        );
 
         $this->mockProxy->expects($this->once())->method('getJSONBody')->willReturn($jsonBody);
 
