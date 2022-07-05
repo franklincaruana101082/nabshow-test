@@ -129,7 +129,7 @@ class UrlCacheControl
         header('Pragma: public'); // For Legacy Browsers
         header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-fage for cache-control
         header('Vary: Accept-Encoding'); // stating importance of caching
-        header('x-Frame-Options: SAMEORIGIN'); // for security reason. 
+        header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
     }
 
     public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
