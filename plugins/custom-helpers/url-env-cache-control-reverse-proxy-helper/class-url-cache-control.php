@@ -132,46 +132,35 @@ class UrlCacheControl
         header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
     }
 
-    public static function update_header_sent_wo_phpsessid($headers, $remove_cookie_header = false)
-    {   
-        $set_cookie = null;
-        
-        foreach ($headers as $key => $value) {            
-            if($key === "Cookie"){
-                $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header set-cookie                
-            }
+    
+    // setting custom etag & last-modified headers
+    public function set_etag_last_modified()
+    {
+
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+
+        if (! isset($_GET['send_test_etag']) ) { return;
         }
 
-        if($remove_cookie_header){ 
-            unset($headers['Cookie']);
-        }else{
-            if(!empty($set_cookie)){
-                $headers['Cookie'] = stripslashes($set_cookie);
-            }
-            else{
-                header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
-            }
+        $etag = sanitize_key(wp_unslash($_GET['send_test_etag']));
+        header("ETag: $etag");
+
+        // Handle responses that are cached by the browser.
+        if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] === $etag ) {
+            status_header(304);
+            return '';
         }
-        
-        unset(
-            $headers['X-Hacker'],
-            $headers['X-Forwarded-for'],
-            $headers['X-Country-code'],
-            $headers['X-Forwarded-scheme'],
-            $headers['X-Forwarded-proto'],
-            $headers['X-Forwarded-port'],
-            $headers['X-Forwarded-host'],
-            $headers['X-Original-forwarded-for'],
-            $headers['X-Mobile-class'],
-            $headers['X-Query-args'],
-            $headers['X-Real-ip'],
-            $headers['Sec-Ch-Ua-Mobile'],
-            $headers['Sec-Ch-Ua-Platform'],
-            $headers['Sec-Ch-Ua'],
-            $headers['X-Powered-by']
-        );
-        
-        return $headers;
+
+        foreach ( $_SERVER as $key => $value ) {
+            if (! preg_match('/^HTTP_/', $key) ) { continue;
+            }
+            $header = substr($key, 5);
+            $header = str_replace('_', '-', $header);
+            $header = strtolower($header);
+            $value  = wp_unslash($value);
+        }
+
+        exit;
     }
 
     public static function register_nabshow_session()
