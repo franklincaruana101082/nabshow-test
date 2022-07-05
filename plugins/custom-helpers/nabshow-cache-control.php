@@ -83,15 +83,6 @@ class NabshowCacheControl
             return '';
         }
 
-        printf("<p>This PHP response includes a call to <code>header( 'ETag: %1\$s' )</code> and it should be sent to the browser; you should be able to make an HTTP request with a <code>If-None-Match:%1\$s</code> request header:</p>", esc_html($etag));
-
-        printf('<p><code>curl -i -H "If-None-Match: %s" https://%s%s</code></p>', esc_html($etag), esc_html($_SERVER['HTTP_HOST']), esc_html(wp_unslash($_SERVER['REQUEST_URI'])));
-
-        echo "<p>And the server should return with a <code>304 Not Modified</code> response.</p>\n";
-
-        echo "<p>Seen HTTP request headers:</p>\n\n";
-
-        echo "<dl>\n";
         foreach ( $_SERVER as $key => $value ) {
             if (! preg_match('/^HTTP_/', $key) ) { continue;
             }
@@ -99,10 +90,7 @@ class NabshowCacheControl
             $header = str_replace('_', '-', $header);
             $header = strtolower($header);
             $value  = wp_unslash($value);
-            printf("<dt><strong><code>%s</code></strong></dt>\n", esc_html($header));
-            printf("<dd><code>%s</code></dd>\n", esc_html($value));
         }
-        echo "</dl>\n";
 
         exit;
     }
