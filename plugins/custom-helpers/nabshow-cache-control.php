@@ -46,7 +46,7 @@ class NabshowCacheControl
     }
     public function remove_phpsessid_from_cookie_headers($headers)
     {
-        send_origin_headers();
+        send_origin_headers(); // Retrieve origin http headers
         
         $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
         
