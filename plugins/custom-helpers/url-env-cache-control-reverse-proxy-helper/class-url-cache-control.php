@@ -136,39 +136,39 @@ class UrlCacheControl
     {   
         $set_cookie = null;
         
-        foreach ($headers as $key => $value) {
-            $stripslashes_value = $value;
-
-            if(!empty($value) && !is_array($value)) { $stripslashes_value = "" . stripslashes($value);
-            }
-            if($key === "Cookie") { $set_cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $stripslashes_value); // Remove PHPSESSID value from header set-cookie                
+        foreach ($headers as $key => $value) {            
+            if($key === "Cookie"){
+                $set_cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $value); // Remove PHPSESSID value from header set-cookie                
             }
         }
 
-        if($remove_cookie_header) { unset($headers['Cookie']);
+        if($remove_cookie_header){ 
+            unset($headers['Cookie']);
         }else{
-            if(!empty($set_cookie)) { $headers['Cookie'] = stripslashes(json_encode($set_cookie));
+            if(!empty($set_cookie)){
+                $headers['Cookie'] = stripslashes($set_cookie);
             }
-            else{ header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
+            else{
+                header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here for preventing sudden cache invalidation");
             }
         }
         
         unset(
-            $headers['x-hacker'],
-            $headers['x-forwarded-for'],
-            $headers['x-country-code'],
-            $headers['x-forwarded-scheme'],
-            $headers['x-forwarded-proto'],
-            $headers['x-forwarded-port'],
-            $headers['x-forwarded-host'],
-            $headers['x-original-forwarded-for'],
-            $headers['x-mobile-class'],
-            $headers['x-query-args'],
-            $headers['x-real-ip'],
-            $headers['sec-ch-Ua-mobile'],
-            $headers['sec-ch-Ua-platform'],
-            $headers['sec-ch-Ua'],
-            $headers['x-powered-by']
+            $headers['X-Hacker'],
+            $headers['X-Forwarded-for'],
+            $headers['X-Country-code'],
+            $headers['X-Forwarded-scheme'],
+            $headers['X-Forwarded-proto'],
+            $headers['X-Forwarded-port'],
+            $headers['X-Forwarded-host'],
+            $headers['X-Original-forwarded-for'],
+            $headers['X-Mobile-class'],
+            $headers['X-Query-args'],
+            $headers['X-Real-ip'],
+            $headers['Sec-Ch-Ua-Mobile'],
+            $headers['Sec-Ch-Ua-Platform'],
+            $headers['Sec-Ch-Ua'],
+            $headers['X-Powered-by']
         );
         
         return $headers;
