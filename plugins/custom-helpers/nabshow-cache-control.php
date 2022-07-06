@@ -41,7 +41,7 @@ class NabshowCacheControl
     public function nabshow_send_headers()
     {
         // send_origin_headers(); // Retrieve origin http headers        
-        // remove_action( 'wp_head', 'wp_generator' ); // Remove default generated headers
+        remove_action( 'wp_head', 'wp_generator' ); // Remove default generated headers
         send_nosniff_header(); // prevent client from sniffing asset files and other resources
 
         if(!is_user_logged_in()) { UrlCacheControl::wp_add_cache_param(); // handle caching strategy
