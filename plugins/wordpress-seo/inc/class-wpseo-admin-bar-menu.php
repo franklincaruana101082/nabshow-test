@@ -330,7 +330,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'     => 'wpseo-cache',
 				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-				'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
+				'href'   => 'http://webcache.googleusercontent.com/search?q=cache:' . $encoded_url,
+			],
+			[
+				'id'     => 'wpseo-cache',
+				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
+				'href'   => 'https://webcache.googleusercontent.com/search?q=cache:' . $encoded_url,
 			],
 			[
 				'id'     => 'wpseo-structureddata',
@@ -366,7 +371,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-google-mobile-friendly',
 				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
 				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
-			],
+			]
 		];
 
 		foreach ( $submenu_items as $menu_item ) {

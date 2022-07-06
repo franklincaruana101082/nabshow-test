@@ -46,13 +46,13 @@ class NabshowCacheControl
     }
     public function remove_phpsessid_from_cookie_headers($headers)
     {
-        send_origin_headers();
+        send_origin_headers(); // Retrieve origin http headers
         
         $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
         
         $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
         
-        if(!empty($headers['Cookie'])){
+        if(!empty($set_cookie)) {
             $cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
             $headers['Cookie'] = stripslashes($cookie);
         }else{
