@@ -121,10 +121,10 @@ class UrlCacheControl
         return false;
     }
 
-    public static function wp_add_cache_param($mins=15)
+    public static function wp_add_cache_param($maxage=86400)
     {   
         // Set the max age 5 minutes.
-        $maxage = 86400; // ($mins * MINUTE_IN_SECONDS);
+        // $maxage = ($mins * MINUTE_IN_SECONDS);
         header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
         header('Pragma: public'); // For Legacy Browsers
         header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control
