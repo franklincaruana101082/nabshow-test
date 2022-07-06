@@ -113,7 +113,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             wp_localize_script( 'st-segement-event-js', 'segmentJS', array(
                 'ajaxurl'       => admin_url('admin-ajax.php'),
                 'nabNonce'      => wp_create_nonce('nab-ajax-nonce'),
-                'postID'        => $post->ID,
+                'postID'        => (!empty($post->ID) ? $post->ID : 0),
                 'page'          => $current_page,
                 'search_term'   => $search_terms,
                 'is_pageview'   => $is_pageview,
@@ -1571,7 +1571,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             );
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $article_terms = get_the_terms( $post_id, 'content-category' );
@@ -1630,7 +1630,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
             
             $parent_page = wp_get_post_parent_id( $post_id );
@@ -1658,7 +1658,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;            
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $session_terms = get_the_terms( $post_id, 'session_categories' );
@@ -1724,7 +1724,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;            
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $featured_terms = get_field( 'product_categories', $post_id );            
@@ -1803,7 +1803,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $product_category = get_the_terms( $post_id, 'company-product-category' );
@@ -1847,7 +1847,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $product = wc_get_product( $post_id );
