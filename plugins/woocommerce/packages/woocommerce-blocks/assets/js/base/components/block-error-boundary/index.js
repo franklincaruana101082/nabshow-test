@@ -2,7 +2,7 @@
  * External dependencies
  */
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 
 /**
  * Internal dependencies
@@ -20,10 +20,10 @@ class BlockErrorBoundary extends Component {
 		) {
 			return {
 				errorMessage: (
-					<>
+					<Fragment>
 						<strong>{ error.status }</strong>:&nbsp;
 						{ error.statusText }
-					</>
+					</Fragment>
 				),
 				hasError: true,
 			};
@@ -40,7 +40,6 @@ class BlockErrorBoundary extends Component {
 			text,
 			errorMessagePrefix,
 			renderError,
-			button,
 		} = this.props;
 		const { errorMessage, hasError } = this.state;
 
@@ -55,7 +54,6 @@ class BlockErrorBoundary extends Component {
 					imageUrl={ imageUrl }
 					text={ text }
 					errorMessagePrefix={ errorMessagePrefix }
-					button={ button }
 				/>
 			);
 		}

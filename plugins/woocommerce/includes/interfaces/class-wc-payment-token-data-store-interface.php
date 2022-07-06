@@ -6,6 +6,10 @@
  * @package WooCommerce\Interface
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * WC Payment Token Data Store Interface
  *

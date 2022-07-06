@@ -110,25 +110,21 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             register_rest_route( 'nab_api', '/request/all_terms', array(
                 'methods'  => 'GET',
-                'permission_callback' => '__return_true',
                 'callback' => array( __CLASS__, 'mysgb_get_all_terms' ),
             ) );
 
 	        register_rest_route( 'nab_api', '/request/sponsor-acf-types', array(
 		        'methods'  => 'GET',
-                'permission_callback' => '__return_true',
 		        'callback' => array( __CLASS__, 'mysgb_get_sponsor_acf_types' ),
 	        ) );
 
 	        register_rest_route( 'nab_api', '/request/category-block-terms', array(
 		        'methods'  => 'GET',
-                'permission_callback' => '__return_true',
 		        'callback' => array( __CLASS__, 'mysgb_get_category_block_terms' ),
             ) );
             
             register_rest_route( 'nab_api', '/request/get-session-channels', array(
 		        'methods'  => 'GET',
-                'permission_callback' => '__return_true',
 		        'callback' => array( __CLASS__, 'mysgb_get_session_channels' ),
 	        ) );
         }
@@ -285,19 +281,22 @@ if ( ! class_exists('MYSGutenbergBlocks') ) {
 
             $current_theme = get_option( 'stylesheet' );
 
-            if ( 'nabshow-lv' !== $current_theme && 'nabshow-ny' !== $current_theme ) {
+            if ( 'nabshow-lv' !== $current_theme && 'nabshow-ny' !== $current_theme ) {	            
 
-	            if ( ! wp_script_is( 'bootstrap' ) && ! wp_script_is( 'bootstrap-js' ) ) {
-		            wp_enqueue_script( 'bootstrap-modal', plugins_url( 'assets/js/modal.min.js', __FILE__ ), array( 'jquery' ), null, true );
-	            }
+                if ( 'nabshow-2022' !== $current_theme ) {
 
-                wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/mysgb-blocks.js', __FILE__ ), array( 'jquery' ), null, true );
-                wp_enqueue_script( 'mysgb-bx-slider',  plugins_url( 'assets/js/jquery.bxslider.min.js', __FILE__ ), array( 'jquery' ), null, true );
+                    if ( ! wp_script_is( 'bootstrap' ) && ! wp_script_is( 'bootstrap-js' ) ) {
+                        wp_enqueue_script( 'bootstrap-modal', plugins_url( 'assets/js/modal.min.js', __FILE__ ), array( 'jquery' ), null, true );
+                    }
 
-	            wp_localize_script( 'mysgb-blocks-script', 'mysGbCustom', array(
-                        'ajax_url'                  => admin_url( 'admin-ajax.php' ),
-                        'mysgb_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
-	            ) );
+                    wp_enqueue_script( 'mysgb-blocks-script', plugins_url( 'assets/js/mysgb-blocks.js', __FILE__ ), array( 'jquery' ), null, true );
+                    wp_enqueue_script( 'mysgb-bx-slider',  plugins_url( 'assets/js/jquery.bxslider.min.js', __FILE__ ), array( 'jquery' ), null, true );
+
+                    wp_localize_script( 'mysgb-blocks-script', 'mysGbCustom', array(
+                            'ajax_url'                  => admin_url( 'admin-ajax.php' ),
+                            'mysgb_browse_filter_nonce' => wp_create_nonce( 'browse_filter_nonce' ),
+                    ) );
+                }                
 
 	            if ( ! wp_style_is( 'bootstrap' ) && ! wp_style_is( 'bootstrap-css' ) ) {
 		            wp_enqueue_style( 'bootstrap', plugin_dir_url( __FILE__ ) . 'assets/css/bootstrap.min.css' );

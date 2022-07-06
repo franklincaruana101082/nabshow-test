@@ -47,6 +47,9 @@
       text-align: center;
       max-width: rem(820);
     }
+    &._short {
+      margin-bottom: rem(40);
+    }
   }
 }
 
@@ -164,6 +167,9 @@
     flex-direction: column;
     padding: rem(80) 0;
   }
+  &._nobg {
+    background: transparent;
+  }
   &._short {
     @include bp-768 {
       min-height: 0;
@@ -272,6 +278,14 @@
 }
 .inline-icon + .inline-icon {
   margin-left: 1rem;
+}
+.icon-pillar {
+  background-size: auto 100%;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  padding: rem(3) 0 rem(3) rem(32);
+  @include primary-black-16-16-20;
+  display: inline-block;
 }
 
 // decorative
@@ -767,6 +781,9 @@
     grid-template-columns: rem(189) 1fr;
     grid-gap: rem(20);
   }
+  &._noimg {
+    display: block;
+  }
 }
 .story__media {
   margin-bottom: rem(20);
@@ -779,6 +796,10 @@
   p {
     @include primary-medium-italic-15-24;
   }
+}
+.story__intro {
+  color: $color__white;
+  @include primary-medium-italic-15-24;
 }
 
 .maintenance-wrapper {
@@ -1119,10 +1140,10 @@
   }
 }
 .conference-sessions-session-desc {
-  font-size: rem(14);
+  font-size: rem(18);
   line-height: 1.36;
   p {
-    font-size: rem(14);
+    font-size: rem(18);
     line-height: 1.36;
   }
 }
@@ -2118,4 +2139,101 @@
 
 .news_bottom_ad {
   display: none;
+}
+
+
+//pillar page sections for background lighting effects
+.section__row {
+  
+  padding-bottom: rem(40);
+  @include bp-768 {
+    padding-bottom: rem(80);
+  }
+  
+  &:last-child {
+    margin-bottom: rem(-60);
+    padding-bottom: rem(60);
+    @include bp-768 {
+      margin-bottom: rem(-120);
+      padding-bottom: rem(120);
+    }
+  }
+  &._lightlines-strip {
+    position: relative;
+    padding-top: rem(20);
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: rem(20);
+      @include background-image("lighting/intro-thinwide-banner-lights.png");
+      background-size: cover;
+    }
+  }
+  &._generic {
+    background-image: url('#{$theme_path}/assets/images/lighting/generic_light_circles.png'),
+                      url('#{$theme_path}/assets/images/lighting/generic_light_circles.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left rem(160), right bottom;
+  }
+  &._generictl {
+    background-image: url('#{$theme_path}/assets/images/lighting/light effect_06_left_edge.png'),
+                      url('#{$theme_path}/assets/images/lighting/light effect_03_bottom_right.png');
+    background-position: left rem(-620), right bottom;
+    background-repeat: no-repeat, no-repeat;
+    background-size: auto auto, contain;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+  }
+  &._genericbr {
+    background-image: url('#{$theme_path}/assets/images/lighting/light effect_03_right_edge.png');
+    background-position: right bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+  }
+  &._purple {
+    //#170432 rgb(23,4,50)
+    background: linear-gradient(256.59deg, rgba(23, 4, 50, 1) 81.26%, #9E4593 139.5%), 
+                linear-gradient(243.87deg, rgba(12, 165, 234, 0.6) -13.36%, rgba(23, 4, 50, 0.12) 31.04%);
+  }
+  &._create {
+    background-image: url('#{$theme_path}/assets/images/lighting/generic_light_circles.png'),
+                      url('#{$theme_path}/assets/images/lighting/light_effect_06_right_edge.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left rem(160), right center; 
+    background-size: auto auto, contain;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+  }
+  &._connect {
+    background-image: url('#{$theme_path}/assets/images/lighting/generic_light_circles.png'),
+                      url('#{$theme_path}/assets/images/lighting/light effect_10_edge_right.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left rem(160), right center; 
+    background-size: auto auto, contain;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+  }
+  &._capitalize {
+    background-image: url('#{$theme_path}/assets/images/lighting/generic_light_circles.png'),
+                      url('#{$theme_path}/assets/images/lighting/light_effect_07_right_edge.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left rem(160), right top; 
+    background-size: auto auto, contain;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+  }
+  &._content {
+    background-image: url('#{$theme_path}/assets/images/lighting/generic_light_circles.png'),
+                      url('#{$theme_path}/assets/images/lighting/home_featurette_bg1.png');
+    background-repeat: no-repeat, no-repeat;
+    background-position: left rem(160), right top; 
+    background-size: auto auto, contain;
+    background-blend-mode: screen;
+    background-color: $color__purple-dark;
+  }
 }

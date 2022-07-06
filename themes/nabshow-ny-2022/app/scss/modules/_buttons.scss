@@ -1,0 +1,163 @@
+// BUTTONS
+
+.button,
+input[type="submit"].button,
+input[type="button"].button,
+.nab-btn-main a {
+  @include secondary-bold-16-21;
+  display: inline-block;
+  background: $color__gray;
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  white-space: nowrap;
+  text-align: center;
+
+
+  &._arrow, &.with-arrow {
+    background-color: transparent;
+    padding: rem(10) 0;
+    border-bottom: rem(1) solid rgba($colorhex__white, 0.5);
+    color: $color__white;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0;
+    &._alt, &.title {
+      border-bottom: none;
+      border-top: rem(1) solid rgba($colorhex__white, 0.5);
+      padding: rem(12) 0 rem(10);
+    }
+    &._nob {
+      border-bottom: none !important;
+    }
+    &._wide {
+      min-width: rem(200);
+    }
+    &._full {
+      display: flex;
+    }
+    @include primary-black-12-12-20;
+    @include bp-768 {
+      @include secondary-bold-16-21;;
+    }
+    &._small {
+      @include primary-black-12-12-20;
+    }    
+    // arrow buttons large font on mobile
+    &._large {
+      border-width: rem(2);
+      border-color: $color__white;
+      @include secondary-bold-16-21;;
+      &::after {
+        font-size: 1em;
+      }
+      @include bp-768 {
+        @include secondary-bold-16-21;;
+        &::after {
+          font-size: 1em;
+        }
+      }
+    }
+
+    &::after {
+      content: "→";
+      transition: all 0.25s ease-in-out;
+      display: inline-block;
+      margin: 0 0 rem(4) rem(16);
+      font-size: 2em;
+      @include bp-768 {
+        font-size: 1em;
+      }
+    }
+    &:focus,
+    &:hover {
+      text-decoration: none;
+      &::after {
+        transform: translateX(rem(4));
+      }
+    }
+  }
+
+  &._full {
+    display: block;
+    &._arrow {
+      display: flex;
+    }
+  }
+
+  &._solid {
+    padding: rem(17) rem(64);
+    color: $color__white;
+    background-color: $color__purple-lightish;
+    @include primary-black-12-12-20;
+    border-radius: rem(50);
+    text-transform: uppercase;
+    transition: all 0.3s;
+    &:hover,
+    &:focus {
+      background-color: $color__purple-slate;
+      color: $color__white;
+    }
+    &._desk-large {
+      @include bp-768 {
+        @include primary-black-16-16-20;
+      }
+    }
+    &._compact {
+      padding: rem(14) rem(32);
+    }
+    &._white {
+      background: $color__white;
+      color: $color__purple-light;
+    }
+    &._border {
+      border: rem(3) solid $color__purple-light;
+      @include bp-768 {
+        border: rem(5) solid $color__purple-light;
+      }
+    }
+    &._xl {
+      @include bp-768 {
+        @include primary-black-30-30;
+      }
+    }
+    &._xxl {
+      @include bp-768 {
+        @include primary-black-31-44;
+      }
+    }
+    &._cta {
+      @include primary-black-24-24;
+      padding: rem(20) rem(64);
+      letter-spacing: normal;
+    }
+  }
+
+  &._plus {
+    background: none;
+    @include primary-black-14-14-20;
+    text-transform: uppercase;
+    color: $color__purple-lightish;
+    &::before {
+      content: "+ ";
+    }
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+    }
+  }
+}
+
+// button-group
+.button-group {
+  list-style-type: none;
+  li + li {
+    margin-top: rem(16);
+  }
+  .button {
+    width: 100%;
+  }
+}

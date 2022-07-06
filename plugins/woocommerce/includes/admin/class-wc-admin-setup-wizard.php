@@ -111,7 +111,7 @@ class WC_Admin_Setup_Wizard {
 		$country_code = WC()->countries->get_base_country();
 		// https://developers.taxjar.com/api/reference/#countries .
 		$tax_supported_countries = array_merge(
-			array( 'US', 'CA', 'AU', 'GB' ),
+			array( 'US', 'CA', 'AU' ),
 			WC()->countries->get_european_union_countries()
 		);
 
@@ -481,7 +481,7 @@ class WC_Admin_Setup_Wizard {
 		$state          = WC()->countries->get_base_state();
 		$country        = WC()->countries->get_base_country();
 		$postcode       = WC()->countries->get_base_postcode();
-		$currency       = get_option( 'woocommerce_currency', 'USD' );
+		$currency       = get_option( 'woocommerce_currency', 'GBP' );
 		$product_type   = get_option( 'woocommerce_product_type', 'both' );
 		$sell_in_person = get_option( 'woocommerce_sell_in_person', 'none_selected' );
 

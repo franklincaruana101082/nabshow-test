@@ -27,7 +27,7 @@ const paths = {
   },
   scripts: {
     src: './src/js/**/*.js',
-    dest: './assets/js'
+    dest: './js'
   },
   vendors: {
     src: './src/js/vendors/**/*.js',
@@ -41,7 +41,7 @@ const paths = {
 
 function serve () {
   browserSync.init({
-    proxy: "amplify.test"
+    proxy: "https://amplify.nabshow.vipdev.lndo.site/"
   })
 }
 

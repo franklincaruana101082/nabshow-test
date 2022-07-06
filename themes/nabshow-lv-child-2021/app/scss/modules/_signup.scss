@@ -33,6 +33,12 @@
   grid-gap: rem(30);
   padding-top: rem(30);
   padding-bottom: rem(60);
+  &._notoppad {
+    padding-top: 0;
+  }
+  &._nobottompad {
+    padding-top: 0;
+  }
   .field > a {
     color: $color__pink;
   }
@@ -45,6 +51,10 @@
   &__logo {
     max-width: rem(220);
     margin-bottom: rem(30);
+  }
+  &__ctas {
+    display: grid;
+    grid-gap: rem(18);
   }
   &__titles {
     h1,

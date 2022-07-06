@@ -105,7 +105,7 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 						</p>
 
 						<p class="form-row form-row-first" id="attendee_city_field">
-							<label for="attendee_city" class=""><?php esc_html_e( "City" ); ?></label>
+							<label for="attendee_city" class=""><?php esc_html_e( "City*" ); ?></label>
 							<span class="woocommerce-input-wrapper">
 							<input type="text" class="input-text" name="attendee_city" id="attendee_city" placeholder=""
 							       value="<?php echo ( isset( $event_data['attendee_city'] ) ) ? esc_attr( $event_data['attendee_city'] ) : '' ?>">
@@ -151,9 +151,12 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 						</span>
 						</p>
 
+						<?php do_action( 'woocommerce_checkout_billing' ); ?>
+
 						<?php
 						$interests = ( isset( $event_data['attendee_interest'] ) && ! empty( $event_data['attendee_interest'] ) ) ? maybe_unserialize( $event_data['attendee_interest'] ) : [];
 						?>
+						<br>
 						<h4 class="text-transform-initial"><?php esc_html_e( 'I see myself in the following community(ies):' ); ?></h4>
 						<p class="form-row form-row-wide" id="attendee_interest_field">
 						<div class="checkbox-custom">
@@ -250,8 +253,6 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 
 					</div>
 				<?php } ?>
-
-				<?php do_action( 'woocommerce_checkout_billing' ); ?>
 			</div>
 
 			<div class="col-2">

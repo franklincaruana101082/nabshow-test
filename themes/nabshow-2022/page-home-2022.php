@@ -7,18 +7,33 @@
 
 get_header();
 
-$hero = get_field('banner_background_image');
-$video= get_field('banner_video_embed');
-$logo = get_field('banner_logo_image');
-$cta1 = get_field('banner_main_cta');
-$cta2 = get_field('banner_secondary_cta');
+$hero     = get_field('banner_background_image');
+$video    = get_field('banner_background_video_embed');
+$headline = get_field('banner_headline');
+$logo     = get_field('banner_logo_image');
+$cta1     = get_field('banner_main_cta');
+$cta2     = get_field('banner_secondary_cta');
+
+if($video) {
+  $aspect_height = (100 * ($video['height'] / $video['width']));
+  $aspect_width  = (100 * ($video['width'] / $video['height']));
+}
 
 ?>
 
 <main id="main" class="new">
-  <div class="hero-banner" style="background-image: url('<?php echo esc_url($hero); ?>');">
-    <div class="showinfo">
-      <div class="showinfo__when"><?php the_field('banner_date'); ?> | <?php the_field('banner_location'); ?></div>
+  <div class="hero-banner <?php echo($video ? esc_attr('_video') : '" style="background-image: url('.esc_url($hero).');'); ?>" >
+    <div class="showinfo <?php echo esc_attr($headline ? '_headline' : ''); ?>">
+      <?php if($headline) { ?>
+        <h1 class="showinfo__headline"><?php echo esc_html($headline); ?></h1>
+      <?php } ?>
+      <?php if(get_field('banner_date') || get_field('banner_location')) { ?>
+      <div class="showinfo__when">
+        <?php the_field('banner_date'); ?>
+        <?php if(get_field('banner_date') && get_field('banner_location')) { ?> | <?php } ?>
+        <?php the_field('banner_location'); ?>
+      </div>
+      <?php } ?>
       <img src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" class="showinfo__logo" width="<?php echo( $logo['width'] ); ?>"height="<?php echo( $logo['height'] ); ?>" />
       <?php if( !empty($cta1) ): ?>
       <div class="showinfo__cta">
@@ -26,6 +41,22 @@ $cta2 = get_field('banner_secondary_cta');
       </div>
       <?php endif; ?>
     </div>
+    <?php if($video): ?>
+      <div class="hero-banner__video">
+        <video muted loop autoplay 
+          style="
+            width: <?php echo esc_attr($aspect_width); ?>vh;
+            height:  100%;
+            min-width: 100%;
+            min-height: <?php echo esc_attr($aspect_height); ?>vw;
+        ">
+          <source 
+            src="<?php echo esc_url($video['url']); ?>" 
+            type="<?php echo esc_attr($video['mime_type']); ?>"
+          >
+        </video>
+      </div>
+    <?php endif; ?>
   </div>
   <div class="home__lighting1">
 <?php
@@ -35,6 +66,7 @@ $testimonials         = get_field( 'testimonials' );
 $attending_companies  = get_field( 'attending_companies' );
 $exhibitor_companies  = get_field( 'exhibitor_companies' );
 $display_safety       = get_field( 'display_safety' );
+$site_intro           = get_field( 'site_intro' );
 
 if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   ?>
@@ -58,19 +90,29 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   </div>
   <?php
 }
+
+if ( $site_intro && ! empty( $site_intro ) ) {
+  ?>
+  <div class="section container">
+    <div class="site__intro">
+      <?php echo wp_kses_post( $site_intro ); ?>
+    </div>
+  </div>
+  <?php
+}
   $stories = get_field('stories');
+
   if( $stories ):
     while( have_rows('stories')): the_row();
       if( have_rows('story_items')):
 ?>
   <div class="section container">
-    <div class="section-heading">
-      <h4 class="stories__intro"><?php echo $stories['stories_title']; ?></h4>
-    </div>
+    
+    <h2 class="featurette__title"><?php echo esc_html( $stories['section_header'] ); ?></h2>
 
-    <div class="section _bottom-only container">
-      <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
-    </div>
+    <div class="featurette__intro">
+      <?php echo wp_kses_post( $stories['intro_copy'] ); ?>
+    </div>    
 
     <div class="stories">
       <?php
@@ -100,6 +142,9 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
         </div>
       </div>
       <?php endwhile; ?>
+    </div>
+    <div class="section _bottom-only container">
+      <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
     </div>
   </div>
   <?php
@@ -219,6 +264,19 @@ if( have_rows('closing_featurette') ) :
 <?php
   endif;
  endwhile;
+endif;
+
+if ( have_posts() ) :
+  ?>
+  <div class="section gutenberg-blocks">
+    <?php
+    while ( have_posts() ) :
+      the_post();
+      the_content();
+    endwhile;
+    ?>
+  </div>
+  <?php
 endif;
 ?>
 

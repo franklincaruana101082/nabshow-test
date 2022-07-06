@@ -1,17 +1,17 @@
 /**
  * External dependencies
  */
-import { usePrevious } from '@woocommerce/base-hooks';
 import {
 	useQueryStateByKey,
 	useQueryStateByContext,
 	useCollectionData,
-} from '@woocommerce/base-context/hooks';
-import { useCallback, useState, useEffect } from '@wordpress/element';
+	usePrevious,
+} from '@woocommerce/base-hooks';
+import { Fragment, useCallback, useState, useEffect } from '@wordpress/element';
 import PriceSlider from '@woocommerce/base-components/price-slider';
 import { useDebouncedCallback } from 'use-debounce';
 import PropTypes from 'prop-types';
-import { getCurrencyFromPriceResponse } from '@woocommerce/price-format';
+import { getCurrencyFromPriceResponse } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies
@@ -149,11 +149,9 @@ const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
 	const TagName = `h${ attributes.headingLevel }`;
 
 	return (
-		<>
+		<Fragment>
 			{ ! isEditor && attributes.heading && (
-				<TagName className="wc-block-price-filter__title">
-					{ attributes.heading }
-				</TagName>
+				<TagName>{ attributes.heading }</TagName>
 			) }
 			<div className="wc-block-price-slider">
 				<PriceSlider
@@ -169,7 +167,7 @@ const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
 					isLoading={ isLoading }
 				/>
 			</div>
-		</>
+		</Fragment>
 	);
 };
 

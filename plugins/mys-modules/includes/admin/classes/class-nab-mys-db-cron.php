@@ -148,28 +148,24 @@ if ( ! class_exists( 'NAB_MYS_DB_CRON' ) ) {
 			 */
 			register_rest_route( 'mys', '/migrate-data', array(
 					'methods'  => 'GET',
-					'permission_callback' => '__return_true',
 					'callback' => array( $this, 'nab_mys_cron_custom_to_master' )
 				)
 			);
 
 			register_rest_route( 'mys', '/migrate-custom', array(
 					'methods'  => 'GET',
-					'permission_callback' => '__return_true',
 					'callback' => array( $this, 'nab_mys_cron_custom_migration' )
 				)
 			);
 
 			register_rest_route( 'mys', '/remove', array(
 					'methods'  => 'GET',
-					'permission_callback' => '__return_true',
 					'callback' => array( $this, 'nab_mys_cron_remove_posts' )
 				)
 			);
 
 			register_rest_route( 'mys', '/getwpid', array(
 					'methods'  => 'GET',
-					'permission_callback' => '__return_true',
 					'callback' => array( $this, 'nab_mys_cron_get_wpids' )
 				)
 			);

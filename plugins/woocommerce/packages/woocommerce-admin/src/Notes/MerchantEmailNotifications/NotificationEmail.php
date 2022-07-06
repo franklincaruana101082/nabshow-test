@@ -5,7 +5,7 @@
 
 namespace Automattic\WooCommerce\Admin\Notes\MerchantEmailNotifications;
 
-use Automattic\WooCommerce\Admin\Notes\Notes;
+use Automattic\WooCommerce\Admin\Notes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -31,9 +31,6 @@ class NotificationEmail extends \WC_Email {
 		$this->note          = $note;
 		$this->id            = 'merchant_notification';
 		$this->template_base = WC_ADMIN_ABSPATH . 'includes/emails/';
-		$this->placeholders  = array(
-			'{greetings}' => __( 'Hi there,', 'woocommerce' ),
-		);
 
 		// Call parent constructor.
 		parent::__construct();
@@ -91,16 +88,6 @@ class NotificationEmail extends \WC_Email {
 	}
 
 	/**
-	 * Get email headers.
-	 *
-	 * @return string
-	 */
-	public function get_headers() {
-		$header = 'Content-Type: ' . $this->get_content_type() . "\r\n";
-		return apply_filters( 'woocommerce_email_headers', $header, $this->id, $this->object, $this );
-	}
-
-	/**
 	 * Get email subject.
 	 *
 	 * @return string
@@ -146,8 +133,8 @@ class NotificationEmail extends \WC_Email {
 			$this->get_template_filename( 'html' ),
 			array(
 				'email_actions'           => $this->get_actions(),
-				'email_content'           => $this->format_string( $this->get_note_content() ),
-				'email_heading'           => $this->format_string( $this->get_heading() ),
+				'email_content'           => $this->get_note_content(),
+				'email_heading'           => $this->get_heading(),
 				'email_image'             => $this->get_image(),
 				'sent_to_admin'           => true,
 				'plain_text'              => false,
@@ -169,8 +156,8 @@ class NotificationEmail extends \WC_Email {
 		return wc_get_template_html(
 			$this->get_template_filename( 'plain' ),
 			array(
-				'email_heading'           => $this->format_string( $this->get_heading() ),
-				'email_content'           => $this->format_string( $this->get_note_content() ),
+				'email_heading'           => $this->get_heading(),
+				'email_content'           => $this->get_note_content(),
 				'email_actions'           => $this->get_actions(),
 				'sent_to_admin'           => true,
 				'plain_text'              => true,
@@ -185,30 +172,20 @@ class NotificationEmail extends \WC_Email {
 	/**
 	 * Trigger the sending of this email.
 	 *
-	 * @param string $user_email Email to send the note.
-	 * @param int    $user_id User id to to track the note.
-	 * @param string $user_name User's name.
+	 * @param string $email Email to send the note.
 	 */
-	public function trigger( $user_email, $user_id, $user_name ) {
-		$this->recipient               = $user_email;
+	public function trigger( $email ) {
+		$this->recipient               = $email;
 		$this->opened_tracking_url     = sprintf(
-			'%1$s/wp-json/wc-analytics/admin/notes/tracker/%2$d/user/%3$d',
+			'%1$s/wp-json/wc-analytics/admin/notes/tracker/%2$d',
 			site_url(),
-			$this->note->get_id(),
-			$user_id
+			$this->note->get_id()
 		);
 		$this->trigger_note_action_url = sprintf(
-			'%1$s&external_redirect=1&note=%2$d&user=%3$d&action=',
+			'%1$s&external_redirect=1&note=%2$d&action=',
 			wc_admin_url(),
-			$this->note->get_id(),
-			$user_id
+			$this->note->get_id()
 		);
-
-		if ( $user_name ) {
-			/* translators: %s = merchant name */
-			$this->placeholders['{greetings}'] = sprintf( __( 'Hi %s,', 'woocommerce' ), $user_name );
-		}
-
 		$this->send(
 			$this->get_recipient(),
 			$this->get_subject(),
@@ -216,6 +193,5 @@ class NotificationEmail extends \WC_Email {
 			$this->get_headers(),
 			$this->get_attachments()
 		);
-		Notes::record_tracks_event_with_user( $user_id, 'email_note_sent', array( 'note_name' => $this->note->get_name() ) );
 	}
 }

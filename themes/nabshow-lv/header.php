@@ -19,17 +19,14 @@
 	<link rel="icon" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.ico' ); ?>">
 	<meta name="google-site-verification" content="bxlFmG3yrAwWFAwi0WI6Bd_V5Ab78-ldZTGAGrgilTQ" />
 	<?php wp_head(); ?>
-	<!-- Google Tag Manager -->
-	<script>
-		(function(w,d,s,l,i){w[l]=w[l]||[];
-                w[l].push({'gtm.start':
-				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-MQKPWN');
-	</script>
-	<!-- End Google Tag Manager -->
-	<script>
+
+	<!-- Dynamic Schema -->
+	<?php $dymanic_schema = get_option( 'dymanic_schema' );
+	if ( ! empty( $dymanic_schema ) ) {
+		echo $dymanic_schema;
+	} ?>
+	<!-- End Dynamic Schema -->
+	<!--<script>
 		"use strict";
 
 		!function() {
@@ -53,13 +50,13 @@
 		}();
 		drift.SNIPPET_VERSION = '0.3.1';
 		drift.load('t9bym32zb3py');
-	</script>
+	</script>-->
+	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body <?php body_class(); ?>>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQKPWN" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<?php wp_body_open(); ?>
+
 <div id="page" class="site">
     <a class="skip-link screen-reader-text" href="#content">
 		<?php
@@ -100,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="header-nav headnav col-md-9">
+                <div class="header-nav headnav col-md-12 col-lg-9">
                     <div id="menuToggle">
                         <input type="checkbox" class="menu-hamburger show-sm" />
                         <div class="hamburger show-sm">

@@ -128,7 +128,7 @@ const favicon = () =>
 // Watches all .scss, .js and .html changes and executes the corresponding task
 function watchFiles() {
   browserSync.init({
-    proxy: 'show.test',
+    proxy: 'https://show.test',
     notify: false
   });
 

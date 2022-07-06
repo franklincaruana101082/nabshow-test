@@ -155,7 +155,7 @@ if ( ! class_exists( 'Amplify_Global_Header' ) ) {
                                         $theme_template = $theme_info->get('Template');
                                         $theme_textdomain = $theme_info->get('TextDomain');
 
-                                        if($theme_textdomain == 'nabshow-base' || $theme_template == 'nabshow-base' || $current_site_id == 4) {
+                                        if($theme_textdomain == 'nabshow-ny-2022' || $theme_textdomain == 'nabshow-base' || $theme_template == 'nabshow-base' || $current_site_id == 4) {
                                             //show swiftype search on NABShow.com
                                             ?>
                                             <input type="text" class="st-default-search-input header__search">

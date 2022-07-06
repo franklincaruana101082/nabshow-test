@@ -204,6 +204,12 @@ $weight__black: 900;
   font-size: rem(16);
   line-height: rem(24);
 }
+@mixin primary-medium-italic-18-24 {
+  font-weight: $weight__medium;
+  font-style: italic;
+  font-size: rem(18);
+  line-height: rem(24);
+}
 
 @mixin primary-bold-16-16 {
   font-weight: $weight__bold;
@@ -391,10 +397,10 @@ body {
     padding-bottom: rem(60);
   }
   p {
-    @include primary-medium-italic-16-24;
+    @include primary-medium-italic-18-24;
     padding-bottom: rem(30);
     @include bp-768 {
-      @include primary-medium-italic-16-24;
+      @include primary-medium-italic-18-24;
       padding-bottom: rem(30);
     }
   }
@@ -482,7 +488,7 @@ body {
       transform: translateX(0);
     }
   }
-  p {
+  p, .nabshow_2021 & p {
     @include primary-black-25-40;
     text-transform: uppercase;
     padding-bottom: rem(20);
@@ -490,10 +496,33 @@ body {
       @include primary-black-31-44;
     }
   }
-  cite {
+  cite, a.cite {
     @include primary-black-12-12-20;
     text-transform: uppercase;
     font-style: normal;
+    color: $color__white;
+    &._arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      &::after {
+        content: "→";
+        transition: all 0.25s ease-in-out;
+        display: inline-block;
+        margin: 0 0 rem(4) rem(16);
+        font-size: 2em;
+        @include bp-768 {
+          font-size: 1em;
+        }
+      }
+      &:focus,
+      &:hover {
+        text-decoration: none;
+        &::after {
+          transform: translateX(rem(4));
+        }
+      }
+    }
   }
 }
 

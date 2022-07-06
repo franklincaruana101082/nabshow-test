@@ -28,7 +28,7 @@
 	} ?>
 	<!-- End Dynamic Schema -->
 
-	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!--	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
 </head>
 
 <body <?php body_class(); ?>>
@@ -40,7 +40,6 @@
 		esc_html_e( 'Skip to content', 'nabshow-lv' );
 		?>
     </a>
-    
 
   <header class="header">
 
@@ -66,14 +65,14 @@
       <div class="header__mobile-cart cart">
         <a class="cart__link" href="https://amplify.nabshow.com/cart/">Cart</a>
         <span class="cart__count">0</span>
-      </div>  
-      */ ?>    
+      </div>
+      */ ?>
     </nav>
 
     <div class="header__navwrapper">
-      
+
       <nav class="header__mainnav">
-        
+
         <a href="<?php echo esc_url( get_site_url() ); ?>" class="header__mainnav-logo-link">
             <?php
             // check if show global menu option is selected
@@ -88,7 +87,7 @@
             ?>
         </a>
         <?php wp_nav_menu( array( 'theme_location' => 'menu-main', 'container' => false, 'menu_class' => 'header__mainnav-menu menu' ) ); ?>
-      
+        <?php //echo('<input type="text" class="st-default-search-input header__search">');?>
       </nav>
       <?php do_action( 'nab_global_header' ); ?>
       <?php /*
@@ -103,13 +102,12 @@
                 $current_user       = wp_get_current_user();
                 $user_images        = nab_amplify_get_user_images( $current_user->ID );
                 $user_thumb         = $user_images['profile_picture'];
-                $user_full_name     = get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );                                                     
-                
+                $user_full_name     = get_user_meta( $current_user->ID, 'first_name', true ) . ' ' . get_user_meta( $current_user->ID, 'last_name', true );
+
                 if ( empty( trim( $user_full_name ) ) ) {
 
                     $user_full_name = $current_user->display_name;
                 }
-                
                 ?>
                 <li class="menu__item _profile">
                     <a class="menu__link" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
@@ -137,7 +135,6 @@
                 <a href="<?php echo esc_url( wc_get_cart_url() ); ?>">Cart</a>
                 <span class="cart__count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
             </li>
-            
             <li class="menu__item"><a href="#" class="menu__link">Sign Up</a></li>
             <li class="menu__item"><a href="#" class="menu__link">Sign In</a></li>
             <?php /*<li class="header__utilitynav-cart">
@@ -146,7 +143,8 @@
             </li>  ?>
           </ul>
         </nav>
-      </div>  
+      </div>
         */?>
     </div>
-  </header>  
+  </header>
+<div data-swiftype-name="body" data-swiftype-type="text">

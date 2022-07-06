@@ -2,7 +2,7 @@
 ( function( $, params, wp ) {
 	$( function() {
 		// Sell Countries
-		$( 'select#woocommerce_allowed_countries' ).on( 'change', function() {
+		$( 'select#woocommerce_allowed_countries' ).change( function() {
 			if ( 'specific' === $( this ).val() ) {
 				$( this ).closest('tr').next( 'tr' ).hide();
 				$( this ).closest('tr').next().next( 'tr' ).show();
@@ -13,25 +13,25 @@
 				$( this ).closest('tr').next( 'tr' ).hide();
 				$( this ).closest('tr').next().next( 'tr' ).hide();
 			}
-		}).trigger( 'change' );
+		}).change();
 
 		// Ship Countries
-		$( 'select#woocommerce_ship_to_countries' ).on( 'change', function() {
+		$( 'select#woocommerce_ship_to_countries' ).change( function() {
 			if ( 'specific' === $( this ).val() ) {
 				$( this ).closest('tr').next( 'tr' ).show();
 			} else {
 				$( this ).closest('tr').next( 'tr' ).hide();
 			}
-		}).trigger( 'change' );
+		}).change();
 
 		// Stock management
-		$( 'input#woocommerce_manage_stock' ).on( 'change', function() {
+		$( 'input#woocommerce_manage_stock' ).change( function() {
 			if ( $( this ).is(':checked') ) {
 				$( this ).closest('tbody').find( '.manage_stock_field' ).closest( 'tr' ).show();
 			} else {
 				$( this ).closest('tbody').find( '.manage_stock_field' ).closest( 'tr' ).hide();
 			}
-		}).trigger( 'change' );
+		}).change();
 
 		// Color picker
 		$( '.colorpick' )
@@ -48,17 +48,17 @@
 				event.stopPropagation();
 				$( '.iris-picker' ).hide();
 				$( this ).closest( 'td' ).find( '.iris-picker' ).show();
-				$( this ).data( 'originalValue', $( this ).val() );
+				$( this ).data( 'original-value', $( this ).val() );
 			})
 
 			.on( 'change', function() {
 				if ( $( this ).is( '.iris-error' ) ) {
-					var original_value = $( this ).data( 'originalValue' );
+					var original_value = $( this ).data( 'original-value' );
 
 					if ( original_value.match( /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/ ) ) {
-						$( this ).val( $( this ).data( 'originalValue' ) ).trigger( 'change' );
+						$( this ).val( $( this ).data( 'original-value' ) ).change();
 					} else {
-						$( this ).val( '' ).trigger( 'change' );
+						$( this ).val( '' ).change();
 					}
 				}
 			});
@@ -71,7 +71,7 @@
 		$( function() {
 			var changed = false;
 
-			$( 'input, textarea, select, checkbox' ).on( 'change', function() {
+			$( 'input, textarea, select, checkbox' ).change( function() {
 				if ( ! changed ) {
 					window.onbeforeunload = function() {
 						return params.i18n_nav_warning;
@@ -110,13 +110,13 @@
 
 		// Select all/none
 		$( '.woocommerce' ).on( 'click', '.select_all', function() {
-			$( this ).closest( 'td' ).find( 'select option' ).prop( 'selected', true );
+			$( this ).closest( 'td' ).find( 'select option' ).attr( 'selected', 'selected' );
 			$( this ).closest( 'td' ).find( 'select' ).trigger( 'change' );
 			return false;
 		});
 
 		$( '.woocommerce' ).on( 'click', '.select_none', function() {
-			$( this ).closest( 'td' ).find( 'select option' ).prop( 'selected', false );
+			$( this ).closest( 'td' ).find( 'select option' ).removeAttr( 'selected' );
 			$( this ).closest( 'td' ).find( 'select' ).trigger( 'change' );
 			return false;
 		});
@@ -126,7 +126,7 @@
 			var moveBtn = $( this ),
 				$row    = moveBtn.closest( 'tr' );
 
-			moveBtn.trigger( 'focus' );
+			moveBtn.focus();
 
 			var isMoveUp = moveBtn.is( '.wc-move-up' ),
 				isMoveDown = moveBtn.is( '.wc-move-down' );
@@ -147,7 +147,7 @@
 				}
 			}
 
-			moveBtn.trigger( 'focus' ); // Re-focus after the container was moved.
+			moveBtn.focus(); // Re-focus after the container was moved.
 			moveBtn.closest( 'table' ).trigger( 'updateMoveButtons' );
 		} );
 

@@ -15,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
  * @extends WC_REST_Product_Attribute_Terms_Controller
  */
 class ProductAttributeTerms extends \WC_REST_Product_Attribute_Terms_Controller {
-	use CustomAttributeTraits;
-
 	/**
 	 * Endpoint namespace.
 	 *
@@ -98,51 +96,29 @@ class ProductAttributeTerms extends \WC_REST_Product_Attribute_Terms_Controller 
 			return array();
 		}
 
-		$attribute_values = array();
-
-		// Get the attribute properties.
-		$attribute = $this->get_custom_attribute_by_slug( $slug );
-
-		if ( is_wp_error( $attribute ) ) {
-			return $attribute;
-		}
-
 		// Find all attribute values assigned to products.
 		$query_results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_value, COUNT(meta_id) AS product_count
 				FROM {$wpdb->postmeta}
 				WHERE meta_key = %s
-				AND meta_value != ''
 				GROUP BY meta_value",
 				'attribute_' . esc_sql( $slug )
 			),
-			OBJECT_K
+			ARRAY_A
 		);
 
-		// Ensure all defined properties are in the response.
-		$defined_values = wc_get_text_attributes( $attribute[ $slug ]['value'] );
+		$attribute_values = array();
 
-		foreach ( $defined_values as $defined_value ) {
-			if ( array_key_exists( $defined_value, $query_results ) ) {
-				continue;
-			}
-
-			$query_results[ $defined_value ] = (object) array(
-				'meta_value'    => $defined_value, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-				'product_count' => 0,
-			);
-		}
-
-		foreach ( $query_results as $term_value => $term ) {
+		foreach ( $query_results as $term ) {
 			// Mimic the structure of a taxonomy-backed attribute values for response.
 			$data = array(
-				'id'          => $term_value,
-				'name'        => $term_value,
-				'slug'        => $term_value,
+				'id'          => $term['meta_value'],
+				'name'        => $term['meta_value'],
+				'slug'        => $term['meta_value'],
 				'description' => '',
 				'menu_order'  => 0,
-				'count'       => (int) $term->product_count,
+				'count'       => (int) $term['product_count'],
 			);
 
 			$response = rest_ensure_response( $data );
@@ -157,10 +133,10 @@ class ProductAttributeTerms extends \WC_REST_Product_Attribute_Terms_Controller 
 			);
 			$response = $this->prepare_response_for_collection( $response );
 
-			$attribute_values[ $term_value ] = $response;
+			$attribute_values[] = $response;
 		}
 
-		return array_values( $attribute_values );
+		return $attribute_values;
 	}
 
 	/**

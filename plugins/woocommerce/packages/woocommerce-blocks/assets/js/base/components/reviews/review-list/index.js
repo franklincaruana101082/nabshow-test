@@ -2,7 +2,10 @@
  * External dependencies
  */
 import PropTypes from 'prop-types';
-import { getSetting } from '@woocommerce/settings';
+import {
+	REVIEW_RATINGS_ENABLED,
+	SHOW_AVATARS,
+} from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
@@ -11,13 +14,11 @@ import ReviewListItem from '../review-list-item';
 import './style.scss';
 
 const ReviewList = ( { attributes, reviews } ) => {
-	const showAvatars = getSetting( 'showAvatars', true );
-	const reviewRatingsEnabled = getSetting( 'reviewRatingsEnabled', true );
 	const showReviewImage =
-		( showAvatars || attributes.imageType === 'product' ) &&
+		( SHOW_AVATARS || attributes.imageType === 'product' ) &&
 		attributes.showReviewImage;
 	const showReviewRating =
-		reviewRatingsEnabled && attributes.showReviewRating;
+		REVIEW_RATINGS_ENABLED && attributes.showReviewRating;
 	const attrs = {
 		...attributes,
 		showReviewImage,

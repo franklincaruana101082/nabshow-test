@@ -35,19 +35,17 @@
         <nav class="footer__nav">
           <?php wp_nav_menu( array( 'theme_location' => 'menu-footer', 'container' => false, 'menu_class' => 'footer__menu' ) ); ?>
         </nav>
-        <small class="footer__copyright">&copy;2021 <strong>National Association of Broadcasters.</strong> All Rights Reserved.</small>
+        <small class="footer__copyright">&copy;<?php echo date("Y"); ?> <strong>National Association of Broadcasters.</strong> All Rights Reserved.</small>
       </div>
     </div>
   </footer>
 </div><!-- #page -->
 
 
-<?php 
-wp_footer();
-?>
+<?php wp_footer(); ?>
 <script type="text/javascript">
     adroll_adv_id = "HSSD2EG325CKLLDB3VDRRK";
-    adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
+    adroll_pix_id = "7BVYCL35SVEODLE54PZAIU";
     adroll_version = "2.0";
 
     (function(w, d, e, o, a) {

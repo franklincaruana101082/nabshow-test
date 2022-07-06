@@ -169,6 +169,51 @@
     margin-top: rem(50);
   }
 
+
+
+  &__.title {
+    .qr_page & {
+      font-size: rem(32);
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+      margin: auto;
+      &:before {
+        content: '';
+        display: inline-block;
+        width: rem(22);
+        height: rem(22);
+        margin-right: rem(8);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url('#{$img_path}sign-up-check.png');
+      }
+      &:after {
+        content: '';
+        display: inline-block;
+        width: rem(4);
+        height: rem(4);
+        margin-left: rem(2);
+        background-color: $color__yellow;
+      }
+    }
+  }
+  .qr_page & {
+    padding: rem(56) 1rem rem(26);
+    margin-left: -1rem;
+    margin-right: -1rem;
+    background-image: url('#{$img_path}qrlp_header_bg_top.png');
+    background-repeat: no-repeat;
+    background-position: calc(100% + #{rem(30)}) top;
+    background-size: auto rem(44);
+    @include bp-414 {
+      background-position: top right;
+    }
+    @include bp-1024 {
+      background-position: calc(100% - #{rem(20)}) top;
+    }
+  }
 }
 
 .intro-feature {

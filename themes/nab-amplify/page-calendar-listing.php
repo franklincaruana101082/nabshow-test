@@ -18,19 +18,19 @@ $date_now = $now->format('Y-m-d H:i:s');
 
 
 $upcoming_meta_query = array(
-	'key' => array('session_end_time', '_EventEndDateUTC'),
+	'key' => array('session_end_time', '_EventEndDate'),
 	'compare' => '>=',
 	'value' => $date_now,
 	'type' => 'DATETIME',
 );
 $past_meta_query = array(
-	'key' => array('session_end_time', '_EventEndDateUTC'),
+	'key' => array('session_end_time', '_EventEndDate'),
 	'compare' => '<',
 	'value' => $date_now,
 	'type' => 'DATETIME',
 );
 $all_meta_query = array(
-	'key' => array('session_end_time', '_EventEndDateUTC'),
+	'key' => array('session_end_time', '_EventEndDate'),
 	'compare' => 'EXISTS',
 );
 
@@ -174,7 +174,9 @@ if(!$hide_events && !$hide_sessions) {
 		);
 	}
 }
-
+$events = false;
+$upcomingevents = false;
+$pastevents = false;
 if($timeframe !== 'all') {
 	$events = get_posts( array(
 		'posts_per_page' => $query_amount,
@@ -183,7 +185,7 @@ if($timeframe !== 'all') {
 		'meta_query' => $meta_query,
 		'order' => $query_order,
 		'orderby' => 'meta_value',
-		'meta_key' => array('session_date', '_EventStartDateUTC'),
+		'meta_key' => array('session_date', '_EventStartDate'),
 		'meta_type' => 'DATETIME'
 	));
 } else {
@@ -194,7 +196,7 @@ if($timeframe !== 'all') {
 		'meta_query' => $upcoming_meta_query,
 		'order' => 'ASC',
 		'orderby' => 'meta_value',
-		'meta_key' => array('session_date', '_EventStartDateUTC'),
+		'meta_key' => array('session_date', '_EventStartDate'),
 		'meta_type' => 'DATETIME'
 	));
 	$pastevents = get_posts( array(
@@ -204,7 +206,7 @@ if($timeframe !== 'all') {
 		'meta_query' => $past_meta_query,
 		'order' => 'DESC',
 		'orderby' => 'meta_value',
-		'meta_key' => array('session_date', '_EventStartDateUTC'),
+		'meta_key' => array('session_date', '_EventStartDate'),
 		'meta_type' => 'DATETIME'
 	));
 }
@@ -230,8 +232,14 @@ function displayEvents($post) {
 	$EventEnd = new DateTime($EventEnd);
 
 	$company_id = 0;
-	if(get_field('nab_selected_company_id')) { $company_id = get_field('nab_selected_company_id');}
-	if(get_field('company')) {$company_id = get_field('company');}
+	$event_url = get_the_permalink($post->ID);
+	if(get_field('nab_selected_company_id')) { 
+		$company_id = get_field('nab_selected_company_id');
+		$event_url = get_post_meta($post->ID, '_EventURL', true);
+	}
+	if(get_field('company')) {
+		$company_id = get_field('company');
+	}
 	if($company_id){
 		$company_name = get_the_title($company_id);
 		$company_img = nab_amplify_get_featured_image( $company_id, false );
@@ -262,7 +270,7 @@ function displayEvents($post) {
 			?>
 		</div>
 		<div class="events-list__event__main">
-			<a class="events-list__event-link" href="<?php echo get_the_permalink(); ?>"><?php the_title( '<h6 class="event__title events-list__event__title">', '</h6>' ); ?></a>
+			<a class="events-list__event-link" href="<?php echo esc_url($event_url); ?>"><?php the_title( '<h6 class="event__title events-list__event__title">', '</h6>' ); ?></a>
 			<div class="introtext events-list__event__text">
 				<?php echo wp_trim_words( get_the_content(null, false, $post->ID), 25); ?>
 			</div>
@@ -279,7 +287,7 @@ function displayEvents($post) {
 				<div class="event__host-name events-list__host-name"><?php echo esc_html($company_name);?></div>
 			</div>
 			<?php } ?>
-			<a class="events-list__more" href="<?php echo get_the_permalink(); ?>">More Details</a>
+			<a class="events-list__more" href="<?php echo esc_url($event_url); ?>">More Details</a>
 		</div>
 	</div>
 </div>

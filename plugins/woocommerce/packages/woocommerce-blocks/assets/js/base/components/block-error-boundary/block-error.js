@@ -2,11 +2,11 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { WC_BLOCKS_ASSET_URL } from '@woocommerce/block-settings';
 import PropTypes from 'prop-types';
-import { WC_BLOCKS_IMAGE_URL } from '@woocommerce/block-settings';
 
 const BlockError = ( {
-	imageUrl = `${ WC_BLOCKS_IMAGE_URL }/block-error.svg`,
+	imageUrl = `${ WC_BLOCKS_ASSET_URL }img/block-error.svg`,
 	header = __( 'Oops!', 'woocommerce' ),
 	text = __(
 		'There was an error loading the content.',
@@ -14,7 +14,6 @@ const BlockError = ( {
 	),
 	errorMessage,
 	errorMessagePrefix = __( 'Error:', 'woocommerce' ),
-	button,
 } ) => {
 	return (
 		<div className="wc-block-error wc-block-components-error">
@@ -40,11 +39,6 @@ const BlockError = ( {
 					<p className="wc-block-error__message wc-block-components-error__message">
 						{ errorMessagePrefix ? errorMessagePrefix + ' ' : '' }
 						{ errorMessage }
-					</p>
-				) }
-				{ button && (
-					<p className="wc-block-error__button wc-block-components-error__button">
-						{ button }
 					</p>
 				) }
 			</div>
@@ -79,10 +73,6 @@ BlockError.propTypes = {
 	 * Text preceeding the error message.
 	 */
 	errorMessagePrefix: PropTypes.string,
-	/**
-	 * Button cta.
-	 */
-	button: PropTypes.node,
 };
 
 export default BlockError;

@@ -11,7 +11,7 @@ use Automattic\WooCommerce\Blocks\RestApi\Routes;
  * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  * @since 2.5.0
  */
-class ShippingAddressSchema extends AbstractAddressSchema {
+class ShippingAddressSchema extends AbstractSchema {
 	/**
 	 * The schema item name.
 	 *
@@ -27,6 +27,61 @@ class ShippingAddressSchema extends AbstractAddressSchema {
 	const IDENTIFIER = 'shipping-address';
 
 	/**
+	 * Term properties.
+	 *
+	 * @return array
+	 */
+	public function get_properties() {
+		return [
+			'first_name' => [
+				'description' => __( 'First name', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'last_name'  => [
+				'description' => __( 'Last name', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'company'    => [
+				'description' => __( 'Company', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'address_1'  => [
+				'description' => __( 'Address', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'address_2'  => [
+				'description' => __( 'Apartment, suite, etc.', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'city'       => [
+				'description' => __( 'City', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'state'      => [
+				'description' => __( 'State/County code, or name of the state, county, province, or district.', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'postcode'   => [
+				'description' => __( 'Postal code', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+			'country'    => [
+				'description' => __( 'Country/Region code in ISO 3166-1 alpha-2 format.', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
+		];
+	}
+
+	/**
 	 * Convert a term object into an object suitable for the response.
 	 *
 	 * @param \WC_Order|\WC_Customer $address An object with shipping address.
@@ -36,19 +91,6 @@ class ShippingAddressSchema extends AbstractAddressSchema {
 	 */
 	public function get_item_response( $address ) {
 		if ( ( $address instanceof \WC_Customer || $address instanceof \WC_Order ) ) {
-			if ( is_callable( [ $address, 'get_shipping_phone' ] ) ) {
-				$shipping_phone = $address->get_shipping_phone();
-			} else {
-				$shipping_phone = $address->get_meta( $address instanceof \WC_Customer ? 'shipping_phone' : '_shipping_phone', true );
-			}
-
-			$shipping_country = $address->get_shipping_country();
-			$shipping_state   = $address->get_shipping_state();
-
-			if ( ! $this->validate_state( $shipping_state, $shipping_country ) ) {
-				$shipping_state = '';
-			}
-
 			return (object) $this->prepare_html_response(
 				[
 					'first_name' => $address->get_shipping_first_name(),
@@ -57,10 +99,9 @@ class ShippingAddressSchema extends AbstractAddressSchema {
 					'address_1'  => $address->get_shipping_address_1(),
 					'address_2'  => $address->get_shipping_address_2(),
 					'city'       => $address->get_shipping_city(),
-					'state'      => $shipping_state,
+					'state'      => $address->get_shipping_state(),
 					'postcode'   => $address->get_shipping_postcode(),
-					'country'    => $shipping_country,
-					'phone'      => $shipping_phone,
+					'country'    => $address->get_shipping_country(),
 				]
 			);
 		}

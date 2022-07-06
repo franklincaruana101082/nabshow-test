@@ -2,15 +2,11 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { Fragment } from 'react';
 import { InspectorControls } from '@wordpress/block-editor';
-import ServerSideRender from '@wordpress/server-side-render';
+import { ServerSideRender } from '@wordpress/editor';
 import PropTypes from 'prop-types';
-import {
-	Disabled,
-	PanelBody,
-	ToggleControl,
-	Placeholder,
-} from '@wordpress/components';
+import { PanelBody, ToggleControl, Placeholder } from '@wordpress/components';
 import { Icon, list } from '@woocommerce/icons';
 import ToggleButtonControl from '@woocommerce/editor-components/toggle-button-control';
 
@@ -184,16 +180,14 @@ const ProductCategoriesBlock = ( { attributes, setAttributes, name } ) => {
 	};
 
 	return (
-		<>
+		<Fragment>
 			{ getInspectorControls() }
-			<Disabled>
-				<ServerSideRender
-					block={ name }
-					attributes={ attributes }
-					EmptyResponsePlaceholder={ EmptyPlaceholder }
-				/>
-			</Disabled>
-		</>
+			<ServerSideRender
+				block={ name }
+				attributes={ attributes }
+				EmptyResponsePlaceholder={ EmptyPlaceholder }
+			/>
+		</Fragment>
 	);
 };
 

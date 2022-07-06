@@ -272,12 +272,11 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 			'post_modified' => 'date_modified_gmt',
 		);
 		$orderby         = isset( $orderby_mapping[ $args['orderby'] ] ) ? $orderby_mapping[ $args['orderby'] ] : 'webhook_id';
-		$sort            = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
-		$order           = "ORDER BY {$orderby} {$sort}";
+		$order           = "ORDER BY {$orderby} " . esc_sql( strtoupper( $args['order'] ) );
 		$limit           = -1 < $args['limit'] ? $wpdb->prepare( 'LIMIT %d', $args['limit'] ) : '';
 		$offset          = 0 < $args['offset'] ? $wpdb->prepare( 'OFFSET %d', $args['offset'] ) : '';
 		$status          = ! empty( $args['status'] ) ? $wpdb->prepare( 'AND `status` = %s', isset( $statuses[ $args['status'] ] ) ? $statuses[ $args['status'] ] : $args['status'] ) : '';
-		$search          = ! empty( $args['search'] ) ? $wpdb->prepare( 'AND `name` LIKE %s', '%' . $wpdb->esc_like( sanitize_text_field( $args['search'] ) ) . '%' ) : '';
+		$search          = ! empty( $args['search'] ) ? "AND `name` LIKE '%" . $wpdb->esc_like( sanitize_text_field( $args['search'] ) ) . "%'" : '';
 		$include         = '';
 		$exclude         = '';
 		$date_created    = '';

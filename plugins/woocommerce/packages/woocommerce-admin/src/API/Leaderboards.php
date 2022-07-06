@@ -77,16 +77,13 @@ class Leaderboards extends \WC_REST_Data_Controller {
 	public function get_coupons_leaderboard( $per_page, $after, $before, $persisted_query ) {
 		$coupons_data_store = new CouponsDataStore();
 		$coupons_data       = $per_page > 0 ? $coupons_data_store->get_data(
-			apply_filters(
-				'woocommerce_analytics_coupons_query_args',
-				array(
-					'orderby'       => 'orders_count',
-					'order'         => 'desc',
-					'after'         => $after,
-					'before'        => $before,
-					'per_page'      => $per_page,
-					'extended_info' => true,
-				)
+			array(
+				'orderby'       => 'orders_count',
+				'order'         => 'desc',
+				'after'         => $after,
+				'before'        => $before,
+				'per_page'      => $per_page,
+				'extended_info' => true,
 			)
 		)->data : array();
 
@@ -122,13 +119,13 @@ class Leaderboards extends \WC_REST_Data_Controller {
 			'label'   => __( 'Top Coupons - Number of Orders', 'woocommerce' ),
 			'headers' => array(
 				array(
-					'label' => __( 'Coupon code', 'woocommerce' ),
+					'label' => __( 'Coupon Code', 'woocommerce' ),
 				),
 				array(
 					'label' => __( 'Orders', 'woocommerce' ),
 				),
 				array(
-					'label' => __( 'Amount discounted', 'woocommerce' ),
+					'label' => __( 'Amount Discounted', 'woocommerce' ),
 				),
 			),
 			'rows'    => $rows,
@@ -146,16 +143,13 @@ class Leaderboards extends \WC_REST_Data_Controller {
 	public function get_categories_leaderboard( $per_page, $after, $before, $persisted_query ) {
 		$categories_data_store = new CategoriesDataStore();
 		$categories_data       = $per_page > 0 ? $categories_data_store->get_data(
-			apply_filters(
-				'woocommerce_analytics_categories_query_args',
-				array(
-					'orderby'       => 'items_sold',
-					'order'         => 'desc',
-					'after'         => $after,
-					'before'        => $before,
-					'per_page'      => $per_page,
-					'extended_info' => true,
-				)
+			array(
+				'orderby'       => 'items_sold',
+				'order'         => 'desc',
+				'after'         => $after,
+				'before'        => $before,
+				'per_page'      => $per_page,
+				'extended_info' => true,
 			)
 		)->data : array();
 
@@ -188,16 +182,16 @@ class Leaderboards extends \WC_REST_Data_Controller {
 
 		return array(
 			'id'      => 'categories',
-			'label'   => __( 'Top categories - Items sold', 'woocommerce' ),
+			'label'   => __( 'Top Categories - Items Sold', 'woocommerce' ),
 			'headers' => array(
 				array(
 					'label' => __( 'Category', 'woocommerce' ),
 				),
 				array(
-					'label' => __( 'Items sold', 'woocommerce' ),
+					'label' => __( 'Items Sold', 'woocommerce' ),
 				),
 				array(
-					'label' => __( 'Net sales', 'woocommerce' ),
+					'label' => __( 'Net Sales', 'woocommerce' ),
 				),
 			),
 			'rows'    => $rows,
@@ -215,15 +209,12 @@ class Leaderboards extends \WC_REST_Data_Controller {
 	public function get_customers_leaderboard( $per_page, $after, $before, $persisted_query ) {
 		$customers_data_store = new CustomersDataStore();
 		$customers_data       = $per_page > 0 ? $customers_data_store->get_data(
-			apply_filters(
-				'woocommerce_analytics_customers_query_args',
-				array(
-					'orderby'      => 'total_spend',
-					'order'        => 'desc',
-					'order_after'  => $after,
-					'order_before' => $before,
-					'per_page'     => $per_page,
-				)
+			array(
+				'orderby'      => 'total_spend',
+				'order'        => 'desc',
+				'order_after'  => $after,
+				'order_before' => $before,
+				'per_page'     => $per_page,
 			)
 		)->data : array();
 
@@ -282,16 +273,13 @@ class Leaderboards extends \WC_REST_Data_Controller {
 	public function get_products_leaderboard( $per_page, $after, $before, $persisted_query ) {
 		$products_data_store = new ProductsDataStore();
 		$products_data       = $per_page > 0 ? $products_data_store->get_data(
-			apply_filters(
-				'woocommerce_analytics_products_query_args',
-				array(
-					'orderby'       => 'items_sold',
-					'order'         => 'desc',
-					'after'         => $after,
-					'before'        => $before,
-					'per_page'      => $per_page,
-					'extended_info' => true,
-				)
+			array(
+				'orderby'       => 'items_sold',
+				'order'         => 'desc',
+				'after'         => $after,
+				'before'        => $before,
+				'per_page'      => $per_page,
+				'extended_info' => true,
 			)
 		)->data : array();
 
@@ -324,16 +312,16 @@ class Leaderboards extends \WC_REST_Data_Controller {
 
 		return array(
 			'id'      => 'products',
-			'label'   => __( 'Top products - Items sold', 'woocommerce' ),
+			'label'   => __( 'Top Products - Items Sold', 'woocommerce' ),
 			'headers' => array(
 				array(
 					'label' => __( 'Product', 'woocommerce' ),
 				),
 				array(
-					'label' => __( 'Items sold', 'woocommerce' ),
+					'label' => __( 'Items Sold', 'woocommerce' ),
 				),
 				array(
-					'label' => __( 'Net sales', 'woocommerce' ),
+					'label' => __( 'Net Sales', 'woocommerce' ),
 				),
 			),
 			'rows'    => $rows,

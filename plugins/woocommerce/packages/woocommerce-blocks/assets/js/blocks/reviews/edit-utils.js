@@ -2,25 +2,29 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createInterpolateElement } from '@wordpress/element';
+import { createInterpolateElement } from 'wordpress-element';
 import {
 	Notice,
 	ToggleControl,
-	ToolbarGroup,
+	Toolbar,
 	RangeControl,
 	SelectControl,
 } from '@wordpress/components';
 import { BlockControls } from '@wordpress/block-editor';
-import { getAdminLink, getSetting } from '@woocommerce/settings';
+import { getAdminLink } from '@woocommerce/settings';
+import {
+	REVIEW_RATINGS_ENABLED,
+	SHOW_AVATARS,
+} from '@woocommerce/block-settings';
 import ToggleButtonControl from '@woocommerce/editor-components/toggle-button-control';
 
-export const getBlockControls = ( editMode, setAttributes, buttonTitle ) => (
+export const getBlockControls = ( editMode, setAttributes ) => (
 	<BlockControls>
-		<ToolbarGroup
+		<Toolbar
 			controls={ [
 				{
 					icon: 'edit',
-					title: buttonTitle,
+					title: __( 'Edit', 'woocommerce' ),
 					onClick: () => setAttributes( { editMode: ! editMode } ),
 					isActive: editMode,
 				},
@@ -30,8 +34,6 @@ export const getBlockControls = ( editMode, setAttributes, buttonTitle ) => (
 );
 
 export const getSharedReviewContentControls = ( attributes, setAttributes ) => {
-	const showAvatars = getSetting( 'showAvatars', true );
-	const reviewRatingsEnabled = getSetting( 'reviewRatingsEnabled', true );
 	return (
 		<>
 			<ToggleControl
@@ -43,7 +45,7 @@ export const getSharedReviewContentControls = ( attributes, setAttributes ) => {
 					} )
 				}
 			/>
-			{ attributes.showReviewRating && ! reviewRatingsEnabled && (
+			{ attributes.showReviewRating && ! REVIEW_RATINGS_ENABLED && (
 				<Notice
 					className="wc-block-base-control-notice"
 					isDismissible={ false }
@@ -132,7 +134,7 @@ export const getSharedReviewContentControls = ( attributes, setAttributes ) => {
 							setAttributes( { imageType: value } )
 						}
 					/>
-					{ attributes.imageType === 'reviewer' && ! showAvatars && (
+					{ attributes.imageType === 'reviewer' && ! SHOW_AVATARS && (
 						<Notice
 							className="wc-block-base-control-notice"
 							isDismissible={ false }

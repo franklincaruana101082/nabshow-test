@@ -10,6 +10,7 @@ import {
 	withSpokenMessages,
 } from '@wordpress/components';
 import { SearchListItem } from '@woocommerce/components';
+import { Fragment } from '@wordpress/element';
 import PropTypes from 'prop-types';
 import ProductControl from '@woocommerce/editor-components/product-control';
 import { Icon, comment } from '@woocommerce/icons';
@@ -47,17 +48,18 @@ const ReviewsByProductEditor = ( {
 			<SearchListItem
 				{ ...args }
 				countLabel={ sprintf(
-					/* translators: %d is the review count. */
+					// Translators: %d is the review count.
 					_n(
-						'%d review',
-						'%d reviews',
+						'%d Review',
+						'%d Reviews',
 						item.review_count,
 						'woocommerce'
 					),
 					item.review_count
 				) }
+				showCount
 				aria-label={ sprintf(
-					/* translators: %1$s is the item name, and %2$d is the number of reviews for the item. */
+					// Translators: %1$s is the item name, and %2$d is the number of reviews for the item.
 					_n(
 						'%1$s, has %2$d review',
 						'%1$s, has %2$d reviews',
@@ -85,7 +87,6 @@ const ReviewsByProductEditor = ( {
 							setAttributes( { productId: id } );
 						} }
 						renderItem={ renderProductControlItem }
-						isCompact={ true }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -162,14 +163,9 @@ const ReviewsByProductEditor = ( {
 		return renderEditMode();
 	}
 
-	const buttonTitle = __(
-		'Edit selected product',
-		'woocommerce'
-	);
-
 	return (
-		<>
-			{ getBlockControls( editMode, setAttributes, buttonTitle ) }
+		<Fragment>
+			{ getBlockControls( editMode, setAttributes ) }
 			{ getInspectorControls() }
 			<EditorContainerBlock
 				attributes={ attributes }
@@ -185,7 +181,7 @@ const ReviewsByProductEditor = ( {
 				) }
 				noReviewsPlaceholder={ NoReviewsPlaceholder }
 			/>
-		</>
+		</Fragment>
 	);
 };
 

@@ -174,42 +174,42 @@ class WC_Frontend_Scripts {
 			'flexslider'                 => array(
 				'src'     => self::get_asset_url( 'assets/js/flexslider/jquery.flexslider' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '2.7.2-wc.' . $version,
+				'version' => '2.7.2',
 			),
 			'js-cookie'                  => array(
 				'src'     => self::get_asset_url( 'assets/js/js-cookie/js.cookie' . $suffix . '.js' ),
 				'deps'    => array(),
-				'version' => '2.1.4-wc.' . $version,
+				'version' => '2.1.4',
 			),
 			'jquery-blockui'             => array(
 				'src'     => self::get_asset_url( 'assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '2.7.0-wc.' . $version,
+				'version' => '2.70',
 			),
 			'jquery-cookie'              => array( // deprecated.
 				'src'     => self::get_asset_url( 'assets/js/jquery-cookie/jquery.cookie' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '1.4.1-wc.' . $version,
+				'version' => '1.4.1',
 			),
 			'jquery-payment'             => array(
 				'src'     => self::get_asset_url( 'assets/js/jquery-payment/jquery.payment' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '3.0.0-wc.' . $version,
+				'version' => '3.0.0',
 			),
 			'photoswipe'                 => array(
 				'src'     => self::get_asset_url( 'assets/js/photoswipe/photoswipe' . $suffix . '.js' ),
 				'deps'    => array(),
-				'version' => '4.1.1-wc.' . $version,
+				'version' => '4.1.1',
 			),
 			'photoswipe-ui-default'      => array(
 				'src'     => self::get_asset_url( 'assets/js/photoswipe/photoswipe-ui-default' . $suffix . '.js' ),
 				'deps'    => array( 'photoswipe' ),
-				'version' => '4.1.1-wc.' . $version,
+				'version' => '4.1.1',
 			),
 			'prettyPhoto'                => array( // deprecated.
 				'src'     => self::get_asset_url( 'assets/js/prettyPhoto/jquery.prettyPhoto' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '3.1.6-wc.' . $version,
+				'version' => '3.1.6',
 			),
 			'prettyPhoto-init'           => array( // deprecated.
 				'src'     => self::get_asset_url( 'assets/js/prettyPhoto/jquery.prettyPhoto.init' . $suffix . '.js' ),
@@ -219,12 +219,12 @@ class WC_Frontend_Scripts {
 			'select2'                    => array(
 				'src'     => self::get_asset_url( 'assets/js/select2/select2.full' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '4.0.3-wc.' . $version,
+				'version' => '4.0.3',
 			),
 			'selectWoo'                  => array(
 				'src'     => self::get_asset_url( 'assets/js/selectWoo/selectWoo.full' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '1.0.9-wc.' . $version,
+				'version' => '1.0.6',
 			),
 			'wc-address-i18n'            => array(
 				'src'     => self::get_asset_url( 'assets/js/frontend/address-i18n' . $suffix . '.js' ),
@@ -299,7 +299,7 @@ class WC_Frontend_Scripts {
 			'zoom'                       => array(
 				'src'     => self::get_asset_url( 'assets/js/zoom/jquery.zoom' . $suffix . '.js' ),
 				'deps'    => array( 'jquery' ),
-				'version' => '1.7.21-wc.' . $version,
+				'version' => '1.7.21',
 			),
 		);
 		foreach ( $register_scripts as $name => $props ) {
@@ -398,12 +398,7 @@ class WC_Frontend_Scripts {
 			self::enqueue_script( 'wc-single-product' );
 		}
 
-		// Only enqueue the geolocation script if the Default Current Address is set to "Geolocate
-		// (with Page Caching Support) and outside of the cart, checkout, account and customizer preview.
-		if (
-			'geolocation_ajax' === get_option( 'woocommerce_default_customer_address' )
-			&& ! ( is_cart() || is_account_page() || is_checkout() || is_customize_preview() )
-		) {
+		if ( 'geolocation_ajax' === get_option( 'woocommerce_default_customer_address' ) ) {
 			$ua = strtolower( wc_get_user_agent() ); // Exclude common bots from geolocation by user agent.
 
 			if ( ! strstr( $ua, 'bot' ) && ! strstr( $ua, 'spider' ) && ! strstr( $ua, 'crawl' ) ) {
@@ -478,6 +473,8 @@ class WC_Frontend_Scripts {
 				$params = array(
 					'wc_ajax_url'  => WC_AJAX::get_endpoint( '%%endpoint%%' ),
 					'home_url'     => remove_query_arg( 'lang', home_url() ), // FIX for WPML compatibility.
+					'is_available' => ! ( is_cart() || is_account_page() || is_checkout() || is_customize_preview() ) ? '1' : '0',
+					'hash'         => isset( $_GET['v'] ) ? wc_clean( wp_unslash( $_GET['v'] ) ) : '', // WPCS: input var ok, CSRF ok.
 				);
 				break;
 			case 'wc-single-product':

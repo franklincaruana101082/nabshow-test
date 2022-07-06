@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { getSetting } from '@woocommerce/settings';
+import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
@@ -9,8 +9,8 @@ import { getSetting } from '@woocommerce/settings';
 import { DEFAULT_PRODUCT_LIST_LAYOUT } from './base-utils';
 
 export const defaults = {
-	columns: getSetting( 'default_columns', 3 ),
-	rows: getSetting( 'default_rows', 3 ),
+	columns: DEFAULT_COLUMNS,
+	rows: DEFAULT_ROWS,
 	alignButtons: false,
 	contentVisibility: {
 		orderBy: true,

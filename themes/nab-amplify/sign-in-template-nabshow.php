@@ -55,7 +55,7 @@ if ( empty( $redirect_url ) && isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[
 }
 ?>
 <!-- START legacy-template: sign-up-template -->
-<main id="primary" class="site-main">
+<main id="primary" class="site-main nabshow_signup">
 
 <?php
 while ( have_posts() ) :
@@ -65,11 +65,12 @@ while ( have_posts() ) :
 		<div class="signup-wrapper">
 			<div class="container">
 				<div class="signup-logos">
-					<div class="signup-logo-amplify">
-						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
-					</div>
 					<div class="signup-logo-show">
-						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-nab-show.png" alt="NAB Show Logo">
+						<img src="https://nabshow.com/ny2022/wp-content/uploads/sites/17/2022/01/NABNY22-logo-white.png" alt="NAB Show Logo">
+					</div>
+					<div class="signup-logo-amplify">
+						<small>Powered by:</small>
+						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-amplify.png" alt="NAB Amplify Logo">
 					</div>
 					<div class="signup-logo-radio">
 						<img src="/wp-content/themes/nabshow-lv-child-2021/assets/images/logo-login-radio-show.png" alt="Radio Show Logo">

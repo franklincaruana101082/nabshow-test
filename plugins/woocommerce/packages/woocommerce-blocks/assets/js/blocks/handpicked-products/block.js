@@ -3,20 +3,20 @@
  */
 import { __ } from '@wordpress/i18n';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import ServerSideRender from '@wordpress/server-side-render';
+import { ServerSideRender } from '@wordpress/editor';
 import {
 	Button,
 	Disabled,
 	PanelBody,
 	Placeholder,
 	RangeControl,
-	ToolbarGroup,
+	Toolbar,
 	withSpokenMessages,
 	ToggleControl,
 } from '@wordpress/components';
-import { Component } from '@wordpress/element';
+import { Component, Fragment } from '@wordpress/element';
 import PropTypes from 'prop-types';
-import { getSetting } from '@woocommerce/settings';
+import { MAX_COLUMNS, MIN_COLUMNS } from '@woocommerce/block-settings';
 import GridContentControl from '@woocommerce/editor-components/grid-content-control';
 import ProductsControl from '@woocommerce/editor-components/products-control';
 import ProductOrderbyControl from '@woocommerce/editor-components/product-orderby-control';
@@ -51,8 +51,8 @@ class ProductsBlock extends Component {
 						onChange={ ( value ) =>
 							setAttributes( { columns: value } )
 						}
-						min={ getSetting( 'min_columns', 1 ) }
-						max={ getSetting( 'max_columns', 6 ) }
+						min={ MIN_COLUMNS }
+						max={ MAX_COLUMNS }
 					/>
 					<ToggleControl
 						label={ __(
@@ -106,7 +106,6 @@ class ProductsBlock extends Component {
 							const ids = value.map( ( { id } ) => id );
 							setAttributes( { products: ids } );
 						} }
-						isCompact={ true }
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -163,16 +162,13 @@ class ProductsBlock extends Component {
 		}
 
 		return (
-			<>
+			<Fragment>
 				<BlockControls>
-					<ToolbarGroup
+					<Toolbar
 						controls={ [
 							{
 								icon: 'edit',
-								title: __(
-									'Edit selected products',
-									'woocommerce'
-								),
+								title: __( 'Edit' ),
 								onClick: () =>
 									setAttributes( { editMode: ! editMode } ),
 								isActive: editMode,
@@ -191,7 +187,7 @@ class ProductsBlock extends Component {
 						/>
 					</Disabled>
 				) }
-			</>
+			</Fragment>
 		);
 	}
 }

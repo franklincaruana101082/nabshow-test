@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
 	Placeholder,
@@ -10,8 +11,8 @@ import {
 	ToggleControl,
 	Button,
 } from '@wordpress/components';
+import { PRODUCT_COUNT } from '@woocommerce/block-settings';
 import { getAdminLink } from '@woocommerce/settings';
-import { blocksConfig } from '@woocommerce/block-settings';
 import HeadingToolbar from '@woocommerce/editor-components/heading-toolbar';
 import BlockTitle from '@woocommerce/editor-components/block-title';
 import ToggleButtonControl from '@woocommerce/editor-components/toggle-button-control';
@@ -133,7 +134,7 @@ export default function ( { attributes, setAttributes } ) {
 			</p>
 			<Button
 				className="wc-block-price-slider__add-product-button"
-				isSecondary
+				isDefault
 				href={ getAdminLink( 'post-new.php?post_type=product' ) }
 			>
 				{ __( 'Add new product', 'woocommerce' ) +
@@ -151,14 +152,13 @@ export default function ( { attributes, setAttributes } ) {
 	);
 
 	return (
-		<>
-			{ blocksConfig.productCount === 0 ? (
+		<Fragment>
+			{ PRODUCT_COUNT === 0 ? (
 				noProductsPlaceholder()
 			) : (
 				<div className={ className }>
 					{ getInspectorControls() }
 					<BlockTitle
-						className="wc-block-price-filter__title"
 						headingLevel={ headingLevel }
 						heading={ heading }
 						onChange={ ( value ) =>
@@ -170,6 +170,6 @@ export default function ( { attributes, setAttributes } ) {
 					</Disabled>
 				</div>
 			) }
-		</>
+		</Fragment>
 	);
 }

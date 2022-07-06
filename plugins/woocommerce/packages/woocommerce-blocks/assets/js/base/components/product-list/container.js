@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
-import ProductList from './product-list';
+import ProductList from './index';
 
 const ProductListContainer = ( { attributes } ) => {
 	const [ currentPage, setPage ] = useState( 1 );
@@ -38,7 +38,6 @@ const ProductListContainer = ( { attributes } ) => {
 
 ProductListContainer.propTypes = {
 	attributes: PropTypes.object.isRequired,
-	hideOutOfStockItems: PropTypes.bool,
 };
 
 export default ProductListContainer;

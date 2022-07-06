@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { InspectorControls, PlainText } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, TextControl } from '@wordpress/components';
 import { withInstanceId } from '@wordpress/compose';
-import { useEffect } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -40,13 +39,11 @@ const Edit = ( {
 		className
 	);
 
-	useEffect( () => {
-		if ( ! formId ) {
-			setAttributes( {
-				formId: `wc-block-product-search-${ instanceId }`,
-			} );
-		}
-	}, [ formId, setAttributes, instanceId ] );
+	if ( ! formId ) {
+		setAttributes( {
+			formId: `wc-block-product-search-${ instanceId }`,
+		} );
+	}
 
 	return (
 		<>
@@ -80,34 +77,18 @@ const Edit = ( {
 			</InspectorControls>
 			<div className={ classes }>
 				{ !! hasLabel && (
-					<>
-						<label
-							className="screen-reader-text"
-							htmlFor="wc-block-product-search__label"
-						>
-							{ __(
-								'Search Label',
-								'woocommerce'
-							) }
-						</label>
-						<PlainText
-							className="wc-block-product-search__label"
-							id="wc-block-product-search__label"
-							value={ label }
-							onChange={ ( value ) =>
-								setAttributes( { label: value } )
-							}
-						/>
-					</>
+					<PlainText
+						className="wc-block-product-search__label"
+						value={ label }
+						onChange={ ( value ) =>
+							setAttributes( { label: value } )
+						}
+					/>
 				) }
 				<div className="wc-block-product-search__fields">
 					<TextControl
 						className="wc-block-product-search__field input-control"
 						value={ placeholder }
-						placeholder={ __(
-							'Enter search placeholder text',
-							'woocommerce'
-						) }
 						onChange={ ( value ) =>
 							setAttributes( { placeholder: value } )
 						}

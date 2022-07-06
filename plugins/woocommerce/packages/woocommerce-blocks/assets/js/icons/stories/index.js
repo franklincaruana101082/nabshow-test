@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { omitBy, omit } from 'lodash';
+import { omitBy, omit, map } from 'lodash';
 import { useState } from '@wordpress/element';
 
 /**
@@ -22,7 +22,6 @@ const LibraryExample = () => {
 	const filteredIcons = omitBy( availableIcons, ( _icon, name ) => {
 		return ! name.includes( filter );
 	} );
-
 	return (
 		<div style={ { padding: '20px' } }>
 			<label htmlFor="filter-icons" style={ { paddingRight: '30px' } }>
@@ -40,16 +39,16 @@ const LibraryExample = () => {
 				style={ {
 					display: 'flex',
 					alignItems: 'bottom',
-					flexWrap: 'wrap',
+					'flex-wrap': 'wrap',
 				} }
 			>
-				{ Object.entries( filteredIcons ).map( ( [ name, icon ] ) => {
+				{ map( filteredIcons, ( icon, name ) => {
 					return (
 						<div
 							key={ name }
 							style={ {
 								display: 'flex',
-								flexDirection: 'column',
+								'flex-direction': 'column',
 								width: '25%',
 								padding: '25px 0 25px 0',
 							} }
@@ -69,12 +68,12 @@ const LibraryExample = () => {
 							>
 								<Icon srcElement={ icon } />
 								<Icon
-									style={ { paddingLeft: '10px' } }
+									style={ { 'padding-left': '10px' } }
 									srcElement={ icon }
 									size={ 36 }
 								/>
 								<Icon
-									style={ { paddingLeft: '10px' } }
+									style={ { 'padding-left': '10px' } }
 									srcElement={ icon }
 									size={ 48 }
 								/>

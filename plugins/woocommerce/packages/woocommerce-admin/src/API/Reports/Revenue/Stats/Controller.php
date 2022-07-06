@@ -164,7 +164,7 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 	public function get_item_schema() {
 		$data_values = array(
 			'total_sales'    => array(
-				'description' => __( 'Total sales.', 'woocommerce' ),
+				'description' => __( 'Total Sales.', 'woocommerce' ),
 				'type'        => 'number',
 				'context'     => array( 'view', 'edit' ),
 				'readonly'    => true,
@@ -172,7 +172,7 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 				'format'      => 'currency',
 			),
 			'net_revenue'    => array(
-				'description' => __( 'Net sales.', 'woocommerce' ),
+				'description' => __( 'Net Sales.', 'woocommerce' ),
 				'type'        => 'number',
 				'context'     => array( 'view', 'edit' ),
 				'readonly'    => true,
@@ -236,7 +236,7 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 				'readonly'    => true,
 			),
 			'gross_sales'    => array(
-				'description' => __( 'Gross sales.', 'woocommerce' ),
+				'description' => __( 'Gross Sales.', 'woocommerce' ),
 				'type'        => 'number',
 				'context'     => array( 'view', 'edit' ),
 				'readonly'    => true,
@@ -447,8 +447,7 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 		return array(
 			'date'         => __( 'Date', 'woocommerce' ),
 			'orders_count' => __( 'Orders', 'woocommerce' ),
-			'gross_sales'  => __( 'Gross sales', 'woocommerce' ),
-			'total_sales'  => __( 'Total sales', 'woocommerce' ),
+			'total_sales'  => __( 'Total Sales', 'woocommerce' ),
 			'refunds'      => __( 'Returns', 'woocommerce' ),
 			'coupons'      => __( 'Coupons', 'woocommerce' ),
 			'taxes'        => __( 'Taxes', 'woocommerce' ),
@@ -469,7 +468,6 @@ class Controller extends \WC_REST_Reports_Controller implements ExportableInterf
 		return array(
 			'date'         => $item['date_start'],
 			'orders_count' => $subtotals['orders_count'],
-			'gross_sales'  => self::csv_number_format( $subtotals['gross_sales'] ),
 			'total_sales'  => self::csv_number_format( $subtotals['total_sales'] ),
 			'refunds'      => self::csv_number_format( $subtotals['refunds'] ),
 			'coupons'      => self::csv_number_format( $subtotals['coupons'] ),

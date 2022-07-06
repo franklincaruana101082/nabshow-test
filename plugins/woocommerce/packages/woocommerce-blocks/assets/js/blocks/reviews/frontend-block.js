@@ -2,8 +2,9 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { getSetting } from '@woocommerce/settings';
+import { REVIEW_RATINGS_ENABLED } from '@woocommerce/block-settings';
 import LoadMoreButton from '@woocommerce/base-components/load-more-button';
 import {
 	ReviewList,
@@ -19,7 +20,6 @@ import withReviews from '@woocommerce/base-hocs/with-reviews';
  * @param {function(any):any} props.onAppendReviews Function called when appending review.
  * @param {function(any):any} props.onChangeOrderby
  * @param {Array} props.reviews
- * @param {string} props.sortSelectValue
  * @param {number} props.totalReviews
  */
 const FrontendBlock = ( {
@@ -27,20 +27,19 @@ const FrontendBlock = ( {
 	onAppendReviews,
 	onChangeOrderby,
 	reviews,
-	sortSelectValue,
 	totalReviews,
 } ) => {
+	const { orderby } = attributes;
+
 	if ( reviews.length === 0 ) {
 		return null;
 	}
 
-	const reviewRatingsEnabled = getSetting( 'reviewRatingsEnabled', true );
-
 	return (
-		<>
-			{ attributes.showOrderby !== 'false' && reviewRatingsEnabled && (
+		<Fragment>
+			{ attributes.showOrderby !== 'false' && REVIEW_RATINGS_ENABLED && (
 				<ReviewSortSelect
-					value={ sortSelectValue }
+					defaultValue={ orderby }
 					onChange={ onChangeOrderby }
 				/>
 			) }
@@ -55,7 +54,7 @@ const FrontendBlock = ( {
 						) }
 					/>
 				) }
-		</>
+		</Fragment>
 	);
 };
 

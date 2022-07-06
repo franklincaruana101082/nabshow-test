@@ -182,4 +182,6 @@
             }
         });
     }
+
+    nabSessionListPageAjax( $(this), 1 );
 })(jQuery);

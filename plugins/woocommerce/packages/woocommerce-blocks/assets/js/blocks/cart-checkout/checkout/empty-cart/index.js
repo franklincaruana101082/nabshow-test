@@ -5,11 +5,6 @@ import { __ } from '@wordpress/i18n';
 import { SHOP_URL } from '@woocommerce/block-settings';
 import { Icon, cart } from '@woocommerce/icons';
 
-/**
- * Internal dependencies
- */
-import './style.scss';
-
 const EmptyCart = () => {
 	return (
 		<div className="wc-block-checkout-empty">
@@ -28,13 +23,11 @@ const EmptyCart = () => {
 					'woocommerce'
 				) }
 			</p>
-			{ SHOP_URL && (
-				<span className="wp-block-button">
-					<a href={ SHOP_URL } className="wp-block-button__link">
-						{ __( 'Browse store', 'woocommerce' ) }
-					</a>
-				</span>
-			) }
+			<span className="wp-block-button">
+				<a href={ SHOP_URL } className="wp-block-button__link">
+					{ __( 'Browse store', 'woocommerce' ) }
+				</a>
+			</span>
 		</div>
 	);
 };

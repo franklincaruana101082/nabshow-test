@@ -57,7 +57,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * Sets the asset manager to use.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager Optional. Asset manager to use.
+	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager Optional. Asset manager to use.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		if ( ! $asset_manager ) {
@@ -210,16 +210,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			];
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );
 		}
-
-		if ( ! is_network_admin() && $can_manage_options ) {
-			$admin_bar_menu_args = [
-				'parent' => self::MENU_IDENTIFIER,
-				'id'     => 'wpseo-configuration-wizard',
-				'title'  => __( 'Configuration Wizard', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ),
-			];
-			$wp_admin_bar->add_menu( $admin_bar_menu_args );
-		}
 	}
 
 	/**
@@ -330,12 +320,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'     => 'wpseo-cache',
 				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-				'href'   => 'http://webcache.googleusercontent.com/search?q=cache:' . $encoded_url,
-			],
-			[
-				'id'     => 'wpseo-cache',
-				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-				'href'   => 'https://webcache.googleusercontent.com/search?q=cache:' . $encoded_url,
+				'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
 			],
 			[
 				'id'     => 'wpseo-structureddata',
@@ -371,7 +356,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'id'     => 'wpseo-google-mobile-friendly',
 				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
 				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
-			]
+			],
 		];
 
 		foreach ( $submenu_items as $menu_item ) {

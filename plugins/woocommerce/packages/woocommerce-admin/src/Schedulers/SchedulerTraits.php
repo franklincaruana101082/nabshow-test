@@ -303,11 +303,7 @@ trait SchedulerTraits {
 			return;
 		}
 
-		if (
-			// Skip scheduling if Action Scheduler tables have not been initialized.
-			! get_option( 'schema-ActionScheduler_StoreSchema' ) ||
-			apply_filters( 'woocommerce_analytics_disable_action_scheduling', false )
-		) {
+		if ( apply_filters( 'woocommerce_analytics_disable_action_scheduling', false ) ) {
 			call_user_func_array( array( static::class, $action_name ), $args );
 			return;
 		}

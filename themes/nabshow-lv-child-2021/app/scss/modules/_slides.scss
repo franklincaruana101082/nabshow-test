@@ -79,6 +79,11 @@
   position: relative;
   z-index: 100;
 }
+.schedule__day {
+  .new & {
+    //padding-bottom: rem(56);
+  }
+}
 .schedule__day-wrapper {
   background-size: cover; // bg is defined inline in markup
   background-position: 80% 0;
@@ -100,17 +105,24 @@
   @include bp-768 {
     padding: rem(188) 0 rem(156);
     margin-bottom: rem(-50);
+    .new & {
+      padding: rem(168) 0 rem(136);
+    }
   }
 }
 .schedule__day-content {
   @include bp-768 {
-    min-height: rem(331);
     max-width: rem(660);
     background-size: rem(41) auto;
     background-position: 0 0;
     @include background-image("f-stops.png");
     background-repeat: no-repeat;
     padding-left: rem(67);
+    .new & {
+      background-image: none;
+      padding-left: 0;
+      max-width: rem(720);
+    }
   }
 }
 .schedule__day-time {
@@ -121,12 +133,18 @@
   padding-left: rem(25);
   @include primary-black-12-12-20;
   margin-bottom: rem(20);
+  .new & {
+    line-height: rem(13);
+  }
 }
 .schedule__day-title {
   @include primary-black-20-30;
   margin-bottom: rem(20);
   @include bp-768 {
     @include primary-black-40-44;
+    .new & {
+      text-transform: uppercase;
+    }
   }
 }
 .schedule__day-body {

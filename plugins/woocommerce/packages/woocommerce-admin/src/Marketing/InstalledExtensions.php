@@ -24,7 +24,6 @@ class InstalledExtensions {
 		$automatewoo = self::get_automatewoo_extension_data();
 		$mailchimp   = self::get_mailchimp_extension_data();
 		$facebook    = self::get_facebook_extension_data();
-		$pinterest   = self::get_pinterest_extension_data();
 		$google      = self::get_google_extension_data();
 		$hubspot     = self::get_hubspot_extension_data();
 		$amazon_ebay = self::get_amazon_ebay_extension_data();
@@ -39,10 +38,6 @@ class InstalledExtensions {
 
 		if ( $facebook ) {
 			$data[] = $facebook;
-		}
-
-		if ( $pinterest ) {
-			$data[] = $pinterest;
 		}
 
 		if ( $google ) {
@@ -71,8 +66,7 @@ class InstalledExtensions {
 			'mailchimp-for-woocommerce',
 			'creative-mail-by-constant-contact',
 			'facebook-for-woocommerce',
-			'pinterest-for-woocommerce',
-			'google-listings-and-ads',
+			'kliken-marketing-for-google',
 			'hubspot-for-woocommerce',
 			'woocommerce-amazon-ebay-integration',
 		];
@@ -159,43 +153,12 @@ class InstalledExtensions {
 	}
 
 	/**
-	 * Get Pinterest extension data.
-	 *
-	 * @return array|bool
-	 */
-	protected static function get_pinterest_extension_data() {
-		$slug = 'pinterest-for-woocommerce';
-
-		if ( ! PluginsHelper::is_plugin_installed( $slug ) ) {
-			return false;
-		}
-
-		$data         = self::get_extension_base_data( $slug );
-		$data['icon'] = plugins_url( 'images/marketing/pinterest.svg', WC_ADMIN_PLUGIN_FILE );
-
-		// TODO: Finalise docs url.
-		$data['docsUrl'] = 'https://docs.woocommerce.com/document/pinterest-for-woocommerce/?utm_medium=product';
-
-		if ( 'activated' === $data['status'] && class_exists( 'Pinterest_For_Woocommerce' ) ) {
-			$pinterest_onboarding_completed = Pinterest_For_Woocommerce()::is_setup_complete();
-			if ( $pinterest_onboarding_completed ) {
-				$data['status']      = 'configured';
-				$data['settingsUrl'] = admin_url( 'admin.php?page=wc-admin&path=/pinterest/settings' );
-			} else {
-				$data['settingsUrl'] = admin_url( 'admin.php?page=wc-admin&path=/pinterest/landing' );
-			}
-		}
-
-		return $data;
-	}
-
-	/**
 	 * Get Google extension data.
 	 *
 	 * @return array|bool
 	 */
 	protected static function get_google_extension_data() {
-		$slug = 'google-listings-and-ads';
+		$slug = 'kliken-marketing-for-google';
 
 		if ( ! PluginsHelper::is_plugin_installed( $slug ) ) {
 			return false;
@@ -204,18 +167,17 @@ class InstalledExtensions {
 		$data         = self::get_extension_base_data( $slug );
 		$data['icon'] = plugins_url( 'images/marketing/google.svg', WC_ADMIN_PLUGIN_FILE );
 
-		if ( 'activated' === $data['status'] && function_exists( 'woogle_get_container' ) && class_exists( '\Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterService' ) ) {
+		if ( 'activated' === $data['status'] && function_exists( 'kk_wc_plugin' ) && class_exists( '\Kliken\WcPlugin\Helper' ) ) {
 
-			$merchant_center = woogle_get_container()->get( \Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\MerchantCenterService::class );
+			$kliken_settings = \Kliken\WcPlugin\Helper::get_plugin_options();
 
-			if ( $merchant_center->is_setup_complete() ) {
-				$data['status']      = 'configured';
-				$data['settingsUrl'] = admin_url( 'admin.php?page=wc-admin&path=/google/settings' );
-			} else {
-				$data['settingsUrl'] = admin_url( 'admin.php?page=wc-admin&path=/google/start' );
+			// Use same check as the Kliken Get Started Page.
+			if ( \Kliken\WcPlugin\Helper::is_valid_account_id( $kliken_settings['account_id'] ) ) {
+				$data['status'] = 'configured';
 			}
 
-			$data['docsUrl'] = 'https://docs.woocommerce.com/document/google-listings-and-ads/?utm_medium=product';
+			$data['settingsUrl'] = admin_url( 'admin.php?page=wc-settings&tab=integration&section=kk_wcintegration' );
+			$data['docsUrl']     = 'https://docs.woocommerce.com/document/google-ads/';
 		}
 
 		return $data;
@@ -275,7 +237,7 @@ class InstalledExtensions {
 			}
 
 			$data['settingsUrl'] = admin_url( 'admin.php?page=codisto-settings' );
-			$data['docsUrl']     = 'https://docs.woocommerce.com/document/getting-started-with-woocommerce-amazon-ebay-integration/?utm_medium=product';
+			$data['docsUrl']     = 'https://docs.woocommerce.com/document/getting-started-with-woocommerce-amazon-ebay-integration/';
 		}
 
 		return $data;
@@ -302,7 +264,7 @@ class InstalledExtensions {
 			'status'      => $status,
 			'name'        => $plugin_data['Name'],
 			'description' => html_entity_decode( wp_trim_words( $plugin_data['Description'], 20 ) ),
-			'supportUrl'  => 'https://woocommerce.com/my-account/create-a-ticket/?utm_medium=product',
+			'supportUrl'  => 'https://woocommerce.com/my-account/create-a-ticket/',
 		];
 	}
 

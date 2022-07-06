@@ -2,16 +2,36 @@
 	background-image: none;
 	font-size: rem(16);
 	padding: rem(100) 0;
+	position: relative;
+	z-index: 2;
 	@include bp-1024 {
 		padding: rem(142) 0;
+		&._headline {
+			padding: rem(103) 0;
+		}
 	}
 	@include bp-1280 {
 		padding: rem(184) 0;
+		&._headline {
+			padding: rem(145) 0;
+		}
 	}
 	@include bp-1440 {
 		padding: rem(224) 0;
+		&._headline {
+			padding: rem(185) 0;
+		}
 	}
 
+
+	&__headline {
+		font-weight: 900;
+		text-transform: uppercase;
+		margin-bottom: rem(30);
+		@include bp-1024 {
+			font-size: rem(60);
+		}
+	}
 
 	&__when {
 		background-image: none;

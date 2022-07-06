@@ -131,3 +131,44 @@
 .hero__cta + .hero__cta {
   margin-top: rem(20);
 }
+
+
+.hero__copy,
+.nabshow_2021 .hero__copy {
+  margin: rem(32) 0 rem(40);
+  padding: rem(23) rem(40);
+  border: rem(10) solid $colorhex__purple-light;
+  border-image: linear-gradient(250deg, rgba(12, 165, 234, 0.6) -13.36%, rgba(47, 93, 171, 0.12) 31.04%, rgba(158, 69, 147, 0) 81.26%, #9E4593 139.5%) 10; 
+  border-width: rem(10);
+  @include bp-1024 {
+    margin: rem(65) 0 rem(80);
+    padding: rem(45) rem(80);
+  }
+
+  h2 {
+    font-weight: 900;
+  }
+  p, li, blockquote {
+    font-size: rem(20);
+  }
+  ul {
+    margin-left: rem(30);
+  }
+
+  .hero__ctas {
+    margin-top: rem(24);
+    @include bp-1024 {
+      text-align: left;
+      margin-top: rem(64);
+    }
+  }
+    .hero__cta {
+      font-size: rem(12);
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      @include bp-1024 {
+        display: inline-block;
+        padding-right: rem(16);
+      }
+    }
+}

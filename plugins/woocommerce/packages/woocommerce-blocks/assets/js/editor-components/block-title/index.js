@@ -3,33 +3,22 @@
  */
 import PropTypes from 'prop-types';
 import { PlainText } from '@wordpress/block-editor';
-import { withInstanceId } from '@wordpress/compose';
-import { __ } from '@wordpress/i18n';
+import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
 import './editor.scss';
 
-const BlockTitle = ( {
-	className,
-	headingLevel,
-	onChange,
-	heading,
-	instanceId,
-} ) => {
+const BlockTitle = ( { className, headingLevel, onChange, heading } ) => {
 	const TagName = `h${ headingLevel }`;
 	return (
-		<TagName className={ className }>
-			<label
-				className="screen-reader-text"
-				htmlFor={ `block-title-${ instanceId }` }
-			>
-				{ __( 'Block title', 'woocommerce' ) }
-			</label>
+		<TagName>
 			<PlainText
-				id={ `block-title-${ instanceId }` }
-				className="wc-block-editor-components-title"
+				className={ classnames(
+					'wc-block-editor-components-title',
+					className
+				) }
 				value={ heading }
 				onChange={ onChange }
 			/>
@@ -56,4 +45,4 @@ BlockTitle.propTypes = {
 	headingLevel: PropTypes.number,
 };
 
-export default withInstanceId( BlockTitle );
+export default BlockTitle;

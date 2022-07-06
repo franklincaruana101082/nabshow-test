@@ -30,13 +30,6 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 	);
 
 	/**
-	 * Cache identifier.
-	 *
-	 * @var string
-	 */
-	protected $cache_key = 'variations_stats';
-
-	/**
 	 * Data store context used to pass to filters.
 	 *
 	 * @var string
@@ -68,7 +61,6 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 		$products_from_clause       = '';
 		$where_subquery             = array();
 		$order_product_lookup_table = self::get_db_table_name();
-		$order_item_meta_table      = $wpdb->prefix . 'woocommerce_order_itemmeta';
 
 		$included_products = $this->get_included_products( $query_args );
 		if ( $included_products ) {
@@ -93,15 +85,18 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 			$products_where_clause .= " AND ( {$order_status_filter} )";
 		}
 
-		$attribute_order_items_subquery = $this->get_order_item_by_attribute_subquery( $query_args );
-		if ( $attribute_order_items_subquery ) {
+		$attribute_subqueries = $this->get_attribute_subqueries( $query_args );
+		if ( $attribute_subqueries['join'] && $attribute_subqueries['where'] ) {
 			// JOIN on product lookup if we haven't already.
 			if ( ! $order_status_filter ) {
 				$products_from_clause .= " JOIN {$wpdb->prefix}wc_order_stats ON {$order_product_lookup_table}.order_id = {$wpdb->prefix}wc_order_stats.order_id";
 			}
-
-			// Add subquery for matching attributes to WHERE.
-			$products_where_clause .= $attribute_order_items_subquery;
+			// Add JOINs for matching attributes.
+			foreach ( $attribute_subqueries['join'] as $attribute_join ) {
+				$products_from_clause .= ' ' . $attribute_join;
+			}
+			// Add WHEREs for matching attributes.
+			$where_subquery = array_merge( $where_subquery, $attribute_subqueries['where'] );
 		}
 
 		if ( 0 < count( $where_subquery ) ) {
@@ -165,11 +160,9 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 			$this->get_limit_sql_params( $query_args );
 			$this->interval_query->add_sql_clause( 'where_time', $this->get_sql_clause( 'where_time' ) );
 
-			/* phpcs:disable WordPress.DB.PreparedSQL.NotPrepared */
 			$db_intervals = $wpdb->get_col(
 				$this->interval_query->get_query_statement()
-			);
-			/* phpcs:enable */
+			); // WPCS: cache ok, DB call ok, unprepared SQL ok.
 
 			$db_interval_count       = count( $db_intervals );
 			$expected_interval_count = TimeInterval::intervals_between( $query_args['after'], $query_args['before'], $query_args['interval'] );
@@ -183,12 +176,10 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 			$this->total_query->add_sql_clause( 'select', $selections );
 			$this->total_query->add_sql_clause( 'where_time', $this->get_sql_clause( 'where_time' ) );
 
-			/* phpcs:disable WordPress.DB.PreparedSQL.NotPrepared */
 			$totals = $wpdb->get_results(
 				$this->total_query->get_query_statement(),
 				ARRAY_A
-			);
-			/* phpcs:enable */
+			); // WPCS: cache ok, DB call ok, unprepared SQL ok.
 
 			// @todo remove these assignements when refactoring segmenter classes to use query objects.
 			$totals_query          = array(
@@ -218,12 +209,10 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 				$this->interval_query->add_sql_clause( 'select', ', ' . $selections );
 			}
 
-			/* phpcs:disable WordPress.DB.PreparedSQL.NotPrepared */
 			$intervals = $wpdb->get_results(
 				$this->interval_query->get_query_statement(),
 				ARRAY_A
-			);
-			/* phpcs:enable */
+			); // WPCS: cache ok, DB call ok, unprepared SQL ok.
 
 			if ( null === $intervals ) {
 				return new \WP_Error( 'woocommerce_analytics_variations_stats_result_failed', __( 'Sorry, fetching revenue data failed.', 'woocommerce' ) );
@@ -249,7 +238,7 @@ class DataStore extends VariationsDataStore implements DataStoreInterface {
 			$segmenter->add_intervals_segments( $data, $intervals_query, $table_name );
 			$this->create_interval_subtotals( $data->intervals );
 
-			$this->set_cached_data( $cache_key, $data );
+			wp_cache_set( $cache_key, $data, $this->cache_group );
 		}
 
 		return $data;

@@ -76,124 +76,6 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             add_action( 'nab_company_event_action', array( $this, 'st_track_company_event_action' ), 10, 3 );
             add_action( 'nab_downloadable_pdf_action', array( $this, 'st_track_downloadable_pdf_action' ), 10, 3 );
             add_action( 'wp_footer', array( $this, 'st_track_search_card_click_event' ) );
-            add_action( 'transition_post_status', array( $this, 'st_track_mys_post_creation' ), 10, 3 );
-            add_action( 'save_post', array( $this, 'st_track_mys_post_update' ), 10, 3 );
-            add_action( 'delete_post', array( $this, 'st_track_mys_post_delete' ), 10, 2 );
-        }
-
-        public function st_track_mys_post_creation( $new_status, $old_status, $post ) {
-            
-            if ( defined( 'MYS_IS_AMPLIFY_VERSION' ) && MYS_IS_AMPLIFY_VERSION ) {
-                $post_type_list = array( 'mys-sessions', 'mys-speakers', 'mys-sponsors', 'mys-products', 'mys-exhibitors' );
-            } else {
-                $post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
-            }
-            
-            if ( ( 'publish' === $new_status && 'publish' !== $old_status ) && in_array( $post->post_type, $post_type_list, true ) ) {
-                    
-                $event_name = '';
-
-                if ( 'mys-sessions' === $post->post_type || 'sessions' === $post->post_type ) {
-                    $event_name = 'MYSSession_Created';
-                } else if ( 'mys-speakers' === $post->post_type || 'speakers' === $post->post_type ) {
-                    $event_name = 'MYSSpeaker_Created';
-                } else if ( 'mys-sponsors' === $post->post_type || 'sponsors' === $post->post_type ) {
-                    $event_name = 'MYSSponsor_Created';
-                } else if ( 'mys-products' === $post->post_type || 'products' === $post->post_type ) {
-                    $event_name = 'MYSProduct_Created';
-                } else if ( 'mys-exhibitors' === $post->post_type || 'exhibitors' === $post->post_type ) {
-                    $event_name = 'MYSExhibitor_Created';
-                } else {
-                    $event_name = $post->post_type . '_Created';
-                }
-
-                $track_event = array(                    
-                    'event'         => $event_name,
-                    'properties'    => array(
-                        'title' => $post->post_title,
-                    )
-                );
-
-                $this->st_track_event( $track_event );
-            }
-        }
-
-        public function st_track_mys_post_update( $post_id, $post, $update ) {
-            
-            if ( ! $update || 'publish' !== $post->post_status ) {
-                return;
-            }
-
-            if ( defined( 'MYS_IS_AMPLIFY_VERSION' ) && MYS_IS_AMPLIFY_VERSION ) {
-                $post_type_list = array( 'mys-sessions', 'mys-speakers', 'mys-sponsors', 'mys-products', 'mys-exhibitors' );
-            } else {
-                $post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
-            }
-            
-            if ( in_array( $post->post_type, $post_type_list, true ) ) {
-                    
-                $event_name = '';
-
-                if ( 'mys-sessions' === $post->post_type || 'sessions' === $post->post_type ) {
-                    $event_name = 'MYSSession_Updated';
-                } else if ( 'mys-speakers' === $post->post_type || 'speakers' === $post->post_type ) {
-                    $event_name = 'MYSSpeaker_Updated';
-                } else if ( 'mys-sponsors' === $post->post_type || 'sponsors' === $post->post_type ) {
-                    $event_name = 'MYSSponsor_Updated';
-                } else if ( 'mys-products' === $post->post_type || 'products' === $post->post_type ) {
-                    $event_name = 'MYSProduct_Updated';
-                } else if ( 'mys-exhibitors' === $post->post_type || 'exhibitors' === $post->post_type ) {
-                    $event_name = 'MYSExhibitor_Updated';
-                } else {
-                    $event_name = $post->post_type . '_Updated';
-                }
-
-                $track_event = array(                    
-                    'event'         => $event_name,
-                    'properties'    => array(
-                        'title' => $post->post_title,
-                    )
-                );
-
-                $this->st_track_event( $track_event );
-            }
-        }
-
-        public function st_track_mys_post_delete( $post_id, $post ) {            
-
-            if ( defined( 'MYS_IS_AMPLIFY_VERSION' ) && MYS_IS_AMPLIFY_VERSION ) {
-                $post_type_list = array( 'mys-sessions', 'mys-speakers', 'mys-sponsors', 'mys-products', 'mys-exhibitors' );
-            } else {
-                $post_type_list = array( 'sessions', 'speakers', 'sponsors', 'products', 'exhibitors' );
-            }
-            
-            if ( in_array( $post->post_type, $post_type_list, true ) ) {
-                    
-                $event_name = '';                
-
-                if ( 'mys-sessions' === $post->post_type || 'sessions' === $post->post_type ) {
-                    $event_name = 'MYSSession_Deleted';
-                } else if ( 'mys-speakers' === $post->post_type || 'speakers' === $post->post_type ) {
-                    $event_name = 'MYSSpeaker_Deleted';
-                } else if ( 'mys-sponsors' === $post->post_type || 'sponsors' === $post->post_type ) {
-                    $event_name = 'MYSSponsor_Deleted';
-                } else if ( 'mys-products' === $post->post_type || 'products' === $post->post_type ) {
-                    $event_name = 'MYSProduct_Deleted';
-                } else if ( 'mys-exhibitors' === $post->post_type || 'exhibitors' === $post->post_type ) {
-                    $event_name = 'MYSExhibitor_Deleted';
-                } else {
-                    $event_name = $post->post_type . '_Deleted';
-                }
-
-                $track_event = array(                    
-                    'event'         => $event_name,
-                    'properties'    => array(
-                        'title' => $post->post_title,
-                    )
-                );
-
-                $this->st_track_event( $track_event );
-            }
         }
 
         public function st_enqueue_script() {
@@ -264,7 +146,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     $identity_details['anonymousId'] = uniqid();
                 }
             }
-
+            
             $identity_details = wp_json_encode( $identity_details );
             $this->st_insert_event( 'identify', $identity_details );
         }
@@ -277,6 +159,17 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             );
 
             $track_event['properties'] = $this->st_add_user_taxonomy_properties( $user->ID );
+
+            $track_identity = array(
+                'userId'    => $user->ID,
+                'traits'    => $track_event['properties'],
+            );
+
+            $track_identity['traits']['email'] = $track_identity['traits']['Email_Address'];
+
+            unset( $track_identity['traits']['Email_Address'] );
+
+            $this->st_identity_event( $track_identity );
 
             $this->st_track_event( $track_event );
         }
@@ -1678,7 +1571,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             );
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
 
             $article_terms = get_the_terms( $post_id, 'content-category' );
@@ -1737,7 +1630,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
             global $post;
 
             if ( 0 === $post_id || empty( $post_id ) ) {
-                $post_id = $post->ID;
+                $post_id = (!empty($post->ID) ? $post->ID : 0);
             }
             
             $parent_page = wp_get_post_parent_id( $post_id );
@@ -2027,7 +1920,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                 <?php                
             } else {
                 $segment_api_key = get_option( 'segment_tracking_api_key' );
-            }                        
+            }
             ?>
             <div class="search-settings">
                 <h2>Segment Settings</h2>
@@ -2041,40 +1934,9 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                         </tr>                        
                     </table>
                     <?php submit_button("Save Changes"); ?>
-                </form>
-                <?php
-                global $wpdb;
-                $table_name     = $wpdb->prefix . 'nab_segment_event_tracking';
-                $total_query    = $wpdb->get_col( "SELECT COUNT(*) as totalItem FROM {$table_name}" ); 
-                $session_query  = $wpdb->get_col( "SELECT COUNT(*) as totalItem FROM {$table_name} WHERE eventData LIKE '%Session_User_Registered%'" );
-                $query_results  = $wpdb->get_results( "SELECT * FROM {$table_name} LIMIT 500" );
-                ?>
-                <h2>Total Records = <?php echo esc_html( $total_query[0] ); ?></h2>
-                <h2>Total Session Records = <?php echo esc_html( $session_query[0] ); ?></h2>
-                <table>                    
-                    <?php
-                    if ( $query_results && ! empty( $query_results ) ) {
-                        
-                        $cnt = 1;
-
-                        foreach ( $query_results as $result ) {
-
-                            ?>
-                            <tr>
-                                <td><?php echo esc_html( $cnt ); ?></td>
-                                <td><?php echo $result->eventData; ?></td>
-                            </tr>
-                            <?php
-                            $cnt++;
-                        }
-                    }
-                    ?>
-                    <tr>
-                        <td>
-                    </tr>
-                </table>
+                </form>                
             </div>
-            <?php
+            <?php            
         }
     }
 
