@@ -61,7 +61,7 @@ class NabshowCacheControl
         //     $headers['Cookie'] = stripslashes($cookie);
         //     $headers['Set-Cookie'] = stripslashes($cookie);
         // }else{
-        //     $headers['Cookie'] = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
+            $headers['Cookie'] = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
             $headers['Set-Cookie'] = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
         // }
         $headers['X-Hacker'] = "Crush & Lovely";
