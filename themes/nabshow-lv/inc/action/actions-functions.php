@@ -264,16 +264,19 @@ function nabshow_lv_register_api_endpoints() {
 
 	register_rest_route( 'nab_api', '/request/page-parents', array(
 		'methods'  => 'GET',
+		'permission_callback' => '__return_true',
 		'callback' => 'nabshow_lv_get_page_parents_callback',
 	) );
 
 	register_rest_route( 'nab_api', '/request/page-acf-fields', array(
 		'methods'  => 'GET',
+		'permission_callback' => '__return_true',
 		'callback' => 'nabshow_lv_get_page_acf_fields',
 	) );
 
 	register_rest_route( 'nab_api', '/request/post-excerpt/', array(
 		'methods'  => 'GET',
+		'permission_callback' => '__return_true',
 		'callback' => 'nabshow_lv_get_post_excerpt',
 		'args' => array(
 			'id' => array(

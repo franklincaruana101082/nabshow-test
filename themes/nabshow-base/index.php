@@ -11,7 +11,6 @@
  *
  * @package NABShow_base
  */
-header('Cache-Control: max-age=86400');
 get_header();
 ?>
 

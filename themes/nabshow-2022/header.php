@@ -22,6 +22,7 @@ if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="google-site-verification" content="cj26-A0JkUmPWQ6fOVknb6ny88Jo_SF3CneW0T5_XEM" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, shrink-to-fit=no">
     <link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.ico' ); ?>">
