@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __, sprintf, _n } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import {
 	Placeholder,
@@ -10,13 +10,14 @@ import {
 	PanelBody,
 	ToggleControl,
 	Button,
-	ToolbarGroup,
+	Toolbar,
 	withSpokenMessages,
 } from '@wordpress/components';
 import { Icon, server, external } from '@woocommerce/icons';
 import { SearchListControl } from '@woocommerce/components';
-import { mapValues, toArray, sortBy } from 'lodash';
-import { getAdminLink, getSetting } from '@woocommerce/settings';
+import { mapValues, toArray, sortBy, find } from 'lodash';
+import { ATTRIBUTES } from '@woocommerce/block-settings';
+import { getAdminLink } from '@woocommerce/settings';
 import HeadingToolbar from '@woocommerce/editor-components/heading-toolbar';
 import BlockTitle from '@woocommerce/editor-components/block-title';
 import ToggleButtonControl from '@woocommerce/editor-components/toggle-button-control';
@@ -26,8 +27,6 @@ import ToggleButtonControl from '@woocommerce/editor-components/toggle-button-co
  */
 import Block from './block.js';
 import './editor.scss';
-
-const ATTRIBUTES = getSetting( 'attributes', [] );
 
 const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 	const {
@@ -49,7 +48,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 	const getBlockControls = () => {
 		return (
 			<BlockControls>
-				<ToolbarGroup
+				<Toolbar
 					controls={ [
 						{
 							icon: 'edit',
@@ -212,7 +211,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 					) }
 					initialOpen={ false }
 				>
-					{ renderAttributeControl( { isCompact: true } ) }
+					{ renderAttributeControl() }
 				</PanelBody>
 			</InspectorControls>
 		);
@@ -239,7 +238,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 			</p>
 			<Button
 				className="wc-block-attribute-filter__add-attribute-button"
-				isSecondary
+				isDefault
 				href={ getAdminLink(
 					'edit.php?post_type=product&page=product_attributes'
 				) }
@@ -274,9 +273,10 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 		}
 
 		const selectedId = selected[ 0 ].id;
-		const productAttribute = ATTRIBUTES.find(
-			( attribute ) => attribute.attribute_id === selectedId.toString()
-		);
+		const productAttribute = find( ATTRIBUTES, [
+			'attribute_id',
+			selectedId.toString(),
+		] );
 
 		if ( ! productAttribute || attributeId === selectedId ) {
 			return;
@@ -287,14 +287,14 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 		setAttributes( {
 			attributeId: selectedId,
 			heading: sprintf(
-				/* translators: %s attribute name. */
+				// Translators: %s attribute name.
 				__( 'Filter by %s', 'woocommerce' ),
 				attributeName
 			),
 		} );
 	};
 
-	const renderAttributeControl = ( { isCompact } ) => {
+	const renderAttributeControl = () => {
 		const messages = {
 			clear: __(
 				'Clear selected attribute',
@@ -311,7 +311,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 			),
 			selected: ( n ) =>
 				sprintf(
-					/* translators: %d is the number of attributes selected. */
+					// Translators: %d is the number of attributes selected.
 					_n(
 						'%d attribute selected',
 						'%d attributes selected',
@@ -346,7 +346,6 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 				onChange={ onChange }
 				messages={ messages }
 				isSingle
-				isCompact={ isCompact }
 			/>
 		);
 	};
@@ -366,7 +365,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 				) }
 			>
 				<div className="wc-block-attribute-filter__selection">
-					{ renderAttributeControl( { isCompact: false } ) }
+					{ renderAttributeControl() }
 					<Button isPrimary onClick={ onDone }>
 						{ __( 'Done', 'woocommerce' ) }
 					</Button>
@@ -378,7 +377,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 	return Object.keys( ATTRIBUTES ).length === 0 ? (
 		noAttributesPlaceholder()
 	) : (
-		<>
+		<Fragment>
 			{ getBlockControls() }
 			{ getInspectorControls() }
 			{ isEditing ? (
@@ -386,7 +385,6 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 			) : (
 				<div className={ className }>
 					<BlockTitle
-						className="wc-block-attribute-filter__title"
 						headingLevel={ headingLevel }
 						heading={ heading }
 						onChange={ ( value ) =>
@@ -398,7 +396,7 @@ const Edit = ( { attributes, setAttributes, debouncedSpeak } ) => {
 					</Disabled>
 				</div>
 			) }
-		</>
+		</Fragment>
 	);
 };
 

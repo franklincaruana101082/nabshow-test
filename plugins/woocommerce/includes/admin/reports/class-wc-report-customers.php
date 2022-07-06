@@ -155,7 +155,7 @@ class WC_Report_Customers extends WC_Admin_Report {
 					}
 				);
 
-				jQuery('.chart-placeholder.customers_vs_guests').trigger( 'resize' );
+				jQuery('.chart-placeholder.customers_vs_guests').resize();
 			});
 		</script>
 		<?php
@@ -412,15 +412,15 @@ class WC_Report_Customers extends WC_Admin_Report {
 							],
 						}
 					);
-					jQuery('.chart-placeholder').trigger( 'resize' );
+					jQuery('.chart-placeholder').resize();
 				}
 
 				drawGraph();
 
-				jQuery('.highlight_series').on( 'mouseenter',
+				jQuery('.highlight_series').hover(
 					function() {
 						drawGraph( jQuery(this).data('series') );
-					} ).on( 'mouseleave',
+					},
 					function() {
 						drawGraph();
 					}

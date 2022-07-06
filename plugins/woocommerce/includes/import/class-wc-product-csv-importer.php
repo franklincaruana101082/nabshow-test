@@ -894,12 +894,6 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 				}
 				unset( $data[ $key ] );
 
-			} elseif ( $this->starts_with( $key, 'downloads:id' ) ) {
-				if ( ! empty( $value ) ) {
-					$downloads[ str_replace( 'downloads:id', '', $key ) ]['id'] = $value;
-				}
-				unset( $data[ $key ] );
-
 			} elseif ( $this->starts_with( $key, 'downloads:name' ) ) {
 				if ( ! empty( $value ) ) {
 					$downloads[ str_replace( 'downloads:name', '', $key ) ]['name'] = $value;
@@ -941,9 +935,8 @@ class WC_Product_CSV_Importer extends WC_Product_Importer {
 				}
 
 				$data['downloads'][] = array(
-					'download_id' => isset( $file['id'] ) ? $file['id'] : null,
-					'name'        => $file['name'] ? $file['name'] : wc_get_filename_from_url( $file['url'] ),
-					'file'        => $file['url'],
+					'name' => $file['name'] ? $file['name'] : wc_get_filename_from_url( $file['url'] ),
+					'file' => $file['url'],
 				);
 			}
 		}

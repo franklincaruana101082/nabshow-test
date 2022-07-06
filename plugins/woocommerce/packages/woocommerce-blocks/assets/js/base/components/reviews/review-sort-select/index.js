@@ -10,10 +10,11 @@ import SortSelect from '@woocommerce/base-components/sort-select';
  */
 import './style.scss';
 
-const ReviewSortSelect = ( { onChange, readOnly, value } ) => {
+const ReviewSortSelect = ( { defaultValue, onChange, readOnly, value } ) => {
 	return (
 		<SortSelect
 			className="wc-block-review-sort-select wc-block-components-review-sort-select"
+			defaultValue={ defaultValue }
 			label={ __( 'Order by', 'woocommerce' ) }
 			onChange={ onChange }
 			options={ [
@@ -47,6 +48,11 @@ const ReviewSortSelect = ( { onChange, readOnly, value } ) => {
 };
 
 ReviewSortSelect.propTypes = {
+	defaultValue: PropTypes.oneOf( [
+		'most-recent',
+		'highest-rating',
+		'lowest-rating',
+	] ),
 	onChange: PropTypes.func,
 	readOnly: PropTypes.bool,
 	value: PropTypes.oneOf( [

@@ -1,0 +1,8 @@
+data_sync:
+  domain_map:
+    nabshow-com.go-vip.net: nabshow-qa.go-vip.net
+    nabshow.com: nabshow-qa.go-vip.net
+    nabshow-com.go-vip.net/amplify: nabshow-qa.go-vip.net/amplify
+    amplify.nabshow.com: nabshow-qa.go-vip.net/amplify
+    nabshow-com.go-vip.net/blog: nabshow-qa.go-vip.net/blog
+    blog.nabshow.com: nabshow-qa.go-vip.net/blog

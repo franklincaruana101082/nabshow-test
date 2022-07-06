@@ -1,0 +1,463 @@
+[30-Aug-2021 16:59:16 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[30-Aug-2021 16:59:16 UTC] PHP Notice:  Trying to get property 'ID' of non-object in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/filter-functions.php on line 213
+[30-Aug-2021 16:59:24 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[30-Aug-2021 17:05:11 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[30-Aug-2021 17:05:16 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[31-Aug-2021 18:30:09 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[31-Aug-2021 18:37:41 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[31-Aug-2021 18:37:41 UTC] PHP Notice:  Trying to get property 'ID' of non-object in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/filter-functions.php on line 213
+[31-Aug-2021 18:37:52 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[31-Aug-2021 18:38:06 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[31-Aug-2021 18:38:10 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[31-Aug-2021 18:38:15 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[31-Aug-2021 18:38:20 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[31-Aug-2021 19:13:58 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[31-Aug-2021 19:14:01 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[31-Aug-2021 19:14:12 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[31-Aug-2021 19:14:17 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[01-Sep-2021 17:14:50 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[01-Sep-2021 17:14:50 UTC] PHP Notice:  Trying to get property 'ID' of non-object in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/filter-functions.php on line 213
+[01-Sep-2021 17:14:59 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[01-Sep-2021 17:24:31 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[01-Sep-2021 17:24:35 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[01-Sep-2021 17:24:46 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[01-Sep-2021 17:24:47 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[01-Sep-2021 17:24:54 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[01-Sep-2021 17:25:51 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[01-Sep-2021 17:25:51 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[01-Sep-2021 17:26:59 UTC] PHP Notice:  Undefined index: HTTP_REFERER in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/sign-in-template-hybrid.php on line 18
+[01-Sep-2021 21:00:39 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[07-Sep-2021 14:40:32 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[08-Sep-2021 16:32:16 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:32:17 UTC] PHP Notice:  Trying to get property 'ID' of non-object in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/filter-functions.php on line 213
+[08-Sep-2021 16:32:37 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 16:35:32 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:35:41 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 16:43:18 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:43:29 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 16:45:43 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:45:52 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 16:46:10 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:46:16 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 16:47:54 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:48:04 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 16:48:16 UTC] PHP Notice:  Undefined index: w_zone in /srv/www/wordpress-one/public_html/wp-content/plugins/broadstreet/Broadstreet/Widget.php on line 50
+[08-Sep-2021 16:48:16 UTC] PHP Notice:  Undefined index: w_title in /srv/www/wordpress-one/public_html/wp-content/plugins/broadstreet/Broadstreet/Widget.php on line 51
+[08-Sep-2021 16:48:40 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 16:48:47 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 17:04:05 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 17:04:11 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[08-Sep-2021 17:04:23 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[08-Sep-2021 17:04:30 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[09-Sep-2021 13:53:04 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 15:01:25 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[09-Sep-2021 15:01:28 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[09-Sep-2021 15:14:07 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 15:14:08 UTC] PHP Notice:  Trying to get property 'ID' of non-object in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/filter-functions.php on line 213
+[09-Sep-2021 15:14:17 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[09-Sep-2021 15:14:57 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 15:15:01 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[09-Sep-2021 15:24:35 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[09-Sep-2021 17:37:57 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[09-Sep-2021 17:37:58 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[09-Sep-2021 17:37:59 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 18:47:00 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 18:47:00 UTC] PHP Notice:  Trying to get property 'ID' of non-object in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/filter-functions.php on line 213
+[09-Sep-2021 18:47:05 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[09-Sep-2021 18:47:05 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 18:47:07 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 18:47:09 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[09-Sep-2021 18:47:10 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[09-Sep-2021 18:47:17 UTC] PHP Notice:  Undefined variable: path_lv_2021 in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/header-hybrid.php on line 17
+[09-Sep-2021 18:47:17 UTC] PHP Notice:  Undefined variable: path_lv_2021 in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/header-hybrid.php on line 21
+[09-Sep-2021 18:47:18 UTC] PHP Notice:  Undefined index: HTTP_REFERER in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/sign-in-template-hybrid.php on line 18
+[09-Sep-2021 18:51:26 UTC] PHP Notice:  Undefined index: HTTP_REFERER in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/sign-in-template-hybrid.php on line 18
+[10-Sep-2021 15:05:28 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 15:48:14 UTC] PHP Notice:  Undefined index: HTTP_REFERER in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/sign-in-template-hybrid.php on line 18
+[10-Sep-2021 17:14:24 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 17:14:24 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 17:14:25 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:14:33 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:19:25 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:19:31 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:19:34 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 17:19:34 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 17:19:35 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:31:30 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:31:33 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:31:42 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:31:45 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:32:12 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:32:15 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:32:22 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:32:27 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:32:27 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 17:32:28 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 17:32:29 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:32:38 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:38:57 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:38:59 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:39:22 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:39:25 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:41:09 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:41:12 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:46:55 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:46:58 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:47:05 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:47:09 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:52:29 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:52:32 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:52:37 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:52:40 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:53:16 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:53:20 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:53:22 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:53:26 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:54:23 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:54:26 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:54:50 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:54:53 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 17:55:03 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 17:55:07 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 18:03:37 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 18:03:41 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 18:04:16 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 18:04:17 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 18:04:18 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 18:04:26 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 18:15:42 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>broadstreet/v1/targets</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 18:15:42 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>nab/unlink-products</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /srv/www/wordpress-one/public_html/wp-includes/functions.php on line 5313
+[10-Sep-2021 18:15:43 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 18:48:28 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 18:48:32 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143
+[10-Sep-2021 18:48:46 UTC] PHP Warning:  filemtime(): stat failed for /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action\batch\assets\processor.js in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-processor-admin.php on line 67
+[10-Sep-2021 18:48:51 UTC] PHP Fatal error:  Uncaught Error: Call to a member function restart() on null in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php:143
+Stack trace:
+#0 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(292): WP_Batch_Processing_Ajax_Handler->restart_batch('')
+#1 /srv/www/wordpress-one/public_html/wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters('', Array)
+#2 /srv/www/wordpress-one/public_html/wp-includes/plugin.php(484): WP_Hook->do_action(Array)
+#3 /srv/www/wordpress-one/public_html/wp-admin/admin-ajax.php(187): do_action('wp_ajax_dg_rest...')
+#4 {main}
+  thrown in /srv/www/wordpress-one/public_html/wp-content/themes/nab-amplify/inc/action/batch/class-batch-ajax-handler.php on line 143

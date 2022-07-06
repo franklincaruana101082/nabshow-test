@@ -389,7 +389,7 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 			} );
 			jQuery( '.section' ).slideUp( 100, function() {
 				<?php if ( empty( $this->product_ids ) ) : ?>
-					jQuery( '.section_title:eq(1)' ).trigger( 'click' );
+					jQuery( '.section_title:eq(1)' ).click();
 				<?php endif; ?>
 			} );
 		</script>
@@ -610,15 +610,15 @@ class WC_Report_Sales_By_Product extends WC_Admin_Report {
 							}
 						);
 
-						jQuery('.chart-placeholder').trigger( 'resize' );
+						jQuery('.chart-placeholder').resize();
 					}
 
 					drawGraph();
 
-					jQuery('.highlight_series').on( 'mouseenter',
+					jQuery('.highlight_series').hover(
 						function() {
 							drawGraph( jQuery(this).data('series') );
-						} ).on( 'mouseleave',
+						},
 						function() {
 							drawGraph();
 						}

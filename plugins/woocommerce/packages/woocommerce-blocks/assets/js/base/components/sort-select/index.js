@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Label from '@woocommerce/base-components/label';
-import { withInstanceId } from '@wordpress/compose';
+import { withInstanceId } from '@woocommerce/base-hocs/with-instance-id';
 
 /**
  * Internal dependencies
@@ -18,6 +18,7 @@ import './style.scss';
  * @param {Object} props Incoming props for the component.
  * @param {string} props.className CSS class used.
  * @param {string} props.instanceId Unique id for component instance.
+ * @param {string} props.defaultValue Default value for the select.
  * @param {string} props.label Label for the select.
  * @param {function():any} props.onChange Function to call on the change event.
  * @param {Array} props.options Option values for the select.
@@ -28,6 +29,7 @@ import './style.scss';
 const SortSelect = ( {
 	className,
 	instanceId,
+	defaultValue,
 	label,
 	onChange,
 	options,
@@ -58,6 +60,7 @@ const SortSelect = ( {
 			<select // eslint-disable-line jsx-a11y/no-onchange
 				id={ selectId }
 				className="wc-block-sort-select__select wc-block-components-sort-select__select"
+				defaultValue={ defaultValue }
 				onChange={ onChange }
 				readOnly={ readOnly }
 				value={ value }
@@ -73,6 +76,7 @@ const SortSelect = ( {
 };
 
 SortSelect.propTypes = {
+	defaultValue: PropTypes.string,
 	label: PropTypes.string,
 	onChange: PropTypes.func,
 	options: PropTypes.arrayOf(

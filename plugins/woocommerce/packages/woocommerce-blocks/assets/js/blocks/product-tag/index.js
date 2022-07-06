@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { getSetting } from '@woocommerce/settings';
+import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
 import { Icon, more } from '@woocommerce/icons';
 
 /**
@@ -19,7 +19,7 @@ registerBlockType( 'woocommerce/product-tag', {
 	title: __( 'Products by Tag', 'woocommerce' ),
 	icon: {
 		src: <Icon srcElement={ more } />,
-		foreground: '#7f54b3',
+		foreground: '#96588a',
 	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
@@ -42,7 +42,7 @@ registerBlockType( 'woocommerce/product-tag', {
 		 */
 		columns: {
 			type: 'number',
-			default: getSetting( 'default_columns', 3 ),
+			default: DEFAULT_COLUMNS,
 		},
 
 		/**
@@ -50,7 +50,7 @@ registerBlockType( 'woocommerce/product-tag', {
 		 */
 		rows: {
 			type: 'number',
-			default: getSetting( 'default_rows', 3 ),
+			default: DEFAULT_ROWS,
 		},
 
 		/**

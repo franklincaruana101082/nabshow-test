@@ -6,11 +6,7 @@ import Button from '@woocommerce/base-components/button';
 import { Icon, done as doneIcon } from '@woocommerce/icons';
 import { useState, useEffect } from '@wordpress/element';
 import { useAddToCartFormContext } from '@woocommerce/base-context';
-import {
-	useStoreEvents,
-	useStoreAddToCart,
-} from '@woocommerce/base-context/hooks';
-import { useInnerBlockLayoutContext } from '@woocommerce/shared-context';
+import { useStoreAddToCart } from '@woocommerce/base-hooks';
 
 /**
  * Add to Cart Form Button Component.
@@ -28,8 +24,6 @@ const AddToCartButton = () => {
 		hasError,
 		dispatchActions,
 	} = useAddToCartFormContext();
-	const { parentName } = useInnerBlockLayoutContext();
-	const { dispatchStoreEvent } = useStoreEvents();
 	const { cartQuantity } = useStoreAddToCart( product.id || 0 );
 	const [ addedToCart, setAddedToCart ] = useState( false );
 	const addToCartButtonData = product.add_to_cart || {
@@ -75,13 +69,7 @@ const AddToCartButton = () => {
 			isDisabled={ isDisabled }
 			isProcessing={ isProcessing }
 			isDone={ addedToCart }
-			onClick={ () => {
-				dispatchActions.submitForm();
-				dispatchStoreEvent( 'cart-add-item', {
-					product,
-					listName: parentName,
-				} );
-			} }
+			onClick={ () => dispatchActions.submitForm() }
 		/>
 	) : (
 		<LinkComponent
@@ -91,12 +79,6 @@ const AddToCartButton = () => {
 				addToCartButtonData.text ||
 				__( 'View Product', 'woocommerce' )
 			}
-			onClick={ () => {
-				dispatchStoreEvent( 'product-view-link', {
-					product,
-					listName: parentName,
-				} );
-			} }
 		/>
 	);
 };
@@ -108,16 +90,10 @@ const AddToCartButton = () => {
  * @param {string} props.className Css classnames.
  * @param {string} props.href      Link for button.
  * @param {string} props.text      Text content for button.
- * @param {function():any} props.onClick Callback to execute when button is clicked.
  */
-const LinkComponent = ( { className, href, text, onClick } ) => {
+const LinkComponent = ( { className, href, text } ) => {
 	return (
-		<Button
-			className={ className }
-			href={ href }
-			onClick={ onClick }
-			rel="nofollow"
-		>
+		<Button className={ className } href={ href } rel="nofollow">
 			{ text }
 		</Button>
 	);
@@ -151,7 +127,7 @@ const ButtonComponent = ( {
 		>
 			{ isDone && quantityInCart > 0
 				? sprintf(
-						/* translators: %s number of products in cart. */
+						// translators: %s number of products in cart.
 						_n(
 							'%d in cart',
 							'%d in cart',

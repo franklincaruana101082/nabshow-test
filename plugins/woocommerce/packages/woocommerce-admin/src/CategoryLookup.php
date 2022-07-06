@@ -52,8 +52,6 @@ class CategoryLookup {
 		add_action( 'generate_category_lookup_table', array( $this, 'regenerate' ) );
 		add_action( 'edit_product_cat', array( $this, 'before_edit' ), 99 );
 		add_action( 'edited_product_cat', array( $this, 'on_edit' ), 99 );
-		add_action( 'created_product_cat', array( $this, 'on_create' ), 99 );
-
 	}
 
 	/**
@@ -133,20 +131,6 @@ class CategoryLookup {
 	}
 
 	/**
-	 * When a product category gets created, add a new lookup row.
-	 *
-	 * @param int $category_id Term ID being created.
-	 */
-	public function on_create( $category_id ) {
-		// If WooCommerce is being installed on a multisite, lookup tables haven't been created yet.
-		if ( 'yes' === get_transient( 'wc_installing' ) ) {
-			return;
-		}
-
-		$this->update( $category_id );
-	}
-
-	/**
 	 * Delete lookup table data from a tree.
 	 *
 	 * @param int $category_id Category ID to delete.
@@ -179,17 +163,16 @@ class CategoryLookup {
 	protected function update( $category_id ) {
 		global $wpdb;
 
-		$ancestors    = get_ancestors( $category_id, 'product_cat', 'taxonomy' );
-		$children     = get_term_children( $category_id, 'product_cat' );
-		$inserts      = array();
-		$inserts[]    = $this->get_insert_sql( $category_id, $category_id );
-		$children_ids = array_map( 'intval', array_unique( array_filter( $children ) ) );
+		$ancestors = get_ancestors( $category_id, 'product_cat', 'taxonomy' );
+		$children  = get_term_children( $category_id, 'product_cat' );
+		$inserts   = array();
+		$inserts[] = $this->get_insert_sql( $category_id, $category_id );
 
 		foreach ( $ancestors as $ancestor ) {
 			$inserts[] = $this->get_insert_sql( $category_id, $ancestor );
 
-			foreach ( $children_ids as $child_category_id ) {
-				$inserts[] = $this->get_insert_sql( $child_category_id, $ancestor );
+			foreach ( $children as $child ) {
+				$inserts[] = $this->get_insert_sql( $child->category_id, $ancestor );
 			}
 		}
 

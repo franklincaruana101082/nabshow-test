@@ -41,7 +41,7 @@ const paths = {
 
 function serve () {
 	browserSync.init({
-		proxy: "show.test"
+		proxy: "https://nabshow.vipdev.lndo.site/2022/"
 	})
 }
 
@@ -111,7 +111,6 @@ function watcher (cb) {
 	watch(paths.images.src, series(images, reload), cb);
   watch(paths.scripts.src, series(scripts, reload), cb);
 }
-    
 exports.watch = watcher
 exports.css = css
 exports.images = images

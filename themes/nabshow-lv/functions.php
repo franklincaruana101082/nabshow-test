@@ -86,7 +86,6 @@ require get_template_directory() . '/inc/shortcode-functions.php';
  */
 require get_template_directory() . '/inc/common-functions.php';
 
-
 /**
  * All the endpoint callback function.
  */
@@ -97,7 +96,10 @@ require get_template_directory() . '/inc/endpoints.php';
  */
 require get_template_directory() . '/inc/blocks-browse-filter-html.php';
 
-
+/**
+ * All analytics settings inside this file
+ */
+require get_template_directory() . '/inc/action/segment-ga-prod.php';
 
 /**
  *

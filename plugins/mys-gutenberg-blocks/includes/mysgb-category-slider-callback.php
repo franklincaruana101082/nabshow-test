@@ -125,6 +125,8 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
             <?php
         }
 
+        $show_code = $this->mysgb_get_mys_show_code();
+
         foreach ( $terms as $current_term ) {
 
         	$image_id = get_term_meta( $current_term->term_id, 'tax-image-id', true );
@@ -148,18 +150,17 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 						<?php
 
 					} elseif ( 'tracks' === $category_type ) {
-
-                    	$session_track_link = $site_url . '/learn/browse-sessions/?session-track='. $current_term->slug;
+                        $session_track_link = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/#/searchtype/sessiontrack/search/' . $current_term->name . '/show/all';
 						?>
-						<h2 class="track-title"><a href="<?php echo esc_url( $session_track_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<h2 class="track-title"><a href="<?php echo esc_url( $session_track_link ); ?>" target="_blank"><?php echo esc_html( $current_term->name ); ?></a></h2>
 						<?php
 
 					} elseif ( 'session-categories' === $category_type ) {
 
                     	$category_id    = get_term_meta( $current_term->term_id, 'categoryid', true );
-                    	$category_link  = 'https://nab20.mapyourshow.com/8_0/sessions/#/searchtype/sessioncategory28/search/' . $category_id . '/show/all';
+                        $category_link  = 'https://' . $show_code . '.mapyourshow.com/8_0/sessions/#/searchtype/sessioncategory15/search/' . $category_id . '/show/all';
 						?>
-						<h2 class="track-title"><a href="<?php echo esc_url( $category_link ); ?>"><?php echo esc_html( $current_term->name ); ?></a></h2>
+						<h2 class="track-title"><a href="<?php echo esc_url( $category_link ); ?>" target="_blank"><?php echo esc_html( $current_term->name ); ?></a></h2>
 						<?php
 
                     } else {

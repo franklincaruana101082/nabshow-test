@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createBlock, registerBlockType } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 import { Icon, list } from '@woocommerce/icons';
 
 /**
@@ -16,7 +16,7 @@ registerBlockType( 'woocommerce/product-categories', {
 	title: __( 'Product Categories List', 'woocommerce' ),
 	icon: {
 		src: <Icon srcElement={ list } />,
-		foreground: '#7f54b3',
+		foreground: '#96588a',
 	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
@@ -81,26 +81,6 @@ registerBlockType( 'woocommerce/product-categories', {
 			type: 'boolean',
 			default: true,
 		},
-	},
-
-	transforms: {
-		from: [
-			{
-				type: 'block',
-				blocks: [ 'core/legacy-widget' ],
-				// We can't transform if raw instance isn't shown in the REST API.
-				isMatch: ( { idBase, instance } ) =>
-					idBase === 'woocommerce_product_categories' &&
-					!! instance?.raw,
-				transform: ( { instance } ) =>
-					createBlock( 'woocommerce/product-categories', {
-						hasCount: !! instance.raw.count,
-						hasEmpty: ! instance.raw.hide_empty,
-						isDropdown: !! instance.raw.dropdown,
-						isHierarchical: !! instance.raw.hierarchical,
-					} ),
-			},
-		],
 	},
 
 	deprecated: [

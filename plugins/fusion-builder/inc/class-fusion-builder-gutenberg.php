@@ -99,7 +99,7 @@ class Fusion_Builder_Gutenberg {
 			if ( isset( $_GET['fb-be-editor'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				?>
 				<script type="text/javascript">
-				jQuery( window).on('load', function() {
+				jQuery( window ).load( function() {
 					var builderToggle = jQuery( '#fusion_toggle_builder' );
 
 					setTimeout( function() {
@@ -115,7 +115,7 @@ class Fusion_Builder_Gutenberg {
 				$button    = '<a href="' . $post_link . '" id="fusion_builder_switch" class="button button-primary button-large"><span class="fusion-builder-button-text">' . esc_html__( 'Edit With Fusion Builder', 'fusion-builder' ) . '</span></a>';
 				?>
 				<script type="text/javascript">
-				jQuery( window).on('load', function() {
+				jQuery( window ).load( function() {
 					var toolbar = jQuery( '.edit-post-header-toolbar' );
 
 					if ( toolbar.length ) {

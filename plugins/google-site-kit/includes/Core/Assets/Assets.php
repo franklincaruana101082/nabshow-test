@@ -296,9 +296,7 @@ final class Assets {
 			function ( $tag, $handle ) use ( $assets ) {
 				// TODO: 'hoverintent-js' can be removed from here at some point, see https://github.com/ampproject/amp-wp/pull/3928.
 				if ( $this->context->is_amp() && ( isset( $assets[ $handle ] ) && $assets[ $handle ] instanceof Script || 'hoverintent-js' === $handle ) ) {
-					if(!empty($tag)) {
-						$tag = preg_replace( '/(?<=<script)(?=\s|>)/i', ' data-ampdevmode', $tag );
-					}
+					$tag = preg_replace( '/(?<=<script)(?=\s|>)/i', ' data-ampdevmode', $tag );
 				}
 				return $tag;
 			},
@@ -310,7 +308,7 @@ final class Assets {
 			'style_loader_tag',
 			function ( $tag, $handle ) use ( $assets ) {
 				if ( $this->context->is_amp() && isset( $assets[ $handle ] ) && $assets[ $handle ] instanceof Stylesheet ) {
-					if(!empty($tag)) $tag = preg_replace( '/(?<=<link)(?=\s|>)/i', ' data-ampdevmode', $tag );
+					$tag = preg_replace( '/(?<=<link)(?=\s|>)/i', ' data-ampdevmode', $tag );
 				}
 				return $tag;
 			},
@@ -359,7 +357,7 @@ final class Assets {
 			new Script(
 				'googlesitekit-vendor',
 				array(
-					'src' => $base_url . 'js/googlesitekit-vendor.js'
+					'src' => $base_url . 'js/googlesitekit-vendor.js',
 				)
 			),
 			new Script_Data(
@@ -418,14 +416,13 @@ final class Assets {
 							array( BC_Functions::class, 'rest_preload_api_request' ),
 							array()
 						);
-						if( wp_installing() && ! is_multisite() ){
-							return array(
-								'nonce'         => wp_create_nonce( 'wp_rest' ),
-								'nonceEndpoint' => admin_url( 'admin-ajax.php?action=rest-nonce' ),
-								'preloadedData' => $preloaded,
-								'rootURL'       => esc_url_raw( get_rest_url() ),
-							);
-						}
+
+						return array(
+							'nonce'         => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ),
+							'nonceEndpoint' => admin_url( 'admin-ajax.php?action=rest-nonce' ),
+							'preloadedData' => $preloaded,
+							'rootURL'       => esc_url_raw( get_rest_url() ),
+						);
 					},
 				)
 			),
@@ -441,7 +438,7 @@ final class Assets {
 				'googlesitekit-base',
 				array(
 					'src'          => $base_url . 'js/googlesitekit-admin.js',
-					'dependencies' => array( 'googlesitekit-apifetch-data', 'googlesitekit-base-data',
+					'dependencies' => array( 'googlesitekit-apifetch-data', 'googlesitekit-base-data' ),
 					'execution'    => 'defer',
 				)
 			),
@@ -566,7 +563,7 @@ final class Assets {
 			new Stylesheet(
 				'googlesitekit-admin-css',
 				array(
-					'src' => $base_url . 'css/admin.css',16),
+					'src' => $base_url . 'css/admin.css',
 				)
 			),
 			// WP Dashboard assets.
@@ -604,7 +601,7 @@ final class Assets {
 			new Stylesheet(
 				'googlesitekit-adminbar-css',
 				array(
-					'src' => $base_url . 'css/adminbar.css',20
+					'src' => $base_url . 'css/adminbar.css',
 				)
 			),
 		);
@@ -863,7 +860,6 @@ final class Assets {
 	 */
 	private function add_async_defer_attribute( $tag, $handle ) {
 		$script_execution = wp_scripts()->get_data( $handle, 'script_execution' );
-
 		if ( ! $script_execution ) {
 			return $tag;
 		}

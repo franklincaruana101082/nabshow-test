@@ -105,7 +105,11 @@ if ( is_array( $quick_links ) && count( $quick_links ) > 0 ) {
   </div>
   <?php
 }
-
+?>
+  <div class="section container">
+    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
+  </div>
+<?php
 if ( is_array( $testimonials ) && count( $testimonials ) > 0 ) {
   ?>
   <div class="testimonials-wrapper">
@@ -130,11 +134,8 @@ if ( is_array( $testimonials ) && count( $testimonials ) > 0 ) {
 }
 ?>
 
-<?php /*
-  <div class="section _bottom-only container">
-    <?php dynamic_sidebar('broadstreet-home-leaderboard'); ?>
-  </div>
-*/ ?>
+
+
 
 <?php
 if ( is_array( $attending_companies ) && count( $attending_companies ) > 0 ) {
@@ -142,7 +143,7 @@ if ( is_array( $attending_companies ) && count( $attending_companies ) > 0 ) {
   <div class="section _bottom">
     <div class="container">
       <div class="attending">
-        <h3 class="attending-subtitle">Thousands of attendees, hundreds of exhibitors are ready</h3>
+        <h3 class="attending-subtitle">Thousands of attendees are ready</h3>
         <h2 class="h-xl attending-title">You’ll Be In Good Company</h2>
           <div class="attending-panel">
             <?php
@@ -188,6 +189,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
             }
           }
           ?>
+          <br><br><a href="https://nab21.mapyourshow.com/8_0/explore/exhibitor-gallery.cfm?featured=false&amp;_ga=2.63302376.616821258.1631544224-1534644711.1613326994" data-feathr-click-track="true" class="button _solid">View More</a>
         </div>
       </div>
     </div>
@@ -239,7 +241,7 @@ if ( is_array( $exhibitor_companies ) && count( $exhibitor_companies ) > 0 ) {
         if ( ! empty( $safety_copy ) ) {
           ?>
           <div class="safety__copy">
-            <p><?php echo esc_html( $safety_copy ); ?></p>
+            <p><?php echo $safety_copy; ?></p>
           </div>
           <?php
         }

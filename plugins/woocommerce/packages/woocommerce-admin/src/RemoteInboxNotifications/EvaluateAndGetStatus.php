@@ -16,9 +16,9 @@ class EvaluateAndGetStatus {
 	/**
 	 * Evaluates the spec and returns a status.
 	 *
-	 * @param array  $spec The spec to evaluate.
+	 * @param array  $spec           The spec to evaluate.
 	 * @param string $current_status The note's current status.
-	 * @param object $stored_state Stored state.
+	 * @param object $stored_state   Stored state.
 	 * @param object $rule_evaluator Evaluates rules into true/false.
 	 *
 	 * @return string The evaluated status.
@@ -29,14 +29,7 @@ class EvaluateAndGetStatus {
 			return $current_status;
 		}
 
-		$evaluated_result = $rule_evaluator->evaluate(
-			$spec->rules,
-			$stored_state,
-			array(
-				'slug'   => $spec->slug,
-				'source' => 'remote-inbox-notifications',
-			)
-		);
+		$evaluated_result = $rule_evaluator->evaluate( $spec->rules, $stored_state );
 
 		// Pending notes should be the spec status if the spec passes,
 		// left alone otherwise.

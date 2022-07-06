@@ -2,7 +2,7 @@
 jQuery( function( $ ) {
 	// Orderby
 	$( '.woocommerce-ordering' ).on( 'change', 'select.orderby', function() {
-		$( this ).closest( 'form' ).trigger( 'submit' );
+		$( this ).closest( 'form' ).submit();
 	});
 
 	// Target quantity inputs on product pages
@@ -14,7 +14,7 @@ jQuery( function( $ ) {
 		}
 	});
 
-	var noticeID   = $( '.woocommerce-store-notice' ).data( 'noticeId' ) || '',
+	var noticeID   = $( '.woocommerce-store-notice' ).data( 'notice-id' ) || '',
 		cookieName = 'store_notice' + noticeID;
 
 	// Check the value of that cookie and show/hide the notice accordingly
@@ -87,11 +87,7 @@ jQuery( function( $ ) {
 
 	$( '.show-password-input' ).on( 'click',
 		function() {
-			if ( $( this ).hasClass( 'display-password' ) ) {
-				$( this ).removeClass( 'display-password' );
-			} else {
-				$( this ).addClass( 'display-password' );
-			}
+			$( this ).toggleClass( 'display-password' );
 			if ( $( this ).hasClass( 'display-password' ) ) {
 				$( this ).siblings( ['input[type="password"]'] ).prop( 'type', 'text' );
 			} else {

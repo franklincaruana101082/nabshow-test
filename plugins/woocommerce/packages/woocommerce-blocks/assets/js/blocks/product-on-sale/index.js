@@ -10,6 +10,7 @@ import { Icon, tag } from '@woocommerce/icons';
  */
 import Block from './block';
 import './editor.scss';
+import { deprecatedConvertToShortcode } from '../../utils/deprecations';
 import sharedAttributes, {
 	sharedAttributeBlockTypes,
 } from '../../utils/shared-attributes';
@@ -18,7 +19,7 @@ registerBlockType( 'woocommerce/product-on-sale', {
 	title: __( 'On Sale Products', 'woocommerce' ),
 	icon: {
 		src: <Icon srcElement={ tag } />,
-		foreground: '#7f54b3',
+		foreground: '#96588a',
 	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
@@ -59,6 +60,20 @@ registerBlockType( 'woocommerce/product-on-sale', {
 			},
 		],
 	},
+
+	deprecated: [
+		{
+			// Deprecate shortcode save method in favor of dynamic rendering.
+			attributes: {
+				...sharedAttributes,
+				orderby: {
+					type: 'string',
+					default: 'date',
+				},
+			},
+			save: deprecatedConvertToShortcode( 'woocommerce/product-on-sale' ),
+		},
+	],
 
 	/**
 	 * Renders and manages the block.

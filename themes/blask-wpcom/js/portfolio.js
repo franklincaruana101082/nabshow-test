@@ -1,6 +1,6 @@
 ( function( $ ) {
 
-	$( window).on('load', function() {
+	$( window ).load( function() {
 
 		/*
 		 * Wrap portfolio-featured-image in a div.

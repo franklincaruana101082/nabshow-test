@@ -6,6 +6,10 @@
  * @package WooCommerce\Interfaces
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * WC Coupon Data Store Interface
  *

@@ -63,35 +63,35 @@
 				var timeout = false;
 
 				if(opts.activation == "hover"){
-					org_elem.on( 'mouseenter', function(){
+					org_elem.hover(function(){
 						active_tiptip();
-					} ).on( 'mouseleave', function(){
+					}, function(){
 						if(!opts.keepAlive || !tiptip_holder.is(':hover')){
 							deactive_tiptip();
 						}
 					});
 					if(opts.keepAlive){
-						tiptip_holder.on( 'mouseenter', function(){} ).on( 'mouseleave', function(){
+						tiptip_holder.hover(function(){}, function(){
 							deactive_tiptip();
 						});
 					}
 				} else if(opts.activation == "focus"){
-					org_elem.on( 'focus', function(){
+					org_elem.focus(function(){
 						active_tiptip();
-					}).on( 'blur', function(){
+					}).blur(function(){
 						deactive_tiptip();
 					});
 				} else if(opts.activation == "click"){
-					org_elem.on( 'click', function(){
+					org_elem.click(function(){
 						active_tiptip();
 						return false;
-					}).on( 'mouseenter', function(){} ).on( 'mouseleave' ,function(){
+					}).hover(function(){},function(){
 						if(!opts.keepAlive){
 							deactive_tiptip();
 						}
 					});
 					if(opts.keepAlive){
-						tiptip_holder.on( 'mouseenter', function(){} ).on( 'mouseleave', function(){
+						tiptip_holder.hover(function(){}, function(){
 							deactive_tiptip();
 						});
 					}
@@ -100,8 +100,7 @@
 				function active_tiptip(){
 					opts.enter.call(this);
 					tiptip_content.html(org_title);
-					tiptip_holder.hide().css("margin","0");
-					tiptip_holder.removeAttr('class');
+					tiptip_holder.hide().removeAttr("class").css("margin","0");
 					tiptip_arrow.removeAttr("style");
 
 					var top = parseInt(org_elem.offset()['top']);

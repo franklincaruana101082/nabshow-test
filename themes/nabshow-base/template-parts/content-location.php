@@ -19,11 +19,22 @@ $display_speakers_and_sessions  = get_field( 'display_speakers_and_sessions' );
 $display_cta_block              = get_field( 'display_cta_block' );
 $ad_code                        = get_field( 'ad_code' );
 $display_mailing_list_block     = get_field( 'display_mailing_list_block' );
+$location_url                   = get_field( 'location_url' );
 ?>
 <div class="intro _short _lightlines-strip">
     <div class="container intro__container">
         <h2 class="intro__label">
-            <span class="inline-icon icon-location"><?php echo esc_html( $location ); ?></span>
+            <?php
+            if ( ! empty( $location_url ) ) {
+                ?>
+                <a href="<?php echo esc_url( $location_url ); ?>" target="_blank"><span class="inline-icon icon-location"><?php echo esc_html( $location ); ?></span></a>
+                <?php
+            } else {
+                ?>
+                <span class="inline-icon icon-location"><?php echo esc_html( $location ); ?></span>
+                <?php
+            }
+            ?>            
         </h2>
         <h1 class="intro__title"><?php the_title(); ?></h1>
     </div>
@@ -49,6 +60,7 @@ if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
     $final_date         = '';
     $rate_information   = get_field( 'rate_information' );
     $register_url       = get_field( 'register_url' );
+    $time               = get_field( 'time' );
 
     if ( date_format( date_create( $start_date ), 'Ymd' ) !== date_format( date_create( $end_date ), 'Ymd' ) ) {
         $month      = date_format( date_create( $start_date ), 'F' );
@@ -58,6 +70,9 @@ if ( ! empty( $start_date ) && ! empty( $end_date ) ) {
         $final_date = $month . ' ' . $start_day . '-' . $end_day . ' ' . $year;
     } else {
         $final_date = date_format( date_create( $start_date ), 'F j Y' );
+    }
+    if ( $time ) {
+        $final_date .= ' ' . $time;
     }
     ?>
     <div class="section container">

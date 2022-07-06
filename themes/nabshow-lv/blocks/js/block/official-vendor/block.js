@@ -168,6 +168,7 @@
                   tagName="h3"
                   placeholder={__('title')}
                   value={product.title}
+                  keepPlaceholderOnFocus="true"
                   className="title"
                   onChange={title => {
                     const newObject = Object.assign({}, product, {
@@ -187,6 +188,7 @@
                   tagName="p"
                   className="companyName"
                   placeholder={__('Company Name')}
+                  keepPlaceholderOnFocus="true"
                   value={product.companyName}
                   onChange={companyName => {
                     const newObject = Object.assign({}, product, {
@@ -207,6 +209,7 @@
                   className="type"
                   placeholder={__('Type: Exclusive OR Preferred')}
                   value={product.type}
+                  keepPlaceholderOnFocus="true"
                   onChange={type => {
                     const newObject = Object.assign({}, product, {
                       type: type
@@ -226,6 +229,7 @@
                   className="description"
                   placeholder={__('Description')}
                   value={product.description}
+                  keepPlaceholderOnFocus="true"
                   onChange={description => {
                     const newObject = Object.assign({}, product, {
                       description: description

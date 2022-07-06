@@ -22,7 +22,6 @@ if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
-    <meta name="google-site-verification" content="cj26-A0JkUmPWQ6fOVknb6ny88Jo_SF3CneW0T5_XEM" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, shrink-to-fit=no">
     <link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="icon" href="<?php echo esc_url( get_template_directory_uri() . '/assets/images/favicon.ico' ); ?>">
@@ -38,6 +37,15 @@ if ( 'production' === VIP_GO_APP_ENVIRONMENT ) {
 	<!-- End Dynamic Schema -->
 
 	<script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <?php
+    $frontpageID = get_option('page_on_front');
+    if (get_field('banner_date', $frontpageID)) { ?>
+    <style>
+        .header__mainnav-cta.menu-item > a:before {
+            content:  "<?php the_field('banner_date', $frontpageID); ?>";
+        }
+    </style>
+    <?php } ?>
   <meta name="google-site-verification" content="042y4f5mXlJAOAri3QG5MZ7hHgWUWI7k_kg2pcGEqj8" />
 </head>
 

@@ -260,21 +260,22 @@
   // accordion
   $(document).on(
     'click',
-    '.accordionParentWrapper .accordionWrapper .accordionHeader .dashicons',
+    '.accordionParentWrapper .accordionWrapper .accordionHeader',
     function (e) {
       e.stopImmediatePropagation();
-      $(this).parent().parent().siblings().find('.accordionBody').slideUp();
-      $(this).parent().next().slideToggle();
+      $(this).parent().siblings().find('.accordionBody').slideUp();
+      $(this).next().slideToggle();
       if (
-        $(this).parent().parent('.accordionWrapper').hasClass('tabClose')
+        $(this).parent('.accordionWrapper').hasClass('tabClose')
       ) {
-        $(this).parent().parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
-        $(this).parent().parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
+        $(this).parent('.accordionWrapper').removeClass('tabClose').addClass('tabOpen');
+        $(this).parent('.accordionWrapper').siblings().removeClass('tabOpen').addClass('tabClose');
       } else {
-        $(this).parent().parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
+        $(this).parent('.accordionWrapper').removeClass('tabOpen').addClass('tabClose');
       }
     }
   );
+  
 
   // related-content-custom-item
   if (0 < $('.related-content-custom-box').length) {
@@ -1081,9 +1082,8 @@
       nabAjaxForBrowseSession(sessionItem, 'load-more', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
     });
 
-    $(document).on('click', '.browse-sessions-filter .featured-btn', function () {
-      $(this).toggleClass('active');
-      featuredSession = $(this).hasClass('active') ? 'featured' : '';
+    $(document).on('change', '.browse-sessions-filter .featured-checkbox', function () {     
+      featuredSession = $(this).is(':checked') ? 'featured' : '';
       pageNumber = 1;
       nabAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
     });
@@ -1168,8 +1168,7 @@
       nabAjaxForBrowseExhibitors(true, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
-    $(document).on('click', '.browse-exhibitors-filter .featured-btn', function () {
-      $(this).toggleClass('active');
+    $(document).on('change', '.browse-exhibitors-filter .featured-checkbox', function () {      
       exhibitorPageNumber = 1;
       nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
@@ -1200,8 +1199,7 @@
       nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
 
-    $(document).on('click', '.browse-exhibitors-filter .orderby', function () {
-      $(this).toggleClass('active');
+    $(document).on('change', '.browse-exhibitors-filter .orderby-checkbox', function () {      
       exhibitorPageNumber = 1;
       nabAjaxForBrowseExhibitors(false, exhibitorPageNumber, exhibitorStartWith, exhibitorCategory, exhibitorHall, exhibitorPavilion);
     });
@@ -1255,10 +1253,9 @@
       nabAjaxForBrowseSpeakers(true, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
-    $(document).on('click', '.browse-speakers-filter .featured-btn', function () {
-      $(this).toggleClass('active');
+    $(document).on('change', '.browse-speakers-filter .featured-checkbox', function () {      
       speakerPageNumber = 1;
-      featuredSpeaker = $(this).hasClass('active') ? 'featured' : '';
+      featuredSpeaker = $(this).is(':checked') ? 'featured' : '';
       nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
@@ -1283,8 +1280,7 @@
       nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
 
-    $(document).on('click', '.browse-speakers-filter .orderby', function () {
-      $(this).toggleClass('active');
+    $(document).on('change', '.browse-speakers-filter .orderby-checkbox', function () {      
       speakerPageNumber = 1;
       nabAjaxForBrowseSpeakers(false, speakerPageNumber, speakerStartWith, speakerCompany, featuredSpeaker, speakerDate);
     });
@@ -1726,7 +1722,7 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
     postSearch = 0 < jQuery('.browse-speakers-filter .search-item .search').length ? jQuery('.browse-speakers-filter .search-item .search').val() : '',
     excludeSpeaker = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.exclude-speaker').val() : '',
     sessionSpeakers = 0 < jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').length ? jQuery('#browse-speaker').parents('.slider-arrow-main').find('.session-speakers').val() : '',
-    orderBy = jQuery('.browse-speakers-filter .orderby').hasClass('active') ? 'title' : 'date';
+    orderBy = jQuery('.browse-speakers-filter .orderby-checkbox').is(':checked') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
 
@@ -1770,10 +1766,8 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
           if ( ! jQuery('#browse-speaker').parents('.slider-arrow-main').hasClass('on-rollover') ) {
 
             let imgLink = document.createElement('a');
-            imgLink.setAttribute('href', '#');
-            imgLink.setAttribute('class', 'detail-list-modal-popup');
-            imgLink.setAttribute('data-postid', value.post_id);
-            imgLink.setAttribute('data-posttype', 'speakers');
+            imgLink.setAttribute('href', value.speaker_url);            
+            imgLink.setAttribute('target', '_blank');
 
             imgLink.appendChild(innerImg);
             itemInnerFlipBox.appendChild(imgLink);
@@ -1790,10 +1784,8 @@ function nabAjaxForBrowseSpeakers(filterType, speakerPageNumber, speakerStartWit
 
             let innerHeadingLink = document.createElement('a');
             innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('href', '#');
-            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
-            innerHeadingLink.setAttribute('data-posttype', 'speakers');
+            innerHeadingLink.setAttribute('href', value.speaker_url);
+            innerHeadingLink.setAttribute('target', '_blank');
 
             innerHeading.appendChild(innerHeadingLink);
             innerFlipBoxBack.appendChild(innerHeading);
@@ -1858,13 +1850,13 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
   let postPerPage = jQuery('#load-more-exhibitor a').attr('data-post-limit') ? parseInt(jQuery('#load-more-exhibitor a').attr('data-post-limit')) : 10;
   let postSearch = 0 < jQuery('.browse-exhibitors-filter .search-item .search').length ? jQuery('.browse-exhibitors-filter .search-item .search').val() : '';
   let keywords = new Array();
-  let orderBy = jQuery('.browse-exhibitors-filter .orderby').hasClass('active') ? 'title' : 'date';
+  let orderBy = jQuery('.browse-exhibitors-filter .orderby-checkbox').is(':checked') ? 'title' : 'date';
 
   jQuery('body').addClass('popup-loader');
   jQuery('.browse-exhibitors-filter .exhibitor-keywords:checked').each(function () {
     keywords.push(jQuery(this).val());
   });
-  if (jQuery('.browse-exhibitors-filter .featured-btn').hasClass('active')) {
+  if (jQuery('.browse-exhibitors-filter .featured-checkbox').is(':checked') ) {
     keywords.push('featured');
   }
 
@@ -1903,15 +1895,8 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
           if ( ! jQuery('#browse-exhibitor').parents('.slider-arrow-main').hasClass('without-name') ) {
 
             let innerHeading = document.createElement('h4');
-
-            let innerHeadingLink = document.createElement('a');
-            innerHeadingLink.innerText = value.post_title;
-            innerHeadingLink.setAttribute('href', '#');
-            innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-            innerHeadingLink.setAttribute('data-postid', value.post_id);
-            innerHeadingLink.setAttribute('data-posttype', 'exhibitors');
-
-            innerHeading.appendChild(innerHeadingLink);
+            innerHeading.innerText = value.post_title;
+            
             itemInnerDiv.appendChild(innerHeading);
           }
 
@@ -1928,14 +1913,6 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
             let innerParagraph = document.createElement('p');
             innerParagraph.innerText = value.post_excerpt;
 
-            let innerParagraphLink = document.createElement('a');
-            innerParagraphLink.innerText = ' Read More';
-            innerParagraphLink.setAttribute('href', '#');
-            innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-            innerParagraphLink.setAttribute('data-postid', value.post_id);
-            innerParagraphLink.setAttribute('data-posttype', 'exhibitors');
-
-            innerParagraph.appendChild(innerParagraphLink);
             itemInnerDiv.appendChild(innerParagraph);
           }
 
@@ -1947,9 +1924,11 @@ function nabAjaxForBrowseExhibitors(filterType, exhibitorPageNumber, exhibitorSt
           }
 
           let innerPlannerLink = document.createElement('a');
-          innerPlannerLink.innerText = 'View in Planner';
+          innerPlannerLink.innerText = 'View Details';
+          innerPlannerLink.setAttribute('class', 'MYS-link');
           innerPlannerLink.setAttribute('href', value.planner_link);
           innerPlannerLink.setAttribute('target', '_blank');
+
 
           itemInnerDiv.appendChild(innerPlannerLink);
           createItemDiv.appendChild(itemInnerDiv);
@@ -2111,10 +2090,8 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
               let innerHeadingLink = document.createElement('a');
               innerHeadingLink.innerText = value.post_title;
-              innerHeadingLink.setAttribute('href', '#');
-              innerHeadingLink.setAttribute('class', 'detail-list-modal-popup');
-              innerHeadingLink.setAttribute('data-postid', value.post_id);
-              innerHeadingLink.setAttribute('data-posttype', 'sessions');
+              innerHeadingLink.setAttribute('href', value.planner_link);
+              innerHeadingLink.setAttribute('target', '_blank');
 
               innerHeading.appendChild(innerHeadingLink);
               createItemDiv.appendChild(innerHeading);
@@ -2134,10 +2111,8 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
 
               let innerParagraphLink = document.createElement('a');
               innerParagraphLink.innerText = ' Read More';
-              innerParagraphLink.setAttribute('href', '#');
-              innerParagraphLink.setAttribute('class', 'detail-list-modal-popup read-more-popup');
-              innerParagraphLink.setAttribute('data-postid', value.post_id);
-              innerParagraphLink.setAttribute('data-posttype', 'sessions');
+              innerParagraphLink.setAttribute('href', value.planner_link);
+              innerParagraphLink.setAttribute('target', '_blank');
 
               innerParagraph.appendChild(innerParagraphLink);
               createItemDiv.appendChild(innerParagraph);
@@ -2171,7 +2146,7 @@ function nabAjaxForBrowseSession(sessionItem, filterType, pageNumber, postStartW
         });
       }
 
-      if (0 < jQuery('.browse-sessions-filter .featured-btn').length) {
+      if (0 < jQuery('.browse-sessions-filter .featured-checkbox').length) {
         jQuery('#browse-session .item').removeClass('featured');
         jQuery('#browse-session .item[data-featured="featured"]').addClass('featured');
       }

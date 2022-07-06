@@ -3,13 +3,11 @@
  */
 import { __ } from '@wordpress/i18n';
 import { decodeEntities } from '@wordpress/html-entities';
-import { SelectControl } from 'wordpress-components';
+import { SelectControl } from '@wordpress/components';
+import { useValidationContext } from '@woocommerce/base-context';
 import { useEffect } from 'react';
 import classnames from 'classnames';
-import {
-	ValidationInputError,
-	useValidationContext,
-} from '@woocommerce/base-context';
+import { ValidationInputError } from '@woocommerce/base-components/validation';
 
 // Default option for select boxes.
 const selectAnOption = {

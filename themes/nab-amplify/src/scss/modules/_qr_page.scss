@@ -1,0 +1,70 @@
+.qr_page {
+	&__intro {
+		padding: 0 2rem rem(56);
+	    margin-left: -1rem;
+	    margin-right: -1rem;
+	    background-image: url('#{$img_path}qrlp_header_bg_bottom.png');
+	    background-repeat: no-repeat;
+	    background-position: rem(-30) bottom;
+	    background-size: auto rem(44);
+	    border-bottom: 3px solid $color__blue;
+		border-image: linear-gradient(90deg, $color__blurple, $color__blue) 5;
+		border-width: 0;
+		border-bottom-width: 3px;
+		margin-bottom: rem(38);
+		position: relative;
+		&:after {
+			content: '';
+			display: block;
+			width: rem(100);
+			height: rem(16);
+			background-image: url('#{$img_path}qrlp_amplify_logo.png');
+			background-size: contain;
+			background-repeat: no-repeat;
+			position: absolute;
+			right: rem(32);
+			bottom: rem(20);
+		}
+
+		@include bp-414 {
+			background-position: left bottom;
+		}
+		@include bp-1024 {
+			background-position: rem(20) bottom;
+		}
+	}
+
+		&__list {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-around;
+			position: relative;
+			max-width: rem(300);
+			margin-right: auto;
+			margin-left: auto;
+
+			@include bp-768 {
+				max-width: rem(700);
+			}
+
+			span {
+				font-size: rem(24);
+				font-weight: 400;
+				line-height: 1.33;
+			}
+		}
+			&__dot {
+				display: inline-block;
+				width: rem(4);
+				height: rem(4);
+				border-radius: 100%;
+				background-color: #9e4593;
+				margin-top: rem(16);
+				&:nth-child(4) {
+					display: none;
+					@include bp-768 {
+						display: inline-block;
+					}
+				}
+			}
+}

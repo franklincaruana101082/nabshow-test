@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { getSetting } from '@woocommerce/settings';
+import { DEFAULT_HEIGHT } from '@woocommerce/block-settings';
 import { Icon, folderStarred } from '@woocommerce/icons';
 
 /**
@@ -22,7 +22,7 @@ registerBlockType( 'woocommerce/featured-category', {
 	title: __( 'Featured Category', 'woocommerce' ),
 	icon: {
 		src: <Icon srcElement={ folderStarred } />,
-		foreground: '#7f54b3',
+		foreground: '#96588a',
 	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
@@ -72,7 +72,7 @@ registerBlockType( 'woocommerce/featured-category', {
 		 */
 		height: {
 			type: 'number',
-			default: getSetting( 'default_height', 500 ),
+			default: DEFAULT_HEIGHT,
 		},
 
 		/**

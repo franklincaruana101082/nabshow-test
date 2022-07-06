@@ -8,7 +8,7 @@ function wooSegmentioSendData(data) {
     if (segmentio.async == "no") {
       analytics.load(segmentio.api_key);
     } else {
-      jQuery(window).on('load',function () {
+      jQuery(window).load(function () {
         analytics.load(segmentio.api_key);
       });
     }

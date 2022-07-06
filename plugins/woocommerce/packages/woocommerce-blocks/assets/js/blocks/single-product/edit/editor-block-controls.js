@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { BlockControls } from '@wordpress/block-editor';
-import { ToolbarGroup } from '@wordpress/components';
+import { Toolbar } from '@wordpress/components';
 
 /**
  * Adds controls to the editor toolbar.
@@ -15,14 +15,11 @@ import { ToolbarGroup } from '@wordpress/components';
 const EditorBlockControls = ( { isEditing, setIsEditing } ) => {
 	return (
 		<BlockControls>
-			<ToolbarGroup
+			<Toolbar
 				controls={ [
 					{
 						icon: 'edit',
-						title: __(
-							'Edit selected product',
-							'woocommerce'
-						),
+						title: __( 'Edit', 'woocommerce' ),
 						onClick: () => setIsEditing( ! isEditing ),
 						isActive: isEditing,
 					},

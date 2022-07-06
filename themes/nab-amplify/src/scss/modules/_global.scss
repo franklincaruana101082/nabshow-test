@@ -139,6 +139,9 @@ figure {
 	.single-articles & {
 		padding: 0;
 	}
+	&._nosearch {
+		padding: 0;
+	}
 }
 
 
@@ -715,6 +718,27 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 	label {
 		@extend .field__label;
 	}
+	.woocommerce-order {
+		.woocommerce-order-overview {
+			border-width: 0;
+			border-top: 4px solid $color__purple;
+			border-image: linear-gradient(90deg, $color__purple, $color__pink) 4;
+			border-width: 0;
+			border-top-width: 4px;
+			background-color: $color__black;
+			li {
+				@include bp-992 {
+					margin-top: rem(20);
+					margin-bottom: rem(20);
+					border-right: 1px solid $color__gray-light;
+					border-left: 0;
+					&:last-child {
+						border-right-width: 0;
+					}
+				}
+			}
+		}
+	}
 }
 	.woocommerce-error {
 		background-color: $color__pink;
@@ -864,7 +888,13 @@ ul.bynder-widget-media-items li a.bynder-widget-media-link {
 		}
 	}
 }
+
 form.checkout.woocommerce-checkout {
+	#customer_details {
+		input {
+			box-shadow: none;
+		}
+	} 
 	div#order_review {
 		width: 30%;
 		padding-top:rem(50);
@@ -878,6 +908,24 @@ form.checkout.woocommerce-checkout {
 		}
 		.shop_table {
 			order: 0;
+			border-left:4px solid $color__blurple;
+			border-image: linear-gradient(0deg, $color__blurple, $color__blue) 4;
+			border-width: 0;
+			border-left-width: 4px;
+			background-color: $color__black;
+			padding: rem(20) rem(30) rem(40);
+			th, td {
+				padding: rem(20);
+				background-color: transparent;
+				border-left: 0;
+				border-bottom: 1px solid $color__gray-light;
+				&:first-child {
+					padding-left: 0;
+				}
+				&:last-child {
+					padding-right: 0;
+				}
+			}
 		}
 		.woocommerce-checkout-payment {
 			order: 2;
@@ -898,5 +946,56 @@ form.checkout.woocommerce-checkout {
 				opacity: .8;
 			}
 		}
+	}
+}
+
+
+section.woocommerce-order-details {
+	table.woocommerce-table--order-details {
+		border-left:4px solid $color__blurple;
+		border-image: linear-gradient(0deg, $color__blurple, $color__blue) 4;
+		border-width: 0;
+		border-left-width: 4px;
+		background-color: $color__black;
+		padding: rem(20) rem(30) rem(40);
+		margin-bottom: rem(20);
+		th, td {
+			padding: rem(20);
+			background-color: transparent;
+			border-left: 0;
+			border-bottom: 1px solid $color__gray-light;
+			&:first-child {
+				padding-left: 0;
+			}
+			&:last-child {
+				padding-right: 0;
+				text-align: right;
+			}
+		}
+	}
+}
+
+
+body.woocommerce-checkout .woocommerce + p {
+	font-size: rem(14);
+}
+.wooGDPRmsg {
+	order: 3;
+	margin-top: rem(20);
+	font-size: rem(12);
+	font-style: italic;
+	line-height: 1.3;
+}
+
+
+.newslettersignup {
+	padding-top: rem(50);
+	padding-bottom: rem(80);
+	margin-left: auto;
+	margin-right: auto;
+	max-width: rem(400);
+
+	.button {
+		width: 100%;
 	}
 }

@@ -54,12 +54,10 @@
   
   _st('install','_2XyWYChms3Vq4a5zLBs','2.0.0');
 </script>
-<?php 
-wp_footer(); 
-?>
+<?php wp_footer(); ?>
 <script type="text/javascript">
-    adroll_adv_id = "HSSD2EG325CKLLDB3VDRRK";  // "UC5OXKKMZZFJPPWYMPOPH3";
-    adroll_pix_id = "7BVYCL35SVEODLE54PZAIU"; // "QL6SBKZ4ZRGVVKIWIL3RCY";
+    adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
+    adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
     adroll_version = "2.0";
 
     (function(w, d, e, o, a) {
@@ -84,8 +82,6 @@ wp_footer();
     })(window, document);
     adroll.track("pageView");
 </script>
-<?php 
-restore_current_blog();
-?>
+<?php restore_current_blog(); ?>
 </body>
 </html>

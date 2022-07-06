@@ -21,7 +21,7 @@ class SpecRunner {
 	 * @param object $stored_state Stored state.
 	 */
 	public static function run_spec( $spec, $stored_state ) {
-		$data_store = Notes::load_data_store();
+		$data_store = \WC_Data_Store::load( 'admin-note' );
 
 		// Create or update the note.
 		$existing_note_ids = $data_store->get_notes_with_name( $spec->slug );

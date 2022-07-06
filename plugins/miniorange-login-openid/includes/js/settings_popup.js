@@ -1,4 +1,4 @@
-jQuery(window).on('load',function () {
+jQuery(window).load(function () {
 	var elemDiv = document.createElement("div");
 	elemDiv.id = "mo-openid-content-id";
 	elemDiv.style.display = "none";

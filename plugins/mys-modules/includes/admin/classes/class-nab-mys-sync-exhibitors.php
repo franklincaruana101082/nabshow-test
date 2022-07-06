@@ -363,7 +363,6 @@ if ( ! class_exists( 'NAB_MYS_Exhibitors' ) ) {
 			 */
 			register_rest_route( 'mys', '/get-exh', array(
 					'methods'  => 'GET',
-					'permission_callback' => '__return_true',
 					'callback' => array( $this, 'nab_mys_cron_exh_api_to_custom' )
 				)
 			);

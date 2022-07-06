@@ -10,7 +10,7 @@
  */
 
 ?>
-
+</div><?php //close <div data-swiftype-name="body" data-swiftype-type="text"> ?>
   <footer class="footer">
     <div class="footer__container">
       <div class="footer__main">
@@ -35,7 +35,7 @@
         <nav class="footer__nav">
           <?php wp_nav_menu( array( 'theme_location' => 'menu-footer', 'container' => false, 'menu_class' => 'footer__menu' ) ); ?>
         </nav>
-        <small class="footer__copyright">&copy;2021 <strong>National Association of Broadcasters.</strong> All Rights Reserved.</small>
+        <small class="footer__copyright">&copy;<?php echo date("Y"); ?> <strong>National Association of Broadcasters.</strong> All Rights Reserved.</small>
       </div>
     </div>
   </footer>
@@ -54,12 +54,19 @@
 <!-- Back To Top -->
 <div class="back-to-top"><i class="fa fa-sort-asc" aria-hidden="true"></i></div>
 <!-- Back To Top -->
-*/ 
-wp_footer();
-?>
+*/ ?>
 <script type="text/javascript">
-    adroll_adv_id = "HSSD2EG325CKLLDB3VDRRK";
-    adroll_pix_id = "7BVYCL35SVEODLE54PZAIU";
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','_2XyWYChms3Vq4a5zLBs','2.0.0');
+</script>
+<?php wp_footer(); ?>
+<script type="text/javascript">
+    adroll_adv_id = "UC5OXKKMZZFJPPWYMPOPH3";
+    adroll_pix_id = "QL6SBKZ4ZRGVVKIWIL3RCY";
     adroll_version = "2.0";
 
     (function(w, d, e, o, a) {

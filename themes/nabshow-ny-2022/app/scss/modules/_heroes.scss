@@ -1,0 +1,139 @@
+// HERO
+
+.hero-banner {
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  z-index: 1;
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  // background image declared in markup
+  background-size: 100% 49.3vw;
+  background-repeat: no-repeat;
+  padding-top: 49.3vw;
+  @include bp-768 {
+    position: relative;
+    &::before {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      @include gradient-purple-orange-corners;
+    }
+    padding: rem(120) 0;
+    background-size: cover;
+    .new & {
+      padding: 0;
+    }
+  }
+}
+
+.hero__inner {
+  // background image declared in markup
+  background-size: 0 0;
+  text-align: center;
+  @include bp-768 {
+    background-position: 20% 50%;
+    background-size: auto 130%;
+    position: relative;
+    &::before {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      @include gradient-purple-blue-corners-dark;
+    }
+  }
+}
+
+.hero__content {
+  position: relative;
+  padding: rem(34) 0 rem(54);
+  @include bp-768 {
+    padding: 7vh rem(48);
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 30%;
+      height: 50%;
+      // @include background-image("lightlines-1.png");
+      mix-blend-mode: lighten;
+      background-size: cover;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 15%;
+      height: 100%;
+      // @include background-image("lightlines-2.png");
+      mix-blend-mode: lighten;
+      background-size: cover;
+    }
+  }
+  @include bp-1440 {
+    padding: 10rem rem(48);
+  }
+}
+
+.hero__label {
+  @include primary-black-14-14-20;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: rem(26);
+  color: $color__white;
+  text-align: center;
+  @include bp-768 {
+    @include primary-black-50-60;
+    letter-spacing: 0.2em;
+    padding-bottom: rem(26);
+  }
+}
+
+.hero__logo {
+  position: relative;
+  display: block;
+  margin: 1rem auto 3rem;  
+  max-width: rem(217);
+  @include bp-768 {
+    max-width: rem(389);
+  }
+}
+
+.hero__cta {
+  text-align: center;
+}
+
+.hero__copy {
+  margin: rem(20) rem(20) 0;
+  text-align: center;
+  color: $color__white;
+  font-size: rem(20);
+  line-height: 1.2;
+  @include bp-768 {
+    margin: rem(40) rem(20) 0;
+    font-size: rem(24);
+  }
+  @include bp-1024 {
+    max-width: rem(1000);
+    font-size: rem(30);
+    margin: rem(60) auto 0;
+  }
+}

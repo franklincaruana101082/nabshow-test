@@ -30,8 +30,7 @@ class WC_Settings_Accounts extends WC_Settings_Page {
 	 *
 	 * @return array
 	 */
-	protected function get_settings_for_default_section() {
-
+	public function get_settings() {
 		$erasure_text = esc_html__( 'account erasure request', 'woocommerce' );
 		$privacy_text = esc_html__( 'privacy page', 'woocommerce' );
 		if ( current_user_can( 'manage_privacy_options' ) ) {
@@ -229,10 +228,12 @@ class WC_Settings_Accounts extends WC_Settings_Page {
 			),
 		);
 
-		return apply_filters(
+		$settings = apply_filters(
 			'woocommerce_' . $this->id . '_settings',
 			$account_settings
 		);
+
+		return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings );
 	}
 }
 

@@ -3,16 +3,16 @@
  */
 import { __ } from '@wordpress/i18n';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import ServerSideRender from '@wordpress/server-side-render';
+import { ServerSideRender } from '@wordpress/editor';
 import {
 	Button,
 	Disabled,
 	PanelBody,
 	Placeholder,
-	ToolbarGroup,
+	Toolbar,
 	withSpokenMessages,
 } from '@wordpress/components';
-import { Component } from '@wordpress/element';
+import { Component, Fragment } from '@wordpress/element';
 import PropTypes from 'prop-types';
 import GridContentControl from '@woocommerce/editor-components/grid-content-control';
 import GridLayoutControl from '@woocommerce/editor-components/grid-layout-control';
@@ -20,20 +20,6 @@ import ProductCategoryControl from '@woocommerce/editor-components/product-categ
 import ProductOrderbyControl from '@woocommerce/editor-components/product-orderby-control';
 import { gridBlockPreview } from '@woocommerce/resource-previews';
 import { Icon, folder } from '@woocommerce/icons';
-import { getSetting } from '@woocommerce/settings';
-
-const EmptyPlaceholder = () => (
-	<Placeholder
-		icon={ <Icon srcElement={ folder } /> }
-		label={ __( 'Products by Category', 'woocommerce' ) }
-		className="wc-block-products-grid wc-block-products-category"
-	>
-		{ __(
-			'No products were found that matched your selection.',
-			'woocommerce'
-		) }
-	</Placeholder>
-);
 
 /**
  * Component to handle edit mode of "Products by Category".
@@ -148,7 +134,6 @@ class ProductByCategoryBlock extends Component {
 							setAttributes( changes );
 							this.setChangedAttributes( changes );
 						} }
-						isCompact={ true }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -160,10 +145,6 @@ class ProductByCategoryBlock extends Component {
 						rows={ rows }
 						alignButtons={ alignButtons }
 						setAttributes={ setAttributes }
-						minColumns={ getSetting( 'min_columns', 1 ) }
-						maxColumns={ getSetting( 'max_columns', 6 ) }
-						minRows={ getSetting( 'min_rows', 1 ) }
-						maxRows={ getSetting( 'max_rows', 6 ) }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -263,7 +244,21 @@ class ProductByCategoryBlock extends Component {
 					<ServerSideRender
 						block={ name }
 						attributes={ attributes }
-						EmptyResponsePlaceholder={ EmptyPlaceholder }
+						EmptyResponsePlaceholder={ () => (
+							<Placeholder
+								icon={ <Icon srcElement={ folder } /> }
+								label={ __(
+									'Products by Category',
+									'woocommerce'
+								) }
+								className="wc-block-products-grid wc-block-products-category"
+							>
+								{ __(
+									'No products were found that matched your selection.',
+									'woocommerce'
+								) }
+							</Placeholder>
+						) }
 					/>
 				) : (
 					__(
@@ -284,16 +279,13 @@ class ProductByCategoryBlock extends Component {
 		}
 
 		return (
-			<>
+			<Fragment>
 				<BlockControls>
-					<ToolbarGroup
+					<Toolbar
 						controls={ [
 							{
 								icon: 'edit',
-								title: __(
-									'Edit selected categories',
-									'woocommerce'
-								),
+								title: __( 'Edit' ),
 								onClick: () =>
 									isEditing
 										? this.stopEditing()
@@ -305,7 +297,7 @@ class ProductByCategoryBlock extends Component {
 				</BlockControls>
 				{ this.getInspectorControls() }
 				{ isEditing ? this.renderEditMode() : this.renderViewMode() }
-			</>
+			</Fragment>
 		);
 	}
 }

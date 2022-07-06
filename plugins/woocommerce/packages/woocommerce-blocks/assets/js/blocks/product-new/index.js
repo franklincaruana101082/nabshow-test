@@ -10,6 +10,7 @@ import { Icon, exclamation } from '@woocommerce/icons';
  * Internal dependencies
  */
 import Block from './block';
+import { deprecatedConvertToShortcode } from '../../utils/deprecations';
 import sharedAttributes, {
 	sharedAttributeBlockTypes,
 } from '../../utils/shared-attributes';
@@ -18,7 +19,7 @@ registerBlockType( 'woocommerce/product-new', {
 	title: __( 'Newest Products', 'woocommerce' ),
 	icon: {
 		src: <Icon srcElement={ exclamation } />,
-		foreground: '#7f54b3',
+		foreground: '#96588a',
 	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
@@ -51,6 +52,14 @@ registerBlockType( 'woocommerce/product-new', {
 			},
 		],
 	},
+
+	deprecated: [
+		{
+			// Deprecate shortcode save method in favor of dynamic rendering.
+			attributes: sharedAttributes,
+			save: deprecatedConvertToShortcode( 'woocommerce/product-new' ),
+		},
+	],
 
 	/**
 	 * Renders and manages the block.

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@automattic/vip": "^2.13.0"
+  }
+}

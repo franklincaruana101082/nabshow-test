@@ -8,6 +8,9 @@
     display: flex;
     justify-content: space-between;
   }
+  .new & {
+    border-radius: rem(10);
+  }
 }
 .jump-links__label {
   color: $color__white;
@@ -28,6 +31,12 @@
     flex: 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+  .new & {
+    @include bp-1024 {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      margin-bottom: 0;
+    }
   }
 }
 .jump-links__item {
@@ -92,6 +101,7 @@
 
 .info-link {
   background: $color__blue;
+  color: $color__white;
   padding: rem(34) rem(30) rem(30);
   @include bp-1024 {
     padding: rem(28) rem(39) rem(24);

@@ -51,7 +51,7 @@ class FrontendContainerBlock extends Component {
 	onReviewsAppended( { newReviews } ) {
 		speak(
 			sprintf(
-				/* translators: %d is the count of reviews loaded. */
+				// Translators: %d is the count of reviews loaded.
 				_n(
 					'%d review loaded.',
 					'%d reviews loaded.',
@@ -95,7 +95,6 @@ class FrontendContainerBlock extends Component {
 				orderby={ orderby }
 				productId={ productId }
 				reviewsToDisplay={ reviewsToDisplay }
-				sortSelectValue={ this.state.orderby }
 			/>
 		);
 	}

@@ -1,5 +1,5 @@
 export const blockAttributes = {
-	showProductLink: {
+	productLink: {
 		type: 'boolean',
 		default: true,
 	},

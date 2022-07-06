@@ -32,19 +32,20 @@ class FeaturedProduct extends AbstractDynamicBlock {
 	/**
 	 * Render the Featured Product block.
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content.
+	 * @param array  $attributes Block attributes. Default empty array.
+	 * @param string $content    Block content. Default empty string.
 	 * @return string Rendered block type output.
 	 */
-	protected function render( $attributes, $content ) {
-		$id      = absint( isset( $attributes['productId'] ) ? $attributes['productId'] : 0 );
+	public function render( $attributes = array(), $content = '' ) {
+		$id      = isset( $attributes['productId'] ) ? (int) $attributes['productId'] : 0;
 		$product = wc_get_product( $id );
 		if ( ! $product ) {
 			return '';
 		}
 		$attributes = wp_parse_args( $attributes, $this->defaults );
-
-		$attributes['height'] = $attributes['height'] ? $attributes['height'] : wc_get_theme_support( 'featured_block::default_height', 500 );
+		if ( ! $attributes['height'] ) {
+			$attributes['height'] = wc_get_theme_support( 'featured_block::default_height', 500 );
+		}
 
 		$title = sprintf(
 			'<h2 class="wc-block-featured-product__title">%s</h2>',
@@ -54,22 +55,22 @@ class FeaturedProduct extends AbstractDynamicBlock {
 		if ( $product->is_type( 'variation' ) ) {
 			$title .= sprintf(
 				'<h3 class="wc-block-featured-product__variation">%s</h3>',
-				wp_kses_post( wc_get_formatted_variation( $product, true, true, false ) )
+				wc_get_formatted_variation( $product, true, true, false )
 			);
 		}
 
 		$desc_str = sprintf(
 			'<div class="wc-block-featured-product__description">%s</div>',
-			wc_format_content( wp_kses_post( $product->get_short_description() ? $product->get_short_description() : wc_trim_string( $product->get_description(), 400 ) ) )
+			apply_filters( 'woocommerce_short_description', $product->get_short_description() ? $product->get_short_description() : wc_trim_string( $product->get_description(), 400 ) )
 		);
 
 		$price_str = sprintf(
 			'<div class="wc-block-featured-product__price">%s</div>',
-			wp_kses_post( $product->get_price_html() )
+			$product->get_price_html()
 		);
 
-		$output  = sprintf( '<div class="%1$s" style="%2$s">', esc_attr( $this->get_classes( $attributes ) ), esc_attr( $this->get_styles( $attributes, $product ) ) );
-		$output .= '<div class="wc-block-featured-product__wrapper">';
+		$output = sprintf( '<div class="%1$s" style="%2$s">', esc_attr( $this->get_classes( $attributes ) ), esc_attr( $this->get_styles( $attributes, $product ) ) );
+
 		$output .= $title;
 		if ( $attributes['showDesc'] ) {
 			$output .= $desc_str;
@@ -78,7 +79,6 @@ class FeaturedProduct extends AbstractDynamicBlock {
 			$output .= $price_str;
 		}
 		$output .= '<div class="wc-block-featured-product__link">' . $content . '</div>';
-		$output .= '</div>';
 		$output .= '</div>';
 
 		return $output;
@@ -182,18 +182,5 @@ class FeaturedProduct extends AbstractDynamicBlock {
 		}
 
 		return $image;
-	}
-
-	/**
-	 * Extra data passed through from server to client for block.
-	 *
-	 * @param array $attributes  Any attributes that currently are available from the block.
-	 *                           Note, this will be empty in the editor context when the block is
-	 *                           not in the post content on editor load.
-	 */
-	protected function enqueue_data( array $attributes = [] ) {
-		parent::enqueue_data( $attributes );
-		$this->asset_data_registry->add( 'min_height', wc_get_theme_support( 'featured_block::min_height', 500 ), true );
-		$this->asset_data_registry->add( 'default_height', wc_get_theme_support( 'featured_block::default_height', 500 ), true );
 	}
 }

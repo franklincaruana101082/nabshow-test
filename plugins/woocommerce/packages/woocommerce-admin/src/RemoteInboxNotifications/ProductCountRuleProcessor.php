@@ -41,9 +41,10 @@ class ProductCountRuleProcessor implements RuleProcessorInterface {
 	 */
 	public function process( $rule, $stored_state ) {
 		$products = $this->product_query->get_products();
+		$count    = $products->total;
 
 		return ComparisonOperation::compare(
-			$products->total,
+			$count,
 			$rule->value,
 			$rule->operation
 		);

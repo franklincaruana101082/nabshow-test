@@ -866,8 +866,3 @@ require_once get_template_directory() . '/inc/company-follow.php';
  * Extend wordpress default walker comment class.
  */
 require_once get_template_directory() . '/classes/class-custom-walker-comment.php';
-
-/**
- * ACF field migration script file.
- */
-require_once get_template_directory() . '/inc/acf-migration.php';

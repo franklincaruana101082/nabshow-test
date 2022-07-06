@@ -1,0 +1,89 @@
+// GENERIC
+// ==============================
+// styles for generic pages
+// ==============================
+
+.generic {
+  @include cf();
+  img {
+    width: auto !important;
+    max-width: auto !important;
+  }
+
+  p {
+    @include primary-regular-17-31;
+    @include bp-768 {
+      @include primary-medium-24-46;
+    }
+  }
+
+  h1 {
+    @extend .h-xl;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    @extend .h-lg;
+  }
+
+  h3,
+  h4 {
+    @extend .h-sm;
+    margin-bottom: rem(16);
+  }
+  p + h3,
+  p + h4 {
+    margin-top: rem(20);
+  }
+
+  a {
+    color: $color__pink;
+  }
+
+  p {
+    @include primary-regular-17-31;
+    margin-bottom: rem(20);
+    @include bp-768 {
+      @include primary-regular-18-30;
+      margin-bottom: rem(32);
+    }
+  }
+
+  ul {
+    margin: 0 0 rem(24) 0;
+    padding: 0 0 0 rem(24);
+    li {
+      @include primary-regular-17-31;
+      @include bp-768 {
+        @include primary-regular-18-30;
+      }
+    }
+  }
+
+  .wp-block-columns {
+    display: flex;
+    @include bp-768 {
+      flex-wrap: nowrap;
+    }
+  }
+  .row {
+    display: flex;
+    margin-right: rem(-16);
+    margin-left: rem(-16);
+  }
+
+  #breadcrumbs {
+    margin-bottom: rem(20);
+    a {
+      color: $color__white;
+    }
+  }
+  .accordionHeader {
+    background: rgba(0, 0, 0, 0.65) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+  .accordionBody {
+    background: rgba(0, 0, 0, 0.65) !important;
+  }
+}

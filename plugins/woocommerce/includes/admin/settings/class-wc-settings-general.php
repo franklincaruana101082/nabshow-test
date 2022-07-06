@@ -27,11 +27,11 @@ class WC_Settings_General extends WC_Settings_Page {
 	}
 
 	/**
-	 * Get settings or the default section.
+	 * Get settings array.
 	 *
 	 * @return array
 	 */
-	protected function get_settings_for_default_section() {
+	public function get_settings() {
 
 		$currency_code_options = get_woocommerce_currencies();
 
@@ -39,7 +39,8 @@ class WC_Settings_General extends WC_Settings_Page {
 			$currency_code_options[ $code ] = $name . ' (' . get_woocommerce_currency_symbol( $code ) . ')';
 		}
 
-		$settings =
+		$settings = apply_filters(
+			'woocommerce_general_settings',
 			array(
 
 				array(
@@ -80,7 +81,7 @@ class WC_Settings_General extends WC_Settings_Page {
 					'title'    => __( 'Country / State', 'woocommerce' ),
 					'desc'     => __( 'The country and state or province, if any, in which your business is located.', 'woocommerce' ),
 					'id'       => 'woocommerce_default_country',
-					'default'  => 'US:CA',
+					'default'  => 'GB',
 					'type'     => 'single_select_country',
 					'desc_tip' => true,
 				),
@@ -228,7 +229,7 @@ class WC_Settings_General extends WC_Settings_Page {
 					'title'    => __( 'Currency', 'woocommerce' ),
 					'desc'     => __( 'This controls what currency prices are listed at in the catalog and which currency gateways will take payments in.', 'woocommerce' ),
 					'id'       => 'woocommerce_currency',
-					'default'  => 'USD',
+					'default'  => 'GBP',
 					'type'     => 'select',
 					'class'    => 'wc-enhanced-select',
 					'desc_tip' => true,
@@ -289,9 +290,11 @@ class WC_Settings_General extends WC_Settings_Page {
 					'type' => 'sectionend',
 					'id'   => 'pricing_options',
 				),
-			);
 
-		return apply_filters( 'woocommerce_general_settings', $settings );
+			)
+		);
+
+		return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings );
 	}
 
 	/**
@@ -306,6 +309,24 @@ class WC_Settings_General extends WC_Settings_Page {
 		echo '<div class="color_box">' . wc_help_tip( $desc ) . '
 			<input name="' . esc_attr( $id ) . '" id="' . esc_attr( $id ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
 		</div>';
+	}
+
+	/**
+	 * Output the settings.
+	 */
+	public function output() {
+		$settings = $this->get_settings();
+
+		WC_Admin_Settings::output_fields( $settings );
+	}
+
+	/**
+	 * Save settings.
+	 */
+	public function save() {
+		$settings = $this->get_settings();
+
+		WC_Admin_Settings::save_fields( $settings );
 	}
 }
 

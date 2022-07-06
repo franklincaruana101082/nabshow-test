@@ -76,7 +76,7 @@
 
 				new_img.src = img.attr( 'src' );
 
-				$( new_img window).on('load',function() {
+				$( new_img ).load( function() {
 
 					var img_width = new_img.width;
 

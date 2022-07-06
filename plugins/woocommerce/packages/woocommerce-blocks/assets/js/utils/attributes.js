@@ -1,9 +1,7 @@
 /**
  * External dependencies
  */
-import { getSetting } from '@woocommerce/settings';
-
-const ATTRIBUTES = getSetting( 'attributes', [] );
+import { ATTRIBUTES } from '@woocommerce/block-settings';
 
 /**
  * Format an attribute from the settings into an object with standardized keys.

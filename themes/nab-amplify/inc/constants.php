@@ -2,7 +2,7 @@
 
 define('NAB_SIGNUP_PAGE', 'sign-up');
 
-define('NAB_SHOW_SIGNUP_PAGE', 'nab-show-sign-up');
+define('NAB_SHOW_SIGNUP_PAGE', 'nab-show-ny-sign-up');
 
 define('NAB_PRIVACY_POLICY_PAGE', 'privacy-policy');
 

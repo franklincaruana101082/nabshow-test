@@ -303,9 +303,8 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 			$this->add_sql_query_params( $query_args );
 
 			if ( count( $included_products ) > 0 ) {
-				$filtered_products = array_diff( $included_products, array( '-1' ) );
-				$total_results     = count( $filtered_products );
-				$total_pages       = (int) ceil( $total_results / $params['per_page'] );
+				$total_results = count( $included_products );
+				$total_pages   = (int) ceil( $total_results / $params['per_page'] );
 
 				if ( 'date' === $query_args['orderby'] ) {
 					$selections .= ", {$table_name}.date_created";
@@ -326,7 +325,6 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 					"RIGHT JOIN ( {$ids_table} ) AS default_results
 					ON default_results.product_id = {$table_name}.product_id"
 				);
-				$this->add_sql_clause( 'where', 'AND default_results.product_id != -1' );
 
 				$products_query = $this->get_query_statement();
 			} else {
@@ -360,6 +358,8 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 				return $data;
 			}
 
+			$this->include_extended_info( $product_data, $query_args );
+
 			$product_data = array_map( array( $this, 'cast_numbers' ), $product_data );
 			$data         = (object) array(
 				'data'    => $product_data,
@@ -370,8 +370,6 @@ class DataStore extends ReportsDataStore implements DataStoreInterface {
 
 			$this->set_cached_data( $cache_key, $data );
 		}
-
-		$this->include_extended_info( $data->data, $query_args );
 
 		return $data;
 	}
