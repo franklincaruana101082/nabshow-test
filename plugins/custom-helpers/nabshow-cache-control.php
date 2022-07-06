@@ -65,13 +65,16 @@ class NabshowCacheControl
         unset(
             $headers['X-Country-Code'],
             $headers['X-Mobile-Class'],
-            $headers['x-Query-Args'],
+            $headers['X-Query-Args'],
             $headers['X-Hacker'],
             $headers['X-Powered-By'],
             $headers['Sec-Fetch-User'],
             $headers['Sec-Ch-Ua-Mobile'],
             $headers['Sec-Ch-Ua-Platform'],
-            $headers['Sec-Ch-Ua']
+            $headers['Sec-Fetch-Dest'],
+            $headers['Sec-Fetch-Mode'],
+            $headers['Sec-Ch-Ua'],
+            $headers['Sec-Fetch-Site']
         );
 
         return $headers;
