@@ -57,12 +57,16 @@ class NabshowCacheControl
         
         if(!empty($set_cookie)) {
             $cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
-            $headers['Cookie'] = stripslashes($cookie);
+            
+            // $headers['Cookie'] = stripslashes($cookie);
+            header("Set-Cookie: ".stripslashes($cookie));
         }else{
+            // $headers['Cookie'] = "Set-Cookie: PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
             header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation");
         }
         
         unset(
+            $headers['Cookie'],
             $headers['X-Country-Code'],
             $headers['X-Mobile-Class'],
             $headers['X-Query-Args'],
