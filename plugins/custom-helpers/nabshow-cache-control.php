@@ -39,16 +39,18 @@ class NabshowCacheControl
     }//end init_enqueue_scripts()
 
     public function nabshow_send_headers()
-    {        
+    {
+        // send_origin_headers(); // Retrieve origin http headers        
+        // remove_action( 'wp_head', 'wp_generator' ); // Remove default generated headers
         send_nosniff_header(); // prevent client from sniffing asset files and other resources
 
         if(!is_user_logged_in()) { UrlCacheControl::wp_add_cache_param(); // handle caching strategy
         }
     }
     public function remove_phpsessid_from_cookie_headers($headers)
-    {
-        send_origin_headers(); // Retrieve origin http headers
-        remove_action( 'wp_head', 'wp_generator' );
+    {        
+        
+
         $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
         
         $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
