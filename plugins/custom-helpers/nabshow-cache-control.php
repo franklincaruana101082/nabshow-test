@@ -38,39 +38,44 @@ class NabshowCacheControl
         add_action('template_redirect', [$this, 'set_etag_last_modified']);
     }//end init_enqueue_scripts()
 
-    public function nabshow_send_headers()
+    public function nabshow_send_headers($headers)
     {
-        send_origin_headers(); // Retrieve origin http headers        
+        // $headers = $this->remove_phpsessid_from_cookie_headers($headers);
+        // send_origin_headers(); // Retrieve origin http headers        
         remove_action( 'wp_head', 'wp_generator' ); // Remove default generated headers
-        send_nosniff_header(); // prevent client from sniffing asset files and other resources
+        // send_nosniff_header(); // prevent client from sniffing asset files and other resources
 
-        if(!is_user_logged_in()) { UrlCacheControl::wp_add_cache_param(); // handle caching strategy
-        }
+        UrlCacheControl::wp_add_cache_param(); // handle caching strategy
+        
+        return $headers;
     }
     public function remove_phpsessid_from_cookie_headers($headers)
     {        
+        // $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
         
-
-        $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
+        // $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
         
-        $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
-        
-        if(!empty($set_cookie)) {
-            $cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
+        // if(!empty($set_cookie)) {
+        //     $cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
             
-            // $headers['Cookie'] = stripslashes($cookie);
-            header("Set-Cookie: ".stripslashes($cookie));
-        }else{
-            // $headers['Cookie'] = "Set-Cookie: PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
-            header("Set-Cookie: PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation");
-        }
+        //     $headers['Cookie'] = stripslashes($cookie);
+        //     $headers['Set-Cookie'] = stripslashes($cookie);
+        // }else{
+        //     $headers['Cookie'] = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
+            $headers['Set-Cookie'] = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
+        // }
+        $headers['X-Hacker'] = "Crush & Lovely";
+        $headers['X-XSS-Protection'] = '1; mode=block';
+        $headers['X-Content-Type-Options'] = 'nosniff';
+        $headers['X-Content-Security-Policy'] = 'default-src \'self\'; script-src \'self\';';
         
         unset(
             $headers['Cookie'],
+            $headers['Set-Cookie'],
             $headers['X-Country-Code'],
             $headers['X-Mobile-Class'],
             $headers['X-Query-Args'],
-            $headers['X-Hacker'],
+            // $headers['X-Hacker'],
             $headers['X-Powered-By'],
             $headers['Sec-Fetch-User'],
             $headers['Sec-Ch-Ua-Mobile'],

@@ -123,12 +123,18 @@ class UrlCacheControl
 
     public static function wp_add_cache_param($maxage=86400)
     {   
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+        header("Access-Control-Allow-Origin: *");
+        header("Cross-Origin-Resource-Policy: cross-origin");
+        header("Content-Security-Policy: base-uri https://nabshow.vipdev.lndo.site/");
+
         // Set the max age 5 minutes.
         // $maxage = ($mins * MINUTE_IN_SECONDS);
-        header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        // header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        header('Cache-Control: max-age=1, stale-while-revalidate=59', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
         header('Pragma: public'); // For Legacy Browsers
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control
-        // header('Vary: Accept-Encoding'); // stating importance of caching
+        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control                
+        header('Vary: Accept-Encoding'); // stating importance of caching
         // header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
     }
 
@@ -137,14 +143,14 @@ class UrlCacheControl
     public function set_etag_last_modified()
     {
 
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        
 
         if (! isset($_GET['send_test_etag']) ) { return;
         }
 
         $etag = sanitize_key(wp_unslash($_GET['send_test_etag']));
         header("ETag: $etag");
-
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         // Handle responses that are cached by the browser.
         if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] === $etag ) {
             status_header(304);
@@ -159,7 +165,7 @@ class UrlCacheControl
             $header = strtolower($header);
             $value  = wp_unslash($value);
         }
-
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         exit;
     }
 
