@@ -785,9 +785,12 @@ add_action('admin_head', 'nab_custom_admin_css');
 
 function nab_custom_admin_css() {
   echo '<style>
-    .wp-block-nab-accordion .wp-block-nab-accordion-item ul li, h3.block-editor-rich-text__editable.rich-text {
+    .wp-block-nab-accordion .wp-block-nab-accordion-item ul li, h3.block-editor-rich-text__editable.rich-text, 
+    .accordionParentWrapper p, 
+    .accordionHeader .dashicons
+    {
 color: black !important;
 }
+
   </style>';
 }
-
