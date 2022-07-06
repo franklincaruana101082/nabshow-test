@@ -478,7 +478,7 @@ jQuery( document ).ready( function() {
 
 });
 
-jQuery( window ).load(function() {
+jQuery( window).on('load',function() {
 
 	// If search field is not empty, make sidebar accessible again when an item is clicked and clear the search field
 	jQuery( '.fusionredux-sidebar a' ).click( function() {
@@ -586,7 +586,7 @@ jQuery.fn.set_social_media_repeater_custom_field_logic = function() {
 	});
 };
 
-jQuery( window ).load( function() {
+jQuery( window).on('load', function() {
 
 	var $hrefTarget,
 	    $optionTarget,

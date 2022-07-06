@@ -145,12 +145,24 @@ class UrlCacheControl
 
         
 
-        if (! isset($_GET['send_test_etag']) ) { return;
-        }
+        if (!empty($_GET['send_test_etag']) ) {
+            $etag = sanitize_key(wp_unslash($_GET['send_test_etag']));
+        }else{
+            // Get last modification time of the current PHP file
+            $file_last_mod_time = filemtime(__FILE__);
 
-        $etag = sanitize_key(wp_unslash($_GET['send_test_etag']));
+            // Get last modification time of the main content (that user sees)
+            // Hardcoded just as an example
+            $content_last_mod_time = 1520949851;
+
+            // Combine both to generate a unique ETag for a unique content
+            // Specification says ETag should be specified within double quotes
+            $etag = '"' . $file_last_mod_time . '.' . $content_last_mod_time . '"';
+        }
+        
         header("ETag: $etag");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        
         // Handle responses that are cached by the browser.
         if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] === $etag ) {
             status_header(304);
