@@ -32,6 +32,7 @@ class NabshowCacheControl
 
     public function init_enqueue_scripts()
     {   
+        
         add_action('send_headers', [ $this, 'nabshow_send_headers' ]);  
         add_filter('wp_headers', [ $this, 'remove_phpsessid_from_cookie_headers' ]);  
         add_action('template_redirect', [$this, 'set_etag_last_modified']);
@@ -47,7 +48,7 @@ class NabshowCacheControl
     public function remove_phpsessid_from_cookie_headers($headers)
     {
         send_origin_headers(); // Retrieve origin http headers
-        
+        remove_action( 'wp_head', 'wp_generator' );
         $headers = UrlCacheControl::get_HTTP_request_headers(); // Retrieve existing http request headers
         
         $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
