@@ -121,7 +121,7 @@ class UrlCacheControl
         return false;
     }
 
-    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=360)
+    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=1360)
     {   
         $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
         $headers["Access-Control-Allow-Origin"] = "*";
@@ -141,9 +141,9 @@ class UrlCacheControl
         $headers["Expires"] = gmdate("D, d M Y H:i:s", time() + 5) . " GMT"; // expires for Pragma and max-age for cache-control                
         $headers["Vary"] = "Accept-Encoding"; // stating importance of caching        
 
-        // $headers["X-Frame-Options"] = "SAMEORIGIN";
-        // $headers['X-XSS-Protection'] = '1; mode=block';
-        // $headers['X-Content-Type-Options'] = 'nosniff';
+        $headers["X-Frame-Options"] = "SAMEORIGIN";
+        $headers['X-XSS-Protection'] = '1; mode=block';
+        $headers['X-Content-Type-Options'] = 'nosniff';
 
         $headers['Strict-Transport-Security'] = "max-age=$maxage; includeSubDomains";
 
