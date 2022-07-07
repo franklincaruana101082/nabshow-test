@@ -121,7 +121,7 @@ class UrlCacheControl
         return false;
     }
 
-    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=5)
+    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=360)
     {   
         $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
         $headers["Access-Control-Allow-Origin"] = "*";
@@ -141,10 +141,9 @@ class UrlCacheControl
         $headers["Expires"] = gmdate("D, d M Y H:i:s", time() + 5) . " GMT"; // expires for Pragma and max-age for cache-control                
         $headers["Vary"] = "Accept-Encoding"; // stating importance of caching        
 
-        $headers["X-Frame-Options"] = "SAMEORIGIN";
-        $headers['X-XSS-Protection'] = '1; mode=block';
-        $headers['X-Content-Type-Options'] = 'nosniff';
-        $headers['X-WebKit-CSP'] = "default-src 'self'";
+        // $headers["X-Frame-Options"] = "SAMEORIGIN";
+        // $headers['X-XSS-Protection'] = '1; mode=block';
+        // $headers['X-Content-Type-Options'] = 'nosniff';
 
         $headers['Strict-Transport-Security'] = "max-age=$maxage; includeSubDomains";
 
@@ -184,25 +183,16 @@ class UrlCacheControl
     public static function remove_phpsessid_from_cookie_headers($headers, $retain_others = false)
     {          
         $message = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
-
-        $headers['Cookie'] = $message;
-        $headers['set-cookie'] = $message;
-        
+        $request_http = self::get_HTTP_request_headers();
         if($retain_others){
-            $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
+            $set_cookie = $request_http['Cookie'];
             
-            if(!empty($set_cookie)) {
-                $cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
-                
-                $headers['Cookie'] = stripslashes($cookie);
-                $headers['Set-Cookie'] = stripslashes($cookie);
-            }else{
-                $headers['Cookie'] = $message;
-                $headers['Set-Cookie'] = $message;
-            }        
+            $cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
+            error_log($set_cookie);
+            header("Set-Cookie: $cookie");
+            unset( $headers['Cookie'] );
         }
 
-        unset( $headers['Cookie'], $headers['Set-Cookie'] );
 
         return $headers;
     }   
