@@ -19,7 +19,6 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
-require_once(WP_PLUGIN_DIR.'/custom-helpers/url-env-cache-control-reverse-proxy-helper/reverse-proxy/config-reverse-proxy.php');
 require_once(WP_PLUGIN_DIR.'/custom-helpers/nabshow-cache-control.php');
 
 add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
