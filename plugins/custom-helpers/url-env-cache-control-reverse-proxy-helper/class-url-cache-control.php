@@ -123,9 +123,9 @@ class UrlCacheControl
 
     public static function wp_add_cache_param($headers,$maxage=631138519,$mins=1360)
     {   
-        $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
-        $headers["Access-Control-Allow-Origin"] = "*";
-        $headers["Cross-Origin-Resource-Policy"] = "cross-origin";
+        // $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
+        // $headers["Access-Control-Allow-Origin"] = "*";
+        // $headers["Cross-Origin-Resource-Policy"] = "cross-origin";
         // $headers['Content-Security-Policy'] = "default-src 'self'"; // CSP only works in modern browsers Chrome 25+, Firefox 23+, Safari 7+
 
         // Set the max age 5 minutes.
