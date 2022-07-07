@@ -121,7 +121,7 @@ class UrlCacheControl
         return false;
     }
 
-    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=5)
+    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=25)
     {   
         $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
         $headers["Access-Control-Allow-Origin"] = "*";
