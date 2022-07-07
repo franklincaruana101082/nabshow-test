@@ -35,7 +35,7 @@ class NabshowCacheControl
     {
         $headers = UrlCacheControl::wp_add_cache_param($headers); // handle caching strategy
         $headers = UrlCacheControl::set_etag_last_modified($headers);
-        $headers = UrlCacheControl::remove_phpsessid_from_cookie_headers($headers);
+        $headers = UrlCacheControl::remove_phpsessid_from_cookie_headers($headers,true);
         $headers = UrlCacheControl::sel_remove_headers($headers);
 
         return $headers;

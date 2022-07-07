@@ -201,7 +201,7 @@ class UrlCacheControl
             }        
         }
 
-        unset( $headers['Cookie'], $headers['Set-Cookie'] );
+        if(empty($set_cookie)) unset( $headers['Cookie'], $headers['Set-Cookie'] );
 
         return $headers;
     }   
