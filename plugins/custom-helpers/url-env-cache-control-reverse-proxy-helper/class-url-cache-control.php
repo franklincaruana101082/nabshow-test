@@ -129,9 +129,9 @@ class UrlCacheControl
         // $headers['Content-Security-Policy'] = "default-src 'self'"; // CSP only works in modern browsers Chrome 25+, Firefox 23+, Safari 7+
 
         // Set the max age 5 minutes.
-        // $smaxage = ($mins * MINUTE_IN_SECONDS);
-        // header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
-        $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        $smaxage = ($mins * MINUTE_IN_SECONDS);
+        if(!is_user_logged_in()) header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        else $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // maintain the freshness of data
         
         $headers["Pragma"] = "public"; // For Legacy Browsers
         $headers["Expires"] = gmdate("D, d M Y H:i:s", time() + 5) . " GMT"; // expires for Pragma and max-age for cache-control                

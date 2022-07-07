@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-T3KVDLL');</script>
+})(window,document,'script','dataLayer','GTM-MQKPWN');</script>
 <!-- End Google Tag Manager -->
 
 	<?php Avada()->head->the_viewport(); ?>
@@ -50,7 +50,7 @@ $wrapper_class .= ( is_page_template( 'blank.php' ) ) ? ' wrapper_blank' : '';
 <body <?php body_class(); ?> <?php fusion_element_attributes( 'body' ); ?>>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T3KVDLL"
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQKPWN"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
