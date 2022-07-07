@@ -130,9 +130,13 @@ class UrlCacheControl
 
         // Set the max age 5 minutes.
         $smaxage = ($mins * MINUTE_IN_SECONDS);
-        if(!is_user_logged_in()) header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
-        else $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // maintain the freshness of data
-        
+        if(!is_user_logged_in()){ 
+            // $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // maintain the freshness of data
+            header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        }
+        // else{ 
+            // header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        // }
         $headers["Pragma"] = "public"; // For Legacy Browsers
         $headers["Expires"] = gmdate("D, d M Y H:i:s", time() + 5) . " GMT"; // expires for Pragma and max-age for cache-control                
         $headers["Vary"] = "Accept-Encoding"; // stating importance of caching        
