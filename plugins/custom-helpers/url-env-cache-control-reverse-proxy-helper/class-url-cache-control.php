@@ -141,10 +141,9 @@ class UrlCacheControl
         $headers["Expires"] = gmdate("D, d M Y H:i:s", time() + 5) . " GMT"; // expires for Pragma and max-age for cache-control                
         $headers["Vary"] = "Accept-Encoding"; // stating importance of caching        
 
-        $headers["X-Frame-Options"] = "SAMEORIGIN";
-        $headers['X-XSS-Protection'] = '1; mode=block';
-        $headers['X-Content-Type-Options'] = 'nosniff';
-        $headers['X-WebKit-CSP'] = "default-src 'self'";
+        // $headers["X-Frame-Options"] = "SAMEORIGIN";
+        // $headers['X-XSS-Protection'] = '1; mode=block';
+        // $headers['X-Content-Type-Options'] = 'nosniff';
 
         $headers['Strict-Transport-Security'] = "max-age=$maxage; includeSubDomains";
 
