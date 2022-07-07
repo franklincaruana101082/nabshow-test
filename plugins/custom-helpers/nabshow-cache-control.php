@@ -12,8 +12,6 @@
 
 namespace Plugins\CustomHelpers;
 
-require_once WP_PLUGIN_DIR . "/custom-helpers/url-env-cache-control-reverse-proxy-helper/config-cache-control.php";
-
 require_once WP_PLUGIN_DIR . "/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php";
 
 use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;

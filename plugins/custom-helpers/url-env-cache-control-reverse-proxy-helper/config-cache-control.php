@@ -7,7 +7,7 @@ if (! defined('ABSPATH')) {
 }
 
 $IP = null;
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized — Validated in the function call.
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized — This is not being used anymore, but have retained the file for future reference.
 if(!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
     $IP = $_SERVER['HTTP_CF_CONNECTING_IP'];
 } else if(!empty($_SERVER['REMOTE_ADDR'])) {
