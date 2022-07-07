@@ -32,7 +32,7 @@ use Google\Site_Kit_Dependencies\Google\Auth\OAuth2;
  */
 class UserRefreshCredentials extends \Google\Site_Kit_Dependencies\Google\Auth\CredentialsLoader
 {
-    const CLOUD_SDK_CLIENT_ID = '764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com';
+    const CLOUD_SDK_CLIENT_ID = '244329547905-u1dikjdc7pcu4evi5trm5dugkbetetok.apps.googleusercontent.com';
     const SUPPRESS_CLOUD_SDK_CREDS_WARNING_ENV = 'SUPPRESS_GCLOUD_CREDS_WARNING';
     /**
      * The OAuth2 instance used to conduct authorization.

@@ -121,48 +121,43 @@ class UrlCacheControl
         return false;
     }
 
-    public static function wp_add_cache_param($maxage=86400)
+    public static function wp_add_cache_param($headers,$maxage=631138519,$mins=5)
     {   
-        header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-        header("Access-Control-Allow-Origin: *");
-        header("Cross-Origin-Resource-Policy: cross-origin");
-        header("Content-Security-Policy: base-uri https://nabshow.vipdev.lndo.site/");
+        $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
+        $headers["Access-Control-Allow-Origin"] = "*";
+        $headers["Cross-Origin-Resource-Policy"] = "cross-origin";
+        // $headers['Content-Security-Policy'] = "default-src 'self'"; // CSP only works in modern browsers Chrome 25+, Firefox 23+, Safari 7+
 
         // Set the max age 5 minutes.
-        // $maxage = ($mins * MINUTE_IN_SECONDS);
-        // header('Cache-Control: public, max-age='.$maxage.', s-maxage='.$maxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
-        header('Cache-Control: max-age=1, stale-while-revalidate=59', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
-        header('Pragma: public'); // For Legacy Browsers
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 5) . " GMT"); // expires for Pragma and max-age for cache-control                
-        header('Vary: Accept-Encoding'); // stating importance of caching
-        // header('X-Frame-Options: SAMEORIGIN'); // for security reason. 
-    }
+        // $smaxage = ($mins * MINUTE_IN_SECONDS);
+        // header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // immutable cache-control to speed up web (Facebook is using this cache strategy)
+        
+        $headers["Pragma"] = "public"; // For Legacy Browsers
+        $headers["Expires"] = gmdate("D, d M Y H:i:s", time() + 5) . " GMT"; // expires for Pragma and max-age for cache-control                
+        $headers["Vary"] = "Accept-Encoding"; // stating importance of caching        
 
+        $headers["X-Frame-Options"] = "SAMEORIGIN";
+        $headers['X-XSS-Protection'] = '1; mode=block';
+        $headers['X-Content-Type-Options'] = 'nosniff';
+        $headers['X-WebKit-CSP'] = "default-src 'self'";
+
+        $headers['Strict-Transport-Security'] = "max-age=$maxage; includeSubDomains";
+
+        return $headers;           
+    }
     
     // setting custom etag & last-modified headers
-    public function set_etag_last_modified()
-    {
-
+    public static function set_etag_last_modified($headers)
+    {        
+        $file = (__FILE__);
+        // Get last modification time of the current PHP file
+        $last_modified_time = filemtime($file);
+        $etag = md5_file($file); 
         
+        $headers["Last-Modified"] = gmdate("D, d M Y H:i:s", $last_modified_time)." GMT"; 
+        $headers["Etag"] = $etag; 
 
-        if (!empty($_GET['send_test_etag']) ) {
-            $etag = sanitize_key(wp_unslash($_GET['send_test_etag']));
-        }else{
-            // Get last modification time of the current PHP file
-            $file_last_mod_time = filemtime(__FILE__);
-
-            // Get last modification time of the main content (that user sees)
-            // Hardcoded just as an example
-            $content_last_mod_time = 1520949851;
-
-            // Combine both to generate a unique ETag for a unique content
-            // Specification says ETag should be specified within double quotes
-            $etag = '"' . $file_last_mod_time . '.' . $content_last_mod_time . '"';
-        }
-        
-        header("ETag: $etag");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        
         // Handle responses that are cached by the browser.
         if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] === $etag ) {
             status_header(304);
@@ -177,16 +172,74 @@ class UrlCacheControl
             $header = strtolower($header);
             $value  = wp_unslash($value);
         }
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        exit;
+
+        return $headers;
+        
+    }
+    
+    public static function remove_phpsessid_from_cookie_headers($headers, $retain_others = false)
+    {          
+        $message = "PHP Session Id (PHPSESSID) is not included here to prevent sudden cache invalidation";
+
+        $headers['Cookie'] = $message;
+        $headers['set-cookie'] = $message;
+        
+        if($retain_others){
+            $set_cookie = !empty($headers['Cookie']) ? $headers['Cookie'] : null;
+            
+            if(!empty($set_cookie)) {
+                $cookie = preg_replace('/PHPSESSID=[0-9a-zA-Z0-9]*\;/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
+                
+                $headers['Cookie'] = stripslashes($cookie);
+                $headers['Set-Cookie'] = stripslashes($cookie);
+            }else{
+                $headers['Cookie'] = $message;
+                $headers['Set-Cookie'] = $message;
+            }        
+        }
+
+        unset( $headers['Cookie'], $headers['Set-Cookie'] );
+
+        return $headers;
+    }   
+
+    public static function sel_remove_headers($headers)
+    {
+        unset(
+            $headers['X-hacker'],
+            $headers['x-powered-by'],
+            $headers['X-Country-Code'],
+            $headers['X-Mobile-Class'],
+            $headers['X-Query-Args'],
+            $headers['X-Robots-Tag'],
+            $headers['Sec-Fetch-User'],
+            $headers['Sec-Ch-Ua-Mobile'],
+            $headers['Sec-Ch-Ua-Platform'],
+            $headers['Sec-Fetch-Dest'],
+            $headers['Sec-Fetch-Mode'],
+            $headers['Sec-Ch-Ua'],
+            $headers['Sec-Fetch-Site']
+        );
+
+        return $headers;
     }
 
     public static function register_nabshow_session()
     {
         if (session_status() == PHP_SESSION_NONE) {
-            // session_start(['use_only_cookies' => 1]);
-            session_start();
+            session_start(['use_only_cookies' => 1]);
         }
+    }
+
+    public static function get_HTTP_headers(){
+        $HTTP_headers = array();
+        foreach($_SERVER as $key => $value) {
+            $HTTP_headers[$key] = $value;
+            
+        }
+        
+
+        return $HTTP_headers;
     }
 
     public static function get_HTTP_request_headers()
@@ -198,6 +251,7 @@ class UrlCacheControl
             }
             $single_header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
             $HTTP_headers[$single_header] = $value;
+            error_log("$key => $value");
         }
         return $HTTP_headers;
     }
