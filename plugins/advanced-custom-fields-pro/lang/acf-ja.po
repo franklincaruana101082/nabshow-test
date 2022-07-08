@@ -1,5 +1,4 @@
 msgid ""
-msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.9.3\n"
 "Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"

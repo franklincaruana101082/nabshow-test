@@ -269,7 +269,7 @@
             mysAjaxForBrowseSession(sessionItem, 'browse-filter', pageNumber, postStartWith, sessionTrack, sessionLocation, listingType, sessionDate, featuredSession);
         });
         if (0 < $('.browse-sessions-filter #session-date').length || 0 < $('.browse-open-to-all-filter #session-date').length) {
-            $(window).on('load',function () {
+            $(window).load(function () {
                 $('.browse-sessions-filter #session-date, .browse-open-to-all-filter #session-date').datepicker({
                     dateFormat: 'DD, MM d, yy'
                 }).on('change', function () {
