@@ -1936,7 +1936,7 @@ if ( ! class_exists( 'Segment_Event_Tracking' ) ) {
                     <?php submit_button("Save Changes"); ?>
                 </form>                
             </div>
-            <?php
+            <?php            
         }
     }
 
