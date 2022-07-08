@@ -19,11 +19,11 @@
 	
 // define('WP_MEMORY_LIMIT', '256M');
 
-define( 'VIP_GO_APP_ENVIRONMENT', 'develop' );
-define( 'WPCOM_IS_VIP_ENV', true );
+// define( 'VIP_GO_APP_ENVIRONMENT', 'develop' );
+// define( 'WPCOM_IS_VIP_ENV', true );
 // define( 'WP_TESTS_MULTISITE', 1 );
 // define( 'WP_TESTS_DOMAIN', 'nabshow.vipdev.lndo.site' );
-define( 'VIP_GO_ENV', 'develop' );
+// define( 'VIP_GO_ENV', 'develop' );
 
 
 /**
@@ -71,7 +71,9 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
-define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
 
 
 // define( 'VIP_FILES_ACL_ENABLED', false );
+
+
+define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
