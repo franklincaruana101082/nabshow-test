@@ -17,7 +17,7 @@
  **/
 // define( 'WP_DEBUG', false );
 	
-define('WP_MEMORY_LIMIT', '256M');
+// define('WP_MEMORY_LIMIT', '256M');
 
 define( 'VIP_GO_APP_ENVIRONMENT', 'develop' );
 define( 'WPCOM_IS_VIP_ENV', true );
