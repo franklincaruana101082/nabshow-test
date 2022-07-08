@@ -16,6 +16,8 @@
 # Uploads directory
 /uploads/
 
+/mu-plugins/
+
 # drop-ins; these are managed at the platform-level
 /object-cache.php
 /db.php
