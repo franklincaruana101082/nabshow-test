@@ -71,60 +71,6 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
-define( 'VIP_FILES_ACL_ENABLED', false );
-
-if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-    $http_host   = $_SERVER['HTTP_HOST'];
-    $request_uri = $_SERVER['REQUEST_URI'];
-
-    $redirect_domains = [
-    'nabshow.com'   => [
-        'nabshow-com.go-vip.net'
-    ],
-    'nabshow.vipdev.lndo.site'   => [
-        'nabshow-com-develop.go-vip.net'
-    ],
-    'nabshowexpress.com'   => [
-        'www.nabshowexpress.com',
-        'express.nabshow.com',
-        'nabshow.com/express'
-    ],
-    'amplify.nabshow.com'   => [
-        'nabamplify.com',
-        'www.nabamplify.com',
-        'nabshowamplify.com',
-        'www.nabshowamplify.com',
-        'nabshow.com/amplify'
-    ],
-    'cineemerge.nabshow.com'   => [
-        'cineemerge.com',
-        'www.cineemerge.com',
-    ],
-    'radio.nabshow.com'   => [
-        'radioshowweb.com',
-        'www.radioshowweb.com',
-    ],
-    'smte.nabshow.com'   => [
-        'nabsmte.com',
-        'www.nabsmte.com',
-    ],
-];
-
-    // Safety checks for redirection:
-    // 1. Don't redirect for '/cache-healthcheck?' or monitoring will break
-    // 2. Don't redirect in WP CLI context
-    foreach ( $redirect_domains as $redirect_to => $redirect_from_domains ) {
-        if (
-                '/cache-healthcheck?' !== $request_uri && // safety
-                ! ( defined( 'WP_CLI' ) && WP_CLI ) && // safety
-                $redirect_to !== $http_host && in_array( $http_host, $redirect_from_domains, true )
-            ) {
-            header( 'Location: https://' . $redirect_to . $request_uri, true, 301 );
-            exit;
-        }
-    }
-}
-
 define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');
 
 
