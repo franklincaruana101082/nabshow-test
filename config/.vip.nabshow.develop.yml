@@ -1,7 +1,0 @@
-data_sync:
-  domain_map:
-    nabshow-com.go-vip.net: nabshow-com-develop.go-vip.net
-    nabshow-com.go-vip.net/2020: nabshow-com-develop.go-vip.net/2020
-    nabshow-com.go-vip.net/partners: nabshow-com-develop.go-vip.net/partners
-    nabshow.com: nabshow-com-develop.go-vip.net
-    amplify.nabshow.com: nabshow-com-develop.go-vip.net/amplify
