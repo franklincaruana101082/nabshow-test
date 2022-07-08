@@ -17,11 +17,11 @@
  **/
 // define( 'WP_DEBUG', false );
 
-define( 'VIP_GO_APP_ENVIRONMENT', 'develop' );
-define( 'WPCOM_IS_VIP_ENV', true );
+// define( 'VIP_GO_APP_ENVIRONMENT', 'develop' );
+// define( 'WPCOM_IS_VIP_ENV', true );
 // define( 'WP_TESTS_MULTISITE', 1 );
 // define( 'WP_TESTS_DOMAIN', 'nabshow.vipdev.lndo.site' );
-define( 'VIP_GO_ENV', 'develop' );
+// define( 'VIP_GO_ENV', 'develop' );
 
 
 /**
@@ -69,7 +69,7 @@ if ( function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
-define( 'VIP_FILES_ACL_ENABLED', false );
+// define( 'VIP_FILES_ACL_ENABLED', false );
 
 // if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 //     $http_host   = $_SERVER['HTTP_HOST'];
