@@ -1,4 +1,4 @@
-jQuery(window).on('load',function () {
+jQuery(window).load(function () {
 	moOpenidLoadCommentScript();
 	moOpenIDShowCommentForms();
 

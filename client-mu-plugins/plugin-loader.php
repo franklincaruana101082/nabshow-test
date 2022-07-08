@@ -19,7 +19,5 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
-require_once(WP_PLUGIN_DIR.'/custom-helpers/nabshow-cache-control.php');
-
 add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
 add_filter( 'wpvip_parsely_load_mu', '__return_true' );

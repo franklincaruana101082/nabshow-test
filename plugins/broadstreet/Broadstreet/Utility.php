@@ -78,7 +78,7 @@ class Broadstreet_Utility
         //$code = "<div instance-id=\"$instance_id\" street-address=\"$id\"></div><script async data-cfasync=\"false\" type=\"text/javascript\" src=\"//localhost:9090/display/$id.js?sa=1\"></script>";
         $code = "<div instance-id=\"$instance_id\" street-address=\"$id\"></div><script async data-cfasync=\"false\" type=\"text/javascript\" src=\"". self::getAdserverURL() ."display/$id.js?sa=1\"></script>";
 
-        if (!empty($attrs['config'])) {
+        if (@$attrs['config']) {
             $config = $attrs['config'];
         }
 

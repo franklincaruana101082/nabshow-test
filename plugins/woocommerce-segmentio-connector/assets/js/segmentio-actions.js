@@ -1,4 +1,4 @@
-z// Load analytics.js with your API key, which will automatically load all of the
+// Load analytics.js with your API key, which will automatically load all of the
 // analytics integrations you've turned on for your account. Boosh!
 function wooSegmentioSendData(data) {
   try {
@@ -8,7 +8,7 @@ function wooSegmentioSendData(data) {
     if (segmentio.async == "no") {
       analytics.load(segmentio.api_key);
     } else {
-      jQuery(window).on('load',function () {
+      jQuery(window).load(function () {
         analytics.load(segmentio.api_key);
       });
     }
