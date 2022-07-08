@@ -80,7 +80,11 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
         'nabshow-com.go-vip.net'
     ],
     'nabshow.vipdev.lndo.site'   => [
-        'nabshow-com.go-vip.net'
+        'nabshow-com.go-vip.net',
+        'nabshow-com-develop.go-vip.net'
+    ],
+    'nabshow.vipdev.lndo.site'   => [
+        'nabshow-com-develop.go-vip.net'
     ],
     'nabshowexpress.com'   => [
         'www.nabshowexpress.com',
