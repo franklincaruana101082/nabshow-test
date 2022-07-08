@@ -123,16 +123,16 @@ class UrlCacheControl
 
     public static function wp_add_cache_param($headers,$maxage=631138519,$mins=1360)
     {   
-        // $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
-        // $headers["Access-Control-Allow-Origin"] = "*";
-        // $headers["Cross-Origin-Resource-Policy"] = "cross-origin";
+        $headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
+        $headers["Access-Control-Allow-Origin"] = "*";
+        $headers["Cross-Origin-Resource-Policy"] = "cross-origin";
         // $headers['Content-Security-Policy'] = "default-src 'self'"; // CSP only works in modern browsers Chrome 25+, Firefox 23+, Safari 7+
 
         // Set the max age 5 minutes.
         $smaxage = ($mins * MINUTE_IN_SECONDS);
         if(!is_user_logged_in()){ 
-            // $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // maintain the freshness of data
-            header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage); // immutable cache-control to speed up web (Facebook is using this cache strategy)
+            $headers["Cache-Control"] = "max-age=1, stale-while-revalidate=59"; // maintain the freshness of data
+            // header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
         }
         // else{ 
             // header('Cache-Control: public, max-age='.$smaxage.', s-maxage='.$smaxage.', immutable', true); // immutable cache-control to speed up web (Facebook is using this cache strategy)
