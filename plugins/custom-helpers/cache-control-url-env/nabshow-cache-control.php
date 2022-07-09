@@ -1,34 +1,23 @@
 <?php
-/*
- * Plugin Name: Custom Cache Control, Environment Manage, Url Verify Helpers
- * Plugin URI: https://plugin-site.example.com
- * Description: Custom Cache Control, Environment Manage, Url Verify Helpers
- * Version:     1.0.0
- * Author: Frank-Codev
- * Author URI:  codev.com
- * License:     GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- */
-
 namespace Plugins\CustomHelpers\CacheControlUrlEnv;
 
 require_once WP_PLUGIN_DIR . "/custom-helpers/cache-control-url-env/class-url-cache-control.php";
 
 use Plugins\CustomHelpers\CacheControlUrlEnv\UrlCacheControl;
 class NabshowCacheControl
-{    
+{
     public function __construct()
-    {   
-        $this->init_enqueue_scripts();  
+    {
+        $this->init_enqueue_scripts();
 
     }//end __construct()
 
 
     public function init_enqueue_scripts()
-    {   
-        
-        add_filter('wp_headers', [ $this, 'nabshow_send_headers' ],999);          
-        
+    {
+
+        add_filter('wp_headers', [ $this, 'nabshow_send_headers' ],999);
+
     }//end init_enqueue_scripts()
 
     public function nabshow_send_headers($headers)
