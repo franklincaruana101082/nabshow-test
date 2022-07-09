@@ -10,11 +10,11 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-namespace Plugins\CustomHelpers;
+namespace Plugins\CustomHelpers\CacheControlUrlEnv;
 
-require_once WP_PLUGIN_DIR . "/custom-helpers/url-env-cache-control-reverse-proxy-helper/class-url-cache-control.php";
+require_once WP_PLUGIN_DIR . "/custom-helpers/cache-control-url-env/class-url-cache-control.php";
 
-use Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\UrlCacheControl;
+use Plugins\CustomHelpers\CacheControlUrlEnv\UrlCacheControl;
 class NabshowCacheControl
 {    
     public function __construct()

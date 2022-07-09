@@ -37,7 +37,7 @@ function wpcom_vip_nabshow_custom_helpers() {
 	// 	return false;
 	// }
 
-	require_once(WP_PLUGIN_DIR.'/custom-helpers/nabshow-cache-control.php');
+	require_once(WP_PLUGIN_DIR.'/custom-helpers/cache-control-url-env/nabshow-cache-control.php');
 
 }
 
