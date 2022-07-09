@@ -188,7 +188,7 @@ class UrlCacheControl
             $set_cookie = $request_http['Cookie'];
             
             $cookie = preg_replace('/(PHPSESSID=[0-9a-zA-Z0-9]*\;)/', '', $set_cookie); // Remove PHPSESSID value from header set-cookie       
-            error_log($set_cookie);
+            
             header("Set-Cookie: $cookie");
             unset( $headers['Cookie'] );
         }
@@ -244,8 +244,7 @@ class UrlCacheControl
                 continue;
             }
             $single_header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
-            $HTTP_headers[$single_header] = $value;
-            error_log("$key => $value");
+            $HTTP_headers[$single_header] = $value;            
         }
         return $HTTP_headers;
     }
