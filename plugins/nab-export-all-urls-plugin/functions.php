@@ -245,6 +245,8 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
 function eau_export_data($urls, $export_type, $csv_name)
 {
 
+    $html = "";
+
     $file_path = wp_upload_dir();
 
     $count = 0;
@@ -286,38 +288,40 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             fclose($myfile);
 
-            echo "<div class='updated' style='width: 97%'>Data exported successfully! <a href='" . $csv_url . "' target='_blank'><strong>Click here</strong></a> to Download.</div>";
-            echo "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
-            echo "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of links: <strong>".esc_html($count)."</strong>.</div>";
+            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='" . $csv_url . "' target='_blank'><strong>Click here</strong></a> to Download.</div>";
+            $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
+            $html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of links: <strong>".esc_html($count)."</strong>.</div>";
 
             break;
 
         case "here":
 
-            echo "<h1 align='center' style='padding: 10px 0;'><strong>Below is a list of Exported Data:</strong></h1>";
-            echo "<h2 align='center' style='font-weight: normal;'>Total number of links: <strong>".esc_html($count)."</strong>.</h2>";
-            echo "<table class='form-table' id='outputData'>";
-            echo "<tr><th>#</th>";
-            echo isset($urls['post_id']) ? "<th id='postID'>Post ID</th>" : null;
-            echo isset($urls['title']) ? "<th id='postTitle'>Title</th>" : null;
-            echo isset($urls['url']) ? "<th id='postURL'>URLs</th>" : null;
-            echo isset($urls['category']) ? "<th id='postCategories'>Categories</th>" : null;
+            $html .= "<h1 align='center' style='padding: 10px 0;'><strong>Below is a list of Exported Data:</strong></h1>";
+            $html .= "<h2 align='center' style='font-weight: normal;'>Total number of links: <strong>".esc_html($count)."</strong>.</h2>";
+            $html .= "<table class='form-table' id='outputData'>";
+            $html .= "<tr><th>#</th>";
+            $html .= isset($urls['post_id']) ? "<th id='postID'>Post ID</th>" : null;
+            $html .= isset($urls['title']) ? "<th id='postTitle'>Title</th>" : null;
+            $html .= isset($urls['url']) ? "<th id='postURL'>URLs</th>" : null;
+            $html .= isset($urls['category']) ? "<th id='postCategories'>Categories</th>" : null;
 
-            echo "</tr>";
-
+            $html .= "</tr>";
+            
             for ($i = 0; $i < $count; $i++) {
 
                 $id = $i + 1;
-                echo "<tr><td>" . $id . "</td>";
-                echo isset($urls['post_id']) ? "<td>".$urls['post_id'][$i]."</td>" : null;
-                echo isset($urls['title']) ? "<td>" . $urls['title'][$i] . "</td>" : null;
-                echo isset($urls['url']) ? "<td>" . $urls['url'][$i] . "</td>" : null;
-                echo isset($urls['category']) ?  "<td>".$urls['category'][$i] . $urls['taxonomy'][$i] . "</td>" : null;
+                $html .= "<tr><td>" . $id . "</td>";
+                $html .= isset($urls['post_id']) ? "<td>".$urls['post_id'][$i]."</td>" : null;
+                $html .= isset($urls['title']) ? "<td>" . $urls['title'][$i] . "</td>" : null;
+                $html .= isset($urls['url']) ? "<td>" . $urls['url'][$i] . "</td>" : null;
+                $html .= isset($urls['category']) ?  "<td>".$urls['category'][$i] . $urls['taxonomy'][$i] . "</td>" : null;
 
-                echo "</tr>";
+                $html .= "</tr>";
             }
 
-            echo "</table>";
+            $html .= "</table>";
+
+            
 
             break;
 
@@ -328,6 +332,8 @@ function eau_export_data($urls, $export_type, $csv_name)
 
 
     }
+
+    echo esc_html($html);
 
 
 }
