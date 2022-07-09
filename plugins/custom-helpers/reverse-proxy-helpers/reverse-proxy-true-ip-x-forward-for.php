@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugins\CustomHelpers\UrlEnvCacheControlReverseProxyHelper\ReverseProxy;
+namespace Plugins\CustomHelpers\ReverseProxy;
 
 class ReverseProxyTrueIpXForwardFor
 {
