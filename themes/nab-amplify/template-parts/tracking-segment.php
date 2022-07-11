@@ -53,7 +53,7 @@
     // it in JavaScript to pass the correct object to the JS function.
     if ( is_user_logged_in() ): 
     ?>
-    analytics.identify("<?php echo $user_id; ?>", JSON.parse('<?php echo addslashes( wp_json_encode( $traits ) ); ?>'));
+    analytics.identify("<?php echo get_current_user_id(); ?>", JSON.parse('<?php echo addslashes( wp_json_encode( $traits ) ); ?>'));
     <?php if($is_login): ?>
     analytics.track("Logged In", { email: "<?php echo $traits['email']; ?>" });
     <?php endif; endif; ?>
