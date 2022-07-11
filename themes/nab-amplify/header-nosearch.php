@@ -38,6 +38,7 @@
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
+<?php get_template_part('template-parts/tracking', 'segment'); ?>
 </head>
 
 <body <?php body_class(); ?>>

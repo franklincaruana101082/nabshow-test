@@ -173,6 +173,8 @@ jQuery(function($) {
 				jQuery(self).closest('#modal-opt-in, .optout__info').delay(250).hide(250);
 				optin_complete = 1;
 				//send tracking info to Segment
+				//COMMENT OUT SERVER SIDE SEGMENT TRACKING
+				/*
 				jQuery.ajax({
 					url: segmentJS.ajaxurl,
 					type: 'POST',
@@ -199,6 +201,7 @@ jQuery(function($) {
 					success: function (response) {
 					}
 				});
+				*/
 
 				if((opt_in_required && !registration_required) 
 					|| (opt_in_required && registration_required && registered)

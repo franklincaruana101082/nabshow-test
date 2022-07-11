@@ -69,6 +69,7 @@ switch_to_blog('4');
     <script data-ad-client="ca-pub-5149137553460967" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- adding typekit link here since wordpress isn't doing it -->
     <link rel="stylesheet" href="https://use.typekit.net/qbe2mua.css" />
+    <?php get_template_part('template-parts/tracking', 'segment'); ?>
 </head>
 
 <body <?php body_class(); ?>>

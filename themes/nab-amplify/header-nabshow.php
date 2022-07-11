@@ -45,6 +45,7 @@ add_action( 'wp_enqueue_scripts', 'remove_amplify_css', 99 );
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
+<?php get_template_part('template-parts/tracking', 'segment'); ?>
 </head>
 
 <body <?php body_class(); ?>>
