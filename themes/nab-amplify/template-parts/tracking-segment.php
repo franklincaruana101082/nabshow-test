@@ -32,59 +32,67 @@
                 'label' => 'industry',
             ),
             array(
-                'key'   => 'user_city',
-                'type'  => 'single',
-                'label' => 'billing_city',
-            ),
-            array(
-                'key'   => 'user_state',
-                'type'  => 'single',
-                'label' => 'billing_state',
-            ),
-            array(
-                'key'   => 'user_country',
-                'type'  => 'single',
-                'label' => 'billing_country',
-            ),
-            array(
                 'key'   => 'attendee_title',
                 'type'  => 'single',
                 'label' => 'title',
             ),
+        );
+
+        $user_company_fields = array(
             array(
                 'key'   => 'attendee_company',
                 'type'  => 'single',
-                'label' => 'company',
+                'label' => 'name',
             ),
+        );
+
+        $user_billing_fields = array(
+            array(
+                'key'   => 'user_city',
+                'type'  => 'single',
+                'label' => 'city',
+            ),
+            array(
+                'key'   => 'user_state',
+                'type'  => 'single',
+                'label' => 'state',
+            ),
+            array(
+                'key'   => 'user_country',
+                'type'  => 'single',
+                'label' => 'country',
+            ),
+        );
+        $user_social_fields = array(
             array(
                 'key'   => 'social_twitter',
                 'type'  => 'single',
-                'label' => 'social_twitter',
+                'label' => 'twitter',
             ),
             array(
                 'key'   => 'social_linkedin',
                 'type'  => 'single',
-                'label' => 'social_linkedin',
+                'label' => 'linkedin',
             ),
             array(
                 'key'   => 'social_facebook',
                 'type'  => 'single',
-                'label' => 'social_facebook',
+                'label' => 'facebook',
             ),
             array(
                 'key'   => 'social_instagram',
                 'type'  => 'single',
-                'label' => 'social_instagram',
+                'label' => 'instagram',
             ),
             array(
                 'key'   => 'social_youtube',
                 'type'  => 'single',
-                'label' => 'social_youtube',
+                'label' => 'youtube',
             ),
             array(
                 'key'   => 'social_website',
                 'type'  => 'single',
-                'label' => 'social_website',
+                'label' => 'website',
             )
         );
 
@@ -96,6 +104,35 @@
                 $traits[ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
             }
         }
+
+        foreach ( $user_company_fields as $user_field ) {
+            $field_val = get_user_meta( $user_id, $user_field['key'], true );
+
+            if ( ! empty( $field_val ) || '0' === $field_val ) {
+
+                $traits['company'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
+            }
+        }
+
+        foreach ( $user_billing_fields as $user_field ) {
+            $field_val = get_user_meta( $user_id, $user_field['key'], true );
+
+            if ( ! empty( $field_val ) || '0' === $field_val ) {
+
+                $traits['billing'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
+            }
+        }
+
+        foreach ( $user_social_fields as $user_field ) {
+            $field_val = get_user_meta( $user_id, $user_field['key'], true );
+
+            if ( ! empty( $field_val ) || '0' === $field_val ) {
+
+                $traits['social'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
+            }
+        }
+        
+        
     }
 ?>
 <script>
