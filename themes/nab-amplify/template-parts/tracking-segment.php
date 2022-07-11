@@ -4,135 +4,12 @@
     $app_name = "amplify";
     $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
     if ( is_user_logged_in()) {
-        $traits = array();
-        $user_id = get_current_user_id();
-        $user_data = get_userdata( $user_id );
-
-        $traits['email']    = $user_data->user_email;            
-        
-        $user_meta_fields = array(
-            array(
-                'key'   => 'first_name',
-                'type'  => 'single',
-                'label' => 'first_name',
-            ),
-            array(
-                'key'   => 'last_name',
-                'type'  => 'single',
-                'label' => 'last_name',
-            ),
-            array(
-                'key'   => 'user_job_role',
-                'type'  => 'multi',
-                'label' => 'job_role',
-            ),
-            array(
-                'key'   => 'user_industry',
-                'type'  => 'multi',
-                'label' => 'industry',
-            ),
-            array(
-                'key'   => 'attendee_title',
-                'type'  => 'single',
-                'label' => 'title',
-            ),
-        );
-
-        $user_company_fields = array(
-            array(
-                'key'   => 'attendee_company',
-                'type'  => 'single',
-                'label' => 'name',
-            ),
-        );
-
-        $user_address_fields = array(
-            array(
-                'key'   => 'user_city',
-                'type'  => 'single',
-                'label' => 'city',
-            ),
-            array(
-                'key'   => 'user_state',
-                'type'  => 'single',
-                'label' => 'state',
-            ),
-            array(
-                'key'   => 'user_country',
-                'type'  => 'single',
-                'label' => 'country',
-            ),
-        );
-        $user_social_fields = array(
-            array(
-                'key'   => 'social_twitter',
-                'type'  => 'single',
-                'label' => 'twitter',
-            ),
-            array(
-                'key'   => 'social_linkedin',
-                'type'  => 'single',
-                'label' => 'linkedin',
-            ),
-            array(
-                'key'   => 'social_facebook',
-                'type'  => 'single',
-                'label' => 'facebook',
-            ),
-            array(
-                'key'   => 'social_instagram',
-                'type'  => 'single',
-                'label' => 'instagram',
-            ),
-            array(
-                'key'   => 'social_youtube',
-                'type'  => 'single',
-                'label' => 'youtube',
-            ),
-            array(
-                'key'   => 'social_website',
-                'type'  => 'single',
-                'label' => 'website',
-            )
-        );
-
-        foreach ( $user_meta_fields as $user_field ) {
-            $field_val = get_user_meta( $user_id, $user_field['key'], true );
-
-            if ( ! empty( $field_val ) || '0' === $field_val ) {
-
-                $traits[ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
-            }
-        }
-
-        foreach ( $user_company_fields as $user_field ) {
-            $field_val = get_user_meta( $user_id, $user_field['key'], true );
-
-            if ( ! empty( $field_val ) || '0' === $field_val ) {
-
-                $traits['company'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
-            }
-        }
-
-        foreach ( $user_address_fields as $user_field ) {
-            $field_val = get_user_meta( $user_id, $user_field['key'], true );
-
-            if ( ! empty( $field_val ) || '0' === $field_val ) {
-
-                $traits['address'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
-            }
-        }
-
-        foreach ( $user_social_fields as $user_field ) {
-            $field_val = get_user_meta( $user_id, $user_field['key'], true );
-
-            if ( ! empty( $field_val ) || '0' === $field_val ) {
-
-                $traits['social'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
-            }
-        }
-        
-        
+        $traits = nab_get_traits();
+    }
+    $is_login = false;
+    $login_check = filter_input( INPUT_GET, 'login', FILTER_SANITIZE_STRING );
+    if(!empty($login_check)) {
+        $is_login = true;
     }
 ?>
 <script>
@@ -177,7 +54,9 @@
     if ( is_user_logged_in() ): 
     ?>
     analytics.identify("<?php echo $user_id; ?>", JSON.parse('<?php echo addslashes( wp_json_encode( $traits ) ); ?>'));
-    <?php endif; ?>
+    <?php if($is_login): ?>
+    analytics.track("Logged In", { email: "<?php echo $traits['email']; ?>" });
+    <?php endif; endif; ?>
 
     // Call analytics.page with two custom properties prepared above.
     analytics.page({ content_id: "<?php echo $post_id; ?>", content_type: "<?php echo $post_type; ?>" });
