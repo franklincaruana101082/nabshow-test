@@ -46,7 +46,7 @@
             ),
         );
 
-        $user_billing_fields = array(
+        $user_address_fields = array(
             array(
                 'key'   => 'user_city',
                 'type'  => 'single',
@@ -114,12 +114,12 @@
             }
         }
 
-        foreach ( $user_billing_fields as $user_field ) {
+        foreach ( $user_address_fields as $user_field ) {
             $field_val = get_user_meta( $user_id, $user_field['key'], true );
 
             if ( ! empty( $field_val ) || '0' === $field_val ) {
 
-                $traits['billing'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
+                $traits['address'][ $user_field['label'] ] = 'multi' === $user_field['type'] && is_array( $field_val ) ? implode( ', ', $field_val ) : $field_val;
             }
         }
 
