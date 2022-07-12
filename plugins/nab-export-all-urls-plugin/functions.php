@@ -45,9 +45,11 @@ function eau_get_selected_post_type($post_type, $custom_posts_names)
 
 }
 
-function eau_extract_relative_url ($url)
+
+
+function eau_extract_relative_path ($url)
 {
-    return preg_replace ('/^(http)?s?:?\/\/[^\/]*(\/?.*)$/i', '$2', '' . $url);
+    return parse_url($url, PHP_URL_PATH);
 }
 
 function eau_is_checked($name, $value)
@@ -167,8 +169,26 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['url'][$counter] = (isset($html['url'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['url'][$counter] .= esc_url( $exclude_domain == 'yes' ? eau_extract_relative_url(get_permalink()) : get_permalink() ) . $line_break;
-            $counter++;
+            $html['url'][$counter] .= get_permalink() . $line_break;
+
+			$counter++;
+
+        endwhile;
+
+        $counter = 0;
+
+    }
+
+    if (eau_is_checked($additional_data, 'path')) {
+
+        while ($posts_query->have_posts()):
+
+            $html['path'][$counter] = (isset($html['path'][$counter]) ? "" : null);
+
+            $posts_query->the_post();
+            $html['path'][$counter] .= parse_url(get_permalink(), PHP_URL_PATH) . $line_break;
+
+			$counter++;
 
         endwhile;
 
@@ -237,6 +257,7 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
         $counter = 0;
 
     }
+
     eau_export_data($html, $export_type, $csv_name);
 
     wp_reset_postdata();
@@ -271,6 +292,7 @@ function eau_export_data($urls, $export_type, $csv_name)
             $headers[] = 'Post ID';
             $headers[] = 'Title';
             $headers[] = 'URLs';
+            $headers[] = 'Path';
             $headers[] = 'Categories';
 
             fputcsv($myfile, $headers);
@@ -280,7 +302,8 @@ function eau_export_data($urls, $export_type, $csv_name)
                     isset($urls['post_id']) ? $urls['post_id'][$i] : "",
                     isset($urls['title']) ? htmlspecialchars_decode($urls['title'][$i]) : "",
                     isset($urls['url']) ? $urls['url'][$i] : "",
-                    isset($urls['category']) ? !empty($urls['category'][$i]) || !empty($urls['taxonomy'][$i]) ? $urls['category'][$i] . $urls['taxonomy'][$i] : "" : ""
+                    isset($urls['path']) ? $urls['path'][$i] : "",
+                    (isset($urls['category']) ? ((!empty($urls['category'][$i]) || !empty($urls['taxonomy'][$i])) ? $urls['category'][$i] . $urls['taxonomy'][$i] : "") : "")
                 );
 
                 fputcsv($myfile, $data);
@@ -303,10 +326,11 @@ function eau_export_data($urls, $export_type, $csv_name)
             $html .= isset($urls['post_id']) ? "<th id='postID'>Post ID</th>" : null;
             $html .= isset($urls['title']) ? "<th id='postTitle'>Title</th>" : null;
             $html .= isset($urls['url']) ? "<th id='postURL'>URLs</th>" : null;
+            $html .= isset($urls['path']) ? "<th id='postPath'>Paths</th>" : null;
             $html .= isset($urls['category']) ? "<th id='postCategories'>Categories</th>" : null;
 
             $html .= "</tr>";
-            
+
             for ($i = 0; $i < $count; $i++) {
 
                 $id = $i + 1;
@@ -314,6 +338,7 @@ function eau_export_data($urls, $export_type, $csv_name)
                 $html .= isset($urls['post_id']) ? "<td>".$urls['post_id'][$i]."</td>" : null;
                 $html .= isset($urls['title']) ? "<td>" . $urls['title'][$i] . "</td>" : null;
                 $html .= isset($urls['url']) ? "<td>" . $urls['url'][$i] . "</td>" : null;
+                $html .= isset($urls['path']) ? "<td>" . $urls['path'][$i] . "</td>" : null;
                 $html .= isset($urls['category']) ?  "<td>".$urls['category'][$i] . $urls['taxonomy'][$i] . "</td>" : null;
 
                 $html .= "</tr>";
@@ -321,7 +346,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             $html .= "</table>";
 
-            
+
 
             break;
 
@@ -333,7 +358,86 @@ function eau_export_data($urls, $export_type, $csv_name)
 
     }
 
-    echo esc_html($html);
+    echo $html;
 
 
+}
+
+
+
+
+function unrelatify($url) {
+	$parts = parse_url($url);
+	$path = $parts['path'];
+	$hierarchy = explode('/', $path);
+
+	while (($key = array_search('..', $hierarchy)) !== false) {
+		if ($key - 1 > 0)
+			unset($hierarchy[$key - 1]);
+		unset($hierarchy[$key]);
+		$hierarchy = array_values($hierarchy);
+	}
+	$new_path = implode('/', $hierarchy);
+
+	return str_replace($path, $new_path, $url);
+}
+
+function normalizePath($path) {
+	do {
+		$path = preg_replace(
+				array('#//|/\./#', '#/([^/.]+)/\.\./#'), '/', $path, -1, $count
+		);
+	} while ($count > 0);
+	return str_replace('../', '', $path);
+}
+
+function processUrl($url) {
+	$parsedUrl = parse_url($url);
+	$path = $parsedUrl['path'];
+	$pathSegments = explode("/", $path);
+	$iterator = 0;
+	$removedElements = 0;
+	foreach ($pathSegments as $segment) {
+		if ($segment == "..") {
+			if ($iterator - $removedElements - 1 < 0) {
+				return false;
+			}
+			unset($pathSegments[$iterator - $removedElements - 1]);
+			unset($pathSegments[$iterator]);
+			$removedElements += 2;
+		}
+		$iterator++;
+	}
+
+	$parsedUrl['path'] = implode("/", $pathSegments);
+
+	$newUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . "/" . $parsedUrl['path'];
+
+	return $newUrl;
+}
+
+function path_normalize($path) {
+	$path = str_replace('\\', '/', $path);
+	$blocks = preg_split('#/#', $path, null, PREG_SPLIT_NO_EMPTY);
+	$res = array();
+
+	while (list($k, $block) = each($blocks)) {
+		switch ($block) {
+			case '.':
+				if ($k == 0)
+					$res = explode('/', path_normalize(getcwd()));
+				break;
+			case '..';
+				if (!$res)
+					return false;
+				array_pop($res);
+				break;
+			default:
+				$res[] = $block;
+				break;
+		}
+	}
+	$r = implode('/', $res);
+
+	return $r;
 }

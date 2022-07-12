@@ -59,7 +59,7 @@ if ( ! empty( $referer_url ) ) {
 if ( empty( $redirect_url ) && isset( $_POST[ 'redirect' ] ) && ! empty( $_POST[ 'redirect' ] ) ) {
 	$redirect_url = esc_url_raw($_POST[ 'redirect' ]);
 }
-
+$redirect_url .= '?login=true';
 
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 

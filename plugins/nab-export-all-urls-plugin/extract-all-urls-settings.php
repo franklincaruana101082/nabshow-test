@@ -4,6 +4,7 @@ require_once (plugin_dir_path(__FILE__) . 'functions.php');
 /**
  *
  */
+
 function eau_generate_html()
 {
 
@@ -11,6 +12,8 @@ function eau_generate_html()
     {
         wp_die(__('You do not have sufficient permissions to access this page.'));
     }
+
+
 
     $custom_posts_names = array();
     $custom_posts_labels = array();
@@ -84,6 +87,21 @@ function eau_generate_html()
             echo '<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>';
         }
     }
+
+
+		echo "<script>
+				jQuery(function(){
+					var body = document.body,
+					html = document.documentElement;
+
+					var height = Math.max( body.scrollHeight, body.offsetHeight,
+									html.clientHeight, html.scrollHeight, html.offsetHeight );
+					var scroll_pos=(height);
+					jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
+				});
+			</script>";
+
+
 ?>
 
                                 </td>
@@ -96,12 +114,14 @@ function eau_generate_html()
 
                                 <td>
 
-                                    <label><input type="checkbox" name="additional-data[]" value="postIDs"/>
+                                    <label><input type="checkbox" name="additional-data[]" checked value="postIDs"/>
                                         Post IDs</label><br/>
                                     <label><input type="checkbox" name="additional-data[]" checked value="title"/>
                                         Titles</label><br/>
-                                    <label><input type="checkbox" name="additional-data[]" value="url"/>
+                                    <label><input type="checkbox" name="additional-data[]" checked value="url"/>
                                         URLs</label><br/>
+									<label><input type="checkbox" name="additional-data[]" checked value="path"/>
+										Paths</label><br/>
                                     <label><input type="checkbox" name="additional-data[]" value="category"/> Categories</label><br/>
 
                                 </td>
@@ -114,7 +134,7 @@ function eau_generate_html()
 
                                 <td>
 
-                                    <label><input type="radio" name="post-status" checked value="publish"/>
+                                    <label><input type="radio" name="post-status" value="publish"/>
                                         Published</label><br/>
                                     <label><input type="radio" name="post-status" value="pending"/> Pending</label><br/>
                                     <label><input type="radio" name="post-status" value="draft"/> Draft & Auto
@@ -123,7 +143,7 @@ function eau_generate_html()
                                         Scheduled</label><br/>
                                     <label><input type="radio" name="post-status" value="private"/> Private</label><br/>
                                     <label><input type="radio" name="post-status" value="trash"/> Trashed</label><br/>
-                                    <label><input type="radio" name="post-status" value="all"/> All (Published, Pending,
+                                    <label><input type="radio" name="post-status" checked value="all"/> All (Published, Pending,
                                         Draft, Future Scheduled, Private & Trash)</label><br/>
 
                                 </td>
@@ -133,26 +153,29 @@ function eau_generate_html()
                             <tr>
                                 <th></th>
                                 <td><a href="#" id="moreFilterOptionsLabel"
-                                       onclick="moreFilterOptions(); return false;">Show Filter Options</a></td>
+                                       onclick="lessFilterOptions(); return false;">Hide Filter Options</a></td>
                             </tr>
 
-                            <tr class="filter-options" style="display: none">
+                            <tr class="filter-options" style="display: table-row">
 
                                 <th>Date Range:</th>
 
                                 <td>
-
-                                    <label>From:<input type="date" id="posts-from" name="posts-from"
+							<?php
+							$posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
+							$posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
+							?>
+                                    <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php echo $posts_from; ?>"
                                                        onmouseleave="setMinValueForPostsUptoField()"
                                                        onfocusout="setMinValueForPostsUptoField()"/></label>
-                                    <label>To:<input type="date" id="posts-upto" name="posts-upto"/></label><br/>
+                                    <label>To:<input type="date" id="posts-upto" name="posts-upto" value="<?php echo $posts_upto; ?>"/></label><br/>
 
 
                                 </td>
 
                             </tr>
 
-                            <tr class="filter-options" style="display: none">
+                            <tr class="filter-options" style="display: table-row">
 
                                 <th>By Author:</th>
 
@@ -176,11 +199,11 @@ function eau_generate_html()
 
                             <tr>
                                 <th></th>
-                                <td><a href="#" id="advanceOptionsLabel" onclick="showAdvanceOptions(); return false;">Show
+                                <td><a href="#" id="advanceOptionsLabel" onclick="hideAdvanceOptions(); return false;">Hide
                                         Advanced Options</a></td>
                             </tr>
 
-                            <tr class="advance-options" style="display: none">
+                            <tr class="advance-options" style="display: table-row">
 
                                 <th>Remove WooCommerce Extra Attributes: </th>
 
@@ -192,7 +215,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: none">
+                            <tr class="advance-options" style="display: table-row">
 
                                 <th>Exclude Domain URL: </th>
 
@@ -204,7 +227,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: none">
+                            <tr class="advance-options" style="display: table-row">
 
                                 <th>Number of Posts: <a href="#"
                                                         title="Specify Post Range to Extract, It is very useful in case of Memory Out Error!"
@@ -217,7 +240,7 @@ function eau_generate_html()
                                     <label><input type="radio" name="number-of-posts" value="range" required="required"
                                                   onclick="showRangeFields()"/> Specify Range</label><br/>
 
-                                    <div id="postRange" style="display: none">
+                                    <div id="postRange" style="display: table-row">
                                         From: <input type="number" name="starting-point" placeholder="0">
                                         To: <input type="number" name="ending-point" placeholder="500">
                                     </div>
@@ -226,7 +249,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: none">
+                            <tr class="advance-options" style="display: table-row">
 
                                 <th>CSV File Name: </th>
 
@@ -324,7 +347,7 @@ function eau_generate_html()
             </div>
         </div>
 
-        <style>.eauWrapper{display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;overflow:hidden}#eauMainContainer{width:75%;margin-bottom:0}#eauSideContainer{width:24%}#eauSideContainer .postbox:first-child{margin-left:20px;padding-top:15px}.eaucolumns{float:left;display:-webkit-flex;display:-ms-flexbox;display:flex;margin-top:5px}#eauSideContainer .postbox{margin-bottom:0;float:none}#eauSideContainer .inside{margin-bottom:0}#eauSideContainer hr{width:70%;margin:30px auto}#eauSideContainer h3{cursor:default;text-align:center;font-size:16px}#eauSideContainer li{list-style:disclosure-closed;margin-left:25px}#eauSideContainer li a img{display:inline-block;vertical-align:middle}#eauDevelopedBy{text-align:center}#outputData{border-collapse:collapse;width:98%}#outputData tr:nth-child(even){background-color:#fff}#outputData tr:hover{background-color:#ddd}#outputData th{background-color:#000;color:#fff}#outputData td,#outputData th{text-align:left;padding:8px}#outputData th:first-child{width:4%}#outputData #postID{width:6%}#outputData #postTitle{width:25%}#outputData #postURL{width:45%}#outputData #postCategories{width:20%}#eauMainContainer code {font-size: 11px;background-color: #eee;padding-left: 5px;padding-right: 5px;}</style>
+        <style>.eauWrapper{display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;overflow:hidden}#eauMainContainer{width:75%;margin-bottom:0}#eauSideContainer{width:24%}#eauSideContainer .postbox:first-child{margin-left:20px;padding-top:15px}.eaucolumns{float:left;display:-webkit-flex;display:-ms-flexbox;display:flex;margin-top:5px}#eauSideContainer .postbox{margin-bottom:0;float:none}#eauSideContainer .inside{margin-bottom:0}#eauSideContainer hr{width:70%;margin:30px auto}#eauSideContainer h3{cursor:default;text-align:center;font-size:16px}#eauSideContainer li{list-style:disclosure-closed;margin-left:25px}#eauSideContainer li a img{display:inline-block;vertical-align:middle}#eauDevelopedBy{text-align:center}#outputData{border-collapse:collapse;width:98%}#outputData tr:nth-child(even){background-color:#fff}#outputData tr:hover{background-color:#ddd}#outputData th{background-color:#000;color:#fff}#outputData td,#outputData th{text-align:left;padding:8px}#outputData th:first-child{width:4%}#outputData #postID{width:6%}#outputData #postTitle{width:20%}#outputData #postURL{width:20%} #postURL{width:20%} #outputData #postCategories{width:20%}#eauMainContainer code {font-size: 11px;background-color: #eee;padding-left: 5px;padding-right: 5px;}</style>
 
         <script type="text/javascript">
             function showRangeFields() {
@@ -453,8 +476,7 @@ function eau_generate_html()
                     }
                 }
 
-                $posts_from = sanitize_file_name($_POST['posts-from']);
-                $posts_upto = sanitize_file_name($_POST['posts-upto']);
+
 
                 if (!empty($posts_from) && !empty($posts_upto))
                 {
@@ -504,7 +526,9 @@ function eau_generate_html()
         }
 
     }
-    
+
+	echo "<span id='spanEnd'></span>";
+
 }
 
 eau_generate_html();

@@ -147,6 +147,8 @@ if(optin_required){
 					jQuery('.register__calendar').addClass('_display');
 				}
 				//send tracking info to Segment
+				//COMMENT OUT SERVER SIDE SEGMENT TRACKING
+				/*
 				jQuery.ajax({
 					url: segmentJS.ajaxurl,
 					type: 'POST',
@@ -169,6 +171,7 @@ if(optin_required){
 						user_ip: '<?php echo($user_ip);?>',
 					},
 					success: function (response) {
+					*/
 
 						if(optin_required && !optin_complete){
 						//call ajax to opt-in
@@ -212,6 +215,8 @@ if(optin_required){
 								// },1000);
 								optin_complete = 1;
 								//send tracking info to Segment
+								//COMMENT OUT SERVER SIDE SEGMENT TRACKING
+								/*
 								jQuery.ajax({
 									url: segmentJS.ajaxurl,
 									type: 'POST',
@@ -232,8 +237,8 @@ if(optin_required){
 										user_state: '<?php echo($user_state);?>',
 										user_country_code: '<?php echo($user_country_code);?>',
 										opt_in_occurred_at_id: '<?php echo($opt_in_occurred_at_id);?>',
-				            			opt_in_occurred_at_url: '<?php echo($opt_in_occurred_at_url);?>',
-				            			occurred_at_type: '<?php echo($occurred_at_type);?>'
+										opt_in_occurred_at_url: '<?php echo($opt_in_occurred_at_url);?>',
+										occurred_at_type: '<?php echo($occurred_at_type);?>'
 									},
 									success: function (response) {
 										jQuery(self).text('Registered').attr('disabled', 'true').removeClass('_gradientpink');
@@ -241,7 +246,7 @@ if(optin_required){
 										location.reload();
 									}
 								});
-
+								*/
 								
 
 							}
@@ -249,8 +254,9 @@ if(optin_required){
 						} else if(!optin_complete) {
 							jQuery('#modal-opt-in').show();
 						}
-					}
-				});
+					//COMMENT OUT SERVER SIDE SEGMENT TRACKING
+					/*}
+				});*/
 			}
 		);
 	});
