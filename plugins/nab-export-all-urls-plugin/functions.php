@@ -162,14 +162,14 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
 
     }
 
-    if (eau_is_checked($additional_data, 'url')) {
+    if (eau_is_checked($additional_data, 'post_type')) {
 
         while ($posts_query->have_posts()):
 
-            $html['url'][$counter] = (isset($html['url'][$counter]) ? "" : null);
+            $html['post_type'][$counter] = (isset($html['post_type'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['url'][$counter] .= get_permalink() . $line_break;
+            $html['post_type'][$counter] .= $html['post_type'][$counter] . $line_break;
 
 			$counter++;
 
@@ -189,68 +189,6 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['path'][$counter] .= parse_url(get_permalink(), PHP_URL_PATH) . $line_break;
 
 			$counter++;
-
-        endwhile;
-
-        $counter = 0;
-
-    }
-
-    if (eau_is_checked($additional_data, 'title')) {
-
-        while ($posts_query->have_posts()):
-
-            $html['title'][$counter] = (isset($html['title'][$counter]) ? "" : null);
-
-            $posts_query->the_post();
-            $html['title'][$counter] .= esc_html( get_the_title() ) . $line_break;
-            $counter++;
-
-        endwhile;
-
-        $counter = 0;
-
-    }
-
-    if (eau_is_checked($additional_data, 'category')) {
-
-        while ($posts_query->have_posts()):
-
-            $html['category'][$counter] = (isset($html['category'][$counter]) ? "" : null);
-            $html['taxonomy'][$counter] = (isset($html['taxonomy'][$counter]) ? "" : null);
-
-            $categories = '';
-            $taxonomies_list = '';
-            $posts_query->the_post();
-            $cats = get_the_category();
-            $post_type = get_post_type(get_the_ID());
-            $taxonomies = get_object_taxonomies($post_type);
-            $taxonomy_names = wp_get_object_terms(get_the_ID(), $taxonomies, array("fields" => "names"));
-            if (!empty($cats)) :
-                foreach ($cats as $index => $cat) :
-                    $categories .= !empty($cat) ? $index == 0 ? $cat->name : ", " . $cat->name : '';
-                endforeach;
-            endif;
-
-            if ($remove_woo_attributes == 'yes' && $post_type == 'product') {
-                $terms = get_the_terms( get_the_ID(), 'product_cat' );
-                if(isset($terms) && !is_wp_error($terms)) {
-                    foreach ($terms as $index => $term) {
-                        $taxonomies_list .= !empty($term->name) ? $index == 0 ? $term->name : ", " . $term->name : '';
-                    }
-                }
-            }else{
-                if (!empty($taxonomy_names)) {
-                    foreach ($taxonomy_names as $index => $tax_name) :
-                        $taxonomies_list .= !empty($tax_name) ? $index == 0 ? $tax_name : ", " . $tax_name : '';
-                    endforeach;
-                }
-            }
-
-            $html['category'][$counter] .= !empty($categories) ? $categories . $line_break : '';
-            $html['taxonomy'][$counter] .= !empty($taxonomies_list) ? $taxonomies_list . $line_break : '';
-
-            $counter++;
 
         endwhile;
 
@@ -290,20 +228,16 @@ function eau_export_data($urls, $export_type, $csv_name)
             $csv_url = esc_url($file_path['url'] . "/" . $csv_name . ".CSV");
 
             $headers[] = 'Post ID';
-            $headers[] = 'Title';
-            $headers[] = 'URLs';
+            $headers[] = 'Post Type';
             $headers[] = 'Path';
-            $headers[] = 'Categories';
 
             fputcsv($myfile, $headers);
 
             for ($i = 0; $i < $count; $i++) {
                 $data = array(
                     isset($urls['post_id']) ? $urls['post_id'][$i] : "",
-                    isset($urls['title']) ? htmlspecialchars_decode($urls['title'][$i]) : "",
-                    isset($urls['url']) ? $urls['url'][$i] : "",
-                    isset($urls['path']) ? $urls['path'][$i] : "",
-                    (isset($urls['category']) ? ((!empty($urls['category'][$i]) || !empty($urls['taxonomy'][$i])) ? $urls['category'][$i] . $urls['taxonomy'][$i] : "") : "")
+                    isset($urls['post_type']) ? $urls['post_type'][$i] : "",
+                    isset($urls['path']) ? $urls['path'][$i] : ""
                 );
 
                 fputcsv($myfile, $data);
@@ -324,10 +258,8 @@ function eau_export_data($urls, $export_type, $csv_name)
             $html .= "<table class='form-table' id='outputData'>";
             $html .= "<tr><th>#</th>";
             $html .= isset($urls['post_id']) ? "<th id='postID'>Post ID</th>" : null;
-            $html .= isset($urls['title']) ? "<th id='postTitle'>Title</th>" : null;
-            $html .= isset($urls['url']) ? "<th id='postURL'>URLs</th>" : null;
+            $html .= isset($urls['post_type']) ? "<th id='postID'>Post Type</th>" : null;
             $html .= isset($urls['path']) ? "<th id='postPath'>Paths</th>" : null;
-            $html .= isset($urls['category']) ? "<th id='postCategories'>Categories</th>" : null;
 
             $html .= "</tr>";
 
@@ -336,10 +268,8 @@ function eau_export_data($urls, $export_type, $csv_name)
                 $id = $i + 1;
                 $html .= "<tr><td>" . $id . "</td>";
                 $html .= isset($urls['post_id']) ? "<td>".$urls['post_id'][$i]."</td>" : null;
-                $html .= isset($urls['title']) ? "<td>" . $urls['title'][$i] . "</td>" : null;
-                $html .= isset($urls['url']) ? "<td>" . $urls['url'][$i] . "</td>" : null;
+                $html .= isset($urls['post_type']) ? "<td>" . $urls['post_type'][$i] . "</td>" : null;
                 $html .= isset($urls['path']) ? "<td>" . $urls['path'][$i] . "</td>" : null;
-                $html .= isset($urls['category']) ?  "<td>".$urls['category'][$i] . $urls['taxonomy'][$i] . "</td>" : null;
 
                 $html .= "</tr>";
             }
@@ -361,83 +291,4 @@ function eau_export_data($urls, $export_type, $csv_name)
     echo $html;
 
 
-}
-
-
-
-
-function unrelatify($url) {
-	$parts = parse_url($url);
-	$path = $parts['path'];
-	$hierarchy = explode('/', $path);
-
-	while (($key = array_search('..', $hierarchy)) !== false) {
-		if ($key - 1 > 0)
-			unset($hierarchy[$key - 1]);
-		unset($hierarchy[$key]);
-		$hierarchy = array_values($hierarchy);
-	}
-	$new_path = implode('/', $hierarchy);
-
-	return str_replace($path, $new_path, $url);
-}
-
-function normalizePath($path) {
-	do {
-		$path = preg_replace(
-				array('#//|/\./#', '#/([^/.]+)/\.\./#'), '/', $path, -1, $count
-		);
-	} while ($count > 0);
-	return str_replace('../', '', $path);
-}
-
-function processUrl($url) {
-	$parsedUrl = parse_url($url);
-	$path = $parsedUrl['path'];
-	$pathSegments = explode("/", $path);
-	$iterator = 0;
-	$removedElements = 0;
-	foreach ($pathSegments as $segment) {
-		if ($segment == "..") {
-			if ($iterator - $removedElements - 1 < 0) {
-				return false;
-			}
-			unset($pathSegments[$iterator - $removedElements - 1]);
-			unset($pathSegments[$iterator]);
-			$removedElements += 2;
-		}
-		$iterator++;
-	}
-
-	$parsedUrl['path'] = implode("/", $pathSegments);
-
-	$newUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . "/" . $parsedUrl['path'];
-
-	return $newUrl;
-}
-
-function path_normalize($path) {
-	$path = str_replace('\\', '/', $path);
-	$blocks = preg_split('#/#', $path, null, PREG_SPLIT_NO_EMPTY);
-	$res = array();
-
-	while (list($k, $block) = each($blocks)) {
-		switch ($block) {
-			case '.':
-				if ($k == 0)
-					$res = explode('/', path_normalize(getcwd()));
-				break;
-			case '..';
-				if (!$res)
-					return false;
-				array_pop($res);
-				break;
-			default:
-				$res[] = $block;
-				break;
-		}
-	}
-	$r = implode('/', $res);
-
-	return $r;
 }
