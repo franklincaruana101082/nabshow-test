@@ -41,7 +41,6 @@
 		?>
     </a>
 
-
   <header class="header">
 
     <nav class="header__mobile">
@@ -109,7 +108,6 @@
 
                     $user_full_name = $current_user->display_name;
                 }
-
                 ?>
                 <li class="menu__item _profile">
                     <a class="menu__link" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>">
@@ -137,7 +135,6 @@
                 <a href="<?php echo esc_url( wc_get_cart_url() ); ?>">Cart</a>
                 <span class="cart__count <?php echo esc_attr( $header_cart_class ) ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
             </li>
-
             <li class="menu__item"><a href="#" class="menu__link">Sign Up</a></li>
             <li class="menu__item"><a href="#" class="menu__link">Sign In</a></li>
             <?php /*<li class="header__utilitynav-cart">

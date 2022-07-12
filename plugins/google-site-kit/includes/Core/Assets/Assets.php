@@ -15,7 +15,6 @@ use Google\Site_Kit\Core\Permissions\Permissions;
 use Google\Site_Kit\Core\Storage\Cache;
 use Google\Site_Kit\Core\Util\BC_Functions;
 use WP_Dependencies;
-
 /**
  * Class managing assets.
  *
@@ -260,7 +259,6 @@ final class Assets {
 		$href  = $this->context->url( 'dist/assets/svg/svg.svg' ) . '#' . $name;
 		$label = 'aria-label="' . ( empty( $args['label'] ) ? esc_attr( $name ) : esc_attr( $args['label'] ) ) . '"';
 		$label = 'presentation' === $args['role'] ? '' : $label;
-
 		return sprintf(
 			'<svg role="%s" class="%s" %s height="%s" width="%s"><use xlink:href="%s"/></svg>',
 			esc_attr( $args['role'] ),

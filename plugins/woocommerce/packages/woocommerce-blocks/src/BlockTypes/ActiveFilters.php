@@ -7,7 +7,6 @@ use Automattic\WooCommerce\Blocks\Assets;
  * ActiveFilters class.
  */
 class ActiveFilters extends AbstractBlock {
-
 	/**
 	 * Block name.
 	 *

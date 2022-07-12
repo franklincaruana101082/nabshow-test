@@ -84,5 +84,4 @@ jQuery( function( $ ) {
 	$( document.body ).on( 'woocommerce_append_geo_hashes', function() {
 		$append_hashes();
 	});
-
 });

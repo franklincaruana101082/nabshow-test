@@ -537,7 +537,6 @@ class WC_Meta_Box_Product_Data {
 				do_action( 'woocommerce_admin_process_variation_object', $variation, $i );
 
 				$variation->save();
-
 				do_action( 'woocommerce_save_product_variation', $variation_id, $i );
 			}
 		}

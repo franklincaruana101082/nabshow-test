@@ -113,7 +113,6 @@ function _acf_apply_hook_variations() {
 			do_action_ref_array( "$filter/$variation=$value", $args );
 		}
 	}
-
 	// Return first arg.
 	return $args[0];
 }

@@ -10,7 +10,6 @@ import { Spinner } from 'wordpress-components';
  * Internal dependencies
  */
 import './style.scss';
-
 const LoadingMask = ( {
 	children,
 	className,

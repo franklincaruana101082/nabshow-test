@@ -1379,7 +1379,6 @@ function delete_sub_row( $selector, $i = 1, $post_id = false ) {
 function create_field( $field ) {
 
 	acf_render_field( $field );
-
 }
 
 function render_field( $field ) {

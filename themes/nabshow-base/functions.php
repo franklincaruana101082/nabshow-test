@@ -4,7 +4,6 @@
  *
  */
 
-
 //************BEGIN Stuff from former parent theme functions file
 
 /**

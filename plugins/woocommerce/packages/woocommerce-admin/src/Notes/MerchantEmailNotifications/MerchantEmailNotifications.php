@@ -52,7 +52,6 @@ class MerchantEmailNotifications {
 		}
 
 		Notes::trigger_note_action( $note, $triggered_action );
-
 		$url = $triggered_action->query;
 
 		// We will use "wp_safe_redirect" when it's an internal redirect.

@@ -424,7 +424,6 @@ function acf_filter_field_groups( $field_groups, $args = array() ) {
 			}
 		}
 	}
-
 	// Return filtered.
 	return $filtered;
 }
@@ -477,7 +476,6 @@ function acf_get_field_group_visibility( $field_group, $args = array() ) {
 			}
 		}
 	}
-
 	// Return default.
 	return false;
 }

@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {
-
 	use Indexable_Social_Image_Trait;
 
 	/**
