@@ -1,4 +1,5 @@
 <?php
+    $segment_write_key    = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
     $post_id = get_the_id();
     $post_type = get_post_type( $post_id );
     $app_name = "amplify";
@@ -44,9 +45,28 @@
         next(payload);
     };
     analytics.addSourceMiddleware(emailMiddleware);
+    analytics.load('<?php echo $segment_write_key; ?>', {
+      user: {
+        persist: true,
+        cookie: {
+          key: 'nab_user_id',
+          oldkey: 'ajs_user_id'
+        },
+        localStorage: {
+          key: 'nab_user_traits'
+        }
+      },
+      group: {
+        persist: true,
+        cookie: {
+          key: 'nab_group_id'
+        },
+        localStorage: {
+          key: 'nab_group_properties'
+        }
+      }
+    });
     <?php 
-    // NOTE: We are NOT calling analytics.load here because it is loaded by ConsentManager (which is in footer.php or footer-nabshow.php depending on where you are).
-
     // If the user is logged in, we call analytics.identify with
     // the $user_id and $traits we prepared above. Note that we're
     // dumping our $trait to a JSON string and then JSON.parse'ing
