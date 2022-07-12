@@ -1,5 +1,4 @@
 <?php
-  /*
   $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
 ?>
 
@@ -50,4 +49,3 @@
   src="https://unpkg.com/@segment/consent-manager@5.0.0/standalone/consent-manager.js"
   defer
 ></script>
-<?php */ ?>
