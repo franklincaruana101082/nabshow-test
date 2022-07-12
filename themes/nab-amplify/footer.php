@@ -11,7 +11,7 @@
  */
 
 $privacy_url 	= rtrim( get_site_url(), '/' ) . '/privacy-policy/';
-$write_key		= get_option( 'segment_tracking_api_key' );
+$write_key    = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
 ?>
 
 </div> <!-- end site-content -->
