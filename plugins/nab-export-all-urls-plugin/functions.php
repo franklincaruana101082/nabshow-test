@@ -165,11 +165,11 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
     if (eau_is_checked($additional_data, 'post_type')) {
 
         while ($posts_query->have_posts()):
-
+            
             $html['post_type'][$counter] = (isset($html['post_type'][$counter]) ? "" : null);
 
-            $posts_query->the_post();
-            $html['post_type'][$counter] .= $html['post_type'][$counter] . $line_break;
+            $posts_query->the_post();            
+            $html['post_type'][$counter] .= get_post_type( get_the_ID() ) . $line_break;
 
 			$counter++;
 
@@ -229,7 +229,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             $headers[] = 'Post ID';
             $headers[] = 'Post Type';
-            $headers[] = 'Path';
+            $headers[] = 'Paths';
 
             fputcsv($myfile, $headers);
 
