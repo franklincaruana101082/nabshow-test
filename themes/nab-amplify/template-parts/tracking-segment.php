@@ -45,7 +45,6 @@
         next(payload);
     };
     analytics.addSourceMiddleware(emailMiddleware);
-    <?php 
     // analytics.load('<?php echo $segment_write_key; ?>', {
     //   user: {
     //     persist: true,
@@ -67,6 +66,7 @@
     //     }
     //   }
     // });
+    <?php 
     // If the user is logged in, we call analytics.identify with
     // the $user_id and $traits we prepared above. Note that we're
     // dumping our $trait to a JSON string and then JSON.parse'ing
