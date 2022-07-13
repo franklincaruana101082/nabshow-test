@@ -11,7 +11,6 @@
  *
  * @package NABShow_base
  */
-
 get_header();
 ?>
 

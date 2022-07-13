@@ -11,7 +11,6 @@
  * @todo This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
-
 	/**
 	 * Sitemap index identifier.
 	 *

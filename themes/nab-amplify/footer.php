@@ -89,7 +89,6 @@
   })(window, document);
   adroll.track("pageView");
 </script>
-
 <script type="text/javascript">
   (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
   (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
@@ -98,7 +97,6 @@
 
   _st('install','EXqWbg3Gg4icxjFkYUK3','2.0.0');
 </script>
-
 </body>
 
 </html>

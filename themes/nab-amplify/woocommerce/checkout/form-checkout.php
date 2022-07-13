@@ -283,5 +283,4 @@ $checkout_class = ( true === $is_bulk_order ) ? 'is-bulk' : '';
 
 </form>
 
-
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>

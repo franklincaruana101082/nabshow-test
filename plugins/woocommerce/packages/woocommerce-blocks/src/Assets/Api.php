@@ -2,7 +2,6 @@
 namespace Automattic\WooCommerce\Blocks\Assets;
 
 use Automattic\WooCommerce\Blocks\Domain\Package;
-
 /**
  * The Api class provides an interface to various asset registration helpers.
  *

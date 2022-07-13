@@ -1,4 +1,3 @@
-
 /**
  * admin.scss
  * General WooCommerce admin styles. Settings, product data tabs, reports, etc.
@@ -770,7 +769,6 @@ table.wc_status_table--tools {
 		outline: 0;
 	}
 }
-
 
 /**
   * DB log viewer
@@ -2358,7 +2356,6 @@ ul.wc_coupon_list_block {
 				font-size: 14px;
 				vertical-align: middle;
 				top: 4px;
-
 			}
 
 			&:hover {
@@ -4162,7 +4159,6 @@ img.help_tip {
 		}
 
 		table.form-table {
-
 			// Give regular settings inputs a standard width and padding.
 			textarea,
 			input[type="text"],
@@ -5451,7 +5447,6 @@ img.tips {
 	/*rtl:ignore*/
 	left: 0;
 
-
 	&.tip_top {
 		padding-bottom: 5px;
 
@@ -6227,7 +6222,6 @@ table.bar_chart {
 		}
 	}
 
-
 	.woocommerce_variations,
 	.woocommerce_options_panel {
 
@@ -6843,7 +6837,6 @@ table.bar_chart {
 			padding: 0 0 0 3px;
 			min-height: 28px;
 		}
-
 	}
 
 	.woocommerce table.form-table .select2-container {
@@ -6919,7 +6912,6 @@ table.bar_chart {
 		}
 	}
 }
-
 
 .post-type-product .tablenav,
 .post-type-shop_order .tablenav {

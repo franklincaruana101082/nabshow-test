@@ -64,7 +64,6 @@ class FeaturedCategory extends AbstractDynamicBlock {
 		}
 		$output .= '<div class="wc-block-featured-category__link">' . $content . '</div>';
 		$output .= '</div>';
-
 		return $output;
 	}
 

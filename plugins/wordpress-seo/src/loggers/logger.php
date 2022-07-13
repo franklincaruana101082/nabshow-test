@@ -10,7 +10,6 @@ use YoastSEO_Vendor\Psr\Log\NullLogger;
  * Our logger class.
  */
 class Logger implements LoggerInterface {
-
 	use LoggerTrait;
 
 	/**

@@ -19,5 +19,7 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
+add_filter( 'wpcom_vip_nabshow_custom_helpers', '__return_false' );
+
 add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
 add_filter( 'wpvip_parsely_load_mu', '__return_true' );

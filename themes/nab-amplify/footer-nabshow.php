@@ -20,7 +20,6 @@
 
 <?php wp_footer(); ?>
 <script src="/wp-content/themes/nab-amplify/js/app.min.js"></script>
-
 </body>
 
 </html>

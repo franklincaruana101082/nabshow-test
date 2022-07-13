@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * Formats the term meta to indexable format.
  */
 class Indexable_Term_Builder {
-
 	use Indexable_Social_Image_Trait;
 
 	/**
