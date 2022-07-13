@@ -19,5 +19,9 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
+// auto load plugin without activation from admin page
+wpcom_vip_load_plugin( 'nab-export-path-from-urls/nab-export-path-from-urls.php' );
+
+
 add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
 add_filter( 'wpvip_parsely_load_mu', '__return_true' );
