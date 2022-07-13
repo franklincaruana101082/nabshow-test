@@ -108,7 +108,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr>
+                            <tr style="display: none;">
 
                                 <th>Export Fields:</th>
 
@@ -116,13 +116,10 @@ function eau_generate_html()
 
                                     <label><input type="checkbox" name="additional-data[]" checked value="postIDs"/>
                                         Post IDs</label><br/>
-                                    <label><input type="checkbox" name="additional-data[]" checked value="title"/>
-                                        Titles</label><br/>
-                                    <label><input type="checkbox" name="additional-data[]" checked value="url"/>
-                                        URLs</label><br/>
+                                    <label><input type="checkbox" name="additional-data[]" checked value="post_type"/>
+                                        post Type</label><br/>
 									<label><input type="checkbox" name="additional-data[]" checked value="path"/>
 										Paths</label><br/>
-                                    <label><input type="checkbox" name="additional-data[]" value="category"/> Categories</label><br/>
 
                                 </td>
 
@@ -347,7 +344,7 @@ function eau_generate_html()
             </div>
         </div>
 
-        <style>.eauWrapper{display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;overflow:hidden}#eauMainContainer{width:75%;margin-bottom:0}#eauSideContainer{width:24%}#eauSideContainer .postbox:first-child{margin-left:20px;padding-top:15px}.eaucolumns{float:left;display:-webkit-flex;display:-ms-flexbox;display:flex;margin-top:5px}#eauSideContainer .postbox{margin-bottom:0;float:none}#eauSideContainer .inside{margin-bottom:0}#eauSideContainer hr{width:70%;margin:30px auto}#eauSideContainer h3{cursor:default;text-align:center;font-size:16px}#eauSideContainer li{list-style:disclosure-closed;margin-left:25px}#eauSideContainer li a img{display:inline-block;vertical-align:middle}#eauDevelopedBy{text-align:center}#outputData{border-collapse:collapse;width:98%}#outputData tr:nth-child(even){background-color:#fff}#outputData tr:hover{background-color:#ddd}#outputData th{background-color:#000;color:#fff}#outputData td,#outputData th{text-align:left;padding:8px}#outputData th:first-child{width:4%}#outputData #postID{width:6%}#outputData #postTitle{width:20%}#outputData #postURL{width:20%} #postURL{width:20%} #outputData #postCategories{width:20%}#eauMainContainer code {font-size: 11px;background-color: #eee;padding-left: 5px;padding-right: 5px;}</style>
+        <style>.eauWrapper{display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;overflow:hidden}#eauMainContainer{width:75%;margin-bottom:0}#eauSideContainer{width:24%}#eauSideContainer .postbox:first-child{margin-left:20px;padding-top:15px}.eaucolumns{float:left;display:-webkit-flex;display:-ms-flexbox;display:flex;margin-top:5px}#eauSideContainer .postbox{margin-bottom:0;float:none}#eauSideContainer .inside{margin-bottom:0}#eauSideContainer hr{width:70%;margin:30px auto}#eauSideContainer h3{cursor:default;text-align:center;font-size:16px}#eauSideContainer li{list-style:disclosure-closed;margin-left:25px}#eauSideContainer li a img{display:inline-block;vertical-align:middle}#eauDevelopedBy{text-align:center}#outputData{border-collapse:collapse;width:98%}#outputData tr:nth-child(even){background-color:#fff}#outputData tr:hover{background-color:#ddd}#outputData th{background-color:#000;color:#fff}#outputData td,#outputData th{text-align:left;padding:8px}#outputData th:first-child{width:4%}#outputData #postID{width:10%}#outputData #postType{width:10%}#outputData #postPath{width:30%}#outputData #eauMainContainer code {font-size: 11px;background-color: #eee;padding-left: 5px;padding-right: 5px;}</style>
 
         <script type="text/javascript">
             function showRangeFields() {
@@ -527,7 +524,6 @@ function eau_generate_html()
 
     }
 
-	echo "<span id='spanEnd'></span>";
 
 }
 

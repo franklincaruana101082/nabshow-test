@@ -187,6 +187,7 @@ class Broadstreet_Core
         add_action('rest_api_init', function () {
             register_rest_route( 'broadstreet/v1', '/targets', array(
               'methods' => 'GET',
+              'permission_callback' => '__return_true',
               'callback' => function($request) {
                 return Broadstreet_Utility::getAvailableTargets();
               },
