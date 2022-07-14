@@ -76,6 +76,7 @@ function eau_is_checked($name, $value)
  * @param $posts_from
  * @param $posts_upto
  */
+
 function eau_generate_output($selected_post_type, $post_status, $post_author, $remove_woo_attributes, $exclude_domain, $post_per_page, $offset, $export_type, $additional_data, $csv_name, $posts_from, $posts_upto)
 {
 
@@ -165,10 +166,10 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
     if (eau_is_checked($additional_data, 'post_type')) {
 
         while ($posts_query->have_posts()):
-            
+
             $html['post_type'][$counter] = (isset($html['post_type'][$counter]) ? "" : null);
 
-            $posts_query->the_post();            
+            $posts_query->the_post();
             $html['post_type'][$counter] .= get_post_type( get_the_ID() ) . $line_break;
 
 			$counter++;
