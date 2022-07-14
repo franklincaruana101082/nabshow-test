@@ -80,27 +80,18 @@ function eau_admin_footer_text( $footer_text ) {
 function add_content_after($content){
     try
     {
-        $file_path = wp_upload_dir();
-        error_log("Next Line is SCANDIR_SORT_DESCENDING");
-        $files = scandir($file_path['path'], SCANDIR_SORT_DESCENDING);
-        $newest_file = $files;
+		$after_content = "";
+		$upload_dir = wp_upload_dir();
 
-        error_log(json_encode($newest_file));
-        // Read the first line, headers
-        $headers = fgetcsv($newest_file);
-        $after_content .= esc_html($headers);
+		$files = list_files($upload_dir);
 
-        // Read the lines one by one
-        while (false != ($line = fgetcsv($newest_file))) {
-            $after_content .= esc_html($line);
-        }
+        // Codes here to filter valid csv file onl. The exported one
+		error_log(json_encode($files));
+        return $content . $after_content;
 
-
-        $fullcontent = $content . $after_content;
-
-        return $fullcontent;
     }catch(Exception $e){
 
     }
 }
-// add_action('the_content','add_content_after');
+//  work in progress
+//  add_action('the_content','add_content_after');
