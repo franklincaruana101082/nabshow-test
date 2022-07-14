@@ -56,7 +56,6 @@ class CustomerEffortScoreTracks {
 	 */
 	private $onsubmit_label;
 
-
 	/**
 	 * Constructor. Sets up filters to hook into WooCommerce.
 	 */

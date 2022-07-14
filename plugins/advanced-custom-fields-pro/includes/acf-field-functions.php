@@ -1320,7 +1320,6 @@ function acf_search_fields( $id, $fields ) {
 			}
 		}
 	}
-
 	// Return not found.
 	return false;
 }

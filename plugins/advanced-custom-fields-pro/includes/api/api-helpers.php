@@ -3787,7 +3787,6 @@ function acf_get_browser() {
 			}
 		}
 	}
-
 	// Return default.
 	return '';
 }

@@ -463,7 +463,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	$tax_query_args				= array();
 
 	if ( isset( $session_program ) && ! empty( $session_program ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'tracks',
 			'terms'		=> $session_program,
@@ -471,7 +470,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_location ) && ! empty( $session_location ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-locations',
 			'terms'		=> $session_location,
@@ -479,7 +477,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_registration_pass ) && ! empty( $session_registration_pass ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_registration_pass,
@@ -487,7 +484,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_topic ) && ! empty( $session_topic ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_topic,
@@ -495,7 +491,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_education_partner ) && ! empty( $session_education_partner ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_education_partner,
@@ -503,7 +498,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_session_type ) && ! empty( $session_session_type ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_session_type,
@@ -511,7 +505,6 @@ function nabshow_lv_2021_prepare_session_tax_query() {
 	}
 
 	if ( isset( $session_experience_level ) && ! empty( $session_experience_level ) ) {
-
 		$tax_query_args[] = array(
 			'taxonomy'	=> 'session-categories',
 			'terms'		=> $session_experience_level,
@@ -559,7 +552,6 @@ function nabshow_lv_2021_prepare_session_meta_query() {
 }
 
 function nabshow_lv_2021_session_filter() {
-
 	check_ajax_referer( 'ajax_filter_nonce', 'nabNonce' );
 
 	$current_page	= filter_input( INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT );

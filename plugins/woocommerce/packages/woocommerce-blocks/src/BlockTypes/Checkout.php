@@ -11,7 +11,6 @@ use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
  * @internal
  */
 class Checkout extends AbstractBlock {
-
 	/**
 	 * Block name.
 	 *

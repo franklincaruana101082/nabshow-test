@@ -16,12 +16,12 @@
 # Uploads directory
 /uploads/
 
-# mu-plugins; these are managed at the platform-level
 /mu-plugins/
 
 # drop-ins; these are managed at the platform-level
 /object-cache.php
 /db.php
+/sunrise.php
 
 # Ignore temporary OS files
 .DS_Store
@@ -41,3 +41,4 @@ node_modules
 composer.json
 composer.lock
 /vendor/
+/wp-content/

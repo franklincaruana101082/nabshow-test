@@ -312,7 +312,6 @@ function acf_get_meta_field( $key = 0, $post_id = 0 ) {
 			return $field;
 		}
 	}
-
 	// Return false.
 	return false;
 }

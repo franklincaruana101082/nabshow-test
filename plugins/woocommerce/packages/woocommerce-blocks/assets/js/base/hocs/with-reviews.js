@@ -120,7 +120,6 @@ const withReviews = ( OriginalComponent ) => {
 			}
 
 			const { onReviewsReplaced } = this.props;
-
 			this.updateListOfReviews().then( onReviewsReplaced );
 		}
 

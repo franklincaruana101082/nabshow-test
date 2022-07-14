@@ -81,7 +81,6 @@ class CustomAutoloaderPlugin implements PluginInterface, EventSubscriberInterfac
 		 */
 	}
 
-
 	/**
 	 * Tell composer to listen for events and do something with them.
 	 *

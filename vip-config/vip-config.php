@@ -65,4 +65,4 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     }
 }
 
-define('JWT_AUTH_SECRET_KEY', 'jhBvSg>3AVZ;+?}OvbtL:|,v26`V+zG|#.aQXpm^}(w4feLQb?dLZF{o7-h5J)F/');
+define('JWT_AUTH_SECRET_KEY', '4PP5|I$OOktX8Kfs)`&}!>A;OI+.:<3|/VJ;[OpA%p![K-94mvCT>v.vVa*-GHiR');

@@ -377,4 +377,3 @@ function acf_get_grouped_field_types() {
 	return $groups;
 }
 
-

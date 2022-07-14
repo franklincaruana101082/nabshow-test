@@ -244,7 +244,6 @@ function _wpseo_activate() {
 
 	do_action( 'wpseo_activate' );
 }
-
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */

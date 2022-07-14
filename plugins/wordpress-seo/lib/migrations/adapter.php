@@ -533,7 +533,6 @@ class Adapter {
 		if ( empty( $table ) || empty( $column ) ) {
 			return null;
 		}
-
 		try {
 			$sql    = \sprintf( "SHOW FULL COLUMNS FROM %s LIKE '%s'", $this->identifier( $table ), $column );
 			$result = $this->select_one( $sql );
