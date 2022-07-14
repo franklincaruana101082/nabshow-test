@@ -80,7 +80,7 @@ function eau_admin_footer_text( $footer_text ) {
 function add_content_after($content){
     try
     {
-		$html = "";
+		$html = "<div class='col-md-12'>";
 		$uploadfolder = wp_upload_dir();
 
 		$path = !empty($uploadfolder['path']) ? $uploadfolder['path'] : ""; // tripslashes($uploadfolder['path']) : "";
@@ -116,10 +116,11 @@ function add_content_after($content){
 				fclose($handle);
 			}
 		}
-		return $content . $html;
+		$result = $content . $html;
+		return $result;
     }catch(\Exception $e){
 
     }
 }
 //  work in progress
-add_filter('wp_footer','add_content_after');
+add_filter('the_content','add_content_after');
