@@ -3,14 +3,20 @@
 /*
 Plugin Name: Export All URLs
 Plugin URI: https://AtlasGondal.com/
-Description: This plugin allows you to extract Title, URL and Categories of builtin post types (e.g post, page) or any other custom post type available on your site. You can write output in the dashboard or export as CSV file. It can be very useful during migration, seo analysis and security audit.
-Version: 4.3
-Author: Atlas Gondal
+Description: We need to be able to export a CSV that contains the following columns:
+Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/
+Post ID - the Post ID of the content on that page
+Post Type - e.g. Page, Company, Session, Article, etc.
+The CSV should contain a row for every page on Amplify.
+Version: 1.0.1
+Original Author: Atlas Gondal
+Modified By: Crush & Lovely
 Author URI: https://AtlasGondal.com/
 License: GPL v2 or higher
 License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
+require_once (plugin_dir_path(__FILE__) . 'functions.php');
 
 function eau_extract_all_urls_nav(){
 
@@ -66,3 +72,35 @@ function eau_admin_footer_text( $footer_text ) {
 
     return $footer_text;
 }
+
+
+
+// This function attached on the_content hook is intended to display the CSV Content.
+// Can be In Admin or anywhere from site.. That includes Nabshow Amplify
+function add_content_after($content){
+    try
+    {
+        $file_path = wp_upload_dir();
+        error_log("Next Line is SCANDIR_SORT_DESCENDING");
+        $files = scandir($file_path['path'], SCANDIR_SORT_DESCENDING);
+        $newest_file = $files;
+
+        error_log(json_encode($newest_file));
+        // Read the first line, headers
+        $headers = fgetcsv($newest_file);
+        $after_content .= esc_html($headers);
+
+        // Read the lines one by one
+        while (false != ($line = fgetcsv($newest_file))) {
+            $after_content .= esc_html($line);
+        }
+
+
+        $fullcontent = $content . $after_content;
+
+        return $fullcontent;
+    }catch(Exception $e){
+
+    }
+}
+// add_action('the_content','add_content_after');
