@@ -222,7 +222,7 @@ function eau_export_data($urls, $export_type, $csv_name)
             $data = '';
             $headers = array();
 
-            $file = $file_path['path'] . "/" . $csv_name . '.CSV';
+            $file = $file_path['path'] . "/exported-paths-from-urls.CSV";
             $myfile = @fopen($file, "w") or die("<div class='error' style='width: 95.3%; margin-left: 2px;'>Unable to create a file on your server! (either invalid name supplied or permission issue)</div>");
             fprintf($myfile, "\xEF\xBB\xBF");
 

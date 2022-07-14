@@ -80,18 +80,46 @@ function eau_admin_footer_text( $footer_text ) {
 function add_content_after($content){
     try
     {
-		$after_content = "";
-		$upload_dir = wp_upload_dir();
+		$html = "";
+		$uploadfolder = wp_upload_dir();
 
-		$files = list_files($upload_dir);
+		$path = !empty($uploadfolder['path']) ? $uploadfolder['path'] : ""; // tripslashes($uploadfolder['path']) : "";
+		$csv_file = "{$path}/exported-paths-from-urls.csv";
+		if(file_exists($csv_file)){
+			$row = 1;
+			if (($handle = fopen($csv_file, "r")) !== FALSE) {
+				$html .= "<div class='col-md-12'>";
 
-        // Codes here to filter valid csv file onl. The exported one
-		error_log(json_encode($files));
-        return $content . $after_content;
+				// ====
+				$html .= "<div class='col-md-2'>Seq.</div>";
+				$html .= "<div class='col-md-3'>Post ID</div>";
+				$html .= "<div class='col-md-3'>Post Type</div>";
+				$html .= "<div class='col-md-4'>Path</div>";
+				while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 
-    }catch(Exception $e){
+					$num = count($data);
+					$html .= "<div class='col-md-12'>";
+					// echo "<p> $num fields in line $row: <br /></p>\n";
+
+					$row++;
+
+					// ====
+					$html .= "<div class='col-md-2'>".$row."</div>";
+					$html .= "<div class='col-md-3'>".$data[$row]['PostID']."</div>";
+					$html .= "<div class='col-md-3'>".$data[$row]['Post_Type']."</div>";
+					$html .= "<div class='col-md-4'>".$data[$row]['Path']."</div>";
+					// ====
+				}
+
+				// ====
+				$html .= "</div>";
+				fclose($handle);
+			}
+		}
+		return $content . $html;
+    }catch(\Exception $e){
 
     }
 }
 //  work in progress
-//  add_action('the_content','add_content_after');
+add_filter('wp_footer','add_content_after');

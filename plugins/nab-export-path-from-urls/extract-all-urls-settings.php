@@ -519,7 +519,7 @@ function eau_generate_html()
         else
         {
             $file = base64_decode($_REQUEST['f']);
-            echo !empty($file) ? file_exists($file) ? !unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>" : null : "<div class='notice notice-error'>Missing file path.</div>";
+            echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>");
         }
 
     }
