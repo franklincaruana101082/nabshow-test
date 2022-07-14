@@ -116,9 +116,7 @@ function add_content_after($content){
 				fclose($handle);
 			}
 		}
-		$return = $content . $html;
-
-		error_log($return);
+		return $content . $html;
     }catch(\Exception $e){
 
     }
