@@ -49,7 +49,8 @@ function eau_get_selected_post_type($post_type, $custom_posts_names)
 
 function eau_extract_relative_path ($url)
 {
-    return wp_parse_url($url, PHP_URL_PATH);
+    $parse_url = wp_parse_url($url);
+    return $parse_url['path'];
 }
 
 function eau_is_checked($name, $value)
@@ -187,7 +188,8 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['path'][$counter] = (isset($html['path'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['path'][$counter] .= wp_parse_url(get_permalink(), PHP_URL_PATH) . $line_break;
+            $parse_url = wp_parse_url(get_permalink());
+            $html['path'][$counter] .= $parse_url['path'] . $line_break;
 
 			$counter++;
 
@@ -289,7 +291,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
     }
 
-    esc_html_e($html);
+    esc_html($html);
 
 
 }

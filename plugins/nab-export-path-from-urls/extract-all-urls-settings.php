@@ -160,8 +160,15 @@ function eau_generate_html()
 
                                 <td>
 							<?php
-                            $posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
-                            $posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
+                            $posts_from = "2000-01-01";
+                            $posts_upto = "2022-01-01";
+                            
+                            if(!empty($_POST['posts-from'])){
+                                $posts_from = sanitize_file_name($_POST['posts-from']);
+                            }
+                            if(!empty($_POST['posts-upto'])){
+                                $posts_upto = sanitize_file_name($_POST['posts-upto']);
+                            }
 							?>
                                     <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php esc_attr($posts_from); ?>"
                                                        onmouseleave="setMinValueForPostsUptoField()"
@@ -186,7 +193,7 @@ function eau_generate_html()
     {
         for ($i = 0;$i < count($user_ids);$i++)
         {
-            echo '<label><input type="radio" name="post-author" value="' . $user_ids[$i] . '" required="required" /> ' . $user_names[$i] . '</label><br>';
+            esc_html('<label><input type="radio" name="post-author" value="' . $user_ids[$i] . '" required="required" /> ' . $user_names[$i] . '</label><br>');
         }
     }
 ?>
@@ -255,9 +262,9 @@ function eau_generate_html()
 
                                     <label><input
                                                 type="text" name="csv-file-name" placeholder="An Error Occured"
-                                                value="<?php echo $file_name; ?>"
+                                                value="<?php esc_attr($file_name); ?>"
                                                 size="30%"/></label><br/>
-                                                <code><?php echo $file_path['path']; ?></code>
+                                                <code><?php esc_html($file_path['path']); ?></code>
 
 
                                 </td>
@@ -443,12 +450,12 @@ function eau_generate_html()
                 $remove_woo_attributes = isset($_POST['remove-woo-attributes']) ? sanitize_text_field($_POST['remove-woo-attributes']) : null;
                 $exclude_domain = isset($_POST['exclude-domain']) ? sanitize_text_field($_POST['exclude-domain']) : null;
                 $number_of_posts = sanitize_text_field($_POST['number-of-posts']);
-                $csv_name = sanitize_file_name($_POST['csv-file-name']);
+                $csv_name = !empty(($_POST['csv-file-name'])) ? sanitize_file_name($_POST['csv-file-name']) : null;
 
                 if ($number_of_posts == "range")
                 {
-                    $offset = absint($_POST['starting-point']);
-                    $post_per_page = absint($_POST['ending-point']);
+                    $offset = !empty($_POST['starting-point']) ? absint($_POST['starting-point']) : 0;
+                    $post_per_page = !empty($_POST['ending-point']) ? absint($_POST['ending-point']) : 0;
 
                     if (!isset($offset) || !isset($post_per_page))
                     {
@@ -512,14 +519,14 @@ function eau_generate_html()
     }
     elseif (isset($_REQUEST['del']) && $_REQUEST['del'] == 'y')
     {
-        if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce']))
+        if (!isset($_REQUEST['_wpnonce']) || (!isset($_GET['_wpnonce']) && !wp_verify_nonce($_GET['_wpnonce'])))
         {
             echo "You are not authorized to perform this action!";
             exit();
         }
         else
         {
-            $file = base64_decode($_REQUEST['f']);
+            $file = !empty(($_REQUEST['f'])) ? base64_decode($_REQUEST['f']) : null;
             echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>");
         }
 
