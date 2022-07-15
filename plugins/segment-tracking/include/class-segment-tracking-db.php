@@ -92,6 +92,7 @@ if ( ! class_exists( 'Segment_Tracking_DB' ) ) {
             if ( ! empty( $segment_write_key ) ) {
                 
                 require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
+                use Segment\Segment;
 
                 class_alias( 'Segment', 'Analytics' );
                 Segment::init( $segment_write_key );

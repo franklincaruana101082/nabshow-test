@@ -41,6 +41,11 @@ if ( ! class_exists( 'Segment_Tracking' ) ) {
             }
 
             $data['userId'] = strval( $data['userId'] );
+            $data['context'] = array(
+                'app' => array(
+                    'name' => 'amplify'
+                )
+            );
             $json_data = wp_json_encode( $data );
             $this->segment_tracking_queue_event( 'track', $json_data );
         }
