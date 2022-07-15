@@ -1,21 +1,5 @@
 <?php
 
-/*
-Plugin Name: Export All URLs
-Plugin URI: https://AtlasGondal.com/
-Description: We need to be able to export a CSV that contains the following columns:
-Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/
-Post ID - the Post ID of the content on that page
-Post Type - e.g. Page, Company, Session, Article, etc.
-The CSV should contain a row for every page on Amplify.
-Version: 1.0.1
-Original Author: Atlas Gondal
-Modified By: Crush & Lovely
-Author URI: https://AtlasGondal.com/
-License: GPL v2 or higher
-License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
-
 require_once (plugin_dir_path(__FILE__) . 'functions.php');
 
 function eau_extract_all_urls_nav(){

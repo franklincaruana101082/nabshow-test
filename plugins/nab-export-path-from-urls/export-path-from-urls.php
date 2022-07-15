@@ -1,20 +1,5 @@
 <?php
 
-/*
-Plugin Name: Export All URLs
-Plugin URI: https://AtlasGondal.com/
-Description: We need to be able to export a CSV that contains the following columns:
-Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/
-Post ID - the Post ID of the content on that page
-Post Type - e.g. Page, Company, Session, Article, etc.
-The CSV should contain a row for every page on Amplify.
-Version: 1.0.1
-Original Author: Atlas Gondal
-Modified By: Crush & Lovely
-Author URI: https://AtlasGondal.com/
-License: GPL v2 or higher
-License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
 
 require_once (plugin_dir_path(__FILE__) . 'functions.php');
 
@@ -28,7 +13,7 @@ add_action( 'admin_menu', 'eau_extract_all_urls_nav' );
 
 function eau_include_settings_page(){
 
-    include(plugin_dir_path(__FILE__) . 'extract-all-urls-settings.php');
+    require_once(plugin_dir_path(__FILE__) . 'extract-all-urls-settings.php');
 
 }
 
@@ -59,18 +44,4 @@ function eau_redirect_on_export_all_urls_activation() {
 
 }
 add_action( 'admin_init', 'eau_redirect_on_export_all_urls_activation' );
-
-add_filter( 'admin_footer_text', 'eau_admin_footer_text' );
-function eau_admin_footer_text( $footer_text ) {
-
-    $current_screen = get_current_screen();
-
-    $is_export_all_urls_screen = ( $current_screen && false !== strpos( $current_screen->id, 'extract-all-urls-settings' ) );
-
-    if ( $is_export_all_urls_screen ) {
-        $footer_text = 'Enjoyed <strong>Export All URLs</strong>? Please leave us a <a href="https://wordpress.org/support/plugin/export-all-urls/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. We really appreciate your support! ';
-    }
-
-    return $footer_text;
-}
 

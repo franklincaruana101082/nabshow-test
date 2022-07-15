@@ -1,9 +1,9 @@
 <?php
 
 /*
-Plugin Name: Export All URLs
+Plugin Name: Export Paths from URLs
 Plugin URI: https://AtlasGondal.com/
-Description: We need to be able to export a CSV that contains the following columns:
+Description: Export a CSV file that contains the following columns:
 Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/
 Post ID - the Post ID of the content on that page
 Post Type - e.g. Page, Company, Session, Article, etc.
@@ -16,9 +16,25 @@ License: GPL v2 or higher
 License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-// This loads the plugin. Main function for this plugin are in this script file
-require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/export-path-from-urls.php' );
+require_once (plugin_dir_path(__FILE__) . 'functions.php');
 
+// This loads the plugin. Main function for this plugin are in this script file
+function nabshow_export_all_urls_activation(){
+	require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/export-path-from-urls.php' );
+}
+add_filter('init','nabshow_export_all_urls_activation');
+
+add_filter( 'plugin_action_links', 'disable_export_paths_plugin_deactivation', 10, 2  );
+
+
+function disable_export_paths_plugin_deactivation( $actions, $plugin_file ) {
+ 
+    if ( plugin_basename( __FILE__ ) === $plugin_file ) {
+		unset( $actions['deactivate'], $actions['activate'] );
+	}
+
+	return $actions;
+}
 
 // This function attached on the_content hook is intended to display the CSV Content.
 // Can be In Admin or anywhere from site.. That includes Nabshow Amplify
@@ -27,7 +43,7 @@ function content_after_body($content){
 	$result = $content;
     try
     {
-		$html = "<div class='content'>";
+		$html = "";
 		$uploadfolder = wp_get_upload_dir();
 
 		if(empty($uploadfolder['path'])) return $result;

@@ -1,9 +1,5 @@
 <?php
-require_once (plugin_dir_path(__FILE__) . 'functions.php');
 
-/**
- *
- */
 
 function eau_generate_html()
 {
@@ -270,8 +266,8 @@ function eau_generate_html()
 
                                 <td>
 
-                                    <label><input type="radio" name="export-type" value="text" required="required"/> CSV File</label><br/>
-                                    <label><input type="radio" name="export-type" value="here" required="required" checked />
+                                    <label><input type="radio" name="export-type" value="text" required="required" checked/> CSV File</label><br/>
+                                    <label><input type="radio" name="export-type" value="here" required="required" />
                                         Output here</label><br/>
 
                                 </td>
