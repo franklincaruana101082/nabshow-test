@@ -66,7 +66,7 @@ function eau_generate_html()
                 <div class="inside">
 
                     <form id="infoForm" method="post">
-
+                    <?php wp_nonce_field('export_urls'); ?>
                         <table class="form-table">
 
                             <tr>
@@ -85,12 +85,12 @@ function eau_generate_html()
     {
         for ($i = 0;$i < count($custom_posts_names);$i++)
         {
-            esc_html_e('<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>');
+            esc_html('<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>');
         }
     }
 
 
-    esc_js_e("<script>
+    esc_js("<script>
 				jQuery(function(){
 					var body = document.body,
 					html = document.documentElement;
@@ -160,16 +160,8 @@ function eau_generate_html()
 
                                 <td>
 							<?php
-                            $nonce = $_REQUEST['_wpnonce'];
-
-                            if ( ! wp_verify_nonce( $nonce, 'my-nonce' ) ) {
-                            
-                                 die( 'Security check' ); 
-                            
-                            } else {
-                                $posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
-                                $posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
-                            }
+                            $posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
+                            $posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
 							?>
                                     <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php esc_attr($posts_from); ?>"
                                                        onmouseleave="setMinValueForPostsUptoField()"
@@ -299,7 +291,7 @@ function eau_generate_html()
                             </tr>
 
                         </table>
-                        <?php wp_nonce_field('export_urls'); ?>
+                       
 
                     </form>
 

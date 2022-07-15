@@ -27,7 +27,7 @@ function content_after_body($content){
 	$result = $content;
     try
     {
-		$html = esc_html("<div class='content'>");
+		$html = "<div class='content'>";
 		$uploadfolder = wp_get_upload_dir();
 
 		if(empty($uploadfolder['path'])) return $result;
@@ -41,7 +41,6 @@ function content_after_body($content){
 		}
 		
 		if(file_exists($csv_file) && is_file($csv_file)){
-			error_log($csv_file);
 			$row = 0;
 			
 			$list_item = "";
@@ -66,22 +65,22 @@ function content_after_body($content){
 				fclose($handle);
 			}
 
-			$html .= esc_html("<div class='container'>");
-			$html .= esc_html("<div class='content'>");
-			$html .= esc_html("<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$row</strong>.</strong></h1>");
-			$html .= esc_html("<table style='width: 100%; background-color: white;'>");
-			$html .= esc_html($list_item);
-			$html .= esc_html("</table>");
-			$html .= esc_html("</div>");
-			$html .= esc_html("</div>");
+			$html .= "<div class='container'>";
+			$html .= "<div class='content'>";
+			$html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$row</strong>.</strong></h1>";
+			$html .= "<table style='width: 100%; background-color: white;'>";
+			$html .= $list_item;
+			$html .= "</table>";
+			$html .= "</div>";
+			$html .= "</div>";
 		}else{
 			return $result;
 		}
 
 		$result = $html . $result;
-		return $result;
+		return ($result);
     }catch(\Exception $e){
-		return $result;
+		return ($result);
     }
 }
 
