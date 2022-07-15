@@ -78,10 +78,6 @@
         z-index: 9999999;
     }
 
-    .css-ueuzok {
-      z-index: 99999991 !important;
-    }
-
     #target-container {
       position: fixed;
       left: 0;
