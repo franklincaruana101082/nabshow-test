@@ -8,7 +8,7 @@ function gtm_header_lv_inclusion(){
     $post_id = get_the_id();
     $post_type = get_post_type( $post_id );
     $app_name = "NAB228";
-    $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
+    $segment_write_key = vip_get_env_var( 'SEGMENT_NABSHOW_WRITE_KEY' );
     ?>
 	<!-- Google Tag Manager -->
     <script>
