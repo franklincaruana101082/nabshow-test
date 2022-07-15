@@ -2,6 +2,8 @@
     $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
 ?>
 
+<div id="target-container"></div>
+
 <script>
   window.consentManagerConfig = function(exports) {
     var writeKey = '<?php echo $segment_write_key; ?>';
@@ -51,7 +53,54 @@
         left: 0;
         right: 0;
         bottom: 0;
+        box-shadow: 0 0 5px 0 rgb(0 0 0 / 30%);
         z-index: 9999999;
+    }
+
+    /*.css-ueuzok {
+      z-index: 99999991 !important;
+    }*/
+
+    #target-container {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999999;
+    }
+
+    /* Probably remove?
+    #target-container .css-17ss3j2 {
+      background-color: #fff;
+      color: #000;
+      min-height: 30px;
+      padding: 15px 80px 15px 30px;
+      text-align: left;
+    }*/
+
+    #target-container p button {
+      margin: 5px 0;
+      color: #e10189;
+    }
+    #target-container button[aria-label="Close"] {
+      background-color: #e10189;
+      color: #fff;
+      display: inline-block;
+      padding: 0;
+      right: 20px;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+    }
+    #target-container p {
+      display: inline;
+      vertical-align: middle;
+      margin: 0 5px 0 0;
+    }
+    #target-container p,
+    #target-container span {
+      color: #000;
+      font-size: 16px;
     }
 </style>
 

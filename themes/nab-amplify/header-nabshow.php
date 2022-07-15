@@ -49,7 +49,6 @@ add_action( 'wp_enqueue_scripts', 'remove_amplify_css', 99 );
 </head>
 
 <body <?php body_class(); ?>>
-<div id="target-container"></div>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
 
