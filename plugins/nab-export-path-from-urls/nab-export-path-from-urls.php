@@ -19,8 +19,10 @@ License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 require_once (plugin_dir_path(__FILE__) . 'functions.php');
 
 // This loads the plugin. Main function for this plugin are in this script file
-function nabshow_export_all_urls_activation(){
+function nabshow_export_all_urls_activation($content){
 	require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/export-path-from-urls.php' );
+
+	return $content;
 }
 add_filter('init','nabshow_export_all_urls_activation');
 
