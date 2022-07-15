@@ -40,6 +40,7 @@ if ( ! class_exists( 'Segment_Tracking' ) ) {
                 return;
             }
 
+            $data['userId'] = strval( $data['userId'] );
             $json_data = wp_json_encode( $data );
             $this->segment_tracking_queue_event( 'track', $json_data );
         }
