@@ -248,14 +248,14 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='" . $csv_url . "' target='_blank'><strong>Click here</strong></a> to Download.</div>";
             $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
-            $html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
+            $html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".$count."</strong>.</div>";
 
             break;
 
         case "here":
 
             $html .= "<h1 align='center' style='padding: 10px 0;'><strong>Below is a list of Exported Data:</strong></h1>";
-            $html .= "<h2 align='center' style='font-weight: normal;'>Total number of links: <strong>".esc_html($count)."</strong>.</h2>";
+            $html .= "<h2 align='center' style='font-weight: normal;'>Total number of links: <strong>$count</strong>.</h2>";
             $html .= "<table class='form-table' id='outputData'>";
             $html .= "<tr><th>#</th>";
             $html .= isset($urls['post_id']) ? "<th id='postID'>Post ID</th>" : null;
@@ -267,7 +267,7 @@ function eau_export_data($urls, $export_type, $csv_name)
             for ($i = 0; $i < $count; $i++) {
 
                 $id = $i + 1;
-                $html .= "<tr><td>" . $id . "</td>";
+                $html .= "<tr><td>$id</td>";
                 $html .= isset($urls['post_id']) ? "<td>".$urls['post_id'][$i]."</td>" : null;
                 $html .= isset($urls['post_type']) ? "<td>" . $urls['post_type'][$i] . "</td>" : null;
                 $html .= isset($urls['path']) ? "<td>" . $urls['path'][$i] . "</td>" : null;
@@ -289,7 +289,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
     }
 
-    echo esc_html($html);
+    esc_html_e($html);
 
 
 }

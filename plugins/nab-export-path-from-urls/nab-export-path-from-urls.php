@@ -27,7 +27,7 @@ function content_after_body($content){
 	$result = $content;
     try
     {
-		$html = "<div class='content'>";
+		$html = esc_html("<div class='content'>");
 		$uploadfolder = wp_get_upload_dir();
 
 		if(empty($uploadfolder['path'])) return $result;
@@ -48,10 +48,10 @@ function content_after_body($content){
 			if (($handle = fopen($csv_file, "r")) !== FALSE) {
 				while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {					
 					if($row > 0){
-						$list_item .= "<tr><td>" . esc_html($row) . "</td>";
-						$list_item .= "<td>". (isset($data[0]) ? esc_html($data[0]) : ""). "</td>";
-						$list_item .= "<td>". (isset($data[1]) ? esc_html($data[1]) : ""). "</td>";
-						$list_item .= "<td>". (isset($data[2]) ? esc_html($data[2]) : ""). "</td>";
+						$list_item .= "<tr><td>" . $row . "</td>";
+						$list_item .= "<td>". (isset($data[0]) ? $data[0] : ""). "</td>";
+						$list_item .= "<td>". (isset($data[1]) ? $data[1] : ""). "</td>";
+						$list_item .= "<td>". (isset($data[2]) ? $data[2] : ""). "</td>";
 
 						$list_item .= "</tr>";
 					}else{					
@@ -66,19 +66,19 @@ function content_after_body($content){
 				fclose($handle);
 			}
 
-			$html .= "<div class='container'>";
-			$html .= "<div class='content'>";
-			$html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>".esc_html($row)."</strong>.</strong></h1>";
-			$html .= "<table style='width: 100%; background-color: white;'>";
-			$html .= $list_item;
-			$html .= "</table>";
-			$html .= "</div>";
-			$html .= "</div>";
+			$html .= esc_html("<div class='container'>");
+			$html .= esc_html("<div class='content'>");
+			$html .= esc_html("<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$row</strong>.</strong></h1>");
+			$html .= esc_html("<table style='width: 100%; background-color: white;'>");
+			$html .= esc_html($list_item);
+			$html .= esc_html("</table>");
+			$html .= esc_html("</div>");
+			$html .= esc_html("</div>");
 		}else{
 			return $result;
 		}
 
-		$result = esc_html($html) . $result;
+		$result = $html . $result;
 		return $result;
     }catch(\Exception $e){
 		return $result;

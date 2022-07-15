@@ -85,12 +85,12 @@ function eau_generate_html()
     {
         for ($i = 0;$i < count($custom_posts_names);$i++)
         {
-            echo '<label><input type="radio" name="post-type" value="' . esc_html($custom_posts_names[$i]) . '" required="required" /> ' . esc_html($custom_posts_labels[$i]) . ' Posts</label><br>';
+            esc_html_e('<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>');
         }
     }
 
 
-		echo "<script>
+    esc_js_e("<script>
 				jQuery(function(){
 					var body = document.body,
 					html = document.documentElement;
@@ -100,7 +100,7 @@ function eau_generate_html()
 					var scroll_pos=(height);
 					jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
 				});
-			</script>";
+			</script>");
 
 
 ?>
@@ -160,13 +160,21 @@ function eau_generate_html()
 
                                 <td>
 							<?php
-							$posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
-							$posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
+                            $nonce = $_REQUEST['_wpnonce'];
+
+                            if ( ! wp_verify_nonce( $nonce, 'my-nonce' ) ) {
+                            
+                                 die( 'Security check' ); 
+                            
+                            } else {
+                                $posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
+                                $posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
+                            }
 							?>
-                                    <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php echo $posts_from; ?>"
+                                    <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php esc_attr($posts_from); ?>"
                                                        onmouseleave="setMinValueForPostsUptoField()"
                                                        onfocusout="setMinValueForPostsUptoField()"/></label>
-                                    <label>To:<input type="date" id="posts-upto" name="posts-upto" value="<?php echo $posts_upto; ?>"/></label><br/>
+                                    <label>To:<input type="date" id="posts-upto" name="posts-upto" value="<?php esc_attr($posts_upto); ?>"/></label><br/>
 
 
                                 </td>
