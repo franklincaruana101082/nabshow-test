@@ -49,7 +49,7 @@ function eau_get_selected_post_type($post_type, $custom_posts_names)
 
 function eau_extract_relative_path ($url)
 {
-    return parse_url($url, PHP_URL_PATH);
+    return wp_parse_url($url, PHP_URL_PATH);
 }
 
 function eau_is_checked($name, $value)
@@ -187,7 +187,7 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['path'][$counter] = (isset($html['path'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['path'][$counter] .= parse_url(get_permalink(), PHP_URL_PATH) . $line_break;
+            $html['path'][$counter] .= wp_parse_url(get_permalink(), PHP_URL_PATH) . $line_break;
 
 			$counter++;
 
@@ -207,7 +207,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
     $html = "";
 
-    $file_path = wp_upload_dir();
+    $file_path = wp_get_upload_dir();
 
     $count = 0;
     foreach ($urls as $item) {
@@ -223,7 +223,7 @@ function eau_export_data($urls, $export_type, $csv_name)
             $headers = array();
 
             $file = $file_path['path'] . "/exported-paths-from-urls.CSV";
-            $myfile = @fopen($file, "w") or die("<div class='error' style='width: 95.3%; margin-left: 2px;'>Unable to create a file on your server! (either invalid name supplied or permission issue)</div>");
+            $myfile = @fopen($file, "w") or wp_die("<div class='error' style='width: 95.3%; margin-left: 2px;'>Unable to create a file on your server! (either invalid name supplied or permission issue)</div>");
             fprintf($myfile, "\xEF\xBB\xBF");
 
             $csv_url = esc_url($file_path['url'] . "/" . $csv_name . ".CSV");
@@ -289,7 +289,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
     }
 
-    echo $html;
+    echo esc_html($html);
 
 
 }

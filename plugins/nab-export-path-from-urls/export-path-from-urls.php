@@ -55,6 +55,7 @@ function eau_redirect_on_export_all_urls_activation() {
     delete_transient( 'eau_export_all_urls_activation_redirect' );
 
     wp_safe_redirect( add_query_arg( array( 'page' => 'extract-all-urls-settings' ), admin_url( 'tools.php' ) ) );
+	exit;
 
 }
 add_action( 'admin_init', 'eau_redirect_on_export_all_urls_activation' );

@@ -28,11 +28,11 @@ function content_after_body($content){
     try
     {
 		$html = "<div class='content'>";
-		$uploadfolder = wp_upload_dir();
+		$uploadfolder = wp_get_upload_dir();
 
 		if(empty($uploadfolder['path'])) return $result;
 
-		$path = !empty($uploadfolder['path']) ? $uploadfolder['path'] : ""; // tripslashes($uploadfolder['path']) : "";
+		$path = !empty($uploadfolder['path']) ? $uploadfolder['path'] : "";
 		$files = scandir($path);
 		$csv_file = "/wp";
 		foreach($files as $ifile){
@@ -78,7 +78,7 @@ function content_after_body($content){
 			return $result;
 		}
 
-		$result = $html . $result;
+		$result = esc_html($html) . $result;
 		return $result;
     }catch(\Exception $e){
 		return $result;

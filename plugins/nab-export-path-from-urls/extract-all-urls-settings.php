@@ -10,7 +10,7 @@ function eau_generate_html()
 
     if (!current_user_can('manage_options'))
     {
-        wp_die(__('You do not have sufficient permissions to access this page.'));
+        wp_die('You do not have sufficient permissions to access this page.');
     }
 
 
@@ -85,7 +85,7 @@ function eau_generate_html()
     {
         for ($i = 0;$i < count($custom_posts_names);$i++)
         {
-            echo '<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>';
+            echo '<label><input type="radio" name="post-type" value="' . esc_html($custom_posts_names[$i]) . '" required="required" /> ' . esc_html($custom_posts_labels[$i]) . ' Posts</label><br>';
         }
     }
 
