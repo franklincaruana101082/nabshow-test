@@ -26,7 +26,7 @@ add_filter('init','nabshow_export_all_urls_activation');
 
 add_filter( 'plugin_action_links', 'disable_export_paths_plugin_deactivation', 10, 2  );
 
-
+// Hide Activate/Deactivate Plugin Link
 function disable_export_paths_plugin_deactivation( $actions, $plugin_file ) {
  
     if ( plugin_basename( __FILE__ ) === $plugin_file ) {
