@@ -1,8 +1,5 @@
 <?php
     $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
-    if(empty($segment_write_key)) {
-      $segment_write_key = "zl4qcufyCX88jq6nc4tQPO1XTZX8XAAO";
-    }
 ?>
 
 <div id="target-container"></div>
@@ -33,22 +30,43 @@
     var cancelDialogContent =
       'Your preferences have not been saved. By continuing to use our website, you՚re agreeing to our Website Data Collection Policy.'
 
+
+    exports.preferences.onPreferencesSaved(function(prefs) {  });      
+
+      var myEl = document.getElementById('target-container'); // Get DOM nap-amp-cookie-consent container
+      // Capture nab-amp-cookie-consent button click
+      myEl.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent a link from opening the URL:
+        // Check if event triggered or event source is from button close on notif dialog
+        if(e.target.tagName.toLowerCase() === 'button' && e.target?.getAttributeNode('aria-label')?.value?.toLowerCase() === 'close'){
+
+          // define default Destination and Custom Preferences
+          const defaultDesPref =  {"Amazon Kinesis":true,"Amazon S3":true,"Data Lakes":true,"Facebook Pixel":false,"Google Analytics":true,"Hotjar":true,"LinkedIn Insight Tag":false,"Marketo V2":true,"Parsely":true,"Salesforce Marketing Cloud":true,"Visual Tagger":true};
+          const defaultCusPref =  {marketingAndAnalytics:true, advertising:false, functional:true};
+
+          // save default preferences
+          exports.preferences.savePreferences({ destinationPreferences: defaultDesPref, customPreferences: defaultCusPref });
+        }
+      })
+      //===
+
+
     return {
       container: '#target-container',
       writeKey: writeKey,   
-      shouldRequireConsent: inEU,
       bannerContent: bannerContent,
       bannerSubContent: bannerSubContent,
       preferencesDialogTitle: preferencesDialogTitle,
       preferencesDialogContent: preferencesDialogContent,
       cancelDialogTitle: cancelDialogTitle,
       cancelDialogContent: cancelDialogContent,
-      defaultDestinationBehavior: 'enabled'
+      defaultDestinationBehavior: 'enabled',
+      closeBehavior: 'accept'
     }
   }
 </script>
 
-<script src="/wp-content/themes/nab-amplify/js/consent-manager.js"></script>
+<script src="https://unpkg.com/@segment/consent-manager@5.6.0/standalone/consent-manager.js" defer></script>
 
 <style>
     #target-container {
@@ -73,7 +91,7 @@
     }
 
     /* Probably remove? */
-    #target-container .css-17ss3j2 {
+    #target-container > div[class] {
       background-color: #fff;
       color: #000;
       min-height: 30px;
