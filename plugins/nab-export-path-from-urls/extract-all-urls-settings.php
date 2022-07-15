@@ -246,7 +246,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: table-row">
+                            <tr class="advance-options" style="display: none">
 
                                 <th>CSV File Name: </th>
 
