@@ -1,5 +1,8 @@
 <?php
     $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
+    if(empty($segment_write_key)) {
+      $segment_write_key = "zl4qcufyCX88jq6nc4tQPO1XTZX8XAAO";
+    }
 ?>
 
 <div id="target-container"></div>
@@ -57,9 +60,9 @@
         z-index: 9999999;
     }
 
-    /*.css-ueuzok {
+    .css-ueuzok {
       z-index: 99999991 !important;
-    }*/
+    }
 
     #target-container {
       position: fixed;
@@ -69,14 +72,14 @@
       z-index: 9999999;
     }
 
-    /* Probably remove?
+    /* Probably remove? */
     #target-container .css-17ss3j2 {
       background-color: #fff;
       color: #000;
       min-height: 30px;
       padding: 15px 80px 15px 30px;
       text-align: left;
-    }*/
+    }
 
     #target-container p button {
       margin: 5px 0;
