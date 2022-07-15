@@ -10,7 +10,7 @@ function eau_generate_html()
 
     if (!current_user_can('manage_options'))
     {
-        wp_die('You do not have sufficient permissions to access this page.');
+        wp_die(__('You do not have sufficient permissions to access this page.'));
     }
 
 
@@ -51,7 +51,6 @@ function eau_generate_html()
     }
 
     $file_path = wp_upload_dir();
-    // $file_name = 'export-all-urls-' . rand(111111, 999999);
     $file_name = 'export-all-urls';
 
 ?>
@@ -66,7 +65,7 @@ function eau_generate_html()
                 <div class="inside">
 
                     <form id="infoForm" method="post">
-                    <?php wp_nonce_field('export_urls'); ?>
+
                         <table class="form-table">
 
                             <tr>
@@ -85,12 +84,12 @@ function eau_generate_html()
     {
         for ($i = 0;$i < count($custom_posts_names);$i++)
         {
-            esc_html('<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>');
+            echo '<label><input type="radio" name="post-type" value="' . $custom_posts_names[$i] . '" required="required" /> ' . $custom_posts_labels[$i] . ' Posts</label><br>';
         }
     }
 
 
-    esc_js("<script>
+		echo "<script>
 				jQuery(function(){
 					var body = document.body,
 					html = document.documentElement;
@@ -100,7 +99,7 @@ function eau_generate_html()
 					var scroll_pos=(height);
 					jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
 				});
-			</script>");
+			</script>";
 
 
 ?>
@@ -160,20 +159,13 @@ function eau_generate_html()
 
                                 <td>
 							<?php
-                            $posts_from = "2000-01-01";
-                            $posts_upto = "2022-01-01";
-                            
-                            if(!empty($_POST['posts-from'])){
-                                $posts_from = sanitize_file_name($_POST['posts-from']);
-                            }
-                            if(!empty($_POST['posts-upto'])){
-                                $posts_upto = sanitize_file_name($_POST['posts-upto']);
-                            }
+							$posts_from = (!empty($_POST['posts-from'])?sanitize_file_name($_POST['posts-from']):"2000-01-01");
+							$posts_upto = (!empty($_POST['posts-upto'])?sanitize_file_name($_POST['posts-upto']):"2022-01-01");
 							?>
-                                    <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php esc_attr($posts_from); ?>"
+                                    <label>From:<input type="date" id="posts-from" name="posts-from" value="<?php echo $posts_from; ?>"
                                                        onmouseleave="setMinValueForPostsUptoField()"
                                                        onfocusout="setMinValueForPostsUptoField()"/></label>
-                                    <label>To:<input type="date" id="posts-upto" name="posts-upto" value="<?php esc_attr($posts_upto); ?>"/></label><br/>
+                                    <label>To:<input type="date" id="posts-upto" name="posts-upto" value="<?php echo $posts_upto; ?>"/></label><br/>
 
 
                                 </td>
@@ -193,7 +185,7 @@ function eau_generate_html()
     {
         for ($i = 0;$i < count($user_ids);$i++)
         {
-            esc_html('<label><input type="radio" name="post-author" value="' . $user_ids[$i] . '" required="required" /> ' . $user_names[$i] . '</label><br>');
+            echo '<label><input type="radio" name="post-author" value="' . $user_ids[$i] . '" required="required" /> ' . $user_names[$i] . '</label><br>';
         }
     }
 ?>
@@ -254,7 +246,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: none">
+                            <tr class="advance-options" style="display: table-row">
 
                                 <th>CSV File Name: </th>
 
@@ -262,9 +254,9 @@ function eau_generate_html()
 
                                     <label><input
                                                 type="text" name="csv-file-name" placeholder="An Error Occured"
-                                                value="<?php esc_attr($file_name); ?>"
+                                                value="<?php echo $file_name; ?>"
                                                 size="30%"/></label><br/>
-                                                <code><?php esc_html($file_path['path']); ?></code>
+                                                <code><?php echo $file_path['path']; ?></code>
 
 
                                 </td>
@@ -298,7 +290,7 @@ function eau_generate_html()
                             </tr>
 
                         </table>
-                       
+                        <?php wp_nonce_field('export_urls'); ?>
 
                     </form>
 
@@ -450,12 +442,12 @@ function eau_generate_html()
                 $remove_woo_attributes = isset($_POST['remove-woo-attributes']) ? sanitize_text_field($_POST['remove-woo-attributes']) : null;
                 $exclude_domain = isset($_POST['exclude-domain']) ? sanitize_text_field($_POST['exclude-domain']) : null;
                 $number_of_posts = sanitize_text_field($_POST['number-of-posts']);
-                $csv_name = !empty(($_POST['csv-file-name'])) ? sanitize_file_name($_POST['csv-file-name']) : null;
+                $csv_name = sanitize_file_name($_POST['csv-file-name']);
 
                 if ($number_of_posts == "range")
                 {
-                    $offset = !empty($_POST['starting-point']) ? absint($_POST['starting-point']) : 0;
-                    $post_per_page = !empty($_POST['ending-point']) ? absint($_POST['ending-point']) : 0;
+                    $offset = absint($_POST['starting-point']);
+                    $post_per_page = absint($_POST['ending-point']);
 
                     if (!isset($offset) || !isset($post_per_page))
                     {
@@ -519,14 +511,14 @@ function eau_generate_html()
     }
     elseif (isset($_REQUEST['del']) && $_REQUEST['del'] == 'y')
     {
-        if (!isset($_REQUEST['_wpnonce']) || (!isset($_GET['_wpnonce']) && !wp_verify_nonce($_GET['_wpnonce'])))
+        if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce']))
         {
             echo "You are not authorized to perform this action!";
             exit();
         }
         else
         {
-            $file = !empty(($_REQUEST['f'])) ? base64_decode($_REQUEST['f']) : null;
+            $file = base64_decode($_REQUEST['f']);
             echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>");
         }
 
