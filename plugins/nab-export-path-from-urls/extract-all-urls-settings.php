@@ -61,9 +61,9 @@ function eau_generate_html()
                 <div class="inside">
 
                     <form id="infoForm" method="post">
-                        
+
                         <?php wp_nonce_field('export_urls'); ?>
-                    
+
                         <table class="form-table">
 
                             <tr style="display: none;">
@@ -235,12 +235,12 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr  style="display: none">                        
+                            <tr  style="display: none">
                                 <td>
                                 <input
                                                     type="text" name="csv-file-name" placeholder="An Error Occured"
                                                     value="<?php echo esc_attr($file_name); ?>"
-                                                    size="30%"/>                
+                                                    size="30%"/>
                                 </td>
                             </tr>
                             <tr >
@@ -249,11 +249,11 @@ function eau_generate_html()
 
                                 <td>
 
-                                        
+
 
                                     <label><input
                                                 type="text" value="<?php echo esc_attr($file_name); ?>"
-                                                disabled size="30%"/></label>                                                
+                                                disabled size="30%"/></label>
                                                 <br/>
                                                 <code><?php echo esc_html($file_path); ?></code>
 
@@ -512,15 +512,14 @@ function eau_generate_html()
             echo "You are not authorized to perform this action!";
             exit();
         }
-        else if(isset($_REQUEST['del']) && $_REQUEST['del'] == 'y') 
+        else if(isset($_REQUEST['del']) && $_REQUEST['del'] == 'y')
         {
             $file_dir = wp_get_upload_dir();
-            $checkfile = !empty($_REQUEST['f']) ? base64_decode(sanitize_text_field($_REQUEST['f'])) : null;            
+            $checkfile = !empty($_REQUEST['f']) ? base64_decode(sanitize_text_field($_REQUEST['f'])) : null;
             $file = $file_dir['path']."/".$checkfile;
             echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>"); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_unlink
-        }      
+        }
     }
 }
 
 eau_generate_html();
-  

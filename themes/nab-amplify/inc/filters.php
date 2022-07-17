@@ -127,3 +127,35 @@ add_filter( 'wp_insert_post_data', 'nab_update_spcial_character_post_title' );
 
 add_filter( 'woocommerce_report_orders_export_columns', 'nab_woocommerce_report_orders_export_columns' );
 add_filter( 'woocommerce_report_orders_prepare_export_item', 'nab_woocommerce_report_orders_prepare_export_item', 10, 2 );
+
+/**
+ * Enable Debug Bar for a defined set of roles or users.
+ *
+ * @param bool $enable Whether the Debug bar should be enabled.
+ */
+function vip_custom_enable_debug( $enable ) {  
+
+    $allowed_roles = array( 'administrator' );
+	// Optional, enable for specific user logins.
+    // $allowed_users = array( 'dev_user_login', 'qa_user_login' );
+
+    if ( is_user_logged_in() ) {
+        $user  = wp_get_current_user();
+        $login = $user->get('user_login');
+        $roles = (array) $user->roles;
+
+        // Allow if the user is assigned a role in the $allow_role array.
+        if ( count( array_intersect( $roles, $allowed_roles ) ) > 0 ) {
+            return true;
+        }
+
+        // Allow if the user's login is in the $allowed_users array.
+        if ( isset( $allowed_users ) && in_array( $login, $allowed_users ) ) {
+            return true;
+        }
+    }
+
+    return $enable; 
+}
+ 
+add_filter( 'debug_bar_enable', 'vip_custom_enable_debug', 100, 1 );

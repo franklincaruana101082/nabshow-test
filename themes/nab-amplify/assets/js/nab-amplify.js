@@ -37,9 +37,13 @@
     /**
      * Display loader in sing in and sign up page after click on submit button.
      */
-    $(document).on('click', 'form.signup .signup__cta .button, form.signup__fields .signup__cta .button', function(){
-      $('.loader-with-text').addClass('active');
-    });
+    $(document).on(
+      "click",
+      "form.signup .signup__cta .button, form.signup__fields .signup__cta .button",
+      function () {
+        $(".loader-with-text").addClass("active");
+      }
+    );
 
     $(".section-professional-details .user-job-role-select").select2({
       width: "100%",
@@ -176,6 +180,13 @@
         }
       });
     }
+
+    $(document).on("click", ".menu__item-cookie-preferences", function (e) {
+      e.stopPropagation();
+      if (consentManager) {
+        consentManager.openConsentManager();
+      }
+    });
 
     $(document).on("click", ".notification-wrapper", function () {
       $(this).toggleClass("hover");
@@ -2162,7 +2173,7 @@
     } // End if
   });
 
-  jQuery(window).load(function () {
+  jQuery(window).on('load',function () {
     if (window.location.hash) {
       jQuery("html, body").animate(
         {
@@ -2201,7 +2212,7 @@
   });
 
   // on load
-  $(window).load(function () {
+  $(window).on('load',function () {
     $(".video_added").removeClass("woocommerce-product-gallery__image");
 
     $(".custom_thumb.video_added a").fancybox({
