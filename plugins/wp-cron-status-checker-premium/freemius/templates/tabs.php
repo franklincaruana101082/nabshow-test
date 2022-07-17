@@ -154,7 +154,7 @@
             <?php endforeach ?>
 
             var selectTab = function ($tab) {
-                $(window).load(function () {
+                $(window).on('load',function () {
                     $tab.click();
 
                     // Scroll to the top since the browser will auto scroll to the anchor.

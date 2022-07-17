@@ -49,7 +49,9 @@ function eau_get_selected_post_type($post_type, $custom_posts_names)
 
 function eau_extract_relative_path ($url)
 {
-    return parse_url($url, PHP_URL_PATH);
+    $parseurl = wp_parse_url($url);
+
+    return $parseurl['path'];
 }
 
 function eau_is_checked($name, $value)
@@ -154,7 +156,7 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['post_id'][$counter] = (isset($html['post_id'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['post_id'][$counter] .= get_the_ID(); // . $line_break;
+            $html['post_id'][$counter] .= get_the_ID();
             $counter++;
 
         endwhile;
@@ -170,7 +172,7 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['post_type'][$counter] = (isset($html['post_type'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['post_type'][$counter] .= get_post_type( get_the_ID() ); // . $line_break;
+            $html['post_type'][$counter] .= get_post_type( get_the_ID() );
 
 			$counter++;
 
@@ -187,7 +189,7 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
             $html['path'][$counter] = (isset($html['path'][$counter]) ? "" : null);
 
             $posts_query->the_post();
-            $html['path'][$counter] .= parse_url(get_permalink(), PHP_URL_PATH); // . $line_break;
+            $html['path'][$counter] .= eau_extract_relative_path(get_permalink()); 
 
 			$counter++;
 
@@ -207,13 +209,12 @@ function eau_export_data($urls, $export_type, $csv_name)
 
     $html = "";
 
-    $file_path = wp_get_upload_dir();
-
     $count = 0;
     foreach ($urls as $item) {
         $count = count($item);
     }
 
+    $files_dir  = wp_upload_dir( null, true, true );
 
     switch ($export_type) {
 
@@ -221,18 +222,13 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             $data = '';
             $headers = array();
-
-            $file = $file_path['path'] . "/exported-paths-from-urls.CSV";
-            $myfile = @fopen($file, "w") or wp_die("<div class='error' style='width: 95.3%; margin-left: 2px;'>Unable to create a file on your server! (either invalid name supplied or permission issue)</div>");
-            fprintf($myfile, "\xEF\xBB\xBF");
-
-            $csv_url = $file_path['url'] . "/" . $csv_name . ".CSV";
-
+            $outstream = fopen( $files_dir['path']."/$csv_name.CSV", "w"); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+            $csv_file = $files_dir['path']."/$csv_name.CSV";
             $headers[] = 'Post ID';
             $headers[] = 'Post Type';
             $headers[] = 'Paths';
 
-            fputcsv($myfile, $headers);
+            fputcsv($outstream, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
 
             for ($i = 0; $i < $count; $i++) {
                 $data = array(
@@ -241,13 +237,13 @@ function eau_export_data($urls, $export_type, $csv_name)
                     isset($urls['path']) ? $urls['path'][$i] : ""
                 );
 
-                fputcsv($myfile, $data);
+                fputcsv($outstream, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
             }
 
-            fclose($myfile);
+            fclose($outstream);
 
-            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='" . $csv_url . "' target='_blank'><strong>Click here</strong></a> to Download.</div>";
-            $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
+            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".esc_url($csv_file)."' target='_blank' download><strong>Click here</strong></a> to Download.</div>";
+            $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
             $html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
             break;
@@ -277,19 +273,242 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             $html .= "</table>";
 
-
-
             break;
 
         default:
 
             echo "Sorry, you missed export type, Please <strong>Select Export Type</strong> and try again! :)";
             break;
+    }    
+    echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
 
+function content_after_body_full_list($content, $csv_name = "exported-paths-from-urls.CSV"){
+	
+	$result = $content;
+    try
+    {
+		$html = "";
+		$files_dir  = wp_get_upload_dir();
+        
+        if(!file_exists($files_dir['path'])) return $result;
+        
+        $csv_file = $files_dir['path']."/$csv_name";
+		
+		if(!file_exists($csv_file) || !is_file($csv_file)) return $result;
+        
+        $row = 0;
+        
+        $list_item = "";
+        if (($handle = fopen($csv_file, "r")) !== FALSE) {  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+            while (($data = fgetcsv($handle, 0, ",")) !== FALSE) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+                if($row > 0){
+                    $list_item .= "<tr><td>" . $row . "</td>";
+                    $list_item .= "<td>". (isset($data[0]) ? $data[0] : ""). "</td>";
+                    $list_item .= "<td>". (isset($data[1]) ? $data[1] : ""). "</td>";
+                    $list_item .= "<td>". (isset($data[2]) ? $data[2] : ""). "</td>";
+
+                    $list_item .= "</tr>";
+                }else{					
+                    $list_item .= "<tr><th>#</th>";
+                    $list_item .= "<th id='postID'>Post ID</th>";
+                    $list_item .= "<th id='postID'>Post Type</th>";
+                    $list_item .= "<th id='postPath'>Paths</th></tr>";
+                }
+
+                $row++;
+            }
+            fclose($handle);
+        }
+
+        $html .= "<div class='container'>";
+        $html .= "<div class='content'>";
+        $html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$row</strong>.</strong></h1>";
+        $html .= "<table style='width: 100%; background-color: white;'>";
+        $html .= $list_item;
+        $html .= "</table>";
+        $html .= "</div>";
+        $html .= "</div>";
+
+		$result = $html . $result;
+
+		return $result;
+
+    }catch(\Exception $e){
+
+		return $result;
 
     }
+}
+
+function csvToArray($csvFile){
+ 
+    $file_to_read = fopen($csvFile, 'r'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+ 
+    while (!feof($file_to_read) ) {
+        $lines[] = fgetcsv($file_to_read, 1000, ',');
+ 
+    }
+ 
+    fclose($file_to_read);
+    return $lines;
+}
+
+function retrieve_exported_file_to_array($path, $csv_name = "exported-paths-from-urls.CSV"){
+    $rowdata = [];        
     
-    echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    $csv_file = "$path/$csv_name";
+    if (!file_exists($csv_file) || !is_file($csv_file)){
+        
+        $pathnositesid = preg_replace('/\/sites\/[0-9]+/','',$path);
+        $csv_file = "$pathnositesid/$csv_name";
+    }
 
+    if (!file_exists($csv_file) || !is_file($csv_file)) return $rowdata;
 
+    $rowdata = csvToArray($csv_file);
+    
+    return $rowdata;
+}
+
+function get_range_exported_file_to_array($data = [], $offset_pos, $range_length){
+    
+    if($offset_pos == 0) $offset_pos = 1;
+
+    $limit = (($range_length + $offset_pos) < count($data)) ? ($range_length + $offset_pos) : count($data);
+
+    $range_data = [];
+    $i = 0;
+
+    foreach(range ($data[$offset_pos],$data[$limit]) as $rdata){
+        $range_data[$i++] = $rdata;
+    }
+
+    $row_data = (!empty($range_data) && count($range_data) > 0 ? $range_data : $data);
+
+    return $row_data;
+}
+
+function get_rows_pagination($data = []){
+    $html = "";
+    $pagination = "";
+    try {
+                
+        $numrows = count($data);
+
+        // number of rows to show per page
+        $rowsperpage = 10;
+
+        if($numrows == 0) return $data;
+
+        // find out total pages
+        $totalpages = ceil($numrows / $rowsperpage);
+
+        // get the current page or set a default
+        if (isset($_GET['currentpage']) && !wp_verify_nonce(sanitize_text_field($_GET['currentpage'])) && is_numeric(sanitize_text_field($_GET['currentpage']))) {
+            // cast var as int
+            $currentpage = (int) $_GET['currentpage'];
+        } else {
+            // default page num
+            $currentpage = 1;
+        } // end if
+
+        // if current page is greater than total pages...
+        if ($currentpage > $totalpages) {
+            // set current page to last page
+            $currentpage = $totalpages;
+        } // end if
+        
+        // if current page is less than first page...
+        if ($currentpage < 1) {
+            // set current page to first page
+            $currentpage = 1;
+        } // end if
+
+        // the offset of the list, based on current page 
+        $offset = ($currentpage - 1) * $rowsperpage;
+
+        $rowdata = get_range_exported_file_to_array($data, $offset, $rowsperpage);
+
+        /******  build the pagination links ******/
+        // range of num links to show
+        $range = 3;
+
+        $phpself = !empty($_SERVER['PHP_SELF']) ? sanitize_text_field($_SERVER['PHP_SELF']) : "";
+        // if not on page 1, don't show back links
+        if ($currentpage > 1) {
+            // show << link to go back to page 1
+            $pagination .= " <a href='$phpself?currentpage=1'><<</a> ";
+            // get previous page num
+            $prevpage = $currentpage - 1;
+            // show < link to go back to 1 page
+            $pagination .= " <a href='$phpself?currentpage={$prevpage}'><</a> ";
+        } // end if 
+
+        // loop to show links to range of pages around current page
+        for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++) {
+            // if it's a valid page number...
+            if (($x > 0) && ($x <= $totalpages)) {
+                // if we're on current page...
+                if ($x == $currentpage) {
+                    // 'highlight' it but don't make a link
+                    $pagination .= " [<b>$x</b>] ";
+                // if not current page...
+                } else {
+                    // make it a link
+                    $pagination .= " <a href='$phpself?currentpage=$x'>$x</a> ";
+                } // end else
+            } // end if 
+        } // end for
+        // if not on last page, show forward and last page links        
+        if ($currentpage != $totalpages) {
+            // get next page
+            $nextpage = $currentpage + 1;
+                // echo forward link for next page 
+            $pagination .= " <a href='$phpself?currentpage={$nextpage}'>></a> ";
+            // echo forward link for lastpage
+            $pagination .= " <a href='$phpself?currentpage={$totalpages}'>>></a> ";
+        } // end if
+        /****** end build pagination links ******/
+        // Prepare the paged query		
+		
+        $row = 0;
+        $cnt = 0;
+        
+        $list_item = "";
+
+        $list_item .= "<tr><th>#</th>";
+        $list_item .= "<th id='postID'>Post ID</th>";
+        $list_item .= "<th id='postID'>Post Type</th>";
+        $list_item .= "<th id='postPath'>Paths</th></tr>";
+
+        foreach ($rowdata as $rdata) {
+            if ($row > 0) {
+                $list_item .= "<tr><td>" . $row . "</td>";
+                $list_item .= "<td>". $rdata[0] . "</td>";
+                $list_item .= "<td>". $rdata[1] . "</td>";
+                $list_item .= "<td>". $rdata[2] . "</td>";
+                $list_item .= "</tr>";
+
+                $cnt++;
+            }
+            $row++;
+        }
+
+        $nav_paging = ($cnt)." / ".($cnt);
+
+        $html .= "<div class='container'>";
+        $html .= "<div class='content'>";
+        $html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$nav_paging</strong>.</strong></h1>";
+        $html .= "<table style='width: 100%; background-color: white;'>";
+        $html .= $list_item;
+        $html .= "</table>";
+        $html .= "</div>";
+        $html .= "<div class='content' style='text-align: center; padding: 25px;'>{$pagination}</div>";
+        $html .= "</div>";	
+
+        return $html;
+    }catch(\Exception $e){        
+        return $html.$e->getMessage;
+    }
 }
