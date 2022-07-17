@@ -1,8 +1,6 @@
 <?php
 
 
-require_once (plugin_dir_path(__FILE__) . 'functions.php');
-
 function eau_extract_all_urls_nav(){
 
     add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-all-urls-settings', 'eau_include_settings_page' );
