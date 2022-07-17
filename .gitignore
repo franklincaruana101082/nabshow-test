@@ -41,4 +41,7 @@ node_modules
 composer.json
 composer.lock
 /vendor/
-/wp-content/
+
+
+package-lock.json
+package.json

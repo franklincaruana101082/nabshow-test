@@ -14,7 +14,6 @@
 
 </div> <!-- end site-content -->
 </div><!-- #page -->
-<div id="nab-amp-cookie-consent"></div>
 
 <?php get_template_part('template-parts/tracking', 'consent'); ?>
 

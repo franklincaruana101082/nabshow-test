@@ -191,7 +191,7 @@ function eau_generate_output($selected_post_type, $post_status, $post_author, $r
 
             $posts_query->the_post();
 
-            $html['path'][$counter] .= eau_extract_relative_path(get_permalink()); 
+            $html['path'][$counter] .= eau_extract_relative_path(get_permalink());
 
 			$counter++;
 
@@ -215,11 +215,11 @@ function eau_export_data($urls, $export_type, $csv_name)
     foreach ($urls as $item) {
         $count = count($item);
     }
-    
+
     $upload_dir = wp_upload_dir();
     $files_dir  = $upload_dir['path'];
     $csv_file = "$files_dir/$csv_name.CSV";
-    
+
     switch ($export_type) {
         case "text":
 
@@ -244,7 +244,7 @@ function eau_export_data($urls, $export_type, $csv_name)
                 fputcsv($myfile, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
             }
 
-            fclose($myfile);
+            fclose($outstream);
 
             $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".esc_url($csv_file)."' target='_blank' download><strong>Click here</strong></a> to Download.</div>";
             $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
@@ -283,28 +283,28 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             echo "Sorry, you missed export type, Please <strong>Select Export Type</strong> and try again! :)";
             break;
-    }    
+    }
     echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 function content_after_body_full_list($content, $csv_name = "exported-paths-from-urls.CSV"){
-	
+
 	$result = $content;
     try
     {
 		$html = "";
-		
+
         $upload_dir = wp_get_upload_dir();
         $files_dir = $upload_dir['path'];
 
         if(!file_exists($files_dir)) return $result;
-        
+
         $csv_file = "$files_dir/$csv_name";
-		
+
 		if(!file_exists($csv_file) || !is_file($csv_file)) return $result;
-        
+
         $row = 0;
-        
+
         $list_item = "";
         if (($handle = fopen($csv_file, "r")) !== FALSE) {  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
@@ -315,7 +315,7 @@ function content_after_body_full_list($content, $csv_name = "exported-paths-from
                     $list_item .= "<tr>". (isset($data[3]) ? $data[3] : ""). "</td>";
 
                     $list_item .= "</tr>";
-                }else{					
+                }else{
                     $list_item .= "<tr><th>#</th>";
                     $list_item .= "<th id='postID'>Post ID</th>";
                     $list_item .= "<th id='postID'>Post Type</th>";
@@ -348,20 +348,20 @@ function content_after_body_full_list($content, $csv_name = "exported-paths-from
 }
 
 function csvToArray($csvFile){
- 
+
     $file_to_read = fopen($csvFile, 'r'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
     $i = 0;
     while (!feof($file_to_read) ) {
         $lines[$i++] = fgetcsv($file_to_read, 1000, ',');
- 
+
     }
- 
+
     fclose($file_to_read);
     return $lines;
 }
 
 function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.CSV"){
-    $rowdata = [];        
+    $rowdata = [];
 
     $upload_dir = wp_get_upload_dir();
 	$path = $upload_dir['path'];
@@ -370,17 +370,17 @@ function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.C
     if (!file_exists($csv_file) || !is_file($csv_file)) return $rowdata;
 
     $rowdata = csvToArray($csv_file);
-    
+
     return $rowdata;
 }
 
 function get_range_exported_file_to_array($data = [], $offset_pos, $range_length){
-    
+
     $limit =($range_length + $offset_pos);
     $range_data = [];
     $cnt = 0;
 
-    for($i = $offset_pos; $i < $limit ; $i++){        
+    for($i = $offset_pos; $i < $limit ; $i++){
         $range_data[$cnt++] = $data[$i];
     }
 
@@ -393,7 +393,7 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
     $html = "";
     $pagination = "";
     try {
-                
+
         $numrows = count($data);
 
         // number of rows to show per page
@@ -418,14 +418,14 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
             // set current page to last page
             $currentpage = $totalpages;
         } // end if
-        
+
         // if current page is less than first page...
         if ($currentpage < 1) {
             // set current page to first page
             $currentpage = 1;
         } // end if
 
-        // the offset of the list, based on current page 
+        // the offset of the list, based on current page
         $offset = ($currentpage - 1) * $rowsperpage;
 
         $rowdata = get_range_exported_file_to_array($data, $offset, $rowsperpage);
@@ -443,7 +443,7 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
             $prevpage = $currentpage - 1;
             // show < link to go back to 1 page
             $pagination .= " <a href='".esc_url($phpself)."?currentpage={$prevpage}'><</a> ";
-        } // end if 
+        } // end if
 
         // loop to show links to range of pages around current page
         for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++) {
@@ -458,24 +458,24 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
                     // make it a link
                     $pagination .= " <a href='".esc_url($phpself)."?currentpage=$x'>$x</a> ";
                 } // end else
-            } // end if 
+            } // end if
         } // end for
-        // if not on last page, show forward and last page links        
+        // if not on last page, show forward and last page links
         if ($currentpage != $totalpages) {
             // get next page
             $nextpage = $currentpage + 1;
-                // echo forward link for next page 
+                // echo forward link for next page
             $pagination .= " <a href='".esc_url($phpself)."?currentpage={$nextpage}'>></a> ";
             // echo forward link for lastpage
             $pagination .= " <a href='".esc_url($phpself)."?currentpage={$totalpages}'>>></a> ";
         } // end if
         /****** end build pagination links ******/
-        // Prepare the paged query		
-		
+        // Prepare the paged query
+
         $row = 0;
         $cnt = 0;
-        
-        $list_item = "";        
+
+        $list_item = "";
 
         foreach ($rowdata as $rdata) {
             if ($row > 0) {
@@ -503,7 +503,7 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
         $html .= "</div>";
 
         return $html;
-    }catch(\Exception $e){        
+    }catch(\Exception $e){
         return $html.$e->getMessage;
     }
 }
