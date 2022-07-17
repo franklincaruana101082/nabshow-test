@@ -16,15 +16,14 @@ License: GPL v2 or higher
 License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-require_once (plugin_dir_path(__FILE__) . 'functions.php');
-
-// This loads the plugin. Main function for this plugin are in this script file
-function nabshow_export_all_urls_activation($content){
-	require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/export-path-from-urls.php' );
-
-	return $content;
+if (! defined('ABSPATH')) {
+    exit;
+    // Exit if accessed directly.
 }
-add_filter('init','nabshow_export_all_urls_activation');
+
+require_once (plugin_dir_path(__FILE__) . 'functions.php');
+require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/export-path-from-urls.php' );
+
 
 add_filter( 'plugin_action_links', 'disable_export_paths_plugin_deactivation', 10, 2  );
 
@@ -38,68 +37,38 @@ function disable_export_paths_plugin_deactivation( $actions, $plugin_file ) {
 	return $actions;
 }
 
+
 // This function attached on the_content hook is intended to display the CSV Content.
 // Can be In Admin or anywhere from site.. That includes Nabshow Amplify
-function content_after_body($content){
+function nabshow_content_after_body($content){
+	$rowdata = retrieve_exported_file_to_array();
 	
-	$result = $content;
-    try
-    {
-		$html = "";
-		$uploadfolder = wp_get_upload_dir();
+	if(empty($rowdata)) return $content;	
 
-		if(empty($uploadfolder['path'])) return $result;
+	$rowspagination = get_rows_pagination($rowdata);
 
-		$path = !empty($uploadfolder['path']) ? $uploadfolder['path'] : "";
-		$files = scandir($path);
-		$csv_file = "/wp";
-		foreach($files as $ifile){
-			$csv_file = "{$path}/".$ifile;
-			if(is_file($csv_file)) break; 
-		}
-		
-		if(file_exists($csv_file) && is_file($csv_file)){
-			$row = 0;
-			
-			$list_item = "";
-			if (($handle = fopen($csv_file, "r")) !== FALSE) {
-				while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {					
-					if($row > 0){
-						$list_item .= "<tr><td>" . $row . "</td>";
-						$list_item .= "<td>". (isset($data[0]) ? $data[0] : ""). "</td>";
-						$list_item .= "<td>". (isset($data[1]) ? $data[1] : ""). "</td>";
-						$list_item .= "<td>". (isset($data[2]) ? $data[2] : ""). "</td>";
+	$content = $rowspagination;
 
-						$list_item .= "</tr>";
-					}else{					
-						$list_item .= "<tr><th>#</th>";
-						$list_item .= "<th id='postID'>Post ID</th>";
-						$list_item .= "<th id='postID'>Post Type</th>";
-						$list_item .= "<th id='postPath'>Paths</th></tr>";
-					}
 
-					$row++;
-				}
-				fclose($handle);
-			}
+	$escjs =  "<script>
+				jQuery(function(){
+					var body = document.body,
+					html = document.documentElement;
 
-			$html .= "<div class='container'>";
-			$html .= "<div class='content'>";
-			$html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$row</strong>.</strong></h1>";
-			$html .= "<table style='width: 100%; background-color: white;'>";
-			$html .= $list_item;
-			$html .= "</table>";
-			$html .= "</div>";
-			$html .= "</div>";
-		}else{
-			return $result;
-		}
+					var height = Math.max( body.scrollHeight, body.offsetHeight,
+									html.clientHeight, html.scrollHeight, html.offsetHeight );
+					var scroll_pos=(height);
+					jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
+				});
+			</script>";
 
-		$result = $html . $result;
-		return ($result);
-    }catch(\Exception $e){
-		return ($result);
-    }
+	$content .= $escjs;
+
+	return $content;
 }
 
-add_filter('the_content','content_after_body');
+add_filter('the_content','nabshow_content_after_body');
+
+if(is_multisite()){
+    add_filter('upload_dir', 'fix_upload_paths');
+}

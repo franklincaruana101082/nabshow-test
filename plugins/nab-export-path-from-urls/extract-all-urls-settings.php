@@ -46,9 +46,9 @@ function eau_generate_html()
             ->data->user_login;
     }
 
-    $file_path = wp_upload_dir();
-    $file_name = 'export-all-urls';
-
+    $upload_dir = wp_get_upload_dir();
+    $file_path = $upload_dir['path'];
+    $file_name = 'exported-paths-from-urls';
 ?>
 
     <div class="wrap">
@@ -61,10 +61,12 @@ function eau_generate_html()
                 <div class="inside">
 
                     <form id="infoForm" method="post">
-                    <?php wp_nonce_field('export_urls'); ?>
+                        
+                        <?php wp_nonce_field('export_urls'); ?>
+                    
                         <table class="form-table">
 
-                            <tr>
+                            <tr style="display: none;">
 
                                 <th>Select a Post Type to Extract Data: </th>
 
@@ -84,18 +86,6 @@ function eau_generate_html()
         }
     }
 
-
-		echo "<script>
-				jQuery(function(){
-					var body = document.body,
-					html = document.documentElement;
-
-					var height = Math.max( body.scrollHeight, body.offsetHeight,
-									html.clientHeight, html.scrollHeight, html.offsetHeight );
-					var scroll_pos=(height);
-					jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
-				});
-			</script>";
 
 
 ?>
@@ -121,7 +111,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr>
+                            <tr style="display: none;">
 
                                 <th>Post Status:</th>
 
@@ -143,13 +133,13 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr>
+                            <tr style="display: none">
                                 <th></th>
                                 <td><a href="#" id="moreFilterOptionsLabel"
                                        onclick="lessFilterOptions(); return false;">Hide Filter Options</a></td>
                             </tr>
 
-                            <tr class="filter-options" style="display: table-row">
+                            <tr>
 
                                 <th>Date Range:</th>
 
@@ -172,7 +162,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="filter-options" style="display: table-row">
+                            <tr style="display: none">
 
                                 <th>By Author:</th>
 
@@ -194,13 +184,12 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr>
+                            <tr style="display: none">
                                 <th></th>
-                                <td><a href="#" id="advanceOptionsLabel" onclick="hideAdvanceOptions(); return false;">Hide
-                                        Advanced Options</a></td>
+                                <td><a href="#" id="advanceOptionsLabel" onclick="showAdvanceOptions(); return false;">Show Advanced Options</a></td>
                             </tr>
 
-                            <tr class="advance-options" style="display: table-row">
+                            <tr class="advance-options" style="display: none">
 
                                 <th>Remove WooCommerce Extra Attributes: </th>
 
@@ -212,7 +201,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: table-row">
+                            <tr class="advance-options" style="display: none">
 
                                 <th>Exclude Domain URL: </th>
 
@@ -224,7 +213,7 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: table-row">
+                            <tr>
 
                                 <th>Number of Posts: <a href="#"
                                                         title="Specify Post Range to Extract, It is very useful in case of Memory Out Error!"
@@ -246,17 +235,27 @@ function eau_generate_html()
 
                             </tr>
 
-                            <tr class="advance-options" style="display: none">
+                            <tr  style="display: none">                        
+                                <td>
+                                <input
+                                                    type="text" name="csv-file-name" placeholder="An Error Occured"
+                                                    value="<?php echo esc_attr($file_name); ?>"
+                                                    size="30%"/>                
+                                </td>
+                            </tr>
+                            <tr >
 
                                 <th>CSV File Name: </th>
 
                                 <td>
 
+                                        
+
                                     <label><input
-                                                type="text" name="csv-file-name" placeholder="An Error Occured"
-                                                value="<?php echo esc_attr($file_name); ?>"
-                                                size="30%"/></label><br/>
-                                                <code><?php echo esc_html($file_path['path']); ?></code>
+                                                type="text" value="<?php echo esc_attr($file_name); ?>"
+                                                disabled size="30%"/></label>                                                
+                                                <br/>
+                                                <code><?php echo esc_html($file_path); ?></code>
 
 
                                 </td>
@@ -290,8 +289,6 @@ function eau_generate_html()
                             </tr>
 
                         </table>
-                        
-
                     </form>
 
 
@@ -424,8 +421,7 @@ function eau_generate_html()
 
         if (isset($_REQUEST['_wpnonce']))
         {
-            $nonce = $_REQUEST['_wpnonce'];
-            if (!wp_verify_nonce($nonce, 'export_urls'))
+            if (!wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_urls'))
             {
                 echo "<div class='notice notice-error' style='width: 93%'>Security token validation failed!</div>";
                 exit;
@@ -509,22 +505,22 @@ function eau_generate_html()
         }
 
     }
-    elseif (isset($_REQUEST['del']) && $_REQUEST['del'] == 'y')
+    else if ((isset($_REQUEST['del']) && $_REQUEST['del'] == 'y'))
     {
-        if (!isset($_REQUEST['_wpnonce']) || (!empty($_GET['_wpnonce']) && !wp_verify_nonce($_GET['_wpnonce'])))
+        if (!isset($_REQUEST['_wpnonce']) || (!empty(sanitize_text_field($_GET['_wpnonce'])) && !wp_verify_nonce(sanitize_text_field($_GET['_wpnonce']))))
         {
             echo "You are not authorized to perform this action!";
             exit();
         }
-        else
+        else if(isset($_REQUEST['del']) && $_REQUEST['del'] == 'y') 
         {
-            $file = !empty($_REQUEST['f']) ? base64_decode(sanitize_file_name($_REQUEST['f'])) : null;
-            echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>");
-        }
-
+            $file_dir = wp_get_upload_dir();
+            $checkfile = !empty($_REQUEST['f']) ? base64_decode(sanitize_text_field($_REQUEST['f'])) : null;            
+            $file = $file_dir['path']."/".$checkfile;
+            echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>"); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_unlink
+        }      
     }
-
-
 }
 
 eau_generate_html();
+  
