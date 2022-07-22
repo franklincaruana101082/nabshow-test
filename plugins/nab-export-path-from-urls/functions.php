@@ -248,7 +248,7 @@ function eau_export_data($urls, $export_type, $csv_name)
             // Set perms with chmod()
             chmod($csv_file, 0777); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
 
-            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".esc_url($csv_file)."' target='_blank'><strong>Click here</strong></a> to Download.</div>";
+            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".wp_nonce_url(admin_url(esc_url($csv_file)))."' target='_blank'><strong>Click here</strong></a> to Download.</div>";
             $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
             $html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
