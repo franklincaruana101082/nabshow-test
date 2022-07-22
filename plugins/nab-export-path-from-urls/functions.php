@@ -531,7 +531,7 @@ function get_nab_path_trimmed(){
 	$filepath = $upload_dir['path'];
 	$regex = "/vip:\/\/\/m";
 	$delimeter = "\/";
-    $files_dir  = preg_match($regex,$delimeter,$filepath);
+    $files_dir  = preg_replace($regex,$delimeter,$filepath);
 
 	return $filepath;
 }
