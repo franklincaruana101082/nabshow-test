@@ -244,9 +244,11 @@ function eau_export_data($urls, $export_type, $csv_name)
                 fputcsv($myfile, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
             }
 
-            fclose($outstream);
+            fclose($myfile);
+            // Set perms with chmod()
+            chmod($csv_file, 0777); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
 
-            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".esc_url($csv_file)."' target='_blank' download><strong>Click here</strong></a> to Download.</div>";
+            $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".esc_url($csv_file)."' target='_blank'><strong>Click here</strong></a> to Download.</div>";
             $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
             $html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
@@ -375,21 +377,22 @@ function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.C
 }
 
 function get_range_exported_file_to_array($data = [], $offset_pos, $range_length){
+    $total_data = count($data) - 2;
+    $offsetrange = $range_length + $offset_pos;
+    $limit = $offsetrange > $total_data ?  $total_data :$offsetrange;
 
-    $limit =($range_length + $offset_pos);
     $range_data = [];
     $cnt = 0;
+    $range_ind = range($offset_pos,$limit);
 
-    for($i = $offset_pos; $i < $limit ; $i++){
-        $range_data[$cnt++] = $data[$i];
+    foreach($range_ind as $rInd){
+        $range_data[$cnt++] = $data[$rInd];
     }
 
-    $row_data = (!empty($range_data) && count($range_data) > 0 ? $range_data : $data);
-
-    return $row_data;
+    return $range_data;
 }
 
-function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
+function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 0){
     $html = "";
     $pagination = "";
     try {
@@ -492,9 +495,12 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
             }
             $row++;
         }
+        // -2  on  display count
+        // -1 is for  the  row display starts at 1 where index always starts with 0 and -1 for headers on table (#, Post ID, Post Type, Paths)
+        $page_nav_control = "$cnt  Displayed";
         $html .= "<div class='container'>";
         $html .= "<div class='content'>";
-        $html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$cnt/$numrows</strong></strong></h1>";
+        $html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported : ".($numrows-2)." <strong>| $page_nav_control</strong></strong></h1>";
         $html .= "<table style='width: 100%; background-color: white;'>";
         $html .= $list_item;
         $html .= "</table>";
@@ -508,6 +514,7 @@ function get_rows_pagination($data = [], $rowsperpage = 20, $currentpage = 1){
     }
 }
 
+// Workaround for  correcting upload directory / path. Usually for multisite issue
 function fix_upload_paths($data)
 {
     $data['basedir'] = $data['basedir'];

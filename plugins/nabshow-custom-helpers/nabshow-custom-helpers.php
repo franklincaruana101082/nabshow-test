@@ -33,9 +33,9 @@ function wpcom_vip_nabshow_custom_helpers() {
     }
 
 	// Don't force Custom Helper by default in local environments
-	// if ( ! WPCOM_IS_VIP_ENV && ! apply_filters( 'wpcom_vip_nabshow_custom_helpers_local_testing', false ) ) {
-	// 	return false;
-	// }
+	if ( ! WPCOM_IS_VIP_ENV && ! apply_filters( 'wpcom_vip_nabshow_custom_helpers_local_testing', false ) ) {
+		return false;
+	}
 
 	require_once(WP_PLUGIN_DIR.'/custom-helpers/cache-control-url-env/nabshow-cache-control.php');
 
