@@ -532,6 +532,5 @@ function get_nab_path_trimmed(){
 	$regex = "/vip:\/\/\/m";
 	$delimeter = "\/";
     $files_dir  = preg_replace($regex,$delimeter,$filepath);
-
 	return $filepath;
 }
