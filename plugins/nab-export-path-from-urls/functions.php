@@ -529,8 +529,8 @@ function get_nab_path_trimmed(){
 
 	$upload_dir = wp_get_upload_dir();
 	$filepath = $upload_dir['path'];
-	$regex = "/vip:\/\/\/m";
-	$delimeter = "\/";
+	$regex = "'vip\:\/\/'";
+	$delimeter = "/";
     $files_dir  = preg_replace($regex,$delimeter,$filepath);
 	return $filepath;
 }
