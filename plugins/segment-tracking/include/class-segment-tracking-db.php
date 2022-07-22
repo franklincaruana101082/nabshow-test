@@ -1,4 +1,6 @@
 <?php
+require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
+use Segment\Segment;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -89,12 +91,7 @@ if ( ! class_exists( 'Segment_Tracking_DB' ) ) {
 
             $segment_write_key = vip_get_env_var( 'SEGMENT_AMPLIFY_WRITE_KEY' );
 
-            if ( ! empty( $segment_write_key ) ) {
-                
-                require_once( dirname( plugin_dir_path(__FILE__) ) . '/lib/analytics-php/lib/Segment.php' );
-                use Segment\Segment;
-
-                class_alias( 'Segment', 'Analytics' );
+            if ( ! empty( $segment_write_key ) ) {                
                 Segment::init( $segment_write_key );
 
                 $table_name     = $wpdb->prefix . 'nab_segment_tracking_queue';

@@ -1,4 +1,5 @@
 <?php
+use DateTime;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,6 +14,8 @@ if ( ! class_exists( 'Segment_Tracking' ) ) {
          * Construct to use add WP hooks.
          */
         public function __construct() {
+
+            add_action( 'admin_menu', array( $this, 'st_add_setting_page_menu' ) );
 
             $this->segment_tracking_init_hooks();
 
@@ -40,12 +43,19 @@ if ( ! class_exists( 'Segment_Tracking' ) ) {
                 return;
             }
 
+            // Lowercase email addresses if they exist in properties
+            if ( !empty( $data['properties']['email'] ) ) {
+                $data['properties']['email'] = strtolower( $data['properties']['email'] );
+            }
+
             $data['userId'] = strval( $data['userId'] );
             $data['context'] = array(
                 'app' => array(
                     'name' => 'amplify'
                 )
             );
+            $data['timestamp'] = date(DateTime::ISO8601);
+
             $json_data = wp_json_encode( $data );
             $this->segment_tracking_queue_event( 'track', $json_data );
         }
@@ -90,6 +100,30 @@ if ( ! class_exists( 'Segment_Tracking' ) ) {
             );
 
             $this->segment_tracking_track_event( $data );
+        }
+
+        /**
+         * Added setting page under the wp admin settings.
+         */
+        public function st_add_setting_page_menu() {
+
+            add_submenu_page(
+                'options-general.php',
+                __('Segment Settings', 'segment-events-tracking'),
+                __('Segment Settings', 'segment-events-tracking'),
+                'manage_options',
+                'segment_event_settings',
+                array( $this, 'st_segment_setting_page_callback' )
+            );            
+        }
+
+        /**
+         * Display setting page for segement event tracking.
+         */
+        public function st_segment_setting_page_callback() {
+            
+            /* nothing here */
+            
         }
 
     }
