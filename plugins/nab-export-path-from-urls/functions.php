@@ -217,7 +217,7 @@ function eau_export_data($urls, $export_type, $csv_name)
     }
 
     $upload_dir = wp_upload_dir();
-    $files_dir  = preg_replace('/vip:\/\/m','/',$upload_dir['path']);
+    $files_dir  = get_nab_path_trimmed();
     $csv_file = "$files_dir/$csv_name.CSV";
 
     switch ($export_type) {
@@ -297,7 +297,7 @@ function content_after_body_full_list($content, $csv_name = "exported-paths-from
 		$html = "";
 
         $upload_dir = wp_get_upload_dir();
-        $files_dir = $upload_dir['path'];
+        $files_dir =  get_nab_path_trimmed();
 
         if(!file_exists($files_dir)) return $result;
 
@@ -366,7 +366,7 @@ function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.C
     $rowdata = [];
 
     $upload_dir = wp_get_upload_dir();
-	$path = $upload_dir['path'];
+	$path = get_nab_path_trimmed();
     $csv_file = "$path/$csv_name";
 
     if (!file_exists($csv_file) || !is_file($csv_file)) return $rowdata;
@@ -523,4 +523,15 @@ function fix_upload_paths($data)
     $data['url'] = $data['baseurl'].$data['subdir'];
 
     return $data;
+}
+
+function get_nab_path_trimmed(){
+
+	$upload_dir = wp_get_upload_dir();
+	$filepath = $upload_dir['path'];
+	$regex = "vip://";
+	$delimeter = "";
+    $files_dir  = preg_match($regex,$delimeter,$filepath);
+
+	return $filepath;
 }
