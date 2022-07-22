@@ -519,7 +519,9 @@ function fix_upload_paths($data)
     $data['path'] = $data['basedir'].$data['subdir'];
     $data['baseurl'] = $data['baseurl'];
     $data['url'] = $data['baseurl'].$data['subdir'];
-
+	$regex = "'/vip:\/\//m'";
+	$delimeter = "/";
+	$files_dir  = preg_replace($regex,$delimeter,$data['path']);
     return $data;
 }
 
