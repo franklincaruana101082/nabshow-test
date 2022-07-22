@@ -528,11 +528,10 @@ function fix_upload_paths($data)
 function get_nab_path_trimmed(){
 
 	$upload_dir = wp_get_upload_dir();
-	echo "var_dump";
-	var_dump($upload_dir);
 	$filepath = $upload_dir['path'];
-	$regex = "(vip://)";
-	$delimeter = "/";
+	$regex = "vip://";
+	$delimeter = "";
     $files_dir  = preg_match($regex,$delimeter,$filepath);
-	return $files_dir;
+
+	return $filepath;
 }
