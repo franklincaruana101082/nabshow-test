@@ -47,7 +47,7 @@ function eau_generate_html()
     }
 
     $upload_dir = wp_get_upload_dir();
-    $file_path = preg_replace('/vip:\/\/','',$upload_dir['path']);
+    $file_path = preg_replace('/vip:\/\/m','/',$upload_dir['path']);
     $file_name = 'exported-paths-from-urls';
 ?>
 

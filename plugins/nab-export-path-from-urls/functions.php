@@ -217,7 +217,7 @@ function eau_export_data($urls, $export_type, $csv_name)
     }
 
     $upload_dir = wp_upload_dir();
-    $files_dir  = preg_replace('/vip:\/\/','',$upload_dir['path']);
+    $files_dir  = preg_replace('/vip:\/\/m','/',$upload_dir['path']);
     $csv_file = "$files_dir/$csv_name.CSV";
 
     switch ($export_type) {
