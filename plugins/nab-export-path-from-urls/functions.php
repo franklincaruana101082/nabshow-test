@@ -246,7 +246,7 @@ function eau_export_data($urls, $export_type, $csv_name)
 
             fclose($myfile);
             // Set perms with chmod()
-            // chmod($csv_file, 0777); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
+            chmod($csv_file, 0777); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
 
             $html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='".esc_url($csv_file)."' target='_blank'><strong>Click here</strong></a> to Download.</div>";
             $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
@@ -296,7 +296,6 @@ function content_after_body_full_list($content, $csv_name = "exported-paths-from
     {
 		$html = "";
 
-        $upload_dir = wp_get_upload_dir();
         $files_dir =  get_nab_path_trimmed();
 
         if(!file_exists($files_dir)) return $result;
@@ -365,7 +364,6 @@ function csvToArray($csvFile){
 function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.CSV"){
     $rowdata = [];
 
-    $upload_dir = wp_get_upload_dir();
 	$path = get_nab_path_trimmed();
     $csv_file = "$path/$csv_name";
 
@@ -529,7 +527,7 @@ function get_nab_path_trimmed(){
 
 	$upload_dir = wp_get_upload_dir();
 	$filepath = $upload_dir['path'];
-	$regex = "vip://";
+	$regex = "'/vip:\/\//m'";
 	$delimeter = "/";
     $files_dir  = preg_replace($regex,$delimeter,$filepath);
 	return $filepath;
