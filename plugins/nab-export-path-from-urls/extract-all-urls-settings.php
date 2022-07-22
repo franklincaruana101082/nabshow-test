@@ -46,7 +46,6 @@ function eau_generate_html()
             ->data->user_login;
     }
 
-    $upload_dir = wp_get_upload_dir();
     $file_path = get_nab_path_trimmed();
     $file_name = 'exported-paths-from-urls';
 ?>
