@@ -50,6 +50,7 @@ function my_plugin_override() {
 	// This function attached on the_content hook is intended to display the CSV Content.
 	// Can be In Admin or anywhere from site.. That includes Nabshow Amplify
 	function nabshow_content_after_body($content){
+
 		$rowdata = retrieve_exported_file_to_array();
 
 		if(empty($rowdata)) return $content;
@@ -76,8 +77,9 @@ function my_plugin_override() {
 		return $content;
 	}
 
-	add_filter('the_content','nabshow_content_after_body');
-
+	if(!is_admin()) {
+		add_filter('the_content','nabshow_content_after_body');
+	}
 	if(is_multisite()){
 		add_filter('upload_dir', 'fix_upload_paths');
 	}
