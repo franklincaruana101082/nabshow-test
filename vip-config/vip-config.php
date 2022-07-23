@@ -16,6 +16,8 @@
  * - The WordPress.com VIP Team
  **/
 
+define('WP_DEBUG', false);
+
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     $http_host   = $_SERVER['HTTP_HOST'];
     $request_uri = $_SERVER['REQUEST_URI'];

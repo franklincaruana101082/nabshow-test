@@ -19,7 +19,6 @@
  * For client-mu-plugins `require __DIR__ . '/plugin-name/plugin-name.php'` works.
  */
 
-require_once( WPMU_PLUGIN_DIR .'/000-pre-vip-config/requires.php');
 require_once( WPMU_PLUGIN_DIR . '/vip-cache-manager.php' );
 
 // load plugin without activating it from admin page
@@ -28,5 +27,3 @@ require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/nab-export-path-from-u
 add_filter( 'wpcom_vip_enable_two_factor', '__return_false' );
 add_filter( 'wpvip_parsely_load_mu', '__return_true' );
 
-// load plugin without activating it from admin page
-// require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/nab-export-path-from-urls.php' );
