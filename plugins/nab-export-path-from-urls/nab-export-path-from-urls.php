@@ -23,8 +23,7 @@ if (! defined('ABSPATH')) {
     // Exit if accessed directly.
 }
 
-require_once (plugin_dir_path(__FILE__) . 'functions.php');
-require_once( plugin_dir_path(__FILE__) . 'export-path-from-urls.php' );
+require_once( plugin_dir_path(__FILE__) . 'extract-all-urls-settings.php' );
 
 if(!is_admin()){
 	add_action( 'after_setup_theme', 'setup_custom_plugins' );
