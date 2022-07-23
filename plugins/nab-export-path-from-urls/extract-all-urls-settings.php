@@ -45,8 +45,8 @@ function eau_generate_html()
         $user_names[] = $user
             ->data->user_login;
     }
-
-    $file_path = get_nab_path_trimmed();
+	$dir_obj = get_nab_path_and_file();
+	$file_path = $dir_obj['dir'];
     $file_name = 'exported-paths-from-urls';
 ?>
 
