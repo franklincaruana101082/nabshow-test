@@ -519,9 +519,6 @@ function fix_upload_paths($data)
     $data['path'] = $data['basedir'].$data['subdir'];
     $data['baseurl'] = $data['baseurl'];
     $data['url'] = $data['baseurl'].$data['subdir'];
-	$regex = "'/vip:\/\//m'";
-	$delimeter = "/";
-	$files_dir  = preg_replace($regex,$delimeter,$data['path']);
     return $data;
 }
 
@@ -529,8 +526,5 @@ function get_nab_path_trimmed(){
 
 	$upload_dir = wp_get_upload_dir();
 	$filepath = $upload_dir['path'];
-	$regex = "'/vip:\/\//m'";
-	$delimeter = "/";
-    $files_dir  = preg_replace($regex,$delimeter,$filepath);
 	return $filepath;
 }
