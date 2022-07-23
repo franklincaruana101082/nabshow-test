@@ -20,7 +20,7 @@
  */
 
 require_once( WPMU_PLUGIN_DIR . '/vip-cache-manager.php' );
-require_once( WPMU_PLUGIN_DIR . '/001-core/vip-cache-manager.php' );
+require_once( WPMU_PLUGIN_DIR . '/001-core/privacy.php' );
 
 // load plugin without activating it from admin page
 require_once( WP_PLUGIN_DIR . '/nab-export-path-from-urls/nab-export-path-from-urls.php' );
