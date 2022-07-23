@@ -17,7 +17,7 @@ License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 namespace Plugins\NabExportPathFromUrls;
 
-require_once (plugin_dir_path(__FILE__) . 'ExportAllPathFromUrlsSettings.php');
+require_once (plugin_dir_path(__FILE__) . 'export-all-path-from-urls-settings.php');
 
 class NabExportPathFromUrls extends ExportAllPaths
 {
