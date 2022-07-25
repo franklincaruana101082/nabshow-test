@@ -219,16 +219,11 @@ class ExportAllPaths
 
 				$exportmeta = $this->get_nab_path_and_file();
 				$csv_file = $exportmeta['csv_file'];
-
 				// If no request id then just create it anyway
 				$request_details = $this->nab_create_user_request();
 				$request_id = $request_details['request_id'];
 
-				$this->generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file );
-
-				$html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='$csv_file' target='_blank'><strong>Click here</strong></a> to Download.</div>";
-				$html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
-				$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
+				$html = $this->generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file );
 
 				break;
 
@@ -502,7 +497,7 @@ class ExportAllPaths
 	public function generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file ) {
 		// Get the request.
 		$request = wp_get_user_request($request_id);
-
+		$html = "";
 		// Making sure export meta should not be empty, if it is, then just recreate one instead
 		if (empty($exportmeta)) {
 			$exportmeta = $this->get_nab_path_and_file();
@@ -511,7 +506,7 @@ class ExportAllPaths
 		if (! $request || 'export_personal_data' !== $request->action_name) {
 			wp_send_json_error(__('Invalid request ID when generating export file.'));
 		}
-		$filename = $exportmeta['filename'];
+		// $filename = $exportmeta['filename'];
 		$csv_url = $exportmeta['csv_url'];
 		$exports_dir = $exportmeta['path'];
 
@@ -523,22 +518,22 @@ class ExportAllPaths
 		}
 		$data = [];
 		$headers = [];
+		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
+
+		//create a file
+		$filename = $exportmeta['filename'];
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file = fopen( $csv_file, 'w' );
+		$file_csv = fopen( $csv_file, 'w');
 
-		if ( false === $file ) {
+
+		if ( false === $file_csv ) {
 			wp_send_json_error( __( 'Unable to open CSV export file.' ) );
 		}
 
-		fprintf($file, "\xEF\xBB\xBF");
+		$headers = ['#', 'Post ID', 'Post Type', 'Paths'];
 
-		$headers[] = '#';
-		$headers[] = 'Post ID';
-		$headers[] = 'Post Type';
-		$headers[] = 'Paths';
-
-		fputcsv($file, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
+		fputcsv($file_csv, $headers,',','"'); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
 
 		for ($index = 0; $index < $count; $index++) {
 			$data = array(
@@ -548,12 +543,18 @@ class ExportAllPaths
 				isset($urls['path']) ? $urls['path'][$index] : ""
 			);
 
-			fputcsv($file, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
+			fputcsv($file_csv, $data,',','"'); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
 		}
 
-		fclose($file);
+		fclose($file_csv);
 
-		error_log(json_encode($urls));
+		$csv_url = $exportmeta['csv_url'];
+
+		$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
+		$html .= "<div class='updated '><a href='$csv_file' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
+		$html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
+		$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
+
 
 		$error = false;
 
@@ -618,7 +619,7 @@ class ExportAllPaths
 
 			$this->_upload_archive_file( $local_export_pathname );
 		}
-
+		return $html;
 	}
 	public function _upload_archive_file( $archive_path ) {
 		// For local usage, skip the remote upload.

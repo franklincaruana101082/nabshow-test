@@ -50,7 +50,7 @@ class ExportAllPathFromUrlsSettings extends \Plugins\NabExportPathFromUrls\Expor
 
 		$dir_obj = $this->get_nab_path_and_file();
 		$file_path = $dir_obj['path'];
-		$file_name = $dir_obj['csv_file'];
+		$file_name = $dir_obj['filename'];
 		?>
 
 		<div class="wrap">
@@ -262,7 +262,7 @@ class ExportAllPathFromUrlsSettings extends \Plugins\NabExportPathFromUrls\Expor
 
 								</tr>
 
-								<tr>
+								<tr style="display: none">
 
 									<th>Export Type:</th>
 
@@ -282,7 +282,7 @@ class ExportAllPathFromUrlsSettings extends \Plugins\NabExportPathFromUrls\Expor
 
 									<td>
 										<input type="submit" name="export" class="button button-primary"
-											value="Export Now"/>
+											value="Export CSV File Now"/>
 									</td>
 
 								</tr>
