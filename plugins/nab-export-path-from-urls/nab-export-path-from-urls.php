@@ -27,7 +27,6 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 		// register_deactivation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_deactivation' ) );
 
 		if (is_admin()) {
-			add_filter('after_setup_theme', [ $this, 'setup_custom_plugins']);
 
 			add_filter('admin_menu', [ $this, 'export_paths_from_urls_nav']);
 
@@ -53,15 +52,6 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 		remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
 		add_action( 'wp_privacy_delete_old_export_files', __NAMESPACE__ . '\delete_old_export_files' );
 	}
-
-	public function setup_custom_plugins() {
-
-		add_theme_support( 'title-tag' );
-		add_theme_support( 'post-thumbnails' );
-		add_theme_support( 'custom-header' );
-
-	}
-
 	public function export_paths_from_urls_nav(){
 
 		add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-paths-from-urls-settings', [$this, 'export_path_from_urls_settings_page'], null);
