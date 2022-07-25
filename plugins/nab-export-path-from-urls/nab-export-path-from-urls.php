@@ -28,7 +28,6 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 
 		if (is_admin()) {
 			add_filter('after_setup_theme', [ $this, 'setup_custom_plugins']);
-			add_filter('plugins_loaded', [ $this, 'nab_export_path_from_urls_plugin_override']);
 
 			add_filter('admin_menu', [ $this, 'export_paths_from_urls_nav']);
 
@@ -41,9 +40,7 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 			add_filter('the_content',[$this, 'nabshow_content_after_body']);
 		}
 	}
-	public function export_upload_paths($data){
-		$this->fix_upload_paths($data);
-	}
+
 	// public function init_privacy_compat() {
 		// Replace core's privacy data export handler with a custom one.
 		// remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
@@ -57,37 +54,12 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 		add_action( 'wp_privacy_delete_old_export_files', __NAMESPACE__ . '\delete_old_export_files' );
 	}
 
-	// public function generate_personal_data_export_file($request_id){
-	// 	echo $request_id;
-	// 	error_log($request_id);
-
-	// }
-
-	public function delete_old_export_files(){
-
-	}
-
 	public function setup_custom_plugins() {
 
 		add_theme_support( 'title-tag' );
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'custom-header' );
 
-	}
-
-	// Hide Activate/Deactivate Plugin Link
-	public function disable_export_paths_plugin_deactivation( $actions, $plugin_file ) {
-		if ( plugin_basename( __FILE__ ) === $plugin_file ) {
-			unset( $actions['deactivate'], $actions['activate'] );
-		}
-
-		return $actions;
-	}
-
-	public function nab_export_path_from_urls_plugin_override($export) {
-		add_filter( 'plugin_action_links', [$this,'disable_export_paths_plugin_deactivation'], 10, 2  );
-
-		return $export;
 	}
 
 	public function export_paths_from_urls_nav(){
@@ -106,7 +78,6 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 		}
 
 		delete_transient( 'eau_export_all_urls_activation_redirect' );
-
 
 		wp_safe_redirect( add_query_arg( array( 'page' => 'extract-all-urls-settings' ), admin_url( 'tools.php' )) );
 		exit;
