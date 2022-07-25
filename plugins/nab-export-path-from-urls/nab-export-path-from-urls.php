@@ -17,25 +17,55 @@ License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 namespace Plugins\NabExportPathFromUrls;
 
-require_once (plugin_dir_path(__FILE__) . 'export-all-path-from-urls-settings.php');
+require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/cls-export-all-paths.php');
 
-class NabExportPathFromUrls extends ExportAllPaths
+class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPaths
 {
 	public function __construct()
 	{
+		// register_activation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_activation' ) );
+		// register_deactivation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_deactivation' ) );
+
+		if (is_admin()) {
+			add_filter('after_setup_theme', [ $this, 'setup_custom_plugins']);
+			add_filter('plugins_loaded', [ $this, 'nab_export_path_from_urls_plugin_override']);
+
+			add_filter('admin_menu', [ $this, 'export_paths_from_urls_nav']);
+
+			add_action( 'admin_init', [ $this, 'export_paths_from_urls_activation'] );
+
+			add_action( 'admin_init', [$this, 'init_privacy_compat_cleanup']);
+
+			// add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
+		}else{
+			add_filter('the_content',[$this, 'nabshow_content_after_body']);
+		}
+	}
+	public function export_upload_paths($data){
+		$this->fix_upload_paths($data);
+	}
+	// public function init_privacy_compat() {
 		// Replace core's privacy data export handler with a custom one.
 		// remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
 		// add_action( 'wp_privacy_personal_data_export_file', __NAMESPACE__ . '\generate_personal_data_export_file' );
 
-		add_filter( 'after_setup_theme', [ $this, 'setup_custom_plugins'] );
-		add_filter( 'plugins_loaded', [ $this, 'nab_export_path_from_urls_plugin_override'] );
+	// }
 
-		add_filter( 'admin_menu', [ $this, 'eau_extract_all_urls_nav'] );
-
-		add_action( 'admin_init', [ $this, 'export_paths_from_urls_activation'] );
-		add_action( 'init', [ $this, 'export_paths_from_urls_list' ]);
+	public function init_privacy_compat_cleanup() {
+		// Replace core's privacy data delete handler with a custom one.
+		remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
+		add_action( 'wp_privacy_delete_old_export_files', __NAMESPACE__ . '\delete_old_export_files' );
 	}
 
+	public function generate_personal_data_export_file($request_id){
+		echo $request_id;
+		error_log($request_id);
+
+	}
+
+	public function delete_old_export_files(){
+
+	}
 
 	public function setup_custom_plugins() {
 
@@ -54,41 +84,36 @@ class NabExportPathFromUrls extends ExportAllPaths
 		return $actions;
 	}
 
-	public function nab_export_path_from_urls_plugin_override() {
+	public function nab_export_path_from_urls_plugin_override($export) {
 		add_filter( 'plugin_action_links', [$this,'disable_export_paths_plugin_deactivation'], 10, 2  );
+
+		return $export;
 	}
 
-	public function eau_extract_all_urls_nav(){
+	public function export_paths_from_urls_nav(){
 
-		$hook = add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-all-urls-settings', [ $this, 'eau_include_settings_page'], '' );
-        add_action( "load-$hook", array( $this, 'eau_include_settings_page' ) );
+		add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-paths-from-urls-settings-version-1', [$this, 'export_path_from_urls_settings_page'], null);
+
 	}
+	public function export_path_from_urls_settings_page(){
 
-	function eau_include_settings_page(){
-
-		include(plugin_dir_path(__FILE__) . 'extract-all-urls-settings.php');
+		require WP_PLUGIN_DIR . '/nab-export-path-from-urls/cls-export-all-path-from-urls-settings.php';
 	}
 
 	public function export_paths_from_urls_activation() {
-
 		if ( ! get_transient( 'eau_export_all_urls_activation_redirect' ) ) {
 			return;
 		}
 
 		delete_transient( 'eau_export_all_urls_activation_redirect' );
 
-		wp_safe_redirect( add_query_arg( array( 'page' => 'extract-all-urls-settings' ), admin_url( 'tools.php' ) ) );
+
+		wp_safe_redirect( add_query_arg( array( 'page' => 'extract-all-urls-settings' ), admin_url( 'tools.php' )) );
 		exit;
 
 	}
 
 	// =================
-
-	public function export_paths_from_urls_list()
-	{
-		add_filter('the_content',[$this, 'nabshow_content_after_body']);
-
-	}
 
 	// This function attached on the_content hook is intended to display the CSV Content.
 	// Can be In Admin or anywhere from site.. That includes Nabshow Amplify

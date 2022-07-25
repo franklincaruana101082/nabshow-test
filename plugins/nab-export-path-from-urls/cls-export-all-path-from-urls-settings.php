@@ -2,7 +2,9 @@
 
 namespace Plugins\NabExportPathFromUrls;
 
-class ExportAllPathFromUrlsSettings extends ExportAllPaths
+// require_once (plugin_dir_path(__FILE__) . 'export-all-paths.php');
+
+class ExportAllPathFromUrlsSettings extends \Plugins\NabExportPathFromUrls\ExportAllPaths
 {
 	public function __construct()
 	{
@@ -45,9 +47,10 @@ class ExportAllPathFromUrlsSettings extends ExportAllPaths
 			$user_names[] = $user
 				->data->user_login;
 		}
+
 		$dir_obj = $this->get_nab_path_and_file();
-		$file_path = $dir_obj['dir'];
-		$file_name = 'exported-paths-from-urls';
+		$file_path = $dir_obj['path'];
+		$file_name = $dir_obj['csv_file'];
 		?>
 
 		<div class="wrap">
@@ -61,7 +64,7 @@ class ExportAllPathFromUrlsSettings extends ExportAllPaths
 
 						<form id="infoForm" method="post">
 
-							<?php wp_nonce_field('export_urls'); ?>
+							<?php wp_nonce_field('export_path_from_urls'); ?>
 
 							<table class="form-table">
 
@@ -417,7 +420,7 @@ class ExportAllPathFromUrlsSettings extends ExportAllPaths
 
 			if (isset($_REQUEST['_wpnonce']))
 			{
-				if (!wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_urls'))
+				if (!wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_path_from_urls'))
 				{
 					echo "<div class='notice notice-error' style='width: 93%'>Security token validation failed!</div>";
 					exit;

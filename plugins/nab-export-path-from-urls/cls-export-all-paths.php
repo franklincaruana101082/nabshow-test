@@ -1,6 +1,8 @@
 <?php
 namespace Plugins\NabExportPathFromUrls;
 
+use \WP_Query;
+
 class ExportAllPaths
 {
 
@@ -42,8 +44,6 @@ class ExportAllPaths
 
 
 	}
-
-
 
 	public function eau_extract_relative_path ($url)
 	{
@@ -214,37 +214,17 @@ class ExportAllPaths
 			$count = count($item);
 		}
 
-		$dir_obj = $this->get_nab_path_and_file();
-		$files_dir = $dir_obj['dir'];
-		$csv_file = $files_dir.$csv_name."csv";
-
 		switch ($export_type) {
 			case "text":
 
-				$data = '';
-				$headers = array();
-				$myfile = fopen($csv_file, "w") or wp_die("<div class='error' style='width: 95.3%; margin-left: 2px;'>Unable to create a file on your server! (either invalid name supplied or permission issue)</div>"); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-				fprintf($myfile, "\xEF\xBB\xBF");
+				$exportmeta = $this->get_nab_path_and_file();
+				$csv_file = $exportmeta['csv_file'];
 
-				$headers[] = '#';
-				$headers[] = 'Post ID';
-				$headers[] = 'Post Type';
-				$headers[] = 'Paths';
-				fputcsv($myfile, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
-				for ($i = 0; $i < $count; $i++) {
-					$data = array(
-						$urls['seq'][$i] ,
-						isset($urls['post_id']) ? $urls['post_id'][$i] : "",
-						isset($urls['post_type']) ? $urls['post_type'][$i] : "",
-						isset($urls['path']) ? $urls['path'][$i] : ""
-					);
+				// If no request id then just create it anyway
+				$request_details = $this->nab_create_user_request();
+				$request_id = $request_details['request_id'];
 
-					fputcsv($myfile, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
-				}
-
-				fclose($myfile);
-				// Set perms with chmod()
-				// chmod($csv_file, 0777); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.chmod_chmod
+				$this->generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file );
 
 				$html .= "<div class='updated' style='width: 97%'>Data exported successfully! <a href='$csv_file' target='_blank'><strong>Click here</strong></a> to Download.</div>";
 				$html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
@@ -287,66 +267,6 @@ class ExportAllPaths
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	// public function content_after_body_full_list($content, $csv_name = "exported-paths-from-urls.CSV"){
-
-	// 	$result = $content;
-	// 	try
-	// 	{
-	// 		$html = "";
-
-	// 		$dir_obj = $this->get_nab_path_and_file();
-	// 		$files_dir = $dir_obj['dir'];
-
-	// 		if(!file_exists($files_dir)) return $result;
-
-	// 		$csv_file = $files_dir.$csv_name;
-
-	// 		if(!file_exists($csv_file) || !is_file($csv_file)) return $result;
-
-	// 		$row = 0;
-
-	// 		$list_item = "";
-	// 		if (($handle = fopen($csv_file, "r")) !== FALSE) {  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-	// 			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-	// 				if($row > 0){
-	// 					$list_item .= "<td>". (isset($data[0]) ? $data[0] : ""). "</td>";
-	// 					$list_item .= "<td>". (isset($data[1]) ? $data[1] : ""). "</td>";
-	// 					$list_item .= "<td>". (isset($data[2]) ? $data[2] : ""). "</td>";
-	// 					$list_item .= "<tr>". (isset($data[3]) ? $data[3] : ""). "</td>";
-
-	// 					$list_item .= "</tr>";
-	// 				}else{
-	// 					$list_item .= "<tr><th>#</th>";
-	// 					$list_item .= "<th id='postID'>Post ID</th>";
-	// 					$list_item .= "<th id='postID'>Post Type</th>";
-	// 					$list_item .= "<th id='postPath'>Paths</th></tr>";
-	// 				}
-
-	// 				$row++;
-	// 			}
-	// 			fclose($handle);
-	// 		}
-
-	// 		$html .= "<div class='container'>";
-	// 		$html .= "<div class='content'>";
-	// 		$html .= "<h1 align='center' style='padding: 10px 0;'><strong>Total number of paths exported: <strong>$row</strong>.</strong></h1>";
-	// 		$html .= "<table style='width: 100%; background-color: white;'>";
-	// 		$html .= $list_item;
-	// 		$html .= "</table>";
-	// 		$html .= "</div>";
-	// 		$html .= "</div>";
-
-	// 		$result = $html . $result;
-
-	// 		return $result;
-
-	// 	}catch(\Exception $e){
-
-	// 		return $result;
-
-	// 	}
-	// }
-
 	public function csvToArray($csvFile){
 
 		$file_to_read = fopen($csvFile, 'r'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
@@ -360,12 +280,11 @@ class ExportAllPaths
 		return $lines;
 	}
 
-	public function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.CSV"){
+	public function retrieve_exported_file_to_array($csv_name = "exported-paths-from-urls.csv"){
 		$rowdata = [];
 
 		$dir_obj = $this->get_nab_path_and_file();
-		$path = $dir_obj['dir'];
-		$csv_file = "$path/$csv_name";
+		$csv_file = $dir_obj['csv_file'];
 
 		if (!file_exists($csv_file) || !is_file($csv_file)) return $rowdata;
 
@@ -512,343 +431,195 @@ class ExportAllPaths
 		}
 	}
 
-
-	public function handle_nab_export_path_csv_file($request_id){
-		// Get the request.
-		$request = wp_get_user_request( $request_id );
-
-		if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-			wp_send_json_error( __( 'Invalid request ID when generating export file.' ) );
-		}
-
-		/*
-		* Handle the CSV export.
-		*/
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file = fopen( $report_pathname, 'w' );
-
-		if ( false === $file ) {
-			wp_send_json_error( __( 'Unable to open export file (JSON report) for writing.' ) );
-		}
-
-		fwrite( $file, '{' );
-		fwrite( $file, '"' . $title . '":' );
-		fwrite( $file, $groups_json );
-		fwrite( $file, '}' );
-		fclose( $file );
-
-		/*
-		* Handle the HTML export.
-		*/
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file = fopen( $html_report_pathname, 'w' );
-
-		if ( false === $file ) {
-			wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
-		}
-
-	}
-
-
+	// Use this function to check request id is valid and create temp folder to temporary save csv file
 	public function get_nab_path_and_file(){
-		// Create the user request.
-		$request_id = wp_create_user_request( get_current_user_id(), 'export_urls' );
 
-		$archive = [];
+			$exportmeta = [];
 
-		// Create the exports folder if needed.
-		$archive['dir'] = $exports_dir = wp_privacy_exports_dir();
-		$archive['url'] = $exports_url = wp_privacy_exports_url();
-		$archive['temp_dir'] = $temp_dir = get_temp_dir();
+			// Create the exports folder if needed.
+			$temp_dir = get_temp_dir();
+			$exports_dir = wp_privacy_exports_dir();
+			$exports_url = wp_privacy_exports_url();
 
-		if ( ! wp_mkdir_p( $exports_dir ) ) {
-			wp_send_json_error( __( 'Unable to create export folder.' ) );
-		}
-		// This meta value is used from version 5.5.
-		$export_file_name = get_post_meta( $request_id, '_export_file_name', true );
+			$filename = $file_basename = "export-path-from-urls.csv";
+			// $filename = wp_unique_filename( $exports_dir, $file_basename );
+			$csv_file = wp_normalize_path( $exports_dir . $filename );
 
-		// This one stored an absolute path and is used for backward compatibility.
-		$export_file_path = get_post_meta( $request_id, '_export_file_path', true );
+			$export_path_url = $exports_url . $filename;
 
-		$file_basename        = 'exported-paths-from-urls';
-		$archive['filename'] = wp_unique_filename( $temp_dir, $file_basename . '.csv' );
-		$archive['path'] = wp_normalize_path( $temp_dir . $export_file_path );
-		$csv_filename = $file_basename . '.csv';
-		$csv_filename = wp_normalize_path( $temp_dir . $csv_filename ); // Use temp_dir because we don't want the file generated remotely yet.
+			$exportmeta['temp_dir'] = $temp_dir;
+			$exportmeta['url'] = $exports_url;
+			$exportmeta['path'] = $exports_dir;
+			$exportmeta['filename'] = $filename;
+			$exportmeta['file_basename'] = $file_basename;
+			$exportmeta['csv_url'] = $export_path_url;
+			$exportmeta['csv_file'] = $csv_file;
 
-		return $archive;
+			return $exportmeta;
 	}
 
-	/**
-	 * This is largely a copy of core's `wp_privacy_generate_personal_data_export_file`
-	 *
-	 * And has been adapted to work with on Go:
-	 *  - It falls back to PclZip if ZipArchive is not available.
-	 *  - It tracks the generated date for an export in meta (which is then used for removal).
-	 *  - It uploads the generated zip to the Go Files Service.
-	 */
-	public function generate_personal_data_export_file( $request_id ) {
-		// Get the request.
-		$request = wp_get_user_request( $request_id );
+	public function nab_create_user_request(){
+		// Create the user request.
+		$user = wp_get_current_user();
 
-		if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-			wp_send_json_error( __( 'Invalid request ID when generating export file.' ) );
-		}
+		$email_address  = time().$user->user_email;
 
-		$email_address = $request->email;
 
 		if ( ! is_email( $email_address ) ) {
 			wp_send_json_error( __( 'Invalid email address when generating export file.' ) );
 		}
 
-		// Create the exports folder if needed.
-		$exports_dir = wp_privacy_exports_dir();
-		$exports_url = wp_privacy_exports_url();
-		$temp_dir    = get_temp_dir();
+		$request_id = wp_create_user_request( $email_address, 'export_personal_data' );
 
-		if ( ! wp_mkdir_p( $exports_dir ) ) {
-			wp_send_json_error( __( 'Unable to create export folder.' ) );
+		$success = true;
+		if ( is_wp_error( $request_id ) ) {
+			$success = false;
+			$message = $request_id->get_error_message();
+		} elseif ( ! $request_id ) {
+			$success = false;
+			$message = __( 'We were unable to generate the data export request.', 'export-all-path-from-urls' );
 		}
 
-		// We don't care about the extrenuous index.html file.
-
-		$stripped_email       = str_replace( '@', '-at-', $email_address );
-		$stripped_email       = sanitize_title( $stripped_email ); // slugify the email address
-		$obscura              = wp_generate_password( 32, false, false );
-		$file_basename        = 'wp-personal-data-file-' . $stripped_email . '-' . $obscura;
-		$html_report_filename = wp_unique_filename( $temp_dir, $file_basename . '.html' );
-		$html_report_pathname = wp_normalize_path( $temp_dir . $html_report_filename );
-		$json_report_filename = $file_basename . '.json';
-		$json_report_pathname = wp_normalize_path( $temp_dir . $json_report_filename ); // Use temp_dir because we don't want the file generated remotely yet.
-
 		/*
-		* Gather general data needed.
+		* Auto-confirm the user request since the user already consented by
+		* submitting our form.
 		*/
+		if ( $success ) {
+			/** This hook is documented in /wp-login.php */
+			do_action( 'user_request_action_confirmed', $request_id );
 
-		// Title.
-		$title = sprintf(
-			/* translators: %s: User's email address. */
-			__( 'Personal Data Export for %s' ),
-			$email_address
-		);
-
-		// And now, all the Groups.
-		$groups = get_post_meta( $request_id, '_export_data_grouped', true );
-
-		// First, build an "About" group on the fly for this report.
-		$about_group = array(
-			/* translators: Header for the About section in a personal data export. */
-			'group_label'       => _x( 'About', 'personal data group label' ),
-			/* translators: Description for the About section in a personal data export. */
-			'group_description' => _x( 'Overview of export report.', 'personal data group description' ),
-			'items'             => array(
-				'about-1' => array(
-					array(
-						'name'  => _x( 'Report generated for', 'email address' ),
-						'value' => $email_address,
-					),
-					array(
-						'name'  => _x( 'For site', 'website name' ),
-						'value' => get_bloginfo( 'name' ),
-					),
-					array(
-						'name'  => _x( 'At URL', 'website URL' ),
-						'value' => get_bloginfo( 'url' ),
-					),
-					array(
-						'name'  => _x( 'On', 'date/time' ),
-						'value' => current_time( 'mysql' ),
-					),
-				),
-			),
-		);
-
-		// Merge in the special about group.
-		$groups = array_merge( array( 'about' => $about_group ), $groups );
-
-		$groups_count = count( $groups );
-
-		// Convert the groups to JSON format.
-		$groups_json = wp_json_encode( $groups );
-
-		/*
-		* Handle the JSON export.
-		*/
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file = fopen( $json_report_pathname, 'w' );
-
-		if ( false === $file ) {
-			wp_send_json_error( __( 'Unable to open export file (JSON report) for writing.' ) );
+			$message = __( 'Data export request successfully created', 'export-all-path-from-urls' );
 		}
 
-		fwrite( $file, '{' );
-		fwrite( $file, '"' . $title . '":' );
-		fwrite( $file, $groups_json );
-		fwrite( $file, '}' );
-		fclose( $file );
+		return [
+			'request_id' => $request_id,
+			'message' => $message,
+			'user' => $user
+		];
+	}
 
-		/*
-		* Handle the HTML export.
-		*/
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file = fopen( $html_report_pathname, 'w' );
+	// Use this function to move csv file from temp folder to permanently save it to export folder
+	public function generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file ) {
+		// Get the request.
+		$request = wp_get_user_request($request_id);
 
-		if ( false === $file ) {
-			wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
+		// Making sure export meta should not be empty, if it is, then just recreate one instead
+		if (empty($exportmeta)) {
+			$exportmeta = $this->get_nab_path_and_file();
 		}
 
-		fwrite( $file, "<!DOCTYPE html>\n" );
-		fwrite( $file, "<html>\n" );
-		fwrite( $file, "<head>\n" );
-		fwrite( $file, "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" );
-		fwrite( $file, "<style type='text/css'>" );
-		fwrite( $file, 'body { color: black; font-family: Arial, sans-serif; font-size: 11pt; margin: 15px auto; width: 860px; }' );
-		fwrite( $file, 'table { background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }' );
-		fwrite( $file, 'th { padding: 5px; text-align: left; width: 20%; }' );
-		fwrite( $file, 'td { padding: 5px; }' );
-		fwrite( $file, 'tr:nth-child(odd) { background-color: #fafafa; }' );
-		fwrite( $file, '.return-to-top { text-align: right; }' );
-		fwrite( $file, '</style>' );
-		fwrite( $file, '<title>' );
-		fwrite( $file, esc_html( $title ) );
-		fwrite( $file, '</title>' );
-		fwrite( $file, "</head>\n" );
-		fwrite( $file, "<body>\n" );
-		fwrite( $file, '<h1 id="top">' . esc_html__( 'Personal Data Export' ) . '</h1>' );
+		if (! $request || 'export_personal_data' !== $request->action_name) {
+			wp_send_json_error(__('Invalid request ID when generating export file.'));
+		}
+		$filename = $exportmeta['filename'];
+		$csv_url = $exportmeta['csv_url'];
+		$exports_dir = $exportmeta['path'];
 
-		// Create TOC.
-		if ( $groups_count > 1 ) {
-			fwrite( $file, '<div id="table_of_contents">' );
-			fwrite( $file, '<h2>' . esc_html__( 'Table of Contents' ) . '</h2>' );
-			fwrite( $file, '<ul>' );
-			foreach ( (array) $groups as $group_id => $group_data ) {
-				$group_label       = esc_html( $group_data['group_label'] );
-				$group_id_attr     = sanitize_title_with_dashes( $group_data['group_label'] . '-' . $group_id );
-				$group_items_count = count( (array) $group_data['items'] );
-				if ( $group_items_count > 1 ) {
-					$group_label .= sprintf( ' <span class="count">(%d)</span>', $group_items_count );
-				}
-				fwrite( $file, '<li>' );
-				fwrite( $file, '<a href="#' . esc_attr( $group_id_attr ) . '">' . $group_label . '</a>' );
-				fwrite( $file, '</li>' );
+		if (!file_exists($csv_file)) {
+			// Create the exports folder if needed.
+			if (! wp_mkdir_p($exports_dir)) {
+				wp_send_json_error(__('Unable to create export folder.'));
 			}
-			fwrite( $file, '</ul>' );
-			fwrite( $file, '</div>' );
+		}
+		$data = [];
+		$headers = [];
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		$file = fopen( $csv_file, 'w' );
+
+		if ( false === $file ) {
+			wp_send_json_error( __( 'Unable to open CSV export file.' ) );
 		}
 
-		// Now, iterate over every group in $groups and have the formatter render it in HTML.
-		foreach ( (array) $groups as $group_id => $group_data ) {
-			fwrite( $file, wp_privacy_generate_personal_data_export_group_html( $group_data, $group_id, $groups_count ) );
+		fprintf($file, "\xEF\xBB\xBF");
+
+		$headers[] = '#';
+		$headers[] = 'Post ID';
+		$headers[] = 'Post Type';
+		$headers[] = 'Paths';
+
+		fputcsv($file, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
+
+		for ($index = 0; $index < $count; $index++) {
+			$data = array(
+				$urls['seq'][$index] ,
+				isset($urls['post_id']) ? $urls['post_id'][$index] : "",
+				isset($urls['post_type']) ? $urls['post_type'][$index] : "",
+				isset($urls['path']) ? $urls['path'][$index] : ""
+			);
+
+			fputcsv($file, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
 		}
 
-		fwrite( $file, "</body>\n" );
-		fwrite( $file, "</html>\n" );
-		fclose( $file );
+		fclose($file);
 
-		/*
-		* Now, generate the ZIP.
-		*
-		* If an archive has already been generated, then remove it and reuse the filename,
-		* to avoid breaking any URLs that may have been previously sent via email.
-		*/
+		error_log(json_encode($urls));
+
 		$error = false;
 
 		// This meta value is used from version 5.5.
-		$archive_filename = get_post_meta( $request_id, '_export_file_name', true );
+		$export_path_filename = get_post_meta( $request_id, '_export_file_name', true );
 
 		// This one stored an absolute path and is used for backward compatibility.
-		$archive_pathname = get_post_meta( $request_id, '_export_file_path', true );
+		$export_path_pathname = get_post_meta( $request_id, '_export_file_path', true );
 
 		// If a filename meta exists, use it.
-		if ( ! empty( $archive_filename ) ) {
-			$archive_pathname = $exports_dir . $archive_filename;
-		} elseif ( ! empty( $archive_pathname ) && is_file( $archive_pathname ) ) {
+		if ( ! empty( $export_path_filename ) ) {
+			$export_path_pathname = $csv_file;
+		} elseif ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
 			// If a full path meta exists, use it and create the new meta value.
-			$archive_filename = basename( $archive_pathname );
+			$export_path_filename = $filename;
+			$export_path_pathname = $csv_file;
 
-			update_post_meta( $request_id, '_export_file_name', $archive_filename );
+			update_post_meta( $request_id, '_export_file_name',$export_path_pathname );
 
 			// Remove the back-compat meta values.
 			delete_post_meta( $request_id, '_export_file_url' );
 			delete_post_meta( $request_id, '_export_file_path' );
 		} else {
 			// If there's no filename or full path stored, create a new file.
-			$archive_filename = $file_basename . '.zip';
-			$archive_pathname = $exports_dir . $archive_filename;
-
-			update_post_meta( $request_id, '_export_file_name', $archive_filename );
+			// $archive_filename = $archive['csv_filename'];
+			$export_path_filename = $filename;
+			$export_path_pathname = $csv_file;
+			update_post_meta( $request_id, '_export_file_name', $export_path_pathname );
 		}
 
-		$archive_url = $exports_url . $archive_filename;
-
-		if ( ! empty( $archive_pathname ) && is_file( $archive_pathname ) ) {
-			wp_delete_file( $archive_pathname );
+		if ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
+			wp_delete_file( $export_path_pathname );
 		}
-
 		// Track generated time to simplify deletions.
 		// We can't currently iterate through files in the Files Service so we need a way to query exports by date.
 		update_post_meta( $request_id, '_vip_export_generated_time', time() );
 
-		// Hack: ZipArchive and PclZip don't support streams.
 		// So, let's force the path to use a local one in the temp dir, which will work.
 		// All other references (meta) will still use the correct stream URL.
-		$local_archive_pathname = $archive_pathname;
+		$local_export_pathname = $export_path_pathname;
 
-		if ( 0 === strpos( $local_archive_pathname, 'vip://' ) ) {
-			$local_archive_pathname = get_temp_dir() . substr( $archive_pathname, 6 );
+		if ( 0 === strpos( $local_export_pathname, 'vip://' ) ) {
+			$local_export_pathname = $exports_dir . substr( $export_path_pathname, 6 );
 
 			// Create the folder path.
-			$local_archive_dirname     = dirname( $local_archive_pathname );
-			$local_archive_dir_created = wp_mkdir_p( $local_archive_dirname );
-			if ( is_wp_error( $local_archive_dir_created ) ) {
-				/** @var WP_Error $local_archive_dir_created */
-				wp_send_json_error( $local_archive_dir_created->get_error_message() );
+			$local_export_dirname     = dirname( $local_export_pathname );
+			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
+			if ( is_wp_error( $local_export_dir_created ) ) {
+				/** @var WP_Error $local_export_dir_created */
+				wp_send_json_error( $local_export_dir_created->get_error_message() );
 			}
 		}
 
-		// Note: core deletes the file if it exists, but we can just overwrite it when we upload.
-
-		// ZipArchive may not be available across all applications.
-		// Use it if it exists, otherwise fallback to PclZip.
-		if ( class_exists( '\ZipArchive' ) ) {
-			$zip = new \ZipArchive; // phpcs:ignore WordPress.Classes.ClassInstantiation.MissingParenthesis
-			if ( true === $zip->open( $local_archive_pathname, \ZipArchive::CREATE ) ) {
-				if ( ! $zip->addFile( $json_report_pathname, 'export.json' ) ) {
-					$error = __( 'Unable to add data to JSON file.' );
-				}
-
-				if ( ! $zip->addFile( $html_report_pathname, 'index.html' ) ) {
-					$error = __( 'Unable to add data to HTML file.' );
-				}
-
-				$zip->close();
-			} else {
-				$error = __( 'Unable to open export file (archive) for writing.' );
-			}
-		} else {
-			$zip = _pclzip_create_file( $local_archive_pathname, $html_report_pathname );
-
-			if ( is_wp_error( $zip ) ) {
-				$error = __( 'Unable to open export file (archive) for writing.' );
-			}
-		}
-
-		// Remove the JSON file.
-		unlink( $json_report_pathname );
-
-		// Remove the HTML file.
-		unlink( $html_report_pathname );
+		// // Remove the temp csv file.
+		// unlink( $csv_file );
 
 		if ( $error ) {
 			wp_send_json_error( $error );
 		} else {
 			/** This filter is documented in wp-admin/includes/file.php */
-			do_action( 'wp_privacy_personal_data_export_file_created', $local_archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname );
+			do_action( 'wp_privacy_personal_data_export_file_created', $local_export_pathname, $csv_url, $csv_file, $request_id );
 
-			$this->_upload_archive_file( $local_archive_pathname );
+			$this->_upload_archive_file( $local_export_pathname );
 		}
-	}
 
+	}
 	public function _upload_archive_file( $archive_path ) {
 		// For local usage, skip the remote upload.
 		// The file is already in the uploads folder.
@@ -934,3 +705,5 @@ class ExportAllPaths
 		}
 	}
 }
+
+new ExportAllPaths();
