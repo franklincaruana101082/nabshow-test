@@ -16,6 +16,7 @@
  * - The WordPress.com VIP Team
  **/
 
+// define(‘WP_CACHE’, true);
 define('WP_DEBUG', false);
 
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
@@ -68,5 +69,3 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 }
 
 define('JWT_AUTH_SECRET_KEY', 'jhBvSg>3AVZ;+?}OvbtL:|,v26`V+zG|#.aQXpm^}(w4feLQb?dLZF{o7-h5J)F/');
-
-// define(‘WP_CACHE’, true);
