@@ -57,11 +57,11 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 		add_action( 'wp_privacy_delete_old_export_files', __NAMESPACE__ . '\delete_old_export_files' );
 	}
 
-	public function generate_personal_data_export_file($request_id){
-		echo $request_id;
-		error_log($request_id);
+	// public function generate_personal_data_export_file($request_id){
+	// 	echo $request_id;
+	// 	error_log($request_id);
 
-	}
+	// }
 
 	public function delete_old_export_files(){
 
