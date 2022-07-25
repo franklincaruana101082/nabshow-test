@@ -518,7 +518,6 @@ class ExportAllPaths
 		}
 		$data = [];
 		$headers = [];
-		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
 
 		//create a file
 		$filename = $exportmeta['filename'];
