@@ -64,7 +64,7 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 
 	public function export_paths_from_urls_nav(){
 
-		add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-paths-from-urls-settings-version-1', [$this, 'export_path_from_urls_settings_page'], null);
+		add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-paths-from-urls-settings', [$this, 'export_path_from_urls_settings_page'], null);
 
 	}
 	public function export_path_from_urls_settings_page(){
