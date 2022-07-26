@@ -430,43 +430,44 @@ class ExportAllPaths
 	// Use this function to check request id is valid and create temp folder to temporary save csv file
 	public function get_nab_path_and_file(){
 
-			$exportmeta = [];
+		$exportmeta = [];
 
-			// Create the exports folder if needed.
-			$temp_dir = get_temp_dir();
-			// $exports_dir = __DIR__ .'/wp-content/uploads';
-			$exports_dir = wp_privacy_exports_dir();
-			$exports_url = wp_privacy_exports_url();
+		// Create the exports folder if needed.
+		$temp_dir = get_temp_dir();
+		// $exports_dir = __DIR__ .'/wp-content/uploads';
+		$exports_dir = wp_privacy_exports_dir();
+		$exports_url = wp_privacy_exports_url();
 
-			if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
-				$local_export_pathname = $exports_dir . substr( $exports_dir, 6 );
+		// So, let's force the path to use a local one in the export dir, which will work.
+		// All other references (meta) will still use the correct stream URL.
+		if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
+			$local_export_pathname = substr( $exports_dir, 6 );
 
-				// Create the folder path.
-				$local_export_dirname     = dirname( $local_export_pathname );
-				$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
-				if ( is_wp_error( $local_export_dir_created ) ) {
-					/** @var WP_Error $local_export_dir_created */
-					wp_send_json_error( $local_export_dir_created->get_error_message() );
-				}
-
-				$exports_dir = $local_export_dirname;
+			// Create the folder path.
+			$local_export_dirname     = dirname( $local_export_pathname );
+			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
+			if ( is_wp_error( $local_export_dir_created ) ) {
+				/** @var WP_Error $local_export_dir_created */
+				wp_send_json_error( $local_export_dir_created->get_error_message() );
 			}
 
-			$filename = $file_basename = "export-path-from-urls.csv";
-			// $csv_file = $exports_dir/$filename";
-			$csv_file = "$exports_dir/$filename";
+			$exports_dir = $local_export_dirname;
+		}
 
-			$export_path_url = "$exports_dir/$filename";
+		$filename = $file_basename = "export-path-from-urls.csv";
+		$csv_file = "$exports_dir/$filename";
 
-			$exportmeta['temp_dir'] = $temp_dir;
-			$exportmeta['url'] = $exports_url;
-			$exportmeta['path'] = $exports_dir;
-			$exportmeta['filename'] = $filename;
-			$exportmeta['file_basename'] = $file_basename;
-			$exportmeta['csv_url'] = $export_path_url;
-			$exportmeta['csv_file'] = $csv_file;
+		$export_path_url = "$exports_dir/$filename";
 
-			return $exportmeta;
+		$exportmeta['temp_dir'] = $temp_dir;
+		$exportmeta['url'] = $exports_url;
+		$exportmeta['path'] = $exports_dir;
+		$exportmeta['filename'] = $filename;
+		$exportmeta['file_basename'] = $file_basename;
+		$exportmeta['csv_url'] = $export_path_url;
+		$exportmeta['csv_file'] = $csv_file;
+
+		return $exportmeta;
 	}
 
 	public function nab_create_user_request(){
@@ -570,10 +571,6 @@ class ExportAllPaths
 		// Track generated time to simplify deletions.
 		// We can't currently iterate through files in the Files Service so we need a way to query exports by date.
 		update_post_meta( $request_id, '_vip_export_generated_time', time() );
-
-		// So, let's force the path to use a local one in the temp dir, which will work.
-		// All other references (meta) will still use the correct stream URL.
-		// $local_export_pathname = $export_path_pathname;
 
 		return $this->create_export_csv_file($urls, $csv_file, $count, $file_basename);
 
