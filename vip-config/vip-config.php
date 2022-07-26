@@ -17,7 +17,7 @@
  **/
 
 // define(‘WP_CACHE’, true);
-define('WP_DEBUG', false);
+// define('WP_DEBUG', false);
 
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     $http_host   = $_SERVER['HTTP_HOST'];

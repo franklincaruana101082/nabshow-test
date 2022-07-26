@@ -213,17 +213,16 @@ class ExportAllPaths
 		foreach ($urls as $item) {
 			$count = count($item);
 		}
-
 		switch ($export_type) {
 			case "text":
 
 				$exportmeta = $this->get_nab_path_and_file();
 				$csv_file = $exportmeta['csv_file'];
-				// If no request id then just create it anyway
+				// Create request id it anyway
 				$request_details = $this->nab_create_user_request();
 				$request_id = $request_details['request_id'];
 
-				$html = $this->generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file );
+				$html .= $this->initiate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file );
 
 				break;
 
@@ -437,10 +436,9 @@ class ExportAllPaths
 			$exports_url = wp_privacy_exports_url();
 
 			$filename = $file_basename = "export-path-from-urls.csv";
-			// $filename = wp_unique_filename( $exports_dir, $file_basename );
-			$csv_file = wp_normalize_path( $exports_dir . $filename );
+			$csv_file = wp_normalize_path( "{$exports_dir}/{$filename}" );
 
-			$export_path_url = $exports_url . $filename;
+			$export_path_url = "{$exports_dir}/{$filename}";
 
 			$exportmeta['temp_dir'] = $temp_dir;
 			$exportmeta['url'] = $exports_url;
@@ -458,7 +456,6 @@ class ExportAllPaths
 		$user = wp_get_current_user();
 
 		$email_address  = time().$user->user_email;
-
 
 		if ( ! is_email( $email_address ) ) {
 			wp_send_json_error( __( 'Invalid email address when generating export file.' ) );
@@ -493,8 +490,7 @@ class ExportAllPaths
 		];
 	}
 
-	// Use this function to move csv file from temp folder to permanently save it to export folder
-	public function generate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file ) {
+	public function initiate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file ) {
 		// Get the request.
 		$request = wp_get_user_request($request_id);
 		$html = "";
@@ -506,8 +502,8 @@ class ExportAllPaths
 		if (! $request || 'export_personal_data' !== $request->action_name) {
 			wp_send_json_error(__('Invalid request ID when generating export file.'));
 		}
-		// $filename = $exportmeta['filename'];
-		$csv_url = $exportmeta['csv_url'];
+
+		// $csv_url = $exportmeta['csv_url'];
 		$exports_dir = $exportmeta['path'];
 
 		if (!file_exists($csv_file)) {
@@ -521,41 +517,6 @@ class ExportAllPaths
 
 		//create a file
 		$filename = $exportmeta['filename'];
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file_csv = fopen( $csv_file, 'w');
-
-
-		if ( false === $file_csv ) {
-			wp_send_json_error( __( 'Unable to open CSV export file.' ) );
-		}
-
-		$headers = ['#', 'Post ID', 'Post Type', 'Paths'];
-
-		fputcsv($file_csv, $headers,',','"'); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
-
-		for ($index = 0; $index < $count; $index++) {
-			$data = array(
-				$urls['seq'][$index] ,
-				isset($urls['post_id']) ? $urls['post_id'][$index] : "",
-				isset($urls['post_type']) ? $urls['post_type'][$index] : "",
-				isset($urls['path']) ? $urls['path'][$index] : ""
-			);
-
-			fputcsv($file_csv, $data,',','"'); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
-		}
-
-		fclose($file_csv);
-
-		$csv_url = $exportmeta['csv_url'];
-
-		$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
-		$html .= "<div class='updated '><a href='$csv_file' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
-		$html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
-		$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
-
-
-		$error = false;
 
 		// This meta value is used from version 5.5.
 		$export_path_filename = get_post_meta( $request_id, '_export_file_name', true );
@@ -584,9 +545,10 @@ class ExportAllPaths
 			update_post_meta( $request_id, '_export_file_name', $export_path_pathname );
 		}
 
-		if ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
-			wp_delete_file( $export_path_pathname );
-		}
+		// if ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
+		// 	wp_delete_file( $export_path_pathname );
+		// }
+
 		// Track generated time to simplify deletions.
 		// We can't currently iterate through files in the Files Service so we need a way to query exports by date.
 		update_post_meta( $request_id, '_vip_export_generated_time', time() );
@@ -607,19 +569,47 @@ class ExportAllPaths
 			}
 		}
 
-		// // Remove the temp csv file.
-		// unlink( $csv_file );
+		return $this->create_export_csv_file($urls, $csv_file, $count);
 
-		if ( $error ) {
-			wp_send_json_error( $error );
-		} else {
-			/** This filter is documented in wp-admin/includes/file.php */
-			do_action( 'wp_privacy_personal_data_export_file_created', $local_export_pathname, $csv_url, $csv_file, $request_id );
+	}
 
-			$this->_upload_archive_file( $local_export_pathname );
+	public function create_export_csv_file($urls, $csv_file, $count){
+		$html = "";
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		$file_csv = fopen( $csv_file, 'w');
+		fputs($file_csv, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
+
+		if ( false === $file_csv ) {
+			wp_send_json_error( __( 'Unable to open CSV export file.' ) );
 		}
+
+		$headers[] = '#';
+		$headers[] = 'Post ID';
+		$headers[] = 'Post Type';
+		$headers[] = 'Paths';
+		fputcsv($file_csv, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
+
+		for ($i = 0; $i < $count; $i++) {
+			$data = array(
+				$urls['seq'][$i] ,
+				isset($urls['post_id']) ? $urls['post_id'][$i] : "",
+				isset($urls['post_type']) ? $urls['post_type'][$i] : "",
+				isset($urls['path']) ? $urls['path'][$i] : ""
+			);
+
+			fputcsv($file_csv, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
+		}
+
+		fclose($file_csv);
+
+		$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
+		$html .= "<div class='updated '><a href='$csv_file' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
+		$html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
+		$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
+
 		return $html;
 	}
+
 	public function _upload_archive_file( $archive_path ) {
 		// For local usage, skip the remote upload.
 		// The file is already in the uploads folder.
@@ -703,6 +693,30 @@ class ExportAllPaths
 				trigger_error( esc_html( $message ), E_USER_WARNING );
 			}
 		}
+	}
+
+	public function arrayToCSV($inputArray)
+	{
+		$csvFieldRow = array();
+		foreach ($inputArray as $CSBRow) {
+			$csvFieldRow[] = str_putcsv($CSBRow);
+		}
+		$csvData = implode("\n", $csvFieldRow);
+		return $csvData;
+	}
+	public function str_putcsv($input, $delimiter = ',', $enclosure = '"')
+	{
+		// Open a memory "file" for read/write
+		$fp = fopen('php://temp', 'r+');
+		// Write the array to the target file using fputcsv()
+		fputcsv($fp, $input, $delimiter, $enclosure);
+		// Rewind the file
+		rewind($fp);
+		// File Read
+		$data = fread($fp, 1048576);
+		fclose($fp);
+		// Ad line break and return the data
+		return rtrim($data, "\n");
 	}
 }
 
