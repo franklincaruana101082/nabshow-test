@@ -449,7 +449,7 @@ class ExportAllPaths
 					wp_send_json_error( $local_export_dir_created->get_error_message() );
 				}
 
-				$exports_dir = $local_export_dir_created;
+				$exports_dir = $local_export_dirname;
 			}
 
 			$filename = $file_basename = "export-path-from-urls.csv";
