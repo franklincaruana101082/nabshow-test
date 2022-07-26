@@ -34,11 +34,13 @@ class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPath
 
 			add_action( 'admin_init', [$this, 'init_privacy_compat_cleanup']);
 
+
 			// add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
 		}else{
 			add_filter('the_content',[$this, 'nabshow_content_after_body']);
 		}
 	}
+
 
 	// public function init_privacy_compat() {
 		// Replace core's privacy data export handler with a custom one.

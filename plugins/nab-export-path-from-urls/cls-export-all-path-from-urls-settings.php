@@ -513,9 +513,10 @@ class ExportAllPathFromUrlsSettings extends \Plugins\NabExportPathFromUrls\Expor
 			}
 			else if(isset($_REQUEST['del']) && $_REQUEST['del'] == 'y')
 			{
-				$file_dir = wp_get_upload_dir();
+				$exportmeta = $this->get_nab_path_and_file();
+				$file_dir = $exportmeta['path'];
 				$checkfile = !empty($_REQUEST['f']) ? base64_decode(sanitize_text_field($_REQUEST['f'])) : null;
-				$file = $file_dir['path']."/".$checkfile;
+				$file = "$file_dir/$checkfile";
 				echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>"); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_unlink
 			}
 		}
