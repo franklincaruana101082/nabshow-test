@@ -440,12 +440,15 @@ class ExportAllPaths
 
 		// So, let's force the path to use a local one in the export dir, which will work.
 		// All other references (meta) will still use the correct stream URL.
+		$exports_dir = "vip://wp-content/uploads/wp-personal-data-exports";
 		if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
 			$local_export_pathname = substr( $exports_dir, 6 );
 
 			// Create the folder path.
-			if($local_export_pathname == "wp-content/uploads")
+			if(0 === strcmp($local_export_pathname,"wp-content/uploads"))
 				$local_export_dirname     = "/wp/$local_export_pathname/wp-personal-data-exports";
+			else if(0 === strcmp($local_export_pathname,"wp-content/uploads/wp-personal-data-exports"))
+				$local_export_dirname     = "/wp/$local_export_pathname";
 			else
 				$local_export_dirname     = dirname( $local_export_pathname );
 
@@ -454,7 +457,6 @@ class ExportAllPaths
 				/** @var WP_Error $local_export_dir_created */
 				wp_send_json_error( $local_export_dir_created->get_error_message() );
 			}
-
 			$exports_dir = $local_export_dirname;
 		}
 
