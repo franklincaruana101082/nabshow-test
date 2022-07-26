@@ -218,11 +218,13 @@ class ExportAllPaths
 
 				$exportmeta = $this->get_nab_path_and_file();
 				$csv_file = $exportmeta['csv_file'];
-				// Create request id it anyway
+				$file_basename = $exportmeta['file_basename'];
+
+				// Create request
 				$request_details = $this->nab_create_user_request();
 				$request_id = $request_details['request_id'];
 
-				$html .= $this->initiate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file );
+				$html .= $this->initiate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file, $file_basename );
 
 				break;
 
@@ -432,13 +434,29 @@ class ExportAllPaths
 
 			// Create the exports folder if needed.
 			$temp_dir = get_temp_dir();
+			// $exports_dir = __DIR__ .'/wp-content/uploads';
 			$exports_dir = wp_privacy_exports_dir();
 			$exports_url = wp_privacy_exports_url();
 
-			$filename = $file_basename = "export-path-from-urls.csv";
-			$csv_file = wp_normalize_path( "{$exports_dir}/{$filename}" );
+			if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
+				$local_export_pathname = $exports_dir . substr( $exports_dir, 6 );
 
-			$export_path_url = "{$exports_dir}/{$filename}";
+				// Create the folder path.
+				$local_export_dirname     = dirname( $local_export_pathname );
+				$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
+				if ( is_wp_error( $local_export_dir_created ) ) {
+					/** @var WP_Error $local_export_dir_created */
+					wp_send_json_error( $local_export_dir_created->get_error_message() );
+				}
+
+				$exports_dir = $local_export_dir_created;
+			}
+
+			$filename = $file_basename = "export-path-from-urls.csv";
+			// $csv_file = $exports_dir/$filename";
+			$csv_file = "$exports_dir/$filename";
+
+			$export_path_url = "$exports_dir/$filename";
 
 			$exportmeta['temp_dir'] = $temp_dir;
 			$exportmeta['url'] = $exports_url;
@@ -490,7 +508,7 @@ class ExportAllPaths
 		];
 	}
 
-	public function initiate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file ) {
+	public function initiate_csv_data_export_file( $urls, $request_id, $exportmeta, $count, $csv_file, $file_basename ) {
 		// Get the request.
 		$request = wp_get_user_request($request_id);
 		$html = "";
@@ -555,25 +573,14 @@ class ExportAllPaths
 
 		// So, let's force the path to use a local one in the temp dir, which will work.
 		// All other references (meta) will still use the correct stream URL.
-		$local_export_pathname = $export_path_pathname;
+		// $local_export_pathname = $export_path_pathname;
 
-		if ( 0 === strpos( $local_export_pathname, 'vip://' ) ) {
-			$local_export_pathname = $exports_dir . substr( $export_path_pathname, 6 );
-
-			// Create the folder path.
-			$local_export_dirname     = dirname( $local_export_pathname );
-			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
-			if ( is_wp_error( $local_export_dir_created ) ) {
-				/** @var WP_Error $local_export_dir_created */
-				wp_send_json_error( $local_export_dir_created->get_error_message() );
-			}
-		}
-
-		return $this->create_export_csv_file($urls, $csv_file, $count);
+		return $this->create_export_csv_file($urls, $csv_file, $count, $file_basename);
 
 	}
 
-	public function create_export_csv_file($urls, $csv_file, $count){
+	public function create_export_csv_file($urls, $csv_file, $count, $file_basename)
+	{
 		$html = "";
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 		$file_csv = fopen( $csv_file, 'w');
@@ -587,6 +594,7 @@ class ExportAllPaths
 		$headers[] = 'Post ID';
 		$headers[] = 'Post Type';
 		$headers[] = 'Paths';
+
 		fputcsv($file_csv, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
 
 		for ($i = 0; $i < $count; $i++) {
@@ -604,10 +612,43 @@ class ExportAllPaths
 
 		$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
 		$html .= "<div class='updated '><a href='$csv_file' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
-		$html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
+		// $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
 		$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
+		if (is_admin()) {
+			if (isset($_POST['export'])) {
+				if (isset($_REQUEST['_wpnonce'])) {
+					if (wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_path_from_urls')) {
+						do_action('send_headers', 'sent_header_download_csv', $csv_file, $file_basename);
+					}
+				}
+			}
+		}
+
 		return $html;
+	}
+
+	public function sent_header_download_csv($csv_file,$file_basename)
+	{
+		error_log($csv_file);
+		error_log($file_basename);
+		if (wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_path_from_urls')) {
+			// $filepath   = str_replace(home_url().'/wp-content/uploads/', '', $guid);
+			// $download   = __DIR__ .'/wp-content/uploads/' . $csv_file;
+			$filesize   = filesize($csv_file);
+			$mimetype = mime_content_type($csv_file);
+
+			//Download file
+			header('Content-Description: File Transfer');
+			header('Content-Disposition: attachment; filename='.$file_basename);
+			header('Content-Type: '.$mimetype);
+			header('Content-Transfer-Encoding: '.$mimetype);
+			header('Content-Length: '.$filesize);
+			ob_clean();
+			flush();
+			readfile($csv_file);
+			exit();
+		}
 	}
 
 	public function _upload_archive_file( $archive_path ) {
