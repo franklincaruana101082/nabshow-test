@@ -615,40 +615,31 @@ class ExportAllPaths
 		// $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
 		$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
-		if (is_admin()) {
-			if (isset($_POST['export'])) {
-				if (isset($_REQUEST['_wpnonce'])) {
-					if (wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_path_from_urls')) {
-						do_action('send_headers', 'sent_header_download_csv', $csv_file, $file_basename);
-					}
-				}
-			}
-		}
+		add_filter('send_headers', [$this,'sent_header_download_csv', $csv_file, $file_basename],1);
 
 		return $html;
 	}
 
-	public function sent_header_download_csv($csv_file,$file_basename)
+	public function sent_header_download_csv($headers)
 	{
-		error_log($csv_file);
-		error_log($file_basename);
-		if (wp_verify_nonce(sanitize_text_field($_REQUEST['_wpnonce']), 'export_path_from_urls')) {
-			// $filepath   = str_replace(home_url().'/wp-content/uploads/', '', $guid);
-			// $download   = __DIR__ .'/wp-content/uploads/' . $csv_file;
-			$filesize   = filesize($csv_file);
-			$mimetype = mime_content_type($csv_file);
 
-			//Download file
-			header('Content-Description: File Transfer');
-			header('Content-Disposition: attachment; filename='.$file_basename);
-			header('Content-Type: '.$mimetype);
-			header('Content-Transfer-Encoding: '.$mimetype);
-			header('Content-Length: '.$filesize);
-			ob_clean();
-			flush();
-			readfile($csv_file);
-			exit();
-		}
+		$exportmeta = $this->get_nab_path_and_file();
+		$csv_file = $exportmeta['csv_file'];
+		$file_basename = $exportmeta['file_basename'];
+		$filesize   = filesize($csv_file);
+		$mimetype = mime_content_type($csv_file);
+
+		//Download file
+		$headers['Content-Description'] = 'File Transfer';
+		$headers['Content-Disposition'] = 'attachment; filename='.$file_basename;
+		$headers['Content-Type'] = $mimetype;
+		$headers['Content-Transfer-Encoding'] = $mimetype;
+		$headers['Content-Length'] = $filesize;
+		ob_clean();
+		flush();
+		readfile($csv_file);
+
+		return $headers;
 	}
 
 	public function _upload_archive_file( $archive_path ) {
