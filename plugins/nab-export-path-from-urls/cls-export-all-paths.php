@@ -444,7 +444,11 @@ class ExportAllPaths
 			$local_export_pathname = substr( $exports_dir, 6 );
 
 			// Create the folder path.
-			$local_export_dirname     = dirname( $local_export_pathname );
+			if($local_export_pathname == "wp-content/uploads")
+				$local_export_dirname     = "/wp/$local_export_pathname/wp-personal-data-exports";
+			else
+				$local_export_dirname     = dirname( $local_export_pathname );
+
 			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
 			if ( is_wp_error( $local_export_dir_created ) ) {
 				/** @var WP_Error $local_export_dir_created */
