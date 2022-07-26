@@ -480,7 +480,7 @@ class ExportAllPaths
 		// Create the user request.
 		$user = wp_get_current_user();
 
-		$email_address  = time().$user->user_email;
+		$email_address  = $user->user_email;
 
 		if ( ! is_email( $email_address ) ) {
 			wp_send_json_error( __( 'Invalid email address when generating export file.' ) );
