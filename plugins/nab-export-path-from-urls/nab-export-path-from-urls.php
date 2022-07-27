@@ -2,18 +2,13 @@
 
 /*
 Plugin Name: Export Paths from URLs
-Plugin URI: https://AtlasGondal.com/
 Description: Export a CSV file that contains the following columns:
 Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/
 Post ID - the Post ID of the content on that page
 Post Type - e.g. Page, Company, Session, Article, etc.
 The CSV should contain a row for every page on Amplify.
-Version: 1.0.1
-Original Author: Atlas Gondal
-Modified By: Crush & Lovely
-Author URI: https://AtlasGondal.com/
-License: GPL v2 or higher
-License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
+This plugin  creates a user request upon  export/navigating to amdin tool.page the WP core Export Personal Data feature
+so can always navigate to Export Personal Data page to download exported  csv file
 */
 namespace Plugins\NabExportPathFromUrls;
 
