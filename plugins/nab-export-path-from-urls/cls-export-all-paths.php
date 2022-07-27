@@ -525,6 +525,7 @@ class ExportAllPaths
 		}
 
 		if (! $request || 'export_personal_data' !== $request->action_name) {
+
 			wp_send_json_error(__('Invalid request ID when generating export file.'));
 		}
 
@@ -551,29 +552,21 @@ class ExportAllPaths
 
 		// If a filename meta exists, use it.
 		if ( ! empty( $export_path_filename ) ) {
-			$export_path_pathname = $csv_file;
+			do_action('sent_header_download_csv', $exports_dir.$export_path_filename);
 		} elseif ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
-			// If a full path meta exists, use it and create the new meta value.
-			$export_path_filename = $filename;
-			$export_path_pathname = $csv_file;
 
-			update_post_meta( $request_id, '_export_file_name',$export_path_pathname );
+			update_post_meta( $request_id, '_export_file_name',$filename );
 
 			// Remove the back-compat meta values.
 			delete_post_meta( $request_id, '_export_file_url' );
 			delete_post_meta( $request_id, '_export_file_path' );
 		} else {
-			// If there's no filename or full path stored, create a new file.
-			// $archive_filename = $archive['csv_filename'];
-			$export_path_filename = $filename;
-			$export_path_pathname = $csv_file;
-			update_post_meta( $request_id, '_export_file_name', $export_path_pathname );
+			update_post_meta( $request_id, '_export_file_name', $filename );
 		}
 
-		// if ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
-		// 	wp_delete_file( $export_path_pathname );
-		// }
-
+		if ( ! empty( $export_path_pathname ) && is_file( $export_path_pathname ) ) {
+			wp_delete_file( $export_path_pathname );
+		}
 		// Track generated time to simplify deletions.
 		// We can't currently iterate through files in the Files Service so we need a way to query exports by date.
 		update_post_meta( $request_id, '_vip_export_generated_time', time() );
@@ -618,7 +611,7 @@ class ExportAllPaths
 		// $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
 		$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
-		add_filter('send_headers', [$this,'sent_header_download_csv', $csv_file, $file_basename],1);
+		do_action('sent_header_download_csv', $csv_file, $file_basename);
 
 		return $html;
 	}
