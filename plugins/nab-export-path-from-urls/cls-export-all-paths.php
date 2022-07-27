@@ -394,7 +394,7 @@ class ExportAllPaths
 			$list_item = "";
 
 			foreach ($rowdata as $rdata) {
-				if ($row > 0) {
+				if (!empty($rdata[0]) && $row > 0) {
 					$list_item .= "<tr><td>". $rdata[0] . "</td>";
 					$list_item .= "<td>". $rdata[1] . "</td>";
 					$list_item .= "<td>". $rdata[2] . "</td>";
@@ -526,7 +526,7 @@ class ExportAllPaths
 
 		if (! $request || 'export_personal_data' !== $request->action_name) {
 
-			$html =  "<h1>Invalid request ID when generating export file.</hi>";
+			$html .=  "<h1>Invalid request ID when generating export file.</hi>";
 			wp_send_json_error(__('Invalid request ID when generating export file.'));
 		}
 
@@ -572,7 +572,7 @@ class ExportAllPaths
 		// We can't currently iterate through files in the Files Service so we need a way to query exports by date.
 		update_post_meta( $request_id, '_vip_export_generated_time', time() );
 
-		return $this->create_export_csv_file($urls, $csv_file, $count, $file_basename);
+		return ($html . $this->create_export_csv_file($urls, $csv_file, $count, $file_basename));
 
 	}
 
