@@ -526,6 +526,7 @@ class ExportAllPaths
 
 		if (! $request || 'export_personal_data' !== $request->action_name) {
 
+			$html =  "<h1>Invalid request ID when generating export file.</hi>";
 			wp_send_json_error(__('Invalid request ID when generating export file.'));
 		}
 
