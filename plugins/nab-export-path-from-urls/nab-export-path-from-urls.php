@@ -15,76 +15,97 @@ Author URI: https://AtlasGondal.com/
 License: GPL v2 or higher
 License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
-
 namespace Plugins\NabExportPathFromUrls;
 
-if (! defined('ABSPATH')) {
-    exit;
-    // Exit if accessed directly.
-}
+require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/cls-export-all-paths.php');
 
-require_once( plugin_dir_path(__FILE__) . 'extract-all-urls-settings.php' );
+class NabExportPathFromUrls extends \Plugins\NabExportPathFromUrls\ExportAllPaths
+{
+	public function __construct()
+	{
+		// register_activation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_activation' ) );
+		// register_deactivation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_deactivation' ) );
 
-if(!is_admin()){
-	add_action( 'after_setup_theme', 'setup_custom_plugins' );
-	add_action( 'plugins_loaded', 'nab_export_path_from_urls_plugin_override' );
-}
+		if (is_admin()) {
 
-// Replace core's privacy data export handler with a custom one.
-remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
-add_action( 'wp_privacy_personal_data_export_file', __NAMESPACE__ . '\generate_personal_data_export_file' );
+			add_filter('admin_menu', [ $this, 'export_paths_from_urls_nav']);
 
-if(!is_admin()) {
-	add_filter('the_content','nabshow_content_after_body');
-}
+			add_action( 'admin_init', [ $this, 'export_paths_from_urls_activation'] );
 
-function setup_custom_plugins() {
+			add_action( 'admin_init', [$this, 'init_privacy_compat_cleanup']);
 
-	add_theme_support( 'title-tag' );
-	add_theme_support( 'post-thumbnails' );
-	add_theme_support( 'custom-header' );
 
-}
-
-// Hide Activate/Deactivate Plugin Link
-function disable_export_paths_plugin_deactivation( $actions, $plugin_file ) {
-	if ( plugin_basename( __FILE__ ) === $plugin_file ) {
-		unset( $actions['deactivate'], $actions['activate'] );
+			// add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
+		}else{
+			add_filter('the_content',[$this, 'nabshow_content_after_body']);
+		}
 	}
 
-	return $actions;
+
+	// public function init_privacy_compat() {
+		// Replace core's privacy data export handler with a custom one.
+		// remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
+		// add_action( 'wp_privacy_personal_data_export_file', __NAMESPACE__ . '\generate_personal_data_export_file' );
+
+	// }
+
+	public function init_privacy_compat_cleanup() {
+		// Replace core's privacy data delete handler with a custom one.
+		remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
+		add_action( 'wp_privacy_delete_old_export_files', __NAMESPACE__ . '\delete_old_export_files' );
+	}
+	public function export_paths_from_urls_nav(){
+
+		add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-paths-from-urls-settings', [$this, 'export_path_from_urls_settings_page'], null);
+
+	}
+	public function export_path_from_urls_settings_page(){
+
+		require WP_PLUGIN_DIR . '/nab-export-path-from-urls/cls-export-all-path-from-urls-settings.php';
+	}
+
+	public function export_paths_from_urls_activation() {
+		if ( ! get_transient( 'eau_export_all_urls_activation_redirect' ) ) {
+			return;
+		}
+
+		delete_transient( 'eau_export_all_urls_activation_redirect' );
+
+		wp_safe_redirect( add_query_arg( array( 'page' => 'extract-all-urls-settings' ), admin_url( 'tools.php' )) );
+		exit;
+
+	}
+
+	// =================
+
+	// This function attached on the_content hook is intended to display the CSV Content.
+	// Can be In Admin or anywhere from site.. That includes Nabshow Amplify
+	public function nabshow_content_after_body($content){
+
+		$rowdata = $this->retrieve_exported_file_to_array();
+
+		if(empty($rowdata)) return $content;
+
+		$rowspagination = $this->get_rows_pagination($rowdata);
+
+		$content = $rowspagination;
+
+		$escjs =  "<script>
+					jQuery(function(){
+						var body = document.body,
+						html = document.documentElement;
+
+						var height = Math.max( body.scrollHeight, body.offsetHeight,
+										html.clientHeight, html.scrollHeight, html.offsetHeight );
+						var scroll_pos=(height);
+						jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
+					});
+				</script>";
+
+		$content .= $escjs;
+
+		return $content;
+	}
 }
 
-function nab_export_path_from_urls_plugin_override() {
-	add_filter( 'plugin_action_links', 'disable_export_paths_plugin_deactivation', 10, 2  );
-}
-
-// This function attached on the_content hook is intended to display the CSV Content.
-// Can be In Admin or anywhere from site.. That includes Nabshow Amplify
-function nabshow_content_after_body($content){
-
-	$rowdata = retrieve_exported_file_to_array();
-
-	if(empty($rowdata)) return $content;
-
-	$rowspagination = get_rows_pagination($rowdata);
-
-	$content = $rowspagination;
-
-
-	$escjs =  "<script>
-				jQuery(function(){
-					var body = document.body,
-					html = document.documentElement;
-
-					var height = Math.max( body.scrollHeight, body.offsetHeight,
-									html.clientHeight, html.scrollHeight, html.offsetHeight );
-					var scroll_pos=(height);
-					jQuery('html, body').animate({scrollTop:(scroll_pos)}, '2000');
-				});
-			</script>";
-
-	$content .= $escjs;
-
-	return $content;
-}
+new NabExportPathFromUrls();
