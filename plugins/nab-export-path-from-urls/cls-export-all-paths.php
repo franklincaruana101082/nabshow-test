@@ -475,7 +475,8 @@ class ExportAllPaths
 			if ( is_wp_error( $temp_local_export_dir_created ) ) {
 				wp_send_json_error( $temp_local_export_dir_created->get_error_message() );
 			}else{
-				$temp_local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/temp/';
+				$temp_local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/tmp/';
+				$temp_local_export_dir_created = wp_mkdir_p( $temp_local_export_dirname );
 			}
 			$temp_dir = $temp_local_export_dirname;
 		}
@@ -496,6 +497,7 @@ class ExportAllPaths
 				wp_send_json_error( $local_export_dir_created->get_error_message() );
 			}else{
 				$local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/';
+				$temp_local_export_dir_created = wp_mkdir_p( $temp_local_export_dirname );
 			}
 			$exports_dir = $local_export_dirname;
 		}
