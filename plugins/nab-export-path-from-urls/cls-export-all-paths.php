@@ -471,11 +471,13 @@ class ExportAllPaths
 			else
 				$temp_local_export_dirname     = dirname( $temp_local_export_pathname );
 
-			$temp_dir = $temp_local_export_dirname;
 			$temp_local_export_dir_created = wp_mkdir_p( $temp_local_export_dirname );
 			if ( is_wp_error( $temp_local_export_dir_created ) ) {
 				wp_send_json_error( $temp_local_export_dir_created->get_error_message() );
+			}else{
+				$temp_local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/temp/';
 			}
+			$temp_dir = $temp_local_export_dirname;
 		}
 
 		if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
@@ -489,12 +491,13 @@ class ExportAllPaths
 			else
 				$local_export_dirname     = dirname( $local_export_pathname );
 
-
-			$exports_dir = $local_export_dirname;
 			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
 			if ( is_wp_error( $local_export_dir_created ) ) {
 				wp_send_json_error( $local_export_dir_created->get_error_message() );
+			}else{
+				$local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/';
 			}
+			$exports_dir = $local_export_dirname;
 		}
 
 		$filename = $file_basename = "export-path-from-urls.csv";
