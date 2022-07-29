@@ -463,20 +463,11 @@ class ExportAllPaths
 		if ( 0 === strpos( $temp_dir, 'vip://' ) ) {
 			$temp_local_export_pathname = substr( $temp_dir, 6 );
 
-			// Create the folder path.
-			if(0 === strcmp($temp_local_export_pathname,"wp-content/uploads"))
-				$temp_local_export_dirname     = "/wp/$temp_local_export_pathname/wp-personal-data-exports";
-			else if(0 === strcmp($temp_local_export_pathname,"wp-content/uploads/wp-personal-data-exports"))
-				$temp_local_export_dirname     = "/wp/$temp_local_export_pathname";
-			else
-				$temp_local_export_dirname     = dirname( $temp_local_export_pathname );
-
+			// Create the folder path
+			$temp_local_export_dirname     = dirname( $temp_local_export_pathname );
 			$temp_local_export_dir_created = wp_mkdir_p( $temp_local_export_dirname );
 			if ( is_wp_error( $temp_local_export_dir_created ) ) {
 				wp_send_json_error( $temp_local_export_dir_created->get_error_message() );
-			}else{
-				$temp_local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/tmp/';
-				$temp_local_export_dir_created = wp_mkdir_p( $temp_local_export_dirname );
 			}
 			$temp_dir = $temp_local_export_dirname;
 		}
@@ -485,19 +476,11 @@ class ExportAllPaths
 			$local_export_pathname = substr( $exports_dir, 6 );
 
 			// Create the folder path.
-			if(0 === strcmp($local_export_pathname,"wp-content/uploads"))
-				$local_export_dirname     = "/wp/$local_export_pathname/wp-personal-data-exports";
-			else if(0 === strcmp($local_export_pathname,"wp-content/uploads/wp-personal-data-exports"))
-				$local_export_dirname     = "/wp/$local_export_pathname";
-			else
-				$local_export_dirname     = dirname( $local_export_pathname );
+			$local_export_dirname     = dirname( $local_export_pathname );
 
 			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
 			if ( is_wp_error( $local_export_dir_created ) ) {
 				wp_send_json_error( $local_export_dir_created->get_error_message() );
-			}else{
-				$local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/';
-				$temp_local_export_dir_created = wp_mkdir_p( $local_export_dirname );
 			}
 			$exports_dir = $local_export_dirname;
 		}
