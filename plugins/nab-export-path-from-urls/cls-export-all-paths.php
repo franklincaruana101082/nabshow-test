@@ -475,7 +475,7 @@ class ExportAllPaths
 			if ( is_wp_error( $temp_local_export_dir_created ) ) {
 				wp_send_json_error( $temp_local_export_dir_created->get_error_message() );
 			}else{
-				$temp_local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/temp/';
+				$temp_local_export_dirname = $_SERVER['DOCUMENT_ROOT'] . '/data/uploads/images/wp-personal-data-exports/tmp/';
 			}
 			$temp_dir = $temp_local_export_dirname;
 		}
