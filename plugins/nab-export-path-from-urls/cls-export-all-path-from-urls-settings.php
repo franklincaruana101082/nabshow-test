@@ -287,6 +287,12 @@ class ExportAllPathFromUrlsSettings extends \Plugins\NabExportPathFromUrls\Expor
 
 								</tr>
 
+								<tr>
+
+									<td></td>
+									<td><strong>NOTE: <em><ul><li>- If successfully created an Export Personal Data request, if redownloading of exported CSV file  is needed. Just navigate to Export Personal Data under Tools Admin Menu/Left Nav Bar</li><li>- If already created a request. Just navigate to Export Personal Data, same navigation as stated above and try to locate you request. It can be identified by email of those user's requests</li></ul></em></strong></td>
+								</tr>
+
 							</table>
 						</form>
 
