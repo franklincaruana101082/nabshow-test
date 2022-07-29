@@ -7,7 +7,8 @@ Post ID - the Post ID of the content on that page
 Post Type - e.g. Page, Company, Session, Article, etc.
 The CSV  content will show up before or on top of footer section in page once exported CSV file  exists.
 This plugin  creates a user request upon  export/navigating to export path amdin tool page. It utilize WP core Export Personal Data feature
-so can always navigate to Export Personal Data page under tool menu in Admin Menu/Nav bar and can download the exported  csv file if user request is created
+so can always navigate to Export Personal Data page under tool menu in Admin Menu/Nav bar and can download the exported  csv file if user request is created.
+This is a workaround if WP file permission is a bit too strick
 */
 namespace Plugins\NabExportPathFromUrls;
 
