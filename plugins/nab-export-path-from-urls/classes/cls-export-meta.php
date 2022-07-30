@@ -30,9 +30,9 @@ class ExportMeta
 		if ( ! class_exists( 'Automattic\VIP\Files\Api_Client' ) ) {
 			require WPMU_PLUGIN_DIR . '/files/class-api-client.php';
 		}
-
-		$exports_dir = wp_privacy_exports_dir();
-		$exports_url       = wp_privacy_exports_url();
+		$upload_res = wp_upload_dir();
+		$exports_dir = $upload_res['path'];
+		$exports_url       = $upload_res['url'];
 		$wp_content_strpos = strpos( $exports_url, '/wp-content/uploads/' );
 		$upload_path_url       = trailingslashit( substr( $exports_url, $wp_content_strpos ) );
 
