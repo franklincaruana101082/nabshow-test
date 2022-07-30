@@ -18,18 +18,23 @@ class ExportMeta
 	private ?String $zip_url;
 	private ?String $zip_file;
 	private ?String $email;
+	private ?String $upload_path_url;
 
 	public function __construct()
 	{
-		$this->init_export_meta();
+
+		add_action('admin_id',[$this, 'init_export_meta'],1);
 	}
 
 	public function init_export_meta(){
-		// Create the exports folder if needed.
-		// $temp_dir = get_temp_dir();
-		// $exports_dir = __DIR__ .'/wp-content/uploads';
+		if ( ! class_exists( 'Automattic\VIP\Files\Api_Client' ) ) {
+			require WPMU_PLUGIN_DIR . '/files/class-api-client.php';
+		}
+
 		$exports_dir = wp_privacy_exports_dir();
-		$exports_url = wp_privacy_exports_url();
+		$exports_url       = wp_privacy_exports_url();
+		$wp_content_strpos = strpos( $exports_url, '/wp-content/uploads/' );
+		$upload_path_url       = trailingslashit( substr( $exports_url, $wp_content_strpos ) );
 
 		// So, let's force the path to use a local one in the export dir, which will work.
 		// All other references (meta) will still use the correct stream URL.
@@ -39,23 +44,16 @@ class ExportMeta
 			$local_export_pathname = substr( $exports_dir, 6 );
 
 			// Create the folder path.
-			if(0 === strcmp($local_export_pathname,"wp-content/uploads"))
-				$local_export_dirname     = "/wp/$local_export_pathname/wp-personal-data-exports";
-			else if(0 === strcmp($local_export_pathname,"wp-content/uploads/wp-personal-data-exports"))
-				$local_export_dirname     = "/wp/$local_export_pathname";
-			else
-				$local_export_dirname     = dirname( $local_export_pathname );
-
-			$local_export_dir_created = wp_mkdir_p( $local_export_dirname );
+			$local_export_dir_created = wp_mkdir_p( $local_export_pathname );
 			if ( is_wp_error( $local_export_dir_created ) ) {
 				wp_send_json_error( $local_export_dir_created->get_error_message() );
 			}
-			$exports_dir = $local_export_dirname;
+			$exports_dir = $local_export_pathname;
 		}
 
 		$filename = "export-path-from-urls";
 		$csv_file = "$exports_dir/$filename.csv";
-		$csv_url = "$exports_url/$filename.csv";
+		$csv_url = "$upload_path_url/$filename.csv";
 		$zip_file = "$exports_dir/$filename.zip";
 		$zip_url = "$exports_url/$filename.zip";
 		$html_file = "$exports_dir/$filename.html";
@@ -71,6 +69,7 @@ class ExportMeta
 			'json_file' => $json_file,
 			'zip_file' => $zip_file,
 			'zip_url' => $zip_url,
+			'upload_path_url' => $upload_path_url,
 			'email' => '',
 			'htmlUrls' => [],
 			'count' => 0
@@ -84,11 +83,11 @@ class ExportMeta
 
 		extract($exports_meta_obj ); // Extracting / Destructuring Array/Objects
 
-		$this->setExportMeta($htmlUrls, $count, $url, $path, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email);
+		$this->setExportMeta($htmlUrls, $count, $url, $path, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email, $upload_path_url);
 
 	}
 
-	public function setExportMeta($htmlUrls, $count, $exports_url, $exports_dir, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email)
+	public function setExportMeta($htmlUrls, $count, $exports_url, $exports_dir, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email, $upload_path_url)
 	{
 
 		$this->setPathUrls($htmlUrls);
@@ -102,10 +101,15 @@ class ExportMeta
 		$this->setJsonFile($json_file);
 		$this->setZipFile($zip_file);
 		$this->setZipUrl($zip_url);
+		$this->setEmail($email);
+		$this->setUploadPathUrl($upload_path_url);
 		do_action('initSetGetEmail');
 	}
 
 	// Setters
+	public function setUploadPathUrl($upload_path_url){
+		$this->upload_path_url = $upload_path_url;
+	}
 	public function setRequestId($request_id){
 		$this->request_id = $request_id;
 	}
@@ -191,6 +195,9 @@ class ExportMeta
 	}
 	public function getEmail(){
 		return $this->email;
+	}
+	public function getUploadPathUrl(){
+		return $this->upload_path_url;
 	}
 
 	public function getExportMeta(){

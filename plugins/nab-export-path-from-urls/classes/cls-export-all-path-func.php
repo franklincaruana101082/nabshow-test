@@ -6,13 +6,12 @@ require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-
 
 use WP_Query;
 
-class ExportAllPaths extends ExportMeta
+class ExportAllPathsFunc extends ExportMeta
 {
 	private ExportToZip $export_zip;
 	public function __construct()
 	{
 		parent::__construct();
-		$this->export_zip = new ExportToZip();
 		$this->init_export_meta();
 	}
 	public function eau_get_selected_post_type($post_type, $custom_posts_names)
@@ -230,10 +229,11 @@ class ExportAllPaths extends ExportMeta
 				$request_id = $request_details['request_id'];
 
 				$this->init_export_meta();
-				$this->setPathUrls($urls);
-				$this->setPathCounts($count);
 
 				$html .= $this->initiate_csv_data_export_file( $urls, $request_id, $count, $this->getCsvFile(), $this->getFilename() );
+
+				$this->setPathUrls($urls);
+				$this->setPathCounts($count);
 
 				break;
 
@@ -453,8 +453,6 @@ class ExportAllPaths extends ExportMeta
 			$message = __( 'We were unable to generate the data export request.', 'export-all-path-from-urls' );
 		}
 
-		$this->setEmail($email_address);
-
 		/*
 		* Auto-confirm the user request since the user already consented by
 		* submitting our form.
@@ -465,7 +463,6 @@ class ExportAllPaths extends ExportMeta
 
 			$message = __( 'Data export request successfully created', 'export-all-path-from-urls' );
 
-			$this->setRequestId($request_id);
 		}
 
 		return [
@@ -507,20 +504,17 @@ class ExportAllPaths extends ExportMeta
 
 		$html = "";
 		$error_msg ="";
-
-		$request = wp_get_user_request($request_id);
 		$this->init_export_meta();
 		$csv_file = $this->getCsvFile();
 		$csv_name = $this->getFilename();
 
-		$error = !file_exists($csv_file) || empty($request->action_name) || $haserror;
+		$error = !file_exists($csv_file) || $haserror;
 
 		$result_csv_file = $this->create_csv_file($urls, $csv_file, $csv_name, $count, $request_id,$error_msg ,$haserror);
 		$error_msg .= $result_csv_file['error_msg'];
 		$error = $result_csv_file['haserror'];
 
 		if(!$error){
-
 
 			$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
 			$html .= "<div class='updated '><a href='$csv_file' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
@@ -530,8 +524,11 @@ class ExportAllPaths extends ExportMeta
 			// add_filter('send_headers',[$this, 'sent_header_download_csv'], 1);
 			// do_action('sent_header_download_csv');
 
-			$this->save_eau_export_data(json_encode($urls), 'text', $csv_name, $count, $request_id);
-			$this->export_zip->zip_personal_data_export_file($request_id);
+			$this->save_eau_export_data($urls, 'text', $csv_name, $count, $request_id);
+
+			$this->export_zip = new ExportToZip();
+			$this->export_zip->generate_zip_personal_data_export_file($request_id);
+
 		}else{
 
 			$html .= "<div class='notice notice-info' style='width: 97%'><H1>Sorry! but as of the moment exporting data is not yet allowed for now in this page. </H1>
@@ -542,12 +539,13 @@ class ExportAllPaths extends ExportMeta
 								</ul></H3></div>";
 		}
 
+
 		return $html;
 	}
-	public function create_csv_file($urls,$count,$error_msg ="",$haserror=false){
-		$this->init_export_meta();
+	public function create_csv_file($urls, $csv_file, $csv_name, $count, $request_id,$error_msg ="",$haserror=false){
+
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file_csv = fopen( $this->getCsvFile(), 'w');
+		$file_csv = fopen( $csv_file, 'w');
 		fputs($file_csv, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 
 		if ( false === $file_csv ) {
@@ -641,4 +639,5 @@ class ExportAllPaths extends ExportMeta
 		return rtrim($data, "\n");
 	}
 }
-new ExportAllPaths;
+
+new ExportAllPathsFunc;

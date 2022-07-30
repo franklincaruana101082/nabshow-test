@@ -3,9 +3,9 @@
 namespace Plugins\NabExportPathFromUrls\Settings;
 
 use Plugins\NabExportPathFromUrls\Classes\ExportMeta;
-use Plugins\NabExportPathFromUrls\Classes\ExportAllPaths;
+use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
 
-class ExportAllPathFromUrlsSettings extends ExportAllPaths
+class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 {
 	private ExportMeta $export_meta;
 	public function __construct()

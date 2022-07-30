@@ -20,21 +20,33 @@ class ExportToZip extends ExportMeta
 	 *  - It tracks the generated date for an export in meta (which is then used for removal).
 	 *  - It uploads the generated zip to the Go Files Service.
 	 */
-	public function zip_personal_data_export_file( $request_id ) {
+	public function generate_zip_personal_data_export_file( $request_id ) {
 
 		// We don't care about the extrenuous index.html file.
 
 		$this->init_export_meta();
-		$this->initSetGetEmail();
+		// Get the request.
+		$request = wp_get_user_request( $request_id );
+		$email_address = $request->email;
 
-		$stripped_email       = str_replace( '@', '-at-', $this->getEmail() );
-		$stripped_email       = sanitize_title( $stripped_email ); // slugify the email address
-		$obscura              = wp_generate_password( 32, false, false );
-		$file_basename        = 'wp-personal-data-file-' . $stripped_email . '-' . $obscura;
-		$html_report_filename = wp_unique_filename( $this->getPath(), $this->getHtmlFile() );
-		$html_report_pathname = wp_normalize_path( $this->getPath() . $html_report_filename );
-		$json_report_filename =  wp_unique_filename( $this->getPath(), $this->getJsonFile());
-		$json_report_pathname = wp_normalize_path( $this->getPath(). $json_report_filename ); // Use temp_dir because we don't want the file generated remotely yet.
+		$path = $this->getPath();
+		$csv_file =  $this->getCsvFile(); // getCsvFile already includes path
+		$csv_url =  $this->getCsvUrl();
+		$file_basename = $this->getFilename();
+		$htmlfile = $this->getHtmlFile();
+		$jsonfile = $this->getJsonFile();
+		$zipfile = $this->getZipFile();
+
+		// $stripped_email       = str_replace( '@', '-at-', $email_address );
+		// $stripped_email       = sanitize_title( $stripped_email ); // slugify the email address
+		// $obscura              = wp_generate_password( 32, false, false );
+		// $file_basename        = "{$csv_filebasename}-{$stripped_email}-{$obscura}";
+		$html_report_filename = "{$file_basename}.html";
+		$html_report_pathname = $htmlfile;
+		$json_report_filename =  "{$file_basename}.json";
+		$zip_report_filename =  "{$file_basename}.zip";
+		$json_report_pathname = $jsonfile;
+		$csv_report_filename = "{$file_basename}.csv";
 
 		/*
 		* Gather general data needed.
@@ -44,7 +56,7 @@ class ExportToZip extends ExportMeta
 		$title = sprintf(
 			/* translators: %s: User's email address. */
 			__( 'Personal Data Export for %s' ),
-			$this->email
+			$email_address
 		);
 
 		// And now, all the Groups.
@@ -60,7 +72,7 @@ class ExportToZip extends ExportMeta
 				'about-1' => array(
 					array(
 						'name'  => _x( 'Report generated for', 'email address' ),
-						'value' => $this->email
+						'value' => $email_address
 					),
 					array(
 						'name'  => _x( 'For site', 'website name' ),
@@ -78,6 +90,7 @@ class ExportToZip extends ExportMeta
 			),
 		);
 
+		$groups = !empty($groups) ? $groups : [];
 		// Merge in the special about group.
 		$groups = array_merge( array( 'about' => $about_group ), $groups );
 
@@ -176,7 +189,7 @@ class ExportToZip extends ExportMeta
 
 		// If a filename meta exists, use it.
 		if ( ! empty( $archive_filename ) ) {
-			$archive_pathname = $this->getPath() . $archive_filename;
+			$archive_pathname = "{$path}/{$archive_filename}";
 		} elseif ( ! empty( $archive_pathname ) && is_file( $archive_pathname ) ) {
 			// If a full path meta exists, use it and create the new meta value.
 			$archive_filename = basename( $archive_pathname );
@@ -188,13 +201,13 @@ class ExportToZip extends ExportMeta
 			delete_post_meta( $request_id, '_export_file_path' );
 		} else {
 			// If there's no filename or full path stored, create a new file.
-			$archive_filename = $this->getJsonFile();
-			$archive_pathname = $this->getPath() . $archive_filename;
+			$archive_filename = $zip_report_filename;
+			$archive_pathname = $zipfile;
 
 			update_post_meta( $request_id, '_export_file_name', $archive_filename );
 		}
 
-		$archive_url = $this->getCsvUrl() . $this->getFilename().".csv";
+		$archive_url = "{$csv_url}/{$zip_report_filename}";
 
 		if ( ! empty( $archive_pathname ) && is_file( $archive_pathname ) ) {
 			wp_delete_file( $archive_pathname );
@@ -209,19 +222,6 @@ class ExportToZip extends ExportMeta
 		// All other references (meta) will still use the correct stream URL.
 		$local_archive_pathname = $archive_pathname;
 
-		if ( 0 === strpos( $local_archive_pathname, 'vip://' ) ) {
-			$local_archive_pathname = get_temp_dir() . substr( $archive_pathname, 6 );
-
-			// Create the folder path.
-			$local_archive_dirname     = dirname( $local_archive_pathname );
-			$local_archive_dir_created = wp_mkdir_p( $local_archive_dirname );
-			if ( is_wp_error( $local_archive_dir_created ) ) {
-				/** @var WP_Error $local_archive_dir_created */
-				wp_send_json_error( $local_archive_dir_created->get_error_message() );
-			}
-		}
-
-
 		// Note: core deletes the file if it exists, but we can just overwrite it when we upload.
 
 		// ZipArchive may not be available across all applications.
@@ -229,16 +229,15 @@ class ExportToZip extends ExportMeta
 		if ( class_exists( '\ZipArchive' ) ) {
 			$zip = new \ZipArchive; // phpcs:ignore WordPress.Classes.ClassInstantiation.MissingParenthesis
 			if ( true === $zip->open( $local_archive_pathname, \ZipArchive::CREATE ) ) {
-				if ( ! $zip->addFile( $json_report_pathname, 'export.json' ) ) {
+				if ( ! $zip->addFile( $json_report_pathname, $json_report_filename ) ) {
 					$error = __( 'Unable to add data to JSON file.' );
 				}
 
-				if ( ! $zip->addFile( $html_report_pathname, 'index.html' ) ) {
+				if ( ! $zip->addFile( $html_report_pathname, $html_report_filename ) ) {
 					$error = __( 'Unable to add data to HTML file.' );
 				}
 
-
-				if ( ! $zip->addFile(  $this->getCsvFile(), $this->getFilename().'.csv' ) ) {
+				if ( ! $zip->addFile(  $csv_file, $csv_report_filename ) ) {
 					$error = __( 'Unable to add data to CSV file.' );
 				}
 
@@ -247,7 +246,7 @@ class ExportToZip extends ExportMeta
 				$error = __( 'Unable to open export file (archive) for writing.' );
 			}
 		} else {
-			$zip = _pclzip_create_file( $local_archive_pathname, $html_report_pathname,$json_report_pathname,  $this->getCsvFile() );
+			$zip = _pclzip_create_file( $local_archive_pathname, $html_report_pathname,$json_report_pathname,  $csv_file );
 
 			if ( is_wp_error( $zip ) ) {
 				$error = __( 'Unable to open export file (archive) for writing.' );
@@ -259,7 +258,7 @@ class ExportToZip extends ExportMeta
 		} else {
 
 			/** This filter is documented in wp-admin/includes/file.php */
-			do_action( 'wp_privacy_personal_data_export_file_created', $local_archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname,  $this->getCsvFile());
+			do_action( 'wp_privacy_personal_data_export_file_created', $local_archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname,  $csv_file);
 
 			$this->_upload_archive_file( $local_archive_pathname );
 
@@ -274,18 +273,32 @@ class ExportToZip extends ExportMeta
 	function _ziparchive_create_file( $archive_path, $html_report_path, $csv_pathname ) {
 		$archive = new \ZipArchive();
 		$this->init_export_meta();
+		$file_basename = $this->getFilename();
+		$jsonfile = $this->getJsonFile();
+
+		$html_report_filename = "{$file_basename}.html";
+		$json_report_filename =  "{$file_basename}.json";
+		$json_report_pathname = $jsonfile;
+		$csv_report_filename = "{$file_basename}.csv";
+
 		$archive_created = $archive->open( $archive_path, \ZipArchive::CREATE );
 		if ( true !== $archive_created ) {
 			return new \WP_Error( 'ziparchive-open-failed', __( 'Failed to create a `zip` file using `ZipArchive`' ) );
 		}
 
-		$file_added = $archive->addFile( $html_report_path, 'index.html' );
+		$file_added = $archive->addFile( $html_report_path, $html_report_filename );
 		if ( ! $file_added ) {
 			$archive->close();
 
 			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
 		}
-		$file_added = $archive->addFile( $csv_pathname, $this->getFilename().'.csv');
+		$file_added = $archive->addFile( $json_report_pathname, $json_report_filename);
+		if ( ! $file_added ) {
+			$archive->close();
+
+			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+		}
+		$file_added = $archive->addFile( $csv_pathname, $csv_report_filename);
 		if ( ! $file_added ) {
 			$archive->close();
 
@@ -307,14 +320,8 @@ class ExportToZip extends ExportMeta
 		if ( ! class_exists( 'Automattic\VIP\Files\Api_Client' ) ) {
 			require WPMU_PLUGIN_DIR . '/files/class-api-client.php';
 		}
-		$this->init_export_meta();
 
-		// Build the `/wp-content/` version of the exports path since `LOCAL_UPLOADS` gives us a `/tmp` path.
-		// Hard-coded and full of assumptions for now.
-		// TODO: need a cleaner approach for this. Can probably borrow `WP_Filesystem_VIP_Uploads::sanitize_uploads_path()`.
-
-		$wp_content_strpos = strpos( $this->getCsvUrl(), '/wp-content/uploads/' );
-		$upload_path       = trailingslashit( substr( $this->getCsvUrl(), $wp_content_strpos ) ) . $this->getZipFile();
+		$upload_path       = $archive_file;
 
 		$api_client    = \Automattic\VIP\Files\new_api_client();
 		$upload_result = $api_client->upload_file( $archive_path, $upload_path );

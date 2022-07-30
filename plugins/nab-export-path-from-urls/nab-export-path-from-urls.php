@@ -8,21 +8,23 @@ Contributor:Codev
 */
 namespace Plugins\NabExportPathFromUrls;
 
-require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-all-paths.php');
+require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-all-path-func.php');
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-zip.php');
 
-use Plugins\NabExportPathFromUrls\Classes\ExportAllPaths;
+use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
 use Plugins\NabExportPathFromUrls\Classes\ExportToZip;
 
 // add_action( 'admin_init', [new NabExportPathFromUrls, 'init_privacy_compat']);
-class NabExportPathFromUrls extends ExportAllPaths
+class NabExportPathFromUrls extends ExportAllPathsFunc
 {
 	public function __construct()
 	{
 		parent::__construct();
-		// register_activation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_activation' ) );
-		// register_deactivation_hook( __FILE__, array( 'ExportAllPaths', 'plugin_deactivation' ) );
+		// register_activation_hook( __FILE__, array( 'ExportAllPathsFunc', 'plugin_activation' ) );
+		// register_deactivation_hook( __FILE__, array( 'ExportAllPathsFunc', 'plugin_deactivation' ) );
 
+		add_filter( 'pre_option_uploads_use_yearmonth_folders', '__return_false' );
+		add_filter( 'upload_dir', [$this, 'nab_upload_dir'], 100 );
 		if (is_admin()) {
 
 			// Display a link to the VIP/Automattic Privacy Policy if the site doesn't already define one.
@@ -40,6 +42,13 @@ class NabExportPathFromUrls extends ExportAllPaths
 
 		add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
 
+	}
+	function nab_upload_dir( $dir ) {
+		$dir['subdir'] = '/' .  substr( $dir['subdir'], 6, 2 ) . substr( $dir['subdir'], 3, 2 );
+		$dir['path'] = $dir['basedir'] . $dir['subdir'];
+		$dir['url'] = $dir['baseurl'] . $dir['subdir'];
+
+		return $dir;
 	}
 
 	public function init_privacy_compat() {
@@ -80,7 +89,7 @@ class NabExportPathFromUrls extends ExportAllPaths
 
 	public function nab_generate_personal_data_export_file($request_id){
 		$request_generate_export_zip_file =  new ExportToZip;
-		$request_generate_export_zip_file->zip_personal_data_export_file($request_id);
+		$request_generate_export_zip_file->generate_zip_personal_data_export_file($request_id);
 	}
 	// =================
 
