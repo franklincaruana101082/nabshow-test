@@ -65,10 +65,11 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 		add_action( 'wp_privacy_delete_old_export_files', [$this, 'delete_old_export_files']  );
 	}
 
-	public function export_paths_from_urls_nav(){
+	public function export_paths_from_urls_nav($nav){
 
 		add_management_page( 'Export Paths from URLs', 'Export Paths from URLs', 'manage_options', 'extract-paths-from-urls-settings', [$this, 'export_path_from_urls_settings_page'], null);
 
+		return $nav;
 	}
 	public function export_path_from_urls_settings_page(){
 
