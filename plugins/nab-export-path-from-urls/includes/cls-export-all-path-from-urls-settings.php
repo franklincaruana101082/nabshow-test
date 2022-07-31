@@ -57,7 +57,7 @@ class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 		}
 
 		$this->export_meta->init_export_meta();
-		$file_path = $this->export_meta->path();
+		$file_path = $this->export_meta->getPath();
 		$file_name = $this->export_meta->getFilename();
 		$file_dir = $file_path;
 		?>
