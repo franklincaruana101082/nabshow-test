@@ -72,7 +72,7 @@ class ExportMeta
 			// $local_export_pathname = substr( $exports_dir, 6 );
 
 		if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
-			$local_export_pathname = substr( $exports_dir, 6 );
+			$local_export_pathname = "/wp/".substr( $exports_dir, 6 );
 
 			// Create the folder path.
 			$local_export_dir_created = wp_mkdir_p( $local_export_pathname );
