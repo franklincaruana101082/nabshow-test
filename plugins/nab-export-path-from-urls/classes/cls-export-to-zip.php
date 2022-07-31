@@ -1,9 +1,11 @@
 <?php
 namespace Plugins\NabExportPathFromUrls\Classes;
 
-require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-meta.php');
-
+use function Automattic\VIP\Files\new_api_client;
 use Plugins\NabExportPathFromUrls\Classes\ExportMeta;
+
+
+require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-meta.php');
 
 class ExportToZip extends ExportMeta
 {
@@ -260,7 +262,7 @@ class ExportToZip extends ExportMeta
 			/** This filter is documented in wp-admin/includes/file.php */
 			do_action( 'wp_privacy_personal_data_export_file_created', $local_archive_pathname, $archive_url, $html_report_pathname, $request_id, $json_report_pathname,  $csv_file);
 
-			$this->_upload_archive_file( $local_archive_pathname );
+			$this->_upload_archive_file( $local_archive_pathname, $zipfile );
 
 			// Remove the JSON file.
 			unlink( $json_report_pathname );
@@ -292,12 +294,14 @@ class ExportToZip extends ExportMeta
 
 			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
 		}
+
 		$file_added = $archive->addFile( $json_report_pathname, $json_report_filename);
 		if ( ! $file_added ) {
 			$archive->close();
 
 			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
 		}
+
 		$file_added = $archive->addFile( $csv_pathname, $csv_report_filename);
 		if ( ! $file_added ) {
 			$archive->close();
@@ -310,20 +314,17 @@ class ExportToZip extends ExportMeta
 		return true;
 	}
 
-	public function _upload_archive_file( $archive_path ) {
+	public function _upload_archive_file( $archive_path, $zip_remote_file ) {
 		// For local usage, skip the remote upload.
 		// The file is already in the uploads folder.
 		if ( true !== WPCOM_IS_VIP_ENV ) {
 			return true;
 		}
 
-		if ( ! class_exists( 'Automattic\VIP\Files\Api_Client' ) ) {
-			require WPMU_PLUGIN_DIR . '/files/class-api-client.php';
-		}
 
-		$upload_path       = $archive_file;
+		$upload_path       = $zip_remote_file;
 
-		$api_client    = \Automattic\VIP\Files\new_api_client();
+		$api_client    = new_api_client();
 		$upload_result = $api_client->upload_file( $archive_path, $upload_path );
 
 		// Delete the local copy of the archive since it's been uploaded.
@@ -336,16 +337,12 @@ class ExportToZip extends ExportMeta
 		$archive_path = wp_parse_url( $archive_url, PHP_URL_PATH );
 
 		// For local usage, just delete locally.
-		if ( true !== WPCOM_IS_VIP_ENV ) {
-			unlink( WP_CONTENT_DIR . $archive_path );
-			return true;
-		}
+		// if ( true !== WPCOM_IS_VIP_ENV ) {
+		// 	unlink( WP_CONTENT_DIR . $archive_path );
+		// 	return true;
+		// }
 
-		if ( ! class_exists( 'Automattic\VIP\Files\Api_Client' ) ) {
-			require WPMU_PLUGIN_DIR . '/files/class-api-client.php';
-		}
-
-		$api_client = \Automattic\VIP\Files\new_api_client();
+		$api_client = new_api_client();
 		return $api_client->delete_file( $archive_path );
 	}
 
