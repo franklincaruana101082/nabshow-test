@@ -18,8 +18,10 @@
 
 // define(‘WP_CACHE’, true);
 // define('WP_DEBUG', false);
-
+define( 'DISALLOW_FILE_MODS', false );
+define( 'DISALLOW_FILE_EDIT', false );
 define( 'WP_MEMORY_LIMIT', '1024M' );
+// define( 'WPCOM_IS_VIP_ENV', true );
 
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     $http_host   = $_SERVER['HTTP_HOST'];
