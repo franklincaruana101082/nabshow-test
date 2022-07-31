@@ -18,9 +18,6 @@
 
 // define(‘WP_CACHE’, true);
 // define('WP_DEBUG', false);
-define( 'DISALLOW_FILE_MODS', false );
-define( 'DISALLOW_FILE_EDIT', false );
-define( 'WP_MEMORY_LIMIT', '1024M' );
 // define( 'WPCOM_IS_VIP_ENV', true );
 
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
@@ -73,3 +70,52 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 }
 
 define('JWT_AUTH_SECRET_KEY', 'jhBvSg>3AVZ;+?}OvbtL:|,v26`V+zG|#.aQXpm^}(w4feLQb?dLZF{o7-h5J)F/');
+
+if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+	define('FS_METHOD', 'direct');
+}
+
+if ((is_mobile())&&(strrpos($_SERVER['REQUEST_URI'],'amp') == false)) {
+	header('HTTP/1.0 301 Moved Permanently');
+	header('Location: https://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] .'/amp');
+
+	// Name transaction "redirect" in New Relic for improved reporting (optional).
+	if (extension_loaded('newrelic')) {
+	  newrelic_name_transaction("redirect");
+	}
+	exit();
+  }
+  function is_mobile() {
+	if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
+			$is_mobile = false;
+	}
+	elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false // many mobile devices (all iPhone, iPad, etc.)
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi') !== false ) {
+					$is_mobile = true;
+	}
+	else {
+			$is_mobile = false;
+	}
+	return $is_mobile;
+  }
+
+/** Changes location where Autoptimize stores optimized files */
+define('AUTOPTIMIZE_CACHE_CHILD_DIR','/uploads/autoptimize/');
+
+$_SERVER['SERVER_NAME'] = $_SERVER['HTTP_HOST'];
+
+if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  if (isset($_SERVER['HTTP_USER_AGENT_HTTPS']) && $_SERVER['HTTP_USER_AGENT_HTTPS'] === 'ON') {
+    $_SERVER['SERVER_PORT'] = 443;
+  }
+  else {
+    $_SERVER['SERVER_PORT'] = 80;
+  }
+}
+
+define('FILES_ACCESS_TOKEN','r0Bly5NsU8ZORs6/4dps/sHnu/11rrsPU2HWDPxe');

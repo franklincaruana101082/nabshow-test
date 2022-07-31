@@ -483,7 +483,6 @@ class ExportAllPathsFunc extends ExportMeta
 
 			$haserror = true;
 		}
-		$this->init_export_meta();
 		$exports_dir = $this->getPath();
 
 		if (!file_exists($csv_file)) {
@@ -499,13 +498,10 @@ class ExportAllPathsFunc extends ExportMeta
 
 	public function validate_create_export_csv_file($urls, $count, $request_id, $haserror = false)
 	{
-		$data = [];
-		$headers = [];
-
 		$html = "";
 		$error_msg ="";
-		$this->init_export_meta();
 		$csv_file = $this->getCsvFile();
+		$csv_url = $this->getCsvUrl();
 		$csv_name = $this->getFilename();
 
 		$error = !file_exists($csv_file) || $haserror;
@@ -517,17 +513,16 @@ class ExportAllPathsFunc extends ExportMeta
 		if(!$error){
 
 			$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
-			$html .= "<div class='updated '><a href='$csv_file' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
-			// $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_file))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
+			$html .= "<div class='updated '><a href='$csv_url' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
+			// $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_url))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
 			$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
 			// add_filter('send_headers',[$this, 'sent_header_download_csv'], 1);
 			// do_action('sent_header_download_csv');
-
-			$this->save_eau_export_data($urls, 'text', $csv_name, $count, $request_id);
-
 			$this->export_zip = new ExportToZip();
 			$this->export_zip->generate_zip_personal_data_export_file($request_id);
+
+			$this->save_eau_export_data($urls, 'text', $csv_name, $count, $request_id);
 
 		}else{
 
@@ -545,7 +540,7 @@ class ExportAllPathsFunc extends ExportMeta
 	public function create_csv_file($urls, $csv_file, $csv_name, $count, $request_id,$error_msg ="",$haserror=false){
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file_csv = fopen( $csv_file, 'w');
+		$file_csv = fopen( $csv_file, 'w+');
 		fputs($file_csv, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 
 		if ( false === $file_csv ) {

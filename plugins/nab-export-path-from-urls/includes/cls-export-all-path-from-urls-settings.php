@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugins\NabExportPathFromUrls\Settings;
+namespace Plugins\NabExportPathFromUrls\Includes;
 
 use Plugins\NabExportPathFromUrls\Classes\ExportMeta;
 use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
@@ -11,7 +11,6 @@ class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 	public function __construct()
 	{
 		$this->export_meta = new ExportMeta();
-		$this->export_meta->init_export_meta();
 		$this->init_export_all_path_from_urls_settings();
 	}
 
@@ -58,8 +57,9 @@ class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 		}
 
 		$this->export_meta->init_export_meta();
-		$file_path = $this->export_meta->getPath();
+		$file_path = $this->export_meta->getExportDir();
 		$file_name = $this->export_meta->getFilename();
+		$file_dir = $file_path;
 		?>
 
 		<div class="wrap">
@@ -529,7 +529,7 @@ class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 			else if(isset($_REQUEST['del']) && $_REQUEST['del'] == 'y')
 			{
 
-				$file_dir = $this->export_meta->getPath();
+
 				$checkfile = !empty($_REQUEST['f']) ? base64_decode(sanitize_text_field($_REQUEST['f'])) : null;
 				$file = "$file_dir/$checkfile";
 				echo (!empty($file) ? (file_exists($file) ? (!unlink($file) ? "<div class='notice notice-error' style='width: 97%'></div>Unable to delete file, please delete it manually!" : "<div class='updated' style='width: 97%'>You did great, the file was <strong>Deleted Successfully</strong>!</div>") : null) : "<div class='notice notice-error'>Missing file path.</div>"); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_unlink

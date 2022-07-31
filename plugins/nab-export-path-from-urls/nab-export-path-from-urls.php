@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Export Paths from URLs
-Description: Export a CSV file that contains the following columns: - 1.) Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/, - 2.) Post ID - the Post ID of the content on that page, - 3.) Post Type - e.g. Page, Company, Session, Article, etc. The CSV  content will show up before or on top of footer section in page once exported CSV file  exists. This plugin  creates a user request upon  export/navigating to export path admin tool page. It utilize WP core Export Personal Data feature so can always navigate to Export Personal Data page under tool menu in  dmin Menu/Nav bar and can download the exported  csv file if user request is created.
+Description: Export a CSV file that contains the following columns: - 1.) Path (the path, not the URL - e.g. /company/cognizant-technology-solutions-u-s-corporation/ not https://amplify.nabshow.com/company/cognizant-technology-solutions-u-s-corporation/, - 2.) Post ID - the Post ID of the content on that page, - 3.) Post Type - e.g. Page, Company, Session, Article, etc. The CSV  content will show up before or on top of footer section in page once exported CSV file  exists. This plugin  creates a user request upon  export/navigating to export path admin tool page. It utilize WP core Export Personal Data feature so can always navigate to Export Personal Data page under tool menu in  admin Menu/Nav bar and can download the exported  csv file if user request is created.
 Version: 1.0.1
 Author: Crush & Lovely
 Contributor:Codev
@@ -25,6 +25,7 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 
 		add_filter( 'pre_option_uploads_use_yearmonth_folders', '__return_false' );
 		add_filter( 'upload_dir', [$this, 'nab_upload_dir'], 100 );
+
 		if (is_admin()) {
 
 			// Display a link to the VIP/Automattic Privacy Policy if the site doesn't already define one.
@@ -43,8 +44,9 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 		add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
 
 	}
+
 	function nab_upload_dir( $dir ) {
-		$dir['subdir'] = '/' .  substr( $dir['subdir'], 6, 2 ) . substr( $dir['subdir'], 3, 2 );
+		$dir['subdir'] = '/'; // .  substr( $dir['subdir'], 6, 2 ) . substr( $dir['subdir'], 3, 2 );
 		$dir['path'] = $dir['basedir'] . $dir['subdir'];
 		$dir['url'] = $dir['baseurl'] . $dir['subdir'];
 
@@ -73,7 +75,7 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 	}
 	public function export_path_from_urls_settings_page(){
 
-		require( WP_PLUGIN_DIR . '/nab-export-path-from-urls/settings/cls-export-all-path-from-urls-settings.php');
+		require( WP_PLUGIN_DIR . '/nab-export-path-from-urls/includes/cls-export-all-path-from-urls-settings.php');
 	}
 
 	public function export_paths_from_urls_activation() {
@@ -85,7 +87,6 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 
 		wp_safe_redirect( add_query_arg( array( 'page' => 'extract-all-urls-settings' ), admin_url( 'tools.php' )) );
 		exit;
-
 	}
 
 	public function nab_generate_personal_data_export_file($request_id){
