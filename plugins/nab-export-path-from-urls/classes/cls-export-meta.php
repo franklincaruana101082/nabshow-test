@@ -56,7 +56,7 @@ class ExportMeta
 
 		$path = $exports_dir;
 
-		if(!file_exists( $exports_dir)) wp_mkdir_p( $exports_dir );
+
 		// if(!file_exists( $path)) wp_mkdir_p( $tmp_path );
 
 		// $wp_content_strpos = strpos( $exports_url, '/wp-content/uploads/' );
@@ -81,6 +81,8 @@ class ExportMeta
 			}
 			$path = $local_export_pathname;
 		}
+
+		if(!file_exists( $path)) wp_mkdir_p( $path );
 
 		$filename = "export-path-from-urls";
 		$csv_file = "{$path}/{$filename}.csv";
