@@ -19,6 +19,8 @@
 // define(‘WP_CACHE’, true);
 // define('WP_DEBUG', false);
 
+define( 'WP_MEMORY_LIMIT', '1024M' );
+
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     $http_host   = $_SERVER['HTTP_HOST'];
     $request_uri = $_SERVER['REQUEST_URI'];
