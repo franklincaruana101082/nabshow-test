@@ -40,31 +40,12 @@ class ExportMeta
 
 	public function init_export_meta(){
 		$upload_res = wp_upload_dir();
-		$exports_dir = $upload_res['path']."wp-personal-data-exports/";
-		$exports_url = $upload_res['url']."wp-personal-data-exports/";
-
-		// $exports_url = wp_privacy_exports_url();
-		// $exports_dir = wp_privacy_exports_dir();
-		// $tmp_path = LOCAL_UPLOADS;
+		$exports_dir = $upload_res['path']."wp-personal-data-exports";
+		$exports_url = $upload_res['url']."wp-personal-data-exports";
 
 		$tmp_path = get_temp_dir();
 
 		$path = $exports_dir;
-
-
-		// if(!file_exists( $path)) wp_mkdir_p( $tmp_path );
-
-		// $wp_content_strpos = strpos( $exports_url, '/wp-content/uploads/' );
-		// $upload_path_url       = trailingslashit( substr( $exports_url, $wp_content_strpos ) );
-
-		// $wp_content_strpos = strpos( $exports_url, '/wp-content/uploads/' );
-		// $upload_path_url       = trailingslashit( substr( $exports_url, $wp_content_strpos ) );
-		// $exports_dir = wp_mkdir_p( $exports_dir );
-		// So, let's force the path to use a local one in the export dir, which will work.
-		// All other references (meta) will still use the correct stream URL.
-		// $exports_dir = "vip://wp-content/uploads/wp-personal-data-exports";
-		// if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
-			// $local_export_pathname = substr( $exports_dir, 6 );
 
 		if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
 			$local_export_pathname = "/wp/".substr( $exports_dir, 6 );
@@ -258,9 +239,9 @@ class ExportMeta
 	public function _upload_exported_csv_file( $csv_file ) {
 		// For local usage, skip the remote upload.
 		// The file is already in the uploads folder.
-		// if ( true !== WPCOM_IS_VIP_ENV ) {
-		// 	return true;
-		// }
+		if ( true !== WPCOM_IS_VIP_ENV ) {
+			return true;
+		}
 
 		$upload_path       = $csv_file;
 

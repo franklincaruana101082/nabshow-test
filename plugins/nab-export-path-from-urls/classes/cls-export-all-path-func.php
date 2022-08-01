@@ -514,11 +514,8 @@ class ExportAllPathsFunc extends ExportMeta
 
 			$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
 			$html .= "<div class='updated '><a href='$csv_url' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
-			// $html .= "<div class='notice notice-warning' style='width: 97%'>Once you have downloaded the file, it is recommended to delete file from the server, for security reasons. <a href='".wp_nonce_url(admin_url('tools.php?page=extract-all-urls-settings&del=y&f=').base64_encode($csv_url))."' ><strong>Click Here</strong></a> to delete the file. And don't worry, you can always regenerate anytime. :)</div>";
 			$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
-			// add_filter('send_headers',[$this, 'sent_header_download_csv'], 1);
-			// do_action('sent_header_download_csv');
 			$this->export_zip = new ExportToZip();
 			$this->export_zip->generate_zip_personal_data_export_file($request_id);
 
@@ -583,20 +580,12 @@ class ExportAllPathsFunc extends ExportMeta
 		];
 	}
 
-	// public function sent_header_download_csv($headers)
 	public function sent_header_download_csv()
 	{
 		$this->init_export_meta();
 		$file_basename = $this->getFilename();
 		$filesize   = filesize($this->getCsvFile());
 		$mimetype = mime_content_type($this->getCsvFile());
-
-		//Download file
-		// $headers['Content-Description'] = 'File Transfer';
-		// $headers['Content-Disposition'] = 'attachment; filename='.$file_basename;
-		// $headers['Content-Type'] = $mimetype;
-		// $headers['Content-Transfer-Encoding'] = $mimetype;
-		// $headers['Content-Length'] = $filesize;
 
 		header('Content-Description: File Transfer');
 		header('Content-Disposition: attachment; filename='.$file_basename);
