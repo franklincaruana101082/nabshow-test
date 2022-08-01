@@ -20,14 +20,11 @@ require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-
 use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
 use Plugins\NabExportPathFromUrls\Classes\ExportToZip;
 
-// add_action( 'admin_init', [new NabExportPathFromUrls, 'init_privacy_compat']);
 class NabExportPathFromUrls extends ExportAllPathsFunc
 {
 	public function __construct()
 	{
 		parent::__construct();
-		// register_activation_hook( __FILE__, array( 'ExportAllPathsFunc', 'plugin_activation' ) );
-		// register_deactivation_hook( __FILE__, array( 'ExportAllPathsFunc', 'plugin_deactivation' ) );
 
 		add_filter( 'pre_option_uploads_use_yearmonth_folders', '__return_false' );
 		add_filter( 'upload_dir', [$this, 'nab_upload_dir'], 100 );
@@ -47,12 +44,10 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 			add_filter('the_content',[$this, 'nabshow_content_after_body'],999);
 		}
 
-		// add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
-
 	}
 
 	function nab_upload_dir( $dir ) {
-		$dir['subdir'] = '/'; // .  substr( $dir['subdir'], 6, 2 ) . substr( $dir['subdir'], 3, 2 );
+		$dir['subdir'] = '/';
 		$dir['path'] = $dir['basedir'] . $dir['subdir'];
 		$dir['url'] = $dir['baseurl'] . $dir['subdir'];
 
@@ -61,17 +56,10 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 
 	public function init_privacy_compat() {
 		// Replace core's privacy data export handler with a custom one.
-		// remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
 		remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
 		add_action( 'wp_privacy_personal_data_export_file', [$this, 'nab_generate_personal_data_export_file'] );
 
 	}
-
-	// public function init_privacy_compat_cleanup() {
-	// 	// Replace core's privacy data delete handler with a custom one.
-	// 	remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
-	// 	add_action( 'wp_privacy_delete_old_export_files', [$this, 'delete_old_export_files']  );
-	// }
 
 	public function export_paths_from_urls_nav($nav){
 

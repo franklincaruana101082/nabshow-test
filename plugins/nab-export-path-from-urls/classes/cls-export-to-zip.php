@@ -39,10 +39,6 @@ class ExportToZip extends ExportMeta
 		$jsonfile = $this->getJsonFile();
 		$zipfile = $this->getZipFile();
 
-		// $stripped_email       = str_replace( '@', '-at-', $email_address );
-		// $stripped_email       = sanitize_title( $stripped_email ); // slugify the email address
-		// $obscura              = wp_generate_password( 32, false, false );
-		// $file_basename        = "{$csv_filebasename}-{$stripped_email}-{$obscura}";
 		$html_report_filename = "{$file_basename}.html";
 		$html_report_pathname = $htmlfile;
 		$json_report_filename =  "{$file_basename}.json";
@@ -337,10 +333,10 @@ class ExportToZip extends ExportMeta
 		$archive_path = wp_parse_url( $archive_url, PHP_URL_PATH );
 
 		// For local usage, just delete locally.
-		// if ( true !== WPCOM_IS_VIP_ENV ) {
-		// 	unlink( WP_CONTENT_DIR . $archive_path );
-		// 	return true;
-		// }
+		if ( true !== WPCOM_IS_VIP_ENV ) {
+			unlink( WP_CONTENT_DIR . $archive_path );
+			return true;
+		}
 
 		$api_client = new_api_client();
 		return $api_client->delete_file( $archive_path );
