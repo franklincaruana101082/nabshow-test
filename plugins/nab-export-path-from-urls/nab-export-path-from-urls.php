@@ -8,6 +8,12 @@ Contributor:Codev
 */
 namespace Plugins\NabExportPathFromUrls;
 
+require_once(WPMU_PLUGIN_DIR . '/a8c-files.php');
+require_once(WPMU_PLUGIN_DIR . '/files/class-curl-streamer.php');
+require_once(WPMU_PLUGIN_DIR . '/files/class-api-cache.php');
+require_once(WPMU_PLUGIN_DIR . '/files/class-path-utils.php');
+require_once(WPMU_PLUGIN_DIR . '/files/class-api-client.php');
+
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-all-path-func.php');
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-zip.php');
 
@@ -41,7 +47,7 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 			add_filter('the_content',[$this, 'nabshow_content_after_body'],999);
 		}
 
-		add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
+		// add_action( 'init', [$this, 'init_privacy_compat_cleanup']);
 
 	}
 
@@ -61,11 +67,11 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 
 	}
 
-	public function init_privacy_compat_cleanup() {
-		// Replace core's privacy data delete handler with a custom one.
-		remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
-		add_action( 'wp_privacy_delete_old_export_files', [$this, 'delete_old_export_files']  );
-	}
+	// public function init_privacy_compat_cleanup() {
+	// 	// Replace core's privacy data delete handler with a custom one.
+	// 	remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
+	// 	add_action( 'wp_privacy_delete_old_export_files', [$this, 'delete_old_export_files']  );
+	// }
 
 	public function export_paths_from_urls_nav($nav){
 

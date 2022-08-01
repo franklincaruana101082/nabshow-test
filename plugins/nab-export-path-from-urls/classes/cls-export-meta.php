@@ -1,11 +1,6 @@
 <?php
 namespace Plugins\NabExportPathFromUrls\Classes;
 
-require_once(WPMU_PLUGIN_DIR . '/a8c-files.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-curl-streamer.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-api-cache.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-path-utils.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-api-client.php');
 
 use function Automattic\VIP\Files\new_api_client;
 
