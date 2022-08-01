@@ -29,7 +29,7 @@ class ExportMeta
 
 	public function __construct()
 	{
-		$this->api_client    = new_api_client('https://' . constant( 'FILE_SERVICE_ENDPOINT' ),
+		$this->api_client    = new_api_client('https://nabshow.vipdev.lndo.site/wp-admin/tools.php?page=extract-paths-from-urls-settings',
 			constant( 'FILES_CLIENT_SITE_ID' ),
 			constant( 'FILES_ACCESS_TOKEN' ),
 			API_Cache::get_instance()
@@ -39,8 +39,22 @@ class ExportMeta
 	}
 
 	public function init_export_meta(){
+		// Load Importer API.
+		require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
+
+		ob_start();
+		export_wp(
+			[
+				'content' => 'slide',
+			]
+		);
+		$export = ob_get_contents();
+		ob_get_clean();
+
 		$upload_res = wp_upload_dir();
-		$exports_dir = $upload_res['path']."wp-personal-data-exports";
+		$base_dir   = trailingslashit( $upload_res['basedir'] );
+
+		$exports_dir = $base_dir."wp-personal-data-exports";
 		$exports_url = $upload_res['url']."wp-personal-data-exports";
 
 		$tmp_path = get_temp_dir();
