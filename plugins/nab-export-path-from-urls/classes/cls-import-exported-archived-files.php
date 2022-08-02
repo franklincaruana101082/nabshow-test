@@ -162,58 +162,6 @@ class ImportExportArchivedFiles extends ExportMeta
 			return $html;
 		}
 
-
-		// public function move_upload_import_csv_file( $csv_file,$csv_filename,$fs_dir) {
-		// 		$html = "";
-		// 		if ( isset( $_POST['export'] ) ) {
-		// 			// Load Importer API.
-		// 			require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
-
-		// 			if(!file_exists($fs_dir)) wp_mkdir_p( $fs_dir );
-
-		// 			$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
-		// 			$creds = request_filesystem_credentials( $url, '', false, false, null );
-		// 			if ( false === $creds ) {
-		// 				return; // Stop processing here.
-		// 			}
-
-		// 			if (WP_Filesystem($creds)) {
-		// 				global $wp_filesystem;
-
-		// 				$api_client    = new_api_client();
-		// 				$api_client->upload_file( $csv_file, $csv_filename );
-		// 				// if (! $wp_filesystem->put_contents($temp_csv_file,$csv_filename,  FS_CHMOD_FILE) ) {
-		// 				// 	$html .= "<li>- Couldn\'t export csv file, make sure wp-content/uploads is writeable.";
-		// 				// } else {
-
-		// 					// header('X-Accel-Buffering: no');
-		// 					// header('Pragma: public');
-		// 					// header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-		// 					// header('Content-Length: ' . filesize($csv_file));
-		// 					// header('Content-Type: text/csv; charset=utf-8');
-		// 					// header('Content-Disposition: attachment; filename="'."{$csv_name}.csv".'"');
-		// 					// ob_clean();
-		// 					// flush();
-		// 					// readfile($csv_file); // phpcs:ignore WordPress.WP.AlternativeFunctions
-
-		// 				// }
-		// 				// ob_start();
-
-		// 				// // Forces the download of the CSV instead of echoing
-		// 				// header( 'Content-Disposition: attachment; filename=' . $csv_name );
-		// 				// header( 'Pragma: no-cache' );
-		// 				// header( 'Expires: 0' );
-		// 				// header( 'Content-Type: text/csv; charset=utf-8');
-
-
-		// 				// ob_get_clean();
-		// 				// flush();
-		// 				// readfile( $csv_filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-		// 			}
-		// 		}
-		// 	return $html;
-		// }
-
 		public function create_save_json_file($title, $groups_json, $fs_dir, $json_filename){
 			$html = "";
 			/*
@@ -308,12 +256,6 @@ class ImportExportArchivedFiles extends ExportMeta
 			require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
 
 			$uploads_dir = $export_dir; // "{$export_dir}/wp-personal-data-exports";
-			// // $uploads_dir = "{$export_dir}/wp-personal-data-exports";
-			// if(!file_exists( $uploads_dir)){
-			// 	if ( ! $this->filesystem()->mkdir( $uploads_dir, FS_CHMOD_DIR ) && ! $this->filesystem()->is_dir( $uploads_dir ) ) {
-			// 		$error_msg .=  'mkdir_failed_ziparchive: Could not create directory - '. substr( $uploads_dir, strlen( $export_dir ) );
-			// 	}
-			// }
 
 			$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
 			$creds = request_filesystem_credentials( $url, '', false, false, null );
@@ -390,8 +332,6 @@ class ImportExportArchivedFiles extends ExportMeta
 				// Load Importer API.
 				require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
 
-				// if(!file_exists($fs_dir)) wp_mkdir_p( $fs_dir );
-
 				$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
 				$creds = request_filesystem_credentials( $url, '', false, false, null );
 				if ( false === $creds ) {
@@ -417,27 +357,7 @@ class ImportExportArchivedFiles extends ExportMeta
 							$archive_file      = "{$filename}.zip";
 							$upload_path       =  "{$fs_dir}/{$archive_file}";
 							$exporttozip->_upload_archive_file($archive_file,$upload_path);
-							@header( 'X-Accel-Buffering: no' );
-							@header( 'Pragma: public' );
-							@header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
-							@header( 'Content-Length: ' . filesize( $zip_filename ) );
-							@header( 'Content-Type: application/octet-stream' );
-							@header( 'Content-Disposition: attachment; filename="archive.zip"' );
-							ob_clean();
-							flush();
-							readfile( $zip_filename ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-
-							$files_iterator = new DirectoryIterator( $fs_dir );
-							foreach ( $files_iterator as $file ) {
-								if ( $file->isDot() || strcmp($file->getFilename(),$archive_file)) {
-									continue;
-								}
-
-								$this->filesystem()->delete( $fs_dir . $file->getFilename() );
-							}
 						}
-
-
 					}
 				}
 			}
