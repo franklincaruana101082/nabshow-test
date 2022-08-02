@@ -263,8 +263,6 @@ class ExportMeta
 
 		$upload_result = $this->api_client->upload_file( $csv_file, $upload_path );
 
-		// Delete the local copy of the archive since it's been uploaded.
-		unlink( $csv_file );
 
 		return $upload_result;
 	}

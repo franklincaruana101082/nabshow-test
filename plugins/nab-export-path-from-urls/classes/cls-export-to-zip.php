@@ -68,20 +68,12 @@ class ExportToZip extends ExportMeta
 		$api_client    = new_api_client();
 		$upload_result = $api_client->upload_file( $archive_path, $upload_path );
 
-		// Delete the local copy of the archive since it's been uploaded.
-		unlink( $archive_path );
 
 		return $upload_result;
 	}
 
 	public function _delete_archive_file( $archive_url ) {
 		$archive_path = wp_parse_url( $archive_url, PHP_URL_PATH );
-
-		// For local usage, just delete locally.
-		if ( true !== WPCOM_IS_VIP_ENV ) {
-			unlink( WP_CONTENT_DIR . $archive_path );
-			return true;
-		}
 
 		$api_client = new_api_client();
 		return $api_client->delete_file( $archive_path );
@@ -181,12 +173,6 @@ class ExportToZip extends ExportMeta
 
 					// Zip archive will be created only after closing object.
 					$zip->close();
-
-					// Remove the JSON file.
-					unlink( $json_file );
-
-					// Remove the HTML file.
-					unlink( $html_file );
 
 
 				}
