@@ -361,7 +361,7 @@ class ImportExportArchivedFiles extends ExportMeta
 
 			fclose($file_csv);
 
-				// $export_csv_file = "{$export_dir}wp-personal-data-exports/{$csv_filename}";
+				// $export_csv_file = "{$export_dir}{$csv_filename}";
 
 				// $api_client    = new_api_client();
 				// if($api_client->upload_file( $csv_file, $export_csv_file )){
@@ -400,9 +400,6 @@ class ImportExportArchivedFiles extends ExportMeta
 				if ( WP_Filesystem( $creds ) ) {
 					global $wp_filesystem;
 
-					// $file_json_contents = $wp_filesystem->get_contents($file_json);
-					// $file_html_contents = $wp_filesystem->get_contents($file_html);
-
 					$csv_filename = "{$fs_dir}/{$filename}.csv";
 					$json_filename = "{$fs_dir}/{$filename}.json";
 					$html_filename = "{$fs_dir}/{$filename}.html";
@@ -418,7 +415,7 @@ class ImportExportArchivedFiles extends ExportMeta
 
 						if($exporttozip->_ziparchive_create_file($zip_filename, $json_file, $html_file, $csv_file, $fs_dir, $filename)){
 							$archive_file      = "{$filename}.zip";
-							$upload_path       =  "{$fs_dir}/wp-personal-data-exports/{$archive_file}";
+							$upload_path       =  "{$fs_dir}/{$archive_file}";
 							$exporttozip->_upload_archive_file($archive_file,$upload_path);
 							@header( 'X-Accel-Buffering: no' );
 							@header( 'Pragma: public' );
