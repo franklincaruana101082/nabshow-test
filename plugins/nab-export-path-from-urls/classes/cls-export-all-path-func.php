@@ -450,7 +450,7 @@ class ExportAllPathsFunc extends ExportMeta
 			$message = $request_id->get_error_message();
 		} else if ( ! $request_id ) {
 			$success = false;
-			$message = __( 'We were unable to generate the data export request.', 'export-all-path-from-urls' );
+			$message = 'We were unable to generate the data export request.';
 		}
 
 		/*
@@ -461,7 +461,7 @@ class ExportAllPathsFunc extends ExportMeta
 			/** This hook is documented in /wp-login.php */
 			do_action( 'user_request_action_confirmed', $request_id );
 
-			$message = __( 'Data export request successfully created', 'export-all-path-from-urls' );
+			$message = 'Data export request successfully created';
 
 		}
 
@@ -502,27 +502,24 @@ class ExportAllPathsFunc extends ExportMeta
 		$error_msg ="";
 		$export_dir = $this->getPath();
 		$csv_file = $this->getCsvFile();
-		$csv_url = $this->getCsvUrl();
+		$export_url = $this->getExportsUrl();
 		$csv_name = $this->getFilename();
 
 		$error = !file_exists($csv_file) || $haserror;
 
 		$this->import_export_zip = new ImportExportArchivedFiles;
 
-		$result_csv_file = $this->import_export_zip->create_csv_file($urls, $csv_file, $csv_name, $count,$export_dir,$error_msg ,$haserror);
-		$error_msg .= $result_csv_file['error_msg'];
+		$result_csv_file = $this->import_export_zip->create_csv_file($urls, $csv_name, $count,$export_dir, $request_id,$error_msg ,$haserror);
+		$error_msg_obj = $result_csv_file['error_msg'];
 		$error = $result_csv_file['haserror'];
 
-		$html .= $this->import_export_zip->generate_zip_personal_data_export_file($request_id);
-
 		if(!$error){
-
+			$csv_url = $this->getCsvUrl();
 			$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
 			$html .= "<div class='updated '><a href='$csv_url' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
 			$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
 			$this->save_eau_export_data($urls, 'text', $csv_name, $count, $request_id);
-
 		}else{
 
 			$html .= "<div class='notice notice-info' style='width: 97%'><H1>Sorry! but as of the moment exporting data is not yet allowed for now in this page. </H1>

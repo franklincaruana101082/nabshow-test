@@ -17,41 +17,37 @@ class ExportToZip extends ExportMeta
 		$this->init_export_meta();
 	}
 
-	function _ziparchive_create_file( $archive_path, $html_report_path, $csv_pathname ) {
+	function _ziparchive_create_file( $zip_filename, $json_file, $html_file, $csv_file, $fs_dir, $filename ) {
 		$archive = new \ZipArchive();
-		$this->init_export_meta();
-		$file_basename = $this->getFilename();
-		$jsonfile = $this->getJsonFile();
 
-		$html_report_filename = "{$file_basename}.html";
-		$json_report_filename =  "{$file_basename}.json";
-		$json_report_pathname = $jsonfile;
-		$csv_report_filename = "{$file_basename}.csv";
+		$csv_filename = "{$fs_dir}/{$filename}.csv";
+		$json_filename = "{$fs_dir}/{$filename}.json";
+		$html_filename = "{$fs_dir}/{$filename}.html";
 
-		$archive_created = $archive->open( $archive_path, \ZipArchive::CREATE );
+		$archive_created = $archive->open( $zip_filename, \ZipArchive::CREATE );
 		if ( true !== $archive_created ) {
 			return new \WP_Error( 'ziparchive-open-failed', __( 'Failed to create a `zip` file using `ZipArchive`' ) );
 		}
 
-		$file_added = $archive->addFile( $html_report_path, $html_report_filename );
+		$file_added = $archive->addFile( $html_filename, $html_file );
 		if ( ! $file_added ) {
 			$archive->close();
 
-			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add html data to export file.' ) );
 		}
 
-		$file_added = $archive->addFile( $json_report_pathname, $json_report_filename);
+		$file_added = $archive->addFile( $json_filename, $json_file);
 		if ( ! $file_added ) {
 			$archive->close();
 
-			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add json data to export file.' ) );
 		}
 
-		$file_added = $archive->addFile( $csv_pathname, $csv_report_filename);
+		$file_added = $archive->addFile( $csv_filename, $csv_file);
 		if ( ! $file_added ) {
 			$archive->close();
 
-			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+			return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add csv data to export file.' ) );
 		}
 
 		$archive->close();
@@ -59,7 +55,7 @@ class ExportToZip extends ExportMeta
 		return true;
 	}
 
-	public function _upload_archive_file( $archive_path, $zip_remote_file ) {
+	public function _upload_archive_file( $archive_path, $remote_file ) {
 		// For local usage, skip the remote upload.
 		// The file is already in the uploads folder.
 		if ( true !== WPCOM_IS_VIP_ENV ) {
@@ -67,7 +63,7 @@ class ExportToZip extends ExportMeta
 		}
 
 
-		$upload_path       = $zip_remote_file;
+		$upload_path       = $remote_file;
 
 		$api_client    = new_api_client();
 		$upload_result = $api_client->upload_file( $archive_path, $upload_path );

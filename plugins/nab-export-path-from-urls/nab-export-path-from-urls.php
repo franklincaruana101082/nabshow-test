@@ -12,7 +12,7 @@ require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-all-path-func.php');
 
 use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
-use Plugins\NabExportPathFromUrls\Classes\ExportToZip;
+use Plugins\NabExportPathFromUrls\Classes\ImportExportArchivedFiles;
 
 class NabExportPathFromUrls extends ExportAllPathsFunc
 {
@@ -80,7 +80,7 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 	}
 
 	public function nab_generate_personal_data_export_file($request_id){
-		$request_generate_export_zip_file =  new ExportToZip;
+		$request_generate_export_zip_file =  new ImportExportArchivedFiles;
 		$request_generate_export_zip_file->generate_zip_personal_data_export_file($request_id);
 	}
 	// =================
