@@ -8,17 +8,11 @@ Contributor:Codev
 */
 namespace Plugins\NabExportPathFromUrls;
 
-require_once(WPMU_PLUGIN_DIR . '/a8c-files.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-curl-streamer.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-api-cache.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-path-utils.php');
-require_once(WPMU_PLUGIN_DIR . '/files/class-api-client.php');
-
-require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-all-path-func.php');
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-zip.php');
+require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-all-path-func.php');
 
 use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
-use Plugins\NabExportPathFromUrls\Classes\ExportToZip;
+use Plugins\NabExportPathFromUrls\Classes\ImportExportArchivedFiles;
 
 class NabExportPathFromUrls extends ExportAllPathsFunc
 {
@@ -26,6 +20,8 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 	{
 		parent::__construct();
 
+		// // Unrestrict All Files Temporarily
+		add_filter( 'pre_option_vip_files_acl_restrict_all_enabled', function( $value ) { return 0; } );
 		add_filter( 'pre_option_uploads_use_yearmonth_folders', '__return_false' );
 		add_filter( 'upload_dir', [$this, 'nab_upload_dir'], 100 );
 
@@ -84,7 +80,7 @@ class NabExportPathFromUrls extends ExportAllPathsFunc
 	}
 
 	public function nab_generate_personal_data_export_file($request_id){
-		$request_generate_export_zip_file =  new ExportToZip;
+		$request_generate_export_zip_file =  new ImportExportArchivedFiles;
 		$request_generate_export_zip_file->generate_zip_personal_data_export_file($request_id);
 	}
 	// =================

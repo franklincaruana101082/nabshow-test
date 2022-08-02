@@ -3,6 +3,7 @@ namespace Plugins\NabExportPathFromUrls\Classes;
 
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-meta.php');
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-zip.php');
+require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-import-exported-archived-files.php');
 
 use WP_Query;
 
@@ -286,7 +287,6 @@ class ExportAllPathsFunc extends ExportMeta
 	}
 
 	public function retrieve_exported_file_to_array(){
-		$this->init_export_meta();
 		$rowdata = [];
 		if (!file_exists($this->getCsvFile()) || !is_file($this->getCsvFile())) return $rowdata;
 
@@ -450,7 +450,7 @@ class ExportAllPathsFunc extends ExportMeta
 			$message = $request_id->get_error_message();
 		} else if ( ! $request_id ) {
 			$success = false;
-			$message = __( 'We were unable to generate the data export request.', 'export-all-path-from-urls' );
+			$message = 'We were unable to generate the data export request.';
 		}
 
 		/*
@@ -461,7 +461,7 @@ class ExportAllPathsFunc extends ExportMeta
 			/** This hook is documented in /wp-login.php */
 			do_action( 'user_request_action_confirmed', $request_id );
 
-			$message = __( 'Data export request successfully created', 'export-all-path-from-urls' );
+			$message = 'Data export request successfully created';
 
 		}
 
@@ -488,7 +488,7 @@ class ExportAllPathsFunc extends ExportMeta
 		if (!file_exists($csv_file)) {
 			// Create the exports folder if needed.
 			if (! wp_mkdir_p($exports_dir)) {
-				wp_send_json_error(__('Unable to create export folder.'));
+				$html .= "Unable to create export folder.";
 			}
 		}
 
@@ -500,27 +500,26 @@ class ExportAllPathsFunc extends ExportMeta
 	{
 		$html = "";
 		$error_msg ="";
+		$export_dir = $this->getPath();
 		$csv_file = $this->getCsvFile();
-		$csv_url = $this->getCsvUrl();
+		$export_url = $this->getExportsUrl();
 		$csv_name = $this->getFilename();
 
 		$error = !file_exists($csv_file) || $haserror;
 
-		$result_csv_file = $this->create_csv_file($urls, $csv_file, $csv_name, $count, $request_id,$error_msg ,$haserror);
-		$error_msg .= $result_csv_file['error_msg'];
+		$this->import_export_zip = new ImportExportArchivedFiles;
+
+		$result_csv_file = $this->import_export_zip->create_csv_file($urls, $csv_name, $count,$export_dir, $request_id,$error_msg ,$haserror);
+		$error_msg_obj = $result_csv_file['error_msg'];
 		$error = $result_csv_file['haserror'];
 
 		if(!$error){
-
+			$csv_url = $this->getCsvUrl();
 			$html .= "<div class='updated '><strong>Data exported successfully!</strong></div>";
 			$html .= "<div class='updated '><a href='$csv_url' target='_blank'  class='button button-primary md-12'><strong>Download CSV File</strong></a></div></div>";
 			$html .= "<div class='notice notice-info' style='width: 97%'><strong>Total</strong> number of paths exported: <strong>".esc_html($count)."</strong>.</div>";
 
-			$this->export_zip = new ExportToZip();
-			$this->export_zip->generate_zip_personal_data_export_file($request_id);
-
 			$this->save_eau_export_data($urls, 'text', $csv_name, $count, $request_id);
-
 		}else{
 
 			$html .= "<div class='notice notice-info' style='width: 97%'><H1>Sorry! but as of the moment exporting data is not yet allowed for now in this page. </H1>
@@ -533,51 +532,6 @@ class ExportAllPathsFunc extends ExportMeta
 
 
 		return $html;
-	}
-	public function create_csv_file($urls, $csv_file, $csv_name, $count, $request_id,$error_msg ="",$haserror=false){
-
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		$file_csv = fopen( $csv_file, 'w+');
-		fputs($file_csv, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
-
-		if ( false === $file_csv ) {
-			$haserror = true;
-			$error_msg .= "<li>- Unable to open CSV export file.</li>";
-		}
-
-		if($haserror ){
-			$haserror = true;
-			$error_msg .= "<li>- Invalid request ID when generating export file.</li>";
-		}
-
-		/*
-		* Create the Exported Path from Urls CSV file.
-		*/
-
-		$headers[] = '#';
-		$headers[] = 'Post ID';
-		$headers[] = 'Post Type';
-		$headers[] = 'Paths';
-
-		fputcsv($file_csv, $headers); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
-
-		for ($i = 0; $i < $count; $i++) {
-			$data = array(
-				$urls['seq'][$i] ,
-				isset($urls['post_id']) ? $urls['post_id'][$i] : "",
-				isset($urls['post_type']) ? $urls['post_type'][$i] : "",
-				isset($urls['path']) ? $urls['path'][$i] : ""
-			);
-
-			fputcsv($file_csv, $data); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.file_ops_fputcsv
-		}
-
-		fclose($file_csv);
-
-		return [
-			'haserror' => $haserror,
-			'error_msg' => $error_msg
-		];
 	}
 
 	public function sent_header_download_csv()

@@ -29,7 +29,7 @@ class ExportMeta
 
 	public function __construct()
 	{
-		$this->api_client    = new_api_client('https://' . constant( 'FILE_SERVICE_ENDPOINT' ),
+		$this->api_client    = new_api_client('https://nabshow.vipdev.lndo.site/wp-admin/tools.php?page=extract-paths-from-urls-settings',
 			constant( 'FILES_CLIENT_SITE_ID' ),
 			constant( 'FILES_ACCESS_TOKEN' ),
 			API_Cache::get_instance()
@@ -39,13 +39,19 @@ class ExportMeta
 	}
 
 	public function init_export_meta(){
+
+		$filename = "export-path-from-urls";
+
 		$upload_res = wp_upload_dir();
-		$exports_dir = $upload_res['path']."wp-personal-data-exports";
-		$exports_url = $upload_res['url']."wp-personal-data-exports";
+		$base_dir   = $upload_res['basedir'];
+
+		$exports_dir =  $base_dir;
+		$exports_url = $upload_res['url'];
 
 		$tmp_path = get_temp_dir();
 
-		$path = $exports_dir;
+		$path = "{$base_dir}/{$filename}";
+		$path_url = $upload_res['url'] . "{$filename}/";
 
 		if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
 			$local_export_pathname = "/wp/".substr( $exports_dir, 6 );
@@ -58,13 +64,13 @@ class ExportMeta
 			$path = $local_export_pathname;
 		}
 
-		if(!file_exists( $path)) wp_mkdir_p( $path );
+		if(!file_exists( $path)) $this->filesystem()->mkdir( $path, FS_CHMOD_DIR );
 
-		$filename = "export-path-from-urls";
+
 		$csv_file = "{$path}/{$filename}.csv";
-		$csv_url = "{$exports_url}/{$filename}.csv";
+		$csv_url = "{$path_url}{$filename}.csv";
 		$zip_file = "{$path}/{$filename}.zip";
-		$zip_url = "{$exports_url}/{$filename}.zip";
+		$zip_url = "{$exports_url}{$filename}.zip";
 		$html_file = "{$path}/{$filename}.html";
 		$json_file = "{$path}/{$filename}.json";
 
@@ -94,11 +100,11 @@ class ExportMeta
 
 		extract($exports_meta_obj ); // Extracting / Destructuring Array/Objects
 
-		$this->setExportMeta($htmlUrls, $count, $url, $path, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email, $exports_dir);
+		$this->setExportMeta($htmlUrls, $count, $url, $path, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email, $exports_dir, $tmp_dir);
 
 	}
 
-	public function setExportMeta($htmlUrls, $count, $exports_url, $path, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email,$exports_dir)
+	public function setExportMeta($htmlUrls, $count, $exports_url, $path, $filename, $csv_url, $csv_file, $html_file, $json_file, $zip_file, $zip_url, $email,$exports_dir, $tmp_dir)
 	{
 		$this->setPathUrls($htmlUrls);
 		$this->setPathCounts($count);
@@ -112,6 +118,7 @@ class ExportMeta
 		$this->setJsonFile($json_file);
 		$this->setZipFile($zip_file);
 		$this->setZipUrl($zip_url);
+		$this->setTmpDir($tmp_dir);
 		$this->setEmail($email);
 		do_action('initSetGetEmail');
 	}
@@ -122,6 +129,9 @@ class ExportMeta
 	}
 	public function setRequestId($request_id){
 		$this->request_id = $request_id;
+	}
+	public function setTmpDir($tmp_dir){
+		$this->tmp_dir = $tmp_dir;
 	}
 	public function setPathUrls($urls){
 		$this->path_urls = $urls;
@@ -173,8 +183,14 @@ class ExportMeta
 	}
 
 	// Getters
+	public function getExportsUrl(){
+		return $this->exports_url;
+	}
 	public function getExportDir(){
 		return $this->exports_dir;
+	}
+	public function getTmpDir(){
+		return $this->tmp_dir;
 	}
 	public function getPathUrls(){
 		return $this->path_urls;
@@ -253,6 +269,23 @@ class ExportMeta
 		return $upload_result;
 	}
 
+	/**
+	 * Gets the $wp_filesystem.
+	 *
+	 * @access private
+	 * @since 3.1
+	 * @return object
+	 */
+	private function filesystem() {
+		// The WordPress filesystem.
+		global $wp_filesystem;
+
+		if ( empty( $wp_filesystem ) ) {
+			require_once wp_normalize_path( ABSPATH . '/wp-admin/includes/file.php' );
+			WP_Filesystem();
+		}
+		return $wp_filesystem;
+	}
 }
 
 new ExportMeta;

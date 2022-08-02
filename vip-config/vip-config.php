@@ -20,6 +20,11 @@
 // define('WP_DEBUG', false);
 // define( 'WPCOM_IS_VIP_ENV', true );
 
+define('VIP_FILES_ACL_ENABLED',false);
+
+define( 'WP_MEMORY_LIMIT', '786M' );
+define( 'WP_MAX_MEMORY_LIMIT', '512M' );
+
 if ( isset( $_SERVER['HTTP_HOST'] ) ) {
     $http_host   = $_SERVER['HTTP_HOST'];
     $request_uri = $_SERVER['REQUEST_URI'];

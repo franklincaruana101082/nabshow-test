@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
 
-RewriteCond $1 !^(wp-personal-data-exports|export-path-from-urls.csv||export-path-from-urls.zip|favicon.ico)
+RewriteCond $1 !^/(wp-personal-data-exports|export-path-from-urls.csv|export-path-from-urls.zip|favicon.ico)
 RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
