@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Redirect after registration
  *

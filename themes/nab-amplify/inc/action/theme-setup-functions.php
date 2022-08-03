@@ -80,6 +80,8 @@ define('WP_BP_URL', get_template_directory_uri() . '/inc/action/batch/');
 
 /*Initalize company bulk import files */
 
+if ( apply_filters( 'nab_amplify_theme_disabled', true) ) return;
+
 require_once 'batch/class-bp-helper.php';
 require_once 'batch/class-bp-singleton.php';
 
@@ -88,6 +90,7 @@ require_once 'batch/class-batch.php';
 require_once 'batch/class-batch-processor.php';
 require_once 'batch/class-batch-ajax-handler.php';
 require_once 'batch/class-batch-list-table.php';
+
 require_once 'batch/class-batch-processor-admin.php';
 
 /* Setup company bulk import batch process */
@@ -2110,11 +2113,11 @@ function nab_amplify_get_country_state($code,$type){
 
 	if($type === 'country'){
 		$nab_get_countries  = nab_get_countries();
-		
+
 		foreach($nab_get_countries as $country){
-			
+
 			if( $country['Display'] === $code ){
-				
+
 				return $country['CNCode'];
 			}else{
 				return $code;
@@ -2122,7 +2125,7 @@ function nab_amplify_get_country_state($code,$type){
 		}
 	}else{
 		$nab_get_states  = nab_get_states();
-	
+
 		foreach($nab_get_states as $state){
 			if( $state['Display'] == $code ){
 				return $state['State'];
@@ -2131,5 +2134,5 @@ function nab_amplify_get_country_state($code,$type){
 			}
 		}
 	}
-	
+
 }

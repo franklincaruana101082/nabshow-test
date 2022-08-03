@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'Segment_Tracking' ) ) {
-    
+
     class Segment_Tracking extends Segment_Tracking_DB {
-        
+
         /**
          * Construct to use add WP hooks.
          */
@@ -114,16 +114,16 @@ if ( ! class_exists( 'Segment_Tracking' ) ) {
                 'manage_options',
                 'segment_event_settings',
                 array( $this, 'st_segment_setting_page_callback' )
-            );            
+            );
         }
 
         /**
          * Display setting page for segement event tracking.
          */
         public function st_segment_setting_page_callback() {
-            
+
             /* nothing here */
-            
+
         }
 
     }

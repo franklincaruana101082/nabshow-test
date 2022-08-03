@@ -11,7 +11,7 @@ class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 	public function __construct()
 	{
 		$this->export_meta = new ExportMeta();
-		$this->init_export_all_path_from_urls_settings();
+
 	}
 
 	public function init_export_all_path_from_urls_settings()
@@ -529,5 +529,3 @@ class ExportAllPathFromUrlsSettings extends ExportAllPathsFunc
 		}
 	}
 }
-
-new ExportAllPathFromUrlsSettings;

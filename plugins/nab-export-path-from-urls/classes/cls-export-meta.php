@@ -53,17 +53,6 @@ class ExportMeta
 		$path = "{$base_dir}/{$filename}";
 		$path_url = $upload_res['url'] . "{$filename}/";
 
-		// if ( 0 === strpos( $exports_dir, 'vip://' ) ) {
-		// 	$local_export_pathname = "/wp/".substr( $exports_dir, 6 );
-
-		// 	// Create the folder path.
-		// 	if(!file_exists($local_export_pathname)) $local_export_dir_created = wp_mkdir_p( $local_export_pathname );
-		// 	if ( is_wp_error( $local_export_dir_created ) ) {
-		// 		wp_send_json_error( $local_export_dir_created->get_error_message() );
-		// 	}
-		// 	$path = $local_export_pathname;
-		// }
-
 		if(!file_exists( $path)) $this->filesystem()->mkdir( $path, FS_CHMOD_DIR );
 
 

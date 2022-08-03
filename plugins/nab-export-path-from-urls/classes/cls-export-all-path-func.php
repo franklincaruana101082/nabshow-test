@@ -3,17 +3,18 @@ namespace Plugins\NabExportPathFromUrls\Classes;
 
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-meta.php');
 require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-export-to-zip.php');
-require_once (WP_PLUGIN_DIR . '/nab-export-path-from-urls/classes/cls-import-exported-archived-files.php');
 
 use WP_Query;
 
 class ExportAllPathsFunc extends ExportMeta
 {
+	private ExportMeta $export_meta;
 	private ExportToZip $export_zip;
 	public function __construct()
 	{
 		parent::__construct();
 		$this->init_export_meta();
+		$this->export_zip = new ExportToZip;
 	}
 	public function eau_get_selected_post_type($post_type, $custom_posts_names)
 	{
@@ -502,15 +503,14 @@ class ExportAllPathsFunc extends ExportMeta
 		$error_msg ="";
 		$export_dir = $this->getPath();
 		$csv_file = $this->getCsvFile();
-		$export_url = $this->getExportsUrl();
 		$csv_name = $this->getFilename();
 
 		$error = !file_exists($csv_file) || $haserror;
 
-		$this->import_export_zip = new ImportExportArchivedFiles;
-
-		$result_csv_file = $this->import_export_zip->create_csv_file($urls, $csv_name, $count,$export_dir, $request_id,$error_msg ,$haserror);
-		$error_msg_obj = $result_csv_file['error_msg'];
+		$this->init_export_meta();
+		$cls_export_zip = new ExportToZip;
+		$result_csv_file = $cls_export_zip->create_csv_file($urls, $csv_name, $count,$export_dir, $request_id,$error_msg ,$haserror);
+		$error_msg .= $result_csv_file['error_msg'];
 		$error = $result_csv_file['haserror'];
 
 		if(!$error){
