@@ -14,6 +14,7 @@ use Plugins\NabExportPathFromUrls\Classes\ExportMeta;
 
 use function Automattic\VIP\Files\new_api_client;
 use DirectoryIterator;
+use GuzzleHttp\Psr7\UploadedFile;
 use ZipArchive;
 
 class ExportToZip extends ExportMeta
@@ -27,31 +28,47 @@ class ExportToZip extends ExportMeta
 	}
 
 	public function _upload_archive_file( $archive_path ) {
-		// For local usage, skip the remote upload.
-		// The file is already in the uploads folder.
-		if ( true !== WPCOM_IS_VIP_ENV ) {
-			return true;
+
+		// Load Importer API.
+		require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
+
+		$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
+		$creds = request_filesystem_credentials( $url, '', false, false, null );
+		if ( false === $creds ) {
+			return; // Stop processing here.
 		}
-
-		if ( ! class_exists( 'Automattic\VIP\Files\Api_Client' ) ) {
-			require WPMU_PLUGIN_DIR . '/files/class-api-client.php';
+		if ( WP_Filesystem( $creds ) ) {
+			global $wp_filesystem;
+			$filename = basename( $archive_path);
+			$export_personal_data_dir = wp_privacy_exports_dir(  );
+			$upload_path = $export_personal_data_dir . "/".$filename ;
+			$upload_result = new_api_client()->upload_file( $archive_path, $upload_path);
+			// Delete the local copy of the archive since it's been uploaded.
+			// unlink( $archive_path );
+			return $upload_result;
 		}
+		return false;
+	}
 
-		// Build the `/wp-content/` version of the exports path since `LOCAL_UPLOADS` gives us a `/tmp` path.
-		// Hard-coded and full of assumptions for now.
-		// TODO: need a cleaner approach for this. Can probably borrow `WP_Filesystem_VIP_Uploads::sanitize_uploads_path()`.
-		$archive_file      = basename( $archive_path );
-		$exports_url       = wp_privacy_exports_url();
-		$wp_content_strpos = strpos( $exports_url, '/wp-content/uploads/' );
-		$upload_path       = trailingslashit( substr( $exports_url, $wp_content_strpos ) ) . $archive_file;
+	public function _move_upload_archive_file( $archive_path, $upload_path ) {
 
-		$api_client    = \Automattic\VIP\Files\new_api_client();
-		$upload_result = $api_client->upload_file( $archive_path, $upload_path );
+		// Load Importer API.
+		require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
 
-		// Delete the local copy of the archive since it's been uploaded.
-		unlink( $archive_path );
-
-		return $upload_result;
+		$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
+		$creds = request_filesystem_credentials( $url, '', false, false, null );
+		if ( false === $creds ) {
+			return; // Stop processing here.
+		}
+		if ( WP_Filesystem( $creds ) ) {
+			global $wp_filesystem;
+			$fileuploaded = $wp_filesystem->copy( $archive_path, $upload_path, true,  0777 );
+			// $upload_result = new_api_client()->upload_file( $archive_path, $upload_path);
+			// Delete the local copy of the archive since it's been uploaded.
+			// unlink( $archive_path );
+			return $fileuploaded;
+		}
+		return false;
 	}
 
 	public function _delete_archive_file( $archive_url ) {
@@ -104,18 +121,18 @@ class ExportToZip extends ExportMeta
 	}
 
 	public function generate_personal_data_export_file($request_id){
-			// Load Importer API.
-			require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
 
-			$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
-			$creds = request_filesystem_credentials( $url, '', false, false, null );
-			if ( false === $creds ) {
-				return; // Stop processing here.
-			}
+				// Load Importer API.
+				require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
 
-			if ( WP_Filesystem( $creds ) ) {
+				$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
+				$creds = request_filesystem_credentials( $url, '', false, false, null );
+				if ( false === $creds ) {
+					return; // Stop processing here.
+				}
 				$this->init_export_meta();
 				$fs_dir =$this->getPath();
+				$zip_url =$this->getZipUrl();
 				$filename =$this->getFilename();
 				$html_report_pathname =$this->getHtmlFile();
 				$json_report_pathname =$this->getJsonFile();
@@ -123,31 +140,49 @@ class ExportToZip extends ExportMeta
 
 				$export_personal_data_dir = wp_privacy_exports_dir(  );
 				$export_personal_data_url = wp_privacy_exports_url(  );
-				$zip_file = $export_personal_data_dir . "{$filename}.zip";
+				$zip_file = $fs_dir . "/{$filename}.zip";
+				$upload_zip_file = $export_personal_data_dir . "/".time()."1-{$filename}.zip";
 
 				// Initialize archive object.
-				$zip = new ZipArchive();
-				$zip->open( $zip_file, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE );
-
-				$files_iterator = new DirectoryIterator( $fs_dir );
-
-				foreach ( $files_iterator as $file ) {
-					if ( $file->isDot() ) {
-						continue;
-					}
-
-					$zip->addFile( $fs_dir . $file->getFilename(), $file->getFilename() );
+				$archive = new ZipArchive();
+				$archive_created = $archive->open( $zip_file, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE );
+				if ( true !== $archive_created ) {
+					return new \WP_Error( 'ziparchive-open-failed', __( 'Failed to create a `zip` file using `ZipArchive`' ) );
 				}
 
-				// Zip archive will be created only after closing object.
-				$zip->close();
+				$file_added = $archive->addFile( $html_report_pathname, "{$filename}.html");
+				if ( ! $file_added ) {
+					$archive->close();
 
+					return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+				}
+
+				$file_added = $archive->addFile( $json_report_pathname, "{$filename}.json");
+				if ( ! $file_added ) {
+					$archive->close();
+
+					return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+				}
+
+				$file_added = $archive->addFile( $csv_file, "{$filename}.csv");
+				if ( ! $file_added ) {
+					$archive->close();
+
+					return new \WP_Error( 'ziparchive-add-failed', __( 'Unable to add data to export file.' ) );
+				}
+
+				$archive->close();
 				/** This filter is documented in wp-admin/includes/file.php */
-				do_action( 'wp_privacy_personal_data_export_file_created', $zip_file, $export_personal_data_url, $html_report_pathname, $json_report_pathname,  $csv_file, $request_id);
+				do_action( 'wp_privacy_personal_data_export_file_created', $zip_file, $zip_url, $html_report_pathname, $json_report_pathname,  $csv_file, $request_id);
+				// (new UploadedFile($zip_file))->moveTo($upload_zip_file);
+				// return move_uploaded_file($zip_file,$upload_zip_file);
+				// return (new ExportToZip)->_upload_archive_file($zip_file);
+				$uploadpath = "{$export_personal_data_dir}/". basename($zip_file);
+				// $api_client    = new_api_client();
+				// return $api_client->upload_file( $archive, $uploadpath );
+				return (new ExportToZip)->_move_upload_archive_file($zip_file,$uploadpath);
 
-				$this->_upload_archive_file($zip_file);
 
-			}
 		}
 
 		public function download_csv_archive_file($csv_file,$filename){
@@ -177,14 +212,6 @@ class ExportToZip extends ExportMeta
 
 	// Generate a Personal Data Export consisting of json, html and csv files (the exported  csv file)
 	public function init_json_and_html_report_data( $request_id ) {
-		// Load Importer API.
-		require_once wp_normalize_path( ABSPATH . 'wp-admin/includes/export.php' );
-
-		$url   = wp_nonce_url( 'tools.php?page=extract-paths-from-urls-settings' );
-		$creds = request_filesystem_credentials( $url, '', false, false, null );
-		if ( false === $creds ) {
-			return; // Stop processing here.
-		}
 
 		$html = "";
 
@@ -193,7 +220,6 @@ class ExportToZip extends ExportMeta
 		$email_address = !empty($request->email) ? $request->email : "vipgo@go-vip.net";
 		$this->init_export_meta();
 		$path = $this->getPath();
-		$csv_file =  $this->getCsvFile();
 		$csv_url = $this->getCsvUrl();
 		$file_basename =$this->getFilename();
 		$htmlfile =$this->getHtmlFile();
@@ -258,11 +284,9 @@ class ExportToZip extends ExportMeta
 
 		$json_res = $this->create_save_json_file($title, $groups_json,$path,$json_report_pathname);
 		$html .= $json_res['html'];
-		$json_file = $json_res['file_json'];
 
 		$html_res = $this->create_save_html_file($title, $groups, $groups_count,$path,$html_report_pathname);
 		$html .= $html_res['html'];
-		$html_file = $html_res['file_html'];
 		/*
 		* Now, generate the ZIP.
 		*
@@ -298,15 +322,15 @@ class ExportToZip extends ExportMeta
 		}
 
 		$archive_url = "{$csv_url}/{$zip_report_filename}";
+		$this->generate_personal_data_export_file($request_id);
 
-		if ( ! empty( $archive_pathname ) && is_file( $archive_pathname ) ) {
-			wp_delete_file( $archive_pathname );
-		}
+		// if ( ! empty( $archive_pathname ) && is_file( $archive_pathname ) ) {
+		// 	wp_delete_file( $archive_pathname );
+		// }
 
 		// Track generated time to simplify deletions.
 		// We can't currently iterate through files in the Files Service so we need a way to query exports by date.
 		update_post_meta( $request_id, '_vip_export_generated_time', time() );
-
 		return $html;
 	}
 

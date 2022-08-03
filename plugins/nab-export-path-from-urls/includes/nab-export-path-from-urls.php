@@ -3,7 +3,11 @@
 namespace Plugins\NabExportPathFromUrls\Includes;
 
 use Plugins\NabExportPathFromUrls\Classes\ExportAllPathsFunc;
+use Plugins\NabExportPathFromUrls\Classes\ExportMeta;
 use Plugins\NabExportPathFromUrls\Classes\ExportToZip;
+use ZipArchive;
+
+use function Automattic\VIP\Files\new_api_client;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -21,9 +25,19 @@ if ( ! class_exists( 'NabExportPathFromUrls' ) ){
 		{
 			parent::__construct();
 
-			// Replace core's privacy data export handler with a custom one.
-			remove_action('wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10);
-			add_action('wp_privacy_personal_data_export_file',  [$this,'nab_generate_personal_data_export_file'],1);
+			// Disable the VIP Privacy policy by default while we work on the rollout.
+			// Priority is set to 0 to allow for easier overrides.
+			add_filter( 'vip_show_login_privacy_policy', '__return_false', 0 );
+
+			add_action( 'admin_init',[$this,'init_privacy_compat'],1 );
+
+			/**
+			 * Override the cron handler.
+			 *
+			 * Hook on `init` separately since cron context doesn't fire `admin_init` and we need a separate event.
+			 */
+			add_action( 'init',[$this,'init_privacy_compat_cleanup'],10 );
+
 
 			// Unrestrict All Files Temporarily
 			add_filter('pre_option_vip_files_acl_restrict_all_enabled', function ($value) {
@@ -32,20 +46,49 @@ if ( ! class_exists( 'NabExportPathFromUrls' ) ){
 			add_filter('pre_option_uploads_use_yearmonth_folders', '__return_false');
 
 			// Display a link to the VIP/Automattic Privacy Policy if the site doesn't already define one.
-			add_action('the_privacy_policy_link', __NAMESPACE__ . '\the_vip_privacy_policy_link', PHP_INT_MAX); // Hook in later so we don't override existing filters
+			// add_action('the_privacy_policy_link', [$this, 'the_vip_privacy_policy_link'], PHP_INT_MAX); // Hook in later so we don't override existing filters
 
+			add_filter('wp_handle_sideload', [$this, 'change_personal_data_export_file'],1);
+			add_filter('download_url', [$this, 'change_download_url'],1);
 
 			$this->init_nabexport_path_from_urls();
 		}
+		public function change_download_url($url){
+			$export_meta = new ExportMeta;
+			$zipUrl = $export_meta->getZipUrl();
+			$url = $zipUrl;
+			error_log($url);
+			return $url;
+		}
+		public function change_personal_data_export_file($file){
+			$export_meta = new ExportMeta;
+			$zip_file = $export_meta->getZipFile();
+			$archive = new ZipArchive();
+			$zipfile = $archive->open( $zip_file, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE );
+			$file = $zipfile;
+			error_log(json_encode($file));
+			return $file;
+		}
+		public function init_privacy_compat() {
+			// Replace core's privacy data export handler with a custom one.
+			remove_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file' );
+			add_filter( 'wp_privacy_personal_data_export_file', [$this, 'nab_generate_personal_data_export_file' ]);
+		}
 
+		public function init_privacy_compat_cleanup() {
+			// Replace core's privacy data delete handler with a custom one.
+			remove_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
+			add_action( 'wp_privacy_delete_old_export_files', [$this, 'delete_old_export_files']);
+		}
+
+		public function delete_old_export_files( ) {
+			(new ExportToZip)->delete_old_export_files();
+		}
 		public function init_nabexport_path_from_urls(){
 			add_filter('admin_menu', [$this, 'export_paths_from_urls_nav'],99);
 			add_filter('upload_dir', [$this, 'nab_upload_dir'], 100);
 
 			add_action('admin_init', [ $this, 'export_paths_from_urls_activation']);
-
-			add_action('admin_init', [$this, 'init_privacy_compat']);
-
 			if (is_admin()) add_filter('the_content', [$this, 'nabshow_content_after_body'], 99);
 
 		}
@@ -57,11 +100,6 @@ if ( ! class_exists( 'NabExportPathFromUrls' ) ){
 			$dir['url'] = $dir['baseurl'] . $dir['subdir'];
 
 			return $dir;
-		}
-
-		public function init_privacy_compat()
-		{
-
 		}
 
 		public function export_paths_from_urls_nav($nav)
@@ -111,11 +149,11 @@ if ( ! class_exists( 'NabExportPathFromUrls' ) ){
 			exit;
 		}
 
-		public function nab_generate_personal_data_export_file($request_id)
-		{
-			(new ExportToZip)->generate_personal_data_export_file($request_id);
-		}
+		public function nab_generate_personal_data_export_file($request_id){
 
+			(new ExportToZip)->generate_personal_data_export_file($request_id);
+
+		}
 
 		// =================
 

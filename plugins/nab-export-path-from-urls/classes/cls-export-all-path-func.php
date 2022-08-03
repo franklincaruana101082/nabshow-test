@@ -562,20 +562,6 @@ class ExportAllPathsFunc extends ExportMeta
 		$csvData = implode("\n", $csvFieldRow);
 		return $csvData;
 	}
-	public function str_putcsv($input, $delimiter = ',', $enclosure = '"')
-	{
-		// Open a memory "file" for read/write
-		$fp = fopen('php://temp', 'r+');
-		// Write the array to the target file using fputcsv()
-		fputcsv($fp, $input, $delimiter, $enclosure);
-		// Rewind the file
-		rewind($fp);
-		// File Read
-		$data = fread($fp, 1048576);
-		fclose($fp);
-		// Ad line break and return the data
-		return rtrim($data, "\n");
-	}
 }
 
 new ExportAllPathsFunc;
